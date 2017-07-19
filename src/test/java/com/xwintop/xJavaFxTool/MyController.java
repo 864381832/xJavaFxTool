@@ -31,6 +31,7 @@ public class MyController implements Initializable {
 	// this method will be called.
 	public void showDateTime(ActionEvent event) {
 		System.out.println("Button Clicked!");
+		System.out.println(event);
 
 		Date now = new Date();
 
