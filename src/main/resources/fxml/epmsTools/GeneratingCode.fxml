@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="630.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.epmsTools.GeneratingCodeController">
+   <children>
+      <TextArea fx:id="textArea1" layoutX="9.0" layoutY="54.0" prefHeight="155.0" prefWidth="263.0" />
+      <TextField fx:id="textField1" layoutX="38.0" layoutY="5.0" prefHeight="23.0" prefWidth="116.0" />
+      <Label layoutX="9.0" layoutY="9.0" text="空间" />
+      <Label layoutX="172.0" layoutY="9.0" text="表名" />
+      <TextField fx:id="textField2" layoutX="203.0" layoutY="5.0" />
+      <TextArea fx:id="textArea2" layoutX="9.0" layoutY="222.0" prefHeight="172.0" prefWidth="263.0" />
+      <Button layoutX="288.0" layoutY="43.0" mnemonicParsing="false" onAction="#xmlToSql" prefHeight="23.0" prefWidth="79.0" text="转换为Sql" textAlignment="CENTER">
+         <font>
+            <Font name="Consolas Bold" size="12.0" />
+         </font></Button>
+      <Button layoutX="288.0" layoutY="77.0" mnemonicParsing="false" onAction="#xmlToBean" text="转换为Bean" textAlignment="CENTER">
+         <font>
+            <Font name="Consolas Bold" size="12.0" />
+         </font></Button>
+      <Button layoutX="287.0" layoutY="109.0" mnemonicParsing="false" onAction="#xmlTemplateToCode" text="转换为Code">
+         <font>
+            <Font name="Consolas Bold" size="12.0" />
+         </font></Button>
+      <Button layoutX="289.0" layoutY="142.0" mnemonicParsing="false" onAction="#textToHibernateXml" prefHeight="22.0" prefWidth="79.0" text="转换为hbm" textAlignment="CENTER">
+         <font>
+            <Font name="Consolas Bold" size="12.0" />
+         </font></Button>
+      <Button layoutX="301.0" layoutY="326.0" mnemonicParsing="false" onAction="#copyTextValueToClipboard" text="复制">
+         <tooltip>
+            <Tooltip fx:id="tooltipText1" text="点击复制内容到剪贴板" />
+         </tooltip></Button>
+      <TextArea fx:id="textArea3" layoutX="381.0" layoutY="55.0" prefHeight="340.0" prefWidth="243.0" />
+   </children>
+</AnchorPane>
