@@ -7,10 +7,13 @@ import java.util.ResourceBundle;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
+import com.xwintop.xJavaFxTool.controller.IndexController;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -24,12 +27,23 @@ public class Main extends Application {
 //		ResourceBundle resourceBundle = ResourceBundle.getBundle("locale.epmsTools.Menu", Locale.UK);
 //		URL url = getClass().getResource("/fxml/epmsTools/GeneratingCode.fxml");
 
-		Parent root = FXMLLoader.load(url, resourceBundle);
+		FXMLLoader fXMLLoader = new FXMLLoader(url, resourceBundle);
+//		Parent root = FXMLLoader.load(url, resourceBundle);
+		Parent root = fXMLLoader.load();
 		primaryStage.setResizable(true);
 		primaryStage.setTitle("MyJavaFxTool");
 		primaryStage.getIcons().add(new Image("/images/icon.jpg"));
 		primaryStage.setScene(new Scene(root));
 		primaryStage.show();
+		
+		IndexController indexController = fXMLLoader.getController();
+		Tab tab = new Tab("测试");
+		
+		
+		FXMLLoader generatingCodeFXMLLoader = new FXMLLoader(getClass().getResource("/fxml/epmsTools/GeneratingCode.fxml"), resourceBundle);
+		tab.setContent(generatingCodeFXMLLoader.load());
+		indexController.getTabPaneMain().getTabs().add(tab);
+		
 	}
 
 	public static void main(String[] args) {

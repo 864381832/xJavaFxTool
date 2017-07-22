@@ -14,10 +14,12 @@ import com.xwintop.xJavaFxTool.services.epmsTools.XmlToSqlService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 
-public class GeneratingCodeController implements Initializable {
+public class GeneratingCodeController extends AnchorPane implements Initializable {
 	private ResourceBundle bundle;
 	@FXML
 	private TextField textField1;
@@ -35,6 +37,7 @@ public class GeneratingCodeController implements Initializable {
 		this.bundle = resources;
 	}
 	
+	@FXML
 	public void xmlToSql(ActionEvent event){
 		String string = XmlToSqlService.xmlToSql(textArea1.getText(),textField1.getText(),textField2.getText());
 		textArea3.setText(string);
