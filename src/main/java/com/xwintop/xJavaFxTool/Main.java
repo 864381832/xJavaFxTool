@@ -37,12 +37,16 @@ public class Main extends Application {
 		primaryStage.show();
 		
 		IndexController indexController = fXMLLoader.getController();
-		Tab tab = new Tab("测试");
 		
-		
+		Tab tab = new Tab("epms转换");
 		FXMLLoader generatingCodeFXMLLoader = new FXMLLoader(getClass().getResource("/fxml/epmsTools/GeneratingCode.fxml"), resourceBundle);
 		tab.setContent(generatingCodeFXMLLoader.load());
 		indexController.getTabPaneMain().getTabs().add(tab);
+		
+		Tab tab2 = new Tab("javaFx转换");
+		FXMLLoader javaFxXmlToObjectCodeFXMLLoader = new FXMLLoader(getClass().getResource("/fxml/javaFxTools/JavaFxXmlToObjectCode.fxml"), resourceBundle);
+		tab2.setContent(javaFxXmlToObjectCodeFXMLLoader.load());
+		indexController.getTabPaneMain().getTabs().add(tab2);
 		
 	}
 

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="457.0" prefWidth="736.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="com.xwintop.xJavaFxTool.controller.javaFxTools.JavaFxXmlToObjectCodeController">
+   <children>
+      <TextArea fx:id="textArea1" layoutX="14.0" layoutY="14.0" prefHeight="410.0" prefWidth="310.0" promptText="请输入fxml" />
+      <Button fx:id="button1" layoutX="334.0" layoutY="14.0" mnemonicParsing="false" onAction="#xmlToCodeOnAction" text="转换为code" />
+      <TextArea fx:id="textArea2" layoutX="423.0" layoutY="14.0" prefHeight="410.0" prefWidth="291.0" promptText="生成的Object Bean代码" />
+   </children>
+</AnchorPane>

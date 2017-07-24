@@ -38,21 +38,25 @@ public class GeneratingCodeController extends AnchorPane implements Initializabl
 	}
 	
 	@FXML
-	public void xmlToSql(ActionEvent event){
+	private void xmlToSql(ActionEvent event){
 		String string = XmlToSqlService.xmlToSql(textArea1.getText(),textField1.getText(),textField2.getText());
 		textArea3.setText(string);
 	}
-	public void xmlToBean(ActionEvent event){
+	
+	@FXML
+	private void xmlToBean(ActionEvent event){
 		String string = XmlToBeanService.xmlTobean(textArea1.getText());
 		textArea3.setText(string);
 	}
 	
-	public void xmlTemplateToCode(ActionEvent event) throws Exception{
+	@FXML
+	private void xmlTemplateToCode(ActionEvent event) throws Exception{
 		String string = XmlToCodeService.xmlTemplateToCode(textArea1.getText(),textArea2.getText(),textField1.getText(),textField2.getText());
 		textArea3.setText(string);
 	}
 	
-	public void textToHibernateXml(ActionEvent event) throws Exception{
+	@FXML
+	private void textToHibernateXml(ActionEvent event) throws Exception{
 		String string = TextToHibernateXmlService.textToHibernateXml(textArea1.getText(),textField1.getText(),textField2.getText());
 		textArea3.setText(string);
 	}
@@ -61,7 +65,8 @@ public class GeneratingCodeController extends AnchorPane implements Initializabl
 	 * @Title: copyTextValueToClipboard 
 	 * @Description: 拷贝内容到剪贴板
 	 */
-	public void copyTextValueToClipboard(ActionEvent event) throws Exception{
+	@FXML
+	private void copyTextValueToClipboard(ActionEvent event) throws Exception{
 		final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard(); // 获得系统剪贴板
 		clipboard.setContents(new StringSelection(textArea3.getText()), null);
 	}
