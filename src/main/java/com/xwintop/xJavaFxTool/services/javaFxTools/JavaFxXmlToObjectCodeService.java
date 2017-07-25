@@ -42,7 +42,6 @@ public class JavaFxXmlToObjectCodeService {
 	private static void getCodeByElement(Element root,StringBuilder attrStrBuilder,StringBuilder funStrBuilder,StringBuilder classNameStrBuilder) {
 		List<DefaultAttribute> rootAttrList = root.attributes();
 		for (DefaultAttribute rootAttr : rootAttrList) {
-			System.out.println(rootAttr.getName()+rootAttr.getValue());
 			if("id".equals(rootAttr.getName())){
 //				@FXML
 //				private TextField textField1;

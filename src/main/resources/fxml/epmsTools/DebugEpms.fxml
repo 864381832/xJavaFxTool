@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="633.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.epmsTools.DebugEpmsController">
+   <children>
+      <Label layoutX="22.0" layoutY="27.0" prefHeight="15.0" prefWidth="67.0" text="epms启动" />
+      <TextField fx:id="textFieldEpmsStart" layoutX="88.0" layoutY="23.0" prefHeight="23.0" prefWidth="271.0" promptText="请输入或选择项目所在目录,例如:C:/epms" />
+      <Button fx:id="buttonEpmsStartPathChoose" layoutX="359.0" layoutY="23.0" mnemonicParsing="false" onAction="#epmsStartPathChoose" text="选择" />
+      <Button fx:id="buttonEpmsStart" layoutX="409.0" layoutY="23.0" mnemonicParsing="false" onAction="#epmsStart" text="启动" />
+      <Label layoutX="22.0" layoutY="56.0" text="拷贝文件" />
+      <TextField fx:id="textFieldCopyFile1" layoutX="89.0" layoutY="52.0" prefHeight="23.0" prefWidth="160.0" promptText="请输入或选择文件所在路径,例如:C:/epms" />
+      <Button fx:id="buttonCopyFile1Choose" layoutX="249.0" layoutY="52.0" mnemonicParsing="false" onAction="#copyFile1Choose" text="选择" />
+      <TextField fx:id="textFieldCopyFile2" layoutX="303.0" layoutY="52.0" prefHeight="23.0" prefWidth="160.0" promptText="请输入或选择文件所将生成目录,例如:C:/epms" />
+      <Button fx:id="buttonCopyFile2Choose" layoutX="463.0" layoutY="52.0" mnemonicParsing="false" onAction="#copyFile2Choose" text="选择" />
+      <Button fx:id="buttonCopyFile" layoutX="531.0" layoutY="52.0" mnemonicParsing="false" onAction="#copyFile" text="拷贝" />
+      <Label layoutX="22.0" layoutY="86.0" text="拷贝文件夹" />
+      <TextField fx:id="textFieldCopyFolder1" layoutX="89.0" layoutY="82.0" prefHeight="23.0" prefWidth="160.0" promptText="请输入或选择文件夹路径,例如:C:/epms" />
+      <Button fx:id="buttonCopyFolder1Choose" layoutX="249.0" layoutY="82.0" mnemonicParsing="false" onAction="#copyFolder1Choose" text="选择" />
+      <TextField fx:id="textFieldCopyFolder2" layoutX="303.0" layoutY="82.0" prefHeight="23.0" prefWidth="160.0" promptText="请输入或选择文件所将生成目录,例如:C:/epms" />
+      <Button fx:id="buttonCopyFolder2Choose" layoutX="463.0" layoutY="82.0" mnemonicParsing="false" onAction="#copyFolder2Choose" text="选择" />
+      <Button fx:id="buttonCopyFolder" layoutX="531.0" layoutY="82.0" mnemonicParsing="false" onAction="#copyFolder" text="拷贝" />
+      <Label layoutX="22.0" layoutY="127.0" prefHeight="15.0" prefWidth="67.0" text="epms编译" />
+      <TextField fx:id="textFieldEpmsCompile" layoutX="88.0" layoutY="123.0" prefHeight="23.0" prefWidth="254.0" promptText="请输入或选择项目所在目录,例如:C:/epms" />
+      <Button fx:id="buttonEpmsCompileChoose" layoutX="358.0" layoutY="123.0" mnemonicParsing="false" onAction="#epmsCompileChoose" text="选择" />
+      <Button fx:id="buttonEpmsCompile" layoutX="418.0" layoutY="123.0" mnemonicParsing="false" onAction="#epmsCompile" text="编译" />
+      <Label layoutX="22.0" layoutY="162.0" text="拷贝Jar包" />
+      <TextField fx:id="textFieldCopyJar1" layoutX="89.0" layoutY="158.0" prefHeight="23.0" prefWidth="160.0" promptText="请输入或选择文件所在路径,例如:C:/epms" />
+      <TextField fx:id="textFieldCopyJar2" layoutX="303.0" layoutY="158.0" prefHeight="23.0" prefWidth="160.0" promptText="请输入或选择文件所将生成目录,例如:C:/epms" />
+      <Button fx:id="buttonCopyJar2Choose" layoutX="463.0" layoutY="158.0" mnemonicParsing="false" onAction="#copyJar2Choose" text="选择" />
+      <Button fx:id="buttonCopyJar" layoutX="531.0" layoutY="158.0" mnemonicParsing="false" onAction="#copyJar" text="拷贝" />
+      <Button fx:id="buttonCopyJar1Choose" layoutX="249.0" layoutY="158.0" mnemonicParsing="false" onAction="#copyJar1Choose" text="选择" />
+      <Button fx:id="buttonEpmsRestart" layoutX="463.0" layoutY="23.0" mnemonicParsing="false" onAction="#epmsRestart" text="重启" />
+      <Button layoutX="262.0" layoutY="319.0" mnemonicParsing="false" onAction="#saveDebugEpmsConfigure" text="保存配置" />
+   </children>
+</AnchorPane>

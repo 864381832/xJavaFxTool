@@ -22,7 +22,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		ResourceBundle resourceBundle = ResourceBundle.getBundle("locale.Menu", Locale.UK);
+		ResourceBundle resourceBundle = ResourceBundle.getBundle("locale.Menu", Locale.CHINA);
 		URL url = getClass().getResource("/fxml/Index.fxml");
 //		ResourceBundle resourceBundle = ResourceBundle.getBundle("locale.epmsTools.Menu", Locale.UK);
 //		URL url = getClass().getResource("/fxml/epmsTools/GeneratingCode.fxml");
@@ -43,18 +43,25 @@ public class Main extends Application {
 		tab.setContent(generatingCodeFXMLLoader.load());
 		indexController.getTabPaneMain().getTabs().add(tab);
 		
-		Tab tab2 = new Tab("javaFx转换");
-		FXMLLoader javaFxXmlToObjectCodeFXMLLoader = new FXMLLoader(getClass().getResource("/fxml/javaFxTools/JavaFxXmlToObjectCode.fxml"), resourceBundle);
-		tab2.setContent(javaFxXmlToObjectCodeFXMLLoader.load());
+		Tab tab2 = new Tab("epms调试工具");
+		FXMLLoader debugEpmsFXMLLoader = new FXMLLoader(getClass().getResource("/fxml/epmsTools/DebugEpms.fxml"), resourceBundle);
+		tab2.setContent(debugEpmsFXMLLoader.load());
 		indexController.getTabPaneMain().getTabs().add(tab2);
+		
+		Tab tab3 = new Tab("javaFx转换");
+		FXMLLoader javaFxXmlToObjectCodeFXMLLoader = new FXMLLoader(getClass().getResource("/fxml/javaFxTools/JavaFxXmlToObjectCode.fxml"), resourceBundle);
+		tab3.setContent(javaFxXmlToObjectCodeFXMLLoader.load());
+		indexController.getTabPaneMain().getTabs().add(tab3);
 		
 	}
 
 	public static void main(String[] args) {
 		PropertyConfigurator.configure(Main.class.getResource("/config/log4j.properties"));
 		try {
-			Main.launch(args);
+			launch(args);
 		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
 			log.error(e);
 		}
 	}

@@ -39,8 +39,7 @@ public class IndexController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		this.bundle = resources;
-		System.out.println(myTextField.getText());
-		myTextField.setText(bundle.getString("Title"));
+//		myTextField.setText(bundle.getString("Title"));
 		init();
 	}
 	
@@ -50,7 +49,7 @@ public class IndexController implements Initializable {
 			public void handle(ActionEvent arg0) {
 				showDateTime(arg0);
 //				JOptionPane.showMessageDialog(null, "test");
-				AlertUtil.showWarnAlert("showConfirmAlert");
+//				AlertUtil.showWarnAlert("showConfirmAlert");
 			}
 		});
 	}
@@ -58,7 +57,7 @@ public class IndexController implements Initializable {
 	// When user click on myButton
 	// this method will be called.
 	public void showDateTime(ActionEvent event) {
-		System.out.println("Button Clicked!");
+//		System.out.println("Button Clicked!");
 		Date now = new Date();
 		DateFormat df = new SimpleDateFormat("yyyy-dd-MM HH:mm:ss");
 		String dateTimeString = df.format(now);
