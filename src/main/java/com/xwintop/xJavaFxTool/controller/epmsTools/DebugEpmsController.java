@@ -10,6 +10,7 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 
 import org.apache.commons.io.FileUtils;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 
@@ -87,11 +88,6 @@ public class DebugEpmsController implements Initializable {
 			Properties prop = new Properties();
 			InputStream in = new BufferedInputStream(new FileInputStream("debugEpmsConfigure.properties"));
 			prop.load(in); /// 加载属性列表
-			// Iterator<String> it=prop.stringPropertyNames().iterator();
-			// while(it.hasNext()){
-			// String key=it.next();
-			// System.out.println(key+":"+prop.getProperty(key));
-			// }
 			textFieldEpmsStart.setText(prop.getProperty("textFieldEpmsStart"));
 			textFieldCopyFile1.setText(prop.getProperty("textFieldCopyFile1"));
 			textFieldCopyFile2.setText(prop.getProperty("textFieldCopyFile2"));

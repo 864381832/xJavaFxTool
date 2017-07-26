@@ -27,6 +27,14 @@ public class JavaFxXmlToObjectCodeService {
 		getCodeByElement(root,attrStrBuilder,funStrBuilder,classNameStrBuilder);
 
 		StringBuilder classStrBuilder = new StringBuilder();
+		classStrBuilder.append("import javafx.fxml.Initializable;\n");
+		classStrBuilder.append("import java.net.URL;\n");
+		classStrBuilder.append("import java.util.ResourceBundle;\n");
+		classStrBuilder.append("import javafx.event.ActionEvent;\n");
+		classStrBuilder.append("import javafx.scene.control.Button;\n");
+		classStrBuilder.append("import javafx.scene.control.TextField;\n");
+		classStrBuilder.append("import javafx.fxml.FXML;\n");
+		classStrBuilder.append("import javafx.scene.control.TextArea;\n");
 		classStrBuilder.append(classNameStrBuilder.toString());
 		classStrBuilder.append(attrStrBuilder.toString());
 //		@Override

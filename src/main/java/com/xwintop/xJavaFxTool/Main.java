@@ -53,6 +53,15 @@ public class Main extends Application {
 		tab3.setContent(javaFxXmlToObjectCodeFXMLLoader.load());
 		indexController.getTabPaneMain().getTabs().add(tab3);
 		
+		Tab tab4 = new Tab("路径转换");
+		FXMLLoader linuxPathToWindowsPathFXMLLoader = new FXMLLoader(getClass().getResource("/fxml/littleTools/LinuxPathToWindowsPath.fxml"), resourceBundle);
+		tab4.setContent(linuxPathToWindowsPathFXMLLoader.load());
+		indexController.getTabPaneMain().getTabs().add(tab4);
+		
+		Tab tab5 = new Tab("报文查看");
+		FXMLLoader messageViewerFXMLLoader = new FXMLLoader(getClass().getResource("/fxml/epmsTools/MessageViewer.fxml"), resourceBundle);
+		tab5.setContent(messageViewerFXMLLoader.load());
+		indexController.getTabPaneMain().getTabs().add(tab5);
 	}
 
 	public static void main(String[] args) {
