@@ -7,8 +7,12 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
+import javax.xml.soap.Node;
+
+import org.controlsfx.control.PopOver;
 
 import com.xwintop.xcore.util.javafx.AlertUtil;
+import com.xwintop.xcore.util.javafx.TooltipUtil;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,6 +22,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
+import javafx.stage.Window;
 
 /**
  * @ClassName: IndexController
@@ -48,6 +54,7 @@ public class IndexController implements Initializable {
 			@Override
 			public void handle(ActionEvent arg0) {
 				showDateTime(arg0);
+				TooltipUtil.showToast(myButton,"test");
 //				JOptionPane.showMessageDialog(null, "test");
 //				AlertUtil.showWarnAlert("showConfirmAlert");
 			}

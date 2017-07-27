@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -62,6 +63,7 @@ public class Main extends Application {
 		FXMLLoader messageViewerFXMLLoader = new FXMLLoader(getClass().getResource("/fxml/epmsTools/MessageViewer.fxml"), resourceBundle);
 		tab5.setContent(messageViewerFXMLLoader.load());
 		indexController.getTabPaneMain().getTabs().add(tab5);
+		
 	}
 
 	public static void main(String[] args) {
