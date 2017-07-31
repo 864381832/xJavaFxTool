@@ -9,8 +9,14 @@ import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 import javax.xml.soap.Node;
 
+import org.controlsfx.control.Notifications;
 import org.controlsfx.control.PopOver;
 
+import com.sun.javafx.geom.BaseBounds;
+import com.sun.javafx.geom.transform.BaseTransform;
+import com.sun.javafx.jmx.MXNodeAlgorithm;
+import com.sun.javafx.jmx.MXNodeAlgorithmContext;
+import com.sun.javafx.sg.prism.NGNode;
 import com.xwintop.xcore.util.javafx.AlertUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 
@@ -18,12 +24,14 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.stage.Window;
+import javafx.util.Duration;
 
 /**
  * @ClassName: IndexController
@@ -54,9 +62,26 @@ public class IndexController implements Initializable {
 			@Override
 			public void handle(ActionEvent arg0) {
 				showDateTime(arg0);
-				TooltipUtil.showToast(myButton,"test");
+//				TooltipUtil.showToast(myButton,"test");
+				TooltipUtil.showToast("test");
 //				JOptionPane.showMessageDialog(null, "test");
 //				AlertUtil.showWarnAlert("showConfirmAlert");
+				
+//				Notifications notificationBuilder = Notifications.create()
+//		                .title("Title Text")
+//		                .text("showText")
+//		                .graphic(null)
+//		                .hideAfter(Duration.seconds(1))
+//		                .position(Pos.BOTTOM_CENTER)
+//		                .onAction(new EventHandler<ActionEvent>() {
+//		                    @Override public void handle(ActionEvent arg0) {
+//		                        System.out.println("Notification clicked on!");
+//		                    }
+//		                });
+//				notificationBuilder.owner(myButton);
+//	            notificationBuilder.hideCloseButton();
+//	            notificationBuilder.darkStyle();
+//				notificationBuilder.show();
 			}
 		});
 	}

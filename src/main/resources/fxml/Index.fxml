@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="491.0" prefWidth="754.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.IndexController">
 	<children>
-		<Button fx:id="myButton" layoutX="539.0" layoutY="3.0" mnemonicParsing="false" text="myButton" />
+		<Button fx:id="myButton" layoutX="540.0" mnemonicParsing="false" text="myButton" />
 		<TextField fx:id="myTextField" layoutX="348.0" layoutY="3.0" />
       <TabPane fx:id="tabPaneMain" layoutY="26.0" prefHeight="465.0" prefWidth="754.0" tabClosingPolicy="UNAVAILABLE" />
       <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="235.0">
