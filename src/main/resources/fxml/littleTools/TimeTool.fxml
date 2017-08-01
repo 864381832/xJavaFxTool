@@ -6,18 +6,29 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.collections.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
 
-<AnchorPane prefHeight="368.0" prefWidth="618.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Label layoutX="14.0" layoutY="14.0" prefHeight="15.0" prefWidth="62.0" text="时间字符：" />
-      <TextField fx:id="textFileldTimeStr" layoutX="83.0" layoutY="10.0" prefHeight="23.0" prefWidth="210.0" />
-      <ChoiceBox fx:id="choiceBoxTimeFormatter" layoutX="309.0" layoutY="10.0" prefHeight="23.0" prefWidth="126.0" />
-      <Button fx:id="buttonCopy" layoutX="460.0" layoutY="10.0" mnemonicParsing="false" text="复制" />
-      <Button fx:id="buttonConvert" layoutX="517.0" layoutY="10.0" mnemonicParsing="false" text="转换" />
-      <Label layoutX="14.0" layoutY="44.0" text="时间戳：" />
-      <TextField fx:id="textFileldTimeStr2" layoutX="83.0" layoutY="40.0" prefHeight="23.0" prefWidth="210.0" />
-      <Button fx:id="buttonCopy2" layoutX="460.0" layoutY="40.0" mnemonicParsing="false" text="复制" />
-      <Button fx:id="buttonRevert" layoutX="517.0" layoutY="40.0" mnemonicParsing="false" text="还原" />
-      <TextArea fx:id="textAreaResult" layoutX="14.0" layoutY="76.0" prefHeight="248.0" prefWidth="542.0" />
-   </children>
+<AnchorPane prefHeight="368.0" prefWidth="618.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.TimeToolController">
+	<children>
+		<Label layoutX="14.0" layoutY="14.0" prefHeight="15.0" prefWidth="62.0" text="时间字符：" />
+		<TextField fx:id="textFileldTimeStr" layoutX="83.0" layoutY="10.0" prefHeight="23.0" prefWidth="210.0" />
+		<ChoiceBox fx:id="choiceBoxTimeFormatter" layoutX="309.0" layoutY="10.0" prefHeight="23.0" prefWidth="126.0" value="yyyy-MM-dd HH:mm:ss">
+			<items>
+				<FXCollections fx:factory="observableArrayList">
+                    <String fx:value="yyyy-MM-dd HH:mm:ss" />
+                    <String fx:value="yyyy-MM-dd HH:mm:ss.SSS" />
+                    <String fx:value="yyyy年MM月dd日HH时mm分ss秒" />
+                </FXCollections>
+			</items>
+		</ChoiceBox>
+		<Button fx:id="buttonCopy" layoutX="460.0" layoutY="10.0" mnemonicParsing="false" onAction="#copyTimeStr" text="复制" />
+		<Button fx:id="buttonConvert" layoutX="517.0" layoutY="10.0" mnemonicParsing="false" onAction="#convert" text="转换" />
+		<Label layoutX="14.0" layoutY="44.0" text="时间戳：" />
+		<TextField fx:id="textFileldTimeStr2" layoutX="83.0" layoutY="40.0" prefHeight="23.0" prefWidth="210.0" />
+		<Button fx:id="buttonCopy2" layoutX="460.0" layoutY="40.0" mnemonicParsing="false" onAction="#copyTimeStr2" text="复制" />
+		<Button fx:id="buttonRevert" layoutX="517.0" layoutY="40.0" mnemonicParsing="false" onAction="#revert" text="还原" />
+		<TextArea fx:id="textAreaResult" layoutX="14.0" layoutY="76.0" prefHeight="248.0" prefWidth="542.0" />
+	</children>
 </AnchorPane>

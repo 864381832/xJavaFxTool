@@ -1,8 +1,12 @@
 package com.xwintop.xJavaFxTool;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.function.BiConsumer;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -38,32 +42,26 @@ public class Main extends Application {
 		primaryStage.show();
 		
 		IndexController indexController = fXMLLoader.getController();
-		
-		Tab tab = new Tab("epms转换");
-		FXMLLoader generatingCodeFXMLLoader = new FXMLLoader(getClass().getResource("/fxml/epmsTools/GeneratingCode.fxml"), resourceBundle);
-		tab.setContent(generatingCodeFXMLLoader.load());
-		indexController.getTabPaneMain().getTabs().add(tab);
-		
-		Tab tab2 = new Tab("epms调试工具");
-		FXMLLoader debugEpmsFXMLLoader = new FXMLLoader(getClass().getResource("/fxml/epmsTools/DebugEpms.fxml"), resourceBundle);
-		tab2.setContent(debugEpmsFXMLLoader.load());
-		indexController.getTabPaneMain().getTabs().add(tab2);
-		
-		Tab tab3 = new Tab("javaFx转换");
-		FXMLLoader javaFxXmlToObjectCodeFXMLLoader = new FXMLLoader(getClass().getResource("/fxml/javaFxTools/JavaFxXmlToObjectCode.fxml"), resourceBundle);
-		tab3.setContent(javaFxXmlToObjectCodeFXMLLoader.load());
-		indexController.getTabPaneMain().getTabs().add(tab3);
-		
-		Tab tab4 = new Tab("路径转换");
-		FXMLLoader linuxPathToWindowsPathFXMLLoader = new FXMLLoader(getClass().getResource("/fxml/littleTools/LinuxPathToWindowsPath.fxml"), resourceBundle);
-		tab4.setContent(linuxPathToWindowsPathFXMLLoader.load());
-		indexController.getTabPaneMain().getTabs().add(tab4);
-		
-		Tab tab5 = new Tab("报文查看");
-		FXMLLoader messageViewerFXMLLoader = new FXMLLoader(getClass().getResource("/fxml/epmsTools/MessageViewer.fxml"), resourceBundle);
-		tab5.setContent(messageViewerFXMLLoader.load());
-		indexController.getTabPaneMain().getTabs().add(tab5);
-		
+		Map<String,String> map = new HashMap<String,String>();
+//		map.put("epms转换", "/fxml/epmsTools/GeneratingCode.fxml");
+//		map.put("epms调试工具", "/fxml/epmsTools/DebugEpms.fxml");
+//		map.put("javaFx转换", "/fxml/javaFxTools/JavaFxXmlToObjectCode.fxml");
+//		map.put("路径转换", "/fxml/littleTools/LinuxPathToWindowsPath.fxml");
+//		map.put("报文查看", "/fxml/epmsTools/MessageViewer.fxml");
+		map.put("Time转换", "/fxml/littleTools/TimeTool.fxml");
+		map.forEach(new BiConsumer<String,String>() {
+			@Override
+			public void accept(String t, String u) {
+				Tab tab = new Tab(t);
+				FXMLLoader generatingCodeFXMLLoader = new FXMLLoader(getClass().getResource(u), resourceBundle);
+				try {
+					tab.setContent(generatingCodeFXMLLoader.load());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				indexController.getTabPaneMain().getTabs().add(tab);
+			}
+		});
 	}
 
 	public static void main(String[] args) {
