@@ -64,24 +64,9 @@ public class IndexController implements Initializable {
 				showDateTime(arg0);
 //				TooltipUtil.showToast(myButton,"test");
 				TooltipUtil.showToast("test");
+				TooltipUtil.showToast("test",Pos.BOTTOM_RIGHT);
 //				JOptionPane.showMessageDialog(null, "test");
 //				AlertUtil.showWarnAlert("showConfirmAlert");
-				
-//				Notifications notificationBuilder = Notifications.create()
-//		                .title("Title Text")
-//		                .text("showText")
-//		                .graphic(null)
-//		                .hideAfter(Duration.seconds(1))
-//		                .position(Pos.BOTTOM_CENTER)
-//		                .onAction(new EventHandler<ActionEvent>() {
-//		                    @Override public void handle(ActionEvent arg0) {
-//		                        System.out.println("Notification clicked on!");
-//		                    }
-//		                });
-//				notificationBuilder.owner(myButton);
-//	            notificationBuilder.hideCloseButton();
-//	            notificationBuilder.darkStyle();
-//				notificationBuilder.show();
 			}
 		});
 	}
