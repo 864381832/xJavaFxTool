@@ -41,28 +41,7 @@ public class Main extends Application {
 		primaryStage.setScene(new Scene(root));
 		primaryStage.show();
 		
-		IndexController indexController = fXMLLoader.getController();
-		Map<String,String> map = new HashMap<String,String>();
-//		map.put("epms转换", "/fxml/epmsTools/GeneratingCode.fxml");
-//		map.put("epms调试工具", "/fxml/epmsTools/DebugEpms.fxml");
-//		map.put("javaFx转换", "/fxml/javaFxTools/JavaFxXmlToObjectCode.fxml");
-//		map.put("路径转换", "/fxml/littleTools/LinuxPathToWindowsPath.fxml");
-//		map.put("报文查看", "/fxml/epmsTools/MessageViewer.fxml");
-//		map.put("Time转换", "/fxml/littleTools/TimeTool.fxml");
-		map.put("编码转换", "/fxml/littleTools/CharacterConverter.fxml");
-		map.forEach(new BiConsumer<String,String>() {
-			@Override
-			public void accept(String t, String u) {
-				Tab tab = new Tab(t);
-				FXMLLoader generatingCodeFXMLLoader = new FXMLLoader(getClass().getResource(u), resourceBundle);
-				try {
-					tab.setContent(generatingCodeFXMLLoader.load());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				indexController.getTabPaneMain().getTabs().add(tab);
-			}
-		});
+//		IndexController indexController = fXMLLoader.getController();
 	}
 
 	public static void main(String[] args) {

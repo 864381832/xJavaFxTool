@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.xwintop.xJavaFxTool.common.ExCodec;
+import com.xwintop.xJavaFxTool.utils.GuiUtils;
 import com.xwintop.xJavaFxTool.utils.RadixUtils;
 
 import javafx.event.ActionEvent;
@@ -300,50 +301,6 @@ public class CharacterConverterController implements Initializable {
 		public static String[] charsets = new String[] { GuiUtils.CHARSET_UTF_16BE, GuiUtils.CHARSET_UTF_16LE,
 				GuiUtils.CHARSET_UTF_8, GuiUtils.CHARSET_UTF_16, GuiUtils.CHARSET_GB2312, GuiUtils.CHARSET_GBK,
 				GuiUtils.CHARSET_GB18030, GuiUtils.CHARSET_Big5, GuiUtils.CHARSET_ISO_8859_1, "" };
-	}
-
-	public static class GuiUtils {
-		/**************************** 编码 ****************************/
-		// 下面两个转码结果一样
-		public static String CHARSET_ISO_8859_1 = "ISO-8859-1";
-		public static String CHARSET_US_ASCII = "US-ASCII";
-
-		public static String CHARSET_UTF_16BE = "UTF-16BE"; // java转义\ u后面跟的编码, 即Java Unicode转义字符
-		public static String CHARSET_UTF_16LE = "UTF-16LE";
-
-		public static String CHARSET_UTF_8 = "UTF-8";
-
-		// 下面两个转码结果一样
-		public static String CHARSET_UTF_16 = "UTF-16";
-		public static String CHARSET_Unicode = "Unicode";
-
-		// GB2312 < GBK < GB18030
-		public static String CHARSET_GB2312 = "GB2312";
-		public static String CHARSET_GBK = "GBK";
-		public static String CHARSET_GB18030 = "GB18030";
-
-		public static String CHARSET_Big5 = "Big5";
-
-		/**************************** 算法 ****************************/
-		// 可解密/解码算法
-		public static String CRYPTO_ASCII = "Ascii";
-		public static String CRYPTO_HEX = "Hex";
-		public static String CRYPTO_BASE32 = "Base32";
-		public static String CRYPTO_BASE64 = "Base64";
-		public static String CRYPTO_URL = "URL";
-		// 不可解密算法
-		public static String CRYPTO_MD5 = "MD5";
-		public static String CRYPTO_SHA = "SHA";
-		public static String CRYPTO_SHA256 = "SHA256";
-		public static String CRYPTO_SHA384 = "SHA384";
-		public static String CRYPTO_SHA512 = "SHA512";
-		
-		/**
-		 * 按字符集解码.
-		 */
-		public static String encode(String string, String encode, String decode) throws UnsupportedEncodingException {
-			return new String(string.getBytes(encode), decode);
-		}
 	}
 
 }

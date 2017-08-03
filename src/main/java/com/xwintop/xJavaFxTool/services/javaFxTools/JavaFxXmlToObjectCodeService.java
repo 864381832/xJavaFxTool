@@ -41,13 +41,14 @@ public class JavaFxXmlToObjectCodeService {
 //		@Override
 //		public void initialize(URL location, ResourceBundle resources) {
 //		}
-		classStrBuilder.append("\n@Override\npublic void initialize(URL location, ResourceBundle resources) {\n}\n");
-		classStrBuilder.append(funStrBuilder.toString());
+		classStrBuilder.append("\n@Override\npublic void initialize(URL location, ResourceBundle resources) {\n");
 		classStrBuilder.append("initView();\n");
 		classStrBuilder.append("initEvent();\n");
 		classStrBuilder.append("}");
 		classStrBuilder.append("\n private void initView() {}");
 		classStrBuilder.append("\n private void initEvent() {}");
+		classStrBuilder.append(funStrBuilder.toString());
+		classStrBuilder.append("}");
 		
 		return classStrBuilder.toString();
 	}
