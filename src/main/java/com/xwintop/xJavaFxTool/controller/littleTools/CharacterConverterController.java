@@ -1,25 +1,21 @@
 package com.xwintop.xJavaFxTool.controller.littleTools;
 
-import javafx.fxml.Initializable;
-
-import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.ResourceBundle;
 
-import javafx.collections.ObservableList;
+import com.xwintop.xJavaFxTool.common.ExCodec;
+import com.xwintop.xJavaFxTool.utils.RadixUtils;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextArea;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 
 public class CharacterConverterController implements Initializable {
 	@FXML
@@ -40,6 +36,7 @@ public class CharacterConverterController implements Initializable {
 	private TextField customCharsetField;
 
 	private TextField[] fields = new TextField[CodeType.charsets.length];
+	private Button[] buttons = new Button[CodeType.charsets.length];
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -48,6 +45,7 @@ public class CharacterConverterController implements Initializable {
 	}
 
 	private void initView() {
+		encodeButton.setAccessibleText("0");
 		codeTypesBox.getItems().addAll(CodeType.codeTypes);
 		codeTypesBox.setValue(codeTypesBox.getItems().get(0));
 		prefixsBox.getItems().addAll(CodeType.prefixs);
@@ -61,7 +59,7 @@ public class CharacterConverterController implements Initializable {
 			fields[i].setPrefWidth(390);
 			mainAnchorPane.getChildren().add(fields[i]);
 			if ("".equals(CodeType.charsets[i])) {
-				customCharsetField = new TextField();
+				customCharsetField = new TextField("UTF-8");
 				customCharsetField.setLayoutX(14);
 				customCharsetField.setLayoutY(75 + 30 * i);
 				customCharsetField.setPrefWidth(90);
@@ -72,14 +70,20 @@ public class CharacterConverterController implements Initializable {
 				label.setLayoutY(75 + 30 * i);
 				mainAnchorPane.getChildren().add(label);
 			}
-			Button button = new Button("Decode");
-			button.setLayoutX(577);
-			button.setLayoutY(75 + 30 * i);
-			mainAnchorPane.getChildren().add(button);
+			buttons[i] = new Button("Decode");
+			buttons[i].setLayoutX(577);
+			buttons[i].setLayoutY(75 + 30 * i);
+			buttons[i].setAccessibleText(Integer.toString(i+1));
+			buttons[i].setOnAction(getButtonActionListener(i+1));
+			mainAnchorPane.getChildren().add(buttons[i]);
 		}
 	}
 
 	private void initEvent() {
+		encodeButton.setOnAction(getButtonActionListener(0));
+		for (int i = 0; i < fields.length; i++) {
+			buttons[i].setOnAction(getButtonActionListener(i+1));
+		}
 	}
 
 	@FXML
@@ -88,6 +92,157 @@ public class CharacterConverterController implements Initializable {
 		for (int i = 0; i < fields.length; i++) {
 			fields[i].setText("");
 		}
+	}
+	
+	/**
+	 * 按钮点击事件.
+	 */
+	private EventHandler<ActionEvent> getButtonActionListener(int current) {
+		return new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				String curCodeType = codeTypesBox.getValue();
+				String curPrefix = CodeType.getCorrectSeparator(prefixsBox.getValue());
+				String curLowUpCase = lowUpCaseBox.getValue();
+				// 手动输入的字符编码
+				CodeType.charsets[CodeType.charsets.length - 1] = customCharsetField.getText().trim();
+				int sort = Integer.parseInt(((Button) event.getSource()).getAccessibleText());
+				if (sort == 0) {
+					String input = encodeTextField.getText();
+					clearTextFields(null);
+					encodeTextField.setText(input);
+					if (input.length() == 0) {
+						return;
+					}
+					for (int i = 0; i < fields.length; i++) {
+						try {
+							if (CodeType.codeType_16Radix.equals(curCodeType)) {
+								fields[i].setText(encode16RadixAddPrefix(input, CodeType.charsets[i], curPrefix));
+							} else if (CodeType.codeType_10Radix.equals(curCodeType)) {
+								fields[i].setText(encode10RadixAddPrefix(input, CodeType.charsets[i], curPrefix));
+							} else if (CodeType.codeType_8Radix.equals(curCodeType)) {
+								fields[i].setText(encode8RadixAddPrefix(input, CodeType.charsets[i], curPrefix));
+							} else if (CodeType.codeType_2Radix.equals(curCodeType)) {
+								fields[i].setText(encode2RadixAddPrefix(input, CodeType.charsets[i], curPrefix));
+							}
+						} catch (Exception e) {
+//							showExceptionMessage(e);
+							return;
+						}
+					}
+				} else {
+					String input = fields[sort - 1].getText();
+					clearTextFields(null);
+					fields[sort - 1].setText(input);
+					input = input.replace(curPrefix, ""); // 去除前缀符
+					if (input.length() == 0) {
+						return;
+					}
+					try {
+						String decodeString = "";
+						if (CodeType.codeType_16Radix.equals(curCodeType)) {
+							decodeString = ExCodec.decodeHex(input, CodeType.charsets[sort - 1]);
+						} else if (CodeType.codeType_10Radix.equals(curCodeType)) {
+							decodeString = ExCodec.decodeHex(RadixUtils.convertRadixString10To16(input),
+									CodeType.charsets[sort - 1]);
+						} else if (CodeType.codeType_8Radix.equals(curCodeType)) {
+							decodeString = ExCodec.decodeHex(RadixUtils.convertRadixString8To16(input),
+									CodeType.charsets[sort - 1]);
+						} else if (CodeType.codeType_2Radix.equals(curCodeType)) {
+							decodeString = ExCodec.decodeHex(RadixUtils.convertRadixString2To16(input),
+									CodeType.charsets[sort - 1]);
+						}
+						encodeTextField.setText(decodeString);
+						if (CodeType.codeType_Decode.equals(curCodeType)) {
+							encodeTextField.setText("\"" + CodeType.codeType_Decode + "\"与Encode String无关！");
+						}
+						for (int i = 0; i < fields.length; i++) {
+							if (i != sort - 1) {
+								if (CodeType.codeType_16Radix.equals(curCodeType)) {
+									fields[i].setText(encode16RadixAddPrefix(decodeString, CodeType.charsets[i], curPrefix));
+								} else if (CodeType.codeType_10Radix.equals(curCodeType)) {
+									fields[i].setText(encode10RadixAddPrefix(decodeString, CodeType.charsets[i], curPrefix));
+								} else if (CodeType.codeType_8Radix.equals(curCodeType)) {
+									fields[i].setText(encode8RadixAddPrefix(decodeString, CodeType.charsets[i], curPrefix));
+								} else if (CodeType.codeType_2Radix.equals(curCodeType)) {
+									fields[i].setText(encode2RadixAddPrefix(decodeString, CodeType.charsets[i], curPrefix));
+								} else if (CodeType.codeType_Decode.equals(curCodeType)) {
+									fields[i].setText(GuiUtils.encode(input, CodeType.charsets[sort - 1], CodeType.charsets[i]));
+								}
+							}
+						}
+					} catch (Exception e) {
+//						showExceptionMessage(e);
+						return;
+					}
+
+				}
+				// 大小写
+				if (CodeType.codeType_16Radix.equals(curCodeType) || CodeType.codeType_2Radix.equals(curCodeType)) {
+					if (CodeType.lowUpCase[0].equals(curLowUpCase)) {
+						for (int fi = 0; fi < fields.length; fi++) {
+							fields[fi].setText(fields[fi].getText().toLowerCase());
+						}
+					} else if (CodeType.lowUpCase[1].equals(curLowUpCase)) {
+						for (int fi = 0; fi < fields.length; fi++) {
+							fields[fi].setText(fields[fi].getText().toUpperCase());
+						}
+					}
+				}
+			}
+		};
+	}
+
+	/**
+	 * 字符编码进制前缀字符填充 - 16进制.
+	 */
+	private String encode16RadixAddPrefix(String input, String charset, String prefix)
+			throws UnsupportedEncodingException {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < input.length(); i++) {
+			// ExCodec.encodeHex 转16进制
+			sb.append(prefix).append(ExCodec.encodeHex(input.substring(i, i + 1), charset));
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * 字符编码进制前缀字符填充 - 10进制.
+	 */
+	private String encode10RadixAddPrefix(String input, String charset, String prefix)
+			throws UnsupportedEncodingException {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < input.length(); i++) {
+			sb.append(prefix).append(
+					RadixUtils.convertRadixString16To10(ExCodec.encodeHex(input.substring(i, i + 1), charset)));
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * 字符编码进制前缀字符填充 - 8进制.
+	 */
+	private String encode8RadixAddPrefix(String input, String charset, String prefix)
+			throws UnsupportedEncodingException {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < input.length(); i++) {
+			sb.append(prefix).append(
+					RadixUtils.convertRadixString16To8(ExCodec.encodeHex(input.substring(i, i + 1), charset)));
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * 字符编码进制前缀字符填充 - 2进制.
+	 */
+	private String encode2RadixAddPrefix(String input, String charset, String prefix)
+			throws UnsupportedEncodingException {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < input.length(); i++) {
+			sb.append(prefix).append(
+					RadixUtils.convertRadixString16To2(ExCodec.encodeHex(input.substring(i, i + 1), charset)));
+		}
+		return sb.toString();
 	}
 
 	public static class CodeType {
@@ -123,6 +278,16 @@ public class CharacterConverterController implements Initializable {
 		 * 进制前缀符.
 		 */
 		public static final String[] prefixs = new String[] { "空格", "空", "-", "%", "\\u" };
+		
+		public static String getCorrectSeparator(String separ) {
+			if (prefixs[0].equals(separ)) {
+				return " ";
+			} else if (prefixs[1].equals(separ)) {
+				return "";
+			} else {
+				return separ;
+			}
+		}
 
 		/**
 		 * 进制编码大小写.
@@ -172,6 +337,13 @@ public class CharacterConverterController implements Initializable {
 		public static String CRYPTO_SHA256 = "SHA256";
 		public static String CRYPTO_SHA384 = "SHA384";
 		public static String CRYPTO_SHA512 = "SHA512";
+		
+		/**
+		 * 按字符集解码.
+		 */
+		public static String encode(String string, String encode, String decode) throws UnsupportedEncodingException {
+			return new String(string.getBytes(encode), decode);
+		}
 	}
 
 }
