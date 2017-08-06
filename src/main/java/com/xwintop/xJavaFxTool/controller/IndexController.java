@@ -67,7 +67,7 @@ public class IndexController implements Initializable {
 	private void initView(){
 //		myTextField.setText(bundle.getString("Title"));
 		Map<String,String> map = new HashMap<String,String>();
-		map.put("javaFx转换", "/fxml/javaFxTools/JavaFxXmlToObjectCode.fxml");
+//		map.put("javaFx转换", "/fxml/javaFxTools/JavaFxXmlToObjectCode.fxml");
 //		map.put("epms转换", "/fxml/epmsTools/GeneratingCode.fxml");
 //		map.put("epms调试工具", "/fxml/epmsTools/DebugEpms.fxml");
 //		map.put("路径转换", "/fxml/littleTools/LinuxPathToWindowsPath.fxml");

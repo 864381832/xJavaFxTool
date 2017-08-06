@@ -14,7 +14,7 @@
 
 <AnchorPane prefHeight="466.0" prefWidth="691.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.CronExpBuilderController">
 	<children>
-		<TabPane layoutY="-2.0" prefHeight="291.0" prefWidth="686.0" tabClosingPolicy="UNAVAILABLE">
+		<TabPane fx:id="mainTabPane" layoutY="-2.0" prefHeight="291.0" prefWidth="686.0" tabClosingPolicy="UNAVAILABLE">
 			<tabs>
 				<Tab fx:id="tabSecond" text="秒">
 					<content>
