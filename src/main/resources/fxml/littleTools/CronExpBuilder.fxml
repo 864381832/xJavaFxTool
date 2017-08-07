@@ -104,16 +104,16 @@
 								<Spinner fx:id="dayEnd_0" editable="true" layoutX="183.0" layoutY="60.0" prefHeight="23.0" prefWidth="75.0" />
 								<Label layoutX="278.0" layoutY="64.0" text="日" />
 								<RadioButton fx:id="radioButtonDay4" layoutX="14.0" layoutY="91.0" mnemonicParsing="false" text="从" toggleGroup="$toggleGroupDay" />
+								<RadioButton fx:id="radioButtonDay2" layoutX="14.0" layoutY="37.0" mnemonicParsing="false" text="不指定" toggleGroup="$toggleGroupDay" />
 								<Spinner fx:id="dayStart_1" editable="true" layoutX="60.0" layoutY="88.0" prefHeight="23.0" prefWidth="80.0" />
 								<Label layoutX="153.0" layoutY="92.0" text="日开始，每" />
 								<Spinner fx:id="dayEnd_1" editable="true" layoutX="228.0" layoutY="88.0" prefHeight="23.0" prefWidth="80.0" />
 								<Label layoutX="328.0" layoutY="92.0" text="日执行一次" />
-								<RadioButton fx:id="radioButtonDay7" layoutX="14.0" layoutY="174.0" mnemonicParsing="false" text="指定" toggleGroup="$toggleGroupDay" />
-								<RadioButton fx:id="radioButtonDay2" layoutX="14.0" layoutY="38.0" mnemonicParsing="false" text="不指定" toggleGroup="$toggleGroupDay" />
 								<RadioButton fx:id="radioButtonDay5" layoutX="14.0" layoutY="123.0" mnemonicParsing="false" text="每月" toggleGroup="$toggleGroupDay" />
 								<Spinner fx:id="dayStart_2" editable="true" layoutX="60.0" layoutY="120.0" prefHeight="23.0" prefWidth="80.0" />
 								<Label layoutX="151.0" layoutY="124.0" text="号最近的那个工作日" />
 								<RadioButton fx:id="radioButtonDay6" layoutX="14.0" layoutY="150.0" mnemonicParsing="false" text="本月最后一天" toggleGroup="$toggleGroupDay" />
+								<RadioButton fx:id="radioButtonDay7" layoutX="14.0" layoutY="174.0" mnemonicParsing="false" text="指定" toggleGroup="$toggleGroupDay" />
 							</children>
 						</AnchorPane>
 					</content>
@@ -133,12 +133,12 @@
 								<Spinner fx:id="monthEnd_0" editable="true" layoutX="183.0" layoutY="60.0" prefHeight="23.0" prefWidth="75.0" />
 								<Label layoutX="278.0" layoutY="64.0" text="月" />
 								<RadioButton fx:id="radioButtonMonth4" layoutX="14.0" layoutY="91.0" mnemonicParsing="false" text="从" toggleGroup="$toggleGroupMonth" />
+								<RadioButton fx:id="radioButtonMonth2" layoutX="14.0" layoutY="38.0" mnemonicParsing="false" text="不指定" toggleGroup="$toggleGroupMonth" />
 								<Spinner fx:id="monthStart_1" editable="true" layoutX="60.0" layoutY="88.0" prefHeight="23.0" prefWidth="80.0" />
 								<Label layoutX="153.0" layoutY="92.0" text="日开始，每" />
 								<Spinner fx:id="monthEnd_1" editable="true" layoutX="228.0" layoutY="88.0" prefHeight="23.0" prefWidth="80.0" />
 								<Label layoutX="328.0" layoutY="92.0" text="月执行一次" />
 								<RadioButton fx:id="radioButtonMonth6" layoutX="14.0" layoutY="116.0" mnemonicParsing="false" text="指定" toggleGroup="$toggleGroupMonth" />
-								<RadioButton fx:id="radioButtonMonth2" layoutX="14.0" layoutY="38.0" mnemonicParsing="false" text="不指定" toggleGroup="$toggleGroupMonth" />
 							</children>
 						</AnchorPane>
 					</content>
@@ -160,10 +160,10 @@
 								<Spinner fx:id="weekStart_1" editable="true" layoutX="60.0" layoutY="88.0" prefHeight="23.0" prefWidth="80.0" />
 								<Label layoutX="153.0" layoutY="92.0" text="周 的星期" />
 								<Spinner fx:id="weekEnd_1" editable="true" layoutX="228.0" layoutY="88.0" prefHeight="23.0" prefWidth="80.0" />
-								<RadioButton fx:id="radioButtonWeek6" layoutX="14.0" layoutY="154.0" mnemonicParsing="false" text="指定" toggleGroup="$toggleGroupWeek" />
 								<RadioButton fx:id="radioButtonWeek2" layoutX="14.0" layoutY="38.0" mnemonicParsing="false" text="不指定" toggleGroup="$toggleGroupWeek" />
-								<Spinner fx:id="weekStart_2" editable="true" layoutX="125.0" layoutY="120.0" prefHeight="23.0" prefWidth="80.0" />
 								<RadioButton fx:id="radioButtonWeek5" layoutX="14.0" layoutY="123.0" mnemonicParsing="false" text="本月最后一星期" toggleGroup="$toggleGroupWeek" />
+								<Spinner fx:id="weekStart_2" editable="true" layoutX="125.0" layoutY="120.0" prefHeight="23.0" prefWidth="80.0" />
+								<RadioButton fx:id="radioButtonWeek6" layoutX="14.0" layoutY="154.0" mnemonicParsing="false" text="指定" toggleGroup="$toggleGroupWeek" />
 							</children>
 						</AnchorPane>
 					</content>
@@ -178,10 +178,10 @@
 									</toggleGroup>
 								</RadioButton>
 								<RadioButton fx:id="radioButtonYear3" layoutX="14.0" layoutY="68.0" mnemonicParsing="false" text="周期从" toggleGroup="$toggleGroupYear" />
+								<RadioButton fx:id="radioButtonYear2" layoutX="14.0" layoutY="40.0" mnemonicParsing="false" text="每年" toggleGroup="$toggleGroupYear" />
 								<Spinner fx:id="yearStart_0" editable="true" layoutX="80.0" layoutY="65.0" prefHeight="23.0" prefWidth="73.0" />
 								<Label layoutX="167.0" layoutY="69.0" text="--" />
 								<Spinner fx:id="yearEnd_0" editable="true" layoutX="187.0" layoutY="65.0" prefHeight="23.0" prefWidth="75.0" />
-								<RadioButton fx:id="radioButtonYear2" layoutX="14.0" layoutY="40.0" mnemonicParsing="false" text="每年" toggleGroup="$toggleGroupYear" />
 							</children>
 						</AnchorPane>
 					</content>
@@ -200,12 +200,12 @@
 						<Label layoutX="435.0" layoutY="14.0" text="月" />
 						<Label layoutX="512.0" layoutY="14.0" text="星期" />
 						<Label layoutX="602.0" layoutY="14.0" text="年" />
-						<TextField fx:id="jTF_Cron_Second" disable="true" layoutX="83.0" layoutY="34.0" prefHeight="23.0" prefWidth="71.0" />
-						<TextField fx:id="jTF_Cron_Minute" disable="true" layoutX="163.0" layoutY="34.0" prefHeight="23.0" prefWidth="71.0" />
-						<TextField fx:id="jTF_Cron_Hour" disable="true" layoutX="245.0" layoutY="34.0" prefHeight="23.0" prefWidth="71.0" />
-						<TextField fx:id="jTF_Cron_Day" disable="true" layoutX="325.0" layoutY="34.0" prefHeight="23.0" prefWidth="71.0" />
-						<TextField fx:id="jTF_Cron_Month" disable="true" layoutX="405.0" layoutY="34.0" prefHeight="23.0" prefWidth="71.0" />
-						<TextField fx:id="jTF_Cron_Week" disable="true" layoutX="488.0" layoutY="34.0" prefHeight="23.0" prefWidth="71.0" />
+						<TextField fx:id="jTF_Cron_Second" disable="true" layoutX="83.0" layoutY="34.0" prefHeight="23.0" prefWidth="71.0" text="*" />
+						<TextField fx:id="jTF_Cron_Minute" disable="true" layoutX="163.0" layoutY="34.0" prefHeight="23.0" prefWidth="71.0" text="*" />
+						<TextField fx:id="jTF_Cron_Hour" disable="true" layoutX="245.0" layoutY="34.0" prefHeight="23.0" prefWidth="71.0" text="*" />
+						<TextField fx:id="jTF_Cron_Day" disable="true" layoutX="325.0" layoutY="34.0" prefHeight="23.0" prefWidth="71.0" text="*" />
+						<TextField fx:id="jTF_Cron_Month" disable="true" layoutX="405.0" layoutY="34.0" prefHeight="23.0" prefWidth="71.0" text="*" />
+						<TextField fx:id="jTF_Cron_Week" disable="true" layoutX="488.0" layoutY="34.0" prefHeight="23.0" prefWidth="71.0" text="?" />
 						<TextField fx:id="jTF_Cron_Year" disable="true" layoutX="572.0" layoutY="34.0" prefHeight="23.0" prefWidth="71.0" />
 						<Label layoutX="14.0" layoutY="67.0" text="Cron表达式：" />
 						<TextField fx:id="jTF_Cron_Exp" layoutX="99.0" layoutY="63.0" prefHeight="23.0" prefWidth="426.0" />

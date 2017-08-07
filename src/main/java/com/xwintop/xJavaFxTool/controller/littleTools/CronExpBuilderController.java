@@ -2,7 +2,9 @@ package com.xwintop.xJavaFxTool.controller.littleTools;
 
 import java.lang.reflect.Field;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.apache.commons.lang.StringUtils;
@@ -25,7 +27,6 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputControl;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 
@@ -218,6 +219,7 @@ public class CronExpBuilderController implements Initializable {
 
 	private Tab[] tabs;
 	private TextField[] cronTextFields;
+	private String[] typeNameString = new String[] { "Second", "Minute", "Hour", "Day", "Month", "Week", "Year" };
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -227,8 +229,8 @@ public class CronExpBuilderController implements Initializable {
 
 	private void initView() {
 		tabs = new Tab[] { tabSecond, tabMinute, tabHour, tabDay, tabMonth, tabWeek, tabYear };
-		cronTextFields = new TextField[] { jTF_Cron_Second, jTF_Cron_Minute, jTF_Cron_Hour,
-				jTF_Cron_Day, jTF_Cron_Month, jTF_Cron_Week, jTF_Cron_Year };
+		cronTextFields = new TextField[] { jTF_Cron_Second, jTF_Cron_Minute, jTF_Cron_Hour, jTF_Cron_Day,
+				jTF_Cron_Month, jTF_Cron_Week, jTF_Cron_Year };
 		Calendar calendar = Calendar.getInstance();
 		JavaFxViewUtil.setSpinnerValueFactory(secondStart_0, 1, 58);
 		JavaFxViewUtil.setSpinnerValueFactory(secondEnd_0, 2, 59);
@@ -298,11 +300,66 @@ public class CronExpBuilderController implements Initializable {
 		for (int i = 0; i < cronTextFields.length; i++) {
 			cronTextFields[i].textProperty().addListener(getChangeListener());
 		}
-		for(int i = 0; i < secondCheckBox.length; i++) {
-			secondCheckBox[i].selectedProperty().addListener(new ChangeListener<Boolean>() {
+		// for(int i = 0; i < secondCheckBox.length; i++) {
+		// secondCheckBox[i].selectedProperty().addListener(new
+		// ChangeListener<Boolean>() {
+		// @Override
+		// public void changed(ObservableValue<? extends Boolean> observable, Boolean
+		// oldValue, Boolean newValue) {
+		// List<String> strList = new ArrayList<String>();
+		// for(int i = 0; i < secondCheckBox.length; i++) {
+		// if(secondCheckBox[i].isSelected()) {
+		// strList.add(secondCheckBox[i].getText());
+		// }
+		// }
+		// if(!strList.isEmpty()) {
+		// radioButtonSecond4.setSelected(true);
+		// }
+		// jTF_Cron_Second.setText(StringUtils.join(strList, ","));
+		// }
+		// });
+		// }
+		try {
+			for (int i = 0; i < typeNameString.length - 1; i++) {
+				addCheckBoxListener(typeNameString[i]);
+			}
+			// addCheckBoxListener("Second");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void addCheckBoxListener(String checkType) throws Exception {
+		CheckBox[] checkBoxs = (CheckBox[]) CronExpBuilderController.class
+				.getDeclaredField(checkType.toLowerCase() + "CheckBox").get(this);
+		for (int i = 0; i < checkBoxs.length; i++) {
+			checkBoxs[i].selectedProperty().addListener(new ChangeListener<Boolean>() {
 				@Override
-				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-//					StringUtils.join(cronTextFields, ",");
+				public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+					List<String> strList = new ArrayList<String>();
+					for (int i = 0; i < checkBoxs.length; i++) {
+						if (checkBoxs[i].isSelected()) {
+							strList.add(checkBoxs[i].getText());
+						}
+					}
+					try {
+						Field feild = CronExpBuilderController.class.getDeclaredField("jTF_Cron_" + checkType);
+						feild.setAccessible(true);
+						TextField textField = (TextField) feild.get(CronExpBuilderController.this);
+						textField.setText(StringUtils.join(strList, ","));
+						Field feild2 = CronExpBuilderController.class.getDeclaredField("toggleGroup" + checkType);
+						feild2.setAccessible(true);
+						ToggleGroup toggleGroup = (ToggleGroup) feild2.get(CronExpBuilderController.this);
+						if (strList.isEmpty()) {
+							textField.setText("*");
+							toggleGroup.selectToggle(toggleGroup.getToggles().get(0));
+						} else {
+							toggleGroup.selectToggle(toggleGroup.getToggles().get(toggleGroup.getToggles().size()-1));
+							textField.setText(StringUtils.join(strList, ","));
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			});
 		}
@@ -312,18 +369,18 @@ public class CronExpBuilderController implements Initializable {
 		return new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String oldValue, String newValue) {
-				TextField textField = (TextField) ((StringProperty) arg0).getBean();
-//				System.out.println(textField.getId() + "   " + oldValue + "   " + newValue);
-//				System.out.println("状态：当前字符数为：" + jTF_Cron_Second.getText());
+//				TextField textField = (TextField) ((StringProperty) arg0).getBean();
+				// System.out.println(textField.getId() + " " + oldValue + " " + newValue);
+				// System.out.println("状态：当前字符数为：" + jTF_Cron_Second.getText());
 				int currentIndex = mainTabPane.getSelectionModel().getSelectedIndex();
 				// 当前选中项之前的如果为*，则都设置成0
 				for (int i = currentIndex; i >= 1; i--) {
-					if (cronTextFields[i].getText() != "*" && cronTextFields[i - 1].getText() == "*") {
+					if (!"*".equals(cronTextFields[i].getText()) && "*".equals(cronTextFields[i-1].getText())) {
 						cronTextFields[i - 1].setText("0");
 					}
 				}
 				// 当前选中项之后的如果不为*则都设置成*
-				if (cronTextFields[currentIndex].getText() == "*") {
+				if ("*".equals(cronTextFields[currentIndex].getText())) {
 					for (int i = currentIndex + 1; i < cronTextFields.length; i++) {
 						if (i == 5) {
 							cronTextFields[i].setText("?");
@@ -333,8 +390,8 @@ public class CronExpBuilderController implements Initializable {
 					}
 				}
 				StringBuilder stringBuilder = new StringBuilder();
-				for(int i = 0; i < cronTextFields.length; i++) {
-					stringBuilder.append(cronTextFields[i].getText());
+				for (int i = 0; i < cronTextFields.length; i++) {
+					stringBuilder.append(cronTextFields[i].getText()).append(" ");
 				}
 				jTF_Cron_Exp.setText(stringBuilder.toString());
 			}
