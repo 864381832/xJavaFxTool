@@ -147,7 +147,7 @@
 					<content>
 						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
 							<children>
-								<RadioButton fx:id="radioButtonWeek1" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" selected="true" text="周 允许的通配符[, - * / L #]">
+								<RadioButton fx:id="radioButtonWeek1" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="周 允许的通配符[, - * / L #]">
 									<toggleGroup>
 										<ToggleGroup fx:id="toggleGroupWeek" />
 									</toggleGroup>
@@ -160,7 +160,7 @@
 								<Spinner fx:id="weekStart_1" editable="true" layoutX="60.0" layoutY="88.0" prefHeight="23.0" prefWidth="80.0" />
 								<Label layoutX="153.0" layoutY="92.0" text="周 的星期" />
 								<Spinner fx:id="weekEnd_1" editable="true" layoutX="228.0" layoutY="88.0" prefHeight="23.0" prefWidth="80.0" />
-								<RadioButton fx:id="radioButtonWeek2" layoutX="14.0" layoutY="38.0" mnemonicParsing="false" text="不指定" toggleGroup="$toggleGroupWeek" />
+								<RadioButton fx:id="radioButtonWeek2" layoutX="14.0" layoutY="38.0" mnemonicParsing="false" selected="true" text="不指定" toggleGroup="$toggleGroupWeek" />
 								<RadioButton fx:id="radioButtonWeek5" layoutX="14.0" layoutY="123.0" mnemonicParsing="false" text="本月最后一星期" toggleGroup="$toggleGroupWeek" />
 								<Spinner fx:id="weekStart_2" editable="true" layoutX="125.0" layoutY="120.0" prefHeight="23.0" prefWidth="80.0" />
 								<RadioButton fx:id="radioButtonWeek6" layoutX="14.0" layoutY="154.0" mnemonicParsing="false" text="指定" toggleGroup="$toggleGroupWeek" />
