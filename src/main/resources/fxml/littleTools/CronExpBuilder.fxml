@@ -192,32 +192,32 @@
 			<content>
 				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="138.0" prefWidth="730.0">
 					<children>
-						<Label layoutX="14.0" layoutY="38.0" text="表达式字段：" />
-						<Label layoutX="110.0" layoutY="14.0" text="秒" />
-						<Label layoutX="186.0" layoutY="14.0" text="分钟" />
-						<Label layoutX="267.0" layoutY="14.0" text="小时" />
-						<Label layoutX="355.0" layoutY="14.0" text="日" />
-						<Label layoutX="435.0" layoutY="14.0" text="月" />
-						<Label layoutX="512.0" layoutY="14.0" text="星期" />
-						<Label layoutX="602.0" layoutY="14.0" text="年" />
-						<TextField fx:id="jTF_Cron_Second" disable="true" layoutX="83.0" layoutY="34.0" prefHeight="23.0" prefWidth="71.0" text="*" />
-						<TextField fx:id="jTF_Cron_Minute" disable="true" layoutX="163.0" layoutY="34.0" prefHeight="23.0" prefWidth="71.0" text="*" />
-						<TextField fx:id="jTF_Cron_Hour" disable="true" layoutX="245.0" layoutY="34.0" prefHeight="23.0" prefWidth="71.0" text="*" />
-						<TextField fx:id="jTF_Cron_Day" disable="true" layoutX="325.0" layoutY="34.0" prefHeight="23.0" prefWidth="71.0" text="*" />
-						<TextField fx:id="jTF_Cron_Month" disable="true" layoutX="405.0" layoutY="34.0" prefHeight="23.0" prefWidth="71.0" text="*" />
-						<TextField fx:id="jTF_Cron_Week" disable="true" layoutX="488.0" layoutY="34.0" prefHeight="23.0" prefWidth="71.0" text="?" />
-						<TextField fx:id="jTF_Cron_Year" disable="true" layoutX="572.0" layoutY="34.0" prefHeight="23.0" prefWidth="71.0" />
-						<Label layoutX="14.0" layoutY="67.0" text="Cron表达式：" />
-						<TextField fx:id="jTF_Cron_Exp" layoutX="99.0" layoutY="63.0" prefHeight="23.0" prefWidth="426.0" text="* * * * * ?" />
-						<Button fx:id="button_Parse" layoutX="587.0" layoutY="63.0" mnemonicParsing="false" onAction="#parseActionPerformed" text="反解析到UI" />
-						<Label layoutX="14.0" layoutY="97.0" text="开始时间：" />
-						<TextField fx:id="jTF_Schedule_Start" disable="true" layoutX="83.0" layoutY="93.0" prefHeight="23.0" prefWidth="127.0" text="2017-10-08 12:23:56" />
-						<Label layoutX="227.0" layoutY="97.0" text="最近五次运行时间：" />
-						<Button fx:id="copyExpButton" layoutX="532.0" layoutY="63.0" mnemonicParsing="false" onAction="#copyExpAction" text="Copy" />
+						<Label layoutX="14.0" layoutY="28.0" text="表达式字段：" />
+						<Label layoutX="110.0" layoutY="4.0" text="秒" />
+						<Label layoutX="186.0" layoutY="4.0" text="分钟" />
+						<Label layoutX="267.0" layoutY="4.0" text="小时" />
+						<Label layoutX="355.0" layoutY="4.0" text="日" />
+						<Label layoutX="435.0" layoutY="4.0" text="月" />
+						<Label layoutX="512.0" layoutY="4.0" text="星期" />
+						<Label layoutX="602.0" layoutY="4.0" text="年" />
+						<TextField fx:id="jTF_Cron_Second" disable="true" layoutX="83.0" layoutY="24.0" prefHeight="23.0" prefWidth="71.0" text="*" />
+						<TextField fx:id="jTF_Cron_Minute" disable="true" layoutX="163.0" layoutY="24.0" prefHeight="23.0" prefWidth="71.0" text="*" />
+						<TextField fx:id="jTF_Cron_Hour" disable="true" layoutX="245.0" layoutY="24.0" prefHeight="23.0" prefWidth="71.0" text="*" />
+						<TextField fx:id="jTF_Cron_Day" disable="true" layoutX="325.0" layoutY="24.0" prefHeight="23.0" prefWidth="71.0" text="*" />
+						<TextField fx:id="jTF_Cron_Month" disable="true" layoutX="405.0" layoutY="24.0" prefHeight="23.0" prefWidth="71.0" text="*" />
+						<TextField fx:id="jTF_Cron_Week" disable="true" layoutX="488.0" layoutY="24.0" prefHeight="23.0" prefWidth="71.0" text="?" />
+						<TextField fx:id="jTF_Cron_Year" disable="true" layoutX="572.0" layoutY="24.0" prefHeight="23.0" prefWidth="71.0" />
+						<Label layoutX="14.0" layoutY="57.0" text="Cron表达式：" />
+						<TextField fx:id="jTF_Cron_Exp" layoutX="99.0" layoutY="53.0" prefHeight="23.0" prefWidth="426.0" text="* * * * * ?" />
+						<Button fx:id="button_Parse" layoutX="587.0" layoutY="53.0" mnemonicParsing="false" onAction="#parseActionPerformed" text="反解析到UI" />
+						<Label layoutX="14.0" layoutY="82.0" text="开始时间：" />
+						<TextField fx:id="jTF_Schedule_Start" disable="true" layoutX="83.0" layoutY="83.0" prefHeight="23.0" prefWidth="127.0" text="2017-10-08 12:23:56" />
+						<Label layoutX="100.0" layoutY="110.0" text="最近六次运行时间：" />
+						<Button fx:id="copyExpButton" layoutX="532.0" layoutY="53.0" mnemonicParsing="false" onAction="#copyExpAction" text="Copy" />
 					</children>
 				</AnchorPane>
 			</content>
 		</TitledPane>
-		<TextArea fx:id="jTA_Schedule_Next" disable="true" layoutX="345.0" layoutY="405.0" prefHeight="60.0" prefWidth="320.0" />
+		<TextArea fx:id="jTA_Schedule_Next" disable="true" layoutX="214.0" layoutY="392.0" prefHeight="44.0" prefWidth="451.0" />
 	</children>
 </AnchorPane>

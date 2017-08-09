@@ -1,6 +1,8 @@
 package com.xwintop.xJavaFxTool.controller.littleTools;
 
-import java.lang.reflect.Field;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,6 +15,7 @@ import org.apache.commons.lang.time.DateFormatUtils;
 import org.quartz.CronExpression;
 
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
+import com.xwintop.xcore.util.javafx.TooltipUtil;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
@@ -218,11 +221,9 @@ public class CronExpBuilderController implements Initializable {
 	private CheckBox[] monthCheckBox = new CheckBox[12];
 	private CheckBox[] weekCheckBox = new CheckBox[7];
 
-	private Tab[] tabs;
+	// private Tab[] tabs;
 	private TextField[] cronTextFields;
 	private String[] typeNameString = new String[] { "Second", "Minute", "Hour", "Day", "Month", "Week", "Year" };
-
-	private boolean isParseActionPerformed = false;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -231,7 +232,8 @@ public class CronExpBuilderController implements Initializable {
 	}
 
 	private void initView() {
-		tabs = new Tab[] { tabSecond, tabMinute, tabHour, tabDay, tabMonth, tabWeek, tabYear };
+		// tabs = new Tab[] { tabSecond, tabMinute, tabHour, tabDay, tabMonth,
+		// tabWeek, tabYear };
 		cronTextFields = new TextField[] { jTF_Cron_Second, jTF_Cron_Minute, jTF_Cron_Hour, jTF_Cron_Day,
 				jTF_Cron_Month, jTF_Cron_Week, jTF_Cron_Year };
 		Calendar calendar = Calendar.getInstance();
@@ -319,7 +321,7 @@ public class CronExpBuilderController implements Initializable {
 	@SuppressWarnings("unchecked")
 	private void addSpinnerYearListener() throws Exception {
 		String checkType = "Year";
-		ToggleGroup toggleGroup = (ToggleGroup) FieldUtils.readDeclaredField(this, "toggleGroup" + checkType,true);
+		ToggleGroup toggleGroup = (ToggleGroup) FieldUtils.readDeclaredField(this, "toggleGroup" + checkType, true);
 		String[] strings = new String[] { "Start_", "End_" };
 		for (int i = 0; i < 2; i++) {
 			final int ii = i;
@@ -338,7 +340,7 @@ public class CronExpBuilderController implements Initializable {
 
 	@SuppressWarnings("unchecked")
 	private void addSpinnerListener(String checkType) throws Exception {
-		ToggleGroup toggleGroup = (ToggleGroup) FieldUtils.readDeclaredField(this, "toggleGroup" + checkType,true);
+		ToggleGroup toggleGroup = (ToggleGroup) FieldUtils.readDeclaredField(this, "toggleGroup" + checkType, true);
 		String[] strings = new String[] { "Start_", "End_" };
 		for (int i = 0; i < 4; i++) {
 			final int ii = i;
@@ -369,7 +371,7 @@ public class CronExpBuilderController implements Initializable {
 	// 单独添加年RadioButton监听事件
 	private void addRadioButtonYearListener() throws Exception {
 		String checkType = "Year";
-		ToggleGroup toggleGroup = (ToggleGroup) FieldUtils.readDeclaredField(this, "toggleGroup" + checkType,true);
+		ToggleGroup toggleGroup = (ToggleGroup) FieldUtils.readDeclaredField(this, "toggleGroup" + checkType, true);
 		for (Toggle toggle : toggleGroup.getToggles()) {
 			((RadioButton) toggle).selectedProperty().addListener(new ChangeListener<Boolean>() {
 				@SuppressWarnings("unchecked")
@@ -404,33 +406,39 @@ public class CronExpBuilderController implements Initializable {
 	// 添加RadioButton监听事件
 	private void addRadioButtonListener(String checkType) throws Exception {
 		String checkTypeLowerCase = checkType.toLowerCase();
-		ToggleGroup toggleGroup = (ToggleGroup) FieldUtils.readDeclaredField(this, "toggleGroup" + checkType,true);
+		ToggleGroup toggleGroup = (ToggleGroup) FieldUtils.readDeclaredField(this, "toggleGroup" + checkType, true);
 		toggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
 			@SuppressWarnings("unchecked")
 			@Override
-			public void changed(ObservableValue<? extends Toggle> var1, Toggle oldValue,Toggle newValue) {
+			public void changed(ObservableValue<? extends Toggle> var1, Toggle oldValue, Toggle newValue) {
 				if (newValue == null) {
 					return;
 				}
 				RadioButton radioButton = (RadioButton) newValue;
 				try {
-					TextField textField = (TextField) FieldUtils.readDeclaredField(CronExpBuilderController.this,"jTF_Cron_" + checkType,true);
+					TextField textField = (TextField) FieldUtils.readDeclaredField(CronExpBuilderController.this,
+							"jTF_Cron_" + checkType, true);
 					// if(radioButton.getId().equals("radioButton" +
 					// checkType + "1")){
 					if (radioButton == toggleGroup.getToggles().get(0)) {
 						textField.setText("*");
 					} else if (radioButton == toggleGroup.getToggles().get(1)) {
-						Spinner<Integer> spinnerStart = (Spinner<Integer>) FieldUtils.readDeclaredField(CronExpBuilderController.this, checkTypeLowerCase + "Start_0", true);
-						Spinner<Integer> spinnerEnd = (Spinner<Integer>) FieldUtils.readDeclaredField(CronExpBuilderController.this, checkTypeLowerCase + "End_0", true);
+						Spinner<Integer> spinnerStart = (Spinner<Integer>) FieldUtils
+								.readDeclaredField(CronExpBuilderController.this, checkTypeLowerCase + "Start_0", true);
+						Spinner<Integer> spinnerEnd = (Spinner<Integer>) FieldUtils
+								.readDeclaredField(CronExpBuilderController.this, checkTypeLowerCase + "End_0", true);
 						String string = spinnerStart.getEditor().getText() + "-" + spinnerEnd.getEditor().getText();
 						textField.setText(string);
 					} else if (radioButton == toggleGroup.getToggles().get(2)) {
-						Spinner<Integer> spinnerStart = (Spinner<Integer>) FieldUtils.readDeclaredField(CronExpBuilderController.this, checkTypeLowerCase + "Start_1", true);
-						Spinner<Integer> spinnerEnd = (Spinner<Integer>) FieldUtils.readDeclaredField(CronExpBuilderController.this, checkTypeLowerCase + "End_1", true);
+						Spinner<Integer> spinnerStart = (Spinner<Integer>) FieldUtils
+								.readDeclaredField(CronExpBuilderController.this, checkTypeLowerCase + "Start_1", true);
+						Spinner<Integer> spinnerEnd = (Spinner<Integer>) FieldUtils
+								.readDeclaredField(CronExpBuilderController.this, checkTypeLowerCase + "End_1", true);
 						String string = spinnerStart.getEditor().getText() + "/" + spinnerEnd.getEditor().getText();
 						textField.setText(string);
 					} else if (radioButton == toggleGroup.getToggles().get(toggleGroup.getToggles().size() - 1)) {
-						CheckBox[] checkBoxs = (CheckBox[]) FieldUtils.readDeclaredField(CronExpBuilderController.this, checkTypeLowerCase + "CheckBox", true);
+						CheckBox[] checkBoxs = (CheckBox[]) FieldUtils.readDeclaredField(CronExpBuilderController.this,
+								checkTypeLowerCase + "CheckBox", true);
 						List<Integer> strList = new ArrayList<Integer>();
 						for (int i = 0; i < checkBoxs.length; i++) {
 							if (checkBoxs[i].isSelected()) {
@@ -439,7 +447,7 @@ public class CronExpBuilderController implements Initializable {
 						}
 						if (strList.isEmpty()) {
 							checkBoxs[0].setSelected(true);
-							textField.setText("0");
+							textField.setText(Integer.valueOf(checkBoxs[0].getText().trim()).toString());
 						} else {
 							textField.setText(StringUtils.join(strList, ","));
 						}
@@ -471,20 +479,23 @@ public class CronExpBuilderController implements Initializable {
 
 	// 添加指定CheckBox选中监听事件
 	private void addCheckBoxListener(String checkType) throws Exception {
-		CheckBox[] checkBoxs = (CheckBox[]) FieldUtils.readDeclaredField(this, checkType.toLowerCase() + "CheckBox", true);
+		CheckBox[] checkBoxs = (CheckBox[]) FieldUtils.readDeclaredField(this, checkType.toLowerCase() + "CheckBox",
+				true);
 		for (int i = 0; i < checkBoxs.length; i++) {
 			checkBoxs[i].selectedProperty().addListener(new ChangeListener<Boolean>() {
 				@Override
 				public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-					List<Integer> strList = new ArrayList<Integer>();
-					for (int i = 0; i < checkBoxs.length; i++) {
-						if (checkBoxs[i].isSelected()) {
-							strList.add(Integer.valueOf(checkBoxs[i].getText().trim()));
-						}
-					}
 					try {
-						TextField textField = (TextField) FieldUtils.readDeclaredField(CronExpBuilderController.this,"jTF_Cron_" + checkType,true);
-						ToggleGroup toggleGroup = (ToggleGroup) FieldUtils.readDeclaredField(CronExpBuilderController.this, "toggleGroup" + checkType,true);
+						List<Integer> strList = new ArrayList<Integer>();
+						for (int i = 0; i < checkBoxs.length; i++) {
+							if (checkBoxs[i].isSelected()) {
+								strList.add(Integer.valueOf(checkBoxs[i].getText().trim()));
+							}
+						}
+						TextField textField = (TextField) FieldUtils.readDeclaredField(CronExpBuilderController.this,
+								"jTF_Cron_" + checkType, true);
+						ToggleGroup toggleGroup = (ToggleGroup) FieldUtils
+								.readDeclaredField(CronExpBuilderController.this, "toggleGroup" + checkType, true);
 						if (strList.isEmpty()) {
 							textField.setText("*");
 							toggleGroup.selectToggle(toggleGroup.getToggles().get(0));
@@ -504,29 +515,30 @@ public class CronExpBuilderController implements Initializable {
 		return new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String oldValue, String newValue) {
-				if(StringUtils.isEmpty(newValue)){
+				if (StringUtils.isEmpty(newValue)) {
 					return;
 				}
-				 TextField textField = (TextField) ((StringProperty)arg0).getBean();
-				 System.out.println(textField.getId()+"_"+textField.getText() + "_" + oldValue + "_" +
-				 newValue);
-				// if (isParseActionPerformed) {
-				// return;
-				// }
-				 int currentIndex = mainTabPane.getSelectionModel().getSelectedIndex();
-				 for(int i = 0; i < cronTextFields.length; i++){
-					 if(textField == cronTextFields[i]){
-						 currentIndex = i;
-					 }
-				 }
+				TextField textField = (TextField) ((StringProperty) arg0).getBean();
+				// System.out.println(textField.getId() + "_" +
+				// textField.getText() + "_" + oldValue + "_" + newValue);
+				int currentIndex = mainTabPane.getSelectionModel().getSelectedIndex();
+				for (int i = 0; i < cronTextFields.length; i++) {
+					if (textField == cronTextFields[i]) {
+						currentIndex = i;
+					}
+				}
 				// 当前选中项之前的如果为*，则都设置成0
 				for (int i = currentIndex; i >= 1; i--) {
 					if (!"*".equals(cronTextFields[i].getText()) && "*".equals(cronTextFields[i - 1].getText())) {
-						cronTextFields[i - 1].setText("0");
+						if (i < 3) {
+							cronTextFields[i - 1].setText("0");
+						} else {
+							cronTextFields[i - 1].setText("1");
+						}
 					}
 				}
 				// 当前选中项之后的如果不为*则都设置成*
-				if ("*".equals(cronTextFields[currentIndex].getText())) {
+				if ("*".equals(cronTextFields[currentIndex].getText().trim())) {
 					for (int i = currentIndex + 1; i < cronTextFields.length; i++) {
 						if (i == 5) {
 							cronTextFields[i].setText("?");
@@ -539,7 +551,7 @@ public class CronExpBuilderController implements Initializable {
 				}
 				List<String> sList = new ArrayList<String>();
 				for (int i = 0; i < cronTextFields.length; i++) {
-					if(StringUtils.isNotEmpty(cronTextFields[i].getText())){
+					if (StringUtils.isNotEmpty(cronTextFields[i].getText())) {
 						sList.add(cronTextFields[i].getText().trim());
 					}
 				}
@@ -554,7 +566,6 @@ public class CronExpBuilderController implements Initializable {
 		if (StringUtils.isEmpty(cronExpString)) {
 			return;
 		}
-		// isParseActionPerformed = true;
 		String[] regs = cronExpString.split(" ");
 
 		jTA_Schedule_Next.setText("");
@@ -564,162 +575,81 @@ public class CronExpBuilderController implements Initializable {
 			jTF_Schedule_Start.setText(DateFormatUtils.format(dd, "yyyy-MM-dd HH:mm:ss"));
 			for (int i = 1; i <= 6; i++) {
 				dd = exp.getNextValidTimeAfter(dd);
-				jTA_Schedule_Next.appendText(i + ": " + DateFormatUtils.format(dd,"yyyy-MM-dd HH:mm:ss") + "\n");
+				jTA_Schedule_Next.appendText(i + ": " + DateFormatUtils.format(dd, "yyyy-MM-dd HH:mm:ss")+"\t\t");
+				if(i%2 == 0){
+					jTA_Schedule_Next.appendText("\n");
+				}
 				dd = new java.util.Date(dd.getTime() + 1000);
 			}
 		} catch (Exception e) {
 			jTA_Schedule_Next.setText(e.getMessage());
 		}
 
-		initObj(regs[0], "Second");
-		initObj(regs[1], "Minute");
-		initObj(regs[2], "Hour");
-		initObj(regs[3], "Day");
-		initObj(regs[4], "Month");
-		initObj(regs[5], "Week");
-		// initDay(regs[3]);
-		// initMonth(regs[4]);
-		// initWeek(regs[5]);
-
-		if (regs.length > 6) {
-			initYear(regs[6]);
-		} else {
-			initYear(null);
+		for (int i = 0; i < typeNameString.length - 1; i++) {
+			initObj(regs[i], typeNameString[i]);
 		}
-		// isParseActionPerformed = false;
+		initYear(regs.length > 6 ? regs[6] : null);
 	}
 
 	@SuppressWarnings("unchecked")
 	private void initObj(String strVal, String checkType) throws Exception {
-		ToggleGroup toggleGroup = (ToggleGroup) CronExpBuilderController.class
-				.getDeclaredField("toggleGroup" + checkType).get(this);
-		// var objRadio = $("input[name='" + checkType + "'");
+		String checkTypeLowerCase = checkType.toLowerCase();
+		ToggleGroup toggleGroup = (ToggleGroup) FieldUtils.readDeclaredField(this, "toggleGroup" + checkType, true);
 		if ("*".equals(strVal)) {
 			toggleGroup.selectToggle(toggleGroup.getToggles().get(0));
 		} else if (strVal.contains("-")) {
 			String[] ary = strVal.split("-");
-			((Spinner<Integer>) CronExpBuilderController.class.getDeclaredField(checkType.toLowerCase() + "Start_0")
-					.get(this)).getEditor().setText(ary[0]);
-			((Spinner<Integer>) CronExpBuilderController.class.getDeclaredField(checkType.toLowerCase() + "End_0")
-					.get(this)).getEditor().setText(ary[1]);
+			((Spinner<Integer>) FieldUtils.readDeclaredField(this, checkTypeLowerCase + "Start_0", true)).getEditor()
+					.setText(ary[0]);
+			((Spinner<Integer>) FieldUtils.readDeclaredField(this, checkTypeLowerCase + "End_0", true)).getEditor()
+					.setText(ary[1]);
 		} else if (strVal.contains("/")) {
 			String[] ary = strVal.split("/");
-			((Spinner<Integer>) CronExpBuilderController.class.getDeclaredField(checkType.toLowerCase() + "Start_1")
-					.get(this)).getEditor().setText(ary[0]);
-			((Spinner<Integer>) CronExpBuilderController.class.getDeclaredField(checkType.toLowerCase() + "End_1")
-					.get(this)).getEditor().setText(ary[1]);
+			((Spinner<Integer>) FieldUtils.readDeclaredField(this, checkTypeLowerCase + "Start_1", true)).getEditor()
+					.setText(ary[0]);
+			((Spinner<Integer>) FieldUtils.readDeclaredField(this, checkTypeLowerCase + "End_1", true)).getEditor()
+					.setText(ary[1]);
 		} else if (("Day".equals(checkType) || "Month".equals(checkType) || "Week".equals(checkType))
 				&& "?".equals(strVal)) {
 			toggleGroup.selectToggle(toggleGroup.getToggles().get(3));
 		} else if ("Day".equals(checkType) && strVal.contains("W")) {
 			String[] ary = strVal.split("W");
-			((Spinner<Integer>) CronExpBuilderController.class.getDeclaredField(checkType.toLowerCase() + "Start_2")
-					.get(this)).getEditor().setText(ary[0]);
+			((Spinner<Integer>) FieldUtils.readDeclaredField(this, checkTypeLowerCase + "Start_2", true)).getEditor()
+					.setText(ary[0]);
 		} else if ("Day".equals(checkType) && "L".equals(strVal)) {
 			toggleGroup.selectToggle(toggleGroup.getToggles().get(5));
 		} else if ("Week".equals(checkType) && strVal.contains("L")) {
 			String[] ary = strVal.split("L");
-			((Spinner<Integer>) CronExpBuilderController.class.getDeclaredField(checkType.toLowerCase() + "Start_2")
-					.get(this)).getEditor().setText(ary[0]);
+			((Spinner<Integer>) FieldUtils.readDeclaredField(this, checkTypeLowerCase + "Start_2", true)).getEditor()
+					.setText(ary[0]);
 		} else {
 			if (!"?".equals(strVal)) {
 				String[] ary = strVal.split(",");
-				CheckBox[] checkBox = (CheckBox[]) getClass().getDeclaredField(checkType.toLowerCase() + "CheckBox")
-						.get(this);
-				int addInt = 1;
-				if("00".equals(checkBox[0].getText())) {
-					addInt = 0;
+				CheckBox[] checkBox = (CheckBox[]) FieldUtils.readDeclaredField(this, checkTypeLowerCase + "CheckBox",
+						true);
+				int addInt = "00".equals(checkBox[0].getText()) ? 0 : 1;
+				for (int i = 0; i < checkBox.length; i++) {
+					checkBox[i].setSelected(false);
 				}
 				for (int i = 0; i < ary.length; i++) {
-					checkBox[Integer.parseInt(ary[i].trim())+addInt].setSelected(true);
+					checkBox[Integer.parseInt(ary[i].trim()) - addInt].setSelected(true);
 				}
-			}
-		}
-	}
-
-	private void initDay(String strVal) throws Exception {
-		if ("*".equals(strVal)) {
-			radioButtonDay1.setSelected(true);
-		} else if ("?".equals(strVal)) {
-			radioButtonDay2.setSelected(true);
-		} else if (strVal.contains("-")) {
-			String[] ary = strVal.split("-");
-			dayStart_0.getEditor().setText(ary[0]);
-			dayEnd_0.getEditor().setText(ary[1]);
-		} else if (strVal.contains("/")) {
-			String[] ary = strVal.split("/");
-			dayStart_1.getEditor().setText(ary[0]);
-			dayEnd_1.getEditor().setText(ary[1]);
-		} else if (strVal.contains("W")) {
-			String[] ary = strVal.split("W");
-			dayStart_2.getEditor().setText(ary[0]);
-		} else if ("L".equals(strVal)) {
-			radioButtonDay6.setSelected(true);
-		} else {
-			String[] ary = strVal.split(",");
-			for (int i = 0; i < ary.length; i++) {
-				dayCheckBox[Integer.parseInt(ary[i])].setSelected(true);
-			}
-		}
-	}
-
-	private void initMonth(String strVal) throws Exception {
-		if ("*".equals(strVal)) {
-			radioButtonMonth1.setSelected(true);
-		} else if ("?".equals(strVal)) {
-			radioButtonMonth2.setSelected(true);
-		} else if (strVal.contains("-")) {
-			String[] ary = strVal.split("-");
-			monthStart_0.getEditor().setText(ary[0]);
-			monthEnd_0.getEditor().setText(ary[1]);
-		} else if (strVal.contains("/")) {
-			String[] ary = strVal.split("/");
-			monthStart_1.getEditor().setText(ary[0]);
-			monthEnd_1.getEditor().setText(ary[1]);
-		} else {
-			String[] ary = strVal.split(",");
-			for (int i = 0; i < ary.length; i++) {
-				monthCheckBox[Integer.parseInt(ary[i])].setSelected(true);
-			}
-		}
-	}
-
-	private void initWeek(String strVal) throws Exception {
-		if ("*".equals(strVal)) {
-			radioButtonWeek1.setSelected(true);
-		} else if ("?".equals(strVal)) {
-			radioButtonWeek2.setSelected(true);
-		} else if (strVal.contains("-")) {
-			String[] ary = strVal.split("-");
-			weekStart_0.getEditor().setText(ary[0]);
-			weekEnd_0.getEditor().setText(ary[1]);
-		} else if (strVal.contains("/")) {
-			String[] ary = strVal.split("/");
-			weekStart_1.getEditor().setText(ary[0]);
-			weekEnd_1.getEditor().setText(ary[1]);
-		} else if (strVal.contains("L")) {
-			String[] ary = strVal.split("L");
-			weekStart_2.getEditor().setText(ary[0]);
-		} else {
-			String[] ary = strVal.split(",");
-			for (int i = 0; i < ary.length; i++) {
-				weekCheckBox[Integer.parseInt(ary[i])].setSelected(true);
 			}
 		}
 	}
 
 	private void initYear(String strVal) throws Exception {
 		if (StringUtils.isEmpty(strVal)) {
-			radioButtonWeek1.setSelected(true);
+			radioButtonYear1.setSelected(true);
 		} else if ("*".equals(strVal)) {
 			radioButtonYear2.setSelected(true);
 		} else if (strVal.contains("-")) {
 			String[] ary = strVal.split("-");
 			yearStart_0.getEditor().setText(ary[0]);
 			yearEnd_0.getEditor().setText(ary[1]);
-		}else {
+		} else {
 			jTF_Cron_Year.setText(null);
-			radioButtonWeek1.setSelected(true);
+			radioButtonYear1.setSelected(true);
 		}
 	}
 
@@ -728,5 +658,8 @@ public class CronExpBuilderController implements Initializable {
 		// toggleGroupSecond.selectToggle(toggleGroupSecond.getToggles().get(Integer.valueOf(jTF_Cron_Exp.getText())));
 		// jTF_Schedule_Start.setText(jTF_Cron_Exp.getText());
 		// jTA_Schedule_Next.setText(jTF_Cron_Exp.getText());
+		final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard(); // 获得系统剪贴板
+		clipboard.setContents(new StringSelection(jTF_Cron_Exp.getText()), null);
+		TooltipUtil.showToast("复制成功！");
 	}
 }
