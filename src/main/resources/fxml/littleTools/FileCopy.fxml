@@ -11,25 +11,28 @@
 
 <AnchorPane prefHeight="435.0" prefWidth="748.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.FileCopyController">
    <children>
-      <Label layoutX="14.0" layoutY="31.0" text="原文件路径：" />
-      <TextField fx:id="textFieldCopyFileOriginalPath" layoutX="85.0" layoutY="27.0" prefHeight="23.0" prefWidth="125.0" />
-      <Label layoutX="223.0" layoutY="31.0" text="拷贝路径：" />
-      <TextField fx:id="textFieldCopyFileTargetPath" layoutX="283.0" layoutY="28.0" prefHeight="23.0" prefWidth="135.0" />
-      <CheckBox fx:id="checkBoxIsCopy" layoutX="563.0" layoutY="32.0" mnemonicParsing="false" selected="true" text="拷贝" />
-      <Button fx:id="buttonCopy" layoutX="499.0" layoutY="368.0" mnemonicParsing="false" onAction="#copyAction" text="一键拷贝" />
-      <Spinner fx:id="spinnerCopyNumber" layoutX="486.0" layoutY="29.0" prefHeight="23.0" prefWidth="64.0" />
-      <Label layoutX="432.0" layoutY="33.0" text="拷贝份数" />
-      <TableView fx:id="tableViewMain" editable="true" layoutX="13.0" layoutY="52.0" prefHeight="307.0" prefWidth="715.0">
+      <Label layoutX="14.0" layoutY="11.0" text="原文件路径：" />
+      <TextField fx:id="textFieldCopyFileOriginalPath" layoutX="79.0" layoutY="7.0" prefHeight="23.0" prefWidth="95.0" />
+      <Label layoutX="228.0" layoutY="11.0" text="拷贝路径：" />
+      <TextField fx:id="textFieldCopyFileTargetPath" layoutX="283.0" layoutY="8.0" prefHeight="23.0" prefWidth="102.0" />
+      <CheckBox fx:id="checkBoxIsCopy" layoutX="563.0" layoutY="12.0" mnemonicParsing="false" selected="true" text="拷贝" />
+      <Button fx:id="buttonCopy" layoutX="554.0" layoutY="368.0" mnemonicParsing="false" onAction="#copyAction" text="一键拷贝" />
+      <Spinner fx:id="spinnerCopyNumber" layoutX="486.0" layoutY="9.0" prefHeight="23.0" prefWidth="64.0" />
+      <Label layoutX="432.0" layoutY="13.0" text="拷贝份数" />
+      <TableView fx:id="tableViewMain" editable="true" layoutX="13.0" layoutY="44.0" prefHeight="314.0" prefWidth="716.0">
         <columns>
-          <TableColumn fx:id="tableColumnCopyFileOriginalPath" prefWidth="202.0" sortable="false" text="原文件路径" />
-          <TableColumn fx:id="tableColumnCopyFileTargetPath" prefWidth="248.0" sortable="false" text="拷贝路径" />
-            <TableColumn fx:id="tableColumnCopyNumber" prefWidth="57.0" sortable="false" text="拷贝份数" />
-            <TableColumn fx:id="tableColumnIsCopy" prefWidth="57.0" sortable="false" text="是否拷贝" />
-            <TableColumn fx:id="tableColumnIsDelete" sortable="false" text="删除原文件" />
+          <TableColumn fx:id="tableColumnCopyFileOriginalPath" prefWidth="281.0" sortable="false" text="原文件路径" />
+          <TableColumn fx:id="tableColumnCopyFileTargetPath" prefWidth="259.0" sortable="false" text="拷贝路径" />
+            <TableColumn fx:id="tableColumnCopyNumber" prefWidth="52.0" sortable="false" text="拷贝份数" />
+            <TableColumn fx:id="tableColumnIsCopy" prefWidth="56.0" sortable="false" text="是否拷贝" />
+            <TableColumn fx:id="tableColumnIsDelete" prefWidth="66.0" sortable="false" text="删除原文件" />
         </columns>
       </TableView>
-      <CheckBox fx:id="checkBoxIsDelete" layoutX="617.0" layoutY="33.0" mnemonicParsing="false" text="删除" />
-      <Button fx:id="buttonAddItem" layoutX="673.0" layoutY="29.0" mnemonicParsing="false" onAction="#addItemAction" text="添加" />
-      <Button fx:id="buttonSaveConfigure" layoutX="418.0" layoutY="368.0" mnemonicParsing="false" onAction="#saveConfigure" text="Button" />
+      <CheckBox fx:id="checkBoxIsDelete" layoutX="617.0" layoutY="13.0" mnemonicParsing="false" text="删除" />
+      <Button fx:id="buttonAddItem" layoutX="673.0" layoutY="9.0" mnemonicParsing="false" onAction="#addItemAction" text="添加" />
+      <Button fx:id="buttonSaveConfigure" layoutX="339.0" layoutY="368.0" mnemonicParsing="false" onAction="#saveConfigure" text="保存配置" />
+      <Button fx:id="buttonChooseOriginalPath" layoutX="175.0" layoutY="7.0" mnemonicParsing="false" onAction="#chooseOriginalPathAction" prefHeight="23.0" prefWidth="40.0" text="选择" />
+      <Button fx:id="buttonChooseTargetPath" layoutX="385.0" layoutY="8.0" mnemonicParsing="false" onAction="#chooseTargetPathAction" text="选择" />
+      <Button fx:id="buttonDeleteSelectRow" layoutX="427.0" layoutY="368.0" mnemonicParsing="false" onAction="#deleteSelectRowAction" text="删除选中行" />
    </children>
 </AnchorPane>

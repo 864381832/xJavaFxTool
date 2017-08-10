@@ -1,45 +1,43 @@
 package com.xwintop.xJavaFxTool.controller.littleTools;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
+import java.util.Collection;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
 
-import com.xwintop.xJavaFxTool.controller.littleTools.FileCopyController.TableBean;
+import com.xwintop.xJavaFxTool.utils.ConfigureUtil;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
+import com.xwintop.xcore.util.javafx.FileChooserUtil;
 
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Spinner;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TableColumn.CellEditEvent;
-import javafx.scene.control.cell.CheckBoxTableCell;
-import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.util.Callback;
 
 public class FileCopyController implements Initializable {
 	@FXML
 	private TextField textFieldCopyFileOriginalPath;
 	@FXML
 	private TextField textFieldCopyFileTargetPath;
+	@FXML
+	private Button buttonChooseOriginalPath;
+	@FXML
+	private Button buttonChooseTargetPath;
 	@FXML
 	private CheckBox checkBoxIsCopy;
 	@FXML
@@ -64,6 +62,8 @@ public class FileCopyController implements Initializable {
 	private Button buttonAddItem;
 	@FXML
 	private Button buttonSaveConfigure;
+	@FXML
+	private Button buttonDeleteSelectRow;
 
 	private ObservableList<TableBean> tableData = FXCollections.observableArrayList();
 
@@ -73,14 +73,26 @@ public class FileCopyController implements Initializable {
 		initEvent();
 	}
 
+	@SuppressWarnings("unchecked")
 	private void initView() {
+		try {
+			PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(ConfigureUtil.getConfigurePath("fileCopyConfigure.properties"));
+			xmlConfigure.getKeys().forEachRemaining(new Consumer<String>() {
+				@Override
+				public void accept(String t) {
+					tableData.add(new TableBean(xmlConfigure.getString(t)));
+				}
+			});
+		} catch (Exception e) {
+		}
 		JavaFxViewUtil.setSpinnerValueFactory(spinnerCopyNumber, 1, Integer.MAX_VALUE);
 		tableColumnCopyFileOriginalPath
 				.setCellValueFactory(new PropertyValueFactory<TableBean, String>("copyFileOriginalPath"));
 		tableColumnCopyFileOriginalPath.setCellFactory(TextFieldTableCell.<TableBean>forTableColumn());
 		tableColumnCopyFileOriginalPath.setOnEditCommit((CellEditEvent<TableBean, String> t) -> {
 			t.getRowValue().setCopyFileOriginalPath(t.getNewValue());
-			// ((TableBean) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+			// ((TableBean)
+			// t.getTableView().getItems().get(t.getTablePosition().getRow()))
 			// .setCopyFileOriginalPath(t.getNewValue());
 		});
 
@@ -120,6 +132,24 @@ public class FileCopyController implements Initializable {
 	}
 
 	private void initEvent() {
+		FileChooserUtil.setOnDrag(textFieldCopyFileOriginalPath, FileChooserUtil.FileType.FILE);
+		FileChooserUtil.setOnDrag(textFieldCopyFileTargetPath, FileChooserUtil.FileType.FOLDER);
+	}
+
+	@FXML
+	private void chooseOriginalPathAction(ActionEvent event) {
+		File file = FileChooserUtil.chooseFile();
+		if (file != null) {
+			textFieldCopyFileOriginalPath.setText(file.getPath());
+		}
+	}
+
+	@FXML
+	private void chooseTargetPathAction(ActionEvent event) {
+		File file = FileChooserUtil.chooseDirectory();
+		if (file != null) {
+			textFieldCopyFileTargetPath.setText(file.getPath());
+		}
 	}
 
 	@FXML
@@ -128,29 +158,53 @@ public class FileCopyController implements Initializable {
 				spinnerCopyNumber.getValue().toString(), checkBoxIsCopy.isSelected() ? "是" : "否",
 				checkBoxIsDelete.isSelected() ? "是" : "否"));
 	}
+	
+	@FXML
+	private void deleteSelectRowAction(ActionEvent event) {
+		tableData.remove(tableViewMain.getSelectionModel().getSelectedItem());
+	}
 
 	@FXML
-	private void saveConfigure(ActionEvent event) {
+	private void saveConfigure(ActionEvent event) throws Exception {
+		FileUtils.touch(ConfigureUtil.getConfigureFile("fileCopyConfigure.properties"));
+		PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(ConfigureUtil.getConfigurePath("fileCopyConfigure.properties"));
+		xmlConfigure.clear();
+		for (int i = 0; i < tableData.size(); i++) {
+			xmlConfigure.setProperty("tableBean" + i, tableData.get(i).getPropertys());
+		}
+		xmlConfigure.save();
 	}
 
 	@FXML
 	private void copyAction(ActionEvent event) throws Exception {
 		for (TableBean tableBean : tableData) {
-			if("是".equals(tableBean.getIsCopy())) {
+			if ("是".equals(tableBean.getIsCopy())) {
 				int number = Integer.parseInt(tableBean.getCopyNumber());
 				File fileOriginal = new File(tableBean.getCopyFileOriginalPath());
 				File fileTarget = new File(tableBean.getCopyFileTargetPath());
-				for(int i=0;i<number;i++) {
-					if(fileOriginal.isDirectory()) {
-						FileUtils.copyDirectory(fileOriginal, fileTarget,false);
-					}else {
-						FileUtils.copyFileToDirectory(fileOriginal, fileTarget);
+				for (int i = 0; i < number; i++) {
+					if (fileOriginal.isDirectory()) {
+						if (number == 1) {
+							FileUtils.copyDirectory(fileOriginal, fileTarget, false);
+						} else {
+							Collection<File> files = FileUtils.listFiles(fileOriginal, null, false);
+							for (File file : files) {
+								FileUtils.copyFile(file, new File(fileTarget.getPath(), i + file.getName()));
+							}
+						}
+					} else {
+						if (number == 1) {
+							FileUtils.copyFileToDirectory(fileOriginal, fileTarget);
+						} else {
+							FileUtils.copyFile(fileOriginal,
+									new File(fileTarget.getPath(), i + fileOriginal.getName()));
+						}
 					}
 				}
-				if("是".equals(tableBean.getIsDelete())) {
-					if(fileOriginal.isDirectory()) {
+				if ("是".equals(tableBean.getIsDelete())) {
+					if (fileOriginal.isDirectory()) {
 						FileUtils.deleteDirectory(fileOriginal);
-					}else {
+					} else {
 						FileUtils.deleteQuietly(fileOriginal);
 					}
 				}
@@ -173,6 +227,20 @@ public class FileCopyController implements Initializable {
 			this.copyNumber = new SimpleStringProperty(copyNumber);
 			this.isCopy = new SimpleStringProperty(isCopy);
 			this.isDelete = new SimpleStringProperty(isDelete);
+		}
+
+		public TableBean(String propertys) {
+			String[] strings = propertys.split(",");
+			this.copyFileOriginalPath = new SimpleStringProperty(strings[0]);
+			this.copyFileTargetPath = new SimpleStringProperty(strings[1]);
+			this.copyNumber = new SimpleStringProperty(strings[2]);
+			this.isCopy = new SimpleStringProperty(strings[3]);
+			this.isDelete = new SimpleStringProperty(strings[4]);
+		}
+
+		public String getPropertys() {
+			return copyFileOriginalPath.get() + "," + copyFileTargetPath.get() + "," + copyNumber.get() + ","
+					+ isCopy.get() + "," + isDelete.get();
 		}
 
 		public String getCopyFileOriginalPath() {

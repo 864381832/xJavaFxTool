@@ -1,17 +1,14 @@
 package com.xwintop.xJavaFxTool.controller.epmsTools;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.net.URL;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
+import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
 
+import com.xwintop.xJavaFxTool.utils.ConfigureUtil;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 
 import javafx.event.ActionEvent;
@@ -85,18 +82,15 @@ public class DebugEpmsController implements Initializable {
 
 	private void initData(){
 		try {
-			Properties prop = new Properties();
-			InputStream in = new BufferedInputStream(new FileInputStream("debugEpmsConfigure.properties"));
-			prop.load(in); /// 加载属性列表
-			textFieldEpmsStart.setText(prop.getProperty("textFieldEpmsStart"));
-			textFieldCopyFile1.setText(prop.getProperty("textFieldCopyFile1"));
-			textFieldCopyFile2.setText(prop.getProperty("textFieldCopyFile2"));
-			textFieldCopyFolder1.setText(prop.getProperty("textFieldCopyFolder1"));
-			textFieldCopyFolder2.setText(prop.getProperty("textFieldCopyFolder2"));
-			textFieldEpmsCompile.setText(prop.getProperty("textFieldEpmsCompile"));
-			textFieldCopyJar1.setText(prop.getProperty("textFieldCopyJar1"));
-			textFieldCopyJar2.setText(prop.getProperty("textFieldCopyJar2"));
-			in.close();
+			Configuration configuration = new PropertiesConfiguration(ConfigureUtil.getConfigurePath("debugEpmsConfigure.properties"));
+			textFieldEpmsStart.setText(configuration.getString("textFieldEpmsStart"));
+			textFieldCopyFile1.setText(configuration.getString("textFieldCopyFile1"));
+			textFieldCopyFile2.setText(configuration.getString("textFieldCopyFile2"));
+			textFieldCopyFolder1.setText(configuration.getString("textFieldCopyFolder1"));
+			textFieldCopyFolder2.setText(configuration.getString("textFieldCopyFolder2"));
+			textFieldEpmsCompile.setText(configuration.getString("textFieldEpmsCompile"));
+			textFieldCopyJar1.setText(configuration.getString("textFieldCopyJar1"));
+			textFieldCopyJar2.setText(configuration.getString("textFieldCopyJar2"));
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -203,9 +197,11 @@ public class DebugEpmsController implements Initializable {
 
 	@FXML
 	private void saveDebugEpmsConfigure(ActionEvent event) throws Exception {
-		Properties prop = new Properties();
+		FileUtils.touch(ConfigureUtil.getConfigureFile("debugEpmsConfigure.properties"));
+		PropertiesConfiguration prop = new PropertiesConfiguration(ConfigureUtil.getConfigurePath("debugEpmsConfigure.properties"));
+//		Properties prop = new Properties();
 		// 保存属性到b.properties文件
-		FileOutputStream oFile = new FileOutputStream("debugEpmsConfigure.properties", false);// true表示追加打开
+//		FileOutputStream oFile = new FileOutputStream("debugEpmsConfigure.properties", false);// true表示追加打开
 		prop.setProperty("textFieldEpmsStart", textFieldEpmsStart.getText());
 		prop.setProperty("textFieldCopyFile1", textFieldCopyFile1.getText());
 		prop.setProperty("textFieldCopyFile2", textFieldCopyFile2.getText());
@@ -214,8 +210,9 @@ public class DebugEpmsController implements Initializable {
 		prop.setProperty("textFieldEpmsCompile", textFieldEpmsCompile.getText());
 		prop.setProperty("textFieldCopyJar1", textFieldCopyJar1.getText());
 		prop.setProperty("textFieldCopyJar2", textFieldCopyJar2.getText());
-		prop.store(oFile, "The New properties file");
-		oFile.close();
+//		prop.store(oFile, "The New properties file");
+//		oFile.close();
+		prop.save();
 	}
 
 }

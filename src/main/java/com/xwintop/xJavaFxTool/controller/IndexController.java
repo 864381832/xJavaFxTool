@@ -71,8 +71,9 @@ public class IndexController implements Initializable {
 			@Override
 			public void accept(String t, String u) {
 				Tab tab = new Tab(t);
-				ResourceBundle resourceBundle = ResourceBundle.getBundle("locale.Menu", Locale.CHINA);
-				FXMLLoader generatingCodeFXMLLoader = new FXMLLoader(getClass().getResource(u), resourceBundle);
+//				ResourceBundle resourceBundle = ResourceBundle.getBundle("locale.Menu", Locale.CHINA);
+//				FXMLLoader generatingCodeFXMLLoader = new FXMLLoader(getClass().getResource(u), resourceBundle);
+				FXMLLoader generatingCodeFXMLLoader = new FXMLLoader(getClass().getResource(u));
 				try {
 					tab.setContent(generatingCodeFXMLLoader.load());
 				} catch (IOException e) {

@@ -14,13 +14,11 @@ import com.xwintop.xJavaFxTool.services.epmsTools.XmlToSqlService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
 public class GeneratingCodeController extends AnchorPane implements Initializable {
-	private ResourceBundle bundle;
 	@FXML
 	private TextField textField1;
 	@FXML
@@ -34,7 +32,6 @@ public class GeneratingCodeController extends AnchorPane implements Initializabl
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		this.bundle = resources;
 	}
 	
 	@FXML
