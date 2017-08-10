@@ -14,20 +14,26 @@ import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBase;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.Callback;
 
 public class FileCopyController implements Initializable {
 	@FXML
@@ -53,7 +59,7 @@ public class FileCopyController implements Initializable {
 	@FXML
 	private TableColumn<TableBean, String> tableColumnCopyNumber;
 	@FXML
-	private TableColumn<TableBean, String> tableColumnIsCopy;
+	private TableColumn<TableBean, Boolean> tableColumnIsCopy;
 	@FXML
 	private TableColumn<TableBean, String> tableColumnIsDelete;
 	@FXML
@@ -109,7 +115,7 @@ public class FileCopyController implements Initializable {
 			t.getRowValue().setCopyNumber(t.getNewValue());
 		});
 
-		tableColumnIsCopy.setCellValueFactory(new PropertyValueFactory<TableBean, String>("isCopy"));
+		tableColumnIsCopy.setCellValueFactory(new PropertyValueFactory<TableBean, Boolean>("isCopy"));
 		// tableColumnIsCopy.setCellFactory(
 		// CheckBoxTableCell.forTableColumn(new Callback<Integer,
 		// ObservableValue<Boolean>>() {
@@ -118,8 +124,28 @@ public class FileCopyController implements Initializable {
 		// return null;
 		// }
 		// }));
-		tableColumnIsCopy.setOnEditCommit((CellEditEvent<TableBean, String> t) -> {
-			t.getRowValue().setIsCopy(t.getNewValue());
+//		tableColumnIsCopy.setCellFactory(CheckBoxTableCell.forTableColumn(tableColumnIsCopy));
+		tableColumnIsCopy.setCellFactory(new Callback<TableColumn<TableBean, Boolean>, TableCell<TableBean, Boolean>>() {
+            public TableCell<TableBean, Boolean> call(TableColumn<TableBean, Boolean> param) {
+                final CheckBoxButtonTableCell<TableBean, Boolean> cell = new CheckBoxButtonTableCell<>();
+                final CheckBox checkbox = (CheckBox) cell.getGraphic();
+                checkbox.setOnAction(new EventHandler<ActionEvent>(){
+                  @Override
+                  public void handle(ActionEvent event) {
+                      System.out.println("进来了");
+                      TableBean person = tableData.get(cell.getIndex());
+                        if(checkbox.isSelected()){
+                        	person.setIsCopy("是");
+                        }else{
+                        	person.setIsCopy("否");
+                        }
+                    }
+                });
+                return cell;
+            }
+});
+		tableColumnIsCopy.setOnEditCommit((CellEditEvent<TableBean, Boolean> t) -> {
+			t.getRowValue().setIsCopy(""+t.getNewValue());
 		});
 
 		tableColumnIsDelete.setCellValueFactory(new PropertyValueFactory<TableBean, String>("isDelete"));
@@ -282,6 +308,32 @@ public class FileCopyController implements Initializable {
 		public void setIsDelete(String isDelete) {
 			this.isDelete.set(isDelete);
 		}
+	}
+	
+	public class CheckBoxButtonTableCell<S, T> extends TableCell<S, T> {
+	    private final CheckBox chebox;
+	    private ObservableValue<T> ov;
 
+	    public CheckBoxButtonTableCell() {
+	        this.chebox = new CheckBox();
+	        //添加元素
+	        setGraphic(chebox);
+	    }
+
+	    @Override
+	    protected void updateItem(T item, boolean empty) {
+	        System.out.println("empty："+empty);
+	        super.updateItem(item, empty);
+	        if (empty) {
+	            //如果此列为空默认不添加元素
+	            setText(null);
+	            setGraphic(null);
+	        } else {
+	            //初始化为不选中
+	            chebox.setSelected(false);
+	            setGraphic(chebox);
+	           
+	        }
+	    }
 	}
 }
