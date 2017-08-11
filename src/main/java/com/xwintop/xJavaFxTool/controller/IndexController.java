@@ -23,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
@@ -53,16 +54,17 @@ public class IndexController implements Initializable {
 	private void initView(){
 //		myTextField.setText(bundle.getString("Title"));
 		Map<String,String> map = new HashMap<String,String>();
-		map.put("javaFx转换", "/fxml/javaFxTools/JavaFxXmlToObjectCode.fxml");
-		map.put("epms转换", "/fxml/epmsTools/GeneratingCode.fxml");
-		map.put("epms调试工具", "/fxml/epmsTools/DebugEpms.fxml");
-		map.put("路径转换", "/fxml/littleTools/LinuxPathToWindowsPath.fxml");
-		map.put("报文查看", "/fxml/epmsTools/MessageViewer.fxml");
-		map.put("Time转换", "/fxml/littleTools/TimeTool.fxml");
-		map.put("编码转换", "/fxml/littleTools/CharacterConverter.fxml");
-		map.put("加密解密", "/fxml/littleTools/EncryptAndDecrypt.fxml");
-		map.put("Cron表达式生成器", "/fxml/littleTools/CronExpBuilder.fxml");
-		map.put("文件复制", "/fxml/littleTools/FileCopy.fxml");
+//		map.put("javaFx转换", "/fxml/javaFxTools/JavaFxXmlToObjectCode.fxml");
+//		map.put("epms转换", "/fxml/epmsTools/GeneratingCode.fxml");
+//		map.put("epms调试工具", "/fxml/epmsTools/DebugEpms.fxml");
+//		map.put("路径转换", "/fxml/littleTools/LinuxPathToWindowsPath.fxml");
+//		map.put("报文查看", "/fxml/epmsTools/MessageViewer.fxml");
+//		map.put("Time转换", "/fxml/littleTools/TimeTool.fxml");
+//		map.put("编码转换", "/fxml/littleTools/CharacterConverter.fxml");
+//		map.put("加密解密", "/fxml/littleTools/EncryptAndDecrypt.fxml");
+//		map.put("Cron表达式生成器", "/fxml/littleTools/CronExpBuilder.fxml");
+//		map.put("文件复制", "/fxml/littleTools/FileCopy.fxml");
+		map.put("二维码生成工具", "/fxml/littleTools/QRCodeBuilder.fxml");
 		
 		Map<String,String> webMap = new HashMap<String,String>();
 //		webMap.put("Cron表达式生成器Html版", "/web/littleTools/cron/index.htm");
