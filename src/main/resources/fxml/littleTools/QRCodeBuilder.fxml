@@ -6,17 +6,13 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="428.0" prefWidth="688.0"
-	xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111"
-	fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.QRCodeBuilderController">
+<AnchorPane prefHeight="428.0" prefWidth="688.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.QRCodeBuilderController">
 	<children>
-		<Button fx:id="builderButton" layoutX="454.0" layoutY="17.0"
-			mnemonicParsing="false" onAction="#builderAction" text="生成" />
+		<Button fx:id="builderButton" layoutX="454.0" layoutY="17.0" mnemonicParsing="false" onAction="#builderAction" text="生成" />
 		<Label layoutX="24.0" layoutY="21.0" text="地址：" />
-		<TextField fx:id="contentTextField" layoutX="72.0" layoutY="17.0"
-			prefHeight="23.0" prefWidth="358.0" />
-		<ImageView fx:id="codeImageView" fitHeight="320.0" fitWidth="320.0"
-			layoutX="24.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />
+		<TextField fx:id="contentTextField" layoutX="72.0" layoutY="17.0" prefHeight="23.0" prefWidth="358.0" />
+		<ImageView fx:id="codeImageView" fitHeight="320.0" fitWidth="320.0" layoutX="24.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="codeImageView1" fitHeight="320.0" fitWidth="320.0" layoutX="354.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="snapshotButton" layoutX="594.0" layoutY="17.0" mnemonicParsing="false" onAction="#snapshotAction" text="截图" />
 	</children>
 </AnchorPane>
