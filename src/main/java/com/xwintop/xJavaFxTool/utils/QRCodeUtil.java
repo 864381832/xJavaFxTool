@@ -90,6 +90,25 @@ public class QRCodeUtil {
 		Image image = new Image(new ByteArrayInputStream(stream.toByteArray()));
 		return image;
 	}
+	
+	public static Image toImage(String content, int width, int height,String format,ErrorCorrectionLevel errorCorrectionLevel,Integer margin,Color onColor,Color offColor,String formatImage) {
+		Map<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>();// 二维码参数
+		hints.put(EncodeHintType.CHARACTER_SET, format);// 字符编码
+		hints.put(EncodeHintType.ERROR_CORRECTION, errorCorrectionLevel);// 容错等级 L、M、Q、H 其中 L 为最低, H 为最高
+		hints.put(EncodeHintType.MARGIN, margin);// 二维码边界空白大小 1,2,3,4 (4为默认,最大)
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		try {
+			java.awt.Color onColorw = new java.awt.Color((float)onColor.getRed(), (float)onColor.getGreen(), (float)onColor.getBlue(), (float)onColor.getOpacity());
+			java.awt.Color offColorw = new java.awt.Color((float)offColor.getRed(), (float)offColor.getGreen(), (float)offColor.getBlue(), (float)offColor.getOpacity());
+			BitMatrix bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height, hints);
+			MatrixToImageConfig config = new MatrixToImageConfig(onColorw.getRGB(), offColorw.getRGB());
+			MatrixToImageWriter.writeToStream(bitMatrix, formatImage, stream,config);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		Image image = new Image(new ByteArrayInputStream(stream.toByteArray()));
+		return image;
+	}
 
 	/**
 	 * 从Image中解析二维码

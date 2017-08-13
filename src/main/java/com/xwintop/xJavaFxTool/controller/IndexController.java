@@ -54,7 +54,7 @@ public class IndexController implements Initializable {
 	private void initView(){
 //		myTextField.setText(bundle.getString("Title"));
 		Map<String,String> map = new HashMap<String,String>();
-//		map.put("javaFx转换", "/fxml/javaFxTools/JavaFxXmlToObjectCode.fxml");
+		map.put("javaFx转换", "/fxml/javaFxTools/JavaFxXmlToObjectCode.fxml");
 //		map.put("epms转换", "/fxml/epmsTools/GeneratingCode.fxml");
 //		map.put("epms调试工具", "/fxml/epmsTools/DebugEpms.fxml");
 //		map.put("路径转换", "/fxml/littleTools/LinuxPathToWindowsPath.fxml");
@@ -65,6 +65,7 @@ public class IndexController implements Initializable {
 //		map.put("Cron表达式生成器", "/fxml/littleTools/CronExpBuilder.fxml");
 //		map.put("文件复制", "/fxml/littleTools/FileCopy.fxml");
 		map.put("二维码生成工具", "/fxml/littleTools/QRCodeBuilder.fxml");
+//		map.put("身份证生成器", "/fxml/codeTools/IdCardGenerator.fxml");
 		
 		Map<String,String> webMap = new HashMap<String,String>();
 //		webMap.put("Cron表达式生成器Html版", "/web/littleTools/cron/index.htm");
