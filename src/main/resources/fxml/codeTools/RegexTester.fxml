@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="404.0" prefWidth="648.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="com.xwintop.xJavaFxTool.controller.codeTools.RegexTesterController">
+   <children>
+      <Label layoutX="14.0" layoutY="14.0" text="表达式：" />
+      <TextField fx:id="regexTextField" layoutX="60.0" layoutY="10.0" prefHeight="23.0" prefWidth="214.0" promptText="请输入正则表达式" />
+      <Button fx:id="regulatButton" layoutX="309.0" layoutY="10.0" mnemonicParsing="false" onAction="#regulatAction" text="匹配" />
+      <TableView fx:id="examplesTableView" layoutY="42.0" prefHeight="362.0" prefWidth="305.0">
+        <columns>
+          <TableColumn prefWidth="94.0" text="示例" />
+          <TableColumn prefWidth="210.0" text="表达式" />
+        </columns>
+      </TableView>
+      <TextArea fx:id="sourceTextArea" layoutX="318.0" layoutY="42.0" prefHeight="200.0" prefWidth="200.0" promptText="请输入待验证字符文" />
+      <TableView fx:id="matchTableView" layoutX="318.0" layoutY="244.0" prefHeight="158.0" prefWidth="305.0">
+        <columns>
+          <TableColumn prefWidth="41.0" text="序列" />
+          <TableColumn prefWidth="137.0" text="匹配文本" />
+            <TableColumn prefWidth="126.0" text="子匹配文本" />
+        </columns>
+      </TableView>
+      <Button fx:id="resetButton" layoutX="363.0" layoutY="10.0" mnemonicParsing="false" onAction="#resetAction" text="重置" />
+      <Button fx:id="aboutRegularButton" layoutX="566.0" layoutY="10.0" mnemonicParsing="false" onAction="#aboutRegularAction" text="关于正则" />
+      <CheckBox fx:id="ignoreCaseCheckBox" layoutX="528.0" layoutY="42.0" mnemonicParsing="false" text="忽略大小写" />
+      <TextField fx:id="replaceTextField" layoutX="528.0" layoutY="106.0" prefHeight="23.0" prefWidth="103.0" promptText="要替换的内容" />
+      <CheckBox fx:id="isReplaceCheckBox" layoutX="528.0" layoutY="81.0" mnemonicParsing="false" text="替换匹配内容" />
+   </children>
+</AnchorPane>

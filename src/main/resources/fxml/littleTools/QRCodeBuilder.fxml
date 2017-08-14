@@ -12,7 +12,7 @@
 	<children>
 		<Button fx:id="builderButton" layoutX="504.0" layoutY="17.0" mnemonicParsing="false" onAction="#builderAction" text="生成" />
 		<Label layoutX="24.0" layoutY="21.0" text="地址：" />
-		<TextField fx:id="contentTextField" layoutX="72.0" layoutY="17.0" prefHeight="23.0" prefWidth="358.0" />
+		<TextField fx:id="contentTextField" layoutX="58.0" layoutY="17.0" prefHeight="23.0" prefWidth="372.0" />
 		<ImageView fx:id="codeImageView" fitHeight="320.0" fitWidth="320.0" layoutX="24.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="codeImageView1" fitHeight="320.0" fitWidth="320.0" layoutX="354.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" />
       <Button fx:id="snapshotButton" layoutX="562.0" layoutY="17.0" mnemonicParsing="false" onAction="#snapshotAction" text="截图识别" />
@@ -27,6 +27,6 @@
       <ChoiceBox fx:id="marginChoiceBox" layoutX="492.0" layoutY="53.0" prefHeight="23.0" prefWidth="64.0" />
       <Label layoutX="566.0" layoutY="57.0" text="图片格式：" />
       <ChoiceBox fx:id="formatImageChoiceBox" layoutX="626.0" layoutY="53.0" prefHeight="23.0" prefWidth="60.0" />
-      <ChoiceBox fx:id="codeFormatChoiceBox" layoutX="444.0" layoutY="17.0" prefHeight="23.0" prefWidth="48.0" />
+      <ChoiceBox fx:id="codeFormatChoiceBox" layoutX="432.0" layoutY="17.0" prefHeight="23.0" prefWidth="60.0" />
 	</children>
 </AnchorPane>
