@@ -11,63 +11,25 @@ import org.apache.commons.io.FileUtils;
 
 import com.xwintop.xJavaFxTool.utils.ConfigureUtil;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
+import com.xwintop.xJavaFxTool.view.littleTools.FileCopyView;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn.CellEditEvent;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.util.Callback;
+import javafx.scene.input.MouseButton;
 
-public class FileCopyController implements Initializable {
-	@FXML
-	private TextField textFieldCopyFileOriginalPath;
-	@FXML
-	private TextField textFieldCopyFileTargetPath;
-	@FXML
-	private Button buttonChooseOriginalPath;
-	@FXML
-	private Button buttonChooseTargetPath;
-	@FXML
-	private CheckBox checkBoxIsCopy;
-	@FXML
-	private Button buttonCopy;
-	@FXML
-	private Spinner<Integer> spinnerCopyNumber;
-	@FXML
-	private TableView<TableBean> tableViewMain;
-	@FXML
-	private TableColumn<TableBean, String> tableColumnCopyFileOriginalPath;
-	@FXML
-	private TableColumn<TableBean, String> tableColumnCopyFileTargetPath;
-	@FXML
-	private TableColumn<TableBean, String> tableColumnCopyNumber;
-	@FXML
-	private TableColumn<TableBean, Boolean> tableColumnIsCopy;
-	@FXML
-	private TableColumn<TableBean, String> tableColumnIsDelete;
-	@FXML
-	private CheckBox checkBoxIsDelete;
-	@FXML
-	private Button buttonAddItem;
-	@FXML
-	private Button buttonSaveConfigure;
-	@FXML
-	private Button buttonDeleteSelectRow;
+public class FileCopyController extends FileCopyView {
 
 	private ObservableList<TableBean> tableData = FXCollections.observableArrayList();
 
@@ -113,53 +75,29 @@ public class FileCopyController implements Initializable {
 			t.getRowValue().setCopyNumber(t.getNewValue());
 		});
 
-		// tableColumnIsCopy.setCellValueFactory(new
-		// PropertyValueFactory<TableBean, Boolean>("isCopy"));
-		// tableColumnIsCopy.setCellFactory(
-		// CheckBoxTableCell.forTableColumn(new Callback<Integer,
-		// ObservableValue<Boolean>>() {
-		// @Override
-		// public ObservableValue<Boolean> call(Integer arg0) {
-		// return null;
-		// }
-		// }));
-		// tableColumnIsCopy.setCellFactory(CheckBoxTableCell.forTableColumn(tableColumnIsCopy));
-		tableColumnIsCopy
-				.setCellFactory(new Callback<TableColumn<TableBean, Boolean>, TableCell<TableBean, Boolean>>() {
-					public TableCell<TableBean, Boolean> call(TableColumn<TableBean, Boolean> param) {
-						final CheckBoxButtonTableCell<TableBean, Boolean> cell = new CheckBoxButtonTableCell<>();
-						final CheckBox checkbox = (CheckBox) cell.getGraphic();
-						checkbox.setOnAction(new EventHandler<ActionEvent>() {
-							@Override
-							public void handle(ActionEvent event) {
-								TableBean person = tableData.get(cell.getIndex());
-								person.setIsCopy(checkbox.isSelected());
-//								if (checkbox.isSelected()) {
-//									person.setIsCopy("是");
-//								} else {
-//									person.setIsCopy("否");
-//								}
-							}
-						});
-						return cell;
-					}
-				});
-//		tableColumnIsCopy.setOnEditCommit((CellEditEvent<TableBean, Boolean> t) -> {
-//			t.getRowValue().setIsCopy(t.getNewValue());
-//		});
-
-		tableColumnIsDelete.setCellValueFactory(new PropertyValueFactory<TableBean, String>("isDelete"));
-		tableColumnIsDelete.setCellFactory(TextFieldTableCell.<TableBean>forTableColumn());
-		tableColumnIsDelete.setOnEditCommit((CellEditEvent<TableBean, String> t) -> {
-			t.getRowValue().setIsDelete(t.getNewValue());
-		});
-
+		tableColumnIsCopy.setCellValueFactory(new PropertyValueFactory<TableBean, Boolean>("isCopy"));
+		tableColumnIsCopy.setCellFactory(CheckBoxTableCell.forTableColumn(tableColumnIsCopy));
+		tableColumnIsDelete.setCellValueFactory(new PropertyValueFactory<TableBean, Boolean>("isDelete"));
+		tableColumnIsDelete.setCellFactory(CheckBoxTableCell.forTableColumn(tableColumnIsDelete));
 		tableViewMain.setItems(tableData);
 	}
 
 	private void initEvent() {
 		FileChooserUtil.setOnDrag(textFieldCopyFileOriginalPath, FileChooserUtil.FileType.FILE);
 		FileChooserUtil.setOnDrag(textFieldCopyFileTargetPath, FileChooserUtil.FileType.FOLDER);
+		tableViewMain.setOnMouseClicked(event->{
+			if (event.getButton() == MouseButton.SECONDARY) {
+				MenuItem menu_Remove = new MenuItem("删除选中行");
+                menu_Remove.setOnAction(event1 -> {
+                	deleteSelectRowAction(null);
+                });
+                MenuItem menu_RemoveAll = new MenuItem("删除所有");
+                menu_RemoveAll.setOnAction(event1 -> {
+                		tableData.clear();
+                });
+                tableViewMain.setContextMenu(new ContextMenu(menu_Remove,menu_RemoveAll));
+			}
+		});
 	}
 
 	@FXML
@@ -180,12 +118,8 @@ public class FileCopyController implements Initializable {
 
 	@FXML
 	private void addItemAction(ActionEvent event) {
-//		tableData.add(new TableBean(textFieldCopyFileOriginalPath.getText(), textFieldCopyFileTargetPath.getText(),
-//				spinnerCopyNumber.getValue().toString(), checkBoxIsCopy.isSelected() ? "是" : "否",
-//				checkBoxIsDelete.isSelected() ? "是" : "否"));
 		tableData.add(new TableBean(textFieldCopyFileOriginalPath.getText(), textFieldCopyFileTargetPath.getText(),
-				spinnerCopyNumber.getValue().toString(), checkBoxIsCopy.isSelected(),
-						checkBoxIsDelete.isSelected() ? "是" : "否"));
+				spinnerCopyNumber.getValue().toString(), checkBoxIsCopy.isSelected(), checkBoxIsDelete.isSelected()));
 	}
 
 	@FXML
@@ -208,7 +142,6 @@ public class FileCopyController implements Initializable {
 	@FXML
 	private void copyAction(ActionEvent event) throws Exception {
 		for (TableBean tableBean : tableData) {
-//			if ("是".equals(tableBean.getIsCopy())) {
 			if (tableBean.getIsCopy()) {
 				int number = Integer.parseInt(tableBean.getCopyNumber());
 				File fileOriginal = new File(tableBean.getCopyFileOriginalPath());
@@ -232,7 +165,7 @@ public class FileCopyController implements Initializable {
 						}
 					}
 				}
-				if ("是".equals(tableBean.getIsDelete())) {
+				if (tableBean.getIsDelete()) {
 					if (fileOriginal.isDirectory()) {
 						FileUtils.deleteDirectory(fileOriginal);
 					} else {
@@ -243,35 +176,35 @@ public class FileCopyController implements Initializable {
 		}
 	}
 
-	public static class TableBean {
+	public class TableBean {
 		private SimpleStringProperty copyFileOriginalPath;
 		private SimpleStringProperty copyFileTargetPath;
 		private SimpleStringProperty copyNumber;
 		private SimpleBooleanProperty isCopy;
-		private SimpleStringProperty isDelete;
+		private SimpleBooleanProperty isDelete;
 
 		public TableBean(String copyFileOriginalPath, String copyFileTargetPath, String copyNumber, Boolean isCopy,
-				String isDelete) {
+				Boolean isDelete) {
 			super();
 			this.copyFileOriginalPath = new SimpleStringProperty(copyFileOriginalPath);
 			this.copyFileTargetPath = new SimpleStringProperty(copyFileTargetPath);
 			this.copyNumber = new SimpleStringProperty(copyNumber);
 			this.isCopy = new SimpleBooleanProperty(isCopy);
-			this.isDelete = new SimpleStringProperty(isDelete);
+			this.isDelete = new SimpleBooleanProperty(isDelete);
 		}
 
 		public TableBean(String propertys) {
-			String[] strings = propertys.split(",");
+			String[] strings = propertys.split("__");
 			this.copyFileOriginalPath = new SimpleStringProperty(strings[0]);
 			this.copyFileTargetPath = new SimpleStringProperty(strings[1]);
 			this.copyNumber = new SimpleStringProperty(strings[2]);
 			this.isCopy = new SimpleBooleanProperty(Boolean.valueOf(strings[3]));
-			this.isDelete = new SimpleStringProperty(strings[4]);
+			this.isDelete = new SimpleBooleanProperty(Boolean.valueOf(strings[4]));
 		}
 
 		public String getPropertys() {
-			return copyFileOriginalPath.get() + "," + copyFileTargetPath.get() + "," + copyNumber.get() + ","
-					+ isCopy.get() + "," + isDelete.get();
+			return copyFileOriginalPath.get() + "__" + copyFileTargetPath.get() + "__" + copyNumber.get() + "__"
+					+ isCopy.get() + "__" + isDelete.get();
 		}
 
 		public String getCopyFileOriginalPath() {
@@ -298,6 +231,10 @@ public class FileCopyController implements Initializable {
 			this.copyNumber.set(copyNumber);
 		}
 
+		public BooleanProperty isCopyProperty() {
+			return isCopy;
+		}
+
 		public Boolean getIsCopy() {
 			return isCopy.get();
 		}
@@ -306,37 +243,17 @@ public class FileCopyController implements Initializable {
 			this.isCopy.set(isCopy);
 		}
 
-		public String getIsDelete() {
+		public BooleanProperty isDeleteProperty() {
+			return isDelete;
+		}
+
+		public Boolean getIsDelete() {
 			return isDelete.get();
 		}
 
-		public void setIsDelete(String isDelete) {
+		public void setIsDelete(Boolean isDelete) {
 			this.isDelete.set(isDelete);
 		}
 	}
 
-	public class CheckBoxButtonTableCell<S, T> extends TableCell<S, T> {
-		private final CheckBox chebox;
-//		private ObservableValue<T> ov;
-
-		public CheckBoxButtonTableCell() {
-			this.chebox = new CheckBox();
-			// 添加元素
-			setGraphic(chebox);
-		}
-
-		@Override
-		protected void updateItem(T item, boolean empty) {
-			super.updateItem(item, empty);
-			if (empty) {
-				// 如果此列为空默认不添加元素
-				setText(null);
-				setGraphic(null);
-			} else {
-				// 初始化为不选中
-//				chebox.setSelected(false);
-				setGraphic(chebox);
-			}
-		}
-	}
 }

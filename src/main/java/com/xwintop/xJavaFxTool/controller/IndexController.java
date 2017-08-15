@@ -24,7 +24,7 @@ import javafx.scene.web.WebView;
 
 /**
  * @ClassName: IndexController
- * @Description: TODO
+ * @Description: 主页
  * @author: xufeng
  * @date: 2017年7月20日 下午1:50:00
  */
@@ -62,7 +62,6 @@ public class IndexController extends IndexView {
 				MenuItem menuItem = new MenuItem(title);
 				menuItem.setOnAction((ActionEvent event)->{
 					Tab tab = new Tab(title);
-					tab.setClosable(true);
 					FXMLLoader generatingCodeFXMLLoader = new FXMLLoader(getClass().getResource(url));
 					try {
 						tab.setContent(generatingCodeFXMLLoader.load());
@@ -83,7 +82,6 @@ public class IndexController extends IndexView {
 			@Override
 			public void accept(String t, String u) {
 				Tab tab = new Tab(t);
-				tab.setClosable(true);
 //				ResourceBundle resourceBundle = ResourceBundle.getBundle("locale.Menu", Locale.CHINA);
 //				FXMLLoader generatingCodeFXMLLoader = new FXMLLoader(getClass().getResource(u), resourceBundle);
 				FXMLLoader generatingCodeFXMLLoader = new FXMLLoader(getClass().getResource(u));
@@ -107,6 +105,7 @@ public class IndexController extends IndexView {
 					webEngine.load(IndexController.class.getResource(url).toExternalForm());
 					tab.setContent(browser);
 					tabPaneMain.getTabs().add(tab);
+					tabPaneMain.getSelectionModel().select(tab);
 				});
 				NetWorkToolsMenu.getItems().add(menuItem);
 			}

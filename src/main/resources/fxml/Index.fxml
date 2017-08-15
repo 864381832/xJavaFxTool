@@ -8,11 +8,11 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="491.0" prefWidth="754.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.IndexController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.IndexController">
 	<children>
-		<Button fx:id="myButton" layoutX="621.0" layoutY="3.0" mnemonicParsing="false" text="搜索" />
+		<Button fx:id="myButton" layoutX="644.0" layoutY="3.0" mnemonicParsing="false" text="搜索" />
 		<TextField fx:id="myTextField" layoutX="471.0" layoutY="3.0" />
-      <TabPane fx:id="tabPaneMain" layoutY="26.0" prefHeight="465.0" prefWidth="754.0" tabClosingPolicy="ALL_TABS" />
+      <TabPane fx:id="tabPaneMain" layoutY="26.0" prefHeight="572.0" prefWidth="900.0" tabClosingPolicy="ALL_TABS" />
       <MenuBar fx:id="mainMenuBar" layoutY="2.0" prefHeight="25.0" prefWidth="455.0">
         <menus>
           <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
