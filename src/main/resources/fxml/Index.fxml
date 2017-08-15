@@ -10,24 +10,23 @@
 
 <AnchorPane prefHeight="491.0" prefWidth="754.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.IndexController">
 	<children>
-		<Button fx:id="myButton" layoutX="540.0" mnemonicParsing="false" text="myButton" />
-		<TextField fx:id="myTextField" layoutX="348.0" layoutY="3.0" />
-      <TabPane fx:id="tabPaneMain" layoutY="26.0" prefHeight="465.0" prefWidth="754.0" tabClosingPolicy="UNAVAILABLE" />
-      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="235.0">
+		<Button fx:id="myButton" layoutX="621.0" layoutY="3.0" mnemonicParsing="false" text="搜索" />
+		<TextField fx:id="myTextField" layoutX="471.0" layoutY="3.0" />
+      <TabPane fx:id="tabPaneMain" layoutY="26.0" prefHeight="465.0" prefWidth="754.0" tabClosingPolicy="ALL_TABS" />
+      <MenuBar fx:id="mainMenuBar" layoutY="2.0" prefHeight="25.0" prefWidth="455.0">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+                  <MenuItem mnemonicParsing="false" onAction="#closeAllTabAction" text="closeAllTab" />
+              <MenuItem mnemonicParsing="false" onAction="#exitAction" text="Exit" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
+          <Menu fx:id="toolsMenu" mnemonicParsing="false" text="Tools" />
+            <Menu fx:id="moreToolsMenu" mnemonicParsing="false" text="More Tools" />
+            <Menu fx:id="NetWorkToolsMenu" mnemonicParsing="false" text="NetWork Tools" />
+          <Menu fx:id="helpMenu" mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem mnemonicParsing="false" onAction="#aboutAction" text="About" />
             </items>
           </Menu>
         </menus>

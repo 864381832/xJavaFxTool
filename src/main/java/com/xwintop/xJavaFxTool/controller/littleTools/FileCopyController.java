@@ -9,14 +9,12 @@ import java.util.function.Consumer;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
 
-import com.xwintop.xJavaFxTool.controller.littleTools.FileCopyController.TableBean;
 import com.xwintop.xJavaFxTool.utils.ConfigureUtil;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,16 +22,13 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBase;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.Callback;
@@ -82,7 +77,6 @@ public class FileCopyController implements Initializable {
 		initEvent();
 	}
 
-	@SuppressWarnings("unchecked")
 	private void initView() {
 		try {
 			PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(
@@ -323,7 +317,7 @@ public class FileCopyController implements Initializable {
 
 	public class CheckBoxButtonTableCell<S, T> extends TableCell<S, T> {
 		private final CheckBox chebox;
-		private ObservableValue<T> ov;
+//		private ObservableValue<T> ov;
 
 		public CheckBoxButtonTableCell() {
 			this.chebox = new CheckBox();
@@ -333,7 +327,6 @@ public class FileCopyController implements Initializable {
 
 		@Override
 		protected void updateItem(T item, boolean empty) {
-			System.out.println("empty：" + empty);
 			super.updateItem(item, empty);
 			if (empty) {
 				// 如果此列为空默认不添加元素

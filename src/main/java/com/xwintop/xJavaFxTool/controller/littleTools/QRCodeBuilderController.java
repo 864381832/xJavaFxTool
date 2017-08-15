@@ -1,8 +1,6 @@
 package com.xwintop.xJavaFxTool.controller.littleTools;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,10 +13,10 @@ import org.apache.commons.lang.StringUtils;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.melloware.jintellitype.HotkeyListener;
 import com.melloware.jintellitype.JIntellitype;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import com.xwintop.xJavaFxTool.Main;
 import com.xwintop.xJavaFxTool.utils.QRCodeUtil;
 import com.xwintop.xJavaFxTool.utils.ScreenShoter;
+import com.xwintop.xJavaFxTool.view.littleTools.QRCodeBuilderView;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 
@@ -28,42 +26,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
 
-public class QRCodeBuilderController implements Initializable {
-	@FXML
-	private Button builderButton;
-	@FXML
-	private Button snapshotButton;
-	@FXML
-	private TextField contentTextField;
-	@FXML
-	private ChoiceBox<String> codeFormatChoiceBox;
-	@FXML
-	private ImageView codeImageView;
-	@FXML
-	private ImageView codeImageView1;
-	@FXML
-	private ColorPicker onColorColorPicker;
-	@FXML
-	private ColorPicker offColorColorPicker;
-	@FXML
-	private ChoiceBox<ErrorCorrectionLevel> errorCorrectionLevelChoiceBox;
-	@FXML
-	private Button saveButton;
-	@FXML
-	private ChoiceBox<Integer> marginChoiceBox;
-	@FXML
-	private ChoiceBox<String> formatImageChoiceBox;
+public class QRCodeBuilderController extends QRCodeBuilderView{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -115,15 +82,15 @@ public class QRCodeBuilderController implements Initializable {
 			return;
 		}
 		try {
-			// Image image = QRCodeUtil.toImage(contentTextField.getText(),
-			// (int)
-			// codeImageView.getFitWidth(),
-			// (int) codeImageView.getFitHeight());
 			Image image = QRCodeUtil.toImage(contentTextField.getText(), (int) codeImageView.getFitWidth(),
 					(int) codeImageView.getFitHeight(), codeFormatChoiceBox.getValue(),
 					errorCorrectionLevelChoiceBox.getValue(), marginChoiceBox.getValue(), onColorColorPicker.getValue(),
 					offColorColorPicker.getValue(), formatImageChoiceBox.getValue());
 			codeImageView.setImage(image);
+			if(logoCheckBox.isSelected() && codeImageView1.getImage()!=null){
+				Image image1 = QRCodeUtil.encodeImgLogo(image, codeImageView1.getImage(),(int) logoSlider.getValue());
+				codeImageView.setImage(image1);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -154,6 +121,17 @@ public class QRCodeBuilderController implements Initializable {
 			ImageIO.write(SwingFXUtils.fromFXImage(codeImageView.getImage(), null), fileType[fileType.length - 1],
 					file);
 			TooltipUtil.showToast("保存图片成功,图片在："+file.getPath());
+		}
+	}
+	@FXML
+	private void logoAction(ActionEvent event) throws Exception {
+		File file = FileChooserUtil.chooseFile(new FileChooser.ExtensionFilter("All Images", "*.*"),
+				new FileChooser.ExtensionFilter("JPG", "*.jpg"), new FileChooser.ExtensionFilter("PNG", "*.png"),
+				new FileChooser.ExtensionFilter("gif", "*.gif"), new FileChooser.ExtensionFilter("jpeg", "*.jpeg"),
+				new FileChooser.ExtensionFilter("bmp", "*.bmp"));
+		if (file != null) {
+			Image image = SwingFXUtils.toFXImage(ImageIO.read(file),null);
+			codeImageView1.setImage(image);
 		}
 	}
 

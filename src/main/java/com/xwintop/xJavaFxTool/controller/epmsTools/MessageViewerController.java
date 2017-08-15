@@ -1,22 +1,17 @@
 package com.xwintop.xJavaFxTool.controller.epmsTools;
 
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 
 public class MessageViewerController implements Initializable {
 	@FXML

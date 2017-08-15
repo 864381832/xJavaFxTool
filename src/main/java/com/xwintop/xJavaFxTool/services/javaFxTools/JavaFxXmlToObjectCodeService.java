@@ -1,21 +1,11 @@
 package com.xwintop.xJavaFxTool.services.javaFxTools;
 
-import java.net.URL;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.tree.DefaultAttribute;
-
-import com.xwintop.xJavaFxTool.services.epmsTools.XmlToSqlService;
-
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 
 public class JavaFxXmlToObjectCodeService {
 	public static String xmlToCode(String xmlStr) throws Exception {
@@ -59,7 +49,7 @@ public class JavaFxXmlToObjectCodeService {
 			if("id".equals(rootAttr.getName())){
 //				@FXML
 //				private TextField textField1;
-				attrStrBuilder.append("@FXML\nprivate ");
+				attrStrBuilder.append("@FXML\npprotected ");
 				attrStrBuilder.append(root.getName()).append(" ");
 				attrStrBuilder.append(rootAttr.getValue()).append(";\n");
 			}else if("onAction".equals(rootAttr.getName())){

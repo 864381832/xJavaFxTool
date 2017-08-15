@@ -9,26 +9,20 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 
-import com.xwintop.xJavaFxTool.controller.littleTools.FileCopyController.TableBean;
+import com.xwintop.xcore.util.javafx.AlertUtil;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.MapValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Callback;
 
 public class RegexTesterController implements Initializable {
 	@FXML
@@ -77,6 +71,7 @@ public class RegexTesterController implements Initializable {
 		}
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void initView() throws Exception {
 		examplesTableColumn0.setCellValueFactory(new MapValueFactory("column0"));
 		examplesTableColumn1.setCellValueFactory(new MapValueFactory("column1"));
@@ -110,6 +105,7 @@ public class RegexTesterController implements Initializable {
 		String regexText = regexTextField.getText().trim();
 		String sourceText = sourceTextArea.getText().trim();
 		String replaceText = replaceTextField.getText();
+		matchTableView.getItems().clear();
 		Pattern p = null;
 		if (ignoreCaseCheckBox.isSelected()) {
 			p = Pattern.compile(regexText, Pattern.CASE_INSENSITIVE); // 不区分大小写
@@ -161,10 +157,14 @@ public class RegexTesterController implements Initializable {
 
 	@FXML
 	private void resetAction(ActionEvent event) {
-		
+		regexTextField.setText(null);
+		sourceTextArea.setText(null);
+		matchTextArea.setText(null);
+		matchTableView.getItems().clear();
 	}
 
 	@FXML
 	private void aboutRegularAction(ActionEvent event) {
+		AlertUtil.showInfoAlert("到底什么是正则表达式？","在编写处理字符串的程序或网页时，经常有查找符合某些复杂规则的字符串的需要。正则表达式就是用于描述这些规则的工具。换句话说，正则表达式就是记录文本规则的代码。");
 	}
 }

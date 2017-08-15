@@ -9,7 +9,6 @@ import java.util.ResourceBundle;
 
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

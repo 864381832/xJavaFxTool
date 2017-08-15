@@ -15,6 +15,7 @@ import org.apache.commons.lang.time.DateFormatUtils;
 import org.quartz.CronExpression;
 
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
+import com.xwintop.xJavaFxTool.view.littleTools.CronExpBuilderView;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 
 import javafx.beans.property.BooleanProperty;
@@ -23,197 +24,15 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 
-public class CronExpBuilderController implements Initializable {
-	@FXML
-	private TabPane mainTabPane;
-	@FXML
-	private Tab tabSecond;
-	@FXML
-	private RadioButton radioButtonSecond1;
-	@FXML
-	private ToggleGroup toggleGroupSecond;
-	@FXML
-	private RadioButton radioButtonSecond2;
-	@FXML
-	private Spinner<Integer> secondStart_0;
-	@FXML
-	private Spinner<Integer> secondEnd_0;
-	@FXML
-	private RadioButton radioButtonSecond3;
-	@FXML
-	private Spinner<Integer> secondStart_1;
-	@FXML
-	private Spinner<Integer> secondEnd_1;
-	@FXML
-	private RadioButton radioButtonSecond4;
-	@FXML
-	private Tab tabMinute;
-	@FXML
-	private RadioButton radioButtonMinute1;
-	@FXML
-	private ToggleGroup toggleGroupMinute;
-	@FXML
-	private RadioButton radioButtonMinute2;
-	@FXML
-	private Spinner<Integer> minuteStart_0;
-	@FXML
-	private Spinner<Integer> minuteEnd_0;
-	@FXML
-	private RadioButton radioButtonMinute3;
-	@FXML
-	private Spinner<Integer> minuteStart_1;
-	@FXML
-	private Spinner<Integer> minuteEnd_1;
-	@FXML
-	private RadioButton radioButtonMinute4;
-	@FXML
-	private Tab tabHour;
-	@FXML
-	private RadioButton radioButtonHour1;
-	@FXML
-	private ToggleGroup toggleGroupHour;
-	@FXML
-	private RadioButton radioButtonHour2;
-	@FXML
-	private Spinner<Integer> hourStart_0;
-	@FXML
-	private Spinner<Integer> hourEnd_0;
-	@FXML
-	private RadioButton radioButtonHour3;
-	@FXML
-	private Spinner<Integer> hourStart_1;
-	@FXML
-	private Spinner<Integer> hourEnd_1;
-	@FXML
-	private RadioButton radioButtonHour4;
-	@FXML
-	private Tab tabDay;
-	@FXML
-	private RadioButton radioButtonDay1;
-	@FXML
-	private ToggleGroup toggleGroupDay;
-	@FXML
-	private RadioButton radioButtonDay3;
-	@FXML
-	private Spinner<Integer> dayStart_0;
-	@FXML
-	private Spinner<Integer> dayEnd_0;
-	@FXML
-	private RadioButton radioButtonDay4;
-	@FXML
-	private Spinner<Integer> dayStart_1;
-	@FXML
-	private Spinner<Integer> dayEnd_1;
-	@FXML
-	private RadioButton radioButtonDay7;
-	@FXML
-	private RadioButton radioButtonDay2;
-	@FXML
-	private RadioButton radioButtonDay5;
-	@FXML
-	private Spinner<Integer> dayStart_2;
-	@FXML
-	private RadioButton radioButtonDay6;
-	@FXML
-	private Tab tabMonth;
-	@FXML
-	private RadioButton radioButtonMonth1;
-	@FXML
-	private ToggleGroup toggleGroupMonth;
-	@FXML
-	private RadioButton radioButtonMonth3;
-	@FXML
-	private Spinner<Integer> monthStart_0;
-	@FXML
-	private Spinner<Integer> monthEnd_0;
-	@FXML
-	private RadioButton radioButtonMonth4;
-	@FXML
-	private Spinner<Integer> monthStart_1;
-	@FXML
-	private Spinner<Integer> monthEnd_1;
-	@FXML
-	private RadioButton radioButtonMonth2;
-	@FXML
-	private RadioButton radioButtonMonth5;
-	@FXML
-	private Tab tabWeek;
-	@FXML
-	private RadioButton radioButtonWeek1;
-	@FXML
-	private ToggleGroup toggleGroupWeek;
-	@FXML
-	private RadioButton radioButtonWeek3;
-	@FXML
-	private Spinner<Integer> weekStart_0;
-	@FXML
-	private Spinner<Integer> weekEnd_0;
-	@FXML
-	private RadioButton radioButtonWeek4;
-	@FXML
-	private Spinner<Integer> weekStart_1;
-	@FXML
-	private Spinner<Integer> weekEnd_1;
-	@FXML
-	private RadioButton radioButtonWeek6;
-	@FXML
-	private RadioButton radioButtonWeek2;
-	@FXML
-	private Spinner<Integer> weekStart_2;
-	@FXML
-	private RadioButton radioButtonWeek5;
-	@FXML
-	private Tab tabYear;
-	@FXML
-	private RadioButton radioButtonYear1;
-	@FXML
-	private ToggleGroup toggleGroupYear;
-	@FXML
-	private RadioButton radioButtonYear3;
-	@FXML
-	private Spinner<Integer> yearStart_0;
-	@FXML
-	private Spinner<Integer> yearEnd_0;
-	@FXML
-	private RadioButton radioButtonYear2;
-	@FXML
-	private TextField jTF_Cron_Second;
-	@FXML
-	private TextField jTF_Cron_Minute;
-	@FXML
-	private TextField jTF_Cron_Hour;
-	@FXML
-	private TextField jTF_Cron_Day;
-	@FXML
-	private TextField jTF_Cron_Month;
-	@FXML
-	private TextField jTF_Cron_Week;
-	@FXML
-	private TextField jTF_Cron_Year;
-	@FXML
-	private TextField jTF_Cron_Exp;
-	@FXML
-	private Button button_Parse;
-	@FXML
-	private TextField jTF_Schedule_Start;
-	@FXML
-	private Button copyExpButton;
-	@FXML
-	private TextArea jTA_Schedule_Next;
-
+public class CronExpBuilderController extends CronExpBuilderView {
 	private CheckBox[] secondCheckBox = new CheckBox[60];
 	private CheckBox[] minuteCheckBox = new CheckBox[60];
 	private CheckBox[] hourCheckBox = new CheckBox[24];
@@ -321,13 +140,12 @@ public class CronExpBuilderController implements Initializable {
 	@SuppressWarnings("unchecked")
 	private void addSpinnerYearListener() throws Exception {
 		String checkType = "Year";
-		ToggleGroup toggleGroup = (ToggleGroup) FieldUtils.readDeclaredField(this, "toggleGroup" + checkType, true);
+		ToggleGroup toggleGroup = (ToggleGroup) FieldUtils.readField(this, "toggleGroup" + checkType, true);
 		String[] strings = new String[] { "Start_", "End_" };
 		for (int i = 0; i < 2; i++) {
 			final int ii = i;
-			Spinner<Integer> spinnerStart = (Spinner<Integer>) CronExpBuilderController.class
-					.getDeclaredField(checkType.toLowerCase() + strings[i % 2] + (i / 2))
-					.get(CronExpBuilderController.this);
+			Spinner<Integer> spinnerStart = (Spinner<Integer>) FieldUtils.readField(this,
+					checkType.toLowerCase() + strings[i % 2] + (i / 2), true);
 			spinnerStart.getEditor().textProperty().addListener(new ChangeListener<String>() {
 				@Override
 				public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -340,13 +158,12 @@ public class CronExpBuilderController implements Initializable {
 
 	@SuppressWarnings("unchecked")
 	private void addSpinnerListener(String checkType) throws Exception {
-		ToggleGroup toggleGroup = (ToggleGroup) FieldUtils.readDeclaredField(this, "toggleGroup" + checkType, true);
+		ToggleGroup toggleGroup = (ToggleGroup) FieldUtils.readField(this, "toggleGroup" + checkType, true);
 		String[] strings = new String[] { "Start_", "End_" };
 		for (int i = 0; i < 4; i++) {
 			final int ii = i;
-			Spinner<Integer> spinnerStart = (Spinner<Integer>) CronExpBuilderController.class
-					.getDeclaredField(checkType.toLowerCase() + strings[i % 2] + (i / 2))
-					.get(CronExpBuilderController.this);
+			Spinner<Integer> spinnerStart = (Spinner<Integer>) FieldUtils.readField(this,
+					checkType.toLowerCase() + strings[i % 2] + (i / 2), true);
 			spinnerStart.getEditor().textProperty().addListener(new ChangeListener<String>() {
 				@Override
 				public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -356,8 +173,8 @@ public class CronExpBuilderController implements Initializable {
 			});
 		}
 		if ("Day".equals(checkType) || "Week".equals(checkType)) {
-			Spinner<Integer> spinnerStart2 = (Spinner<Integer>) CronExpBuilderController.class
-					.getDeclaredField(checkType.toLowerCase() + "Start_2").get(CronExpBuilderController.this);
+			Spinner<Integer> spinnerStart2 = (Spinner<Integer>) FieldUtils.readField(this,
+					checkType.toLowerCase() + "Start_2", true);
 			spinnerStart2.getEditor().textProperty().addListener(new ChangeListener<String>() {
 				@Override
 				public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -371,7 +188,7 @@ public class CronExpBuilderController implements Initializable {
 	// 单独添加年RadioButton监听事件
 	private void addRadioButtonYearListener() throws Exception {
 		String checkType = "Year";
-		ToggleGroup toggleGroup = (ToggleGroup) FieldUtils.readDeclaredField(this, "toggleGroup" + checkType, true);
+		ToggleGroup toggleGroup = (ToggleGroup) FieldUtils.readField(this, "toggleGroup" + checkType, true);
 		for (Toggle toggle : toggleGroup.getToggles()) {
 			((RadioButton) toggle).selectedProperty().addListener(new ChangeListener<Boolean>() {
 				@SuppressWarnings("unchecked")
@@ -386,17 +203,16 @@ public class CronExpBuilderController implements Initializable {
 						if (radioButton == toggleGroup.getToggles().get(0)) {
 							textField.setText("");
 						} else if (radioButton == toggleGroup.getToggles().get(1)) {
-							Spinner<Integer> spinnerStart = (Spinner<Integer>) FieldUtils.readDeclaredField(
+							Spinner<Integer> spinnerStart = (Spinner<Integer>) FieldUtils.readField(
 									CronExpBuilderController.this, checkType.toLowerCase() + "Start_0", true);
-							Spinner<Integer> spinnerEnd = (Spinner<Integer>) FieldUtils.readDeclaredField(
-									CronExpBuilderController.this, checkType.toLowerCase() + "End_0", true);
+							Spinner<Integer> spinnerEnd = (Spinner<Integer>) FieldUtils
+									.readField(CronExpBuilderController.this, checkType.toLowerCase() + "End_0", true);
 							String string = spinnerStart.getValue() + "-" + spinnerEnd.getValue();
 							textField.setText(string);
 						} else if (radioButton == toggleGroup.getToggles().get(2)) {
 							textField.setText("*");
 						}
 					} catch (Exception e) {
-						// TODO: handle exception
 					}
 				}
 			});
@@ -406,7 +222,7 @@ public class CronExpBuilderController implements Initializable {
 	// 添加RadioButton监听事件
 	private void addRadioButtonListener(String checkType) throws Exception {
 		String checkTypeLowerCase = checkType.toLowerCase();
-		ToggleGroup toggleGroup = (ToggleGroup) FieldUtils.readDeclaredField(this, "toggleGroup" + checkType, true);
+		ToggleGroup toggleGroup = (ToggleGroup) FieldUtils.readField(this, "toggleGroup" + checkType, true);
 		toggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
 			@SuppressWarnings("unchecked")
 			@Override
@@ -416,7 +232,7 @@ public class CronExpBuilderController implements Initializable {
 				}
 				RadioButton radioButton = (RadioButton) newValue;
 				try {
-					TextField textField = (TextField) FieldUtils.readDeclaredField(CronExpBuilderController.this,
+					TextField textField = (TextField) FieldUtils.readField(CronExpBuilderController.this,
 							"jTF_Cron_" + checkType, true);
 					// if(radioButton.getId().equals("radioButton" +
 					// checkType + "1")){
@@ -424,20 +240,20 @@ public class CronExpBuilderController implements Initializable {
 						textField.setText("*");
 					} else if (radioButton == toggleGroup.getToggles().get(1)) {
 						Spinner<Integer> spinnerStart = (Spinner<Integer>) FieldUtils
-								.readDeclaredField(CronExpBuilderController.this, checkTypeLowerCase + "Start_0", true);
+								.readField(CronExpBuilderController.this, checkTypeLowerCase + "Start_0", true);
 						Spinner<Integer> spinnerEnd = (Spinner<Integer>) FieldUtils
-								.readDeclaredField(CronExpBuilderController.this, checkTypeLowerCase + "End_0", true);
+								.readField(CronExpBuilderController.this, checkTypeLowerCase + "End_0", true);
 						String string = spinnerStart.getEditor().getText() + "-" + spinnerEnd.getEditor().getText();
 						textField.setText(string);
 					} else if (radioButton == toggleGroup.getToggles().get(2)) {
 						Spinner<Integer> spinnerStart = (Spinner<Integer>) FieldUtils
-								.readDeclaredField(CronExpBuilderController.this, checkTypeLowerCase + "Start_1", true);
+								.readField(CronExpBuilderController.this, checkTypeLowerCase + "Start_1", true);
 						Spinner<Integer> spinnerEnd = (Spinner<Integer>) FieldUtils
-								.readDeclaredField(CronExpBuilderController.this, checkTypeLowerCase + "End_1", true);
+								.readField(CronExpBuilderController.this, checkTypeLowerCase + "End_1", true);
 						String string = spinnerStart.getEditor().getText() + "/" + spinnerEnd.getEditor().getText();
 						textField.setText(string);
 					} else if (radioButton == toggleGroup.getToggles().get(toggleGroup.getToggles().size() - 1)) {
-						CheckBox[] checkBoxs = (CheckBox[]) FieldUtils.readDeclaredField(CronExpBuilderController.this,
+						CheckBox[] checkBoxs = (CheckBox[]) FieldUtils.readField(CronExpBuilderController.this,
 								checkTypeLowerCase + "CheckBox", true);
 						List<Integer> strList = new ArrayList<Integer>();
 						for (int i = 0; i < checkBoxs.length; i++) {
@@ -457,8 +273,8 @@ public class CronExpBuilderController implements Initializable {
 						}
 					} else if (radioButton == toggleGroup.getToggles().get(4)) {
 						if ("Day".equals(checkType) || "Week".equals(checkType)) {
-							Spinner<Integer> spinnerStart = (Spinner<Integer>) FieldUtils.readDeclaredField(
-									CronExpBuilderController.this, checkTypeLowerCase + "Start_2", true);
+							Spinner<Integer> spinnerStart = (Spinner<Integer>) FieldUtils
+									.readField(CronExpBuilderController.this, checkTypeLowerCase + "Start_2", true);
 							if ("Day".equals(checkType)) {
 								textField.setText(spinnerStart.getEditor().getText() + "W");
 							} else if ("Week".equals(checkType)) {
@@ -479,8 +295,7 @@ public class CronExpBuilderController implements Initializable {
 
 	// 添加指定CheckBox选中监听事件
 	private void addCheckBoxListener(String checkType) throws Exception {
-		CheckBox[] checkBoxs = (CheckBox[]) FieldUtils.readDeclaredField(this, checkType.toLowerCase() + "CheckBox",
-				true);
+		CheckBox[] checkBoxs = (CheckBox[]) FieldUtils.readField(this, checkType.toLowerCase() + "CheckBox", true);
 		for (int i = 0; i < checkBoxs.length; i++) {
 			checkBoxs[i].selectedProperty().addListener(new ChangeListener<Boolean>() {
 				@Override
@@ -492,10 +307,10 @@ public class CronExpBuilderController implements Initializable {
 								strList.add(Integer.valueOf(checkBoxs[i].getText().trim()));
 							}
 						}
-						TextField textField = (TextField) FieldUtils.readDeclaredField(CronExpBuilderController.this,
+						TextField textField = (TextField) FieldUtils.readField(CronExpBuilderController.this,
 								"jTF_Cron_" + checkType, true);
-						ToggleGroup toggleGroup = (ToggleGroup) FieldUtils
-								.readDeclaredField(CronExpBuilderController.this, "toggleGroup" + checkType, true);
+						ToggleGroup toggleGroup = (ToggleGroup) FieldUtils.readField(CronExpBuilderController.this,
+								"toggleGroup" + checkType, true);
 						if (strList.isEmpty()) {
 							textField.setText("*");
 							toggleGroup.selectToggle(toggleGroup.getToggles().get(0));
@@ -575,8 +390,8 @@ public class CronExpBuilderController implements Initializable {
 			jTF_Schedule_Start.setText(DateFormatUtils.format(dd, "yyyy-MM-dd HH:mm:ss"));
 			for (int i = 1; i <= 6; i++) {
 				dd = exp.getNextValidTimeAfter(dd);
-				jTA_Schedule_Next.appendText(i + ": " + DateFormatUtils.format(dd, "yyyy-MM-dd HH:mm:ss")+"\t\t");
-				if(i%2 == 0){
+				jTA_Schedule_Next.appendText(i + ": " + DateFormatUtils.format(dd, "yyyy-MM-dd HH:mm:ss") + "\t\t");
+				if (i % 2 == 0) {
 					jTA_Schedule_Next.appendText("\n");
 				}
 				dd = new java.util.Date(dd.getTime() + 1000);
@@ -594,39 +409,38 @@ public class CronExpBuilderController implements Initializable {
 	@SuppressWarnings("unchecked")
 	private void initObj(String strVal, String checkType) throws Exception {
 		String checkTypeLowerCase = checkType.toLowerCase();
-		ToggleGroup toggleGroup = (ToggleGroup) FieldUtils.readDeclaredField(this, "toggleGroup" + checkType, true);
+		ToggleGroup toggleGroup = (ToggleGroup) FieldUtils.readField(this, "toggleGroup" + checkType, true);
 		if ("*".equals(strVal)) {
 			toggleGroup.selectToggle(toggleGroup.getToggles().get(0));
 		} else if (strVal.contains("-")) {
 			String[] ary = strVal.split("-");
-			((Spinner<Integer>) FieldUtils.readDeclaredField(this, checkTypeLowerCase + "Start_0", true)).getEditor()
+			((Spinner<Integer>) FieldUtils.readField(this, checkTypeLowerCase + "Start_0", true)).getEditor()
 					.setText(ary[0]);
-			((Spinner<Integer>) FieldUtils.readDeclaredField(this, checkTypeLowerCase + "End_0", true)).getEditor()
+			((Spinner<Integer>) FieldUtils.readField(this, checkTypeLowerCase + "End_0", true)).getEditor()
 					.setText(ary[1]);
 		} else if (strVal.contains("/")) {
 			String[] ary = strVal.split("/");
-			((Spinner<Integer>) FieldUtils.readDeclaredField(this, checkTypeLowerCase + "Start_1", true)).getEditor()
+			((Spinner<Integer>) FieldUtils.readField(this, checkTypeLowerCase + "Start_1", true)).getEditor()
 					.setText(ary[0]);
-			((Spinner<Integer>) FieldUtils.readDeclaredField(this, checkTypeLowerCase + "End_1", true)).getEditor()
+			((Spinner<Integer>) FieldUtils.readField(this, checkTypeLowerCase + "End_1", true)).getEditor()
 					.setText(ary[1]);
 		} else if (("Day".equals(checkType) || "Month".equals(checkType) || "Week".equals(checkType))
 				&& "?".equals(strVal)) {
 			toggleGroup.selectToggle(toggleGroup.getToggles().get(3));
 		} else if ("Day".equals(checkType) && strVal.contains("W")) {
 			String[] ary = strVal.split("W");
-			((Spinner<Integer>) FieldUtils.readDeclaredField(this, checkTypeLowerCase + "Start_2", true)).getEditor()
+			((Spinner<Integer>) FieldUtils.readField(this, checkTypeLowerCase + "Start_2", true)).getEditor()
 					.setText(ary[0]);
 		} else if ("Day".equals(checkType) && "L".equals(strVal)) {
 			toggleGroup.selectToggle(toggleGroup.getToggles().get(5));
 		} else if ("Week".equals(checkType) && strVal.contains("L")) {
 			String[] ary = strVal.split("L");
-			((Spinner<Integer>) FieldUtils.readDeclaredField(this, checkTypeLowerCase + "Start_2", true)).getEditor()
+			((Spinner<Integer>) FieldUtils.readField(this, checkTypeLowerCase + "Start_2", true)).getEditor()
 					.setText(ary[0]);
 		} else {
 			if (!"?".equals(strVal)) {
 				String[] ary = strVal.split(",");
-				CheckBox[] checkBox = (CheckBox[]) FieldUtils.readDeclaredField(this, checkTypeLowerCase + "CheckBox",
-						true);
+				CheckBox[] checkBox = (CheckBox[]) FieldUtils.readField(this, checkTypeLowerCase + "CheckBox", true);
 				int addInt = "00".equals(checkBox[0].getText()) ? 0 : 1;
 				for (int i = 0; i < checkBox.length; i++) {
 					checkBox[i].setSelected(false);
