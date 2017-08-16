@@ -18,7 +18,10 @@
 		<TextField fx:id="contentTextField" layoutX="58.0" layoutY="17.0" prefHeight="23.0" prefWidth="367.0" />
 		<ImageView fx:id="codeImageView" fitHeight="320.0" fitWidth="320.0" layoutX="24.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="codeImageView1" fitHeight="320.0" fitWidth="320.0" layoutX="361.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="snapshotButton" layoutX="609.0" layoutY="17.0" mnemonicParsing="false" onAction="#snapshotAction" text="截图识别" />
+      <Button fx:id="snapshotButton" layoutX="609.0" layoutY="17.0" mnemonicParsing="false" onAction="#snapshotAction" text="截图识别">
+         <tooltip>
+            <Tooltip text="试试alt+s快捷键截图" />
+         </tooltip></Button>
       <ColorPicker fx:id="onColorColorPicker" layoutX="72.0" layoutY="53.0" prefHeight="23.0" prefWidth="78.0" />
       <Label layoutX="23.0" layoutY="57.0" text="前景色：" />
       <Label layoutX="160.0" layoutY="57.0" text="背景色：" />

@@ -46,6 +46,7 @@
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.5.5</version>
 				<configuration>
+					<appendAssemblyId>false</appendAssemblyId>
 					<skipTests>true</skipTests>
 					<archive>
 						<manifest>
