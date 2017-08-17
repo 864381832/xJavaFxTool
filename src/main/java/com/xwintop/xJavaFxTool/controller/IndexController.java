@@ -54,6 +54,7 @@ public class IndexController extends IndexView {
 		map.put("身份证生成器", "/fxml/codeTools/IdCardGenerator.fxml");
 		map.put("正则表达式生成工具", "/fxml/codeTools/RegexTester.fxml");
 		map.put("网址缩短", "/fxml/webTools/ShortURL.fxml");
+		map.put("转义字符", "/fxml/codeTools/EscapeCharacter.fxml");
 
 		Map<String, String> webMap = new HashMap<String, String>();
 		webMap.put("Cron表达式生成器Html版", "/web/littleTools/cron/index.htm");
@@ -79,7 +80,7 @@ public class IndexController extends IndexView {
 
 		Map<String, String> openMap = new HashMap<String, String>();
 		openMap.put("javaFx转换", "/fxml/javaFxTools/JavaFxXmlToObjectCode.fxml");
-		openMap.put("网址缩短", "/fxml/webTools/ShortURL.fxml");
+		openMap.put("转义字符", "/fxml/codeTools/EscapeCharacter.fxml");
 		openMap.forEach(new BiConsumer<String, String>() {
 			@Override
 			public void accept(String t, String u) {
