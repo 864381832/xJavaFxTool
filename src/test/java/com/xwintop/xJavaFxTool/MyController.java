@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 
 public class MyController implements Initializable {
@@ -19,12 +20,13 @@ public class MyController implements Initializable {
 
 	@FXML
 	private TextField myTextField;
-
+	@FXML
+	private Slider testJFXSlider;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
 		// TODO (don't really need to do anything here).
-
+		System.out.println(testJFXSlider.getValue());
 	}
 
 	// When user click on myButton

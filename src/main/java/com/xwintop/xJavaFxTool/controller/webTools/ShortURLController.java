@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import com.xwintop.xJavaFxTool.services.webTools.ShortURLService;
 import com.xwintop.xJavaFxTool.view.webTools.ShortURLView;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -21,8 +22,7 @@ import javafx.scene.control.ToggleGroup;
 
 public class ShortURLController extends ShortURLView {
 
-	private String[] shortURLService = new String[] { "百度", "新浪" };
-	private RadioButton[] shortSiteRadioButtons = new RadioButton[60];
+	private String[] shortURLService = new String[] { "百度", "新浪","缩我" };
 	private Map<String, String> shortSiteMap = new HashMap<String, String>();
 	private ToggleGroup shortSiteToggleGroup = new ToggleGroup();
 
@@ -36,22 +36,25 @@ public class ShortURLController extends ShortURLView {
 		longURLTextField.setText("http://www.baidu.com");
 		shortURLServiceChoiceBox.getItems().addAll(shortURLService);
 		shortURLServiceChoiceBox.setValue(shortURLServiceChoiceBox.getItems().get(0));
-		resultTextArea.setText("说明：" + "\n1，百度短网址API：http://www.baidu.com/search/dwz.html"
-				+ "\n2，新浪短网址API：新浪短网址http://t.cn/需要授权才可使用，此处转换中不列出，详细API说明如下："
-				+ "\n                                http://open.weibo.com/wiki/2/short_url/shorten"
-				+ "\n                                http://open.weibo.com/wiki/2/short_url/expand");
+		StringBuffer stringBuffer = new StringBuffer();
+		stringBuffer.append("说明：\n1、百度短网址API：http://www.baidu.com/search/dwz.html\n");
+		stringBuffer.append("2、新浪短网址API：新浪短网址http://t.cn/需要授权才可使用，此处转换中不列出，详细API说明如下：\n");
+		stringBuffer.append("                                http://open.weibo.com/wiki/2/short_url/shorten\n");
+		stringBuffer.append("                                http://open.weibo.com/wiki/2/short_url/expand\n");
+		stringBuffer.append("3、缩我短网址：http://www.suo.im\n");
+		resultTextArea.setText(stringBuffer.toString());
 	}
 
 	private void initEvent() {
 		shortURLServiceChoiceBox.valueProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if(shortURLService[0].equals(newValue)) {
-					for(int i=0;i<60;i++) {
-						
-					}
-					
-				}else if(shortURLService[1].equals(newValue)) {
+				mainAnchorPane.getChildren().removeAll(shortSiteToggleGroup.getToggles());
+				revertButton.setDisable(false);
+				aliasUrlCheckBox.setDisable(true);
+				if(shortURLService[0].equals(newValue)) {//百度http://dwz.cn
+					aliasUrlCheckBox.setDisable(false);
+				}else if(shortURLService[1].equals(newValue)) {//新浪http://sina.lt
 					shortSiteMap.clear();
 					shortSiteMap.put("sina.lt", "sinalt");
 					shortSiteMap.put("t.cn", "sina");
@@ -64,17 +67,18 @@ public class ShortURLController extends ShortURLView {
 					shortSiteMap.put("j.mp", "jmp");
 					shortSiteMap.put("bit.ly", "bitly");
 					int i = 0;
-					for(String key:shortSiteMap.keySet()) {
-						shortSiteRadioButtons[i] = new RadioButton(key);
-						shortSiteRadioButtons[i].setLayoutX(13+80*i);
-						shortSiteRadioButtons[i].setLayoutY(114);
-						shortSiteRadioButtons[i].setToggleGroup(shortSiteToggleGroup);
-						if(i == 0) {
-							shortSiteRadioButtons[i].setSelected(true);
-						}
-						mainAnchorPane.getChildren().add(shortSiteRadioButtons[i]);
+					for(Map.Entry<String, String> entry:shortSiteMap.entrySet()) {
+						RadioButton shortSiteRadioButtons = new RadioButton(entry.getKey());
+						shortSiteRadioButtons.setUserData(entry.getValue());
+						shortSiteRadioButtons.setLayoutX(13+80*i);
+						shortSiteRadioButtons.setLayoutY(114);
+						shortSiteRadioButtons.setToggleGroup(shortSiteToggleGroup);
+						mainAnchorPane.getChildren().add(shortSiteRadioButtons);
 						i++;
 					}
+					shortSiteToggleGroup.selectToggle(shortSiteToggleGroup.getToggles().get(0));
+				}else if(shortURLService[2].equals(newValue)) {//缩我http://www.suo.im
+					revertButton.setDisable(true);
 				}
 			}
 		});
@@ -93,6 +97,9 @@ public class ShortURLController extends ShortURLView {
 		if(StringUtils.isEmpty(longUrlText)) {
 			return;
 		}
+		Platform.runLater(()->{
+			convertButton.setDisable(true);
+		});
 		shortURLTextField.setText(null);
 		if(shortURLService[0].equals(shortURLServiceType)) {
 			String shortURL = null;
@@ -104,10 +111,16 @@ public class ShortURLController extends ShortURLView {
 			shortURLTextField.setText(shortURL);
 		}else if(shortURLService[1].equals(shortURLServiceType)) {
 			String shortURL = null;
-			String site = shortSiteMap.get(((RadioButton) shortSiteToggleGroup.getSelectedToggle()).getText());
+			String site = shortSiteToggleGroup.getSelectedToggle().getUserData().toString();
 			shortURL = ShortURLService.sinaToShort(longUrlText,site);
 			shortURLTextField.setText(shortURL);
+		}else if(shortURLService[2].equals(shortURLServiceType)) {
+			String shortURL = ShortURLService.suoImToShort(longUrlText);
+			shortURLTextField.setText(shortURL);
 		}
+		Platform.runLater(()->{
+			convertButton.setDisable(false);
+		});
 	}
 
 	@FXML
@@ -126,6 +139,9 @@ public class ShortURLController extends ShortURLView {
 		longURLTextField.setText(null);
 		if(shortURLService[0].equals(shortURLServiceType)) {
 			String shortURL = ShortURLService.baiduToLongURL(shortUrlText);
+			longURLTextField.setText(shortURL);
+		}else if(shortURLService[1].equals(shortURLServiceType)) {
+			String shortURL = ShortURLService.sinaToLongURL(shortUrlText);
 			longURLTextField.setText(shortURL);
 		}
 	}

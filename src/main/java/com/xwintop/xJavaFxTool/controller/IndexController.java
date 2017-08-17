@@ -11,6 +11,7 @@ import com.xwintop.xJavaFxTool.view.IndexView;
 import com.xwintop.xcore.util.javafx.AlertUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -29,6 +30,7 @@ import javafx.scene.web.WebView;
  * @date: 2017年7月20日 下午1:50:00
  */
 public class IndexController extends IndexView {
+	private Map<String, String> map = new HashMap<String, String>();
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -36,9 +38,8 @@ public class IndexController extends IndexView {
 		initView();
 		initEvent();
 	}
-	
-	private void initView(){
-		Map<String,String> map = new HashMap<String,String>();
+
+	private void initView() {
 		map.put("javaFx转换", "/fxml/javaFxTools/JavaFxXmlToObjectCode.fxml");
 		map.put("epms转换", "/fxml/epmsTools/GeneratingCode.fxml");
 		map.put("epms调试工具", "/fxml/epmsTools/DebugEpms.fxml");
@@ -53,15 +54,15 @@ public class IndexController extends IndexView {
 		map.put("身份证生成器", "/fxml/codeTools/IdCardGenerator.fxml");
 		map.put("正则表达式生成工具", "/fxml/codeTools/RegexTester.fxml");
 		map.put("网址缩短", "/fxml/webTools/ShortURL.fxml");
-		
-		Map<String,String> webMap = new HashMap<String,String>();
+
+		Map<String, String> webMap = new HashMap<String, String>();
 		webMap.put("Cron表达式生成器Html版", "/web/littleTools/cron/index.htm");
-		
-		map.forEach(new BiConsumer<String,String>() {
+
+		map.forEach(new BiConsumer<String, String>() {
 			@Override
 			public void accept(String title, String url) {
 				MenuItem menuItem = new MenuItem(title);
-				menuItem.setOnAction((ActionEvent event)->{
+				menuItem.setOnAction((ActionEvent event) -> {
 					Tab tab = new Tab(title);
 					FXMLLoader generatingCodeFXMLLoader = new FXMLLoader(getClass().getResource(url));
 					try {
@@ -75,16 +76,18 @@ public class IndexController extends IndexView {
 				toolsMenu.getItems().add(menuItem);
 			}
 		});
-		
-		Map<String,String> openMap = new HashMap<String,String>();
+
+		Map<String, String> openMap = new HashMap<String, String>();
 		openMap.put("javaFx转换", "/fxml/javaFxTools/JavaFxXmlToObjectCode.fxml");
 		openMap.put("网址缩短", "/fxml/webTools/ShortURL.fxml");
-		openMap.forEach(new BiConsumer<String,String>() {
+		openMap.forEach(new BiConsumer<String, String>() {
 			@Override
 			public void accept(String t, String u) {
 				Tab tab = new Tab(t);
-//				ResourceBundle resourceBundle = ResourceBundle.getBundle("locale.Menu", Locale.CHINA);
-//				FXMLLoader generatingCodeFXMLLoader = new FXMLLoader(getClass().getResource(u), resourceBundle);
+				// ResourceBundle resourceBundle =
+				// ResourceBundle.getBundle("locale.Menu", Locale.CHINA);
+				// FXMLLoader generatingCodeFXMLLoader = new
+				// FXMLLoader(getClass().getResource(u), resourceBundle);
 				FXMLLoader generatingCodeFXMLLoader = new FXMLLoader(getClass().getResource(u));
 				try {
 					tab.setContent(generatingCodeFXMLLoader.load());
@@ -94,12 +97,12 @@ public class IndexController extends IndexView {
 				tabPaneMain.getTabs().add(tab);
 			}
 		});
-		
-		webMap.forEach(new BiConsumer<String,String>() {
+
+		webMap.forEach(new BiConsumer<String, String>() {
 			@Override
 			public void accept(String title, String url) {
 				MenuItem menuItem = new MenuItem(title);
-				menuItem.setOnAction((ActionEvent event)->{
+				menuItem.setOnAction((ActionEvent event) -> {
 					Tab tab = new Tab(title);
 					WebView browser = new WebView();
 					WebEngine webEngine = browser.getEngine();
@@ -112,21 +115,22 @@ public class IndexController extends IndexView {
 			}
 		});
 	}
-	private void initEvent(){
+
+	private void initEvent() {
 		myTextField.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				
+
 			}
 		});
 		myButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
 				myButtonAction(arg0);
-//				TooltipUtil.showToast(myButton,"test");
+				// TooltipUtil.showToast(myButton,"test");
 				TooltipUtil.showToast(myTextField.getText());
-//				TooltipUtil.showToast("test",Pos.BOTTOM_RIGHT);
-//				JOptionPane.showMessageDialog(null, "test");
+				// TooltipUtil.showToast("test",Pos.BOTTOM_RIGHT);
+				// JOptionPane.showMessageDialog(null, "test");
 			}
 		});
 	}
@@ -134,25 +138,42 @@ public class IndexController extends IndexView {
 	// When user click on myButton
 	// this method will be called.
 	public void myButtonAction(ActionEvent event) {
-		for(MenuItem menuItem:toolsMenu.getItems()){
-			if(menuItem.getText().contains(myTextField.getText())){
+		for (MenuItem menuItem : toolsMenu.getItems()) {
+			if (menuItem.getText().contains(myTextField.getText())) {
 				menuItem.fire();
 			}
 		}
 	}
-	
+
 	@FXML
-	private void exitAction(ActionEvent event){
-		System.exit(0);
+	private void exitAction(ActionEvent event) {
+		Platform.exit();
 	}
-	
+
 	@FXML
-	private void closeAllTabAction(ActionEvent event){
+	private void closeAllTabAction(ActionEvent event) {
 		tabPaneMain.getTabs().clear();
 	}
 
 	@FXML
-	private void aboutAction(ActionEvent event){
+	private void openAllTabAction(ActionEvent event) {
+		map.forEach(new BiConsumer<String, String>() {
+			@Override
+			public void accept(String title, String url) {
+				Tab tab = new Tab(title);
+				FXMLLoader generatingCodeFXMLLoader = new FXMLLoader(getClass().getResource(url));
+				try {
+					tab.setContent(generatingCodeFXMLLoader.load());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				tabPaneMain.getTabs().add(tab);
+			}
+		});
+	}
+
+	@FXML
+	private void aboutAction(ActionEvent event) {
 		AlertUtil.showInfoAlert("欢迎使用JavaFx工具集合。");
 	}
 }

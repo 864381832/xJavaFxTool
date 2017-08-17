@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="240.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <bottom>
+        <fx:include source="actionBar.fxml"/>
+    </bottom>
+    <center>
+        <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
+            <children>
+                <Label text="This is the second step.">
+                    <StackPane.margin>
+                        <Insets bottom="32.0" left="32.0" right="32.0" top="32.0"/>
+                    </StackPane.margin>
+                    <font>
+                        <Font size="24.0"/>
+                    </font>
+                </Label>
+            </children>
+        </StackPane>
+    </center>
+</BorderPane>

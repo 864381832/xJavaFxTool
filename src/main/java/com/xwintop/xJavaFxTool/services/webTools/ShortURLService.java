@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang.StringUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -77,6 +78,53 @@ public class ShortURLService {
 				shortURL = jsonObject.getJSONObject("data").getString("short_url");
 			}else {
 				shortURL = jsonObject.getString("data");
+			}
+			System.out.println(data);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return shortURL;
+	}
+	
+	/**
+	 * 新浪短网址还原.
+	 */
+	public static String sinaToLongURL(String longURL) {
+		String shortURL = "转换错误";
+		try {
+			StringBuffer url= new StringBuffer("http://dwz.wailian.work/api.php?");
+			url.append("url=").append(Base64.encodeBase64String(longURL.getBytes()));
+			url.append("&action=restore");
+			System.out.println(url.toString());
+			String refererUrl = "http://dwz.wailian.work/restore.php";
+			String data = HttpClientUtil.getHttpDataAsUTF_8(url.toString(), refererUrl);
+			JSONObject jsonObject = JSON.parseObject(data);
+			if("ok".equals(jsonObject.getString("result"))) {
+				shortURL = jsonObject.getJSONObject("data").getString("short_url");
+			}else {
+				shortURL = jsonObject.getString("data");
+			}
+			System.out.println(data);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return shortURL;
+	}
+	
+	/**
+	 * 缩我转换为短网址http://www.suo.im
+	 */
+	public static String suoImToShort(String longURL) {
+		String shortURL = "转换错误";
+		try {
+			String url= "http://suo.im/api.php?format=json&url="+longURL;
+			String refererUrl = "http://www.suo.im/";
+			String data = HttpClientUtil.getHttpDataAsUTF_8(url, refererUrl);
+			JSONObject jsonObject = JSON.parseObject(data);
+			if(StringUtils.isEmpty(jsonObject.getString("err"))) {
+				shortURL = jsonObject.getString("url");
+			}else {
+				shortURL = jsonObject.getString("err");
 			}
 			System.out.println(data);
 		} catch (Exception e) {

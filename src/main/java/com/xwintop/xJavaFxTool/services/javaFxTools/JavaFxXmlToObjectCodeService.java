@@ -7,8 +7,6 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.tree.DefaultAttribute;
 
-import com.xwintop.xJavaFxTool.view.webTools.ShortURLView;
-
 public class JavaFxXmlToObjectCodeService {
 	public static String[] xmlToCode(String xmlStr) throws Exception {
 		StringBuilder attrStrBuilder = new StringBuilder();// 创建属性值获取
@@ -61,6 +59,7 @@ public class JavaFxXmlToObjectCodeService {
 		return new String[]{controllerClassStrBuilder.toString(),classStrBuilder.toString()};
 	}
 
+	@SuppressWarnings("unchecked")
 	private static void getCodeByElement(Element root,StringBuilder attrStrBuilder,StringBuilder funStrBuilder,StringBuilder classNameStrBuilder) {
 		List<DefaultAttribute> rootAttrList = root.attributes();
 		for (DefaultAttribute rootAttr : rootAttrList) {

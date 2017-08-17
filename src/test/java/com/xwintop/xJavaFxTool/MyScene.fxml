@@ -1,16 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXSlider?>
+<?import com.jfoenix.controls.JFXSnackbar?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTimePicker?>
+<?import com.jfoenix.controls.JFXToggleButton?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="401.0" prefWidth="269.0"
-	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="com.xwintop.xJavaFxTool.MyController">
+<AnchorPane prefHeight="460.0" prefWidth="749.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.MyController">
 	<children>
-		<Button fx:id="myButton" layoutX="90.0" layoutY="31.0"
-			mnemonicParsing="false" onAction="#showDateTime" text="myButton" />
+		<Button fx:id="myButton" layoutX="90.0" layoutY="31.0" mnemonicParsing="false" onAction="#showDateTime" text="myButton" />
 		<TextField fx:id="myTextField" layoutX="57.0" layoutY="103.0" />
+      <JFXSnackbar layoutX="131.0" layoutY="271.0" prefWidth="138.0" />
+      <JFXTimePicker layoutX="35.0" layoutY="231.0" />
+      <JFXDatePicker layoutX="35.0" layoutY="304.0" />
+      <JFXSlider fx:id="testJFXSlider" layoutX="217.0" layoutY="56.0" orientation="VERTICAL" showTickLabels="true" snapToTicks="true" />
+      <JFXTextField labelFloat="true" layoutX="14.0" layoutY="157.0" promptText="test" />
+      <JFXTextArea labelFloat="true" layoutX="292.0" layoutY="108.0" prefHeight="121.0" prefWidth="430.0" promptText="测试" />
+      <JFXToggleButton layoutX="334.0" layoutY="304.0" />
 	</children>
 </AnchorPane>

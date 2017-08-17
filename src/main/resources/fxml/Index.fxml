@@ -18,6 +18,7 @@
           <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
             <items>
                   <MenuItem mnemonicParsing="false" onAction="#closeAllTabAction" text="closeAllTab" />
+                  <MenuItem mnemonicParsing="false" onAction="#openAllTabAction" text="openAllTab" />
               <MenuItem mnemonicParsing="false" onAction="#exitAction" text="Exit" />
             </items>
           </Menu>
