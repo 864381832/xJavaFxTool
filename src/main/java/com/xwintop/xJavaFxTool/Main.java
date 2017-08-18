@@ -1,12 +1,13 @@
 package com.xwintop.xJavaFxTool;
 
 import java.net.URL;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,19 +22,14 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		// 默认情况下，Fx运行时会在最后一个stage的close(或hide)后自动关闭，即自动调用Application.stop()
-		// 除非通过Platform.setImplicitExit(false)取消这个默认行为。这样,即使所有Fx窗口关闭（或隐藏）,Fx运行时还在正常运行
-		// Platform.setImplicitExit(false);
-		// ResourceBundle resourceBundle = ResourceBundle.getBundle("locale.Menu",
-		// Locale.CHINA);
+		ResourceBundle resourceBundle = ResourceBundle.getBundle("locale.Menu", Locale.getDefault());
+//		ResourceBundle resourceBundle = ResourceBundle.getBundle("locale.Menu", Locale.US);
 		URL url = getClass().getResource("/fxml/Index.fxml");
 
-		// FXMLLoader fXMLLoader = new FXMLLoader(url, resourceBundle);
-		FXMLLoader fXMLLoader = new FXMLLoader(url);
-		// Parent root = FXMLLoader.load(url, resourceBundle);
+		FXMLLoader fXMLLoader = new FXMLLoader(url, resourceBundle);
 		Parent root = fXMLLoader.load();
 		primaryStage.setResizable(true);
-		primaryStage.setTitle("MyJavaFxTool");
+		primaryStage.setTitle(resourceBundle.getString("Title"));
 		primaryStage.getIcons().add(new Image("/images/icon.jpg"));
 		primaryStage.setScene(new Scene(root));
 		primaryStage.show();
@@ -41,7 +37,7 @@ public class Main extends Application {
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent event) {
-				Platform.exit();
+				System.exit(0);
 			}
 		});
 
@@ -55,7 +51,6 @@ public class Main extends Application {
 			launch(args);
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println(e.getMessage());
 			log.error(e);
 		}
 	}

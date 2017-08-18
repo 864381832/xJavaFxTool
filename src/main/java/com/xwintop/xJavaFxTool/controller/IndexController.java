@@ -40,24 +40,24 @@ public class IndexController extends IndexView {
 	}
 
 	private void initView() {
-		map.put("javaFx转换", "/fxml/javaFxTools/JavaFxXmlToObjectCode.fxml");
-		map.put("epms转换", "/fxml/epmsTools/GeneratingCode.fxml");
-		map.put("epms调试工具", "/fxml/epmsTools/DebugEpms.fxml");
-		map.put("路径转换", "/fxml/littleTools/LinuxPathToWindowsPath.fxml");
-		map.put("报文查看", "/fxml/epmsTools/MessageViewer.fxml");
-		map.put("Time转换", "/fxml/littleTools/TimeTool.fxml");
-		map.put("编码转换", "/fxml/littleTools/CharacterConverter.fxml");
-		map.put("加密解密", "/fxml/littleTools/EncryptAndDecrypt.fxml");
-		map.put("Cron表达式生成器", "/fxml/littleTools/CronExpBuilder.fxml");
-		map.put("文件复制", "/fxml/littleTools/FileCopy.fxml");
-		map.put("二维码生成工具", "/fxml/littleTools/QRCodeBuilder.fxml");
-		map.put("身份证生成器", "/fxml/codeTools/IdCardGenerator.fxml");
-		map.put("正则表达式生成工具", "/fxml/codeTools/RegexTester.fxml");
-		map.put("网址缩短", "/fxml/webTools/ShortURL.fxml");
-		map.put("转义字符", "/fxml/codeTools/EscapeCharacter.fxml");
+		map.put(bundle.getString("JavaFxXmlToObjectCode"), "/fxml/javaFxTools/JavaFxXmlToObjectCode.fxml");
+		map.put(bundle.getString("GeneratingCode"), "/fxml/epmsTools/GeneratingCode.fxml");
+		map.put(bundle.getString("DebugEpms"), "/fxml/epmsTools/DebugEpms.fxml");
+		map.put(bundle.getString("LinuxPathToWindowsPath"), "/fxml/littleTools/LinuxPathToWindowsPath.fxml");
+		map.put(bundle.getString("MessageViewer"), "/fxml/epmsTools/MessageViewer.fxml");
+		map.put(bundle.getString("TimeTool"), "/fxml/littleTools/TimeTool.fxml");
+		map.put(bundle.getString("CharacterConverter"), "/fxml/littleTools/CharacterConverter.fxml");
+		map.put(bundle.getString("EncryptAndDecrypt"), "/fxml/littleTools/EncryptAndDecrypt.fxml");
+		map.put(bundle.getString("CronExpBuilder"), "/fxml/littleTools/CronExpBuilder.fxml");
+		map.put(bundle.getString("FileCopy"), "/fxml/littleTools/FileCopy.fxml");
+		map.put(bundle.getString("QRCodeBuilder"), "/fxml/littleTools/QRCodeBuilder.fxml");
+		map.put(bundle.getString("IdCardGenerator"), "/fxml/codeTools/IdCardGenerator.fxml");
+		map.put(bundle.getString("RegexTester"), "/fxml/codeTools/RegexTester.fxml");
+		map.put(bundle.getString("ShortURL"), "/fxml/webTools/ShortURL.fxml");
+		map.put(bundle.getString("EscapeCharacter"), "/fxml/codeTools/EscapeCharacter.fxml");
 
 		Map<String, String> webMap = new HashMap<String, String>();
-		webMap.put("Cron表达式生成器Html版", "/web/littleTools/cron/index.htm");
+		webMap.put(bundle.getString("webCronExpBuilder"), "/web/littleTools/cron/index.htm");
 
 		map.forEach(new BiConsumer<String, String>() {
 			@Override
@@ -79,8 +79,8 @@ public class IndexController extends IndexView {
 		});
 
 		Map<String, String> openMap = new HashMap<String, String>();
-		openMap.put("javaFx转换", "/fxml/javaFxTools/JavaFxXmlToObjectCode.fxml");
-		openMap.put("转义字符", "/fxml/codeTools/EscapeCharacter.fxml");
+//		openMap.put(bundle.getString("JavaFxXmlToObjectCode"), "/fxml/javaFxTools/JavaFxXmlToObjectCode.fxml");
+		openMap.put(bundle.getString("FileCopy"), "/fxml/littleTools/FileCopy.fxml");
 		openMap.forEach(new BiConsumer<String, String>() {
 			@Override
 			public void accept(String t, String u) {
@@ -175,6 +175,6 @@ public class IndexController extends IndexView {
 
 	@FXML
 	private void aboutAction(ActionEvent event) {
-		AlertUtil.showInfoAlert("欢迎使用JavaFx工具集合。");
+		AlertUtil.showInfoAlert(bundle.getString("aboutText"));
 	}
 }

@@ -193,8 +193,15 @@ public class QRCodeUtil {
 	 * 从Image中解析二维码
 	 */
 	public static String toDecode(Image image) {
+		BufferedImage bimage = SwingFXUtils.fromFXImage(image, null);
+		return toDecode(bimage);
+	}
+	
+	/**
+	 * 从BufferedImage中解析二维码
+	 */
+	public static String toDecode(BufferedImage bimage) {
 		try {
-			BufferedImage bimage = SwingFXUtils.fromFXImage(image, null);
 			LuminanceSource source = new BufferedImageLuminanceSource(bimage);
 			Binarizer binarizer = new HybridBinarizer(source);
 			BinaryBitmap binaryBitmap = new BinaryBitmap(binarizer);

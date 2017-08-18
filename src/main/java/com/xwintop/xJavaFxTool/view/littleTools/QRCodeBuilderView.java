@@ -36,6 +36,8 @@ public abstract class QRCodeBuilderView implements Initializable {
 	@FXML
 	protected Button logoButton;
 	@FXML
+	protected Button snapshotDesktopButton;
+	@FXML
 	protected ChoiceBox<Integer> marginChoiceBox;
 	@FXML
 	protected ChoiceBox<String> formatImageChoiceBox;

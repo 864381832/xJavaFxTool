@@ -11,14 +11,14 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="428.0" prefWidth="744.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.QRCodeBuilderController">
+<AnchorPane prefHeight="428.0" prefWidth="783.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.QRCodeBuilderController">
 	<children>
 		<Button fx:id="builderButton" layoutX="495.0" layoutY="17.0" mnemonicParsing="false" onAction="#builderAction" text="生成" />
 		<Label layoutX="24.0" layoutY="21.0" text="地址：" />
 		<TextField fx:id="contentTextField" layoutX="58.0" layoutY="17.0" prefHeight="23.0" prefWidth="367.0" />
 		<ImageView fx:id="codeImageView" fitHeight="320.0" fitWidth="320.0" layoutX="24.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="codeImageView1" fitHeight="320.0" fitWidth="320.0" layoutX="361.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="snapshotButton" layoutX="609.0" layoutY="17.0" mnemonicParsing="false" onAction="#snapshotAction" text="截图识别">
+      <Button fx:id="snapshotButton" layoutX="606.0" layoutY="17.0" mnemonicParsing="false" onAction="#snapshotAction" text="截图识别">
          <tooltip>
             <Tooltip text="试试alt+s快捷键截图" />
          </tooltip></Button>
@@ -28,7 +28,7 @@
       <ColorPicker fx:id="offColorColorPicker" layoutX="208.0" layoutY="53.0" prefHeight="23.0" prefWidth="78.0" />
       <ChoiceBox fx:id="errorCorrectionLevelChoiceBox" layoutX="354.0" layoutY="53.0" prefHeight="23.0" prefWidth="60.0" />
       <Label layoutX="291.0" layoutY="57.0" text="容错等级：" />
-      <Button fx:id="saveButton" layoutX="680.0" layoutY="17.0" mnemonicParsing="false" onAction="#saveAction" text="保存" />
+      <Button fx:id="saveButton" layoutX="737.0" layoutY="17.0" mnemonicParsing="false" onAction="#saveAction" text="保存" />
       <Label layoutX="429.0" layoutY="57.0" text="边距：" />
       <ChoiceBox fx:id="marginChoiceBox" layoutX="465.0" layoutY="53.0" prefHeight="23.0" prefWidth="42.0" />
       <Label layoutX="518.0" layoutY="57.0" text="图片格式：" />
@@ -42,5 +42,10 @@
             <Tooltip text="设置Logo大小" />
          </tooltip>
       </Label>
+      <Button fx:id="snapshotDesktopButton" layoutX="671.0" layoutY="17.0" mnemonicParsing="false" onAction="#snapshotDesktopAction" text="识别桌面">
+         <tooltip>
+            <Tooltip text="试试alt+s快捷键截图" />
+         </tooltip>
+      </Button>
 	</children>
 </AnchorPane>

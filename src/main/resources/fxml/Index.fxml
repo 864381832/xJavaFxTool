@@ -10,24 +10,24 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.IndexController">
 	<children>
-		<Button fx:id="myButton" layoutX="644.0" layoutY="3.0" mnemonicParsing="false" text="搜索" />
+		<Button fx:id="myButton" layoutX="644.0" layoutY="3.0" mnemonicParsing="false" text="%select" />
 		<TextField fx:id="myTextField" layoutX="471.0" layoutY="3.0" />
       <TabPane fx:id="tabPaneMain" layoutY="26.0" prefHeight="572.0" prefWidth="900.0" tabClosingPolicy="ALL_TABS" />
       <MenuBar fx:id="mainMenuBar" layoutY="2.0" prefHeight="25.0" prefWidth="455.0">
         <menus>
-          <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
+          <Menu fx:id="fileMenu" mnemonicParsing="false" text="%File">
             <items>
-                  <MenuItem mnemonicParsing="false" onAction="#closeAllTabAction" text="closeAllTab" />
-                  <MenuItem mnemonicParsing="false" onAction="#openAllTabAction" text="openAllTab" />
-              <MenuItem mnemonicParsing="false" onAction="#exitAction" text="Exit" />
+                  <MenuItem mnemonicParsing="false" onAction="#closeAllTabAction" text="%closeAllTab" />
+                  <MenuItem mnemonicParsing="false" onAction="#openAllTabAction" text="%openAllTab" />
+              <MenuItem mnemonicParsing="false" onAction="#exitAction" text="%Exit" />
             </items>
           </Menu>
-          <Menu fx:id="toolsMenu" mnemonicParsing="false" text="Tools" />
-            <Menu fx:id="moreToolsMenu" mnemonicParsing="false" text="More Tools" />
-            <Menu fx:id="NetWorkToolsMenu" mnemonicParsing="false" text="NetWork Tools" />
-          <Menu fx:id="helpMenu" mnemonicParsing="false" text="Help">
+          <Menu fx:id="toolsMenu" mnemonicParsing="false" text="%Tools" />
+            <Menu fx:id="moreToolsMenu" mnemonicParsing="false" text="%More_Tools" />
+            <Menu fx:id="NetWorkToolsMenu" mnemonicParsing="false" text="%NetWork_Tools" />
+          <Menu fx:id="helpMenu" mnemonicParsing="false" text="%Help">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#aboutAction" text="About" />
+              <MenuItem mnemonicParsing="false" onAction="#aboutAction" text="%About" />
             </items>
           </Menu>
         </menus>

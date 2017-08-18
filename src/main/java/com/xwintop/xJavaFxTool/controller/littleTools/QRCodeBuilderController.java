@@ -1,5 +1,10 @@
 package com.xwintop.xJavaFxTool.controller.littleTools;
 
+import java.awt.Dimension;
+import java.awt.Rectangle;
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -54,18 +59,22 @@ public class QRCodeBuilderController extends QRCodeBuilderView{
 
 	private void initEvent() {
 		// 第一步：注册热键，第一个参数表示该热键的标识，第二个参数表示组合键，如果没有则为0，第三个参数为定义的主要热键
-		JIntellitype.getInstance().registerHotKey(0, JIntellitype.MOD_ALT, (int) 'S');
-		// 第二步：添加热键监听器
-		JIntellitype.getInstance().addHotKeyListener(new HotkeyListener() {
-			@Override
-			public void onHotKey(int markCode) {
-				switch (markCode) {
-				case 0:
-					snapshotAction(null);
-					break;
+		try {
+			JIntellitype.getInstance().registerHotKey(0, JIntellitype.MOD_ALT, (int) 'S');
+			// 第二步：添加热键监听器
+			JIntellitype.getInstance().addHotKeyListener(new HotkeyListener() {
+				@Override
+				public void onHotKey(int markCode) {
+					switch (markCode) {
+					case 0:
+						snapshotAction(null);
+						break;
+					}
 				}
-			}
-		});
+			});
+		} catch (Exception e) {
+			TooltipUtil.showToast("热键注册失败。");
+		}
 		contentTextField.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String oldValue, String newValue) {
@@ -98,6 +107,8 @@ public class QRCodeBuilderController extends QRCodeBuilderView{
 
 	@FXML
 	private void snapshotAction(ActionEvent event) {
+		// 默认情况下，Fx运行时会在最后一个stage的close(或hide)后自动关闭，即自动调用Application.stop()
+		// 除非通过Platform.setImplicitExit(false)取消这个默认行为。这样,即使所有Fx窗口关闭（或隐藏）,Fx运行时还在正常运行
 		Platform.setImplicitExit(false);
 		// Main.getStage().setIconified(true);
 		if (Main.getStage().isShowing()) {
@@ -107,6 +118,31 @@ public class QRCodeBuilderController extends QRCodeBuilderView{
 		}
 		// new SnapshotRectUtil(this);
 		new ScreenShoter(this);
+	}
+	
+	@FXML
+	private void snapshotDesktopAction(ActionEvent event) throws Exception {
+		Platform.setImplicitExit(false);
+		try {
+			Main.getStage().hide();
+			Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
+			Robot robot = new Robot();
+			BufferedImage screenImg = robot.createScreenCapture(
+					new Rectangle(0, 0, SCREEN_SIZE.width, SCREEN_SIZE.height));
+			Main.getStage().show();
+			String code = QRCodeUtil.toDecode(screenImg);
+			if (StringUtils.isNotEmpty(code)) {
+				contentTextField.setText(code);
+			}else{
+				Platform.runLater(() -> {
+					TooltipUtil.showToast("未识别到二维码。");
+				});
+			}
+		} catch (Exception e) {
+			TooltipUtil.showToast("发生异常:"+e.getMessage());
+		}finally {
+			Platform.setImplicitExit(true);
+		}
 	}
 
 	@FXML
@@ -143,7 +179,7 @@ public class QRCodeBuilderController extends QRCodeBuilderView{
 		codeImageView1.setImage(image);
 		String code = QRCodeUtil.toDecode(image);
 		if (StringUtils.isNotEmpty(code)) {
-			contentTextField.setText(QRCodeUtil.toDecode(image));
+			contentTextField.setText(code);
 		}
 		Platform.setImplicitExit(true);
 	}
