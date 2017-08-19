@@ -13,6 +13,7 @@ import com.xwintop.xcore.util.javafx.FileChooserUtil;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -79,8 +80,21 @@ public class FileCopyController extends FileCopyView {
 	private void initEvent() {
 		FileChooserUtil.setOnDrag(textFieldCopyFileOriginalPath, FileChooserUtil.FileType.FILE);
 		FileChooserUtil.setOnDrag(textFieldCopyFileTargetPath, FileChooserUtil.FileType.FOLDER);
+		tableData.addListener((Change<? extends TableBean> tableBean)->{
+			try {
+				saveConfigure(null);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
 		tableViewMain.setOnMouseClicked(event -> {
 			if (event.getButton() == MouseButton.SECONDARY) {
+				MenuItem menu_Copy = new MenuItem("复制选中行");
+				menu_Copy.setOnAction(event1 -> {
+					TableBean tableBean = tableViewMain.getSelectionModel().getSelectedItem();
+					TableBean tableBean2= new FileCopyService().new TableBean(tableBean.getPropertys());
+					tableData.add(tableViewMain.getSelectionModel().getSelectedIndex(),tableBean2);
+				});
 				MenuItem menu_Remove = new MenuItem("删除选中行");
 				menu_Remove.setOnAction(event1 -> {
 					deleteSelectRowAction(null);
@@ -89,7 +103,7 @@ public class FileCopyController extends FileCopyView {
 				menu_RemoveAll.setOnAction(event1 -> {
 					tableData.clear();
 				});
-				tableViewMain.setContextMenu(new ContextMenu(menu_Remove, menu_RemoveAll));
+				tableViewMain.setContextMenu(new ContextMenu(menu_Copy,menu_Remove, menu_RemoveAll));
 			}
 		});
 		quartzChoiceBox.valueProperty().addListener(new ChangeListener<String>() {

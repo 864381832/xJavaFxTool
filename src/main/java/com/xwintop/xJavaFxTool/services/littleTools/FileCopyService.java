@@ -77,7 +77,10 @@ public class FileCopyService {
 				}
 			});
 		} catch (Exception e) {
-			TooltipUtil.showToast("加载配置失败：" + e.getMessage());
+			try {
+				TooltipUtil.showToast("加载配置失败：" + e.getMessage());
+			} catch (Exception e2) {
+			}
 		}
 	}
 
@@ -198,7 +201,7 @@ public class FileCopyService {
 		private SimpleBooleanProperty isCopy;
 		private SimpleBooleanProperty isRename;
 		private SimpleBooleanProperty isDelete;
-
+		
 		public TableBean(String copyFileOriginalPath, String copyFileTargetPath, String copyNumber, Boolean isCopy,Boolean isRename,
 				Boolean isDelete) {
 			super();
