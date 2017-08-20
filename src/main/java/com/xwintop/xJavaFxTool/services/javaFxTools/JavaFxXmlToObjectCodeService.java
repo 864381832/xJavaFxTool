@@ -5,6 +5,7 @@ import java.util.List;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.dom4j.Node;
 import org.dom4j.tree.DefaultAttribute;
 
 public class JavaFxXmlToObjectCodeService {
@@ -36,9 +37,11 @@ public class JavaFxXmlToObjectCodeService {
 		controllerClassStrBuilder.append("\n@Override\npublic void initialize(URL location, ResourceBundle resources) {\n");
 		controllerClassStrBuilder.append("initView();\n");
 		controllerClassStrBuilder.append("initEvent();\n");
+		controllerClassStrBuilder.append("initService();\n");
 		controllerClassStrBuilder.append("}");
 		controllerClassStrBuilder.append("\n private void initView() {}");
 		controllerClassStrBuilder.append("\n private void initEvent() {}");
+		controllerClassStrBuilder.append("\n private void initService() {}");
 		controllerClassStrBuilder.append(funStrBuilder.toString());
 		controllerClassStrBuilder.append("}");
 		
@@ -46,12 +49,14 @@ public class JavaFxXmlToObjectCodeService {
 		StringBuilder classStrBuilder = new StringBuilder();
 		classStrBuilder.append("package com.xwintop.xJavaFxTool.view"+viewPackage+";\n");
 		classStrBuilder.append("import javafx.fxml.Initializable;\n");
-		classStrBuilder.append("import javafx.scene.control.Button;\n");
-		classStrBuilder.append("import javafx.scene.control.CheckBox;\n");
-		classStrBuilder.append("import javafx.scene.control.TextField;\n");
 		classStrBuilder.append("import javafx.fxml.FXML;\n");
-		classStrBuilder.append("import javafx.scene.control.TextArea;\n");
-		classStrBuilder.append("import javafx.scene.control.ChoiceBox;\n");
+		@SuppressWarnings("unchecked")
+		List<Node> importList = document.content();
+		for(Node node:importList) {
+			if("import".equals(node.getName())) {
+				classStrBuilder.append("import "+node.getText()+";\n");
+			}
+		}
 		classStrBuilder.append("public abstract class "+classNameString+"View implements Initializable {\n");
 		classStrBuilder.append(attrStrBuilder.toString());
 		classStrBuilder.append("\n}");
@@ -71,8 +76,7 @@ public class JavaFxXmlToObjectCodeService {
 				attrStrBuilder.append(rootAttr.getValue()).append(";\n");
 			}else if("onAction".equals(rootAttr.getName())){
 //				@FXML
-//				private void xmlToSql(ActionEvent event){
-//				}
+//				private void xmlToSql(ActionEvent event){}
 				funStrBuilder.append("\n@FXML\nprivate void ");
 				funStrBuilder.append(rootAttr.getValue().substring(1)).append("(ActionEvent event){\n}\n");
 			}else if("controller".equals(rootAttr.getName())){

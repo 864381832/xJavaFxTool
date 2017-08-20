@@ -1,26 +1,25 @@
 package com.xwintop.xJavaFxTool.view.littleTools;
 
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import com.jfoenix.controls.JFXCheckBox;
-import com.jfoenix.controls.JFXTextArea;
-
-import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 
 public abstract class ZHConverterView implements Initializable {
 	@FXML
 	protected ChoiceBox<String> codeTypesChoiceBox;
 	@FXML
-	protected JFXTextArea simplifiedTextArea;
+	protected TextArea simplifiedTextArea;
 	@FXML
-	protected JFXTextArea traditionalTextArea;
+	protected TextArea traditionalTextArea;
 	@FXML
 	protected Button changeButton;
 	@FXML
 	protected Button restoreButton;
 	@FXML
-	protected JFXCheckBox pinyinTypeCheckBox;
+	protected TextField pinyinTypeTextField;
 	@FXML
 	protected ChoiceBox<String> pinyinTypeChoiceBox;
 

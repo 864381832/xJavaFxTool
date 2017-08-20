@@ -7,9 +7,9 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.function.BiConsumer;
 
+import com.xwintop.xJavaFxTool.services.IndexService;
 import com.xwintop.xJavaFxTool.view.IndexView;
 import com.xwintop.xcore.util.javafx.AlertUtil;
-import com.xwintop.xcore.util.javafx.TooltipUtil;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -18,6 +18,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.web.WebEngine;
@@ -30,13 +31,16 @@ import javafx.scene.web.WebView;
  * @date: 2017年7月20日 下午1:50:00
  */
 public class IndexController extends IndexView {
+	private IndexService indexService = new IndexService();
 	private Map<String, String> map = new HashMap<String, String>();
+	private ContextMenu contextMenu = new ContextMenu();
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		this.bundle = resources;
 		initView();
 		initEvent();
+		initService();
 	}
 
 	private void initView() {
@@ -55,7 +59,7 @@ public class IndexController extends IndexView {
 		map.put(bundle.getString("RegexTester"), "/fxml/codeTools/RegexTester.fxml");
 		map.put(bundle.getString("ShortURL"), "/fxml/webTools/ShortURL.fxml");
 		map.put(bundle.getString("EscapeCharacter"), "/fxml/codeTools/EscapeCharacter.fxml");
-		map.put(bundle.getString("ZHConverter"), "/fxml/codeTools/ZHConverter.fxml");
+		map.put(bundle.getString("ZHConverter"), "/fxml/littleTools/ZHConverter.fxml");
 
 		Map<String, String> webMap = new HashMap<String, String>();
 		webMap.put(bundle.getString("webCronExpBuilder"), "/web/littleTools/cron/index.htm");
@@ -81,7 +85,7 @@ public class IndexController extends IndexView {
 
 		Map<String, String> openMap = new HashMap<String, String>();
 //		openMap.put(bundle.getString("JavaFxXmlToObjectCode"), "/fxml/javaFxTools/JavaFxXmlToObjectCode.fxml");
-		openMap.put(bundle.getString("ZHConverter"), "/fxml/littleTools/ZHConverter.fxml");
+		openMap.put(bundle.getString("FileCopy"), "/fxml/littleTools/FileCopy.fxml");
 		openMap.forEach(new BiConsumer<String, String>() {
 			@Override
 			public void accept(String t, String u) {
@@ -122,29 +126,31 @@ public class IndexController extends IndexView {
 		myTextField.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-
+				selectAction(newValue);
 			}
 		});
 		myButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				myButtonAction(arg0);
-				// TooltipUtil.showToast(myButton,"test");
-				TooltipUtil.showToast(myTextField.getText());
+				selectAction(myTextField.getText());
+//				TooltipUtil.showToast(myTextField.getText());
 				// TooltipUtil.showToast("test",Pos.BOTTOM_RIGHT);
 				// JOptionPane.showMessageDialog(null, "test");
 			}
 		});
 	}
+	
+	private void initService() {
+		indexService.setBundle(bundle);
+		indexService.setToolsMenu(toolsMenu);
+	}
 
-	// When user click on myButton
-	// this method will be called.
-	public void myButtonAction(ActionEvent event) {
-		for (MenuItem menuItem : toolsMenu.getItems()) {
-			if (menuItem.getText().contains(myTextField.getText())) {
-				menuItem.fire();
-			}
+	public void selectAction(String selectText) {
+		if(contextMenu.isShowing()) {
+			contextMenu.hide();
 		}
+		contextMenu = indexService.getSelectContextMenu(selectText);
+		contextMenu.show(myTextField, null, 0, myTextField.getHeight());
 	}
 
 	@FXML
@@ -177,5 +183,11 @@ public class IndexController extends IndexView {
 	@FXML
 	private void aboutAction(ActionEvent event) {
 		AlertUtil.showInfoAlert(bundle.getString("aboutText"));
+	}
+	
+	@FXML
+	private void setLanguageAction(ActionEvent event) throws Exception {
+		MenuItem menuItem = (MenuItem) event.getSource();
+		indexService.setLanguageAction(menuItem.getText());
 	}
 }

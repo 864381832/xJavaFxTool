@@ -1,11 +1,15 @@
 package com.xwintop.xJavaFxTool;
 
+import java.io.File;
 import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+
+import com.xwintop.xJavaFxTool.utils.ConfigureUtil;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -22,8 +26,17 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		ResourceBundle resourceBundle = ResourceBundle.getBundle("locale.Menu", Locale.getDefault());
-//		ResourceBundle resourceBundle = ResourceBundle.getBundle("locale.Menu", Locale.US);
+		Locale locale = Locale.getDefault();
+		try {
+			File file = ConfigureUtil.getConfigureFile("systemConfigure.properties");
+			PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
+			String[] locale1 = xmlConfigure.getString("Locale").split("_");
+			if(locale1 != null) {
+				locale = new Locale(locale1[0], locale1[1]);
+			}
+		} catch (Exception e) {
+		}
+		ResourceBundle resourceBundle = ResourceBundle.getBundle("locale.Menu", locale);
 		URL url = getClass().getResource("/fxml/Index.fxml");
 
 		FXMLLoader fXMLLoader = new FXMLLoader(url, resourceBundle);
