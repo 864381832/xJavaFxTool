@@ -4,9 +4,14 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Base32;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.BinaryCodec;
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.codec.net.URLCodec;
+import org.apache.commons.lang.StringUtils;
 
-import com.xwintop.xJavaFxTool.common.ExCodec;
 import com.xwintop.xJavaFxTool.utils.GuiUtils;
 
 import javafx.event.ActionEvent;
@@ -77,62 +82,67 @@ public class EncryptAndDecryptController implements Initializable {
 
 	@FXML
 	private void encrptyAction(ActionEvent event) {// 加密
-		String curCharset = charsetsBox.getValue();
+		String charSet = charsetsBox.getValue();
 		String curCrypto = toggleGroup.getSelectedToggle().getUserData().toString();
-		String input = encrptyTextArea.getText();
+		String string = encrptyTextArea.getText();
+		if (StringUtils.isEmpty(string)) {
+			decrptyTextArea.setText(null);
+			return;
+		}
 		try {
 			if (GuiUtils.CRYPTO_ASCII.equals(curCrypto)) {
-				decrptyTextArea.setText(ExCodec.encodeAscii(input, curCharset));
+				decrptyTextArea.setText(BinaryCodec.toAsciiString(string.getBytes(charSet)));
 			} else if (GuiUtils.CRYPTO_HEX.equals(curCrypto)) {
-				decrptyTextArea.setText(ExCodec.encodeHex(input, curCharset));
+				decrptyTextArea.setText(Hex.encodeHexString(string.getBytes(charSet)));
 			} else if (GuiUtils.CRYPTO_BASE64.equals(curCrypto)) {
-				decrptyTextArea.setText(ExCodec.encodeBase64(input, curCharset));
+				decrptyTextArea.setText(new String(Base64.encodeBase64(string.getBytes(charSet))));
 			} else if (GuiUtils.CRYPTO_BASE32.equals(curCrypto)) {
-				decrptyTextArea.setText(ExCodec.encodeBase32(input, curCharset));
+				Base32 base32 = new Base32();
+				decrptyTextArea.setText(new String(base32.encode(string.getBytes(charSet))));
 			} else if (GuiUtils.CRYPTO_URL.equals(curCrypto)) {
-				decrptyTextArea.setText(ExCodec.encodeURL(input, curCharset));
+				decrptyTextArea.setText(new String(URLCodec.encodeUrl(null, string.getBytes(charSet)), charSet));
 			} else if (GuiUtils.CRYPTO_MD5.equals(curCrypto)) {
-				String md5Val = ExCodec.encryptMd5(input, curCharset);
+				String md5Val = DigestUtils.md5Hex(string.getBytes(charSet));
 				decrptyTextArea.setText("16Bit：" + md5Val.substring(8, 24) + "\n32Bit：" + md5Val);
 			} else if (GuiUtils.CRYPTO_SHA.equals(curCrypto)) {
-				decrptyTextArea.setText(ExCodec.encryptSha(input, curCharset));
+				decrptyTextArea.setText(DigestUtils.sha1Hex(string.getBytes(charSet)));
 			} else if (GuiUtils.CRYPTO_SHA256.equals(curCrypto)) {
-				decrptyTextArea.setText(ExCodec.encryptSha256(input, curCharset));
+				decrptyTextArea.setText(DigestUtils.sha256Hex(string.getBytes(charSet)));
 			} else if (GuiUtils.CRYPTO_SHA384.equals(curCrypto)) {
-				decrptyTextArea.setText(ExCodec.encryptSha384(input, curCharset));
+				decrptyTextArea.setText(DigestUtils.sha384Hex(string.getBytes(charSet)));
 			} else if (GuiUtils.CRYPTO_SHA512.equals(curCrypto)) {
-				decrptyTextArea.setText(ExCodec.encryptSha512(input, curCharset));
+				decrptyTextArea.setText(DigestUtils.sha512Hex(string.getBytes(charSet)));
 			}
 		} catch (UnsupportedEncodingException e) {
-			// showExceptionMessage(e);
 			decrptyTextArea.setText(e.getMessage());
 		}
 	}
 
 	@FXML
 	private void decrptyAction(ActionEvent event) {// 解密
-		String curCharset = charsetsBox.getValue();
+		String charSet = charsetsBox.getValue();
 		String curCrypto = toggleGroup.getSelectedToggle().getUserData().toString();
-		String input = decrptyTextArea.getText();
+		String string = decrptyTextArea.getText();
+		if (StringUtils.isEmpty(string)) {
+			decrptyTextArea.setText(null);
+			return;
+		}
 		try {
 			if (GuiUtils.CRYPTO_ASCII.equals(curCrypto)) {
-				encrptyTextArea.setText(ExCodec.decodeAscii(input, curCharset));
+				encrptyTextArea.setText(new String(BinaryCodec.fromAscii(string.toCharArray()), charSet));
 			} else if (GuiUtils.CRYPTO_HEX.equals(curCrypto)) {
-				encrptyTextArea.setText(ExCodec.decodeHex(input, curCharset));
+				encrptyTextArea.setText(new String(Hex.decodeHex(string.toCharArray()), charSet));
 			} else if (GuiUtils.CRYPTO_BASE64.equals(curCrypto)) {
-				encrptyTextArea.setText(ExCodec.decodeBase64(input, curCharset));
+				encrptyTextArea.setText(new String(Base64.decodeBase64(string.getBytes(charSet)), charSet));
 			} else if (GuiUtils.CRYPTO_BASE32.equals(curCrypto)) {
-				encrptyTextArea.setText(ExCodec.decodeBase32(input, curCharset));
+				Base32 base32 = new Base32();
+				encrptyTextArea.setText(new String(base32.decode(string.getBytes(charSet)), charSet));
 			} else if (GuiUtils.CRYPTO_URL.equals(curCrypto)) {
-				encrptyTextArea.setText(ExCodec.decodeURL(input, curCharset));
+				encrptyTextArea.setText(new String(URLCodec.decodeUrl(string.getBytes(charSet)), charSet));
 			} else {
 				encrptyTextArea.setText("不支持此种加密算法的解密！");
 			}
-		} catch (UnsupportedEncodingException e) {
-			// showExceptionMessage(e);
-			encrptyTextArea.setText(e.getMessage());
-		} catch (DecoderException e) {
-			// showExceptionMessage(e);
+		} catch (Exception e) {
 			encrptyTextArea.setText(e.getMessage());
 		}
 	}

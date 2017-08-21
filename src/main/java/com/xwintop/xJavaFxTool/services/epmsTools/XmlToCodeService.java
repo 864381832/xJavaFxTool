@@ -32,6 +32,7 @@ public class XmlToCodeService {
 		String[] tableStrings = string2.split("\n");
 		Document document = DocumentHelper.parseText(xmlStr);
 		Element root = document.getRootElement();
+		@SuppressWarnings("unchecked")
 		List<Element> list = root.elements();
 		// 遍历属性节点
 		for (String tableString : tableStrings) {
@@ -87,6 +88,7 @@ public class XmlToCodeService {
 	 * @return
 	 * @return: String
 	 */
+	@SuppressWarnings("unchecked")
 	public static String xmlTemplateToCode(String xmlStr, String string2, String tableSpace, String tableName) throws Exception{
 		int matchingNumber = 0;//匹配到总数
 		StringBuilder sBuilder = new StringBuilder();// 创建属性值获取

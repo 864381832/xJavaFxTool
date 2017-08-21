@@ -47,6 +47,7 @@ public class ShortURLController extends ShortURLView {
 
 	private void initEvent() {
 		shortURLServiceChoiceBox.valueProperty().addListener(new ChangeListener<String>() {
+			@SuppressWarnings("unlikely-arg-type")
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				mainAnchorPane.getChildren().removeAll(shortSiteToggleGroup.getToggles());

@@ -236,7 +236,7 @@ public final class ExCodec {
 		if (string == null) {
 			return null;
 		}
-		return DigestUtils.shaHex(string.getBytes(charSet));
+		return DigestUtils.sha1Hex(string.getBytes(charSet));
 	}
 
 	/**
