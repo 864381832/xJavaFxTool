@@ -4,8 +4,8 @@ import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.xwintop.xJavaFxTool.model.FileCopyTableBean;
 import com.xwintop.xJavaFxTool.services.littleTools.FileCopyService;
-import com.xwintop.xJavaFxTool.services.littleTools.FileCopyService.TableBean;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.view.littleTools.FileCopyView;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
@@ -27,7 +27,7 @@ import javafx.scene.input.MouseButton;
 
 public class FileCopyController extends FileCopyView {
 	private FileCopyService fileCopyService = new FileCopyService();
-	private ObservableList<TableBean> tableData = FXCollections.observableArrayList();
+	private ObservableList<FileCopyTableBean> tableData = FXCollections.observableArrayList();
 	private String[] quartzChoiceBoxStrings = new String[] { "简单表达式", "Cron表达式" };
 
 	@Override
@@ -41,33 +41,33 @@ public class FileCopyController extends FileCopyView {
 		fileCopyService.loadingConfigure();
 		JavaFxViewUtil.setSpinnerValueFactory(spinnerCopyNumber, 1, Integer.MAX_VALUE);
 		tableColumnCopyFileOriginalPath
-				.setCellValueFactory(new PropertyValueFactory<TableBean, String>("copyFileOriginalPath"));
-		tableColumnCopyFileOriginalPath.setCellFactory(TextFieldTableCell.<TableBean>forTableColumn());
-		tableColumnCopyFileOriginalPath.setOnEditCommit((CellEditEvent<TableBean, String> t) -> {
+				.setCellValueFactory(new PropertyValueFactory<FileCopyTableBean, String>("copyFileOriginalPath"));
+		tableColumnCopyFileOriginalPath.setCellFactory(TextFieldTableCell.<FileCopyTableBean>forTableColumn());
+		tableColumnCopyFileOriginalPath.setOnEditCommit((CellEditEvent<FileCopyTableBean, String> t) -> {
 			t.getRowValue().setCopyFileOriginalPath(t.getNewValue());
-			// ((TableBean)
+			// ((FileCopyTableBean)
 			// t.getTableView().getItems().get(t.getTablePosition().getRow()))
 			// .setCopyFileOriginalPath(t.getNewValue());
 		});
 
 		tableColumnCopyFileTargetPath
-				.setCellValueFactory(new PropertyValueFactory<TableBean, String>("copyFileTargetPath"));
-		tableColumnCopyFileTargetPath.setCellFactory(TextFieldTableCell.<TableBean>forTableColumn());
-		tableColumnCopyFileTargetPath.setOnEditCommit((CellEditEvent<TableBean, String> t) -> {
+				.setCellValueFactory(new PropertyValueFactory<FileCopyTableBean, String>("copyFileTargetPath"));
+		tableColumnCopyFileTargetPath.setCellFactory(TextFieldTableCell.<FileCopyTableBean>forTableColumn());
+		tableColumnCopyFileTargetPath.setOnEditCommit((CellEditEvent<FileCopyTableBean, String> t) -> {
 			t.getRowValue().setCopyFileTargetPath(t.getNewValue());
 		});
 
-		tableColumnCopyNumber.setCellValueFactory(new PropertyValueFactory<TableBean, String>("copyNumber"));
-		tableColumnCopyNumber.setCellFactory(TextFieldTableCell.<TableBean>forTableColumn());
-		tableColumnCopyNumber.setOnEditCommit((CellEditEvent<TableBean, String> t) -> {
+		tableColumnCopyNumber.setCellValueFactory(new PropertyValueFactory<FileCopyTableBean, String>("copyNumber"));
+		tableColumnCopyNumber.setCellFactory(TextFieldTableCell.<FileCopyTableBean>forTableColumn());
+		tableColumnCopyNumber.setOnEditCommit((CellEditEvent<FileCopyTableBean, String> t) -> {
 			t.getRowValue().setCopyNumber(t.getNewValue());
 		});
 
-		tableColumnIsCopy.setCellValueFactory(new PropertyValueFactory<TableBean, Boolean>("isCopy"));
+		tableColumnIsCopy.setCellValueFactory(new PropertyValueFactory<FileCopyTableBean, Boolean>("isCopy"));
 		tableColumnIsCopy.setCellFactory(CheckBoxTableCell.forTableColumn(tableColumnIsCopy));
-		tableColumnIsRename.setCellValueFactory(new PropertyValueFactory<TableBean, Boolean>("isRename"));
+		tableColumnIsRename.setCellValueFactory(new PropertyValueFactory<FileCopyTableBean, Boolean>("isRename"));
 		tableColumnIsRename.setCellFactory(CheckBoxTableCell.forTableColumn(tableColumnIsRename));
-		tableColumnIsDelete.setCellValueFactory(new PropertyValueFactory<TableBean, Boolean>("isDelete"));
+		tableColumnIsDelete.setCellValueFactory(new PropertyValueFactory<FileCopyTableBean, Boolean>("isDelete"));
 		tableColumnIsDelete.setCellFactory(CheckBoxTableCell.forTableColumn(tableColumnIsDelete));
 		tableViewMain.setItems(tableData);
 
@@ -80,7 +80,7 @@ public class FileCopyController extends FileCopyView {
 	private void initEvent() {
 		FileChooserUtil.setOnDrag(textFieldCopyFileOriginalPath, FileChooserUtil.FileType.FILE);
 		FileChooserUtil.setOnDrag(textFieldCopyFileTargetPath, FileChooserUtil.FileType.FOLDER);
-		tableData.addListener((Change<? extends TableBean> tableBean)->{
+		tableData.addListener((Change<? extends FileCopyTableBean> tableBean)->{
 			try {
 				saveConfigure(null);
 			} catch (Exception e) {
@@ -91,8 +91,8 @@ public class FileCopyController extends FileCopyView {
 			if (event.getButton() == MouseButton.SECONDARY) {
 				MenuItem menu_Copy = new MenuItem("复制选中行");
 				menu_Copy.setOnAction(event1 -> {
-					TableBean tableBean = tableViewMain.getSelectionModel().getSelectedItem();
-					TableBean tableBean2= new FileCopyService().new TableBean(tableBean.getPropertys());
+					FileCopyTableBean tableBean = tableViewMain.getSelectionModel().getSelectedItem();
+					FileCopyTableBean tableBean2= new FileCopyTableBean(tableBean.getPropertys());
 					tableData.add(tableViewMain.getSelectionModel().getSelectedIndex(),tableBean2);
 				});
 				MenuItem menu_Remove = new MenuItem("删除选中行");
@@ -138,7 +138,7 @@ public class FileCopyController extends FileCopyView {
 
 	@FXML
 	private void addItemAction(ActionEvent event) {
-		tableData.add(new FileCopyService().new TableBean(textFieldCopyFileOriginalPath.getText(),
+		tableData.add(new FileCopyTableBean(textFieldCopyFileOriginalPath.getText(),
 				textFieldCopyFileTargetPath.getText(), spinnerCopyNumber.getValue().toString(),
 				checkBoxIsCopy.isSelected(),checkBoxIsRename.isSelected(), checkBoxIsDelete.isSelected()));
 	}

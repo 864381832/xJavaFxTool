@@ -1,10 +1,12 @@
-package com.xwintop.xJavaFxTool.services.littleTools;
+package com.xwintop.xJavaFxTool.job;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-public class FileCopyServiceJob implements Job{
+import com.xwintop.xJavaFxTool.services.littleTools.FileCopyService;
+
+public class FileCopyJob implements Job{
 
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {

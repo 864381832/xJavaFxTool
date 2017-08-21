@@ -20,19 +20,18 @@ import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
 import org.quartz.impl.StdSchedulerFactory;
 
+import com.xwintop.xJavaFxTool.job.FileCopyJob;
+import com.xwintop.xJavaFxTool.model.FileCopyTableBean;
 import com.xwintop.xJavaFxTool.utils.ConfigureUtil;
 import com.xwintop.xcore.util.FileUtil;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import javafx.stage.FileChooser;
 
 public class FileCopyService {
-	private ObservableList<TableBean> tableData;
+	private ObservableList<FileCopyTableBean> tableData;
 	private SchedulerFactory sf = new StdSchedulerFactory();
 	private String schedulerKeyGroup = "runFileCopy";
 	private String schedulerKeyName = "runFileCopy" + System.currentTimeMillis();
@@ -73,7 +72,7 @@ public class FileCopyService {
 			xmlConfigure.getKeys().forEachRemaining(new Consumer<String>() {
 				@Override
 				public void accept(String t) {
-					tableData.add(new FileCopyService().new TableBean(xmlConfigure.getString(t)));
+					tableData.add(new FileCopyTableBean(xmlConfigure.getString(t)));
 				}
 			});
 		} catch (Exception e) {
@@ -93,7 +92,7 @@ public class FileCopyService {
 	}
 
 	public void copyAction() throws Exception {
-		for (TableBean tableBean : tableData) {
+		for (FileCopyTableBean tableBean : tableData) {
 			if (tableBean.getIsCopy()) {
 				int number = Integer.parseInt(tableBean.getCopyNumber());
 				File fileOriginal = new File(tableBean.getCopyFileOriginalPath());
@@ -150,7 +149,7 @@ public class FileCopyService {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public boolean runQuartzAction(String quartzType, String cronText, int interval, int repeatCount) throws Exception {
-		JobDetail jobDetail = JobBuilder.newJob(FileCopyServiceJob.class).withIdentity(schedulerKeyName, schedulerKeyGroup).build();
+		JobDetail jobDetail = JobBuilder.newJob(FileCopyJob.class).withIdentity(schedulerKeyName, schedulerKeyGroup).build();
 		jobDetail.getJobDataMap().put("fileCopyService", this);
 		ScheduleBuilder scheduleBuilder = null;
 		if ("简单表达式".equals(quartzType)) {
@@ -186,106 +185,12 @@ public class FileCopyService {
 		return true;
 	}
 
-	public ObservableList<TableBean> getTableData() {
+	public ObservableList<FileCopyTableBean> getTableData() {
 		return tableData;
 	}
 
-	public void setTableData(ObservableList<TableBean> tableData) {
+	public void setTableData(ObservableList<FileCopyTableBean> tableData) {
 		this.tableData = tableData;
 	}
-
-	public class TableBean {
-		private SimpleStringProperty copyFileOriginalPath;
-		private SimpleStringProperty copyFileTargetPath;
-		private SimpleStringProperty copyNumber;
-		private SimpleBooleanProperty isCopy;
-		private SimpleBooleanProperty isRename;
-		private SimpleBooleanProperty isDelete;
-		
-		public TableBean(String copyFileOriginalPath, String copyFileTargetPath, String copyNumber, Boolean isCopy,Boolean isRename,
-				Boolean isDelete) {
-			super();
-			this.copyFileOriginalPath = new SimpleStringProperty(copyFileOriginalPath);
-			this.copyFileTargetPath = new SimpleStringProperty(copyFileTargetPath);
-			this.copyNumber = new SimpleStringProperty(copyNumber);
-			this.isCopy = new SimpleBooleanProperty(isCopy);
-			this.isRename = new SimpleBooleanProperty(isRename);
-			this.isDelete = new SimpleBooleanProperty(isDelete);
-		}
-
-		public TableBean(String propertys) {
-			String[] strings = propertys.split("__");
-			this.copyFileOriginalPath = new SimpleStringProperty(strings[0]);
-			this.copyFileTargetPath = new SimpleStringProperty(strings[1]);
-			this.copyNumber = new SimpleStringProperty(strings[2]);
-			this.isCopy = new SimpleBooleanProperty(Boolean.valueOf(strings[3]));
-			this.isRename = new SimpleBooleanProperty(Boolean.valueOf(strings[4]));
-			this.isDelete = new SimpleBooleanProperty(Boolean.valueOf(strings[5]));
-		}
-
-		public String getPropertys() {
-			return copyFileOriginalPath.get() + "__" + copyFileTargetPath.get() + "__" + copyNumber.get() + "__"
-					+ isCopy.get() + "__" + isRename.get()+ "__" + isDelete.get();
-		}
-
-		public String getCopyFileOriginalPath() {
-			return copyFileOriginalPath.get();
-		}
-
-		public void setCopyFileOriginalPath(String copyFileOriginalPath) {
-			this.copyFileOriginalPath.set(copyFileOriginalPath);
-		}
-
-		public String getCopyFileTargetPath() {
-			return copyFileTargetPath.get();
-		}
-
-		public void setCopyFileTargetPath(String copyFileTargetPath) {
-			this.copyFileTargetPath.set(copyFileTargetPath);
-		}
-
-		public String getCopyNumber() {
-			return copyNumber.get();
-		}
-
-		public void setCopyNumber(String copyNumber) {
-			this.copyNumber.set(copyNumber);
-		}
-
-		public BooleanProperty isCopyProperty() {
-			return isCopy;
-		}
-
-		public Boolean getIsCopy() {
-			return isCopy.get();
-		}
-
-		public void setIsCopy(Boolean isCopy) {
-			this.isCopy.set(isCopy);
-		}
-		
-		public BooleanProperty isRenameProperty() {
-			return isRename;
-		}
-		
-		public Boolean getIsRename() {
-			return isRename.getValue();
-		}
-
-		public void setIsRename(Boolean isRename) {
-			this.isRename.set(isRename);
-		}
-
-		public BooleanProperty isDeleteProperty() {
-			return isDelete;
-		}
-
-		public Boolean getIsDelete() {
-			return isDelete.get();
-		}
-
-		public void setIsDelete(Boolean isDelete) {
-			this.isDelete.set(isDelete);
-		}
-	}
+	
 }

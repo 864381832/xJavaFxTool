@@ -1,7 +1,7 @@
 package com.xwintop.xJavaFxTool.view.littleTools;
 
 
-import com.xwintop.xJavaFxTool.services.littleTools.FileCopyService.TableBean;
+import com.xwintop.xJavaFxTool.model.FileCopyTableBean;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -30,19 +30,19 @@ public abstract class FileCopyView implements Initializable {
 	@FXML
 	protected Spinner<Integer> spinnerCopyNumber;
 	@FXML
-	protected TableView<TableBean> tableViewMain;
+	protected TableView<FileCopyTableBean> tableViewMain;
 	@FXML
-	protected TableColumn<TableBean, String> tableColumnCopyFileOriginalPath;
+	protected TableColumn<FileCopyTableBean, String> tableColumnCopyFileOriginalPath;
 	@FXML
-	protected TableColumn<TableBean, String> tableColumnCopyFileTargetPath;
+	protected TableColumn<FileCopyTableBean, String> tableColumnCopyFileTargetPath;
 	@FXML
-	protected TableColumn<TableBean, String> tableColumnCopyNumber;
+	protected TableColumn<FileCopyTableBean, String> tableColumnCopyNumber;
 	@FXML
-	protected TableColumn<TableBean, Boolean> tableColumnIsCopy;
+	protected TableColumn<FileCopyTableBean, Boolean> tableColumnIsCopy;
 	@FXML
-	protected TableColumn<TableBean, Boolean> tableColumnIsRename;
+	protected TableColumn<FileCopyTableBean, Boolean> tableColumnIsRename;
 	@FXML
-	protected TableColumn<TableBean, Boolean> tableColumnIsDelete;
+	protected TableColumn<FileCopyTableBean, Boolean> tableColumnIsDelete;
 	@FXML
 	protected CheckBox checkBoxIsDelete;
 	@FXML

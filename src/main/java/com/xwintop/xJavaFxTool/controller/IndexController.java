@@ -60,6 +60,7 @@ public class IndexController extends IndexView {
 		map.put(bundle.getString("ShortURL"), "/fxml/webTools/ShortURL.fxml");
 		map.put(bundle.getString("EscapeCharacter"), "/fxml/codeTools/EscapeCharacter.fxml");
 		map.put(bundle.getString("ZHConverter"), "/fxml/littleTools/ZHConverter.fxml");
+		map.put(bundle.getString("ActiveMqTool"), "/fxml/debugTools/ActiveMqTool.fxml");
 
 		Map<String, String> webMap = new HashMap<String, String>();
 		webMap.put(bundle.getString("webCronExpBuilder"), "/web/littleTools/cron/index.htm");
@@ -85,7 +86,7 @@ public class IndexController extends IndexView {
 
 		Map<String, String> openMap = new HashMap<String, String>();
 //		openMap.put(bundle.getString("JavaFxXmlToObjectCode"), "/fxml/javaFxTools/JavaFxXmlToObjectCode.fxml");
-		openMap.put(bundle.getString("FileCopy"), "/fxml/littleTools/FileCopy.fxml");
+		openMap.put(bundle.getString("ActiveMqTool"), "/fxml/debugTools/ActiveMqTool.fxml");
 		openMap.forEach(new BiConsumer<String, String>() {
 			@Override
 			public void accept(String t, String u) {
