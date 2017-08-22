@@ -1,4 +1,7 @@
-package com.xwintop.xJavaFxTool.datafx;
+package com.xwintop.xJavaFxTool.datafx.resource;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
 
@@ -6,12 +9,13 @@ import io.datafx.controller.FXMLController;
 import io.datafx.controller.flow.action.ActionMethod;
 import io.datafx.controller.flow.action.ActionTrigger;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
-@FXMLController("simpleView.fxml")
-public class SimpleController {
- 
+@FXMLController("/fxml/simpleView.fxml")
+public class ResourceController implements Initializable{
+	private ResourceBundle bundle;
     @FXML
     private Label resultLabel;
  
@@ -31,4 +35,10 @@ public class SimpleController {
         clickCount++;
         resultLabel.setText("Button was clicked " + clickCount + " times");
     }
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		this.bundle = resources;
+		System.out.println(bundle.getString("Title"));
+	}
 }

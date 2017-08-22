@@ -2,12 +2,20 @@ package com.xwintop.xJavaFxTool.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.function.BiConsumer;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.configuration.XMLConfiguration;
+import org.apache.commons.configuration.tree.ConfigurationNode;
+import org.apache.commons.lang.StringUtils;
+
+import com.xwintop.xJavaFxTool.model.ToolFxmlLoaderConfiguration;
 import com.xwintop.xJavaFxTool.services.IndexService;
+import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xJavaFxTool.view.IndexView;
 import com.xwintop.xcore.util.javafx.AlertUtil;
 
@@ -19,8 +27,11 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
@@ -31,8 +42,9 @@ import javafx.scene.web.WebView;
  * @date: 2017年7月20日 下午1:50:00
  */
 public class IndexController extends IndexView {
+	private Map<String, Menu> menuMap = new HashMap<String, Menu>();
+	private Map<String, MenuItem> menuItemMap = new HashMap<String, MenuItem>();
 	private IndexService indexService = new IndexService();
-	private Map<String, String> map = new HashMap<String, String>();
 	private ContextMenu contextMenu = new ContextMenu();
 
 	@Override
@@ -44,83 +56,83 @@ public class IndexController extends IndexView {
 	}
 
 	private void initView() {
-		map.put(bundle.getString("JavaFxXmlToObjectCode"), "/fxml/javaFxTools/JavaFxXmlToObjectCode.fxml");
-		map.put(bundle.getString("GeneratingCode"), "/fxml/epmsTools/GeneratingCode.fxml");
-		map.put(bundle.getString("DebugEpms"), "/fxml/epmsTools/DebugEpms.fxml");
-		map.put(bundle.getString("LinuxPathToWindowsPath"), "/fxml/littleTools/LinuxPathToWindowsPath.fxml");
-		map.put(bundle.getString("MessageViewer"), "/fxml/epmsTools/MessageViewer.fxml");
-		map.put(bundle.getString("TimeTool"), "/fxml/littleTools/TimeTool.fxml");
-		map.put(bundle.getString("CharacterConverter"), "/fxml/littleTools/CharacterConverter.fxml");
-		map.put(bundle.getString("EncryptAndDecrypt"), "/fxml/littleTools/EncryptAndDecrypt.fxml");
-		map.put(bundle.getString("CronExpBuilder"), "/fxml/littleTools/CronExpBuilder.fxml");
-		map.put(bundle.getString("FileCopy"), "/fxml/littleTools/FileCopy.fxml");
-		map.put(bundle.getString("QRCodeBuilder"), "/fxml/littleTools/QRCodeBuilder.fxml");
-		map.put(bundle.getString("IdCardGenerator"), "/fxml/codeTools/IdCardGenerator.fxml");
-		map.put(bundle.getString("RegexTester"), "/fxml/codeTools/RegexTester.fxml");
-		map.put(bundle.getString("ShortURL"), "/fxml/webTools/ShortURL.fxml");
-		map.put(bundle.getString("EscapeCharacter"), "/fxml/codeTools/EscapeCharacter.fxml");
-		map.put(bundle.getString("ZHConverter"), "/fxml/littleTools/ZHConverter.fxml");
-		map.put(bundle.getString("ActiveMqTool"), "/fxml/debugTools/ActiveMqTool.fxml");
-
-		Map<String, String> webMap = new HashMap<String, String>();
-		webMap.put(bundle.getString("webCronExpBuilder"), "/web/littleTools/cron/index.htm");
-
-		map.forEach(new BiConsumer<String, String>() {
-			@Override
-			public void accept(String title, String url) {
-				MenuItem menuItem = new MenuItem(title);
-				menuItem.setOnAction((ActionEvent event) -> {
-					Tab tab = new Tab(title);
-					FXMLLoader generatingCodeFXMLLoader = new FXMLLoader(getClass().getResource(url));
-					try {
-						tab.setContent(generatingCodeFXMLLoader.load());
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					tabPaneMain.getTabs().add(tab);
-					tabPaneMain.getSelectionModel().select(tab);
-				});
-				toolsMenu.getItems().add(menuItem);
-			}
-		});
-
-		Map<String, String> openMap = new HashMap<String, String>();
-//		openMap.put(bundle.getString("JavaFxXmlToObjectCode"), "/fxml/javaFxTools/JavaFxXmlToObjectCode.fxml");
-		openMap.put(bundle.getString("ActiveMqTool"), "/fxml/debugTools/ActiveMqTool.fxml");
-		openMap.forEach(new BiConsumer<String, String>() {
-			@Override
-			public void accept(String t, String u) {
-				Tab tab = new Tab(t);
-				// ResourceBundle resourceBundle =
-				// ResourceBundle.getBundle("locale.Menu", Locale.CHINA);
-				// FXMLLoader generatingCodeFXMLLoader = new
-				// FXMLLoader(getClass().getResource(u), resourceBundle);
-				FXMLLoader generatingCodeFXMLLoader = new FXMLLoader(getClass().getResource(u));
-				try {
-					tab.setContent(generatingCodeFXMLLoader.load());
-				} catch (IOException e) {
-					e.printStackTrace();
+		List<ToolFxmlLoaderConfiguration> toolList = new ArrayList<ToolFxmlLoaderConfiguration>();
+		try {
+			XMLConfiguration xml = new XMLConfiguration("config/toolFxmlLoaderConfiguration.xml");
+			for (ConfigurationNode configurationNode : xml.getRoot().getChildren("ToolFxmlLoaderConfiguration")) {
+				ToolFxmlLoaderConfiguration toolFxmlLoaderConfiguration = new ToolFxmlLoaderConfiguration();
+				List<ConfigurationNode> attributes = configurationNode.getAttributes();
+				for (ConfigurationNode configuration : attributes) {
+					BeanUtils.copyProperty(toolFxmlLoaderConfiguration, configuration.getName(),
+							configuration.getValue());
 				}
-				tabPaneMain.getTabs().add(tab);
+				List<ConfigurationNode> childrenList = configurationNode.getChildren();
+				for (ConfigurationNode configuration : childrenList) {
+					BeanUtils.copyProperty(toolFxmlLoaderConfiguration, configuration.getName(),
+							configuration.getValue());
+				}
+				toolList.add(toolFxmlLoaderConfiguration);
 			}
-		});
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 
-		webMap.forEach(new BiConsumer<String, String>() {
-			@Override
-			public void accept(String title, String url) {
-				MenuItem menuItem = new MenuItem(title);
-				menuItem.setOnAction((ActionEvent event) -> {
-					Tab tab = new Tab(title);
-					WebView browser = new WebView();
-					WebEngine webEngine = browser.getEngine();
-					webEngine.load(IndexController.class.getResource(url).toExternalForm());
-					tab.setContent(browser);
-					tabPaneMain.getTabs().add(tab);
-					tabPaneMain.getSelectionModel().select(tab);
-				});
-				NetWorkToolsMenu.getItems().add(menuItem);
+		menuMap.put("toolsMenu", toolsMenu);
+		menuMap.put("moreToolsMenu", moreToolsMenu);
+		menuMap.put("netWorkToolsMenu", netWorkToolsMenu);
+		for (ToolFxmlLoaderConfiguration toolConfig : toolList) {
+			if (StringUtils.isEmpty(toolConfig.getMenuParentId())) {
+				toolConfig.setMenuParentId("toolsMenu");
 			}
-		});
+			if (toolConfig.getIsMenu()) {
+				Menu menu = new Menu(bundle.getString(toolConfig.getTitle()));
+				if (StringUtils.isNotEmpty(toolConfig.getIconPath())) {
+					ImageView imageView = new ImageView(new Image(toolConfig.getIconPath()));
+					imageView.setFitHeight(18);
+					imageView.setFitWidth(18);
+					menu.setGraphic(imageView);
+				}
+				menuMap.put(toolConfig.getMenuId(), menu);
+			}
+		}
+
+		for (ToolFxmlLoaderConfiguration toolConfig : toolList) {
+			if (toolConfig.getIsMenu()) {
+				menuMap.get(toolConfig.getMenuParentId()).getItems().add(menuMap.get(toolConfig.getMenuId()));
+			}
+		}
+
+		for (ToolFxmlLoaderConfiguration toolConfig : toolList) {
+			if (toolConfig.getIsMenu()) {
+				continue;
+			}
+			MenuItem menuItem = new MenuItem(bundle.getString(toolConfig.getTitle()));
+			if (StringUtils.isNotEmpty(toolConfig.getIconPath())) {
+				ImageView imageView = new ImageView(new Image(toolConfig.getIconPath()));
+				imageView.setFitHeight(18);
+				imageView.setFitWidth(18);
+				menuItem.setGraphic(imageView);
+			}
+			if ("Node".equals(toolConfig.getControllerType())) {
+				menuItem.setOnAction((ActionEvent event) -> {
+					addContent(menuItem.getText(), toolConfig.getUrl(), toolConfig.getResourceBundleName(),
+							toolConfig.getIconPath());
+				});
+				if (toolConfig.getIsDefaultShow()) {
+					addContent(menuItem.getText(), toolConfig.getUrl(), toolConfig.getResourceBundleName(),
+							toolConfig.getIconPath());
+				}
+			} else if ("WebView".equals(toolConfig.getControllerType())) {
+				menuItem.setOnAction((ActionEvent event) -> {
+					addWebView(menuItem.getText(), toolConfig.getUrl(),toolConfig.getIconPath());
+				});
+				if (toolConfig.getIsDefaultShow()) {
+					addWebView(menuItem.getText(), toolConfig.getUrl(),toolConfig.getIconPath());
+				}
+			}
+			menuMap.get(toolConfig.getMenuParentId()).getItems().add(menuItem);
+			menuItemMap.put(menuItem.getText(),menuItem);
+		}
 	}
 
 	private void initEvent() {
@@ -134,20 +146,20 @@ public class IndexController extends IndexView {
 			@Override
 			public void handle(ActionEvent arg0) {
 				selectAction(myTextField.getText());
-//				TooltipUtil.showToast(myTextField.getText());
+				// TooltipUtil.showToast(myTextField.getText());
 				// TooltipUtil.showToast("test",Pos.BOTTOM_RIGHT);
 				// JOptionPane.showMessageDialog(null, "test");
 			}
 		});
 	}
-	
+
 	private void initService() {
 		indexService.setBundle(bundle);
-		indexService.setToolsMenu(toolsMenu);
+		indexService.setMenuItemMap(menuItemMap);
 	}
 
 	public void selectAction(String selectText) {
-		if(contextMenu.isShowing()) {
+		if (contextMenu.isShowing()) {
 			contextMenu.hide();
 		}
 		contextMenu = indexService.getSelectContextMenu(selectText);
@@ -166,26 +178,64 @@ public class IndexController extends IndexView {
 
 	@FXML
 	private void openAllTabAction(ActionEvent event) {
-		map.forEach(new BiConsumer<String, String>() {
-			@Override
-			public void accept(String title, String url) {
-				Tab tab = new Tab(title);
-				FXMLLoader generatingCodeFXMLLoader = new FXMLLoader(getClass().getResource(url));
-				try {
-					tab.setContent(generatingCodeFXMLLoader.load());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				tabPaneMain.getTabs().add(tab);
-			}
-		});
+		for(MenuItem value:menuItemMap.values()){
+			value.fire();
+		}
+	}
+
+	/**
+	 * @Title: addContent
+	 * @Description: 添加Content内容
+	 */
+	private void addContent(String title, String url, String resourceBundleName, String iconPath) {
+		Tab tab = new Tab(title);
+		if (StringUtils.isNotEmpty(iconPath)) {
+			ImageView imageView = new ImageView(new Image(iconPath));
+			imageView.setFitHeight(18);
+			imageView.setFitWidth(18);
+			tab.setGraphic(imageView);
+		}
+		FXMLLoader generatingCodeFXMLLoader;
+		if (StringUtils.isEmpty(resourceBundleName)) {
+			generatingCodeFXMLLoader = new FXMLLoader(getClass().getResource(url));
+		} else {
+			ResourceBundle resourceBundle = ResourceBundle.getBundle(resourceBundleName, Config.defaultLocale);
+			generatingCodeFXMLLoader = new FXMLLoader(getClass().getResource(url), resourceBundle);
+		}
+		try {
+			tab.setContent(generatingCodeFXMLLoader.load());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		tabPaneMain.getTabs().add(tab);
+		tabPaneMain.getSelectionModel().select(tab);
+	}
+
+	/**
+	 * @Title: addWebView
+	 * @Description: 添加WebView视图
+	 */
+	private void addWebView(String title, String url, String iconPath) {
+		Tab tab = new Tab(title);
+		if (StringUtils.isNotEmpty(iconPath)) {
+			ImageView imageView = new ImageView(new Image(iconPath));
+			imageView.setFitHeight(18);
+			imageView.setFitWidth(18);
+			tab.setGraphic(imageView);
+		}
+		WebView browser = new WebView();
+		WebEngine webEngine = browser.getEngine();
+		webEngine.load(IndexController.class.getResource(url).toExternalForm());
+		tab.setContent(browser);
+		tabPaneMain.getTabs().add(tab);
+		tabPaneMain.getSelectionModel().select(tab);
 	}
 
 	@FXML
 	private void aboutAction(ActionEvent event) {
 		AlertUtil.showInfoAlert(bundle.getString("aboutText"));
 	}
-	
+
 	@FXML
 	private void setLanguageAction(ActionEvent event) throws Exception {
 		MenuItem menuItem = (MenuItem) event.getSource();

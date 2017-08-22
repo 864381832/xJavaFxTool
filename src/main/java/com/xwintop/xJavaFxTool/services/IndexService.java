@@ -2,6 +2,7 @@ package com.xwintop.xJavaFxTool.services;
 
 import java.io.File;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -11,13 +12,14 @@ import com.xwintop.xJavaFxTool.utils.ConfigureUtil;
 import com.xwintop.xcore.util.javafx.AlertUtil;
 
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import lombok.Setter;
 
+@Setter
 public class IndexService {
 	private ResourceBundle bundle;
-	private Menu toolsMenu;
-	
+	private Map<String, MenuItem> menuItemMap;
+
 	public void setLanguageAction(String languageType) throws Exception {
 		File file = ConfigureUtil.getConfigureFile("systemConfigure.properties");
 		FileUtils.touch(file);
@@ -30,10 +32,10 @@ public class IndexService {
 		xmlConfigure.save();
 		AlertUtil.showInfoAlert(bundle.getString("SetLanguageText"));
 	}
-	
+
 	public ContextMenu getSelectContextMenu(String selectText) {
 		ContextMenu contextMenu = new ContextMenu();
-		for (MenuItem menuItem : toolsMenu.getItems()) {
+		for (MenuItem menuItem : menuItemMap.values()) {
 			if (menuItem.getText().contains(selectText)) {
 				MenuItem menu_tab = new MenuItem(menuItem.getText());
 				menu_tab.setOnAction(event1 -> {
@@ -43,13 +45,5 @@ public class IndexService {
 			}
 		}
 		return contextMenu;
-	}
-
-	public void setBundle(ResourceBundle bundle) {
-		this.bundle = bundle;
-	}
-
-	public void setToolsMenu(Menu toolsMenu) {
-		this.toolsMenu = toolsMenu;
 	}
 }

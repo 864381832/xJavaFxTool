@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<ToolFxmlLoaderConfiguration title="JavaFxXmlToObjectCode"
+		menuId="javaFxTools" isMenu="true" />
+	<ToolFxmlLoaderConfiguration
+		url="/fxml/javaFxTools/JavaFxXmlToObjectCode.fxml" resourceBundleName=""
+		className="" title="JavaFxXmlToObjectCode" iconPath="/images/icon.jpg" isDefaultShow="true"
+		menuId="" menuParentId="javaFxTools" controllerType="Node" />
+	<ToolFxmlLoaderConfiguration>
+		<url>/fxml/epmsTools/GeneratingCode.fxml</url>
+		<resourceBundleName></resourceBundleName>
+		<className></className>
+		<title>GeneratingCode</title>
+		<isDefaultShow></isDefaultShow>
+		<menuId></menuId>
+		<menuParentId></menuParentId>
+		<controllerType>Node</controllerType>
+	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration url="/fxml/epmsTools/DebugEpms.fxml"
+		title="DebugEpms" />
+	<ToolFxmlLoaderConfiguration
+		url="/fxml/littleTools/LinuxPathToWindowsPath.fxml" title="LinuxPathToWindowsPath" />
+	<ToolFxmlLoaderConfiguration>
+		<url>/fxml/epmsTools/MessageViewer.fxml</url>
+		<title>MessageViewer</title>
+	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/fxml/littleTools/TimeTool.fxml</url>
+		<title>TimeTool</title>
+	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/fxml/littleTools/CharacterConverter.fxml</url>
+		<title>CharacterConverter</title>
+	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/fxml/littleTools/EncryptAndDecrypt.fxml</url>
+		<title>EncryptAndDecrypt</title>
+	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/fxml/littleTools/CronExpBuilder.fxml</url>
+		<title>CronExpBuilder</title>
+	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/fxml/littleTools/FileCopy.fxml</url>
+		<title>FileCopy</title>
+	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/fxml/littleTools/QRCodeBuilder.fxml</url>
+		<title>QRCodeBuilder</title>
+	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/fxml/codeTools/IdCardGenerator.fxml</url>
+		<title>IdCardGenerator</title>
+	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/fxml/codeTools/RegexTester.fxml</url>
+		<title>RegexTester</title>
+	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/fxml/webTools/ShortURL.fxml</url>
+		<title>ShortURL</title>
+	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/fxml/codeTools/EscapeCharacter.fxml</url>
+		<title>EscapeCharacter</title>
+	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/fxml/littleTools/ZHConverter.fxml</url>
+		<title>ZHConverter</title>
+	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/fxml/debugTools/ActiveMqTool.fxml</url>
+		<title>ActiveMqTool</title>
+	</ToolFxmlLoaderConfiguration>
+
+	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"
+		title="webCronExpBuilder" menuParentId="netWorkToolsMenu"
+		controllerType="WebView" />
+</root>

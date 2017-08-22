@@ -30,7 +30,7 @@ public abstract class IndexView implements Initializable {
 	@FXML
 	protected Menu moreToolsMenu;
 	@FXML
-	protected Menu NetWorkToolsMenu;
+	protected Menu netWorkToolsMenu;
 	@FXML
 	protected Menu helpMenu;
 }

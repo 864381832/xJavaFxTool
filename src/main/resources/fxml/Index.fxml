@@ -28,7 +28,7 @@
                       </Menu>
                       <Menu fx:id="toolsMenu" mnemonicParsing="false" text="%Tools" />
                         <Menu fx:id="moreToolsMenu" mnemonicParsing="false" text="%More_Tools" />
-                        <Menu fx:id="NetWorkToolsMenu" mnemonicParsing="false" text="%NetWork_Tools" />
+                        <Menu fx:id="netWorkToolsMenu" mnemonicParsing="false" text="%NetWork_Tools" />
                       <Menu fx:id="helpMenu" mnemonicParsing="false" text="%Help">
                         <items>
                               <Menu mnemonicParsing="false" text="%SetLanguage">
