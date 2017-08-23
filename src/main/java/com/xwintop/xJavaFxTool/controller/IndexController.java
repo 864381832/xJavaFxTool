@@ -2,20 +2,18 @@ package com.xwintop.xJavaFxTool.controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.configuration.XMLConfiguration;
-import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 import com.xwintop.xJavaFxTool.model.ToolFxmlLoaderConfiguration;
 import com.xwintop.xJavaFxTool.services.IndexService;
 import com.xwintop.xJavaFxTool.utils.Config;
+import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import com.xwintop.xJavaFxTool.view.IndexView;
 import com.xwintop.xcore.util.javafx.AlertUtil;
 
@@ -42,10 +40,18 @@ import javafx.scene.web.WebView;
  * @date: 2017年7月20日 下午1:50:00
  */
 public class IndexController extends IndexView {
+	private static Logger log = Logger.getLogger(IndexController.class);
 	private Map<String, Menu> menuMap = new HashMap<String, Menu>();
 	private Map<String, MenuItem> menuItemMap = new HashMap<String, MenuItem>();
 	private IndexService indexService = new IndexService();
 	private ContextMenu contextMenu = new ContextMenu();
+
+	public static FXMLLoader getFXMLLoader() {
+		ResourceBundle resourceBundle = ResourceBundle.getBundle("locale.Menu", Config.defaultLocale);
+		URL url = Object.class.getResource("/fxml/Index.fxml");
+		FXMLLoader fXMLLoader = new FXMLLoader(url, resourceBundle);
+		return fXMLLoader;
+	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -56,36 +62,30 @@ public class IndexController extends IndexView {
 	}
 
 	private void initView() {
-		List<ToolFxmlLoaderConfiguration> toolList = new ArrayList<ToolFxmlLoaderConfiguration>();
-		try {
-			XMLConfiguration xml = new XMLConfiguration("config/toolFxmlLoaderConfiguration.xml");
-			for (ConfigurationNode configurationNode : xml.getRoot().getChildren("ToolFxmlLoaderConfiguration")) {
-				ToolFxmlLoaderConfiguration toolFxmlLoaderConfiguration = new ToolFxmlLoaderConfiguration();
-				List<ConfigurationNode> attributes = configurationNode.getAttributes();
-				for (ConfigurationNode configuration : attributes) {
-					BeanUtils.copyProperty(toolFxmlLoaderConfiguration, configuration.getName(),
-							configuration.getValue());
-				}
-				List<ConfigurationNode> childrenList = configurationNode.getChildren();
-				for (ConfigurationNode configuration : childrenList) {
-					BeanUtils.copyProperty(toolFxmlLoaderConfiguration, configuration.getName(),
-							configuration.getValue());
-				}
-				toolList.add(toolFxmlLoaderConfiguration);
-			}
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-
+		List<ToolFxmlLoaderConfiguration> toolList = XJavaFxSystemUtil.loaderToolFxmlLoaderConfiguration();
+		List<ToolFxmlLoaderConfiguration> plugInToolList = XJavaFxSystemUtil.loaderPlugInToolFxmlLoaderConfiguration();
+		toolList.addAll(plugInToolList);
 		menuMap.put("toolsMenu", toolsMenu);
 		menuMap.put("moreToolsMenu", moreToolsMenu);
 		menuMap.put("netWorkToolsMenu", netWorkToolsMenu);
 		for (ToolFxmlLoaderConfiguration toolConfig : toolList) {
-			if (StringUtils.isEmpty(toolConfig.getMenuParentId())) {
-				toolConfig.setMenuParentId("toolsMenu");
+			try {
+				if (StringUtils.isEmpty(toolConfig.getResourceBundleName())) {
+					if (StringUtils.isNotEmpty(bundle.getString(toolConfig.getTitle()))) {
+						toolConfig.setTitle(bundle.getString(toolConfig.getTitle()));
+					}
+				} else {
+					ResourceBundle resourceBundle = ResourceBundle.getBundle(toolConfig.getResourceBundleName(),
+							Config.defaultLocale);
+					if (StringUtils.isNotEmpty(resourceBundle.getString(toolConfig.getTitle()))) {
+						toolConfig.setTitle(resourceBundle.getString(toolConfig.getTitle()));
+					}
+				}
+			} catch (Exception e) {
+				log.error(e.getMessage());
 			}
 			if (toolConfig.getIsMenu()) {
-				Menu menu = new Menu(bundle.getString(toolConfig.getTitle()));
+				Menu menu = new Menu(toolConfig.getTitle());
 				if (StringUtils.isNotEmpty(toolConfig.getIconPath())) {
 					ImageView imageView = new ImageView(new Image(toolConfig.getIconPath()));
 					imageView.setFitHeight(18);
@@ -106,7 +106,7 @@ public class IndexController extends IndexView {
 			if (toolConfig.getIsMenu()) {
 				continue;
 			}
-			MenuItem menuItem = new MenuItem(bundle.getString(toolConfig.getTitle()));
+			MenuItem menuItem = new MenuItem(toolConfig.getTitle());
 			if (StringUtils.isNotEmpty(toolConfig.getIconPath())) {
 				ImageView imageView = new ImageView(new Image(toolConfig.getIconPath()));
 				imageView.setFitHeight(18);
@@ -124,14 +124,14 @@ public class IndexController extends IndexView {
 				}
 			} else if ("WebView".equals(toolConfig.getControllerType())) {
 				menuItem.setOnAction((ActionEvent event) -> {
-					addWebView(menuItem.getText(), toolConfig.getUrl(),toolConfig.getIconPath());
+					addWebView(menuItem.getText(), toolConfig.getUrl(), toolConfig.getIconPath());
 				});
 				if (toolConfig.getIsDefaultShow()) {
-					addWebView(menuItem.getText(), toolConfig.getUrl(),toolConfig.getIconPath());
+					addWebView(menuItem.getText(), toolConfig.getUrl(), toolConfig.getIconPath());
 				}
 			}
 			menuMap.get(toolConfig.getMenuParentId()).getItems().add(menuItem);
-			menuItemMap.put(menuItem.getText(),menuItem);
+			menuItemMap.put(menuItem.getText(), menuItem);
 		}
 	}
 
@@ -178,7 +178,7 @@ public class IndexController extends IndexView {
 
 	@FXML
 	private void openAllTabAction(ActionEvent event) {
-		for(MenuItem value:menuItemMap.values()){
+		for (MenuItem value : menuItemMap.values()) {
 			value.fire();
 		}
 	}
@@ -232,7 +232,7 @@ public class IndexController extends IndexView {
 	}
 
 	@FXML
-	private void aboutAction(ActionEvent event) {
+	private void aboutAction(ActionEvent event) throws Exception {
 		AlertUtil.showInfoAlert(bundle.getString("aboutText"));
 	}
 

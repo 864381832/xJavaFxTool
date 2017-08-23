@@ -1,16 +1,12 @@
 package com.xwintop.xJavaFxTool;
 
-import java.io.File;
-import java.net.URL;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-import com.xwintop.xJavaFxTool.utils.Config;
-import com.xwintop.xJavaFxTool.utils.ConfigureUtil;
+import com.xwintop.xJavaFxTool.controller.IndexController;
+import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -27,19 +23,11 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		try {
-			File file = ConfigureUtil.getConfigureFile("systemConfigure.properties");
-			PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
-			String[] locale1 = xmlConfigure.getString("Locale").split("_");
-			if(locale1 != null) {
-				Config.defaultLocale = new Locale(locale1[0], locale1[1]);
-			}
-		} catch (Exception e) {
-		}
-		ResourceBundle resourceBundle = ResourceBundle.getBundle("locale.Menu", Config.defaultLocale);
-		URL url = getClass().getResource("/fxml/Index.fxml");
-
-		FXMLLoader fXMLLoader = new FXMLLoader(url, resourceBundle);
+		XJavaFxSystemUtil.initSystemLocal();
+		XJavaFxSystemUtil.addJarByLibs();
+		
+		FXMLLoader fXMLLoader = IndexController.getFXMLLoader();
+		ResourceBundle resourceBundle = fXMLLoader.getResources();
 		Parent root = fXMLLoader.load();
 		primaryStage.setResizable(true);
 		primaryStage.setTitle(resourceBundle.getString("Title"));

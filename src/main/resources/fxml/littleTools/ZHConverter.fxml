@@ -2,21 +2,42 @@
 
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="587.0" prefWidth="991.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.ZHConverterController">
+<AnchorPane prefHeight="514.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.ZHConverterController">
    <children>
-      <Label layoutX="24.0" layoutY="14.0" text="编码格式：" />
-      <ChoiceBox fx:id="codeTypesChoiceBox" layoutX="90.0" layoutY="10.0" prefHeight="23.0" prefWidth="150.0" />
-      <JFXTextArea fx:id="simplifiedTextArea" labelFloat="true" layoutX="24.0" layoutY="45.0" prefHeight="220.0" prefWidth="767.0" promptText="原文字" />
-      <JFXTextArea fx:id="traditionalTextArea" labelFloat="true" layoutX="24.0" layoutY="293.0" prefHeight="233.0" prefWidth="767.0" promptText="转换后文字" />
-      <Button fx:id="changeButton" layoutX="825.0" layoutY="45.0" mnemonicParsing="false" onAction="#changeAction" text="转换" />
-      <Button fx:id="restoreButton" layoutX="825.0" layoutY="271.0" mnemonicParsing="false" onAction="#restoreAction" text="还原" />
-      <Label layoutX="270.0" layoutY="14.0" text="拼音格式选项：" />
-      <ChoiceBox fx:id="pinyinTypeChoiceBox" layoutX="362.0" layoutY="10.0" prefWidth="150.0" />
-      <JFXTextField fx:id="pinyinTypeTextField" labelFloat="true" layoutX="533.0" layoutY="10.0" promptText="拼音间隔符号" />
+      <BorderPane layoutX="24.0" layoutY="43.8046875" prefHeight="538.0" prefWidth="885.0" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <center>
+            <VBox spacing="30.0">
+               <children>
+                  <JFXTextArea fx:id="simplifiedTextArea" labelFloat="true" prefHeight="220.0" promptText="原文字" />
+                  <JFXTextArea fx:id="traditionalTextArea" labelFloat="true" prefHeight="220.0" promptText="转换后文字" />
+               </children>
+               <BorderPane.margin>
+                  <Insets top="10.0" />
+               </BorderPane.margin>
+            </VBox>
+         </center>
+         <top>
+            <HBox alignment="CENTER" spacing="5.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="编码格式：" />
+                  <ChoiceBox fx:id="codeTypesChoiceBox" prefWidth="150.0" />
+                  <Label text="拼音格式选项：" />
+                  <ChoiceBox fx:id="pinyinTypeChoiceBox" prefWidth="150.0" />
+                  <JFXTextField fx:id="pinyinTypeTextField" labelFloat="true" promptText="拼音间隔符号" />
+                  <Button fx:id="changeButton" mnemonicParsing="false" onAction="#changeAction" text="转换" />
+                  <Button fx:id="restoreButton" mnemonicParsing="false" onAction="#restoreAction" text="还原" />
+               </children>
+            </HBox>
+         </top>
+      </BorderPane>
    </children>
 </AnchorPane>

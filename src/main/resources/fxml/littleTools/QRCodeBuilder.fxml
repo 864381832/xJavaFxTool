@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
@@ -10,42 +11,78 @@
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
 <AnchorPane prefHeight="428.0" prefWidth="783.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.QRCodeBuilderController">
 	<children>
-		<Button fx:id="builderButton" layoutX="495.0" layoutY="17.0" mnemonicParsing="false" onAction="#builderAction" text="生成" />
-		<Label layoutX="24.0" layoutY="21.0" text="地址：" />
-		<TextField fx:id="contentTextField" layoutX="58.0" layoutY="17.0" prefHeight="23.0" prefWidth="367.0" />
-		<ImageView fx:id="codeImageView" fitHeight="320.0" fitWidth="320.0" layoutX="24.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="codeImageView1" fitHeight="320.0" fitWidth="320.0" layoutX="361.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="snapshotButton" layoutX="606.0" layoutY="17.0" mnemonicParsing="false" onAction="#snapshotAction" text="截图识别">
-         <tooltip>
-            <Tooltip text="试试alt+s快捷键截图" />
-         </tooltip></Button>
-      <ColorPicker fx:id="onColorColorPicker" layoutX="72.0" layoutY="53.0" prefHeight="23.0" prefWidth="78.0" />
-      <Label layoutX="23.0" layoutY="57.0" text="前景色：" />
-      <Label layoutX="160.0" layoutY="57.0" text="背景色：" />
-      <ColorPicker fx:id="offColorColorPicker" layoutX="208.0" layoutY="53.0" prefHeight="23.0" prefWidth="78.0" />
-      <ChoiceBox fx:id="errorCorrectionLevelChoiceBox" layoutX="354.0" layoutY="53.0" prefHeight="23.0" prefWidth="60.0" />
-      <Label layoutX="291.0" layoutY="57.0" text="容错等级：" />
-      <Button fx:id="saveButton" layoutX="737.0" layoutY="17.0" mnemonicParsing="false" onAction="#saveAction" text="保存" />
-      <Label layoutX="429.0" layoutY="57.0" text="边距：" />
-      <ChoiceBox fx:id="marginChoiceBox" layoutX="465.0" layoutY="53.0" prefHeight="23.0" prefWidth="42.0" />
-      <Label layoutX="518.0" layoutY="57.0" text="图片格式：" />
-      <ChoiceBox fx:id="formatImageChoiceBox" layoutX="578.0" layoutY="53.0" prefHeight="23.0" prefWidth="48.0" />
-      <ChoiceBox fx:id="codeFormatChoiceBox" layoutX="431.0" layoutY="17.0" prefHeight="23.0" prefWidth="60.0" />
-      <Button fx:id="logoButton" layoutX="539.0" layoutY="17.0" mnemonicParsing="false" onAction="#logoAction" text="加载logo" />
-      <CheckBox fx:id="logoCheckBox" layoutX="635.0" layoutY="57.0" mnemonicParsing="false" text="Logo" />
-      <Slider fx:id="logoSlider" layoutX="698.0" layoutY="89.0" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" value="15.0" />
-      <Label layoutX="707.0" layoutY="59.0" text="大小">
-         <tooltip>
-            <Tooltip text="设置Logo大小" />
-         </tooltip>
-      </Label>
-      <Button fx:id="snapshotDesktopButton" layoutX="671.0" layoutY="17.0" mnemonicParsing="false" onAction="#snapshotDesktopAction" text="识别桌面">
-         <tooltip>
-            <Tooltip text="试试alt+s快捷键截图" />
-         </tooltip>
-      </Button>
+      <BorderPane layoutX="24.0" layoutY="17.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <top>
+            <VBox alignment="CENTER" spacing="5.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER" spacing="5.0">
+                     <children>
+                  		<Label text="地址：" />
+                  		<TextField fx:id="contentTextField" prefWidth="308.0" />
+                        <ChoiceBox fx:id="codeFormatChoiceBox" prefHeight="23.0" prefWidth="60.0" />
+                  		<Button fx:id="builderButton" mnemonicParsing="false" onAction="#builderAction" text="生成" />
+                        <Button fx:id="logoButton" mnemonicParsing="false" onAction="#logoAction" text="加载logo" />
+                        <Button fx:id="snapshotButton" mnemonicParsing="false" onAction="#snapshotAction" text="截图识别">
+                           <tooltip>
+                              <Tooltip text="试试alt+s快捷键截图" />
+                           </tooltip>
+                        </Button>
+                        <Button fx:id="snapshotDesktopButton" mnemonicParsing="false" onAction="#snapshotDesktopAction" text="识别桌面">
+                           <tooltip>
+                              <Tooltip text="试试alt+s快捷键截图" />
+                           </tooltip>
+                        </Button>
+                        <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveAction" text="保存" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" spacing="5.0">
+                     <children>
+                        <Label text="前景色：" />
+                        <ColorPicker fx:id="onColorColorPicker" prefWidth="77.0" />
+                        <Label text="背景色：" />
+                        <ColorPicker fx:id="offColorColorPicker" prefWidth="78.0" />
+                        <Label text="容错等级：" />
+                        <ChoiceBox fx:id="errorCorrectionLevelChoiceBox" prefWidth="60.0" />
+                        <Label text="边距：" />
+                        <ChoiceBox fx:id="marginChoiceBox" prefWidth="42.0" />
+                        <Label text="图片格式：" />
+                        <ChoiceBox fx:id="formatImageChoiceBox" prefWidth="48.0" />
+                        <CheckBox fx:id="logoCheckBox" mnemonicParsing="false" text="Logo" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </top>
+         <center>
+            <HBox alignment="CENTER" spacing="20.0" BorderPane.alignment="CENTER">
+               <children>
+            		<ImageView fx:id="codeImageView" fitHeight="320.0" fitWidth="320.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="codeImageView1" fitHeight="320.0" fitWidth="320.0" pickOnBounds="true" preserveRatio="true" />
+                  <VBox spacing="10.0">
+                     <children>
+                        <Label text="大小">
+                           <tooltip>
+                              <Tooltip text="设置Logo大小" />
+                           </tooltip>
+                        </Label>
+                        <Slider fx:id="logoSlider" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" value="15.0" />
+                     </children>
+                     <HBox.margin>
+                        <Insets top="10.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+               <BorderPane.margin>
+                  <Insets top="10.0" />
+               </BorderPane.margin>
+            </HBox>
+         </center>
+      </BorderPane>
 	</children>
 </AnchorPane>
