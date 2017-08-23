@@ -37,7 +37,7 @@ public class IndexService {
 		ContextMenu contextMenu = new ContextMenu();
 		for (MenuItem menuItem : menuItemMap.values()) {
 			if (menuItem.getText().contains(selectText)) {
-				MenuItem menu_tab = new MenuItem(menuItem.getText());
+				MenuItem menu_tab = new MenuItem(menuItem.getText(),menuItem.getGraphic());
 				menu_tab.setOnAction(event1 -> {
 					menuItem.fire();
 				});
