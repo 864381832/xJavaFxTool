@@ -1,7 +1,13 @@
 package com.xwintop.xJavaFxTool.services.littleTools;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.function.Consumer;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.BiConsumer;
 
 import javax.imageio.ImageIO;
 
@@ -9,8 +15,12 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.xwintop.xJavaFxTool.controller.littleTools.IconToolController;
 import com.xwintop.xJavaFxTool.utils.ConfigureUtil;
+import com.xwintop.xJavaFxTool.utils.ImgToolUtil;
 import com.xwintop.xcore.util.FileUtil;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
@@ -28,6 +38,7 @@ import javafx.stage.FileChooser;
 import lombok.Setter;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.Thumbnails.Builder;
+import net.coobird.thumbnailator.geometry.Positions;
 
 @Setter
 public class IconToolService {
@@ -41,9 +52,30 @@ public class IconToolService {
 		FileUtils.touch(file);
 		PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
 		xmlConfigure.clear();
-		for (int i = 0; i < iconToolController.getIconSizeFlowPane().getChildren().size(); i++) {
-			xmlConfigure.setProperty("tableBean" + i, "");
+		xmlConfigure.setProperty("iconFilePathTextField", iconToolController.getIconFilePathTextField().getText());
+		xmlConfigure.setProperty("iconTargetPathTextField", iconToolController.getIconTargetPathTextField().getText());
+		xmlConfigure.setProperty("isCornerCheckBox", iconToolController.getIsCornerCheckBox().isSelected());
+		xmlConfigure.setProperty("cornerSizeSlider", iconToolController.getCornerSizeSlider().getValue());
+		xmlConfigure.setProperty("isKeepAspectRatioCheckBox",
+				iconToolController.getIsKeepAspectRatioCheckBox().isSelected());
+		xmlConfigure.setProperty("isWatermarkCheckBox", iconToolController.getIsWatermarkCheckBox().isSelected());
+		xmlConfigure.setProperty("watermarkPathTextField", iconToolController.getWatermarkPathTextField().getText());
+		xmlConfigure.setProperty("iconFormatChoiceBox", iconToolController.getIconFormatChoiceBox().getValue());
+		xmlConfigure.setProperty("iconNameTextField", iconToolController.getIconNameTextField().getText());
+		xmlConfigure.setProperty("iosIconCheckBox", iconToolController.getIosIconCheckBox().isSelected());
+		xmlConfigure.setProperty("androidCheckBox", iconToolController.getAndroidCheckBox().isSelected());
+		xmlConfigure.setProperty("watermarkPositionChoiceBox",
+				iconToolController.getWatermarkPositionChoiceBox().getValue());
+		xmlConfigure.setProperty("watermarkOpacitySlider", iconToolController.getWatermarkOpacitySlider().getValue());
+		xmlConfigure.setProperty("outputQualitySlider", iconToolController.getOutputQualitySlider().getValue());
+		List<String> iconSizeFlowPaneList = new ArrayList<String>();
+		for (Node node : iconToolController.getIconSizeFlowPane().getChildren()) {
+			CheckBox checkBox = ((CheckBox) node);
+			// xmlConfigure.setProperty("iconSizeFlowPane" + checkBox.getText(),
+			// checkBox.isSelected());
+			iconSizeFlowPaneList.add(checkBox.getText() + "_" + checkBox.isSelected());
 		}
+		xmlConfigure.setProperty("iconSizeFlowPaneList", iconSizeFlowPaneList);
 		xmlConfigure.save();
 		TooltipUtil.showToast("保存配置成功,保存在：" + file.getPath());
 	}
@@ -65,13 +97,28 @@ public class IconToolService {
 	public void loadingConfigure(File file) {
 		try {
 			PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
-			xmlConfigure.getKeys().forEachRemaining(new Consumer<String>() {
-				@Override
-				public void accept(String t) {
-					// tableData.add(new
-					// FileCopyTableBean(xmlConfigure.getString(t)));
-				}
-			});
+			iconToolController.getIconFilePathTextField().setText(xmlConfigure.getString("iconFilePathTextField"));
+			iconToolController.getIconTargetPathTextField().setText(xmlConfigure.getString("iconTargetPathTextField"));
+			iconToolController.getIsCornerCheckBox().setSelected(xmlConfigure.getBoolean("isCornerCheckBox"));
+			iconToolController.getCornerSizeSlider().setValue(xmlConfigure.getDouble("cornerSizeSlider"));
+			iconToolController.getIsKeepAspectRatioCheckBox()
+					.setSelected(xmlConfigure.getBoolean("isKeepAspectRatioCheckBox"));
+			iconToolController.getIsWatermarkCheckBox().setSelected(xmlConfigure.getBoolean("isWatermarkCheckBox"));
+			iconToolController.getWatermarkPathTextField().setText(xmlConfigure.getString("watermarkPathTextField"));
+			iconToolController.getIconFormatChoiceBox().setValue(xmlConfigure.getString("iconFormatChoiceBox"));
+			iconToolController.getIconNameTextField().setText(xmlConfigure.getString("iconNameTextField"));
+			iconToolController.getIosIconCheckBox().setSelected(xmlConfigure.getBoolean("iosIconCheckBox"));
+			iconToolController.getAndroidCheckBox().setSelected(xmlConfigure.getBoolean("androidCheckBox"));
+			iconToolController.getWatermarkPositionChoiceBox()
+					.setValue(Positions.valueOf(xmlConfigure.getString("watermarkPositionChoiceBox")));
+			iconToolController.getWatermarkOpacitySlider().setValue(xmlConfigure.getDouble("watermarkOpacitySlider"));
+			iconToolController.getOutputQualitySlider().setValue(xmlConfigure.getDouble("outputQualitySlider"));
+			List<Object> iconSizeFlowPaneList = xmlConfigure.getList("iconSizeFlowPaneList");
+			iconToolController.getIconSizeFlowPane().getChildren().clear();
+			for (Object iconSize : iconSizeFlowPaneList) {
+				String[] checkBox = iconSize.toString().split("_");
+				addSizeAction(checkBox[0], Boolean.parseBoolean(checkBox[1]));
+			}
 		} catch (Exception e) {
 			try {
 				TooltipUtil.showToast("加载配置失败：" + e.getMessage());
@@ -96,9 +143,13 @@ public class IconToolService {
 	}
 
 	public void addSizeAction(String text) {
+		addSizeAction(text, true);
+	}
+
+	public void addSizeAction(String text, boolean isSelect) {
 		CheckBox checkBox = new CheckBox(text);
 		checkBox.setPrefWidth(90);
-		checkBox.setSelected(true);
+		checkBox.setSelected(isSelect);
 		checkBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -117,14 +168,15 @@ public class IconToolService {
 	public void buildIconAction() throws Exception {
 		String iconFilePathText = iconToolController.getIconFilePathTextField().getText();
 		String iconTargetPathText = iconToolController.getIconTargetPathTextField().getText();
+		String iconFormat = iconToolController.getIconFormatChoiceBox().getValue();
 		if (StringUtils.isEmpty(iconFilePathText)) {
 			TooltipUtil.showToast("图标未选择！");
-			return;
+			throw new Exception("图标未选择！");
 		}
 		File iconFilePathFile = new File(iconFilePathText);
 		if (!iconFilePathFile.exists()) {
 			TooltipUtil.showToast("图标加载失败！");
-			return;
+			throw new Exception("图标加载失败！");
 		}
 		File iconTargetPathFile = null;
 		if (StringUtils.isEmpty(iconTargetPathText)) {
@@ -136,6 +188,7 @@ public class IconToolService {
 		if (StringUtils.isNotEmpty(iconToolController.getIconNameTextField().getText())) {
 			iconFileName = iconToolController.getIconNameTextField().getText();
 		}
+
 		for (Node node : iconToolController.getIconSizeFlowPane().getChildren()) {
 			CheckBox checkBox = ((CheckBox) node);
 			if (checkBox.isSelected()) {
@@ -143,48 +196,126 @@ public class IconToolService {
 				int width = Integer.parseInt(checkBoxText[0]);
 				int height = Integer.parseInt(checkBoxText[1]);
 				String fileName = iconFileName + "-" + width;
-				Builder<File> builderFile = Thumbnails.of(iconFilePathFile);
-				builderFile.size(width, height)
-						.keepAspectRatio(iconToolController.getIsKeepAspectRatioCheckBox().isSelected())
-						.outputFormat(iconToolController.getIconFormatChoiceBox().getValue())
-						.outputQuality(iconToolController.getOutputQualitySlider().getValue());
-				if (iconToolController.getIsWatermarkCheckBox().isSelected()) {
-					String watermarkPathText = iconToolController.getWatermarkPathTextField().getText();
-					if (StringUtils.isNotEmpty(watermarkPathText)) {
-						builderFile.watermark(iconToolController.getWatermarkPositionChoiceBox().getValue(),
-								ImageIO.read(new File(watermarkPathText)),
-								(float) iconToolController.getWatermarkOpacitySlider().getValue());
-					}
-				}
-				builderFile.toFile(new File(iconTargetPathFile.getPath(), fileName));
+				BufferedImage bufferedImage = getBufferedImage(iconFilePathFile, width, height);
+				ImageIO.write(bufferedImage, iconFormat,
+						new File(iconTargetPathFile.getPath(), fileName + "." + iconFormat));
 			}
 		}
+		if (iconToolController.getIosIconCheckBox().isSelected()) {
+			File appIconAppiconsetPathFile = new File(iconTargetPathFile.getPath() + "/ios/AppIcon.appiconset/");
+			File contentsFile = new File(Object.class.getResource("/data/iosAppIcon/Contents.json").getFile());
+			FileUtils.copyFileToDirectory(contentsFile, appIconAppiconsetPathFile);
+			BufferedImage bufferedImage512 = getBufferedImage(iconFilePathFile, 512, 512);
+			ImageIO.write(bufferedImage512, "png",
+					new File(iconTargetPathFile.getPath() + "/ios", "iTunesArtwork.png"));
+			BufferedImage bufferedImage1024 = getBufferedImage(iconFilePathFile, 1024, 1024);
+			ImageIO.write(bufferedImage1024, "png",
+					new File(iconTargetPathFile.getPath() + "/ios", "iTunesArtwork@2x.png"));
+
+			JSONArray jSONArray = JSON.parseObject(FileUtils.readFileToString(contentsFile, Charset.defaultCharset()))
+					.getJSONArray("images");
+			for (int i = 0; i < jSONArray.size(); i++) {
+				JSONObject jsonObject = jSONArray.getJSONObject(i);
+				System.out.println(jsonObject.toString());
+				float size = Float.parseFloat(jsonObject.getString("size").split("x")[0])
+						* Integer.parseInt(jsonObject.getString("scale").substring(0, 1));
+				BufferedImage bufferedImage = getBufferedImage(iconFilePathFile, (int) size, (int) size);
+				ImageIO.write(bufferedImage, "png", new File(iconTargetPathFile.getPath() + "/ios/AppIcon.appiconset",
+						jsonObject.getString("filename")));
+			}
+		}
+		if (iconToolController.getAndroidCheckBox().isSelected()) {
+			File appIconAppiconsetPathFile = new File(iconTargetPathFile.getPath() + "/android/");
+			appIconAppiconsetPathFile.mkdirs();
+			BufferedImage bufferedImage512 = getBufferedImage(iconFilePathFile, 512, 512);
+			ImageIO.write(bufferedImage512, "png", new File(appIconAppiconsetPathFile, "ic_launcher.png"));
+			final String iconTargetPathFileString = iconTargetPathFile.getPath() + "/android/";
+			Map<String, Integer> sizeMap = new HashMap<String, Integer>();
+			sizeMap.put("mipmap-hdpi", 72);
+			sizeMap.put("mipmap-ldpi", 36);
+			sizeMap.put("mipmap-mdpi", 48);
+			sizeMap.put("mipmap-xhdpi", 96);
+			sizeMap.put("mipmap-xxhdpi", 114);
+			sizeMap.put("mipmap-xxxhdpi", 192);
+			sizeMap.forEach(new BiConsumer<String, Integer>() {
+				@Override
+				public void accept(String key, Integer value) {
+					try {
+						new File(iconTargetPathFileString + key).mkdirs();
+						BufferedImage bufferedImage = getBufferedImage(iconFilePathFile, value, value);
+						ImageIO.write(bufferedImage, "png", new File(iconTargetPathFileString + key, "ic_launcher.png"));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
+		}
+		TooltipUtil.showToast("生成图片成功，请在路径：" + iconTargetPathFile.getPath() + "下查看。");
+	}
+
+	private BufferedImage getBufferedImage(File iconFilePathFile, int width, int height) throws Exception {
+		Builder<File> builderFile = Thumbnails.of(iconFilePathFile);
+		builderFile.size(width, height).keepAspectRatio(iconToolController.getIsKeepAspectRatioCheckBox().isSelected())
+				.outputFormat(iconToolController.getIconFormatChoiceBox().getValue())
+				.outputQuality(iconToolController.getOutputQualitySlider().getValue());
+		if (iconToolController.getIsWatermarkCheckBox().isSelected()) {
+			String watermarkPathText = iconToolController.getWatermarkPathTextField().getText();
+			if (StringUtils.isNotEmpty(watermarkPathText)) {
+				try {
+					builderFile.watermark(iconToolController.getWatermarkPositionChoiceBox().getValue(),
+							ImageIO.read(new File(watermarkPathText)),
+							(float) iconToolController.getWatermarkOpacitySlider().getValue());
+				} catch (Exception e) {
+					throw new Exception("水印图片加载异常！");
+				}
+			}
+		}
+		BufferedImage bufferedImage = builderFile.asBufferedImage();
+		if (iconToolController.getIsCornerCheckBox().isSelected()) {
+			ImgToolUtil imgToolUtil = new ImgToolUtil(bufferedImage);
+			imgToolUtil.corner((float) iconToolController.getCornerSizeSlider().getValue());
+			bufferedImage = imgToolUtil.getImage();
+		}
+		return bufferedImage;
 	}
 
 	public void buildIconTargetImageAction() throws Exception {
 		String iconFilePathText = iconToolController.getIconFilePathTextField().getText();
 		if (StringUtils.isEmpty(iconFilePathText)) {
 			TooltipUtil.showToast("图标未选择！");
-			return;
+			throw new Exception("图标未选择！");
 		}
 		File iconFilePathFile = new File(iconFilePathText);
 		if (!iconFilePathFile.exists()) {
-			TooltipUtil.showToast("图标加载失败！");
-			return;
+			throw new Exception("图标加载失败！");
 		}
-		Builder<File> builderFile = Thumbnails.of(iconFilePathFile);
-		builderFile.size(150, 150).keepAspectRatio(iconToolController.getIsKeepAspectRatioCheckBox().isSelected())
-				.outputFormat(iconToolController.getIconFormatChoiceBox().getValue())
-				.outputQuality(iconToolController.getOutputQualitySlider().getValue());
-		if (iconToolController.getIsWatermarkCheckBox().isSelected()) {
-			String watermarkPathText = iconToolController.getWatermarkPathTextField().getText();
-			if (StringUtils.isNotEmpty(watermarkPathText)) {
-				builderFile.watermark(iconToolController.getWatermarkPositionChoiceBox().getValue(),
-						ImageIO.read(new File(watermarkPathText)),
-						(float) iconToolController.getWatermarkOpacitySlider().getValue());
-			}
-		}
-		Image image = SwingFXUtils.toFXImage(builderFile.asBufferedImage(), null);
+		BufferedImage bufferedImage = getBufferedImage(iconFilePathFile, 150, 150);
+		// Builder<File> builderFile = Thumbnails.of(iconFilePathFile);
+		// builderFile.size(150,
+		// 150).keepAspectRatio(iconToolController.getIsKeepAspectRatioCheckBox().isSelected())
+		// .outputFormat(iconToolController.getIconFormatChoiceBox().getValue())
+		// .outputQuality(iconToolController.getOutputQualitySlider().getValue());
+		// if (iconToolController.getIsWatermarkCheckBox().isSelected()) {
+		// String watermarkPathText =
+		// iconToolController.getWatermarkPathTextField().getText();
+		// if (StringUtils.isNotEmpty(watermarkPathText)) {
+		// try {
+		// builderFile.watermark(iconToolController.getWatermarkPositionChoiceBox().getValue(),
+		// ImageIO.read(new File(watermarkPathText)),
+		// (float) iconToolController.getWatermarkOpacitySlider().getValue());
+		// } catch (Exception e) {
+		// throw new Exception("水印图片加载异常！");
+		// }
+		// }
+		// }
+		// BufferedImage bufferedImage = builderFile.asBufferedImage();
+		// if (iconToolController.getIsCornerCheckBox().isSelected()) {
+		// ImgToolUtil imgToolUtil = new ImgToolUtil(bufferedImage);
+		// imgToolUtil.corner((float)
+		// iconToolController.getCornerSizeSlider().getValue());
+		// bufferedImage = imgToolUtil.getImage();
+		// }
+		Image image = SwingFXUtils.toFXImage(bufferedImage, null);
 		iconToolController.getIconTargetImageView().setImage(image);
 	}
 

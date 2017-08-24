@@ -30,6 +30,7 @@
                   <TextField fx:id="iconTargetPathTextField" prefHeight="23.0" prefWidth="102.0" promptText="可拖拽操作" />
                   <Button fx:id="chooseTargetPathButton" mnemonicParsing="false" onAction="#chooseTargetPathAction" text="选择" />
                   <CheckBox fx:id="isCornerCheckBox" mnemonicParsing="false" selected="true" text="是否圆角" />
+                  <JFXSlider fx:id="cornerSizeSlider" indicatorPosition="RIGHT" max="360.0" showTickLabels="true" value="100.0" />
                   <CheckBox fx:id="isKeepAspectRatioCheckBox" mnemonicParsing="false" text="保持原图宽高比" />
                </children>
                <opaqueInsets>
@@ -50,8 +51,8 @@
                   <ChoiceBox fx:id="iconFormatChoiceBox" prefWidth="73.0" />
                   <Label text="图片前缀：" />
                   <TextField fx:id="iconNameTextField" prefWidth="80.0" promptText="默认为Icon" />
-                  <CheckBox fx:id="iosIconCheckBox" mnemonicParsing="false" text="IOS" />
-                  <CheckBox fx:id="androidCheckBox" mnemonicParsing="false" text="Android" />
+                  <CheckBox fx:id="iosIconCheckBox" mnemonicParsing="false" selected="true" text="IOS" />
+                  <CheckBox fx:id="androidCheckBox" mnemonicParsing="false" selected="true" text="Android" />
                   <Button fx:id="buildIconButton" mnemonicParsing="false" onAction="#buildIconAction" text="一键生成" />
                </children>
                <BorderPane.margin>
@@ -62,9 +63,9 @@
          <left>
             <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label text="原图：" />
+                  <Label text="原始图标缩略图" />
                   <ImageView fx:id="iconImageView" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
-                  <JFXButton fx:id="buildIconTargetImageButton" onAction="#buildIconTargetImageAction" text="生成图片预览：">
+                  <JFXButton fx:id="buildIconTargetImageButton" onAction="#buildIconTargetImageAction" text="生成图片缩略图（点击）">
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin>
@@ -94,7 +95,7 @@
                         <JFXButton fx:id="inverseButton" disable="true" onAction="#inverseAction" text="反选" />
                         <JFXButton fx:id="allNotSelectButton" onAction="#allNotSelectAction" text="全部取消" />
                      </children></HBox>
-                  <FlowPane fx:id="iconSizeFlowPane" columnHalignment="CENTER" hgap="10.0" prefHeight="200.0" prefWidth="200.0" vgap="10.0">
+                  <FlowPane fx:id="iconSizeFlowPane" columnHalignment="CENTER" hgap="10.0" vgap="10.0">
                   </FlowPane>
                </children>
                <BorderPane.margin>

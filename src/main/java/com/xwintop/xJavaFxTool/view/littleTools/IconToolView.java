@@ -26,6 +26,8 @@ public abstract class IconToolView implements Initializable {
 	@FXML
 	protected CheckBox isCornerCheckBox;
 	@FXML
+	protected Slider cornerSizeSlider;
+	@FXML
 	protected CheckBox isKeepAspectRatioCheckBox;
 	@FXML
 	protected Button buttonSaveConfigure;

@@ -14,6 +14,7 @@ import com.xwintop.xJavaFxTool.view.littleTools.IconToolView;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingFXUtils;
@@ -60,7 +61,7 @@ public class IconToolController extends IconToolView {
 	private void initEvent() {
 		FileChooserUtil.setOnDrag(iconFilePathTextField, FileChooserUtil.FileType.FILE);
 		FileChooserUtil.setOnDrag(iconTargetPathTextField, FileChooserUtil.FileType.FOLDER);
-		FileChooserUtil.setOnDrag(watermarkPathTextField, FileChooserUtil.FileType.FOLDER);
+		FileChooserUtil.setOnDrag(watermarkPathTextField, FileChooserUtil.FileType.FILE);
 		for (Node node : iconSizeFlowPane.getChildren()) {
 			((CheckBox) node).selectedProperty().addListener(new ChangeListener<Boolean>() {
 				@Override
@@ -75,9 +76,34 @@ public class IconToolController extends IconToolView {
 				}
 			});
 		}
+		iconFilePathTextField.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> arg0, String oldValue, String newValue) {
+				try {
+					File file = new File(newValue);
+					Image image = SwingFXUtils.toFXImage(ImageIO.read(file), null);
+					iconImageView.setImage(image);
+				} catch (Exception e) {
+					TooltipUtil.showToast("图片加载异常");
+				}
+			}
+		});
+		watermarkPathTextField.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> arg0, String oldValue, String newValue) {
+				try {
+					File file = new File(newValue);
+					Image image = SwingFXUtils.toFXImage(ImageIO.read(file), null);
+					watermarkImageView.setImage(image);
+				} catch (Exception e) {
+					TooltipUtil.showToast("图片加载异常");
+				}
+			}
+		});
 	}
 
 	private void initService() {
+		iconToolService.loadingConfigure();
 	}
 
 	@FXML
@@ -87,9 +113,13 @@ public class IconToolController extends IconToolView {
 				new FileChooser.ExtensionFilter("gif", "*.gif"), new FileChooser.ExtensionFilter("jpeg", "*.jpeg"),
 				new FileChooser.ExtensionFilter("bmp", "*.bmp"));
 		if (file != null) {
-			iconFilePathTextField.setText(file.getPath());
-			Image image = SwingFXUtils.toFXImage(ImageIO.read(file), null);
-			iconImageView.setImage(image);
+			try {
+				iconFilePathTextField.setText(file.getPath());
+				Image image = SwingFXUtils.toFXImage(ImageIO.read(file), null);
+				iconImageView.setImage(image);
+			} catch (Exception e) {
+				TooltipUtil.showToast("图片加载异常");
+			}
 		}
 	}
 
@@ -112,25 +142,35 @@ public class IconToolController extends IconToolView {
 	}
 
 	@FXML
-	private void saveConfigure(ActionEvent event) {
-
+	private void saveConfigure(ActionEvent event) throws Exception {
+		iconToolService.saveConfigure();
 	}
 
 	@FXML
-	private void otherSaveConfigureAction(ActionEvent event) {
+	private void otherSaveConfigureAction(ActionEvent event) throws Exception {
+		iconToolService.otherSaveConfigureAction();
 	}
 
 	@FXML
 	private void loadingConfigureAction(ActionEvent event) {
+		iconToolService.loadingConfigureAction();
 	}
 
 	@FXML
 	private void buildIconAction(ActionEvent event) throws Exception {
-		iconToolService.buildIconAction();
+		try {
+			iconToolService.buildIconAction();
+		} catch (Exception e) {
+			TooltipUtil.showToast(e.getMessage());
+		}
 	}
 	@FXML
 	private void buildIconTargetImageAction(ActionEvent event) throws Exception {
-		iconToolService.buildIconTargetImageAction();
+		try {
+			iconToolService.buildIconTargetImageAction();
+		} catch (Exception e) {
+			TooltipUtil.showToast(e.getMessage());
+		}
 	}
 
 	@FXML
@@ -167,9 +207,13 @@ public class IconToolController extends IconToolView {
 				new FileChooser.ExtensionFilter("gif", "*.gif"), new FileChooser.ExtensionFilter("jpeg", "*.jpeg"),
 				new FileChooser.ExtensionFilter("bmp", "*.bmp"));
 		if (file != null) {
-			watermarkPathTextField.setText(file.getPath());
-			Image image = SwingFXUtils.toFXImage(ImageIO.read(file), null);
-			watermarkImageView.setImage(image);
+			try {
+				watermarkPathTextField.setText(file.getPath());
+				Image image = SwingFXUtils.toFXImage(ImageIO.read(file), null);
+				watermarkImageView.setImage(image);
+			} catch (Exception e) {
+				TooltipUtil.showToast("水印图片加载异常");
+			}
 		}
 	}
 
