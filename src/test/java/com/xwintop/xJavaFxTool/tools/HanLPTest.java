@@ -6,10 +6,15 @@ import org.junit.Test;
 
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.dictionary.py.Pinyin;
-import com.hankcs.hanlp.dictionary.py.PinyinDictionary;
 import com.hankcs.hanlp.seg.common.Term;
 import com.hankcs.hanlp.tokenizer.StandardTokenizer;
 
+/** 
+ * @ClassName: HanLPTest 
+ * @Description: 自然语言处理工具类测试
+ * @author: xufeng
+ * @date: 2017年8月24日 上午11:10:05  
+ */
 public class HanLPTest {
 	@Test
 	public void test() {

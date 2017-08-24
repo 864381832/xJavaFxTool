@@ -66,7 +66,7 @@
                   <ImageView fx:id="codeImageView1" fitHeight="320.0" fitWidth="320.0" pickOnBounds="true" preserveRatio="true" />
                   <VBox spacing="10.0">
                      <children>
-                        <Label text="大小">
+                        <Label text="Logo大小">
                            <tooltip>
                               <Tooltip text="设置Logo大小" />
                            </tooltip>

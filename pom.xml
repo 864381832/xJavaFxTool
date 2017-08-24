@@ -56,6 +56,12 @@
 			<artifactId>hanlp</artifactId>
 			<version>portable-1.3.4</version>
 		</dependency>
+		<!--thumbnailator图片处理工具 -->
+		<dependency>
+			<groupId>net.coobird</groupId>
+			<artifactId>thumbnailator</artifactId>
+			<version>0.4.8</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

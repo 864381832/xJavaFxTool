@@ -99,6 +99,12 @@
 		<title>ActiveMqTool</title>
 		<menuParentId>debugTools</menuParentId>
 	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/fxml/littleTools/IconTool.fxml</url>
+		<title>IconTool</title>
+		<menuParentId>littleTools</menuParentId>
+		<isDefaultShow>true</isDefaultShow>
+	</ToolFxmlLoaderConfiguration>
 
 	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"
 		title="webCronExpBuilder" menuParentId="netWorkToolsMenu"
