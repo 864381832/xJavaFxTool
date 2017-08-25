@@ -14,7 +14,6 @@ import com.xwintop.xJavaFxTool.view.littleTools.IconToolView;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingFXUtils;
@@ -28,6 +27,12 @@ import lombok.Getter;
 import lombok.Setter;
 import net.coobird.thumbnailator.geometry.Positions;
 
+/** 
+ * @ClassName: IconToolController 
+ * @Description: 图标转换工具
+ * @author: xufeng
+ * @date: 2017年8月25日 上午9:54:55  
+ */
 @Getter
 @Setter
 public class IconToolController extends IconToolView {
@@ -79,6 +84,10 @@ public class IconToolController extends IconToolView {
 		iconFilePathTextField.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String oldValue, String newValue) {
+				if(StringUtils.isEmpty(newValue)){
+					iconImageView.setImage(null);
+					return;
+				}
 				try {
 					File file = new File(newValue);
 					Image image = SwingFXUtils.toFXImage(ImageIO.read(file), null);
@@ -91,6 +100,10 @@ public class IconToolController extends IconToolView {
 		watermarkPathTextField.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String oldValue, String newValue) {
+				if(StringUtils.isEmpty(newValue)){
+					watermarkImageView.setImage(null);
+					return;
+				}
 				try {
 					File file = new File(newValue);
 					Image image = SwingFXUtils.toFXImage(ImageIO.read(file), null);
@@ -106,6 +119,10 @@ public class IconToolController extends IconToolView {
 		iconToolService.loadingConfigure();
 	}
 
+	/** 
+	 * @Title: chooseOriginalPathAction 
+	 * @Description: 选择图标图片
+	 */
 	@FXML
 	private void chooseOriginalPathAction(ActionEvent event) throws Exception {
 		File file = FileChooserUtil.chooseFile(new FileChooser.ExtensionFilter("All Images", "*.*"),
@@ -123,6 +140,10 @@ public class IconToolController extends IconToolView {
 		}
 	}
 
+	/** 
+	 * @Title: chooseTargetPathAction 
+	 * @Description: 选择生成目录（为空则为原图片目录）
+	 */
 	@FXML
 	private void chooseTargetPathAction(ActionEvent event) {
 		File file = FileChooserUtil.chooseDirectory();
@@ -136,26 +157,46 @@ public class IconToolController extends IconToolView {
 		iconToolService.addSizeAction(widthSpinner.getValue() + "*" + heightSpinner.getValue());
 	}
 
+	/** 
+	 * @Title: resettingSizeAction 
+	 * @Description: 重置图片尺寸选择CheckBox
+	 */
 	@FXML
 	private void resettingSizeAction(ActionEvent event) {
 		iconToolService.resettingSize();
 	}
 
+	/** 
+	 * @Title: saveConfigure 
+	 * @Description: 保存配置
+	 */
 	@FXML
 	private void saveConfigure(ActionEvent event) throws Exception {
 		iconToolService.saveConfigure();
 	}
 
+	/** 
+	 * @Title: otherSaveConfigureAction 
+	 * @Description: 配置另存为
+	 */
 	@FXML
 	private void otherSaveConfigureAction(ActionEvent event) throws Exception {
 		iconToolService.otherSaveConfigureAction();
 	}
 
+	/** 
+	 * @Title: loadingConfigureAction 
+	 * @Description: 加载配置
+	 */
 	@FXML
 	private void loadingConfigureAction(ActionEvent event) {
 		iconToolService.loadingConfigureAction();
 	}
 
+	/** 
+	 * @Title: buildIconAction 
+	 * @Description: 生成图片
+	 */
 	@FXML
 	private void buildIconAction(ActionEvent event) throws Exception {
 		try {
@@ -164,6 +205,10 @@ public class IconToolController extends IconToolView {
 			TooltipUtil.showToast(e.getMessage());
 		}
 	}
+	/** 
+	 * @Title: buildIconTargetImageAction 
+	 * @Description: 生成预览图片
+	 */
 	@FXML
 	private void buildIconTargetImageAction(ActionEvent event) throws Exception {
 		try {

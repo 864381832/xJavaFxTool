@@ -98,12 +98,12 @@
 		<url>/fxml/debugTools/ActiveMqTool.fxml</url>
 		<title>ActiveMqTool</title>
 		<menuParentId>debugTools</menuParentId>
+		<isDefaultShow>true</isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 	<ToolFxmlLoaderConfiguration>
 		<url>/fxml/littleTools/IconTool.fxml</url>
 		<title>IconTool</title>
 		<menuParentId>littleTools</menuParentId>
-		<isDefaultShow>true</isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 
 	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"

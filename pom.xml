@@ -62,6 +62,12 @@
 			<artifactId>thumbnailator</artifactId>
 			<version>0.4.8</version>
 		</dependency>
+		<!-- 目录文件监控工具包 -->
+		<!-- <dependency>
+			<groupId>net.sf.jpathwatch</groupId>
+			<artifactId>jpathwatch</artifactId>
+			<version>0.95</version>
+		</dependency> -->
 	</dependencies>
 	<build>
 		<plugins>

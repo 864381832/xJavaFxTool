@@ -3,11 +3,15 @@ package com.xwintop.xJavaFxTool.controller.debugTools;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javax.jms.JMSException;
+
+import com.xwintop.xJavaFxTool.model.ActiveMqToolReceiverTableBean;
 import com.xwintop.xJavaFxTool.model.ActiveMqToolTableBean;
 import com.xwintop.xJavaFxTool.services.debugTools.ActiveMqToolService;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.view.debugTools.ActiveMqToolView;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -23,13 +27,18 @@ import javafx.scene.control.cell.ChoiceBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseButton;
+import lombok.Getter;
 
+@Getter
 public class ActiveMqToolController extends ActiveMqToolView {
-	private ActiveMqToolService activeMqToolService = new ActiveMqToolService();
+	private ActiveMqToolService activeMqToolService = new ActiveMqToolService(this);
 	private ObservableList<ActiveMqToolTableBean> tableData = FXCollections.observableArrayList();
+	private ObservableList<ActiveMqToolReceiverTableBean> receiverTableData = FXCollections.observableArrayList();
 	private String[] messageTypeStrings = new String[] { "TextMessage", "ObjectMessage", "BytesMessage", "MapMessage",
 			"StreamMessage" };
 	private String[] quartzChoiceBoxStrings = new String[] { "简单表达式", "Cron表达式" };
+	private String[] receiverAcknowledgeModeChoiceBoxStrings = new String[] { "SESSION_TRANSACTED", "AUTO_ACKNOWLEDGE",
+			"CLIENT_ACKNOWLEDGE", "DUPS_OK_ACKNOWLEDGE" };
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -60,7 +69,8 @@ public class ActiveMqToolController extends ActiveMqToolView {
 		});
 		messageTypeTableColumn
 				.setCellValueFactory(new PropertyValueFactory<ActiveMqToolTableBean, String>("messageType"));
-		messageTypeTableColumn.setCellFactory(ChoiceBoxTableCell.<ActiveMqToolTableBean,String>forTableColumn(messageTypeStrings));
+		messageTypeTableColumn
+				.setCellFactory(ChoiceBoxTableCell.<ActiveMqToolTableBean, String>forTableColumn(messageTypeStrings));
 		isSendTableColumn.setCellValueFactory(new PropertyValueFactory<ActiveMqToolTableBean, Boolean>("isSend"));
 		isSendTableColumn.setCellFactory(CheckBoxTableCell.forTableColumn(isSendTableColumn));
 		isCreateTableColumn.setCellValueFactory(new PropertyValueFactory<ActiveMqToolTableBean, Boolean>("isCreate"));
@@ -73,10 +83,32 @@ public class ActiveMqToolController extends ActiveMqToolView {
 		quartzChoiceBox.setValue(quartzChoiceBoxStrings[0]);
 		JavaFxViewUtil.setSpinnerValueFactory(intervalSpinner, 1, Integer.MAX_VALUE);
 		JavaFxViewUtil.setSpinnerValueFactory(repeatCountSpinner, -1, Integer.MAX_VALUE);
+
+		initReceiverView();
+	}
+
+	private void initReceiverView() {
+		receiverAcknowledgeModeChoiceBox.getItems().addAll(receiverAcknowledgeModeChoiceBoxStrings);
+		receiverAcknowledgeModeChoiceBox.setValue(receiverAcknowledgeModeChoiceBoxStrings[2]);
+		receiverMessageIDTableColumn
+				.setCellValueFactory(new PropertyValueFactory<ActiveMqToolReceiverTableBean, String>("messageID"));
+		receiverQueueTableColumn
+				.setCellValueFactory(new PropertyValueFactory<ActiveMqToolReceiverTableBean, String>("queue"));
+		receiverMessageTableColumn
+				.setCellValueFactory(new PropertyValueFactory<ActiveMqToolReceiverTableBean, String>("message"));
+		receiverMessageTypeTableColumn
+				.setCellValueFactory(new PropertyValueFactory<ActiveMqToolReceiverTableBean, String>("messageType"));
+		receiverTimestampTableColumn
+				.setCellValueFactory(new PropertyValueFactory<ActiveMqToolReceiverTableBean, String>("timestamp"));
+		receiverIsAcknowledgeTableColumn
+				.setCellValueFactory(new PropertyValueFactory<ActiveMqToolReceiverTableBean, Boolean>("isAcknowledge"));
+		receiverIsAcknowledgeTableColumn
+				.setCellFactory(CheckBoxTableCell.forTableColumn(receiverIsAcknowledgeTableColumn));
+		receiverTableView.setItems(receiverTableData);
 	}
 
 	private void initEvent() {
-		tableData.addListener((Change<? extends ActiveMqToolTableBean> tableBean)->{
+		tableData.addListener((Change<? extends ActiveMqToolTableBean> tableBean) -> {
 			try {
 				saveConfigureAction(null);
 			} catch (Exception e) {
@@ -88,8 +120,8 @@ public class ActiveMqToolController extends ActiveMqToolView {
 				MenuItem menu_Copy = new MenuItem("复制选中行");
 				menu_Copy.setOnAction(event1 -> {
 					ActiveMqToolTableBean tableBean = tableViewMain.getSelectionModel().getSelectedItem();
-					ActiveMqToolTableBean tableBean2= new ActiveMqToolTableBean(tableBean.getPropertys());
-					tableData.add(tableViewMain.getSelectionModel().getSelectedIndex(),tableBean2);
+					ActiveMqToolTableBean tableBean2 = new ActiveMqToolTableBean(tableBean.getPropertys());
+					tableData.add(tableViewMain.getSelectionModel().getSelectedIndex(), tableBean2);
 				});
 				MenuItem menu_Remove = new MenuItem("删除选中行");
 				menu_Remove.setOnAction(event1 -> {
@@ -99,7 +131,7 @@ public class ActiveMqToolController extends ActiveMqToolView {
 				menu_RemoveAll.setOnAction(event1 -> {
 					tableData.clear();
 				});
-				tableViewMain.setContextMenu(new ContextMenu(menu_Copy,menu_Remove, menu_RemoveAll));
+				tableViewMain.setContextMenu(new ContextMenu(menu_Copy, menu_Remove, menu_RemoveAll));
 			}
 		});
 		quartzChoiceBox.valueProperty().addListener(new ChangeListener<String>() {
@@ -114,14 +146,49 @@ public class ActiveMqToolController extends ActiveMqToolView {
 				}
 			}
 		});
+		initReceiverEvent();
+	}
+
+	private void initReceiverEvent() {
+		receiverTableView.setOnMouseClicked(event -> {
+			if (event.getButton() == MouseButton.SECONDARY) {
+				MenuItem menu_acknowledge1 = new MenuItem("消费该消息");
+				menu_acknowledge1.setOnAction(event1 -> {
+					ActiveMqToolReceiverTableBean tableBean = receiverTableView.getSelectionModel().getSelectedItem();
+					tableBean.setIsAcknowledge(true);
+					try {
+						activeMqToolService.getReceiverMessageMap().get(tableBean.getMessageID()).acknowledge();
+					} catch (JMSException e) {
+						e.printStackTrace();
+					}
+				});
+				MenuItem menu_acknowledge = new MenuItem("消费全部消息");
+				menu_acknowledge.setOnAction(event1 -> {
+					for(ActiveMqToolReceiverTableBean tableBean:receiverTableData){
+						tableBean.setIsAcknowledge(true);
+					}
+					ActiveMqToolReceiverTableBean tableBean = receiverTableView.getSelectionModel().getSelectedItem();
+					try {
+						activeMqToolService.getReceiverMessageMap().get(tableBean.getMessageID()).acknowledge();
+					} catch (JMSException e) {
+						e.printStackTrace();
+					}
+				});
+				MenuItem menu_Remove = new MenuItem("删除选中行");
+				menu_Remove.setOnAction(event1 -> {
+					deleteSelectRowAction(null);
+					receiverTableData.remove(receiverTableView.getSelectionModel().getSelectedIndex());
+				});
+				MenuItem menu_RemoveAll = new MenuItem("删除所有");
+				menu_RemoveAll.setOnAction(event1 -> {
+					receiverTableData.clear();
+				});
+				receiverTableView.setContextMenu(new ContextMenu(menu_acknowledge1,menu_acknowledge, menu_Remove, menu_RemoveAll));
+			}
+		});
 	}
 
 	private void initService() {
-		activeMqToolService.setTableData(tableData);
-		activeMqToolService.setMessageTypeStrings(messageTypeStrings);
-		activeMqToolService.setUrlTextField(urlTextField);
-		activeMqToolService.setUserNameTextField(userNameTextField);
-		activeMqToolService.setPasswordTextField(passwordTextField);
 		activeMqToolService.loadingConfigure();
 	}
 
@@ -154,22 +221,54 @@ public class ActiveMqToolController extends ActiveMqToolView {
 
 	@FXML
 	private void runQuartzAction(ActionEvent event) throws Exception {
-		if("定时发送".equals(runQuartzButton.getText())){
-			boolean isTrue = activeMqToolService.runQuartzAction(quartzChoiceBox.getValue(), cronTextField.getText(), intervalSpinner.getValue(),
-					repeatCountSpinner.getValue());
-			if(isTrue){
+		if ("定时发送".equals(runQuartzButton.getText())) {
+			boolean isTrue = activeMqToolService.runQuartzAction(quartzChoiceBox.getValue(), cronTextField.getText(),
+					intervalSpinner.getValue(), repeatCountSpinner.getValue());
+			if (isTrue) {
 				runQuartzButton.setText("停止发送");
 			}
-		}else{
+		} else {
 			boolean isTrue = activeMqToolService.stopQuartzAction();
-			if(isTrue){
+			if (isTrue) {
 				runQuartzButton.setText("定时发送");
 			}
 		}
 	}
 
+	/**
+	 * @Title: sendAction
+	 * @Description: 客户端发送消息
+	 */
 	@FXML
 	private void sendAction(ActionEvent event) {
 		activeMqToolService.sendAction();
+	}
+
+	/**
+	 * @Title: receiverMessageListenerAction
+	 * @Description: receiver端监听消息
+	 */
+	@FXML
+	private void receiverMessageListenerAction(ActionEvent event) {
+		// receiverTableData.add(new ActiveMqToolReceiverTableBean("1", "2",
+		// "1", "1", "2", true));
+		if ("监听消息".equals(receiverMessageListenerButton.getText())) {
+			activeMqToolService.receiverMessageListenerAction();
+			receiverMessageListenerButton.setText("停止监听");
+		} else {
+			activeMqToolService.receiverMessageStopListenerAction();
+			receiverMessageListenerButton.setText("监听消息");
+		}
+	}
+
+	/**
+	 * @Title: receiverPullMessageAction
+	 * @Description: receiver端拉取消息
+	 */
+	@FXML
+	private void receiverPullMessageAction(ActionEvent event) {
+		Platform.runLater(() -> {
+			activeMqToolService.receiverPullMessageAction();
+		});
 	}
 }

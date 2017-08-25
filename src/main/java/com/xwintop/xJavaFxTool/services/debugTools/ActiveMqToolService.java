@@ -1,6 +1,9 @@
 package com.xwintop.xJavaFxTool.services.debugTools;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -12,11 +15,17 @@ import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.MapMessage;
 import javax.jms.Message;
+import javax.jms.MessageConsumer;
+import javax.jms.MessageListener;
 import javax.jms.MessageProducer;
+import javax.jms.ObjectMessage;
 import javax.jms.Session;
 import javax.jms.StreamMessage;
+import javax.jms.TextMessage;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.activemq.command.ActiveMQBytesMessage;
+import org.apache.activemq.command.ActiveMQMapMessage;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
@@ -34,26 +43,34 @@ import org.quartz.TriggerKey;
 import org.quartz.impl.StdSchedulerFactory;
 
 import com.google.gson.Gson;
+import com.xwintop.xJavaFxTool.controller.debugTools.ActiveMqToolController;
 import com.xwintop.xJavaFxTool.job.ActiveMqToolJob;
+import com.xwintop.xJavaFxTool.model.ActiveMqToolReceiverTableBean;
 import com.xwintop.xJavaFxTool.model.ActiveMqToolTableBean;
 import com.xwintop.xJavaFxTool.utils.ConfigureUtil;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
+@Getter
+@Setter
+@Log4j
 public class ActiveMqToolService {
-	private TextField urlTextField;
-	private TextField userNameTextField;
-	private TextField passwordTextField;
-	private ObservableList<ActiveMqToolTableBean> tableData;
-	private String[] messageTypeStrings;
+	private ActiveMqToolController activeMqToolController;
 	private SchedulerFactory sf = new StdSchedulerFactory();
 	private String schedulerKeyGroup = "runFileCopy";
 	private String schedulerKeyName = "runFileCopy" + System.currentTimeMillis();
+	private Map<String, Message> receiverMessageMap = new HashMap<String, Message>();
+	// ConnectionFactory ：连接工厂，JMS 用它创建连接
+	private ConnectionFactory connectionFactory = null;
+	// Connection ：JMS 客户端到JMS Provider 的连接
+	private Connection connection = null;
 
 	public void saveConfigure() throws Exception {
 		saveConfigure(ConfigureUtil.getConfigureFile("ActiveMqToolConfigure.properties"));
@@ -63,8 +80,8 @@ public class ActiveMqToolService {
 		FileUtils.touch(file);
 		PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
 		xmlConfigure.clear();
-		for (int i = 0; i < tableData.size(); i++) {
-			xmlConfigure.setProperty("tableBean" + i, tableData.get(i).getPropertys());
+		for (int i = 0; i < activeMqToolController.getTableData().size(); i++) {
+			xmlConfigure.setProperty("tableBean" + i, activeMqToolController.getTableData().get(i).getPropertys());
 		}
 		xmlConfigure.save();
 		Platform.runLater(() -> {
@@ -88,12 +105,12 @@ public class ActiveMqToolService {
 
 	public void loadingConfigure(File file) {
 		try {
-			tableData.clear();
+			activeMqToolController.getTableData().clear();
 			PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
 			xmlConfigure.getKeys().forEachRemaining(new Consumer<String>() {
 				@Override
 				public void accept(String t) {
-					tableData.add(new ActiveMqToolTableBean(xmlConfigure.getString(t)));
+					activeMqToolController.getTableData().add(new ActiveMqToolTableBean(xmlConfigure.getString(t)));
 				}
 			});
 		} catch (Exception e) {
@@ -113,7 +130,7 @@ public class ActiveMqToolService {
 	}
 
 	public void sendAction() {
-		for (ActiveMqToolTableBean tableBean : tableData) {
+		for (ActiveMqToolTableBean tableBean : activeMqToolController.getTableData()) {
 			if (tableBean.getIsSend()) {
 				int sendNumber = Integer.parseInt(tableBean.getSendNumber());
 				// Connection ：JMS 客户端到JMS Provider 的连接
@@ -121,8 +138,10 @@ public class ActiveMqToolService {
 				// TextMessage message;
 				// ConnectionFactory ：连接工厂，JMS 用它创建连接
 				// 构造ConnectionFactory实例对象，此处采用ActiveMq的实现jar
-				ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(userNameTextField.getText(),
-						passwordTextField.getText(), "tcp://" + urlTextField.getText().trim());
+				ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(
+						activeMqToolController.getUserNameTextField().getText(),
+						activeMqToolController.getPasswordTextField().getText(),
+						"tcp://" + activeMqToolController.getUrlTextField().getText().trim());
 				try {
 					// 构造从工厂得到连接对象
 					connection = connectionFactory.createConnection();
@@ -158,6 +177,7 @@ public class ActiveMqToolService {
 	private void sendMessage(Session session, MessageProducer producer, String messageType, String messageText)
 			throws Exception {
 		Message message = null;
+		String[] messageTypeStrings = activeMqToolController.getMessageTypeStrings();
 		if (messageTypeStrings[0].equals(messageType)) {
 			message = session.createTextMessage(messageText);
 		} else if (messageTypeStrings[1].equals(messageType)) {
@@ -223,28 +243,155 @@ public class ActiveMqToolService {
 		return true;
 	}
 
-	public ObservableList<ActiveMqToolTableBean> getTableData() {
-		return tableData;
+	/**
+	 * @Title: receiverMessageListenerAction
+	 * @Description: receiver端监听消息
+	 */
+	public void receiverMessageListenerAction() {
+		// Session： 一个发送或接收消息的线程
+		Session session;
+		// Destination ：消息的目的地;消息发送给谁.
+		Destination destination;
+		// 消费者，消息接收者
+		MessageConsumer consumer;
+		connectionFactory = new ActiveMQConnectionFactory(activeMqToolController.getUserNameTextField().getText(),
+				activeMqToolController.getPasswordTextField().getText(),
+				"tcp://" + activeMqToolController.getUrlTextField().getText().trim());
+		try {
+			if (connection != null) {
+				connection.close();
+			}
+			// 构造从工厂得到连接对象
+			connection = connectionFactory.createConnection();
+			// 启动
+			connection.start();
+			// 获取操作连接
+			session = connection.createSession(Boolean.FALSE, activeMqToolController
+					.getReceiverAcknowledgeModeChoiceBox().getSelectionModel().getSelectedIndex());
+			// 获取session注意参数值xingbo.xu-queue是一个服务器的queue，须在在ActiveMq的console配置
+			String queue = activeMqToolController.getReceiverQueueTextField().getText();
+			destination = session.createQueue(queue);
+			consumer = session.createConsumer(destination);
+			activeMqToolController.getReceiverTableData().clear();
+			receiverMessageMap.clear();
+			consumer.setMessageListener(new MessageListener() {// 有事务限制
+				@Override
+				public void onMessage(Message message) {
+					addReceiverTableBean(message);
+					// try {
+					// session.commit();
+					// } catch (JMSException e) {
+					// e.printStackTrace();
+					// }
+				}
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	public void setTableData(ObservableList<ActiveMqToolTableBean> tableData) {
-		this.tableData = tableData;
+	public void receiverMessageStopListenerAction() {
+		if (connection != null) {
+			try {
+				connection.close();
+			} catch (JMSException e) {
+				log.error(e.getMessage());
+			}
+		}
 	}
 
-	public void setMessageTypeStrings(String[] messageTypeStrings) {
-		this.messageTypeStrings = messageTypeStrings;
+	private void addReceiverTableBean(Message message) {
+		String queue = activeMqToolController.getReceiverQueueTextField().getText();
+		String messageType = "TextMessage";
+		String messageSring = null;
+		boolean isAcknowledge = false;
+		try {
+			if (message instanceof TextMessage) {
+				messageType = "TextMessage";
+				messageSring = ((TextMessage) message).getText();
+			} else if (message instanceof ObjectMessage) {
+				messageType = "ObjectMessage";
+				messageSring = ((ObjectMessage) message).getObject().toString();
+			} else if (message instanceof BytesMessage) {
+				messageType = "BytesMessage";
+				messageSring = new String(((ActiveMQBytesMessage) message).getContent().getData());
+			} else if (message instanceof MapMessage) {
+				messageType = "MapMessage";
+				messageSring = ((ActiveMQMapMessage) message).getContentMap().toString();
+			} else if (message instanceof StreamMessage) {
+				messageType = "StreamMessage";
+				messageSring = ((StreamMessage) message).readString();
+			}
+			String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(message.getJMSTimestamp()));
+			ActiveMqToolReceiverTableBean activeMqToolReceiverTableBean = new ActiveMqToolReceiverTableBean(
+					message.getJMSMessageID(), queue, messageSring, messageType, timestamp, isAcknowledge);
+			activeMqToolController.getReceiverTableData().add(activeMqToolReceiverTableBean);
+			receiverMessageMap.put(message.getJMSMessageID(), message);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 	}
 
-	public void setUrlTextField(TextField urlTextField) {
-		this.urlTextField = urlTextField;
+	/**
+	 * @Title: receiverPullMessageAction
+	 * @Description: receiver端拉取消息
+	 */
+	@FXML
+	public void receiverPullMessageAction() {
+		// ConnectionFactory ：连接工厂，JMS 用它创建连接
+		ConnectionFactory connectionFactory;
+		// Connection ：JMS 客户端到JMS Provider 的连接
+		Connection connection = null;
+		// Session： 一个发送或接收消息的线程
+		Session session;
+		// Destination ：消息的目的地;消息发送给谁.
+		Destination destination;
+		// 消费者，消息接收者
+		MessageConsumer consumer;
+		// connectionFactory = new
+		// ActiveMQConnectionFactory(ActiveMQConnection.DEFAULT_USER,
+		// ActiveMQConnection.DEFAULT_PASSWORD, "tcp://localhost:61616");
+		connectionFactory = new ActiveMQConnectionFactory(activeMqToolController.getUserNameTextField().getText(),
+				activeMqToolController.getPasswordTextField().getText(),
+				"tcp://" + activeMqToolController.getUrlTextField().getText().trim());
+		try {
+			// 构造从工厂得到连接对象
+			connection = connectionFactory.createConnection();
+			// 启动
+			connection.start();
+			// 获取操作连接
+			// session = connection.createSession(Boolean.FALSE,
+			// Session.AUTO_ACKNOWLEDGE);
+			session = connection.createSession(Boolean.FALSE, activeMqToolController
+					.getReceiverAcknowledgeModeChoiceBox().getSelectionModel().getSelectedIndex());
+			// 获取session注意参数值xingbo.xu-queue是一个服务器的queue，须在在ActiveMq的console配置
+			String queue = activeMqToolController.getReceiverQueueTextField().getText();
+			destination = session.createQueue(queue);
+			consumer = session.createConsumer(destination);
+			activeMqToolController.getReceiverTableData().clear();
+			receiverMessageMap.clear();
+			while (true) {
+				// 设置接收者接收消息的时间，为了便于测试，这里谁定为100s
+				Message message = consumer.receive(1000);
+				if (null == message) {
+					break;
+				}
+				addReceiverTableBean(message);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (null != connection)
+					connection.close();
+			} catch (Throwable ignore) {
+			}
+		}
 	}
 
-	public void setUserNameTextField(TextField userNameTextField) {
-		this.userNameTextField = userNameTextField;
-	}
-
-	public void setPasswordTextField(TextField passwordTextField) {
-		this.passwordTextField = passwordTextField;
+	public ActiveMqToolService(ActiveMqToolController activeMqToolController) {
+		super();
+		this.activeMqToolController = activeMqToolController;
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.xwintop.xJavaFxTool.view.debugTools;
 
+import com.xwintop.xJavaFxTool.model.ActiveMqToolReceiverTableBean;
 import com.xwintop.xJavaFxTool.model.ActiveMqToolTableBean;
 
 import javafx.fxml.FXML;
@@ -13,7 +14,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import lombok.Getter;
 
+@Getter
 public abstract class ActiveMqToolView implements Initializable {
 	@FXML
 	protected TextField urlTextField;
@@ -76,4 +79,26 @@ public abstract class ActiveMqToolView implements Initializable {
 	@FXML
 	protected Button sendButton;
 
+	@FXML
+	protected TextField receiverQueueTextField;
+	@FXML
+	protected Button receiverPullMessageButton;
+	@FXML
+	protected Button receiverMessageListenerButton;
+	@FXML
+	protected ChoiceBox<String> receiverAcknowledgeModeChoiceBox;
+	@FXML
+	protected TableView<ActiveMqToolReceiverTableBean> receiverTableView;
+	@FXML
+	protected TableColumn<ActiveMqToolReceiverTableBean, String> receiverMessageIDTableColumn;
+	@FXML
+	protected TableColumn<ActiveMqToolReceiverTableBean, String> receiverQueueTableColumn;
+	@FXML
+	protected TableColumn<ActiveMqToolReceiverTableBean, String> receiverMessageTableColumn;
+	@FXML
+	protected TableColumn<ActiveMqToolReceiverTableBean, String> receiverMessageTypeTableColumn;
+	@FXML
+	protected TableColumn<ActiveMqToolReceiverTableBean, String> receiverTimestampTableColumn;
+	@FXML
+	protected TableColumn<ActiveMqToolReceiverTableBean, Boolean> receiverIsAcknowledgeTableColumn;
 }

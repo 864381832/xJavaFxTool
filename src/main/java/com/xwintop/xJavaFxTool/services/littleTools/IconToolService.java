@@ -48,6 +48,10 @@ public class IconToolService {
 		saveConfigure(ConfigureUtil.getConfigureFile("iconToolConfigure.properties"));
 	}
 
+	/**
+	 * @Title: saveConfigure
+	 * @Description: 保存配置到文件中
+	 */
 	public void saveConfigure(File file) throws Exception {
 		FileUtils.touch(file);
 		PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
@@ -71,8 +75,6 @@ public class IconToolService {
 		List<String> iconSizeFlowPaneList = new ArrayList<String>();
 		for (Node node : iconToolController.getIconSizeFlowPane().getChildren()) {
 			CheckBox checkBox = ((CheckBox) node);
-			// xmlConfigure.setProperty("iconSizeFlowPane" + checkBox.getText(),
-			// checkBox.isSelected());
 			iconSizeFlowPaneList.add(checkBox.getText() + "_" + checkBox.isSelected());
 		}
 		xmlConfigure.setProperty("iconSizeFlowPaneList", iconSizeFlowPaneList);
@@ -94,6 +96,10 @@ public class IconToolService {
 		loadingConfigure(ConfigureUtil.getConfigureFile("iconToolConfigure.properties"));
 	}
 
+	/**
+	 * @Title: loadingConfigure
+	 * @Description: 从文件中加载配置
+	 */
 	public void loadingConfigure(File file) {
 		try {
 			PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
@@ -135,6 +141,10 @@ public class IconToolService {
 		}
 	}
 
+	/**
+	 * @Title: resettingSize
+	 * @Description: 重置图片尺寸选择CheckBox
+	 */
 	public void resettingSize() {
 		iconToolController.getIconSizeFlowPane().getChildren().clear();
 		for (String iconSizeString : iconToolController.getIconSizeStrings()) {
@@ -146,6 +156,10 @@ public class IconToolService {
 		addSizeAction(text, true);
 	}
 
+	/**
+	 * @Title: addSizeAction
+	 * @Description: 添加图片尺寸选择CheckBox
+	 */
 	public void addSizeAction(String text, boolean isSelect) {
 		CheckBox checkBox = new CheckBox(text);
 		checkBox.setPrefWidth(90);
@@ -165,6 +179,10 @@ public class IconToolService {
 		iconToolController.getIconSizeFlowPane().getChildren().add(checkBox);
 	}
 
+	/**
+	 * @Title: buildIconAction
+	 * @Description: 生成图片
+	 */
 	public void buildIconAction() throws Exception {
 		String iconFilePathText = iconToolController.getIconFilePathTextField().getText();
 		String iconTargetPathText = iconToolController.getIconTargetPathTextField().getText();
@@ -243,7 +261,8 @@ public class IconToolService {
 					try {
 						new File(iconTargetPathFileString + key).mkdirs();
 						BufferedImage bufferedImage = getBufferedImage(iconFilePathFile, value, value);
-						ImageIO.write(bufferedImage, "png", new File(iconTargetPathFileString + key, "ic_launcher.png"));
+						ImageIO.write(bufferedImage, "png",
+								new File(iconTargetPathFileString + key, "ic_launcher.png"));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -253,6 +272,10 @@ public class IconToolService {
 		TooltipUtil.showToast("生成图片成功，请在路径：" + iconTargetPathFile.getPath() + "下查看。");
 	}
 
+	/**
+	 * @Title: getBufferedImage
+	 * @Description: 根据条件获取生成的图片
+	 */
 	private BufferedImage getBufferedImage(File iconFilePathFile, int width, int height) throws Exception {
 		Builder<File> builderFile = Thumbnails.of(iconFilePathFile);
 		builderFile.size(width, height).keepAspectRatio(iconToolController.getIsKeepAspectRatioCheckBox().isSelected())
@@ -279,6 +302,10 @@ public class IconToolService {
 		return bufferedImage;
 	}
 
+	/**
+	 * @Title: buildIconTargetImageAction
+	 * @Description: 生成预览图片
+	 */
 	public void buildIconTargetImageAction() throws Exception {
 		String iconFilePathText = iconToolController.getIconFilePathTextField().getText();
 		if (StringUtils.isEmpty(iconFilePathText)) {
@@ -290,31 +317,6 @@ public class IconToolService {
 			throw new Exception("图标加载失败！");
 		}
 		BufferedImage bufferedImage = getBufferedImage(iconFilePathFile, 150, 150);
-		// Builder<File> builderFile = Thumbnails.of(iconFilePathFile);
-		// builderFile.size(150,
-		// 150).keepAspectRatio(iconToolController.getIsKeepAspectRatioCheckBox().isSelected())
-		// .outputFormat(iconToolController.getIconFormatChoiceBox().getValue())
-		// .outputQuality(iconToolController.getOutputQualitySlider().getValue());
-		// if (iconToolController.getIsWatermarkCheckBox().isSelected()) {
-		// String watermarkPathText =
-		// iconToolController.getWatermarkPathTextField().getText();
-		// if (StringUtils.isNotEmpty(watermarkPathText)) {
-		// try {
-		// builderFile.watermark(iconToolController.getWatermarkPositionChoiceBox().getValue(),
-		// ImageIO.read(new File(watermarkPathText)),
-		// (float) iconToolController.getWatermarkOpacitySlider().getValue());
-		// } catch (Exception e) {
-		// throw new Exception("水印图片加载异常！");
-		// }
-		// }
-		// }
-		// BufferedImage bufferedImage = builderFile.asBufferedImage();
-		// if (iconToolController.getIsCornerCheckBox().isSelected()) {
-		// ImgToolUtil imgToolUtil = new ImgToolUtil(bufferedImage);
-		// imgToolUtil.corner((float)
-		// iconToolController.getCornerSizeSlider().getValue());
-		// bufferedImage = imgToolUtil.getImage();
-		// }
 		Image image = SwingFXUtils.toFXImage(bufferedImage, null);
 		iconToolController.getIconTargetImageView().setImage(image);
 	}
