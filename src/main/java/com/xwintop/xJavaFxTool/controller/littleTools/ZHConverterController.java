@@ -17,7 +17,7 @@ import javafx.fxml.FXML;
  */
 public class ZHConverterController extends ZHConverterView {
 	private ZHConverterService zhConverterService = new ZHConverterService();
-	private String[] codeTypes = new String[] { "拼音", "简-繁", "简体-臺灣正體", "简体-香港繁體", "繁體-臺灣正體", "繁體-香港繁體", "香港繁體-臺灣正體"};
+	private String[] codeTypes = new String[] { "拼音", "简-繁", "简体-臺灣正體", "简体-香港繁體", "繁體-臺灣正體", "繁體-香港繁體", "香港繁體-臺灣正體", "数字金额-大写金额"};
 	private String[] pinyinTypes = new String[] { "无音调", "数字音调", "符号音调", "声调", "声母", "韵母", "输入法头"};
 
 	@Override

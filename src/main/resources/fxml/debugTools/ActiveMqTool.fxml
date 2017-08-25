@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="425.0" prefWidth="782.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.debugTools.ActiveMqToolController">
+<AnchorPane prefHeight="522.0" prefWidth="844.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.debugTools.ActiveMqToolController">
    <children>
       <BorderPane layoutX="14.0" layoutY="7.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <top>
@@ -62,7 +62,7 @@
                                     <Label text="Message：" />
                                     <TextArea fx:id="messageTextField" prefWidth="115.0">
                                        <font>
-                                          <Font size="6.0" />
+                                          <Font size="10.0" />
                                        </font>
                                        <HBox.margin>
                                           <Insets left="-5.0" />
@@ -84,9 +84,6 @@
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
-                                 <padding>
-                                    <Insets left="10.0" />
-                                 </padding>
                                  <VBox.margin>
                                     <Insets top="5.0" />
                                  </VBox.margin>
@@ -136,9 +133,6 @@
                                     <Button fx:id="runQuartzButton" mnemonicParsing="false" onAction="#runQuartzAction" text="定时发送" />
                                     <Button fx:id="sendButton" mnemonicParsing="false" onAction="#sendAction" text="一键发送" />
                                  </children>
-                                 <padding>
-                                    <Insets left="10.0" />
-                                 </padding>
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
@@ -196,6 +190,9 @@
                <BorderPane.margin>
                   <Insets top="5.0" />
                </BorderPane.margin>
+               <padding>
+                  <Insets bottom="5.0" />
+               </padding>
             </TabPane>
          </center>
       </BorderPane>

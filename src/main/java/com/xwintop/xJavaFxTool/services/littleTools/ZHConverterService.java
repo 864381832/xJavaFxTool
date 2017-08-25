@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.dictionary.py.Pinyin;
+import com.xwintop.xcore.util.little.MoneyToChineseUtil;
 
 public class ZHConverterService {
 	private String[] codeTypes;
@@ -56,6 +57,8 @@ public class ZHConverterService {
 			traditionalString = HanLP.t2hk(simplifiedString);
 		} else if (codeTypes[6].equals(codeTypeString)) {
 			traditionalString = HanLP.hk2tw(simplifiedString);
+		} else if (codeTypes[7].equals(codeTypeString)) {
+			traditionalString = MoneyToChineseUtil.toChinese(simplifiedString);
 		}
 		return traditionalString;
 	}
@@ -80,6 +83,8 @@ public class ZHConverterService {
 			simplifiedString = HanLP.hk2t(traditionalString);
 		} else if (codeTypes[6].equals(codeTypeString)) {
 			simplifiedString = HanLP.tw2hk(traditionalString);
+		} else if (codeTypes[7].equals(codeTypeString)) {
+			simplifiedString = ""+ MoneyToChineseUtil.cnNumericToArabic(traditionalString);
 		}
 		return simplifiedString;
 	}

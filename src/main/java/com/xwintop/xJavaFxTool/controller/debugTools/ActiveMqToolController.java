@@ -38,7 +38,7 @@ public class ActiveMqToolController extends ActiveMqToolView {
 			"StreamMessage" };
 	private String[] quartzChoiceBoxStrings = new String[] { "简单表达式", "Cron表达式" };
 	private String[] receiverAcknowledgeModeChoiceBoxStrings = new String[] { "SESSION_TRANSACTED", "AUTO_ACKNOWLEDGE",
-			"CLIENT_ACKNOWLEDGE", "DUPS_OK_ACKNOWLEDGE" };
+			"CLIENT_ACKNOWLEDGE", "DUPS_OK_ACKNOWLEDGE","INDIVIDUAL_ACKNOWLEDGE"};
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -89,7 +89,7 @@ public class ActiveMqToolController extends ActiveMqToolView {
 
 	private void initReceiverView() {
 		receiverAcknowledgeModeChoiceBox.getItems().addAll(receiverAcknowledgeModeChoiceBoxStrings);
-		receiverAcknowledgeModeChoiceBox.setValue(receiverAcknowledgeModeChoiceBoxStrings[2]);
+		receiverAcknowledgeModeChoiceBox.setValue(receiverAcknowledgeModeChoiceBoxStrings[4]);
 		receiverMessageIDTableColumn
 				.setCellValueFactory(new PropertyValueFactory<ActiveMqToolReceiverTableBean, String>("messageID"));
 		receiverQueueTableColumn
@@ -158,6 +158,7 @@ public class ActiveMqToolController extends ActiveMqToolView {
 					tableBean.setIsAcknowledge(true);
 					try {
 						activeMqToolService.getReceiverMessageMap().get(tableBean.getMessageID()).acknowledge();
+						activeMqToolService.getReceiverMessageMap().remove(tableBean.getMessageID());
 					} catch (JMSException e) {
 						e.printStackTrace();
 					}
@@ -166,12 +167,12 @@ public class ActiveMqToolController extends ActiveMqToolView {
 				menu_acknowledge.setOnAction(event1 -> {
 					for(ActiveMqToolReceiverTableBean tableBean:receiverTableData){
 						tableBean.setIsAcknowledge(true);
-					}
-					ActiveMqToolReceiverTableBean tableBean = receiverTableView.getSelectionModel().getSelectedItem();
-					try {
-						activeMqToolService.getReceiverMessageMap().get(tableBean.getMessageID()).acknowledge();
-					} catch (JMSException e) {
-						e.printStackTrace();
+						try {
+							activeMqToolService.getReceiverMessageMap().get(tableBean.getMessageID()).acknowledge();
+							activeMqToolService.getReceiverMessageMap().remove(tableBean.getMessageID());
+						} catch (JMSException e) {
+							e.printStackTrace();
+						}
 					}
 				});
 				MenuItem menu_Remove = new MenuItem("删除选中行");

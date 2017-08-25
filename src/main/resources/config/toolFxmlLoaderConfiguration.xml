@@ -98,7 +98,6 @@
 		<url>/fxml/debugTools/ActiveMqTool.fxml</url>
 		<title>ActiveMqTool</title>
 		<menuParentId>debugTools</menuParentId>
-		<isDefaultShow>true</isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 	<ToolFxmlLoaderConfiguration>
 		<url>/fxml/littleTools/IconTool.fxml</url>
