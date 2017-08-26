@@ -4,12 +4,16 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javax.jms.JMSException;
+import javax.jms.Session;
+
+import org.apache.activemq.ActiveMQSession;
 
 import com.xwintop.xJavaFxTool.model.ActiveMqToolReceiverTableBean;
 import com.xwintop.xJavaFxTool.model.ActiveMqToolTableBean;
 import com.xwintop.xJavaFxTool.services.debugTools.ActiveMqToolService;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.view.debugTools.ActiveMqToolView;
+import com.xwintop.xcore.base.XProperty;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -37,8 +41,13 @@ public class ActiveMqToolController extends ActiveMqToolView {
 	private String[] messageTypeStrings = new String[] { "TextMessage", "ObjectMessage", "BytesMessage", "MapMessage",
 			"StreamMessage" };
 	private String[] quartzChoiceBoxStrings = new String[] { "简单表达式", "Cron表达式" };
-	private String[] receiverAcknowledgeModeChoiceBoxStrings = new String[] { "SESSION_TRANSACTED", "AUTO_ACKNOWLEDGE",
-			"CLIENT_ACKNOWLEDGE", "DUPS_OK_ACKNOWLEDGE","INDIVIDUAL_ACKNOWLEDGE"};
+	@SuppressWarnings("unchecked")
+	private XProperty<Integer>[] receiverAcknowledgeModeChoiceBoxValues = new XProperty[] {
+			new XProperty<Integer>("SESSION_TRANSACTED", Session.SESSION_TRANSACTED),
+			new XProperty<Integer>("AUTO_ACKNOWLEDGE", Session.AUTO_ACKNOWLEDGE),
+			new XProperty<Integer>("CLIENT_ACKNOWLEDGE", Session.CLIENT_ACKNOWLEDGE),
+			new XProperty<Integer>("DUPS_OK_ACKNOWLEDGE", Session.DUPS_OK_ACKNOWLEDGE),
+			new XProperty<Integer>("INDIVIDUAL_ACKNOWLEDGE", ActiveMQSession.INDIVIDUAL_ACKNOWLEDGE) };
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -88,8 +97,8 @@ public class ActiveMqToolController extends ActiveMqToolView {
 	}
 
 	private void initReceiverView() {
-		receiverAcknowledgeModeChoiceBox.getItems().addAll(receiverAcknowledgeModeChoiceBoxStrings);
-		receiverAcknowledgeModeChoiceBox.setValue(receiverAcknowledgeModeChoiceBoxStrings[4]);
+		receiverAcknowledgeModeChoiceBox.getItems().addAll(receiverAcknowledgeModeChoiceBoxValues);
+		receiverAcknowledgeModeChoiceBox.setValue(receiverAcknowledgeModeChoiceBoxValues[4]);
 		receiverMessageIDTableColumn
 				.setCellValueFactory(new PropertyValueFactory<ActiveMqToolReceiverTableBean, String>("messageID"));
 		receiverQueueTableColumn
@@ -165,7 +174,7 @@ public class ActiveMqToolController extends ActiveMqToolView {
 				});
 				MenuItem menu_acknowledge = new MenuItem("消费全部消息");
 				menu_acknowledge.setOnAction(event1 -> {
-					for(ActiveMqToolReceiverTableBean tableBean:receiverTableData){
+					for (ActiveMqToolReceiverTableBean tableBean : receiverTableData) {
 						tableBean.setIsAcknowledge(true);
 						try {
 							activeMqToolService.getReceiverMessageMap().get(tableBean.getMessageID()).acknowledge();
@@ -184,7 +193,8 @@ public class ActiveMqToolController extends ActiveMqToolView {
 				menu_RemoveAll.setOnAction(event1 -> {
 					receiverTableData.clear();
 				});
-				receiverTableView.setContextMenu(new ContextMenu(menu_acknowledge1,menu_acknowledge, menu_Remove, menu_RemoveAll));
+				receiverTableView.setContextMenu(
+						new ContextMenu(menu_acknowledge1, menu_acknowledge, menu_Remove, menu_RemoveAll));
 			}
 		});
 	}

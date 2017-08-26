@@ -2,6 +2,7 @@ package com.xwintop.xJavaFxTool.view.debugTools;
 
 import com.xwintop.xJavaFxTool.model.ActiveMqToolReceiverTableBean;
 import com.xwintop.xJavaFxTool.model.ActiveMqToolTableBean;
+import com.xwintop.xcore.base.XProperty;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -86,7 +87,7 @@ public abstract class ActiveMqToolView implements Initializable {
 	@FXML
 	protected Button receiverMessageListenerButton;
 	@FXML
-	protected ChoiceBox<String> receiverAcknowledgeModeChoiceBox;
+	protected ChoiceBox<XProperty<Integer>> receiverAcknowledgeModeChoiceBox;
 	@FXML
 	protected TableView<ActiveMqToolReceiverTableBean> receiverTableView;
 	@FXML

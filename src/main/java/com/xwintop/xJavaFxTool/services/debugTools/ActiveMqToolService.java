@@ -268,7 +268,7 @@ public class ActiveMqToolService {
 			connection.start();
 			// 获取操作连接
 			session = connection.createSession(Boolean.FALSE, activeMqToolController
-					.getReceiverAcknowledgeModeChoiceBox().getSelectionModel().getSelectedIndex());
+					.getReceiverAcknowledgeModeChoiceBox().getValue().getBean());
 			// 获取session注意参数值xingbo.xu-queue是一个服务器的queue，须在在ActiveMq的console配置
 			String queue = activeMqToolController.getReceiverQueueTextField().getText();
 			destination = session.createQueue(queue);
@@ -362,7 +362,7 @@ public class ActiveMqToolService {
 			// session = connection.createSession(Boolean.FALSE,
 			// Session.AUTO_ACKNOWLEDGE);
 			session = connection.createSession(Boolean.FALSE, activeMqToolController
-					.getReceiverAcknowledgeModeChoiceBox().getSelectionModel().getSelectedIndex());
+					.getReceiverAcknowledgeModeChoiceBox().getValue().getBean());
 			// 获取session注意参数值xingbo.xu-queue是一个服务器的queue，须在在ActiveMq的console配置
 			String queue = activeMqToolController.getReceiverQueueTextField().getText();
 			destination = session.createQueue(queue);
