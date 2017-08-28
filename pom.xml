@@ -13,7 +13,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -65,11 +65,8 @@
 			<version>0.4.8</version>
 		</dependency>
 		<!-- 目录文件监控工具包 -->
-		<!-- <dependency>
-			<groupId>net.sf.jpathwatch</groupId>
-			<artifactId>jpathwatch</artifactId>
-			<version>0.95</version>
-		</dependency> -->
+		<!-- <dependency> <groupId>net.sf.jpathwatch</groupId> <artifactId>jpathwatch</artifactId> 
+			<version>0.95</version> </dependency> -->
 	</dependencies>
 	<build>
 		<plugins>
