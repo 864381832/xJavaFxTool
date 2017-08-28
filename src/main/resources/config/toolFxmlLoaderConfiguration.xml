@@ -108,7 +108,6 @@
 		<url>/fxml/debugTools/HttpTool.fxml</url>
 		<title>HttpTool</title>
 		<menuParentId>debugTools</menuParentId>
-		<isDefaultShow>true</isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 
 	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"

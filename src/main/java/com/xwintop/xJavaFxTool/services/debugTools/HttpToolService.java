@@ -1,12 +1,11 @@
 package com.xwintop.xJavaFxTool.services.debugTools;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
 
 import com.xwintop.xJavaFxTool.controller.debugTools.HttpToolController;
 import com.xwintop.xcore.util.HttpClientUtil;
@@ -15,7 +14,6 @@ import com.xwintop.xcore.util.javafx.TooltipUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
-import okhttp3.Call;
 import okhttp3.FormBody;
 import okhttp3.FormBody.Builder;
 import okhttp3.Headers;
@@ -34,7 +32,7 @@ public class HttpToolService {
 	 * @Title: sendAction
 	 * @Description: 发送请求
 	 */
-	public void sendAction() {
+	public void sendAction() throws Exception {
 		String url = httpToolController.getUrlTextField().getText().trim();
 		if (StringUtils.isEmpty(url)) {
 			TooltipUtil.showToast("请输入网站！！！");
@@ -43,50 +41,74 @@ public class HttpToolService {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		Map<String, String> headerMap = new HashMap<String, String>();
 		Map<String, String> cookieMap = new HashMap<String, String>();
-		for (Map<String, String> map : httpToolController.getParamsDatatableData()) {
-			paramsMap.put(map.get("name"), map.get("value"));
+		if (httpToolController.getParamsDataCheckBox().isSelected()) {
+			for (Map<String, String> map : httpToolController.getParamsDatatableData()) {
+				paramsMap.put(map.get("name"), map.get("value"));
+			}
 		}
-		for (Map<String, String> map : httpToolController.getParamsHeadertableData()) {
-			headerMap.put(map.get("name"), map.get("value"));
+		if (httpToolController.getParamsHeaderCheckBox().isSelected()) {
+			for (Map<String, String> map : httpToolController.getParamsHeadertableData()) {
+				headerMap.put(map.get("name"), map.get("value"));
+			}
 		}
-		for (Map<String, String> map : httpToolController.getParamsCookietableData()) {
-			cookieMap.put(map.get("name"), map.get("value"));
+		if (httpToolController.getParamsCookieCheckBox().isSelected() && MapUtils.isNotEmpty(cookieMap)) {
+			StringBuffer paramsCookieBuffer = new StringBuffer();
+			for (Map<String, String> map : httpToolController.getParamsCookietableData()) {
+				cookieMap.put(map.get("name"), map.get("value"));
+				paramsCookieBuffer.append(map.get("name")).append("=").append(map.get("value")).append(";");
+			}
+			paramsCookieBuffer.deleteCharAt(paramsCookieBuffer.length() - 1);
+			headerMap.put("Cookie", paramsCookieBuffer.toString());
 		}
 		String methodString = httpToolController.getMethodChoiceBox().getValue();
+		OkHttpClient client = new OkHttpClient();
+		Request request = null;
 		if ("GET".equals(methodString)) {
-			HttpResponse httpResponse = HttpClientUtil.getHttpResponse(url, paramsMap, headerMap, cookieMap);
-			String httpDataString = HttpClientUtil.getHttpDataByHttpResponse(httpResponse);
-			httpToolController.getResponseBodyTextArea().setText(httpDataString);
-			StringBuffer headerStringBuffer = new StringBuffer();
-			for (Header header : httpResponse.getAllHeaders()) {
-				headerStringBuffer.append(header.getName()).append(":").append(header.getValue()).append("\n");
+			StringBuffer paramsDataBuffer = new StringBuffer();
+			if (MapUtils.isNotEmpty(paramsMap)) {
+				if (url.contains("?")) {
+					paramsDataBuffer.append("&");
+				} else {
+					paramsDataBuffer.append("?");
+				}
+				paramsMap.forEach(new BiConsumer<String, String>() {
+					@Override
+					public void accept(String key, String value) {
+						paramsDataBuffer.append(key).append("=").append(value).append("&");
+					}
+				});
+				paramsDataBuffer.deleteCharAt(paramsDataBuffer.length() - 1);
 			}
-			httpToolController.getResponseHeaderTextArea().setText(headerStringBuffer.toString());
-			// httpToolController.getResponseImgImageView().setImage(new
-			// Image(url));
-		} else if ("POST".equals(methodString)) {
-			OkHttpClient okHttpClient = new OkHttpClient();
+			url += paramsDataBuffer.toString();
+			request = new Request.Builder().url(url).headers(Headers.of(headerMap)).build();
+		} else {
 			Builder builder = new FormBody.Builder();
 			for (Map<String, String> map : httpToolController.getParamsDatatableData()) {
 				builder.add(map.get("name"), map.get("value"));
 			}
 			RequestBody body = builder.build();
-			Request request = new Request.Builder().url(url).post(body).headers(Headers.of(headerMap)).build();
-			Call call = okHttpClient.newCall(request);
-			try {
-				Response response = call.execute();
-				StringBuffer headerStringBuffer = new StringBuffer();
-				Headers headers = response.headers();
-				for(int i=0;i<headers.size();i++){
-					headerStringBuffer.append(headers.name(i)).append(":").append(headers.value(i)).append("\n");
-				}
-				httpToolController.getResponseHeaderTextArea().setText(headerStringBuffer.toString());
-				httpToolController.getResponseBodyTextArea().setText(response.body().string());
-			} catch (IOException e) {
-				e.printStackTrace();
+			if ("POST".equals(methodString)) {
+				request = new Request.Builder().url(url).post(body).headers(Headers.of(headerMap)).build();
+			} else if ("HEAD".equals(methodString)) {
+				request = new Request.Builder().url(url).head().headers(Headers.of(headerMap)).build();
+			} else if ("PUT".equals(methodString)) {
+				request = new Request.Builder().url(url).put(body).headers(Headers.of(headerMap)).build();
+			} else if ("PATCH".equals(methodString)) {
+				request = new Request.Builder().url(url).patch(body).headers(Headers.of(headerMap)).build();
+			} else if ("DELETE".equals(methodString)) {
+				request = new Request.Builder().url(url).delete(body).headers(Headers.of(headerMap)).build();
 			}
 		}
+		Response response = client.newCall(request).execute();
+		Headers headers = response.headers();
+		StringBuffer headerStringBuffer = new StringBuffer();
+		for (int i = 0; i < headers.size(); i++) {
+			headerStringBuffer.append(headers.name(i)).append(":").append(headers.value(i)).append("\n");
+		}
+		httpToolController.getResponseHeaderTextArea().setText(headerStringBuffer.toString());
+		httpToolController.getResponseBodyTextArea().setText(response.body().string());
 		httpToolController.getResponseHtmlWebView().getEngine().load(url);
+//		httpToolController.getResponseImgImageView().setImage(new Image(url));
 	}
 
 	/**

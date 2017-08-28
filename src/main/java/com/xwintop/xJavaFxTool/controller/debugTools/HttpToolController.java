@@ -21,6 +21,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableView;
 import javafx.scene.input.MouseButton;
 import lombok.Getter;
 import lombok.Setter;
@@ -55,40 +56,24 @@ public class HttpToolController extends HttpToolView {
 		JavaFxViewUtil.setTableColumnMapValueFactory(paramsCookieNameTableColumn, "name");
 		JavaFxViewUtil.setTableColumnMapValueFactory(paramsCookieValueTableColumn, "value");
 		JavaFxViewUtil.setTableColumnMapValueFactory(paramsCookieRemarkTableColumn, "remark");
-		Map<String, String> hMap = new HashMap<String, String>();
-		hMap.put("name", "key");
-		hMap.put("value", "lo5ujaa0pv5jtrkv");
-		hMap.put("remark", "API密钥");
-		Map<String, String> hMap2 = new HashMap<String, String>();
-		hMap2.put("name", "location");
-		hMap2.put("value", "北京");
-		hMap2.put("remark", "城市中文名");
-		paramsDatatableData.addAll(hMap,hMap2);
+//		Map<String, String> hMap = new HashMap<String, String>();
+//		hMap.put("name", "key");
+//		hMap.put("value", "lo5ujaa0pv5jtrkv");
+//		hMap.put("remark", "API密钥");
+//		Map<String, String> hMap2 = new HashMap<String, String>();
+//		hMap2.put("name", "location");
+//		hMap2.put("value", "北京");
+//		hMap2.put("remark", "城市中文名");
+//		paramsDatatableData.addAll(hMap, hMap2);
 		paramsDataTableView.setItems(paramsDatatableData);
 		paramsHeaderTableView.setItems(paramsHeadertableData);
 		paramsCookieTableView.setItems(paramsCookietableData);
 	}
 
 	private void initEvent() {
-		paramsDataTableView.setOnMouseClicked(event -> {
-			if (event.getButton() == MouseButton.SECONDARY) {
-				MenuItem menu_Copy = new MenuItem("复制选中行");
-				menu_Copy.setOnAction(event1 -> {
-					Map<String, String> tableBean = paramsDataTableView.getSelectionModel().getSelectedItem();
-					Map<String, String> tableBean2 = new HashMap<String, String>(tableBean);
-					paramsDatatableData.add(paramsDataTableView.getSelectionModel().getSelectedIndex(), tableBean2);
-				});
-				MenuItem menu_Remove = new MenuItem("删除选中行");
-				menu_Remove.setOnAction(event1 -> {
-					paramsDatatableData.remove(paramsDataTableView.getSelectionModel().getSelectedIndex());
-				});
-				MenuItem menu_RemoveAll = new MenuItem("删除所有");
-				menu_RemoveAll.setOnAction(event1 -> {
-					paramsDatatableData.clear();
-				});
-				paramsDataTableView.setContextMenu(new ContextMenu(menu_Copy, menu_Remove, menu_RemoveAll));
-			}
-		});
+		setTableViewOnMouseClicked(paramsDataTableView, paramsDatatableData);
+		setTableViewOnMouseClicked(paramsHeaderTableView, paramsHeadertableData);
+		setTableViewOnMouseClicked(paramsCookieTableView, paramsCookietableData);
 		MenuItem compressJsonMenuItem = new MenuItem("压缩JSON");
 		compressJsonMenuItem.setOnAction(event -> {
 			Pattern p = Pattern.compile("\\s*|\t|\r|\n");
@@ -114,7 +99,11 @@ public class HttpToolController extends HttpToolView {
 
 	@FXML
 	private void sendAction(ActionEvent event) {
-		httpToolService.sendAction();
+		try {
+			httpToolService.sendAction();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
@@ -135,5 +124,32 @@ public class HttpToolController extends HttpToolView {
 	@FXML
 	private void toBrowerAction(ActionEvent event) {
 		httpToolService.toBrowerAction();
+	}
+	
+	/**
+	 * @Title: setTableViewOnMouseClicked
+	 * @Description: 设置表格右击事件
+	 */
+	private void setTableViewOnMouseClicked(TableView<Map<String, String>> paramsDataTableView,
+			ObservableList<Map<String, String>> paramsDatatableData) {
+		paramsDataTableView.setOnMouseClicked(event -> {
+			if (event.getButton() == MouseButton.SECONDARY && !paramsDatatableData.isEmpty()) {
+				MenuItem menu_Copy = new MenuItem("复制选中行");
+				menu_Copy.setOnAction(event1 -> {
+					Map<String, String> tableBean = paramsDataTableView.getSelectionModel().getSelectedItem();
+					Map<String, String> tableBean2 = new HashMap<String, String>(tableBean);
+					paramsDatatableData.add(paramsDataTableView.getSelectionModel().getSelectedIndex(), tableBean2);
+				});
+				MenuItem menu_Remove = new MenuItem("删除选中行");
+				menu_Remove.setOnAction(event1 -> {
+					paramsDatatableData.remove(paramsDataTableView.getSelectionModel().getSelectedIndex());
+				});
+				MenuItem menu_RemoveAll = new MenuItem("删除所有");
+				menu_RemoveAll.setOnAction(event1 -> {
+					paramsDatatableData.clear();
+				});
+				paramsDataTableView.setContextMenu(new ContextMenu(menu_Copy, menu_Remove, menu_RemoveAll));
+			}
+		});
 	}
 }
