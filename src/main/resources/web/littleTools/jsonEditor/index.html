@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>JSON Editor Online - view, edit and format JSON online</title>
+		<link rel="stylesheet" type="text/css" href="app.min.css">
+		<script type="text/javascript" src="app.min.js" charset="utf-8"></script>
+		<script data-cfasync="false" type="text/javascript">
+			var debug = window.location.search.indexOf('fsdebug') == -1 ? false : true;
+			var freestar = freestar || {};
+			freestar.hitTime = Date.now();
+			freestar.queue = freestar.queue || [];
+			freestar.config = freestar.config || {};
+			// Tag IDs set here, must match Tags served in the Body for proper setup
+			/* freestar.config.enabled_slots = [
+				"jsoneditoronline_300x600_160x600_300x250_ATF"
+			];
+			! function(a, b) {
+				var c = b.getElementsByTagName("script")[0],
+					d = b.createElement("script"),
+					e = "https://a.pub.network/jsoneditoronline";
+				e += debug ? "/qa/pubfig.min.js" : "/pubfig.min.js", d.async = !0, d.src = e, c.parentNode.insertBefore(d, c)
+			}(window, document); */
+		</script>
+	</head>
+
+	<body>
+		<div id="header">
+			<div id="name-menu">
+				<div id="name" title="Document name. Click to change"></div>
+				<div id="name-status" title="Changes are automatically saved online"></div>
+			</div>
+			<div id="menu">
+				<ul>
+					<li>
+						<a id="new" title="Open a new, empty document">New</a>
+					</li>
+					<li>
+						<a id="open" title="Open file">
+							Open <span class="dropDownIcon">&#x25BC;</span>
+						</a>
+						<ul id="openMenu">
+							<li>
+								<a id="openFromDisk" title="Open file from disk">Open from disk</a>
+							</li>
+							<li>
+								<a id="openUrl" title="Open file from url">Open url</a>
+							</li>
+							<li id="filesList"></li>
+						</ul>
+					</li>
+					<li>
+						<a id="save" title="Save file">
+							Save <span class="dropDownIcon">&#x25BC;</span>
+						</a>
+						<ul id="saveMenu">
+							<li>
+								<a id="saveToDisk" title="Save file to disk">Save to disk</a>
+							</li>
+							<li>
+								<a id="saveOnline" title="Save and share online">Save online</a>
+							</li>
+						</ul>
+					</li>
+					<li class="settings">
+						<a id="settings" title="Settings">
+							Settings <span class="dropDownIcon">&#x25BC;</span>
+						</a>
+						<ul id="settingsMenu">
+							<li>
+								<div class="indentation">
+									<label for="indentation">Indentation <input id="indentation" value="2"/></label>
+								</div>
+							</li>
+							<li id="schemasList"></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+
+		</div>
+		<div id="auto">
+			<div id="contents">
+				<div id="codeEditor"></div>
+				<div id="splitter">
+					<div id="buttons">
+						<div>
+							<button id="toTree" class="convert" title="Copy code to tree editor (Ctrl + >)">
+								<div class="convert-right"></div>
+							</button>
+						</div>
+						<div>
+							<button id="toCode" class="convert" title="Copy tree to code editor (Ctrl + <)">
+								<div class="convert-left"></div>
+							</button>
+						</div>
+					</div>
+					<div id="drag">
+					</div>
+				</div>
+				<div id="treeEditor"></div>
+				<script type="text/javascript">
+					app.load();
+					app.resize();
+				</script>
+			</div>
+			<script type="text/javascript">
+				app.resize();
+			</script>
+	</body>
+
+</html>

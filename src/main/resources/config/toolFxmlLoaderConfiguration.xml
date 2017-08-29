@@ -113,4 +113,7 @@
 	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"
 		title="webCronExpBuilder" menuParentId="netWorkToolsMenu"
 		controllerType="WebView" />
+	<ToolFxmlLoaderConfiguration url="/web/littleTools/jsonEditor/index.html"
+		title="jsonEditor" menuParentId="netWorkToolsMenu"
+		controllerType="WebView" />
 </root>

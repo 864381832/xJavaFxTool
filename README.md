@@ -30,14 +30,21 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 
 13、Mq调试工具（目前仅支持ActiveMq）；
 
+14、Http调试工具（支持自定义发送数据、header和cookie）；
+
+15、json格式化编辑工具；
+
 项目刚刚启动，以后会陆续添加新工具，欢迎大家参与其中，多提提意见，谢谢。
-![输入图片说明](https://git.oschina.net/uploads/images/2017/0820/210342_3d3e557b_577658.jpeg "QQ截图20170820210041.jpg")
-![输入图片说明](https://git.oschina.net/uploads/images/2017/0820/210942_e7d361e7_577658.jpeg "QQ截图20170820210413.jpg")
-![输入图片说明](https://git.oschina.net/uploads/images/2017/0820/210953_14d53779_577658.jpeg "QQ截图20170820210610.jpg")
-![输入图片说明](https://git.oschina.net/uploads/images/2017/0820/211006_7b4c5906_577658.jpeg "QQ截图20170820210634.jpg")
-![输入图片说明](https://git.oschina.net/uploads/images/2017/0820/211018_b1288921_577658.jpeg "QQ截图20170820210712.jpg")
-![输入图片说明](https://git.oschina.net/uploads/images/2017/0820/211032_7d875500_577658.jpeg "QQ截图20170820210739.jpg")
-![输入图片说明](https://git.oschina.net/uploads/images/2017/0820/211042_2908c0df_577658.jpeg "QQ截图20170820210818.jpg")
-![输入图片说明](https://git.oschina.net/uploads/images/2017/0820/211052_d826af8f_577658.jpeg "QQ截图20170820210844.jpg")
-![输入图片说明](https://git.oschina.net/uploads/images/2017/0820/220621_6afb5721_577658.jpeg "QQ截图20170820220521.jpg")
-![输入图片说明](https://git.oschina.net/uploads/images/2017/0824/093932_c543e80c_577658.png "QQ截图20170824093518.png")
+![输入图片说明](https://git.oschina.net/zhuifeng335/xJavaFxTool/raw/master/images/文件复制.png "文件复制.png")
+![输入图片说明](https://git.oschina.net/zhuifeng335/xJavaFxTool/raw/master/images/Cron表达式生成器.png "Cron表达式生成器.png")
+![输入图片说明](https://git.oschina.net/zhuifeng335/xJavaFxTool/raw/master/images/Mq调试工具.png "Mq调试工具.png")
+![输入图片说明](https://git.oschina.net/zhuifeng335/xJavaFxTool/raw/master/images/正则表达式生成工具.png "正则表达式生成工具.png")
+![输入图片说明](https://git.oschina.net/zhuifeng335/xJavaFxTool/raw/master/images/二维码生成工具.png "二维码生成工具.png")
+![输入图片说明](https://git.oschina.net/zhuifeng335/xJavaFxTool/raw/master/images/json格式化编辑工具.png "json格式化编辑工具.png")
+![输入图片说明](https://git.oschina.net/zhuifeng335/xJavaFxTool/raw/master/images/网址缩短.png "网址缩短.png")
+![输入图片说明](https://git.oschina.net/zhuifeng335/xJavaFxTool/raw/master/images/字符串转换.png "字符串转换.png")
+![输入图片说明](https://git.oschina.net/zhuifeng335/xJavaFxTool/raw/master/images/Http调试工具.png "Http调试工具.png")
+![输入图片说明](https://git.oschina.net/zhuifeng335/xJavaFxTool/raw/master/images/编码转换.png "编码转换.png")
+![输入图片说明](https://git.oschina.net/zhuifeng335/xJavaFxTool/raw/master/images/转义字符.png "转义字符.png")
+![输入图片说明](https://git.oschina.net/zhuifeng335/xJavaFxTool/raw/master/images/加密解密.png "加密解密.png")
+![输入图片说明](https://git.oschina.net/zhuifeng335/xJavaFxTool/raw/master/images/Time转换.png "Time转换.png")
