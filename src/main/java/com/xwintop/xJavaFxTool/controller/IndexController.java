@@ -225,7 +225,11 @@ public class IndexController extends IndexView {
 		}
 		WebView browser = new WebView();
 		WebEngine webEngine = browser.getEngine();
-		webEngine.load(IndexController.class.getResource(url).toExternalForm());
+		if(url.startsWith("http")){
+			webEngine.load(url);
+		}else{
+			webEngine.load(IndexController.class.getResource(url).toExternalForm());
+		}
 		tab.setContent(browser);
 		tabPaneMain.getTabs().add(tab);
 		tabPaneMain.getSelectionModel().select(tab);

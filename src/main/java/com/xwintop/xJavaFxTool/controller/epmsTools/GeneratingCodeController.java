@@ -58,6 +58,12 @@ public class GeneratingCodeController extends AnchorPane implements Initializabl
 		textArea3.setText(string);
 	}
 	
+	@FXML
+	private void sqlToHibernateXml(ActionEvent event) throws Exception{
+		String string = TextToHibernateXmlService.sqlToHibernateXml(textArea1.getText(),textField1.getText(),textField2.getText());
+		textArea3.setText(string);
+	}
+	
 	/** 
 	 * @Title: copyTextValueToClipboard 
 	 * @Description: 拷贝内容到剪贴板
