@@ -58,6 +58,12 @@
                               <Font name="Consolas Bold" size="12.0" />
                            </font>
                         </Button>
+                        <Button mnemonicParsing="false" onAction="#sqlToJdbcInsertAction" text="sql转为JDBC插入" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" spacing="5.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#sqlToJdbcUpdateAction" text="sql转为JDBC更新" />
                      </children>
                   </HBox>
                </children>

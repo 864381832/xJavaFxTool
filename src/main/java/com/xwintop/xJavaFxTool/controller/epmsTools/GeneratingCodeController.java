@@ -64,6 +64,17 @@ public class GeneratingCodeController extends AnchorPane implements Initializabl
 		textArea3.setText(string);
 	}
 	
+	@FXML
+	private void sqlToJdbcInsertAction(ActionEvent event) throws Exception{
+		String string = XmlToBeanService.sqlToJdbcInsert(textArea1.getText(),textField2.getText());
+		textArea3.setText(string);
+	}
+	@FXML
+	private void sqlToJdbcUpdateAction(ActionEvent event) throws Exception{
+		String string = XmlToBeanService.sqlToJdbcUpdate(textArea1.getText(),textField2.getText());
+		textArea3.setText(string);
+	}
+	
 	/** 
 	 * @Title: copyTextValueToClipboard 
 	 * @Description: 拷贝内容到剪贴板
