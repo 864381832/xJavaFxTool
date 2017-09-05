@@ -47,7 +47,6 @@ public class RedisToolController extends RedisToolView {
 				MenuItem menu_addServer = new MenuItem("添加服务器");
 				menu_addServer.setOnAction(event1 -> {
 					int row = 0;
-
 					GridPane page1Grid = new GridPane();
 					page1Grid.setVgap(10);
 					page1Grid.setHgap(10);
@@ -70,6 +69,7 @@ public class RedisToolController extends RedisToolView {
 							TooltipUtil.showToast("请输入服务器信息");
 							return;
 						}
+						redisToolService.addServiceAddress(txName.getText(), txHost.getText(), Integer.parseInt(txPort.getText()), txPassword.getText());
 					}
 				});
 				MenuItem menu_Refresh = new MenuItem("刷新");

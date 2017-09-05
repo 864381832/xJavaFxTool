@@ -1,5 +1,7 @@
 package com.xwintop.xJavaFxTool.view.debugTools.redisTool;
 
+import com.xwintop.xJavaFxTool.model.RedisToolDataTableBean;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
@@ -11,14 +13,14 @@ import lombok.Setter;
 @Setter
 public abstract class RedisToolDataTableView implements Initializable {
 	@FXML
-	protected TableView dataTableView;
+	protected TableView<RedisToolDataTableBean> dataTableView;
 	@FXML
-	protected TableColumn dataNameTableColumn;
+	protected TableColumn<RedisToolDataTableBean,String> dataNameTableColumn;
 	@FXML
-	protected TableColumn dataTypeTableColumn;
+	protected TableColumn<RedisToolDataTableBean,String> dataTypeTableColumn;
 	@FXML
-	protected TableColumn dataSizeTableColumn;
+	protected TableColumn<RedisToolDataTableBean,String> dataSizeTableColumn;
 	@FXML
-	protected TableColumn dataTimeTableColumn;
+	protected TableColumn<RedisToolDataTableBean,String> dataTimeTableColumn;
 
 }

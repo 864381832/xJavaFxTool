@@ -17,36 +17,36 @@ public class RedisToolDataTableBean {
 		this.time = time;
 	}
 
-	public SimpleStringProperty getName() {
-		return name;
+	public String getName() {
+		return name.get();
 	}
 
-	public void setName(SimpleStringProperty name) {
-		this.name = name;
+	public void setName(String name) {
+		this.name.set(name);
 	}
 
-	public SimpleStringProperty getType() {
-		return type;
+	public String getType() {
+		return type.get();
 	}
 
-	public void setType(SimpleStringProperty type) {
-		this.type = type;
+	public void setType(String type) {
+		this.type.set(type);
 	}
 
-	public SimpleStringProperty getSize() {
-		return size;
+	public String getSize() {
+		return size.get();
 	}
 
-	public void setSize(SimpleStringProperty size) {
-		this.size = size;
+	public void setSize(String size) {
+		this.size.set(size);
 	}
 
-	public SimpleStringProperty getTime() {
-		return time;
+	public String getTime() {
+		return time.get();
 	}
 
-	public void setTime(SimpleStringProperty time) {
-		this.time = time;
+	public void setTime(String time) {
+		this.time.set(time);
 	}
 
 }
