@@ -1,23 +1,19 @@
 package com.xwintop.xJavaFxTool.controller.debugTools.redisTool;
 
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
-
-import org.apache.commons.lang3.StringUtils;
+import java.util.Set;
 
 import com.xwintop.xJavaFxTool.services.debugTools.redisTool.RedisToolService;
 import com.xwintop.xJavaFxTool.view.debugTools.redisTool.RedisToolView;
-import com.xwintop.xcore.util.javafx.TooltipUtil;
+import com.xwintop.xcore.util.RedisUtil;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventTarget;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.input.MouseButton;
@@ -43,41 +39,46 @@ public class RedisToolController extends RedisToolView {
 
 	private void initEvent() {
 		redisServiceTreeView.setOnMouseClicked(event -> {
+			if (event.getClickCount() == 2) {
+				if (event.getTarget() instanceof TreeItem) {
+					TreeItem<String> eventTarget = (TreeItem<String>) event.getTarget();
+					System.out.println(eventTarget.getValue());
+					return;
+				}
+			}
 			if (event.getButton() == MouseButton.SECONDARY) {
-				MenuItem menu_addServer = new MenuItem("添加服务器");
-				menu_addServer.setOnAction(event1 -> {
-					int row = 0;
-					GridPane page1Grid = new GridPane();
-					page1Grid.setVgap(10);
-					page1Grid.setHgap(10);
-
-					TextField txName = createTextField(null, page1Grid, "Name:", row++);
-					TextField txHost = createTextField("localhost", page1Grid, "Host:", row++);
-					TextField txPort = createTextField("6379", page1Grid, "Port:", row++);
-					TextField txPassword = createTextField(null, page1Grid, "Password:", row++);
-
-					Alert alert = new Alert(Alert.AlertType.NONE, null, new ButtonType("取消", ButtonBar.ButtonData.NO),
-							new ButtonType("确定", ButtonBar.ButtonData.YES));
-					alert.setTitle("添加服务器");
-					alert.setGraphic(page1Grid);
-					alert.setWidth(200);
-					Optional<ButtonType> _buttonType = alert.showAndWait();
-					// 根据点击结果返回
-					if (_buttonType.get().getButtonData().equals(ButtonBar.ButtonData.YES)) {
-						if (StringUtils.isEmpty(txName.getText()) || StringUtils.isEmpty(txHost.getText())
-								|| StringUtils.isEmpty(txPort.getText())) {
-							TooltipUtil.showToast("请输入服务器信息");
-							return;
+				redisToolService.addServerMenuItem();
+				EventTarget eventTarget = event.getTarget();
+				if (eventTarget instanceof TreeItem) {
+					// TreeViewSkin<String> eventTarget = (TreeViewSkin<String>) event.getTarget();
+					// if("Redis服务器".equals(eventTarget.getValue())) {
+//					redisToolService.addServerMenuItem();
+					// }
+				}
+			} else if (event.getButton() == MouseButton.PRIMARY) {
+				if (event.getTarget() instanceof TreeItem) {
+					TreeItem<String> eventTarget = (TreeItem<String>) event.getTarget();
+					String name = eventTarget.getValue();
+					if (name.startsWith("db")) {
+						RedisUtil redisUtil = redisToolService.getJedisMap().get(eventTarget.getParent().getValue());
+						int id = Integer.parseInt(name.substring(2, name.indexOf("(")));
+						redisUtil.setId(id);
+						Set<String> nodekeys = redisUtil.getListKeys();
+						for (String key : nodekeys) {
+							System.out.println(key);
 						}
-						redisToolService.addServiceAddress(txName.getText(), txHost.getText(), Integer.parseInt(txPort.getText()), txPassword.getText());
 					}
-				});
-				MenuItem menu_Refresh = new MenuItem("刷新");
-				menu_Refresh.setOnAction(event1 -> {
-				});
-				redisServiceTreeView.setContextMenu(new ContextMenu(menu_addServer, menu_Refresh));
+				}
 			}
 		});
+		redisServiceTreeView.getSelectionModel().selectedItemProperty()
+				.addListener(new ChangeListener<TreeItem<String>>() {
+					@Override
+					public void changed(ObservableValue<? extends TreeItem<String>> observable,
+							TreeItem<String> oldValue, TreeItem<String> newValue) {
+
+					}
+				});
 	}
 
 	private void initService() {
