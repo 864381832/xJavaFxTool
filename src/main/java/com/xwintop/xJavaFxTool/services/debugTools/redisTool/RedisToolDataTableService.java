@@ -1,16 +1,12 @@
 package com.xwintop.xJavaFxTool.services.debugTools.redisTool;
 
-import java.util.Map;
+import java.io.IOException;
 
-import javax.jms.Connection;
-import javax.jms.ConnectionFactory;
-import javax.jms.Message;
+import com.xwintop.xJavaFxTool.controller.debugTools.redisTool.RedisToolDataTableController;
+import com.xwintop.xJavaFxTool.controller.debugTools.redisTool.RedisToolDataViewController;
 
-import org.quartz.SchedulerFactory;
-
-import com.xwintop.xJavaFxTool.controller.debugTools.ActiveMqToolController;
-import com.xwintop.xJavaFxTool.services.debugTools.ActiveMqToolService;
-
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Tab;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -19,5 +15,24 @@ import lombok.extern.log4j.Log4j;
 @Setter
 @Log4j
 public class RedisToolDataTableService {
+	private RedisToolDataTableController redisToolDataTableController;
+
+	public RedisToolDataTableService(RedisToolDataTableController redisToolDataTableController) {
+		this.redisToolDataTableController = redisToolDataTableController;
+	}
+	
+	public void addRedisToolDataViewTab(String key) {
+		Tab tab = new Tab(key);
+		FXMLLoader fXMLLoader = RedisToolDataViewController.getFXMLLoader();
+		try {
+			tab.setContent(fXMLLoader.load());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		RedisToolDataViewController redisToolDataViewController = fXMLLoader.getController();
+		redisToolDataViewController.setData(redisToolDataTableController.getRedisUtil(), key);
+		redisToolDataTableController.getRedisToolController().getDataViewTabPane().getTabs().add(tab);
+		redisToolDataTableController.getRedisToolController().getDataViewTabPane().getSelectionModel().select(tab);
+	}
 
 }

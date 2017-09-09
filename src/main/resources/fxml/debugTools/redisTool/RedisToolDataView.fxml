@@ -10,11 +10,12 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="725.0" prefWidth="781.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.debugTools.redisTool.RedisToolDataViewController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.debugTools.redisTool.RedisToolDataViewController">
    <children>
-      <VBox layoutX="137.0" layoutY="124.0" prefHeight="200.0" prefWidth="100.0" spacing="20.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+      <VBox layoutX="137.0" layoutY="124.0" spacing="5.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
             <HBox alignment="CENTER_LEFT" spacing="10.0">
                <children>
@@ -30,84 +31,88 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" spacing="10.0">
                <children>
-                  <CheckBox mnemonicParsing="false" text="过期" />
+                  <CheckBox fx:id="overdueCheckBox" mnemonicParsing="false" text="过期" />
                   <Label text="生存时间（秒）">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField />
-                  <Button mnemonicParsing="false" text="应用" />
-                  <Button mnemonicParsing="false" text="刷新" />
+                  <TextField fx:id="overdueTimeTextField" disable="true" />
+                  <Button fx:id="overdueEnterButton" disable="true" mnemonicParsing="false" onAction="#overdueEnterAction" text="应用" />
+                  <Button fx:id="overdueReloadButton" mnemonicParsing="false" onAction="#overdueReloadAction" text="刷新" />
                </children>
             </HBox>
             <HBox spacing="10.0">
                <children>
                   <Label text="Key   " />
-                  <TextField editable="false" HBox.hgrow="ALWAYS" />
+                  <TextField fx:id="redisKeyTextField" editable="false" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <HBox spacing="10.0" VBox.vgrow="ALWAYS">
+            <StackPane VBox.vgrow="ALWAYS">
                <children>
-                  <Label text="Value" />
-                  <TableView HBox.hgrow="ALWAYS">
-                    <columns>
-                      <TableColumn prefWidth="75.0" text="域" />
-					<TableColumn prefWidth="75.0" text="值" />
-                    </columns>
-                     <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                     </columnResizePolicy>
-                  </TableView>
-                  <VBox spacing="10.0">
+                  <HBox fx:id="valueMapHBox" spacing="10.0" visible="false">
                      <children>
-                        <Button mnemonicParsing="false" text="添加" />
-                        <Button mnemonicParsing="false" text="删除" />
-                        <Button mnemonicParsing="false" text="刷新" />
-                        <Button mnemonicParsing="false" text="查看" />
+                        <Label text="Value" />
+                        <TableView fx:id="valueMapTableView" HBox.hgrow="ALWAYS">
+                          <columns>
+                            <TableColumn fx:id="valueMapKeyTableColumn" prefWidth="75.0" text="域" />
+      					<TableColumn fx:id="valueMapValueTableColumn" prefWidth="75.0" text="值" />
+                          </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                        <VBox spacing="10.0">
+                           <children>
+                              <Button fx:id="valueMapAddButton" mnemonicParsing="false" onAction="#valueMapAddAction" text="添加" />
+                              <Button fx:id="valueMapDeleteButton" mnemonicParsing="false" onAction="#valueMapDeleteAction" text="删除" />
+                              <Button fx:id="valueMapReloadButton" mnemonicParsing="false" onAction="#valueMapReloadAction" text="刷新" />
+                              <Button fx:id="valueMapShowButton" mnemonicParsing="false" onAction="#valueMapShowAction" text="查看" />
+                           </children>
+                        </VBox>
                      </children>
-                  </VBox>
-               </children>
-            </HBox>
-            <HBox spacing="10.0" VBox.vgrow="ALWAYS">
-               <children>
-                  <Label text="Value" />
-                  <TextArea HBox.hgrow="ALWAYS" />
-                  <VBox spacing="10.0">
+                  </HBox>
+                  <HBox fx:id="valueStringHBox" spacing="10.0" visible="false">
                      <children>
-                        <Button mnemonicParsing="false" text="应用" />
-                        <Button mnemonicParsing="false" text="取消" />
-                        <Button mnemonicParsing="false" text="刷新" />
-                        <Button mnemonicParsing="false" text="查看" />
+                        <Label text="Value" />
+                        <TextArea fx:id="valueStringTextArea" HBox.hgrow="ALWAYS" />
+                        <VBox spacing="10.0">
+                           <children>
+                              <Button fx:id="valueStringEnterButton" disable="true" mnemonicParsing="false" onAction="#valueStringEnterAction" text="应用" />
+                              <Button fx:id="valueStringCoanelButton" disable="true" mnemonicParsing="false" onAction="#valueStringCoanelAction" text="取消" />
+                              <Button fx:id="valueStringReloadButton" mnemonicParsing="false" onAction="#valueStringReloadAction" text="刷新" />
+                              <Button fx:id="valueStringShowButton" mnemonicParsing="false" onAction="#valueStringShowAction" text="查看" />
+                           </children>
+                        </VBox>
                      </children>
-                  </VBox>
-               </children>
-            </HBox>
-            <HBox spacing="10.0" VBox.vgrow="ALWAYS">
-               <children>
-                  <Label text="Value" />
-                  <TableView HBox.hgrow="ALWAYS">
-                     <columns>
-                        <TableColumn prefWidth="75.0" text="值" />
-                     </columns>
-                     <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                     </columnResizePolicy>
-                  </TableView>
-                  <VBox spacing="10.0">
+                  </HBox>
+                  <HBox fx:id="valueListHBox" spacing="10.0" visible="false">
                      <children>
-                        <Button mnemonicParsing="false" text="插入头" />
-                        <Button mnemonicParsing="false" text="添加尾" />
-                        <Button mnemonicParsing="false" text="删除头" />
-                        <Button mnemonicParsing="false" text="删除尾" />
-                        <Button mnemonicParsing="false" text="应用" />
-                        <Button mnemonicParsing="false" text="取消" />
-                        <Button mnemonicParsing="false" text="刷新" />
-                        <Button mnemonicParsing="false" text="查看" />
+                        <Label text="Value" />
+                        <TableView fx:id="valueListTableView" HBox.hgrow="ALWAYS">
+                           <columns>
+                              <TableColumn fx:id="valueListValueTableColumn" prefWidth="75.0" text="值" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                        <VBox spacing="10.0">
+                           <children>
+                              <Button fx:id="valueListInsertHeadButton" mnemonicParsing="false" onAction="#valueListInsertHeadAction" text="插入头" />
+                              <Button fx:id="valueListAppendTailButton" mnemonicParsing="false" onAction="#valueListAppendTailAction" text="添加尾" />
+                              <Button fx:id="valueListDeleteHeadButton" mnemonicParsing="false" onAction="#valueListDeleteHeadAction" text="删除头" />
+                              <Button fx:id="valueListDeleteTailButton" mnemonicParsing="false" onAction="#valueListDeleteTailAction" text="删除尾" />
+                              <Button fx:id="valueListEnterButton" mnemonicParsing="false" onAction="#valueListEnterAction" text="应用" />
+                              <Button fx:id="valueListCancelButton" mnemonicParsing="false" onAction="#valueListCancelAction" text="取消" />
+                              <Button fx:id="valueListReloadButton" mnemonicParsing="false" onAction="#valueListReloadAction" text="刷新" />
+                              <Button fx:id="valueListShowButton" mnemonicParsing="false" onAction="#valueListShowAction" text="查看" />
+                           </children>
+                        </VBox>
                      </children>
-                  </VBox>
+                  </HBox>
                </children>
-            </HBox>
+            </StackPane>
          </children>
       </VBox>
    </children>

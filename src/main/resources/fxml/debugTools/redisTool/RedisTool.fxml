@@ -33,17 +33,17 @@
 				</VBox>
 			</left>
 			<center>
-				<VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+				<VBox BorderPane.alignment="CENTER">
 					<children>
-						<TabPane fx:id="dataServiceTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+						<TabPane fx:id="dataServiceTabPane" tabClosingPolicy="ALL_TABS">
 							<tabs>
-								<Tab text="redis数据浏览器">
+								<Tab closable="false" text="redis数据浏览器">
 								</Tab>
 							</tabs>
 						</TabPane>
-						<TabPane fx:id="dataViewTabPane" tabClosingPolicy="UNAVAILABLE">
+						<TabPane fx:id="dataViewTabPane" tabClosingPolicy="ALL_TABS">
 							<tabs>
-								<Tab text="对象查看" />
+								<Tab closable="false" text="对象查看" />
 							</tabs>
 						</TabPane>
 					</children>

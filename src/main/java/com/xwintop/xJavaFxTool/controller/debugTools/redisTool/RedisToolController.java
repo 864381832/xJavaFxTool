@@ -11,12 +11,14 @@ import com.xwintop.xcore.util.RedisUtil;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.event.EventTarget;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import lombok.Getter;
@@ -39,6 +41,7 @@ public class RedisToolController extends RedisToolView {
 
 	private void initEvent() {
 		redisServiceTreeView.setOnMouseClicked(event -> {
+			System.out.println(event.getTarget().toString());
 			if (event.getClickCount() == 2) {
 				if (event.getTarget() instanceof TreeItem) {
 					TreeItem<String> eventTarget = (TreeItem<String>) event.getTarget();
@@ -57,17 +60,17 @@ public class RedisToolController extends RedisToolView {
 				}
 			} else if (event.getButton() == MouseButton.PRIMARY) {
 				if (event.getTarget() instanceof TreeItem) {
-					TreeItem<String> eventTarget = (TreeItem<String>) event.getTarget();
-					String name = eventTarget.getValue();
-					if (name.startsWith("db")) {
-						RedisUtil redisUtil = redisToolService.getJedisMap().get(eventTarget.getParent().getValue());
-						int id = Integer.parseInt(name.substring(2, name.indexOf("(")));
-						redisUtil.setId(id);
-						Set<String> nodekeys = redisUtil.getListKeys();
-						for (String key : nodekeys) {
-							System.out.println(key);
-						}
-					}
+//					TreeItem<String> eventTarget = (TreeItem<String>) event.getTarget();
+//					String name = eventTarget.getValue();
+//					if (name.startsWith("db")) {
+//						RedisUtil redisUtil = redisToolService.getJedisMap().get(eventTarget.getParent().getValue());
+//						int id = Integer.parseInt(name.substring(2, name.indexOf("(")));
+//						redisUtil.setId(id);
+//						Set<String> nodekeys = redisUtil.getListKeys();
+//						for (String key : nodekeys) {
+//							System.out.println(key);
+//						}
+//					}
 				}
 			}
 		});
@@ -76,12 +79,23 @@ public class RedisToolController extends RedisToolView {
 					@Override
 					public void changed(ObservableValue<? extends TreeItem<String>> observable,
 							TreeItem<String> oldValue, TreeItem<String> newValue) {
-
+						String name = newValue.getValue();
+						if (name.startsWith("db")) {
+//							RedisUtil redisUtil = redisToolService.getJedisMap().get(newValue.getParent().getValue());
+							int id = Integer.parseInt(name.substring(2, name.indexOf("(")));
+//							redisUtil.setId(id);
+//							Set<String> nodekeys = redisUtil.getListKeys();
+//							for (String key : nodekeys) {
+//								System.out.println(key);
+//							}
+							redisToolService.addDataServiceTabPane(newValue.getParent().getValue()+"-db"+id);
+						}
 					}
 				});
 	}
 
 	private void initService() {
+		redisToolService.addServiceAddress("localhost", "localhost", 6379, null);
 	}
 
 	@FXML

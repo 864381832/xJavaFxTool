@@ -16,6 +16,14 @@ public class RedisToolDataTableBean {
 		this.size = size;
 		this.time = time;
 	}
+	
+	public RedisToolDataTableBean(String name, String type, String size, String time) {
+		super();
+		this.name = new SimpleStringProperty(name);
+		this.type = new SimpleStringProperty(type);
+		this.size = new SimpleStringProperty(size);
+		this.time = new SimpleStringProperty(time);
+	}
 
 	public String getName() {
 		return name.get();
