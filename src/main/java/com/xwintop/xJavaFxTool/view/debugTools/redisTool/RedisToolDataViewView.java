@@ -49,6 +49,10 @@ public abstract class RedisToolDataViewView implements Initializable {
 	@FXML
 	protected Button valueMapDeleteButton;
 	@FXML
+	protected Button valueMapEnterButton;
+	@FXML
+	protected Button valueMapCancelButton;
+	@FXML
 	protected Button valueMapReloadButton;
 	@FXML
 	protected Button valueMapShowButton;
@@ -57,7 +61,7 @@ public abstract class RedisToolDataViewView implements Initializable {
 	@FXML
 	protected Button valueStringEnterButton;
 	@FXML
-	protected Button valueStringCoanelButton;
+	protected Button valueStringCancelButton;
 	@FXML
 	protected Button valueStringReloadButton;
 	@FXML

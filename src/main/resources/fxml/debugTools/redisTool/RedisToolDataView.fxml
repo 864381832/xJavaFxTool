@@ -37,7 +37,7 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="overdueTimeTextField" disable="true" />
+                  <TextField fx:id="overdueTimeTextField" editable="false" />
                   <Button fx:id="overdueEnterButton" disable="true" mnemonicParsing="false" onAction="#overdueEnterAction" text="应用" />
                   <Button fx:id="overdueReloadButton" mnemonicParsing="false" onAction="#overdueReloadAction" text="刷新" />
                </children>
@@ -53,7 +53,7 @@
                   <HBox fx:id="valueMapHBox" spacing="10.0" visible="false">
                      <children>
                         <Label text="Value" />
-                        <TableView fx:id="valueMapTableView" HBox.hgrow="ALWAYS">
+                        <TableView fx:id="valueMapTableView" editable="true" HBox.hgrow="ALWAYS">
                           <columns>
                             <TableColumn fx:id="valueMapKeyTableColumn" prefWidth="75.0" text="域" />
       					<TableColumn fx:id="valueMapValueTableColumn" prefWidth="75.0" text="值" />
@@ -66,6 +66,8 @@
                            <children>
                               <Button fx:id="valueMapAddButton" mnemonicParsing="false" onAction="#valueMapAddAction" text="添加" />
                               <Button fx:id="valueMapDeleteButton" mnemonicParsing="false" onAction="#valueMapDeleteAction" text="删除" />
+                              <Button fx:id="valueMapEnterButton" mnemonicParsing="false" onAction="#valueMapEnterAction" text="应用" />
+                              <Button fx:id="valueMapCancelButton" mnemonicParsing="false" onAction="#valueMapCancelAction" text="取消" />
                               <Button fx:id="valueMapReloadButton" mnemonicParsing="false" onAction="#valueMapReloadAction" text="刷新" />
                               <Button fx:id="valueMapShowButton" mnemonicParsing="false" onAction="#valueMapShowAction" text="查看" />
                            </children>
@@ -79,7 +81,7 @@
                         <VBox spacing="10.0">
                            <children>
                               <Button fx:id="valueStringEnterButton" disable="true" mnemonicParsing="false" onAction="#valueStringEnterAction" text="应用" />
-                              <Button fx:id="valueStringCoanelButton" disable="true" mnemonicParsing="false" onAction="#valueStringCoanelAction" text="取消" />
+                              <Button fx:id="valueStringCancelButton" disable="true" mnemonicParsing="false" onAction="#valueStringCancelAction" text="取消" />
                               <Button fx:id="valueStringReloadButton" mnemonicParsing="false" onAction="#valueStringReloadAction" text="刷新" />
                               <Button fx:id="valueStringShowButton" mnemonicParsing="false" onAction="#valueStringShowAction" text="查看" />
                            </children>
@@ -89,7 +91,7 @@
                   <HBox fx:id="valueListHBox" spacing="10.0" visible="false">
                      <children>
                         <Label text="Value" />
-                        <TableView fx:id="valueListTableView" HBox.hgrow="ALWAYS">
+                        <TableView fx:id="valueListTableView" editable="true" HBox.hgrow="ALWAYS">
                            <columns>
                               <TableColumn fx:id="valueListValueTableColumn" prefWidth="75.0" text="值" />
                            </columns>
@@ -103,8 +105,8 @@
                               <Button fx:id="valueListAppendTailButton" mnemonicParsing="false" onAction="#valueListAppendTailAction" text="添加尾" />
                               <Button fx:id="valueListDeleteHeadButton" mnemonicParsing="false" onAction="#valueListDeleteHeadAction" text="删除头" />
                               <Button fx:id="valueListDeleteTailButton" mnemonicParsing="false" onAction="#valueListDeleteTailAction" text="删除尾" />
-                              <Button fx:id="valueListEnterButton" mnemonicParsing="false" onAction="#valueListEnterAction" text="应用" />
-                              <Button fx:id="valueListCancelButton" mnemonicParsing="false" onAction="#valueListCancelAction" text="取消" />
+                              <Button fx:id="valueListEnterButton" disable="true" mnemonicParsing="false" onAction="#valueListEnterAction" text="应用" />
+                              <Button fx:id="valueListCancelButton" disable="true" mnemonicParsing="false" onAction="#valueListCancelAction" text="取消" />
                               <Button fx:id="valueListReloadButton" mnemonicParsing="false" onAction="#valueListReloadAction" text="刷新" />
                               <Button fx:id="valueListShowButton" mnemonicParsing="false" onAction="#valueListShowAction" text="查看" />
                            </children>

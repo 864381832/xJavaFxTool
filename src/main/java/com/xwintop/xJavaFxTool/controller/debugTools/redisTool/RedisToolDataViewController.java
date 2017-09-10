@@ -10,7 +10,10 @@ import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.view.debugTools.redisTool.RedisToolDataViewView;
 import com.xwintop.xcore.util.RedisUtil;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,13 +29,13 @@ public class RedisToolDataViewController extends RedisToolDataViewView {
 	private String redisKey;
 	private ObservableList<Map<String, String>> valueMapTableData = FXCollections.observableArrayList();
 	private ObservableList<Map<String, String>> valueListTableData = FXCollections.observableArrayList();
-	
+
 	public static FXMLLoader getFXMLLoader() {
 		FXMLLoader fXMLLoader = new FXMLLoader(
 				IndexController.class.getResource("/fxml/debugTools/redisTool/RedisToolDataView.fxml"));
 		return fXMLLoader;
 	}
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		initView();
@@ -49,23 +52,69 @@ public class RedisToolDataViewController extends RedisToolDataViewView {
 	}
 
 	private void initEvent() {
+		overdueCheckBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				if (newValue) {
+					overdueTimeTextField.setEditable(true);
+				} else {
+					overdueTimeTextField.setEditable(false);
+				}
+			}
+		});
+		overdueTimeTextField.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if (overdueCheckBox.isSelected()) {
+					overdueEnterButton.setDisable(false);
+				} else {
+					overdueEnterButton.setDisable(true);
+				}
+			}
+		});
+
+		valueStringTextArea.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if (newValue.equals(redisUtil.getString(redisKey))) {
+					valueStringEnterButton.setDisable(true);
+					valueStringCancelButton.setDisable(true);
+				}else {
+					valueStringEnterButton.setDisable(false);
+					valueStringCancelButton.setDisable(false);
+				}
+			}
+		});
+		
+		valueListTableData.addListener(new ListChangeListener<Map<String,String>>(){
+			@Override
+			public void onChanged(Change<? extends Map<String, String>> c) {
+				valueListEnterButton.setDisable(false);
+				valueListCancelButton.setDisable(false);
+			}
+		});
 	}
 
 	private void initService() {
 	}
 
-	public void setData(RedisUtil redisUtil,String key) {
+	public void setData(RedisUtil redisUtil, String key) {
 		this.redisUtil = redisUtil;
 		this.redisKey = key;
-		redisToolDataViewService.setData(redisUtil,key);
+		redisToolDataViewService.setData(redisUtil, key);
 	}
-	
+
 	@FXML
 	private void overdueEnterAction(ActionEvent event) {
+		redisUtil.setDeadLine(redisKey, Integer.parseInt(overdueTimeTextField.getText()));
+		overdueEnterButton.setDisable(true);
+		overdueCheckBox.setSelected(false);
 	}
 
 	@FXML
 	private void overdueReloadAction(ActionEvent event) {
+		overdueTimeTextField.setText(redisUtil.getDeadline(redisKey).toString());
+		overdueCheckBox.setSelected(false);
 	}
 
 	@FXML
@@ -75,6 +124,14 @@ public class RedisToolDataViewController extends RedisToolDataViewView {
 	@FXML
 	private void valueMapDeleteAction(ActionEvent event) {
 	}
+	@FXML
+	private void valueMapEnterAction(ActionEvent event) {
+	}
+	
+	@FXML
+	private void valueMapCancelAction(ActionEvent event) {
+	}
+
 
 	@FXML
 	private void valueMapReloadAction(ActionEvent event) {
@@ -86,14 +143,19 @@ public class RedisToolDataViewController extends RedisToolDataViewView {
 
 	@FXML
 	private void valueStringEnterAction(ActionEvent event) {
+		redisUtil.setString(redisKey, valueStringTextArea.getText());
+		valueStringEnterButton.setDisable(true);
+		valueStringCancelButton.setDisable(true);
 	}
 
 	@FXML
-	private void valueStringCoanelAction(ActionEvent event) {
+	private void valueStringCancelAction(ActionEvent event) {
+		valueStringTextArea.setText(redisUtil.getString(redisKey));
 	}
 
 	@FXML
 	private void valueStringReloadAction(ActionEvent event) {
+		valueStringTextArea.setText(redisUtil.getString(redisKey));
 	}
 
 	@FXML
@@ -118,14 +180,23 @@ public class RedisToolDataViewController extends RedisToolDataViewView {
 
 	@FXML
 	private void valueListEnterAction(ActionEvent event) {
+		redisToolDataViewService.setList();
+		valueListEnterButton.setDisable(true);
+		valueListCancelButton.setDisable(true);
 	}
 
 	@FXML
 	private void valueListCancelAction(ActionEvent event) {
+		redisToolDataViewService.reloadList();
+		valueListEnterButton.setDisable(true);
+		valueListCancelButton.setDisable(true);
 	}
 
 	@FXML
 	private void valueListReloadAction(ActionEvent event) {
+		redisToolDataViewService.reloadList();
+		valueListEnterButton.setDisable(true);
+		valueListCancelButton.setDisable(true);
 	}
 
 	@FXML
