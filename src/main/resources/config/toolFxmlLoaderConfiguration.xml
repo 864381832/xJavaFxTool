@@ -21,7 +21,7 @@
 		<resourceBundleName></resourceBundleName>
 		<className></className>
 		<title>GeneratingCode</title>
-		<isDefaultShow></isDefaultShow>
+		<isDefaultShow>true</isDefaultShow>
 		<menuId></menuId>
 		<menuParentId>epmsTools</menuParentId>
 		<controllerType>Node</controllerType>
@@ -113,7 +113,7 @@
 		<url>/fxml/debugTools/redisTool/RedisTool.fxml</url>
 		<title>RedisTool</title>
 		<menuParentId>debugTools</menuParentId>
-		<isDefaultShow>true</isDefaultShow>
+		<isDefaultShow></isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 
 	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"

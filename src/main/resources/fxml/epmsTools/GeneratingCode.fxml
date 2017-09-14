@@ -64,6 +64,7 @@
                   <HBox alignment="CENTER" spacing="5.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#sqlToJdbcUpdateAction" text="sql转为JDBC更新" />
+                        <Button mnemonicParsing="false" onAction="#xmlElementToSqlAction" text="xml转换为sql" />
                      </children>
                   </HBox>
                </children>

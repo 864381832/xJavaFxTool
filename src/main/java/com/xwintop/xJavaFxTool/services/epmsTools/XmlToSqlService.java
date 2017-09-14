@@ -1,5 +1,13 @@
 package com.xwintop.xJavaFxTool.services.epmsTools;
 
+import java.util.List;
+
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+
+import com.xwintop.xJavaFxTool.utils.AttributeConvertUtil;
+
 public class XmlToSqlService {
 	public static String xmlToSql(String string,String tableSpace,String tableName) {
 //		String TableSpace = "EDI2";//表空间名
@@ -49,5 +57,51 @@ public class XmlToSqlService {
 		sBuilder3.append("  MINVALUE 1\n  NOCYCLE\n  NOCACHE\n  ORDER;\n");
 		
 		return sBuilder.toString()+sBuilder1.toString()+sBuilder2.toString()+sBuilder3.toString();
+	}
+	
+	public static String xmlElementToSqlAction(String xmlStr,String tableSpace,String tableName) throws Exception{
+		tableSpace = tableSpace.toUpperCase().trim();
+		tableName = tableName.toUpperCase().trim();
+		StringBuilder sBuilder = new StringBuilder();//创建表Sql
+		sBuilder.append("CREATE TABLE ").append(tableSpace).append(".").append(tableName).append("(\n");
+		xmlStr = xmlStr.replace("xs:", "").replace("msdata:", "");
+		Document document = DocumentHelper.parseText(xmlStr);
+		Element root = document.getRootElement();
+		@SuppressWarnings("unchecked")
+		List<Element> list = root.elements();
+		for (Element attribute : list) {
+			String name = attribute.attributeValue("name");
+			String type = attribute.attributeValue("type");
+			String maxLength = null;
+			if(type == null){
+				Element restriction = attribute.element("simpleType").element("restriction");
+				type = restriction.attributeValue("base");
+				maxLength = restriction.element("maxLength").attributeValue("value");
+			}
+			sBuilder.append(AttributeConvertUtil.humpToLine(name));
+			if("int".equals(type)){
+				sBuilder.append(" NUMBER,\n");
+			}else if("string".equals(type)){
+				sBuilder.append(" VARCHAR2");
+				if(maxLength != null){
+					sBuilder.append("(").append(maxLength).append(" BYTE),\n");
+				}else{
+					sBuilder.append("(255 BYTE),\n");
+				}
+			}else if("short".equals(type)){
+				sBuilder.append(" NUMBER(20,5),\n");
+			}else if("float".equals(type)){
+				sBuilder.append(" NUMBER(20,5),\n");
+			}else if("boolean".equals(type)){
+				sBuilder.append(" VARCHAR2(5 BYTE),\n");
+			}else if("dateTime".equals(type)){
+				sBuilder.append(" DATE,\n");
+			}else if("decimal".equals(type)){
+				sBuilder.append(" DECIMAL(20,10),\n");
+			}
+		}
+		sBuilder.deleteCharAt(sBuilder.length()-2);
+		sBuilder.append(")TABLESPACE ").append(tableSpace).append(";\n\n");
+		return sBuilder.toString();
 	}
 }
