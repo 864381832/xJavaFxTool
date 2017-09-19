@@ -21,7 +21,7 @@
 		<resourceBundleName></resourceBundleName>
 		<className></className>
 		<title>GeneratingCode</title>
-		<isDefaultShow>true</isDefaultShow>
+		<isDefaultShow></isDefaultShow>
 		<menuId></menuId>
 		<menuParentId>epmsTools</menuParentId>
 		<controllerType>Node</controllerType>
@@ -62,7 +62,7 @@
 		<url>/fxml/littleTools/FileCopy.fxml</url>
 		<title>FileCopy</title>
 		<menuParentId>littleTools</menuParentId>
-		<isDefaultShow>true</isDefaultShow>
+		<isDefaultShow></isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 	<ToolFxmlLoaderConfiguration>
 		<url>/fxml/littleTools/QRCodeBuilder.fxml</url>
@@ -114,6 +114,12 @@
 		<title>RedisTool</title>
 		<menuParentId>debugTools</menuParentId>
 		<isDefaultShow></isDefaultShow>
+	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/fxml/codeTools/WebSourcesTool.fxml</url>
+		<title>WebSourcesTool</title>
+		<menuParentId>codeTools</menuParentId>
+		<isDefaultShow>true</isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 
 	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"
