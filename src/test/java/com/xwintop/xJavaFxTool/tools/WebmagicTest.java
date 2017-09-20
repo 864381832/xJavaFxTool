@@ -28,7 +28,8 @@ public class WebmagicTest implements PageProcessor {
         page.putField("readme", page.getHtml().xpath("//div[@id='readme']/tidyText()"));
 
         // 部分三：从页面发现后续的url地址来抓取
-        page.addTargetRequests(page.getHtml().links().regex("(https://github\\.com/[\\w\\-]+/[\\w\\-]+)").all());
+//        page.addTargetRequests(page.getHtml().links().regex("(https://github\\.com/[\\w\\-]+/[\\w\\-]+)").all());
+        page.addTargetRequests(page.getHtml().links().all());
     }
 
     @Override
@@ -40,7 +41,8 @@ public class WebmagicTest implements PageProcessor {
     public void test(){
     	Spider.create(new WebmagicTest())
         //从"https://github.com/code4craft"开始抓
-        .addUrl("http://ofo.xwintop.com/")
+//        .addUrl("http://ofo.xwintop.com/")
+        .addUrl("http://127.0.0.1:8020/xTool/vueTest/index.html")
         //开启5个线程抓取
         .thread(5)
         //启动爬虫

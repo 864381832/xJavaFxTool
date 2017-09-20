@@ -11,7 +11,9 @@ import java.util.ResourceBundle;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.w3c.dom.Document;
 
+import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.concurrent.Worker.State;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -88,8 +90,9 @@ public class WebSourcesToolController extends WebSourcesToolView {
 
 	@FXML
 	private void downloadAction(ActionEvent event) throws Exception {
+		webSourcesToolService.downloadHtmlSources();
 		WebEngine webEngine = showHrmlWebView.getEngine();
-		WebPage page = (WebPage) FieldUtils.readDeclaredField(webEngine, "page", true);
+//		WebPage page = (WebPage) FieldUtils.readDeclaredField(webEngine, "page", true);
 		System.out.println(webEngine.getTitle());
 	}
 }

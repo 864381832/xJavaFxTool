@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
@@ -8,33 +9,62 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
 <AnchorPane prefHeight="454.0" prefWidth="756.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.codeTools.RegexTesterController">
    <children>
-      <Label layoutX="14.0" layoutY="14.0" text="表达式：" />
-      <TextField fx:id="regexTextField" layoutX="60.0" layoutY="10.0" prefHeight="23.0" prefWidth="214.0" promptText="请输入正则表达式" />
-      <Button fx:id="regulatButton" layoutX="283.0" layoutY="10.0" mnemonicParsing="false" onAction="#regulatAction" text="匹配" />
-      <TableView fx:id="examplesTableView" editable="true" layoutY="42.0" prefHeight="404.0" prefWidth="305.0">
-        <columns>
-          <TableColumn fx:id="examplesTableColumn0" prefWidth="130.0" sortable="false" text="示例" />
-          <TableColumn fx:id="examplesTableColumn1" prefWidth="174.0" sortable="false" text="表达式" />
-        </columns>
-      </TableView>
-      <TextArea fx:id="sourceTextArea" layoutX="318.0" layoutY="42.0" prefHeight="216.0" prefWidth="200.0" promptText="请输入待验证字符文" />
-      <TableView fx:id="matchTableView" layoutX="313.0" layoutY="270.0" prefHeight="176.0" prefWidth="431.0">
-        <columns>
-          <TableColumn fx:id="matchTableColumn0" prefWidth="46.0" text="序列" />
-          <TableColumn fx:id="matchTableColumn1" prefWidth="136.0" text="匹配文本" />
-            <TableColumn fx:id="matchTableColumn2" prefWidth="110.0" text="子匹配文本" />
-            <TableColumn fx:id="matchTableColumn3" prefWidth="65.0" text="开始位置" />
-            <TableColumn fx:id="matchTableColumn4" prefWidth="73.0" text="结束位置" />
-        </columns>
-      </TableView>
-      <Button fx:id="resetButton" layoutX="328.0" layoutY="10.0" mnemonicParsing="false" onAction="#resetAction" text="重置" />
-      <Button fx:id="aboutRegularButton" layoutX="678.0" layoutY="11.0" mnemonicParsing="false" onAction="#aboutRegularAction" text="关于正则" />
-      <CheckBox fx:id="ignoreCaseCheckBox" layoutX="378.0" layoutY="14.0" mnemonicParsing="false" text="忽略大小写" />
-      <TextField fx:id="replaceTextField" layoutX="570.0" layoutY="11.0" prefHeight="23.0" prefWidth="103.0" promptText="要替换的内容" />
-      <CheckBox fx:id="isReplaceCheckBox" layoutX="472.0" layoutY="14.0" mnemonicParsing="false" text="替换匹配内容" />
-      <TextArea fx:id="matchTextArea" layoutX="529.0" layoutY="42.0" prefHeight="216.0" prefWidth="214.0" promptText="匹配结果" />
+      <BorderPane layoutY="42.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <left>
+            <TableView fx:id="examplesTableView" editable="true" BorderPane.alignment="CENTER">
+              <columns>
+                <TableColumn fx:id="examplesTableColumn0" prefWidth="130.0" sortable="false" text="示例" />
+                <TableColumn fx:id="examplesTableColumn1" prefWidth="174.0" sortable="false" text="表达式" />
+              </columns>
+               <BorderPane.margin>
+                  <Insets right="10.0" />
+               </BorderPane.margin>
+            </TableView>
+         </left>
+         <top>
+            <HBox alignment="CENTER_LEFT" spacing="5.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="表达式：" />
+                  <TextField fx:id="regexTextField" prefHeight="23.0" prefWidth="214.0" promptText="请输入正则表达式" />
+                  <Button fx:id="regulatButton" mnemonicParsing="false" onAction="#regulatAction" text="匹配" />
+                  <Button fx:id="resetButton" mnemonicParsing="false" onAction="#resetAction" text="重置" />
+                  <CheckBox fx:id="ignoreCaseCheckBox" mnemonicParsing="false" text="忽略大小写" />
+                  <CheckBox fx:id="isReplaceCheckBox" mnemonicParsing="false" text="替换匹配内容" />
+                  <TextField fx:id="replaceTextField" prefHeight="23.0" prefWidth="103.0" promptText="要替换的内容" />
+                  <Button fx:id="aboutRegularButton" mnemonicParsing="false" onAction="#aboutRegularAction" text="关于正则" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+            </HBox>
+         </top>
+         <center>
+            <VBox spacing="5.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox spacing="10.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <TextArea fx:id="sourceTextArea" promptText="请输入待验证字符文" HBox.hgrow="ALWAYS" />
+                        <TextArea fx:id="matchTextArea" promptText="匹配结果" />
+                     </children>
+                  </HBox>
+                  <TableView fx:id="matchTableView" prefHeight="171.0" prefWidth="420.0">
+                    <columns>
+                      <TableColumn fx:id="matchTableColumn0" prefWidth="46.0" text="序列" />
+                      <TableColumn fx:id="matchTableColumn1" prefWidth="136.0" text="匹配文本" />
+                        <TableColumn fx:id="matchTableColumn2" prefWidth="110.0" text="子匹配文本" />
+                        <TableColumn fx:id="matchTableColumn3" prefWidth="65.0" text="开始位置" />
+                        <TableColumn fx:id="matchTableColumn4" prefWidth="73.0" text="结束位置" />
+                    </columns>
+                  </TableView>
+               </children>
+            </VBox>
+         </center>
+      </BorderPane>
    </children>
 </AnchorPane>
