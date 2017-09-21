@@ -101,7 +101,7 @@ public class RedisToolDataViewController extends RedisToolDataViewView {
 	public void setData(RedisUtil redisUtil, String key) {
 		this.redisUtil = redisUtil;
 		this.redisKey = key;
-		redisToolDataViewService.setData(redisUtil, key);
+		redisToolDataViewService.setData(redisUtil,key);
 	}
 
 	@FXML

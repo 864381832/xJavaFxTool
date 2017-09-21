@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiConsumer;
 
 import com.xwintop.xJavaFxTool.controller.debugTools.redisTool.RedisToolDataViewController;
 import com.xwintop.xcore.util.RedisUtil;
@@ -19,6 +18,7 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class RedisToolDataViewService {
 	private RedisToolDataViewController redisToolDataViewController;
+	private String type;
 
 	public RedisToolDataViewService(RedisToolDataViewController redisToolDataViewController) {
 		this.redisToolDataViewController = redisToolDataViewController;
@@ -35,13 +35,24 @@ public class RedisToolDataViewService {
 		Long timeLong = redisUtil.getDeadline(redisKey);
 		String time = timeLong == -1 ? "永久" : timeLong.toString();
 		redisToolDataViewController.getOverdueTimeTextField().setText(time);
-		String type = redisUtil.getValueType(redisKey);
+		type = redisUtil.getValueType(redisKey);
+		if("hash".equals(type)) {
+			redisToolDataViewController.getValueMapHBox().setVisible(true);
+		}else if("string".equals(type)) {
+			redisToolDataViewController.getValueStringHBox().setVisible(true);
+		}else if("list".equals(type)) {
+			redisToolDataViewController.getValueListHBox().setVisible(true);
+		}
+		reloadData();
+	}
+	
+	public void reloadData() {
 		if("hash".equals(type)) {
 			redisToolDataViewController.getValueMapHBox().setVisible(true);
 			reloadHash();
 		}else if("string".equals(type)) {
 			redisToolDataViewController.getValueStringHBox().setVisible(true);
-			String value = redisUtil.getString(redisKey);
+			String value = redisToolDataViewController.getRedisUtil().getString(redisToolDataViewController.getRedisKey());
 			redisToolDataViewController.getValueStringTextArea().setText(value);
 		}else if("list".equals(type)) {
 			redisToolDataViewController.getValueListHBox().setVisible(true);
