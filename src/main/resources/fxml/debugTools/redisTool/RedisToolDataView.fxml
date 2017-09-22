@@ -32,7 +32,7 @@
             <HBox alignment="CENTER_LEFT" spacing="10.0">
                <children>
                   <CheckBox fx:id="overdueCheckBox" mnemonicParsing="false" text="过期" />
-                  <Label text="生存时间（秒）">
+                  <Label text="生存时间（单位：秒，-1为永久）">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
@@ -66,8 +66,8 @@
                            <children>
                               <Button fx:id="valueMapAddButton" mnemonicParsing="false" onAction="#valueMapAddAction" text="添加" />
                               <Button fx:id="valueMapDeleteButton" mnemonicParsing="false" onAction="#valueMapDeleteAction" text="删除" />
-                              <Button fx:id="valueMapEnterButton" mnemonicParsing="false" onAction="#valueMapEnterAction" text="应用" />
-                              <Button fx:id="valueMapCancelButton" mnemonicParsing="false" onAction="#valueMapCancelAction" text="取消" />
+                              <Button fx:id="valueMapEnterButton" disable="true" mnemonicParsing="false" onAction="#valueMapEnterAction" text="应用" />
+                              <Button fx:id="valueMapCancelButton" disable="true" mnemonicParsing="false" onAction="#valueMapCancelAction" text="取消" />
                               <Button fx:id="valueMapReloadButton" mnemonicParsing="false" onAction="#valueMapReloadAction" text="刷新" />
                               <Button fx:id="valueMapShowButton" mnemonicParsing="false" onAction="#valueMapShowAction" text="查看" />
                            </children>
@@ -99,12 +99,13 @@
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
                         </TableView>
-                        <VBox spacing="10.0">
+                        <VBox spacing="5.0">
                            <children>
                               <Button fx:id="valueListInsertHeadButton" mnemonicParsing="false" onAction="#valueListInsertHeadAction" text="插入头" />
                               <Button fx:id="valueListAppendTailButton" mnemonicParsing="false" onAction="#valueListAppendTailAction" text="添加尾" />
                               <Button fx:id="valueListDeleteHeadButton" mnemonicParsing="false" onAction="#valueListDeleteHeadAction" text="删除头" />
                               <Button fx:id="valueListDeleteTailButton" mnemonicParsing="false" onAction="#valueListDeleteTailAction" text="删除尾" />
+                              <Button fx:id="valueListDeleteButton" mnemonicParsing="false" onAction="#valueListDeleteAction" text="删除" />
                               <Button fx:id="valueListEnterButton" disable="true" mnemonicParsing="false" onAction="#valueListEnterAction" text="应用" />
                               <Button fx:id="valueListCancelButton" disable="true" mnemonicParsing="false" onAction="#valueListCancelAction" text="取消" />
                               <Button fx:id="valueListReloadButton" mnemonicParsing="false" onAction="#valueListReloadAction" text="刷新" />

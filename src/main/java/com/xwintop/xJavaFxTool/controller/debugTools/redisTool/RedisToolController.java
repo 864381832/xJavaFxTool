@@ -41,7 +41,7 @@ public class RedisToolController extends RedisToolView {
 
 	private void initEvent() {
 		redisServiceTreeView.setOnMouseClicked(event -> {
-			System.out.println(event.getTarget().toString());
+//			System.out.println(event.getTarget().toString());
 			if (event.getClickCount() == 2) {
 				if (event.getTarget() instanceof TreeItem) {
 					TreeItem<String> eventTarget = (TreeItem<String>) event.getTarget();
@@ -96,6 +96,7 @@ public class RedisToolController extends RedisToolView {
 
 	private void initService() {
 		redisToolService.addServiceAddress("localhost", "localhost", 6379, null);
+		redisServiceTreeView.getRoot().setExpanded(true);
 	}
 
 	@FXML

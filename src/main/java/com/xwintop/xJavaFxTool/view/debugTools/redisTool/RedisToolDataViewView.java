@@ -79,6 +79,8 @@ public abstract class RedisToolDataViewView implements Initializable {
 	@FXML
 	protected Button valueListDeleteTailButton;
 	@FXML
+	protected Button valueListDeleteButton;
+	@FXML
 	protected Button valueListEnterButton;
 	@FXML
 	protected Button valueListCancelButton;

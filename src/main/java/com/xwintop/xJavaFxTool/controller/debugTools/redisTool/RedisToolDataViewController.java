@@ -1,14 +1,18 @@
 package com.xwintop.xJavaFxTool.controller.debugTools.redisTool;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.services.debugTools.redisTool.RedisToolDataViewService;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.view.debugTools.redisTool.RedisToolDataViewView;
 import com.xwintop.xcore.util.RedisUtil;
+import com.xwintop.xcore.util.javafx.AlertUtil;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -79,18 +83,26 @@ public class RedisToolDataViewController extends RedisToolDataViewView {
 				if (newValue.equals(redisUtil.getString(redisKey))) {
 					valueStringEnterButton.setDisable(true);
 					valueStringCancelButton.setDisable(true);
-				}else {
+				} else {
 					valueStringEnterButton.setDisable(false);
 					valueStringCancelButton.setDisable(false);
 				}
 			}
 		});
-		
-		valueListTableData.addListener(new ListChangeListener<Map<String,String>>(){
+
+		valueListTableData.addListener(new ListChangeListener<Map<String, String>>() {
 			@Override
 			public void onChanged(Change<? extends Map<String, String>> c) {
 				valueListEnterButton.setDisable(false);
 				valueListCancelButton.setDisable(false);
+			}
+		});
+		
+		valueMapTableData.addListener(new ListChangeListener<Map<String, String>>() {
+			@Override
+			public void onChanged(Change<? extends Map<String, String>> c) {
+				valueMapEnterButton.setDisable(false);
+				valueMapCancelButton.setDisable(false);
 			}
 		});
 	}
@@ -101,7 +113,11 @@ public class RedisToolDataViewController extends RedisToolDataViewView {
 	public void setData(RedisUtil redisUtil, String key) {
 		this.redisUtil = redisUtil;
 		this.redisKey = key;
-		redisToolDataViewService.setData(redisUtil,key);
+		redisToolDataViewService.setData(redisUtil, key);
+		valueMapEnterButton.setDisable(true);
+		valueMapCancelButton.setDisable(true);
+		valueListEnterButton.setDisable(true);
+		valueListCancelButton.setDisable(true);
 	}
 
 	@FXML
@@ -113,28 +129,50 @@ public class RedisToolDataViewController extends RedisToolDataViewView {
 
 	@FXML
 	private void overdueReloadAction(ActionEvent event) {
-		overdueTimeTextField.setText(redisUtil.getDeadline(redisKey).toString());
+		Long overdueTimeText = redisUtil.getDeadline(redisKey);
+		overdueTimeTextField.setText(overdueTimeText == -1 ? "永久" : overdueTimeText.toString());
 		overdueCheckBox.setSelected(false);
 	}
 
 	@FXML
 	private void valueMapAddAction(ActionEvent event) {
+		String[] value = null;
+		if("hash".equals(redisToolDataViewService.getType())){
+			value = AlertUtil.showInputAlert("请输入值","key","value");
+		}else if("zset".equals(redisToolDataViewService.getType())){
+			value = AlertUtil.showInputAlert("请输入值","Sorce","Member");
+		}
+		if(value!=null){
+			Map<String, String> mapData = new HashMap<String, String>();
+			mapData.put("key", value[0]);
+			mapData.put("value", value[1]);
+			valueMapTableData.add(mapData);
+		}
 	}
 
 	@FXML
 	private void valueMapDeleteAction(ActionEvent event) {
-	}
-	@FXML
-	private void valueMapEnterAction(ActionEvent event) {
-	}
-	
-	@FXML
-	private void valueMapCancelAction(ActionEvent event) {
+		int selectIndex = valueMapTableView.getSelectionModel().getSelectedIndex();
+		if (selectIndex >= 0) {
+			valueMapTableData.remove(selectIndex);
+		}
 	}
 
+	@FXML
+	private void valueMapEnterAction(ActionEvent event) {
+		redisToolDataViewService.setMapData();
+		valueMapEnterButton.setDisable(true);
+		valueMapCancelButton.setDisable(true);
+	}
+
+	@FXML
+	private void valueMapCancelAction(ActionEvent event) {
+		redisToolDataViewService.reloadMapData();
+	}
 
 	@FXML
 	private void valueMapReloadAction(ActionEvent event) {
+		redisToolDataViewService.reloadMapData();
 	}
 
 	@FXML
@@ -150,12 +188,12 @@ public class RedisToolDataViewController extends RedisToolDataViewView {
 
 	@FXML
 	private void valueStringCancelAction(ActionEvent event) {
-		valueStringTextArea.setText(redisUtil.getString(redisKey));
+		redisToolDataViewService.reloadStringData();
 	}
 
 	@FXML
 	private void valueStringReloadAction(ActionEvent event) {
-		valueStringTextArea.setText(redisUtil.getString(redisKey));
+		redisToolDataViewService.reloadStringData();
 	}
 
 	@FXML
@@ -164,37 +202,59 @@ public class RedisToolDataViewController extends RedisToolDataViewView {
 
 	@FXML
 	private void valueListInsertHeadAction(ActionEvent event) {
+		String value = AlertUtil.showInputAlert("请输入值");
+		if (StringUtils.isNotEmpty(value)) {
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("value", value);
+			valueListTableData.add(0, map);
+		}
 	}
 
 	@FXML
 	private void valueListAppendTailAction(ActionEvent event) {
+		String value = AlertUtil.showInputAlert("请输入值");
+		if (StringUtils.isNotEmpty(value)) {
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("value", value);
+			valueListTableData.add(map);
+		}
 	}
 
 	@FXML
 	private void valueListDeleteHeadAction(ActionEvent event) {
+		valueListTableData.remove(0);
 	}
 
 	@FXML
 	private void valueListDeleteTailAction(ActionEvent event) {
+		valueListTableData.remove(valueListTableData.size() - 1);
+	}
+
+	@FXML
+	private void valueListDeleteAction(ActionEvent event) {
+		int selectIndex = valueListTableView.getSelectionModel().getSelectedIndex();
+		if (selectIndex >= 0) {
+			valueListTableData.remove(selectIndex);
+		}
 	}
 
 	@FXML
 	private void valueListEnterAction(ActionEvent event) {
-		redisToolDataViewService.setList();
+		redisToolDataViewService.setListData();
 		valueListEnterButton.setDisable(true);
 		valueListCancelButton.setDisable(true);
 	}
 
 	@FXML
 	private void valueListCancelAction(ActionEvent event) {
-		redisToolDataViewService.reloadList();
+		redisToolDataViewService.reloadListData();
 		valueListEnterButton.setDisable(true);
 		valueListCancelButton.setDisable(true);
 	}
 
 	@FXML
 	private void valueListReloadAction(ActionEvent event) {
-		redisToolDataViewService.reloadList();
+		redisToolDataViewService.reloadListData();
 		valueListEnterButton.setDisable(true);
 		valueListCancelButton.setDisable(true);
 	}

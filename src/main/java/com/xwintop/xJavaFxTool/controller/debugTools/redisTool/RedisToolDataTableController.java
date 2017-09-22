@@ -7,21 +7,16 @@ import java.util.Set;
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.model.RedisToolDataTableBean;
 import com.xwintop.xJavaFxTool.services.debugTools.redisTool.RedisToolDataTableService;
-import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xJavaFxTool.view.debugTools.redisTool.RedisToolDataTableView;
 import com.xwintop.xcore.util.RedisUtil;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn.CellEditEvent;
-import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseButton;
@@ -78,27 +73,13 @@ public class RedisToolDataTableController extends RedisToolDataTableView {
 	private void initEvent() {
 		dataTableView.setOnMouseClicked(event -> {
 			if (event.getButton() == MouseButton.SECONDARY) {
-				MenuItem menu_Copy = new MenuItem("复制选中行");
-				menu_Copy.setOnAction(event1 -> {
-					// RedisToolDataTableBean tableBean =
-					// dataTableView.getSelectionModel().getSelectedItem();
-					// RedisToolDataTableBean tableBean2 = new
-					// RedisToolDataTableBean(tableBean.getPropertys());
-					// tableData.add(dataTableView.getSelectionModel().getSelectedIndex(),
-					// tableBean2);
-				});
-				MenuItem menu_Remove = new MenuItem("删除选中行");
-				menu_Remove.setOnAction(event1 -> {
-				});
-				MenuItem menu_RemoveAll = new MenuItem("删除所有");
-				menu_RemoveAll.setOnAction(event1 -> {
-					tableData.clear();
-				});
-				dataTableView.setContextMenu(new ContextMenu(menu_Copy, menu_Remove, menu_RemoveAll));
+				redisToolDataTableService.addTableViewContextMenu();
 			} else if (event.getButton() == MouseButton.PRIMARY) {
 				RedisToolDataTableBean redisToolDataTableBean = dataTableView.getSelectionModel().getSelectedItem();
-				System.out.println(redisToolDataTableBean.getName());
-				redisToolDataTableService.addRedisToolDataViewTab(redisToolDataTableBean.getName());
+				if (redisToolDataTableBean != null) {
+//					System.out.println(redisToolDataTableBean.getName());
+					redisToolDataTableService.addRedisToolDataViewTab(redisToolDataTableBean.getName());
+				}
 			}
 		});
 	}
@@ -109,16 +90,6 @@ public class RedisToolDataTableController extends RedisToolDataTableView {
 	public void setData(RedisToolController redisToolController, RedisUtil redisUtil) {
 		this.redisToolController = redisToolController;
 		this.redisUtil = redisUtil;
-		tableData.clear();
-		Set<String> nodekeys = redisUtil.getListKeys();
-		for (String key : nodekeys) {
-			System.out.println(key);
-			String type = redisUtil.getValueType(key);
-			String size = redisUtil.getSize(key).toString();
-			Long timeLong = redisUtil.getDeadline(key);
-			String time = timeLong == -1 ? "永久" : timeLong.toString();
-			RedisToolDataTableBean redisToolDataTableBean = new RedisToolDataTableBean(key, type, size, time);
-			tableData.add(redisToolDataTableBean);
-		}
+		redisToolDataTableService.reloadTableData();
 	}
 }
