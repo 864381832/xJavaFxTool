@@ -1,24 +1,20 @@
 package com.xwintop.xJavaFxTool.controller.debugTools.redisTool;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.Set;
-
 import com.xwintop.xJavaFxTool.services.debugTools.redisTool.RedisToolService;
 import com.xwintop.xJavaFxTool.view.debugTools.redisTool.RedisToolView;
-import com.xwintop.xcore.util.RedisUtil;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.event.EventTarget;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import lombok.Getter;
@@ -88,7 +84,7 @@ public class RedisToolController extends RedisToolView {
 //							for (String key : nodekeys) {
 //								System.out.println(key);
 //							}
-							redisToolService.addDataServiceTabPane(newValue.getParent().getValue()+"-db"+id);
+							redisToolService.addDataServiceTabPane(newValue.getParent().getValue(),id);
 						}
 					}
 				});
@@ -113,6 +109,7 @@ public class RedisToolController extends RedisToolView {
 
 	@FXML
 	private void treeRefurbishAction(ActionEvent event) {
+		redisToolService.reloadServiceAddress();
 	}
 
 	private TextField createTextField(String textValue, GridPane gridPane, String label, int row) {

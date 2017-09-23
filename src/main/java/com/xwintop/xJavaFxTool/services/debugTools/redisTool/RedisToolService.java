@@ -1,19 +1,18 @@
 package com.xwintop.xJavaFxTool.services.debugTools.redisTool;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.xwintop.xJavaFxTool.controller.debugTools.redisTool.RedisToolController;
 import com.xwintop.xJavaFxTool.controller.debugTools.redisTool.RedisToolDataTableController;
 import com.xwintop.xcore.util.RedisUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -25,7 +24,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import lombok.Getter;
@@ -38,6 +36,7 @@ import lombok.extern.log4j.Log4j;
 public class RedisToolService {
 	private RedisToolController redisToolController;
 	private Map<String, RedisUtil> jedisMap = new HashMap<String, RedisUtil>();
+	private Map<String, Tab> dataTableTabMap = new HashMap<String, Tab>();
 
 	public RedisToolService(RedisToolController redisToolController) {
 		this.redisToolController = redisToolController;
@@ -75,6 +74,7 @@ public class RedisToolService {
 		});
 		MenuItem menu_Refresh = new MenuItem("刷新");
 		menu_Refresh.setOnAction(event1 -> {
+            reloadServiceAddress();
 		});
 		redisToolController.getRedisServiceTreeView().setContextMenu(new ContextMenu(menu_addServer, menu_Refresh));
 	}
@@ -85,17 +85,42 @@ public class RedisToolService {
 		jedisMap.put(name, redisUtil);
 		TreeItem<String> treeItem = new TreeItem<String>(name);
 		redisToolController.getRedisServiceTreeView().getRoot().getChildren().add(treeItem);
-		int dbAmount = redisUtil.getDbAmount();
-		for (int i = 0; i < dbAmount; i++) {
-			redisUtil.setId(i);
-			TreeItem<String> treeItem2 = new TreeItem<String>("db" + i + "(" + redisUtil.getDbSize() + ")");
-			treeItem.getChildren().add(treeItem2);
-		}
+        reloadServiceAddress();
+//		int dbAmount = redisUtil.getDbAmount();
+//		for (int i = 0; i < dbAmount; i++) {
+//			redisUtil.setId(i);
+//			TreeItem<String> treeItem2 = new TreeItem<String>("db" + i + "(" + redisUtil.getDbSize() + ")");
+//			treeItem.getChildren().add(treeItem2);
+//		}
 	}
 
-	public void addDataServiceTabPane(String tabName) {
-		String[] redisName = tabName.split("-db");
-		Tab tab = new Tab(tabName);
+	public void reloadServiceAddress(){
+        redisToolController.getRedisServiceTreeView().getRoot().getChildren().forEach((TreeItem<String> treeItem) -> {
+            treeItem.getChildren().clear();
+            RedisUtil redisUtil = jedisMap.get(treeItem.getValue());
+            int dbAmount = redisUtil.getDbAmount();
+            for (int i = 0; i < dbAmount; i++) {
+                redisUtil.setId(i);
+                TreeItem<String> treeItem2 = new TreeItem<String>("db" + i + "(" + redisUtil.getDbSize() + ")");
+                treeItem.getChildren().add(treeItem2);
+            }
+        });
+    }
+
+	public void addDataServiceTabPane(String redisName,int redisId) {
+		String tabName = redisName+"-db"+redisId;
+		Tab tab1 = dataTableTabMap.get(tabName);
+		if(tab1 != null){
+			redisToolController.getDataServiceTabPane().getSelectionModel().select(tab1);
+			return;
+		}
+		final Tab tab = new Tab(tabName);
+		tab.setOnClosed(new EventHandler<Event>() {
+			@Override
+			public void handle(Event event) {
+				dataTableTabMap.remove(tab.getText());
+			}
+		});
 		FXMLLoader fXMLLoader = RedisToolDataTableController.getFXMLLoader();
 		try {
 			tab.setContent(fXMLLoader.load());
@@ -103,11 +128,12 @@ public class RedisToolService {
 			e.printStackTrace();
 		}
 		RedisToolDataTableController redisToolDataTableController = fXMLLoader.getController();
-		RedisUtil redisUtil = jedisMap.get(redisName[0]).clone();
-		redisUtil.setId(Integer.parseInt(redisName[1]));
+		RedisUtil redisUtil = jedisMap.get(redisName).clone();
+		redisUtil.setId(redisId);
 		redisToolDataTableController.setData(redisToolController,redisUtil);
 		redisToolController.getDataServiceTabPane().getTabs().add(tab);
 		redisToolController.getDataServiceTabPane().getSelectionModel().select(tab);
+		dataTableTabMap.put(tabName,tab);
 	}
 
 	private TextField createTextField(String textValue, GridPane gridPane, String label, int row) {
