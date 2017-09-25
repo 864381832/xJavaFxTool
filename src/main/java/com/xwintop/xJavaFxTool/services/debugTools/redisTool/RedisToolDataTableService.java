@@ -1,21 +1,24 @@
 package com.xwintop.xJavaFxTool.services.debugTools.redisTool;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.xwintop.xJavaFxTool.controller.debugTools.redisTool.RedisToolDataTableController;
 import com.xwintop.xJavaFxTool.controller.debugTools.redisTool.RedisToolDataViewController;
+import com.xwintop.xJavaFxTool.controller.debugTools.redisTool.RedisToolDialogController;
 import com.xwintop.xJavaFxTool.model.RedisToolDataTableBean;
 import com.xwintop.xcore.util.RedisUtil;
 import com.xwintop.xcore.util.javafx.AlertUtil;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -106,7 +109,20 @@ public class RedisToolDataTableService {
 	}
 
 	private void addList() {
-
+		RedisToolDialogController redisToolDialogController = RedisToolDialogController.getRedisToolDialogController("添加List数据",true);
+		Optional<ButtonType> _buttonType = redisToolDialogController.getAlert().showAndWait();
+		// 根据点击结果返回
+		System.out.println(_buttonType);
+//		if(_buttonType.get() != null || redisToolDialogController.isEnter()){
+		if(redisToolDialogController.isEnter()){
+			System.out.println(redisToolDialogController.getKeyTextField().getText());
+			String key = redisToolDialogController.getKeyTextField().getText();
+			redisToolDialogController.getDialogTableData().forEach((map)->{
+				map.get("key");
+			});
+		}
+//		if (_buttonType.get().getButtonData().equals(ButtonBar.ButtonData.OK_DONE)) {
+//		}
 	}
 
 	private void addSet() {

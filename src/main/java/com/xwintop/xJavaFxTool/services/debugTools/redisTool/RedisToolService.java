@@ -96,15 +96,15 @@ public class RedisToolService {
 
 	public void reloadServiceAddress(){
         redisToolController.getRedisServiceTreeView().getRoot().getChildren().forEach((TreeItem<String> treeItem) -> {
-            treeItem.getChildren().clear();
-            RedisUtil redisUtil = jedisMap.get(treeItem.getValue());
-            int dbAmount = redisUtil.getDbAmount();
-            for (int i = 0; i < dbAmount; i++) {
-                redisUtil.setId(i);
-                TreeItem<String> treeItem2 = new TreeItem<String>("db" + i + "(" + redisUtil.getDbSize() + ")");
-                treeItem.getChildren().add(treeItem2);
-            }
-        });
+			treeItem.getChildren().clear();
+			RedisUtil redisUtil = jedisMap.get(treeItem.getValue());
+			int dbAmount = redisUtil.getDbAmount();
+			for (int i = 0; i < dbAmount; i++) {
+				redisUtil.setId(i);
+				TreeItem<String> treeItem2 = new TreeItem<String>("db" + i + "(" + redisUtil.getDbSize() + ")");
+				treeItem.getChildren().add(treeItem2);
+			}
+		});
     }
 
 	public void addDataServiceTabPane(String redisName,int redisId) {
