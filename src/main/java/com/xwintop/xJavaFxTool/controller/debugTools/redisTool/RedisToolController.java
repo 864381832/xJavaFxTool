@@ -18,8 +18,12 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
 @Getter
+@Setter
+@Log4j
 public class RedisToolController extends RedisToolView {
 	private RedisToolService redisToolService = new RedisToolService(this);
 
@@ -91,7 +95,11 @@ public class RedisToolController extends RedisToolView {
 	}
 
 	private void initService() {
-		redisToolService.addServiceAddress("localhost", "localhost", 6379, null);
+		try {
+			redisToolService.addServiceAddress("localhost", "localhost", 6379, null);
+		}catch (Exception e){
+			log.error(e.getMessage());
+		}
 		redisServiceTreeView.getRoot().setExpanded(true);
 	}
 

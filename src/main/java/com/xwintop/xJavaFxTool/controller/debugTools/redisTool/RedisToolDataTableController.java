@@ -1,21 +1,17 @@
 package com.xwintop.xJavaFxTool.controller.debugTools.redisTool;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.Set;
-
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.model.RedisToolDataTableBean;
 import com.xwintop.xJavaFxTool.services.debugTools.redisTool.RedisToolDataTableService;
 import com.xwintop.xJavaFxTool.view.debugTools.redisTool.RedisToolDataTableView;
 import com.xwintop.xcore.util.RedisUtil;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -30,6 +26,7 @@ import lombok.extern.log4j.Log4j;
 public class RedisToolDataTableController extends RedisToolDataTableView {
 	private RedisToolDataTableService redisToolDataTableService = new RedisToolDataTableService(this);
 	private RedisToolController redisToolController;
+	private String tabName;
 	private RedisUtil redisUtil;
 	private ObservableList<RedisToolDataTableBean> tableData = FXCollections.observableArrayList();
 

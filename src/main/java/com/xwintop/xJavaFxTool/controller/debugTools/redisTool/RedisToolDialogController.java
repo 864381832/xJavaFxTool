@@ -103,6 +103,9 @@ public class RedisToolDialogController implements Initializable
         JavaFxViewUtil.setTableColumnMapValueFactory(dialogKeyTableColumn, "key");
         JavaFxViewUtil.setTableColumnMapValueFactory(dialogValueTableColumn, "value");
         dialogTableView.setItems(dialogTableData);
+        for (int i=0;i<10;i++){
+            dialogTableData.add(new HashMap<String, String>());
+        }
     }
 
     private void initEvent()
@@ -111,8 +114,7 @@ public class RedisToolDialogController implements Initializable
             if (event.getButton() == MouseButton.SECONDARY) {
                 MenuItem menuAdd = new MenuItem("添加行");
                 menuAdd.setOnAction(event1 -> {
-                    Map<String,String> map =  new HashMap<String,String>();
-                    dialogTableData.add(map);
+                    dialogTableData.add(new HashMap<String,String>());
                 });
                 MenuItem menu_Copy = new MenuItem("复制选中行");
                 menu_Copy.setOnAction(event1 -> {

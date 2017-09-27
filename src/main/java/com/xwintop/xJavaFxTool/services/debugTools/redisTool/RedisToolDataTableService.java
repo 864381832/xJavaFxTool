@@ -134,7 +134,9 @@ public class RedisToolDataTableService {
         String key = redisToolDialogController.getKeyTextField().getText();
         List<String> list = new ArrayList<String>();
         redisToolDialogController.getDialogTableData().forEach((map) -> {
-            list.add(map.get("value"));
+            if(StringUtils.isNotEmpty(map.get("value"))){
+                list.add(map.get("value"));
+            }
         });
         redisToolDataTableController.getRedisUtil().addList(key,list,false,true);
         redisToolDataTableController.getRedisUtil().setDeadLine(key,Integer.parseInt(redisToolDialogController.getOverdueTimeTextField().getText()));
@@ -144,7 +146,9 @@ public class RedisToolDataTableService {
         String key = redisToolDialogController.getKeyTextField().getText();
         Set<String> list = new HashSet<String>();
         redisToolDialogController.getDialogTableData().forEach((map) -> {
-            list.add(map.get("value"));
+            if(StringUtils.isNotEmpty(map.get("value"))){
+                list.add(map.get("value"));
+            }
         });
         redisToolDataTableController.getRedisUtil().addSet(key,list);
         redisToolDataTableController.getRedisUtil().setDeadLine(key,Integer.parseInt(redisToolDialogController.getOverdueTimeTextField().getText()));
@@ -154,7 +158,9 @@ public class RedisToolDataTableService {
         String key = redisToolDialogController.getKeyTextField().getText();
         Map<String,Double> list = new HashMap<String,Double>();
         redisToolDialogController.getDialogTableData().forEach((map) -> {
-            list.put(map.get("key"),Double.valueOf(map.get("value")));
+            if(StringUtils.isNotEmpty(map.get("value"))&&StringUtils.isNotEmpty(map.get("key"))){
+                list.put(map.get("value"),Double.valueOf(map.get("key")));
+            }
         });
         redisToolDataTableController.getRedisUtil().addZSet(key,list);
         redisToolDataTableController.getRedisUtil().setDeadLine(key,Integer.parseInt(redisToolDialogController.getOverdueTimeTextField().getText()));
@@ -164,19 +170,22 @@ public class RedisToolDataTableService {
         String key = redisToolDialogController.getKeyTextField().getText();
         Map<String,String> list = new HashMap<String,String>();
         redisToolDialogController.getDialogTableData().forEach((map) -> {
-            list.put(map.get("key"),map.get("value"));
+            if(StringUtils.isNotEmpty(map.get("value"))&&StringUtils.isNotEmpty(map.get("key"))){
+                list.put(map.get("key"),map.get("value"));
+            }
         });
         redisToolDataTableController.getRedisUtil().addHash(key,list);
         redisToolDataTableController.getRedisUtil().setDeadLine(key,Integer.parseInt(redisToolDialogController.getOverdueTimeTextField().getText()));
     }
 
     public void addRedisToolDataViewTab(String key) {
-        Tab tab1 = dataViewTabMap.get(key);
+        String tabName = redisToolDataTableController.getTabName()+"_"+key;
+        Tab tab1 = dataViewTabMap.get(tabName);
         if (tab1 != null) {
             redisToolDataTableController.getRedisToolController().getDataViewTabPane().getSelectionModel().select(tab1);
             return;
         }
-        final Tab tab = new Tab(key);
+        final Tab tab = new Tab(tabName);
         tab.setOnClosed(new EventHandler<Event>() {
             @Override
             public void handle(Event event) {
@@ -193,7 +202,7 @@ public class RedisToolDataTableService {
         redisToolDataViewController.setData(redisToolDataTableController.getRedisUtil(), key);
         redisToolDataTableController.getRedisToolController().getDataViewTabPane().getTabs().add(tab);
         redisToolDataTableController.getRedisToolController().getDataViewTabPane().getSelectionModel().select(tab);
-        dataViewTabMap.put(key, tab);
+        dataViewTabMap.put(tabName, tab);
     }
 
     public void reloadTableData() {

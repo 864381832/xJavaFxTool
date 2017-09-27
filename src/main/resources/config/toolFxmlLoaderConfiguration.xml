@@ -113,13 +113,18 @@
 		<url>/fxml/debugTools/redisTool/RedisTool.fxml</url>
 		<title>RedisTool</title>
 		<menuParentId>debugTools</menuParentId>
-		<isDefaultShow>true</isDefaultShow>
+		<isDefaultShow></isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 	<ToolFxmlLoaderConfiguration>
 		<url>/fxml/codeTools/WebSourcesTool.fxml</url>
 		<title>WebSourcesTool</title>
 		<menuParentId>codeTools</menuParentId>
-		<isDefaultShow></isDefaultShow>
+	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/fxml/debugTools/SwitchHostTool.fxml</url>
+		<title>SwitchHostTool</title>
+		<menuParentId>debugTools</menuParentId>
+		<isDefaultShow>true</isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 
 	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"
