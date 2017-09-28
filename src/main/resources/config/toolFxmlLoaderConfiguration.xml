@@ -121,8 +121,8 @@
 		<menuParentId>codeTools</menuParentId>
 	</ToolFxmlLoaderConfiguration>
 	<ToolFxmlLoaderConfiguration>
-		<url>/fxml/debugTools/SwitchHostTool.fxml</url>
-		<title>SwitchHostTool</title>
+		<url>/fxml/debugTools/SwitchHostsTool.fxml</url>
+		<title>SwitchHostsTool</title>
 		<menuParentId>debugTools</menuParentId>
 		<isDefaultShow>true</isDefaultShow>
 	</ToolFxmlLoaderConfiguration>

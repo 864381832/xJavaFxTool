@@ -1,10 +1,18 @@
 package com.xwintop.xJavaFxTool.view.debugTools;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TreeView;
-public abstract class SwitchHostToolView implements Initializable {
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
+
+@Getter
+@Setter
+@Log4j
+public abstract class SwitchHostsToolView implements Initializable {
     @FXML
     protected Button addButton;
     @FXML

@@ -1,6 +1,7 @@
 package com.xwintop.xJavaFxTool.controller.debugTools;
 
-import com.xwintop.xJavaFxTool.view.debugTools.SwitchHostToolView;
+import com.xwintop.xJavaFxTool.services.debugTools.SwitchHostsToolService;
+import com.xwintop.xJavaFxTool.view.debugTools.SwitchHostsToolView;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -8,14 +9,26 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
-public class SwitchHostToolController extends SwitchHostToolView {
+@Getter
+@Setter
+@Log4j
+public class SwitchHostsToolController extends SwitchHostsToolView {
+
+    private SwitchHostsToolService switchHostsToolService = new SwitchHostsToolService(this);
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initView();
-        initEvent();
-        initService();
+        try {
+            initView();
+            initEvent();
+            initService();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void initView() {
@@ -41,7 +54,8 @@ public class SwitchHostToolController extends SwitchHostToolView {
     private void initEvent() {
     }
 
-    private void initService() {
+    private void initService() throws Exception {
+        switchHostsToolService.reloadSystemHosts();
     }
 
     @FXML
