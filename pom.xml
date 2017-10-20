@@ -29,12 +29,8 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/xcore-0.0.1-SNAPSHOT.jar</systemPath>
 		</dependency>
-		<!-- <dependency> 
-			<groupId>com.xwintop</groupId> 
-			<artifactId>xcore</artifactId> 
-			<version>0.0.1-SNAPSHOT</version> 
-			<scope>compile</scope> 
-		</dependency> -->
+		<!-- <dependency> <groupId>com.xwintop</groupId> <artifactId>xcore</artifactId> 
+			<version>0.0.1-SNAPSHOT</version> <scope>compile</scope> </dependency> -->
 
 		<!-- quartz 调度任务包 -->
 		<dependency>
@@ -186,6 +182,13 @@
 			<version>0.4.8</version>
 		</dependency>
 
+		<!-- 搭建ftp服务器 -->
+		<dependency>
+			<groupId>org.apache.ftpserver</groupId>
+			<artifactId>ftpserver-core</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+
 		<!-- 目录文件监控工具包 -->
 		<!-- <dependency> <groupId>net.sf.jpathwatch</groupId> <artifactId>jpathwatch</artifactId> 
 			<version>0.95</version> </dependency> -->
@@ -221,14 +224,7 @@
 				</executions>
 			</plugin>
 		</plugins>
-		<!-- <resources>
-			<resource>
-				<targetPath>lib/</targetPath>
-				<directory>lib/</directory>
-				<includes>
-					<include>**/*.jar</include>
-				</includes>
-			</resource>
-		</resources> -->
+		<!-- <resources> <resource> <targetPath>lib/</targetPath> <directory>lib/</directory> 
+			<includes> <include>**/*.jar</include> </includes> </resource> </resources> -->
 	</build>
 </project>

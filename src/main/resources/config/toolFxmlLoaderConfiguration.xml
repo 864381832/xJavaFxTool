@@ -124,6 +124,12 @@
 		<url>/fxml/debugTools/SwitchHostsTool.fxml</url>
 		<title>SwitchHostsTool</title>
 		<menuParentId>debugTools</menuParentId>
+		<isDefaultShow></isDefaultShow>
+	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/fxml/debugTools/FtpServer.fxml</url>
+		<title>FtpServer</title>
+		<menuParentId>debugTools</menuParentId>
 		<isDefaultShow>true</isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 
