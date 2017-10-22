@@ -41,6 +41,16 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 
 15、json格式化编辑工具；
 
+16、IconTool：图标生成工具；
+
+17、RedisTool：Redis连接工具；
+
+18、WebSourcesTool：网页源码下载工具；
+
+19、SwitchHostsTool：切换Hosts工具；
+
+20、FtpServer：Ftp服务器；
+
 项目刚刚启动，以后会陆续添加新工具，欢迎大家参与其中，多提提意见，谢谢。
 
 ![输入图片说明](https://git.oschina.net/zhuifeng335/xJavaFxTool/raw/master/images/文件复制.png "文件复制.png")
@@ -56,3 +66,6 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 ![输入图片说明](https://git.oschina.net/zhuifeng335/xJavaFxTool/raw/master/images/转义字符.png "转义字符.png")
 ![输入图片说明](https://git.oschina.net/zhuifeng335/xJavaFxTool/raw/master/images/加密解密.png "加密解密.png")
 ![输入图片说明](https://git.oschina.net/zhuifeng335/xJavaFxTool/raw/master/images/Time转换.png "Time转换.png")
+![输入图片说明](https://git.oschina.net/zhuifeng335/xJavaFxTool/raw/master/images/图标生成工具.png "图标生成工具.png")
+![输入图片说明](https://git.oschina.net/zhuifeng335/xJavaFxTool/raw/master/images/Redis连接工具.png "Redis连接工具.png")
+![输入图片说明](https://git.oschina.net/zhuifeng335/xJavaFxTool/raw/master/images/Ftp服务器.png "Ftp服务器.png")

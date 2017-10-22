@@ -12,6 +12,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.test.skip>true</maven.test.skip>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
@@ -22,129 +23,15 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.xwintop</groupId>
 			<artifactId>xcore</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/xcore-0.0.1-SNAPSHOT.jar</systemPath>
-		</dependency>
-		<!-- <dependency> <groupId>com.xwintop</groupId> <artifactId>xcore</artifactId> 
-			<version>0.0.1-SNAPSHOT</version> <scope>compile</scope> </dependency> -->
-
-		<!-- quartz 调度任务包 -->
-		<dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz</artifactId>
-			<version>2.3.0</version>
-		</dependency>
-
-		<!-- activemq -->
-		<dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-all</artifactId>
-			<version>5.14.5</version>
-		</dependency>
-
-		<!-- commons-codec开发工具包 -->
-		<dependency>
-			<groupId>commons-codec</groupId>
-			<artifactId>commons-codec</artifactId>
-			<version>1.10</version>
-		</dependency>
-
-		<!-- commons-betwixt xml转换工具包 -->
-		<dependency>
-			<groupId>commons-betwixt</groupId>
-			<artifactId>commons-betwixt</artifactId>
-			<version>0.8</version>
-		</dependency>
-
-		<!-- commons-configuration配置管理类库 -->
-		<dependency>
-			<groupId>commons-configuration</groupId>
-			<artifactId>commons-configuration</artifactId>
-			<version>1.10</version>
-		</dependency>
-		<!-- commons-io io工具的封装. -->
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.5</version>
-		</dependency>
-		<!-- commons-lang3 lang3工具的封装. -->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.6</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-beanutils</groupId>
-			<artifactId>commons-beanutils</artifactId>
-			<version>1.9.3</version>
-		</dependency>
-
-		<!-- gson json转换工具包 -->
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.8.0</version>
-		</dependency>
-
-		<!-- logback日志记录 -->
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>1.2.3</version>
-		</dependency>
-
-		<!-- dom4j 解析 XML文件的包 -->
-		<dependency>
-			<groupId>dom4j</groupId>
-			<artifactId>dom4j</artifactId>
-			<version>1.6.1</version>
-		</dependency>
-
-		<!-- okhttp3网络工具包 -->
-		<dependency>
-			<groupId>com.squareup.okhttp3</groupId>
-			<artifactId>okhttp</artifactId>
-			<version>3.8.1</version>
-		</dependency>
-
-		<!-- lombok消除冗长的 java代码 -->
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.16.18</version>
-			<!-- <scope>provided</scope> -->
-		</dependency>
-
-		<!-- redis操作工具类 -->
-		<dependency>
-			<groupId>redis.clients</groupId>
-			<artifactId>jedis</artifactId>
-			<version>2.9.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>fastjson</artifactId>
-			<version>1.2.22</version>
-		</dependency>
-
-		<!-- javaFx开发工具包 -->
-		<dependency>
-			<groupId>org.controlsfx</groupId>
-			<artifactId>controlsfx</artifactId>
-			<version>8.40.12</version>
-		</dependency>
-		<!-- jfoenix javaFx界面工具类 -->
-		<dependency>
-			<groupId>com.jfoenix</groupId>
-			<artifactId>jfoenix</artifactId>
-			<version>1.4.0</version>
-		</dependency>
+		</dependency> -->
+		<dependency> <groupId>com.xwintop</groupId> <artifactId>xcore</artifactId> 
+			<version>0.0.1-SNAPSHOT</version> <scope>compile</scope> </dependency>
 
 		<!-- 二维码识别与生成工具库 -->
 		<dependency>
@@ -203,7 +90,6 @@
 					<finalName>xJavaFxTool</finalName>
 					<appendAssemblyId>false</appendAssemblyId>
 					<encoding>utf-8</encoding>
-					<skipTests>true</skipTests>
 					<archive>
 						<manifest>
 							<mainClass>com.xwintop.xJavaFxTool.Main</mainClass>

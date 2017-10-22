@@ -119,6 +119,7 @@
 		<url>/fxml/codeTools/WebSourcesTool.fxml</url>
 		<title>WebSourcesTool</title>
 		<menuParentId>codeTools</menuParentId>
+		<isDefaultShow>true</isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 	<ToolFxmlLoaderConfiguration>
 		<url>/fxml/debugTools/SwitchHostsTool.fxml</url>
@@ -130,7 +131,6 @@
 		<url>/fxml/debugTools/FtpServer.fxml</url>
 		<title>FtpServer</title>
 		<menuParentId>debugTools</menuParentId>
-		<isDefaultShow>true</isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 
 	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"
