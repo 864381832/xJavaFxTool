@@ -1,9 +1,5 @@
 package com.xwintop.xJavaFxTool.controller.debugTools;
 
-import java.io.File;
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import com.xwintop.xJavaFxTool.model.FtpServerTableBean;
 import com.xwintop.xJavaFxTool.services.debugTools.FtpServerService;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
@@ -11,6 +7,12 @@ import com.xwintop.xJavaFxTool.view.debugTools.FtpServerView;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 
+import java.io.File;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
@@ -68,6 +70,8 @@ public class FtpServerController extends FtpServerView {
 		upFileTableColumn.setCellFactory(CheckBoxTableCell.forTableColumn(upFileTableColumn));
 		deleteFileTableColumn.setCellValueFactory(new PropertyValueFactory<FtpServerTableBean, Boolean>("deleteFile"));
 		deleteFileTableColumn.setCellFactory(CheckBoxTableCell.forTableColumn(deleteFileTableColumn));
+		isEnabledTableColumn.setCellValueFactory(new PropertyValueFactory<FtpServerTableBean, Boolean>("isEnabled"));
+		isEnabledTableColumn.setCellFactory(CheckBoxTableCell.forTableColumn(isEnabledTableColumn));
 		tableViewMain.setItems(tableData);
 
 		JavaFxViewUtil.setSpinnerValueFactory(maxConnectCountSpinner, 1, Integer.MAX_VALUE, 1000);
@@ -75,6 +79,7 @@ public class FtpServerController extends FtpServerView {
 
 	private void initEvent() {
 		FileChooserUtil.setOnDrag(homeDirectoryTextField, FileChooserUtil.FileType.FOLDER);
+		FileChooserUtil.setOnDrag(anonymousLoginEnabledTextField, FileChooserUtil.FileType.FOLDER);
 		tableData.addListener((Change<? extends FtpServerTableBean> tableBean)->{
 			try {
 				saveConfigure(null);
@@ -101,6 +106,18 @@ public class FtpServerController extends FtpServerView {
 				tableViewMain.setContextMenu(new ContextMenu(menu_Copy, menu_Remove, menu_RemoveAll));
 			}
 		});
+		anonymousLoginEnabledCheckBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				if(newValue){
+					anonymousLoginEnabledTextField.setDisable(false);
+					anonymousLoginEnabledButton.setDisable(false);
+				}else{
+					anonymousLoginEnabledTextField.setDisable(true);
+					anonymousLoginEnabledButton.setDisable(true);
+				}
+			}
+		});
 	}
 
 	private void initService() {
@@ -115,8 +132,16 @@ public class FtpServerController extends FtpServerView {
 	}
 
 	@FXML
+	private void anonymousLoginEnabledAction(ActionEvent event) {
+		File file = FileChooserUtil.chooseDirectory();
+		if (file != null) {
+			anonymousLoginEnabledTextField.setText(file.getPath());
+		}
+	}
+
+	@FXML
 	private void addItemAction(ActionEvent event) {
-		tableData.add(new FtpServerTableBean(userNameTextField.getText(), passwordTextField.getText(),
+		tableData.add(new FtpServerTableBean(true,userNameTextField.getText(), passwordTextField.getText(),
 				homeDirectoryTextField.getText(), downFileCheckBox.isSelected(), upFileCheckBox.isSelected(),
 				deleteFileCheckBox.isSelected()));
 	}

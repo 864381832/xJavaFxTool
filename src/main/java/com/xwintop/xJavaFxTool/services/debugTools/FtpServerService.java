@@ -1,24 +1,27 @@
 package com.xwintop.xJavaFxTool.services.debugTools;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
-
-import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.io.FileUtils;
-import org.apache.ftpserver.FtpServer;
-import org.apache.ftpserver.FtpServerFactory;
-import org.apache.ftpserver.ftplet.Authority;
-import org.apache.ftpserver.listener.ListenerFactory;
-import org.apache.ftpserver.usermanager.impl.BaseUser;
-import org.apache.ftpserver.usermanager.impl.WritePermission;
-
 import com.xwintop.xJavaFxTool.controller.debugTools.FtpServerController;
 import com.xwintop.xJavaFxTool.model.FtpServerTableBean;
 import com.xwintop.xJavaFxTool.utils.ConfigureUtil;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
+
+import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.io.FileUtils;
+import org.apache.ftpserver.ConnectionConfig;
+import org.apache.ftpserver.FtpServer;
+import org.apache.ftpserver.FtpServerFactory;
+import org.apache.ftpserver.ftplet.Authority;
+import org.apache.ftpserver.impl.DefaultConnectionConfig;
+import org.apache.ftpserver.listener.ListenerFactory;
+import org.apache.ftpserver.usermanager.impl.BaseUser;
+import org.apache.ftpserver.usermanager.impl.TransferRatePermission;
+import org.apache.ftpserver.usermanager.impl.WritePermission;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
 import javafx.stage.FileChooser;
 import lombok.Getter;
@@ -45,18 +48,34 @@ public class FtpServerService {
 		// replace the default listener
 		serverFactory.addListener("default", factory.createListener());
 
-		for (FtpServerTableBean ftpServerTableBean : ftpServerController.getTableData()) {
+		ConnectionConfig connectionConfig = new DefaultConnectionConfig(ftpServerController.getAnonymousLoginEnabledCheckBox().isSelected() , 500, ftpServerController.getMaxConnectCountSpinner().getValue(), ftpServerController.getMaxConnectCountSpinner().getValue(), 3, 0);
+		serverFactory.setConnectionConfig(connectionConfig);
+
+		if(ftpServerController.getAnonymousLoginEnabledCheckBox().isSelected()){
 			BaseUser user = new BaseUser();
-			user.setName(ftpServerTableBean.getUserName());
-			user.setPassword(ftpServerTableBean.getPassword());
-			user.setHomeDirectory(ftpServerTableBean.getHomeDirectory());
-			if(ftpServerTableBean.getUpFile()){
-				// 添加用户权限
-				List<Authority> authorities = new ArrayList<Authority>();
-				authorities.add(new WritePermission());
-				user.setAuthorities(authorities);
-			}
+			user.setName("anonymous");
+			user.setHomeDirectory(ftpServerController.getAnonymousLoginEnabledTextField().getText());
+			List<Authority> authorities = new ArrayList<Authority>();
+			authorities.add(new WritePermission());// 添加用户读写权限
+			user.setAuthorities(authorities);
 			serverFactory.getUserManager().save(user);
+		}
+
+		for (FtpServerTableBean ftpServerTableBean : ftpServerController.getTableData()) {
+			if(ftpServerTableBean.getIsEnabled()) {
+				BaseUser user = new BaseUser();
+				user.setName(ftpServerTableBean.getUserName());
+				user.setPassword(ftpServerTableBean.getPassword());
+				user.setHomeDirectory(ftpServerTableBean.getHomeDirectory());
+//				user.setEnabled(ftpServerTableBean.getIsEnabled());
+				List<Authority> authorities = new ArrayList<Authority>();
+				authorities.add(new TransferRatePermission(ftpServerTableBean.getDownFIle() ? Integer.MAX_VALUE : 0, ftpServerTableBean.getUpFile() ? Integer.MAX_VALUE : 0));
+				if (ftpServerTableBean.getDeleteFile()) {
+					authorities.add(new WritePermission());// 添加用户读写权限
+				}
+				user.setAuthorities(authorities);
+				serverFactory.getUserManager().save(user);
+			}
 		}
 		
 		server = serverFactory.createServer();

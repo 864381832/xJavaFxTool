@@ -4,16 +4,18 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class FtpServerTableBean {
+	private SimpleBooleanProperty isEnabled;//是否启用
 	private SimpleStringProperty userName;
 	private SimpleStringProperty password;
 	private SimpleStringProperty homeDirectory;
 	private SimpleBooleanProperty downFIle;
 	private SimpleBooleanProperty upFile;
-	private SimpleBooleanProperty deleteFile;
+	private SimpleBooleanProperty deleteFile;//读写权限
 
-	public FtpServerTableBean(String userName, String password, String homeDirectory, Boolean downFIle, Boolean upFile,
+	public FtpServerTableBean(Boolean isEnabled, String userName, String password, String homeDirectory, Boolean downFIle, Boolean upFile,
 			Boolean deleteFile) {
 		super();
+		this.isEnabled = new SimpleBooleanProperty(isEnabled);
 		this.userName = new SimpleStringProperty(userName);
 		this.password = new SimpleStringProperty(password);
 		this.homeDirectory = new SimpleStringProperty(homeDirectory);
@@ -30,11 +32,12 @@ public class FtpServerTableBean {
 		this.downFIle = new SimpleBooleanProperty(Boolean.valueOf(strings[3]));
 		this.upFile = new SimpleBooleanProperty(Boolean.valueOf(strings[4]));
 		this.deleteFile = new SimpleBooleanProperty(Boolean.valueOf(strings[5]));
+		this.isEnabled = new SimpleBooleanProperty(Boolean.valueOf(strings[6]));
 	}
 
 	public String getPropertys() {
 		return userName.get() + "__" + password.get() + "__" + homeDirectory.get() + "__" + downFIle.get() + "__"
-				+ upFile.get() + "__" + deleteFile.get();
+				+ upFile.get() + "__" + deleteFile.get() + "__" + isEnabled.get();
 	}
 
 	public String getUserName() {
@@ -95,6 +98,18 @@ public class FtpServerTableBean {
 
 	public void setDeleteFile(Boolean deleteFile) {
 		this.deleteFile.set(deleteFile);
+	}
+
+	public SimpleBooleanProperty isEnabledProperty() {
+		return isEnabled;
+	}
+
+	public Boolean getIsEnabled() {
+		return isEnabled.getValue();
+	}
+
+	public void setIsEnabled(Boolean isEnabled) {
+		this.isEnabled.set(isEnabled);
 	}
 
 }

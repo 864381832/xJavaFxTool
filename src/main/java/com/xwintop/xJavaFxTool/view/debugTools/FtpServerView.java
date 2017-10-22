@@ -33,21 +33,21 @@ public abstract class FtpServerView implements Initializable {
 	@FXML
 	protected Button buttonAddItem;
 	@FXML
-	protected Button buttonSaveConfigure;
-	@FXML
-	protected Button otherSaveConfigureButton;
-	@FXML
-	protected Button loadingConfigureButton;
-	@FXML
-	protected Button buttonDeleteSelectRow;
-	@FXML
 	protected TextField portTextField;
+	@FXML
+	protected CheckBox anonymousLoginEnabledCheckBox;
+	@FXML
+	protected TextField anonymousLoginEnabledTextField;
+	@FXML
+	protected Button anonymousLoginEnabledButton;
 	@FXML
 	protected Spinner<Integer> maxConnectCountSpinner;
 	@FXML
 	protected Button startButton;
 	@FXML
 	protected TableView<FtpServerTableBean> tableViewMain;
+	@FXML
+	protected TableColumn<FtpServerTableBean, Boolean> isEnabledTableColumn;
 	@FXML
 	protected TableColumn<FtpServerTableBean, String> userNameTableColumn;
 	@FXML
