@@ -33,6 +33,7 @@ public class SwitchHostsToolService {
         } else {
             fileName = "C://WINDOWS//system32//drivers//etc//hosts";
         }
+        log.info("fileName:"+fileName);
         String systemHostString = FileUtils.readFileToString(new File(fileName),"utf-8");
         switchHostsToolController.getHostTextArea().setText(systemHostString);
 

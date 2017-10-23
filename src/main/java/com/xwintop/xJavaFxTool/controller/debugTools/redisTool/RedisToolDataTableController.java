@@ -75,6 +75,7 @@ public class RedisToolDataTableController extends RedisToolDataTableView {
 				RedisToolDataTableBean redisToolDataTableBean = dataTableView.getSelectionModel().getSelectedItem();
 				if (redisToolDataTableBean != null) {
 //					System.out.println(redisToolDataTableBean.getName());
+					log.info(redisToolDataTableBean.getName());
 					redisToolDataTableService.addRedisToolDataViewTab(redisToolDataTableBean.getName());
 				}
 			}

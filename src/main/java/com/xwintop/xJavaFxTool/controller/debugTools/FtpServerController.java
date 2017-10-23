@@ -177,6 +177,7 @@ public class FtpServerController extends FtpServerView {
 				TooltipUtil.showToast("ftpServer启动成功。");
 			} catch (Exception e) {
 				TooltipUtil.showToast("启动失败：" + e.getMessage());
+				log.error("启动失败：" + e.getMessage());
 			}
 		} else {
 			boolean isTrue = ftpServerService.stopFtpServerAction();

@@ -7,11 +7,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TreeView;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
 
 @Getter
 @Setter
-@Log4j
 public abstract class SwitchHostsToolView implements Initializable {
     @FXML
     protected Button addButton;
@@ -22,7 +20,7 @@ public abstract class SwitchHostsToolView implements Initializable {
     @FXML
     protected Button deleteButton;
     @FXML
-    protected TreeView hostFileTreeView;
+    protected TreeView<String> hostFileTreeView;
     @FXML
     protected TextArea hostTextArea;
 

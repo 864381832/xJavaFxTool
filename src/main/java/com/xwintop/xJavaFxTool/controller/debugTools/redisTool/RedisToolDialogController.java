@@ -41,9 +41,9 @@ public class RedisToolDialogController implements Initializable
     @FXML
     private TableView<Map<String,String>> dialogTableView;
     @FXML
-    private TableColumn dialogKeyTableColumn;
+    private TableColumn<Map<String,String>,String> dialogKeyTableColumn;
     @FXML
-    private TableColumn dialogValueTableColumn;
+    private TableColumn<Map<String,String>,String> dialogValueTableColumn;
     @FXML
     private Button enterButton;
     @FXML

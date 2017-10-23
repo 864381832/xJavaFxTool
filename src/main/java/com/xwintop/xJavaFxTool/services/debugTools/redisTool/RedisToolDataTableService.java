@@ -197,6 +197,7 @@ public class RedisToolDataTableService {
             tab.setContent(fXMLLoader.load());
         } catch (IOException e) {
             e.printStackTrace();
+            log.error("addRedisToolDataViewTab:"+e.getMessage());
         }
         RedisToolDataViewController redisToolDataViewController = fXMLLoader.getController();
         redisToolDataViewController.setData(redisToolDataTableController.getRedisUtil(), key);

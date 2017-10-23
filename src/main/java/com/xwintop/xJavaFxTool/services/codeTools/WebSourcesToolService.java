@@ -3,8 +3,6 @@ package com.xwintop.xJavaFxTool.services.codeTools;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -68,7 +66,7 @@ public class WebSourcesToolService {
 		if(sourcesUrl.startsWith(url)){
 			
 		}else if(sourcesUrl.startsWith("http")){
-			
+			log.info(url);
 		}else{
 			String[] urlStrings = url.split("/");
 			String[] sUrlStrings = sourcesUrl.split("\\.\\./");

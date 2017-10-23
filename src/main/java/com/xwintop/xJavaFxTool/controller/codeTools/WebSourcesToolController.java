@@ -1,19 +1,15 @@
 package com.xwintop.xJavaFxTool.controller.codeTools;
 
-import com.sun.webkit.WebPage;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.xwintop.xJavaFxTool.services.codeTools.WebSourcesToolService;
 import com.xwintop.xJavaFxTool.view.codeTools.WebSourcesToolView;
 import com.xwintop.xcore.util.HttpClientUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.reflect.FieldUtils;
-import org.w3c.dom.Document;
-
-import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.concurrent.Worker.State;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

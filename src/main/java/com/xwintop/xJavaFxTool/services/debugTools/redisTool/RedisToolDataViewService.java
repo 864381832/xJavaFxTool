@@ -6,13 +6,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Consumer;
 
 import com.xwintop.xJavaFxTool.controller.debugTools.redisTool.RedisToolDataViewController;
 import com.xwintop.xcore.util.RedisUtil;
 
 import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,6 +33,7 @@ public class RedisToolDataViewService {
 	 * @Description: 初始化数据
 	 */
 	public void setData(RedisUtil redisUtil, String redisKey) {
+		log.info("setData_redisKey:"+redisKey);
 		redisToolDataViewController.getServerLabel().setText(redisUtil.getName());
 		redisToolDataViewController.getDatabaseLabel().setText("" + redisUtil.getId());
 		redisToolDataViewController.getRedisKeyTextField().setText(redisKey);

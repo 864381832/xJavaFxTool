@@ -28,6 +28,7 @@ public class SwitchHostsToolController extends SwitchHostsToolView {
             initService();
         } catch (Exception e) {
             e.printStackTrace();
+            log.error(e.getMessage());
         }
     }
 
