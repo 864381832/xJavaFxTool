@@ -132,6 +132,12 @@
 		<title>FtpServer</title>
 		<menuParentId>debugTools</menuParentId>
 	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/fxml/debugTools/CmdTool.fxml</url>
+		<title>CmdTool</title>
+		<menuParentId>debugTools</menuParentId>
+		<isDefaultShow>true</isDefaultShow>
+	</ToolFxmlLoaderConfiguration>
 
 	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"
 		title="webCronExpBuilder" menuParentId="netWorkToolsMenu"
