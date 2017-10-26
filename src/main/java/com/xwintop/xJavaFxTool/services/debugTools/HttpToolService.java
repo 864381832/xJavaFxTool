@@ -17,6 +17,7 @@ import lombok.extern.log4j.Log4j;
 import okhttp3.FormBody;
 import okhttp3.FormBody.Builder;
 import okhttp3.Headers;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -27,6 +28,7 @@ import okhttp3.Response;
 @Log4j
 public class HttpToolService {
 	private HttpToolController httpToolController;
+	public static final MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("text/x-markdown; charset=utf-8");
 
 	/**
 	 * @Title: sendAction
@@ -88,7 +90,16 @@ public class HttpToolService {
 			}
 			RequestBody body = builder.build();
 			if ("POST".equals(methodString)) {
-				request = new Request.Builder().url(url).post(body).headers(Headers.of(headerMap)).build();
+				if(httpToolController.getParamsDataIsStringCheckBox().isSelected()){
+					if(httpToolController.getParamsDataCheckBox().isSelected()){
+						RequestBody rbody = RequestBody.create(MEDIA_TYPE_MARKDOWN, httpToolController.getParamsDataTextArea().getText());
+						request = new Request.Builder().url(url).post(rbody).build();
+					}else{
+						request = new Request.Builder().url(url).post(body).build();
+					}
+				}else{
+					request = new Request.Builder().url(url).post(body).headers(Headers.of(headerMap)).build();
+				}
 			} else if ("HEAD".equals(methodString)) {
 				request = new Request.Builder().url(url).head().headers(Headers.of(headerMap)).build();
 			} else if ("PUT".equals(methodString)) {

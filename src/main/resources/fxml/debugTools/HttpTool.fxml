@@ -15,6 +15,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.web.WebView?>
 
@@ -40,18 +41,24 @@
                      <children>
                         <CheckBox fx:id="paramsDataCheckBox" mnemonicParsing="false" selected="true" text="请求参数" />
                         <Button fx:id="addParamsDataButton" mnemonicParsing="false" onAction="#addParamsDataAction" text="添加" />
+                        <CheckBox fx:id="paramsDataIsStringCheckBox" mnemonicParsing="false" text="字符串" />
                      </children>
                   </HBox>
-                  <TableView fx:id="paramsDataTableView" editable="true">
-                    <columns>
-                      <TableColumn fx:id="paramsDataNameTableColumn" prefWidth="59.0" text="参数名" />
-                      <TableColumn fx:id="paramsDataValueTableColumn" prefWidth="73.0" text="参数值" />
-                        <TableColumn fx:id="paramsDataRemarkTableColumn" prefWidth="75.0" text="备注" />
-                    </columns>
-                     <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                     </columnResizePolicy>
-                  </TableView>
+                  <StackPane>
+                     <children>
+                        <TextArea fx:id="paramsDataTextArea" prefHeight="200.0" prefWidth="200.0" visible="false" />
+                        <TableView fx:id="paramsDataTableView" editable="true">
+                          <columns>
+                            <TableColumn fx:id="paramsDataNameTableColumn" prefWidth="59.0" text="参数名" />
+                            <TableColumn fx:id="paramsDataValueTableColumn" prefWidth="73.0" text="参数值" />
+                              <TableColumn fx:id="paramsDataRemarkTableColumn" prefWidth="75.0" text="备注" />
+                          </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children>
+                  </StackPane>
                   <HBox alignment="CENTER_LEFT" spacing="5.0">
                      <children>
                         <CheckBox fx:id="paramsHeaderCheckBox" mnemonicParsing="false" selected="true" text="请求Header" />

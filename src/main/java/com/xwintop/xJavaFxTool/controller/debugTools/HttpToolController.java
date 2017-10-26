@@ -15,6 +15,8 @@ import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.view.debugTools.HttpToolView;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -71,6 +73,18 @@ public class HttpToolController extends HttpToolView {
 	}
 
 	private void initEvent() {
+		paramsDataIsStringCheckBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				if(newValue){
+					paramsDataTextArea.setVisible(true);
+					paramsDataTableView.setVisible(false);
+				}else{
+					paramsDataTextArea.setVisible(false);
+					paramsDataTableView.setVisible(true);
+				}
+			}
+		});
 		setTableViewOnMouseClicked(paramsDataTableView, paramsDatatableData);
 		setTableViewOnMouseClicked(paramsHeaderTableView, paramsHeadertableData);
 		setTableViewOnMouseClicked(paramsCookieTableView, paramsCookietableData);

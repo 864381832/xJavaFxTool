@@ -29,6 +29,10 @@ public abstract class HttpToolView implements Initializable {
 	protected CheckBox paramsDataCheckBox;
     @FXML
     private Button addParamsDataButton;
+    @FXML
+	protected CheckBox paramsDataIsStringCheckBox;
+    @FXML
+	protected TextArea paramsDataTextArea;
 	@FXML
 	protected TableView<Map<String, String>> paramsDataTableView;
 	@FXML

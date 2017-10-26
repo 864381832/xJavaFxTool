@@ -21,7 +21,7 @@ public class XmlToBeanService {
 		return sBuilder.toString();
 	}
 	
-	public static String sqlToJdbcInsert(String string,String tableName) {
+	public static String sqlToJdbcInsert1(String string,String tableName) {
 		StringBuilder sBuilder = new StringBuilder("insert into "+tableName+"(");
 		StringBuilder sBuilder2 = new StringBuilder();
 		
@@ -34,6 +34,20 @@ public class XmlToBeanService {
 		sBuilder.deleteCharAt(sBuilder.length()-1);
 		sBuilder2.deleteCharAt(sBuilder2.length()-1);
 		sBuilder.append(") values("+sBuilder2.toString()+")");
+		return sBuilder.toString();
+	}
+	
+	public static String sqlToJdbcInsert(String string,String tableName) {
+		tableName = "insert into ODI_SRC.SHIP_AGENT_HS_CODE(id,HACODE_LEVEL,HSCODE,HSCODE_NAME) values (";
+		StringBuilder sBuilder = new StringBuilder();
+		String[] strings = string.split("\n");
+		int i = 1;
+		for(String str : strings){
+			sBuilder.append(tableName).append(i++).append(",'");
+			String[] rawDataStrings = str.split("\t");
+			sBuilder.append(rawDataStrings[0]).append("','").append(rawDataStrings[1]).append("','").append(rawDataStrings[2]);
+			sBuilder.append("');\n");
+		}
 		return sBuilder.toString();
 	}
 	

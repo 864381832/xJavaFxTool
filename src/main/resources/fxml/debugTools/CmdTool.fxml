@@ -16,20 +16,20 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane prefHeight="475.0" prefWidth="813.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.debugTools.CmdToolController">
+<AnchorPane prefHeight="483.0" prefWidth="768.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.debugTools.CmdToolController">
    <children>
       <BorderPane layoutX="14.0" layoutY="7.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
          <top>
             <HBox alignment="CENTER" spacing="5.0" BorderPane.alignment="CENTER">
                <children>
-                  <CheckBox fx:id="downFileCheckBox" mnemonicParsing="false" selected="true" text="是否启用" />
-                  <Label alignment="CENTER" contentDisplay="CENTER" text="命令或脚本路径" />
-                  <TextField fx:id="userNameTextField" prefHeight="23.0" prefWidth="72.0" />
-                  <Label text="类型" />
-                  <ChoiceBox prefWidth="150.0" />
-                  <Label text="参数" />
-                  <TextField />
-                  <Button fx:id="buttonAddItem" mnemonicParsing="false" onAction="#addItemAction" text="添加" />
+                  <CheckBox fx:id="isEnabledCheckBox" mnemonicParsing="false" selected="true" text="是否启用" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="命令或脚本路径：" />
+                  <TextField fx:id="scriptTextField" prefHeight="23.0" prefWidth="72.0" />
+                  <Label text="类型：" />
+                  <ChoiceBox fx:id="typeChoiceBox" prefWidth="150.0" />
+                  <Label text="参数：" />
+                  <TextField fx:id="parameterTextField" />
+                  <Button fx:id="addItemButton" mnemonicParsing="false" onAction="#addItemAction" text="添加" />
                </children>
                <opaqueInsets>
                   <Insets />
@@ -71,7 +71,7 @@
                        </children>
                    </AnchorPane>
                    <Button fx:id="runQuartzButton" mnemonicParsing="false" onAction="#runQuartzAction" text="定时运行" />
-                   <Button fx:id="buttonCopy" mnemonicParsing="false" onAction="#copyAction" text="一键执行" />
+                   <Button fx:id="runAllButton" mnemonicParsing="false" onAction="#runAllAction" text="一键执行" />
                </children>
                <BorderPane.margin>
                   <Insets />
@@ -79,15 +79,18 @@
             </HBox>
          </bottom>
          <center>
-            <TableView fx:id="tableViewMain" editable="true" prefHeight="314.0" prefWidth="759.0" BorderPane.alignment="CENTER">
+            <TableView fx:id="tableViewMain" editable="true" prefHeight="314.0" prefWidth="759.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
               <columns>
-                  <TableColumn fx:id="isEnabledTableColumn" prefWidth="75.0" text="是否启用" />
-                <TableColumn fx:id="userNameTableColumn" prefWidth="102.0" sortable="false" text="命令/脚本路径" />
-                <TableColumn fx:id="passwordTableColumn" prefWidth="150.0" sortable="false" text="类型" />
-                  <TableColumn fx:id="homeDirectoryTableColumn" prefWidth="112.0" sortable="false" text="参数" />
-                  <TableColumn fx:id="downFIleTableColumn" prefWidth="112.0" sortable="false" text="手动执行" />
-                  <TableColumn fx:id="deleteFileTableColumn" prefWidth="122.0" sortable="false" text="执行后触发" />
-                  <TableColumn prefWidth="75.0" text="备注" />
+                  <TableColumn fx:id="orderTableColumn" prefWidth="40.0" text="序列" />
+                  <TableColumn fx:id="isEnabledTableColumn" prefWidth="53.0" text="是否启用" />
+                <TableColumn fx:id="scriptTableColumn" sortable="false" text="命令/脚本路径" />
+                  <TableColumn fx:id="viewScriptTableColumn" prefWidth="66.0" text="查看脚本" />
+                <TableColumn fx:id="typeTableColumn" prefWidth="40.0" sortable="false" text="类型" />
+                  <TableColumn fx:id="parameterTableColumn" prefWidth="130.0" sortable="false" text="参数" />
+                  <TableColumn fx:id="manualTableColumn" prefWidth="58.0" sortable="false" text="手动执行" />
+                  <TableColumn fx:id="isRunAfterActivateTableColumn" prefWidth="135.0" text="是否执行触发" />
+                  <TableColumn fx:id="runAfterActivateTableColumn" sortable="false" text="执行后触发" />
+                  <TableColumn fx:id="remarksTableColumn" prefWidth="103.0" text="备注" />
               </columns>
                <BorderPane.margin>
                   <Insets bottom="5.0" top="5.0" />
