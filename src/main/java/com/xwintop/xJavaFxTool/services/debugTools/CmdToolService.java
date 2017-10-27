@@ -38,6 +38,7 @@ import lombok.extern.log4j.Log4j;
 public class CmdToolService {
 	private CmdToolController cmdToolController;
 
+	private String fileName = "cmdToolConfigure.properties";
 	private SchedulerFactory sf = new StdSchedulerFactory();
 	private String schedulerKeyGroup = "runCmdTool";
 	private String schedulerKeyName = "runCmdTool" + System.currentTimeMillis();
@@ -77,6 +78,15 @@ public class CmdToolService {
 			} else if (cmdToolController.getTypeChoiceBoxStrings()[1].equals(type)) {// 脚本文件
 				File file = new File(script);
 				Runtime.getRuntime().exec("cmd /k start " + file.getName(),null,file.getParentFile());
+			}
+			//继续执行后触发任务
+			if(cmdToolTableBean.getIsRunAfterActivate()){
+				for(CmdToolTableBean tableBean:cmdToolController.getTableData()){
+					if(tableBean.getOrder().equals(cmdToolTableBean.getRunAfterActivate())){
+						runAction(tableBean);
+						break;
+					}
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -144,7 +154,7 @@ public class CmdToolService {
 	}
 
 	public void saveConfigure() throws Exception {
-		saveConfigure(ConfigureUtil.getConfigureFile("cmdToolConfigure.properties"));
+		saveConfigure(ConfigureUtil.getConfigureFile(fileName));
 	}
 
 	public void saveConfigure(File file) throws Exception {
@@ -159,7 +169,6 @@ public class CmdToolService {
 	}
 
 	public void otherSaveConfigureAction() throws Exception {
-		String fileName = "cmdToolConfigure.properties";
 		File file = FileChooserUtil.chooseSaveFile(fileName, new FileChooser.ExtensionFilter("All File", "*.*"),
 				new FileChooser.ExtensionFilter("Properties", "*.properties"));
 		if (file != null) {
@@ -169,7 +178,7 @@ public class CmdToolService {
 	}
 
 	public void loadingConfigure() {
-		loadingConfigure(ConfigureUtil.getConfigureFile("cmdToolConfigure.properties"));
+		loadingConfigure(ConfigureUtil.getConfigureFile(fileName));
 	}
 
 	public void loadingConfigure(File file) {

@@ -81,7 +81,7 @@
          <center>
             <TableView fx:id="tableViewMain" editable="true" prefHeight="314.0" prefWidth="759.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
               <columns>
-                  <TableColumn fx:id="orderTableColumn" prefWidth="40.0" text="序列" />
+                  <TableColumn fx:id="orderTableColumn" prefWidth="40.0" text="Id" />
                   <TableColumn fx:id="isEnabledTableColumn" prefWidth="53.0" text="是否启用" />
                 <TableColumn fx:id="scriptTableColumn" sortable="false" text="命令/脚本路径" />
                   <TableColumn fx:id="viewScriptTableColumn" prefWidth="66.0" text="查看脚本" />

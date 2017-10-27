@@ -25,7 +25,7 @@ public class FtpServerTableBean {
 	}
 
 	public FtpServerTableBean(String propertys) {
-		String[] strings = propertys.split("__");
+		String[] strings = propertys.split("__",7);
 		this.userName = new SimpleStringProperty(strings[0]);
 		this.password = new SimpleStringProperty(strings[1]);
 		this.homeDirectory = new SimpleStringProperty(strings[2]);

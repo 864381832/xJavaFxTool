@@ -27,7 +27,7 @@ public class ActiveMqToolTableBean {
 	}
 
 	public ActiveMqToolTableBean(String propertys) {
-		String[] strings = propertys.split("__");
+		String[] strings = propertys.split("__",7);
 		this.queue = new SimpleStringProperty(strings[0]);
 		this.message = new SimpleStringProperty(strings[1]);
 		this.sendNumber = new SimpleStringProperty(strings[2]);

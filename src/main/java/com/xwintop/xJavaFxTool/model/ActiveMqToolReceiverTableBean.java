@@ -24,7 +24,7 @@ public class ActiveMqToolReceiverTableBean {
 	}
 
 	public ActiveMqToolReceiverTableBean(String propertys) {
-		String[] strings = propertys.split("__");
+		String[] strings = propertys.split("__",6);
 		this.messageID = new SimpleStringProperty(strings[0]);
 		this.queue = new SimpleStringProperty(strings[1]);
 		this.message = new SimpleStringProperty(strings[2]);

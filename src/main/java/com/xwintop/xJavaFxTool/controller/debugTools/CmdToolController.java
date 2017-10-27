@@ -126,7 +126,7 @@ public class CmdToolController extends CmdToolView {
 					this.setText(null);
 					this.setGraphic(null);
 					if (!empty) {
-						Button delBtn = new Button("运行");
+						Button delBtn = new Button("执行");
 						this.setContentDisplay(ContentDisplay.CENTER);
 						this.setGraphic(delBtn);
 						delBtn.setOnMouseClicked((me) -> {
@@ -213,7 +213,8 @@ public class CmdToolController extends CmdToolView {
 
 	@FXML
 	private void addItemAction(ActionEvent event) {
-		tableData.add(new CmdToolTableBean("" + (tableData.size() + 1), isEnabledCheckBox.isSelected(),
+		String id = "x"+String.valueOf(System.currentTimeMillis()).substring(7);
+		tableData.add(new CmdToolTableBean(id, isEnabledCheckBox.isSelected(),
 				scriptTextField.getText(), typeChoiceBox.getValue(), parameterTextField.getText(), false, " ", " "));
 	}
 

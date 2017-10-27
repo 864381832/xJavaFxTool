@@ -136,6 +136,11 @@
 		<url>/fxml/debugTools/CmdTool.fxml</url>
 		<title>CmdTool</title>
 		<menuParentId>debugTools</menuParentId>
+	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/fxml/debugTools/FtpClientTool.fxml</url>
+		<title>FtpClientTool</title>
+		<menuParentId>debugTools</menuParentId>
 		<isDefaultShow>true</isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 

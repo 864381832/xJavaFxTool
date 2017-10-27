@@ -24,7 +24,7 @@ public class FileCopyTableBean {
 	}
 
 	public FileCopyTableBean(String propertys) {
-		String[] strings = propertys.split("__");
+		String[] strings = propertys.split("__",6);
 		this.copyFileOriginalPath = new SimpleStringProperty(strings[0]);
 		this.copyFileTargetPath = new SimpleStringProperty(strings[1]);
 		this.copyNumber = new SimpleStringProperty(strings[2]);
