@@ -96,6 +96,16 @@ public class FtpClientToolService {
 				if (flag) {
 					TooltipUtil.showToast("文件" + file.getName() + "下载成功，保存在:" + localFile);
 				}
+			} else if (ftpClientToolController.getTypeChoiceBoxStrings()[2].equals(type)) {// 删除文件
+				boolean flag = FtpUtil.deleteFile(url, port, username, password, serverFile);
+				if (flag) {
+					TooltipUtil.showToast("文件：" + serverFile + "删除成功");
+				}
+			} else if (ftpClientToolController.getTypeChoiceBoxStrings()[3].equals(type)) {// 删除文件夹
+				boolean flag = FtpUtil.removeDirectory(url, port, username, password, serverFile);
+				if (flag) {
+					TooltipUtil.showToast("文件夹：" + serverFile + "删除成功");
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
