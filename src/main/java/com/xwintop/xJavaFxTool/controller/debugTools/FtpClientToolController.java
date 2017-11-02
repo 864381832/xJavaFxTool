@@ -41,7 +41,7 @@ public class FtpClientToolController extends FtpClientToolView {
 	private FtpClientToolService ftpClientToolService = new FtpClientToolService(this);
 	private ObservableList<FtpClientToolTableBean> tableData = FXCollections.observableArrayList();
 	private String[] quartzChoiceBoxStrings = new String[] { "简单表达式", "Cron表达式" };
-	private String[] typeChoiceBoxStrings = new String[] { "上传", "下载" };
+	private String[] typeChoiceBoxStrings = new String[] { "上传", "下载","删除文件","删除文件夹" };
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -83,7 +83,7 @@ public class FtpClientToolController extends FtpClientToolView {
 								this.setGraphic(null);
 								if (!empty) {
 									ChoiceBox<String> choiceBox = new ChoiceBox<String>();
-									choiceBox.getItems().addAll(new String[] { "上传", "下载" });
+									choiceBox.getItems().addAll(new String[] { "上传", "下载","删除文件","删除文件夹" });
 									choiceBox.setValue(tableData.get(this.getIndex()).getType());
 									choiceBox.valueProperty().addListener((obVal, oldVal, newVal) -> {
 										tableData.get(this.getIndex()).setType(newVal);
