@@ -143,6 +143,12 @@
 		<menuParentId>debugTools</menuParentId>
 		<isDefaultShow>true</isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/fxml/littleTools/PdfConvertTool.fxml</url>
+		<title>PdfConvertTool</title>
+		<menuParentId>littleTools</menuParentId>
+		<isDefaultShow>true</isDefaultShow>
+	</ToolFxmlLoaderConfiguration>
 
 	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"
 		title="webCronExpBuilder" menuParentId="netWorkToolsMenu"

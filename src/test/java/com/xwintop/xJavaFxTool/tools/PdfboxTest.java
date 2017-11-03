@@ -1,18 +1,23 @@
 package com.xwintop.xJavaFxTool.tools;
 
-import org.apache.pdfbox.cos.COSName;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDResources;
-import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
-import org.apache.pdfbox.text.PDFTextStripper;
-import org.junit.Test;
-
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
+
+import javax.imageio.ImageIO;
+
+import org.apache.pdfbox.cos.COSName;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDResources;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import org.apache.pdfbox.rendering.ImageType;
+import org.apache.pdfbox.rendering.PDFRenderer;
+import org.apache.pdfbox.text.PDFTextStripper;
+import org.junit.Test;
 
 public class PdfboxTest {
     // 待解析PDF
@@ -103,5 +108,25 @@ public class PdfboxTest {
             }
         }
         System.out.println(j);
+    }
+
+    @Test
+    public void writeImage() throws Exception {
+    	String pdfFilename = "D:\\TestXf\\14天学会安卓开发_(完整版).pdf";
+    	PDDocument document = PDDocument.load(new File(pdfFilename));
+    	PDFRenderer pdfRenderer = new PDFRenderer(document);
+    	int pageCounter = 0;
+    	for (PDPage page : document.getPages())
+    	{
+    	    // note that the page number parameter is zero based
+    	    BufferedImage bim = pdfRenderer.renderImageWithDPI(pageCounter, 300, ImageType.RGB);
+
+    	    // suffix in filename will be used as the file format
+//    	    ImageIOUtil.writeImage(bim, pdfFilename + "-" + (pageCounter++) + ".png", 300);
+    	    
+    	    ImageIO.write(bim, "png",
+					new File("D:\\TestXf", (pageCounter++) + "ic_launcher.png"));
+    	}
+    	document.close();
     }
 }
