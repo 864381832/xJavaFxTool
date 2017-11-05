@@ -1,14 +1,5 @@
 package com.xwintop.xJavaFxTool.tools;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Iterator;
-
-import javax.imageio.ImageIO;
-
 import org.apache.pdfbox.cos.COSName;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -18,6 +9,15 @@ import org.apache.pdfbox.rendering.ImageType;
 import org.apache.pdfbox.rendering.PDFRenderer;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.junit.Test;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Iterator;
+
+import javax.imageio.ImageIO;
 
 public class PdfboxTest {
     // 待解析PDF
@@ -45,7 +45,8 @@ public class PdfboxTest {
             stripper.setStartPage(1);
             stripper.setEndPage(pages);
             String content = stripper.getText(document);
-            System.out.println(content);
+//            System.out.println(content);
+            System.out.println(document.getVersion());
     }
 
     @Test
