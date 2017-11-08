@@ -5,12 +5,18 @@ import com.xwintop.xJavaFxTool.utils.ImgToolUtil;
 import com.xwintop.xcore.util.FileUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.ImageType;
 import org.apache.pdfbox.rendering.PDFRenderer;
+import org.apache.pdfbox.text.PDFTextStripper;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 
 import javax.imageio.ImageIO;
 
@@ -47,8 +53,10 @@ public class PdfConvertToolService {
 		try {
 			File pdfFile = new File(pdfConvertToolController.getFileOriginalPathTextField().getText());
 			String fileTargetPath = pdfConvertToolController.getFileTargetPathTextField().getText();
-			PDDocument document;
-			document = PDDocument.load(pdfFile);
+			if(StringUtils.isEmpty(fileTargetPath)){
+				fileTargetPath = pdfFile.getParent();
+			}
+			PDDocument document= PDDocument.load(pdfFile);
 			PDFRenderer pdfRenderer = new PDFRenderer(document);
 			int startPage = (int)pdfConvertToolController.getChoosePageRangeSlider().getLowValue();
 			int endPage = (int)pdfConvertToolController.getChoosePageRangeSlider().getHighValue();
@@ -79,6 +87,7 @@ public class PdfConvertToolService {
 //				ImageIO.write(bim, "png", new File(pdfConvertToolController.getFileTargetPathTextField().getText(), pdfFile.getName()+(pageCounter++) + ".png"));
 //			}
 			document.close();
+			TooltipUtil.showToast("pdf转换成image成功，保存在：" + fileTargetPath);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			TooltipUtil.showToast("pdf转换错误：" + e.getMessage());
@@ -86,12 +95,51 @@ public class PdfConvertToolService {
 	}
 
 	public void pdfToTxtAction() {
+		PDDocument document= null;
+		try {
+			File pdfFile = new File(pdfConvertToolController.getFileOriginalPathTextField().getText());
+			String fileTargetPath = pdfConvertToolController.getFileTargetPathTextField().getText();
+			if(StringUtils.isEmpty(fileTargetPath)){
+				fileTargetPath = pdfFile.getParent();
+			}
+			document= PDDocument.load(pdfFile);
+			int startPage = (int)pdfConvertToolController.getChoosePageRangeSlider().getLowValue()+1;
+			int endPage = (int)pdfConvertToolController.getChoosePageRangeSlider().getHighValue()+1;
+			
+			File textFile = new File(fileTargetPath, FileUtil.getFileName(pdfFile) + ".txt");
+	        Writer output = null;// 文件输入流，生成文本文件
+	        // 文件输入流，写入文件倒textFile  
+            output = new OutputStreamWriter(new FileOutputStream(textFile),"UTF-8");  
+            // PDFTextStrippe来提取文本  
+            PDFTextStripper stripper = new PDFTextStripper();  
+            // 设置是否排序  
+            stripper.setSortByPosition(true);  
+            // 设置起始页  
+            stripper.setStartPage(startPage);  
+            // 设置结束页  
+            stripper.setEndPage(endPage);  
+            // 调用PDFTextStripper的writeText提取并输出文本  
+            stripper.writeText(document, output);
+            output.close();
+            TooltipUtil.showToast("pdf转换成txt成功，保存在：" + textFile.getAbsolutePath());
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			TooltipUtil.showToast("pdf转换错误：" + e.getMessage());
+		}finally {
+			try {
+				document.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void pdfToWordAction() {
+		TooltipUtil.showToast("该功能暂未开发，欢迎加入，谢谢。");
 	}
 
 	public void wordToPdfAction() {
+		TooltipUtil.showToast("该功能暂未开发，欢迎加入，谢谢。");
 	}
 
 }

@@ -42,7 +42,7 @@
                   </HBox>
                   <HBox alignment="CENTER" spacing="5.0">
                      <children>
-                        <Label text="转换后文件夹地址：" />
+                        <Label text="转换后文件夹地址（默认为原文件路径）：" />
                         <TextField fx:id="fileTargetPathTextField" />
                         <Button fx:id="fileTargetPathButton" mnemonicParsing="false" onAction="#fileTargetPathAction" text="选择" />
                      </children>
