@@ -4,15 +4,9 @@
  * @Title: package-info.java 
  * @Prject: xJavaFxTool
  * @Package: com.xwintop.xJavaFxTool.services 
- * @Description: TODO
+ * @Description: 服务层包
  * @author: xufeng   
  * @date: 2017年7月20日 上午9:12:13 
  * @version: V1.0   
- */
-/** 
- * @ClassName: package-info 
- * @Description: TODO
- * @author: xufeng
- * @date: 2017年7月20日 上午9:12:13  
  */
 package com.xwintop.xJavaFxTool.services;

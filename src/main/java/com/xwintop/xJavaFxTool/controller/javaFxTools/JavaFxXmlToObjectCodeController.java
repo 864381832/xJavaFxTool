@@ -17,6 +17,8 @@ public class JavaFxXmlToObjectCodeController implements Initializable {
 	private TextArea textArea2;
 	@FXML
 	private TextArea textArea3;
+	@FXML
+	private TextArea textArea4;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -28,6 +30,7 @@ public class JavaFxXmlToObjectCodeController implements Initializable {
 		String[] string = JavaFxXmlToObjectCodeService.xmlToCode(textArea1.getText());
 		textArea2.setText(string[0]);
 		textArea3.setText(string[1]);
+		textArea4.setText(string[2]);
 	}
 
 }

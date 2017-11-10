@@ -8,6 +8,14 @@ import org.dom4j.Element;
 import org.dom4j.Node;
 import org.dom4j.tree.DefaultAttribute;
 
+import com.xwintop.xcore.util.StrUtil;
+
+/** 
+ * @ClassName: JavaFxXmlToObjectCodeService 
+ * @Description: JavaFxXml生成代码工具类
+ * @author: xufeng
+ * @date: 2017年11月10日 下午5:41:35  
+ */
 public class JavaFxXmlToObjectCodeService {
 	public static String[] xmlToCode(String xmlStr) throws Exception {
 		StringBuilder attrStrBuilder = new StringBuilder();// 创建属性值获取
@@ -21,16 +29,20 @@ public class JavaFxXmlToObjectCodeService {
 		
 		String[] packageStringSplit = packageString[1].split("\\.");
 		String classNameString = packageStringSplit[packageStringSplit.length-1].split("Controller")[0];
+		String classNameStringLoCase = StrUtil.fristToLoCase(classNameString);
 		String viewPackage = packageString[1].substring(0, packageString[1].lastIndexOf("."));
 		
-		StringBuilder controllerClassStrBuilder = new StringBuilder();
+		StringBuilder controllerClassStrBuilder = new StringBuilder();//控制层类字符串
 		controllerClassStrBuilder.append("package com.xwintop.xJavaFxTool.controller"+viewPackage+";\n");
 		controllerClassStrBuilder.append("import com.xwintop.xJavaFxTool.view"+viewPackage+"."+classNameString+"View;\n");
+		controllerClassStrBuilder.append("import com.xwintop.xJavaFxTool.services"+viewPackage+"."+classNameString+"Service;\n");
 		controllerClassStrBuilder.append("import java.net.URL;\n");
 		controllerClassStrBuilder.append("import java.util.ResourceBundle;\n");
 		controllerClassStrBuilder.append("import javafx.event.ActionEvent;\n");
 		controllerClassStrBuilder.append("import javafx.fxml.FXML;\n");
-		controllerClassStrBuilder.append("public class "+classNameString+"Controller extends "+classNameString+"View {");
+		controllerClassStrBuilder.append("@Getter\n@Setter\n@Log4j\n");
+		controllerClassStrBuilder.append("public class "+classNameString+"Controller extends "+classNameString+"View {\n");
+		controllerClassStrBuilder.append("private "+classNameString+"Service "+classNameStringLoCase+"Service = new "+classNameString+"Service(this);\n");
 //		@Override
 //		public void initialize(URL location, ResourceBundle resources) {
 //		}
@@ -46,7 +58,7 @@ public class JavaFxXmlToObjectCodeService {
 		controllerClassStrBuilder.append("}");
 		
 		
-		StringBuilder classStrBuilder = new StringBuilder();
+		StringBuilder classStrBuilder = new StringBuilder();//视图view类字符串
 		classStrBuilder.append("package com.xwintop.xJavaFxTool.view"+viewPackage+";\n");
 		classStrBuilder.append("import javafx.fxml.Initializable;\n");
 		classStrBuilder.append("import javafx.fxml.FXML;\n");
@@ -57,11 +69,22 @@ public class JavaFxXmlToObjectCodeService {
 				classStrBuilder.append("import "+node.getText()+";\n");
 			}
 		}
+		classStrBuilder.append("@Getter\n@Setter\n");
 		classStrBuilder.append("public abstract class "+classNameString+"View implements Initializable {\n");
 		classStrBuilder.append(attrStrBuilder.toString());
 		classStrBuilder.append("\n}");
 		
-		return new String[]{controllerClassStrBuilder.toString(),classStrBuilder.toString()};
+		StringBuilder serviceClassStrBuilder = new StringBuilder();//控制层类字符串
+		serviceClassStrBuilder.append("package com.xwintop.xJavaFxTool.services"+viewPackage+";\n");
+		serviceClassStrBuilder.append("import com.xwintop.xJavaFxTool.controller"+viewPackage+"."+classNameString+"Controller;\n");
+		serviceClassStrBuilder.append("@Getter\n@Setter\n@Log4j\n");
+		serviceClassStrBuilder.append("public class "+classNameString+"Service extends "+classNameString+"Service {\n");
+		serviceClassStrBuilder.append("private "+classNameString+"Controller "+classNameStringLoCase+"Controller;\n");
+		serviceClassStrBuilder.append("public "+classNameString+"Service("+classNameString+"Controller "+classNameStringLoCase+"Controller) {\n");
+		serviceClassStrBuilder.append("this."+classNameStringLoCase+" = "+classNameStringLoCase+";\n}\n");
+		serviceClassStrBuilder.append("}");
+		
+		return new String[]{controllerClassStrBuilder.toString(),classStrBuilder.toString(),serviceClassStrBuilder.toString()};
 	}
 
 	@SuppressWarnings("unchecked")

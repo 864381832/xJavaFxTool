@@ -26,6 +26,12 @@ import org.dom4j.tree.DefaultElement;
 
 import com.xwintop.xJavaFxTool.model.ToolFxmlLoaderConfiguration;
 
+/** 
+ * @ClassName: XJavaFxSystemUtil 
+ * @Description: javafx系统层工具类
+ * @author: xufeng
+ * @date: 2017年11月10日 下午4:35:17  
+ */
 public class XJavaFxSystemUtil {
 	private static Logger log = Logger.getLogger(XJavaFxSystemUtil.class);
 
