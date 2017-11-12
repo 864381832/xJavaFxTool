@@ -1,14 +1,14 @@
 package com.xwintop.xJavaFxTool.controller.littleTools;
 
-import java.io.File;
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import com.xwintop.xJavaFxTool.model.FileCopyTableBean;
 import com.xwintop.xJavaFxTool.services.littleTools.FileCopyService;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.view.littleTools.FileCopyView;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
+
+import java.io.File;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -72,7 +72,7 @@ public class FileCopyController extends FileCopyView {
 		tableViewMain.setItems(tableData);
 
 		quartzChoiceBox.getItems().addAll(quartzChoiceBoxStrings);
-		quartzChoiceBox.setValue(quartzChoiceBoxStrings[0]);
+		quartzChoiceBox.getSelectionModel().select(0);
 		JavaFxViewUtil.setSpinnerValueFactory(intervalSpinner, 1, Integer.MAX_VALUE);
 		JavaFxViewUtil.setSpinnerValueFactory(repeatCountSpinner, -1, Integer.MAX_VALUE);
 	}

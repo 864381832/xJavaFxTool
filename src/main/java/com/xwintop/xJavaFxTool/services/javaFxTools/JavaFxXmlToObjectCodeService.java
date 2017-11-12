@@ -1,6 +1,6 @@
 package com.xwintop.xJavaFxTool.services.javaFxTools;
 
-import java.util.List;
+import com.xwintop.xcore.util.StrUtil;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
@@ -8,7 +8,7 @@ import org.dom4j.Element;
 import org.dom4j.Node;
 import org.dom4j.tree.DefaultAttribute;
 
-import com.xwintop.xcore.util.StrUtil;
+import java.util.List;
 
 /** 
  * @ClassName: JavaFxXmlToObjectCodeService 
@@ -36,6 +36,8 @@ public class JavaFxXmlToObjectCodeService {
 		controllerClassStrBuilder.append("package com.xwintop.xJavaFxTool.controller"+viewPackage+";\n");
 		controllerClassStrBuilder.append("import com.xwintop.xJavaFxTool.view"+viewPackage+"."+classNameString+"View;\n");
 		controllerClassStrBuilder.append("import com.xwintop.xJavaFxTool.services"+viewPackage+"."+classNameString+"Service;\n");
+		controllerClassStrBuilder.append("import lombok.Getter;\n");
+		controllerClassStrBuilder.append("import lombok.Setter;\n");
 		controllerClassStrBuilder.append("import java.net.URL;\n");
 		controllerClassStrBuilder.append("import java.util.ResourceBundle;\n");
 		controllerClassStrBuilder.append("import javafx.event.ActionEvent;\n");
@@ -60,6 +62,8 @@ public class JavaFxXmlToObjectCodeService {
 		
 		StringBuilder classStrBuilder = new StringBuilder();//视图view类字符串
 		classStrBuilder.append("package com.xwintop.xJavaFxTool.view"+viewPackage+";\n");
+		classStrBuilder.append("import lombok.Getter;\n");
+		classStrBuilder.append("import lombok.Setter;\n");
 		classStrBuilder.append("import javafx.fxml.Initializable;\n");
 		classStrBuilder.append("import javafx.fxml.FXML;\n");
 		@SuppressWarnings("unchecked")
@@ -77,11 +81,13 @@ public class JavaFxXmlToObjectCodeService {
 		StringBuilder serviceClassStrBuilder = new StringBuilder();//控制层类字符串
 		serviceClassStrBuilder.append("package com.xwintop.xJavaFxTool.services"+viewPackage+";\n");
 		serviceClassStrBuilder.append("import com.xwintop.xJavaFxTool.controller"+viewPackage+"."+classNameString+"Controller;\n");
+		serviceClassStrBuilder.append("import lombok.Getter;\n");
+		serviceClassStrBuilder.append("import lombok.Setter;\n");
 		serviceClassStrBuilder.append("@Getter\n@Setter\n@Log4j\n");
-		serviceClassStrBuilder.append("public class "+classNameString+"Service extends "+classNameString+"Service {\n");
+		serviceClassStrBuilder.append("public class "+classNameString+"Service{\n");
 		serviceClassStrBuilder.append("private "+classNameString+"Controller "+classNameStringLoCase+"Controller;\n");
 		serviceClassStrBuilder.append("public "+classNameString+"Service("+classNameString+"Controller "+classNameStringLoCase+"Controller) {\n");
-		serviceClassStrBuilder.append("this."+classNameStringLoCase+" = "+classNameStringLoCase+";\n}\n");
+		serviceClassStrBuilder.append("this."+classNameStringLoCase+"Controller = "+classNameStringLoCase+"Controller;\n}\n");
 		serviceClassStrBuilder.append("}");
 		
 		return new String[]{controllerClassStrBuilder.toString(),classStrBuilder.toString(),serviceClassStrBuilder.toString()};
