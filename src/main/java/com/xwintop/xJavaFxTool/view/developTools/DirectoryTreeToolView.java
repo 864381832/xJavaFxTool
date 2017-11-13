@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -50,6 +51,8 @@ public abstract class DirectoryTreeToolView implements Initializable {
     @FXML
     protected ChoiceBox<String> filtrationTypeChoiceBox;
     @FXML
+    protected ChoiceBox<String> scopeTypeChoiceBox;
+    @FXML
     protected TextField filtrationConditionTextField;
     @FXML
     protected Button filtrationAddButton;
@@ -62,5 +65,15 @@ public abstract class DirectoryTreeToolView implements Initializable {
     @FXML
     protected TableColumn<Map<String, String>, String> filtrationConditionTableColumn;
     @FXML
-    protected CheckBox filtrationDirName;
+    protected TableColumn<Map<String, String>, String> scopeTypeTableColumn;
+    @FXML
+    protected CheckBox showFileLengthCheckBox;
+    @FXML
+    protected CheckBox showModifyCheckBox;
+    @FXML
+    protected CheckBox showPermissionCheckBox;
+    @FXML
+    protected Label totalDirNumLabel;
+    @FXML
+    protected Label totalFileNumLabel;
 }

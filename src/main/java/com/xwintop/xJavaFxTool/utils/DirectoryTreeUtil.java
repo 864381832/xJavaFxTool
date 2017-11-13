@@ -27,7 +27,8 @@ public class DirectoryTreeUtil {
 	/* 文件连接符 */
 	private static final String VERTICAL = "│ ", INTERMEDIATE = "├─", END = "└─";
 	/* 目录间距 */
-	private static final String SPACING = "\t";
+//	private static final String SPACING = "\t";
+	private static final String SPACING = " ";
 	/* 结果集收集 */
 	private final StringBuilder r = new StringBuilder();
 	/* 默认查询文件目录深度,默认为Integer.MAX_VALUE */

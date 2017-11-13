@@ -57,6 +57,12 @@
                                  <children>
                                     <Label text="类型：" />
                                     <ChoiceBox fx:id="filtrationTypeChoiceBox" />
+                                    <Label text="范围类型：">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <ChoiceBox fx:id="scopeTypeChoiceBox" />
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER_LEFT">
@@ -73,18 +79,25 @@
                               </HBox>
                               <TableView fx:id="tableViewMain" editable="true">
                                 <columns>
-                                  <TableColumn fx:id="filtrationTypeTableColumn" prefWidth="75.0" text="类型" />
+                                  <TableColumn fx:id="filtrationTypeTableColumn" prefWidth="75.0" text="条件类型" />
                                   <TableColumn fx:id="filtrationConditionTableColumn" prefWidth="75.0" text="条件" />
+                                    <TableColumn fx:id="scopeTypeTableColumn" prefWidth="75.0" text="范围类型" />
                                 </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                  </columnResizePolicy>
                               </TableView>
-                              <CheckBox fx:id="filtrationDirName" mnemonicParsing="false" text="同时过滤目录名" />
                            </children>
                         </VBox>
                      </content>
                   </TitledPane>
+                  <HBox alignment="CENTER_LEFT" spacing="5.0">
+                     <children>
+                        <CheckBox fx:id="showFileLengthCheckBox" mnemonicParsing="false" text="文件大小" />
+                        <CheckBox fx:id="showModifyCheckBox" mnemonicParsing="false" text="最后修改时间" />
+                        <CheckBox fx:id="showPermissionCheckBox" mnemonicParsing="false" text="权限" />
+                     </children>
+                  </HBox>
                </children>
                <BorderPane.margin>
                   <Insets top="10.0" />
@@ -94,6 +107,24 @@
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
+         <bottom>
+            <TitledPane animated="false" collapsible="false" text="信息" BorderPane.alignment="CENTER">
+               <content>
+                  <HBox>
+                     <children>
+                        <Label text="总目录数：" />
+                        <Label fx:id="totalDirNumLabel" text="0" />
+                        <Label text="总文件数：">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="totalFileNumLabel" text="0" />
+                     </children>
+                  </HBox>
+               </content>
+            </TitledPane>
+         </bottom>
       </BorderPane>
    </children>
 </AnchorPane>

@@ -35,6 +35,9 @@ public class DirectoryTreeTest {
 				|| pathname.getName().endsWith(".js") || pathname.getName().endsWith(".css")
 				|| pathname.getName().endsWith(".html") || pathname.getName().endsWith(".jpg")
 				|| pathname.getName().endsWith(".fxml") || pathname.getName().endsWith(".dll"))));
+//		directoryTreeTUtil.showLength();
+//		directoryTreeTUtil.showModify();
+//		directoryTreeTUtil.showPermission();
 		String generate = directoryTreeTUtil.generate();
 		System.out.println(generate);
 	}
