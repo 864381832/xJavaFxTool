@@ -53,6 +53,85 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 
 项目刚刚启动，以后会陆续添加新工具，欢迎大家参与其中，多提提意见，谢谢。
 
+
+#### 项目结构
+
+```
+xJavaFxTool
+├─ images	项目截图
+├─ lib	外部引用jar包存放
+├─ libs	插件jar包存放
+├─ pom.xml	maven配置文件
+├─ README.md	说明文件
+├─ src
+│  ├─ main
+│  │  ├─ java
+│  │  │  └─ com
+│  │  │   └─ xwintop
+│  │  │    └─ xJavaFxTool
+│  │  │     ├─ common	第三方工具类
+│  │  │     ├─ controller	javafx控制层
+│  │  │     │  ├─ codeTools	Code工具控制层
+│  │  │     │  ├─ debugTools	调试工具控制层
+│  │  │     │  ├─ developTools	开发工具控制层
+│  │  │     │  ├─ epmsTools	epms工具控制层
+│  │  │     │  ├─ javaFxTools	javaFx工具控制层
+│  │  │     │  ├─ littleTools	小工具控制层
+│  │  │     │  └─ webTools	html工具控制层
+│  │  │     ├─ job	定时任务处理job
+│  │  │     ├─ main	主函数包
+│  │  │     ├─ manager	管理层
+│  │  │     ├─ model	基础bean类层
+│  │  │     ├─ services	工具服务层
+│  │  │     │  ├─ codeTools	Code工具服务层
+│  │  │     │  ├─ debugTools	调试工具服务层
+│  │  │     │  ├─ developTools	开发工具服务层
+│  │  │     │  ├─ epmsTools	epms工具服务层
+│  │  │     │  ├─ javaFxTools	javaFx工具服务层
+│  │  │     │  ├─ littleTools	小工具服务层
+│  │  │     │  └─ webTools	html工具服务层
+│  │  │     ├─ utils	系统工具类
+│  │  │     └─ view	javafx视图层
+│  │  │      ├─ codeTools	Code工具视图层
+│  │  │      ├─ debugTools	调试工具视图层
+│  │  │      ├─ developTools	开发工具视图层
+│  │  │      ├─ littleTools	小工具视图层
+│  │  │      └─ webTools	html工具视图层
+│  │  └─ resources
+│  │   ├─ com
+│  │   │  └─ melloware
+│  │   │   └─ jintellitype	JIntellitype工具lib
+│  │   ├─ config	配置文件
+│  │   │  ├─ log4j.properties	log4j配置文件
+│  │   │  └─ toolFxmlLoaderConfiguration.xml	系统菜单加载配置文件
+│  │   ├─ css	样式资源
+│  │   ├─ data	数据资源
+│  │   ├─ fxml	.fxml文件
+│  │   ├─ images	图片资源
+│  │   ├─ locale	国际化
+│  │   └─ web	html工具
+│  └─ test
+│   ├─ java
+│   │  └─ com
+│   │   └─ xwintop
+│   │    └─ xJavaFxTool
+│   │     ├─ apache
+│   │     ├─ datafx
+│   │     ├─ java
+│   │     ├─ javafx
+│   │     ├─ swing
+│   │     └─ tools
+│   └─ resources
+│    ├─ com
+│    ├─ config
+│    ├─ css
+│    ├─ fxml
+│    ├─ images
+│    └─ locale
+└─ xJavaFxTool.jar	直接运行程序包
+
+```
+
 ![输入图片说明](https://git.oschina.net/zhuifeng335/xJavaFxTool/raw/master/images/文件复制.png "文件复制.png")
 ![输入图片说明](https://git.oschina.net/zhuifeng335/xJavaFxTool/raw/master/images/Cron表达式生成器.png "Cron表达式生成器.png")
 ![输入图片说明](https://git.oschina.net/zhuifeng335/xJavaFxTool/raw/master/images/Mq调试工具.png "Mq调试工具.png")
