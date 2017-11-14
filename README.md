@@ -51,6 +51,15 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 
 20、FtpServer：Ftp服务器；
 
+21、CmdTool：Cmd调试工具；
+
+22、FtpClientTool：Ftp客户端调试工具；
+
+23、PdfConvertTool：Pdf转换工具；
+
+24、DirectoryTreeTool：文件列表生成器；
+
+
 项目刚刚启动，以后会陆续添加新工具，欢迎大家参与其中，多提提意见，谢谢。
 
 
@@ -128,7 +137,9 @@ xJavaFxTool
 │    ├─ fxml
 │    ├─ images
 │    └─ locale
-└─ xJavaFxTool.jar	直接运行程序包
+├─ xJavaFxTool.jar	直接运行程序包
+├─ xJavaFxTool-windows-x64.exe	Windows平台64位运行包
+└─ xJavaFxTool-windows-x86.exe  Windows平台32位运行包
 
 ```
 
@@ -148,3 +159,4 @@ xJavaFxTool
 ![输入图片说明](https://git.oschina.net/zhuifeng335/xJavaFxTool/raw/master/images/图标生成工具.png "图标生成工具.png")
 ![输入图片说明](https://git.oschina.net/zhuifeng335/xJavaFxTool/raw/master/images/Redis连接工具.png "Redis连接工具.png")
 ![输入图片说明](https://git.oschina.net/zhuifeng335/xJavaFxTool/raw/master/images/Ftp服务器.png "Ftp服务器.png")
+![输入图片说明](https://git.oschina.net/zhuifeng335/xJavaFxTool/raw/master/images/文件列表生成器.png "文件列表生成器.png")

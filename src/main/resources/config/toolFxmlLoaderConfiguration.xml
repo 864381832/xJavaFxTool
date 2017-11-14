@@ -153,7 +153,7 @@
 		<url>/fxml/developTools/DirectoryTreeTool.fxml</url>
 		<title>DirectoryTreeTool</title>
 		<menuParentId>developTools</menuParentId>
-		<isDefaultShow>true</isDefaultShow>
+		<isDefaultShow></isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 
 	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"

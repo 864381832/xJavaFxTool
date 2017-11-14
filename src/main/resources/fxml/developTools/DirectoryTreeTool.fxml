@@ -123,6 +123,9 @@
                      </children>
                   </HBox>
                </content>
+               <BorderPane.margin>
+                  <Insets top="10.0" />
+               </BorderPane.margin>
             </TitledPane>
          </bottom>
       </BorderPane>
