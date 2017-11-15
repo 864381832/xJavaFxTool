@@ -1,14 +1,21 @@
 #### 项目简介：
 xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立，利用业余时间把工作中遇到的一些问题总结起来，打包进小工具集中，供大家参考和使用，里面包含了javaFx的一些功能的示例，如布局、国际化、第三方UI库（controlsfx、JFoenix等）、外部jar包加载（插件机制）等一些常用功能，想学习javaFx的同学可以参考参考。
 
-下载试用地址为xJavaFxTool.jar（可直接运行），支持插件开发，将插件jar包放至根目录libs下即可自动加载（插件开发示例见开源项目xJavaFxPlugIn，目前刚刚搭建，后续会持续更新）；
+下载试用地址：
+[xJavaFxTool.jar](http://https://gitee.com/zhuifeng335/xJavaFxTool/raw/master/xJavaFxTool.jar)（可直接运行的jar包）
+
+[xJavaFxTool-windows-x64.exe](http://files.git.oschina.net/group1/M00/02/52/PaAvDFoMK7WAarb1BUr2AITvKOs065.exe?token=d382af44db66517b3744cc4db1b63790&ts=1510747062&attname=xJavaFxTool-windows-x64.exe) （Windows平台64位运行包）
+
+[xJavaFxTool-windows-x86.exe](http://files.git.oschina.net/group1/M00/02/52/PaAvDFoMKsiAZWSVBUp0AMSoQHI477.exe?token=74dd3d5173f0181af50fd1c8ecb3a45a&ts=1510748898&attname=xJavaFxTool-windows-x86.exe) （Windows平台32位运行包）
+
+支持插件开发，将插件jar包放至根目录libs下即可自动加载（插件开发示例见[开源项目xJavaFxPlugIn](https://gitee.com/zhuifeng335/xJavaFxPlugIn)，目前刚刚搭建，后续会持续更新）；
 
 #### 环境搭建说明：
 - 开发环境为jdk1.8，基于maven构建；
 
 - 本项目使用了lombok,在查看本项目时如果您没有下载lombok 插件，请先安装,不然找不到get/set方法；
 
-- 依赖的xcore包请见我的开源项目下载（本版本为开发版，不想独立分离，后期发布会分离开，请见谅。）。
+- 依赖的[开源项目xcore包](https://gitee.com/zhuifeng335/xcore)请见我的开源项目下载（本版本为开发版，不想独立分离，后期发布会分离开，请见谅。）。
 
 #### 目前集成的小工具有：
 1、FileCopy：文件复制（支持自动调度拷贝功能）；
