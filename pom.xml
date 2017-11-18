@@ -16,6 +16,16 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
+	<repositories>
+		<repository>
+			<id>aliyunmaven</id>
+			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+		</repository>
+		<repository>
+			<id>xwintop-maven</id>
+			<url>https://gitee.com/xwintop/maven/raw/master/repository</url>
+		</repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -30,8 +40,11 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/xcore-0.0.1-SNAPSHOT.jar</systemPath>
 		</dependency> -->
-		<dependency> <groupId>com.xwintop</groupId> <artifactId>xcore</artifactId> 
-			<version>0.0.1-SNAPSHOT</version> <scope>compile</scope> </dependency>
+		<dependency>
+			<groupId>com.xwintop</groupId>
+			<artifactId>xcore</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 
 		<!-- 二维码识别与生成工具库 -->
 		<dependency>
