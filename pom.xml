@@ -96,6 +96,13 @@
 			<version>2.0.8</version>
 		</dependency>
 
+		<!-- activemq -->
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-all</artifactId>
+			<version>5.14.5</version>
+		</dependency>
+
 		<!-- 目录文件监控工具包 -->
 		<!-- <dependency> <groupId>net.sf.jpathwatch</groupId> <artifactId>jpathwatch</artifactId> 
 			<version>0.95</version> </dependency> -->
