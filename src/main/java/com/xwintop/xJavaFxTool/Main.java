@@ -1,12 +1,12 @@
 package com.xwintop.xJavaFxTool;
 
-import java.util.ResourceBundle;
+import com.xwintop.xJavaFxTool.controller.IndexController;
+import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-import com.xwintop.xJavaFxTool.controller.IndexController;
-import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
+import java.util.ResourceBundle;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;

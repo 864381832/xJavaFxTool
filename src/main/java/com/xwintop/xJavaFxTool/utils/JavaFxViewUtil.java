@@ -1,25 +1,52 @@
 package com.xwintop.xJavaFxTool.utils;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.text.DecimalFormat;
 import java.util.Map;
 
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
 public class JavaFxViewUtil {
-	//
+
+	/*
+	 * 获取新窗口
+	 */
+	public static Stage getNewStage(String title,String iconUrl, Parent root) {
+		Stage newStage = null;
+		newStage = new Stage();
+		newStage.setTitle(title);
+		newStage.initModality(Modality.NONE);
+		newStage.setResizable(true);//可调整大小
+		newStage.setScene(new Scene(root));
+//		newStage.setMaximized(false);
+		if(StringUtils.isEmpty(iconUrl)){
+			newStage.getIcons().add(new Image("/images/icon.jpg"));
+		}else{
+			newStage.getIcons().add(new Image(iconUrl));
+		}
+		newStage.show();
+		return newStage;
+	}
+
 	/**
 	 * 设置Spinner最大最小值
 	 */

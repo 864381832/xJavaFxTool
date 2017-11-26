@@ -38,6 +38,7 @@ public class JavaFxXmlToObjectCodeService {
 		controllerClassStrBuilder.append("import com.xwintop.xJavaFxTool.services"+viewPackage+"."+classNameString+"Service;\n");
 		controllerClassStrBuilder.append("import lombok.Getter;\n");
 		controllerClassStrBuilder.append("import lombok.Setter;\n");
+		controllerClassStrBuilder.append("import lombok.extern.log4j.Log4j;\n");
 		controllerClassStrBuilder.append("import java.net.URL;\n");
 		controllerClassStrBuilder.append("import java.util.ResourceBundle;\n");
 		controllerClassStrBuilder.append("import javafx.event.ActionEvent;\n");
@@ -83,6 +84,7 @@ public class JavaFxXmlToObjectCodeService {
 		serviceClassStrBuilder.append("import com.xwintop.xJavaFxTool.controller"+viewPackage+"."+classNameString+"Controller;\n");
 		serviceClassStrBuilder.append("import lombok.Getter;\n");
 		serviceClassStrBuilder.append("import lombok.Setter;\n");
+		serviceClassStrBuilder.append("import lombok.extern.log4j.Log4j;\n");
 		serviceClassStrBuilder.append("@Getter\n@Setter\n@Log4j\n");
 		serviceClassStrBuilder.append("public class "+classNameString+"Service{\n");
 		serviceClassStrBuilder.append("private "+classNameString+"Controller "+classNameStringLoCase+"Controller;\n");

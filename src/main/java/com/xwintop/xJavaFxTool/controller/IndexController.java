@@ -3,6 +3,7 @@ package com.xwintop.xJavaFxTool.controller;
 import com.xwintop.xJavaFxTool.model.ToolFxmlLoaderConfiguration;
 import com.xwintop.xJavaFxTool.services.IndexService;
 import com.xwintop.xJavaFxTool.utils.Config;
+import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import com.xwintop.xJavaFxTool.view.IndexView;
 import com.xwintop.xcore.util.javafx.AlertUtil;
@@ -10,7 +11,6 @@ import com.xwintop.xcore.util.javafx.AlertUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -188,27 +188,30 @@ public class IndexController extends IndexView {
 	 * @Description: 添加Content内容
 	 */
 	private void addContent(String title, String url, String resourceBundleName, String iconPath) {
-		Tab tab = new Tab(title);
-		if (StringUtils.isNotEmpty(iconPath)) {
-			ImageView imageView = new ImageView(new Image(iconPath));
-			imageView.setFitHeight(18);
-			imageView.setFitWidth(18);
-			tab.setGraphic(imageView);
-		}
-		FXMLLoader generatingCodeFXMLLoader;
-		if (StringUtils.isEmpty(resourceBundleName)) {
-			generatingCodeFXMLLoader = new FXMLLoader(getClass().getResource(url));
-		} else {
-			ResourceBundle resourceBundle = ResourceBundle.getBundle(resourceBundleName, Config.defaultLocale);
-			generatingCodeFXMLLoader = new FXMLLoader(getClass().getResource(url), resourceBundle);
-		}
 		try {
+			FXMLLoader generatingCodeFXMLLoader = new FXMLLoader(getClass().getResource(url));
+			if (StringUtils.isNotEmpty(resourceBundleName)) {
+				ResourceBundle resourceBundle = ResourceBundle.getBundle(resourceBundleName, Config.defaultLocale);
+				generatingCodeFXMLLoader.setResources(resourceBundle);
+			}
+			if (singleWindowBootCheckBox.isSelected()) {
+				JavaFxViewUtil.getNewStage(title,iconPath, generatingCodeFXMLLoader.load());
+				return;
+			}
+			Tab tab = new Tab(title);
+			if (StringUtils.isNotEmpty(iconPath)) {
+				ImageView imageView = new ImageView(new Image(iconPath));
+				imageView.setFitHeight(18);
+				imageView.setFitWidth(18);
+				tab.setGraphic(imageView);
+			}
+
 			tab.setContent(generatingCodeFXMLLoader.load());
-		} catch (IOException e) {
+			tabPaneMain.getTabs().add(tab);
+			tabPaneMain.getSelectionModel().select(tab);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		tabPaneMain.getTabs().add(tab);
-		tabPaneMain.getSelectionModel().select(tab);
 	}
 
 	/**
