@@ -1,17 +1,21 @@
 package com.xwintop.xJavaFxTool.services.littleTools;
 
 import com.xwintop.xJavaFxTool.controller.littleTools.ImageToolController;
+import com.xwintop.xcore.util.FileUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+
 import net.coobird.thumbnailator.Thumbnails;
+
 import org.apache.commons.lang.StringUtils;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
 @Getter
 @Setter
@@ -31,7 +35,7 @@ public class ImageToolService {
             builder.outputQuality(imageToolController.getQualitySlider().getValue()/100.0d);//压缩率
             if(!"原格式".equals(formatString)){//修改格式
                 builder.outputFormat(formatString);
-                outputFileName = file.getName().split("\\.")[0]+"."+formatString;
+                outputFileName = FileUtil.getFileName(file)+"."+formatString;
             }
             if(imageToolController.getIsResizeCheckBox().isSelected()){//缩放大小
                 if(imageToolController.getSizeTypeChoiceBoxStrings()[0].equals(imageToolController.getSizeTypeChoiceBox().getValue())){

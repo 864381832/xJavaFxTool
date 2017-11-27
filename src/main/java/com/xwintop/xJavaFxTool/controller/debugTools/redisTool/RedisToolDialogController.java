@@ -58,7 +58,7 @@ public class RedisToolDialogController implements Initializable
 
     public static FXMLLoader getFXMLLoader()
     {
-        URL url = Object.class.getResource("/fxml/debugTools/redisTool/RedisToolDialog.fxml");
+        URL url = Object.class.getResource("/com/xwintop/xJavaFxTool/fxmlView/debugTools/redisTool/RedisToolDialog.fxml");
         FXMLLoader fXMLLoader = new FXMLLoader(url);
         return fXMLLoader;
     }

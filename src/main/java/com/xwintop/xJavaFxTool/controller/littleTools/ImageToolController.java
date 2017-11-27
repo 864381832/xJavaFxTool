@@ -1,10 +1,13 @@
 package com.xwintop.xJavaFxTool.controller.littleTools;
 
-import com.sun.javafx.iio.common.ImageTools;
-import com.xwintop.xJavaFxTool.model.FtpClientToolTableBean;
 import com.xwintop.xJavaFxTool.services.littleTools.ImageToolService;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.view.littleTools.ImageToolView;
+import com.xwintop.xcore.util.FileUtil;
+import com.xwintop.xcore.util.javafx.FileChooserUtil;
+import com.xwintop.xcore.util.javafx.TooltipUtil;
+
+import org.apache.commons.io.FileUtils;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -14,9 +17,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import com.xwintop.xcore.util.javafx.FileChooserUtil;
-import com.xwintop.xcore.util.javafx.TooltipUtil;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
@@ -29,9 +29,6 @@ import javafx.scene.input.MouseButton;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
-import org.apache.commons.io.FileUtils;
-
-import javax.imageio.ImageIO;
 
 /**
  * @ClassName: ImageToolController
@@ -126,7 +123,7 @@ public class ImageToolController extends ImageToolView {
         String resolution = ""+image.getWidth()+"×"+image.getHeight();
         Map<String, String> rowValue = new HashMap<>();
         rowValue.put("name", file.getName());
-        rowValue.put("size", "" + file.length());
+        rowValue.put("size", "" + FileUtil.FormetFileSize(file.length()));
         rowValue.put("resolution", resolution);
         rowValue.put("fullPath", file.getAbsolutePath());
         tableData.add(rowValue);

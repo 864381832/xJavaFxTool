@@ -48,7 +48,7 @@ public class IndexController extends IndexView {
 
 	public static FXMLLoader getFXMLLoader() {
 		ResourceBundle resourceBundle = ResourceBundle.getBundle("locale.Menu", Config.defaultLocale);
-		URL url = Object.class.getResource("/fxml/Index.fxml");
+		URL url = Object.class.getResource("/com/xwintop/xJavaFxTool/fxmlView/Index.fxml");
 		FXMLLoader fXMLLoader = new FXMLLoader(url, resourceBundle);
 		return fXMLLoader;
 	}

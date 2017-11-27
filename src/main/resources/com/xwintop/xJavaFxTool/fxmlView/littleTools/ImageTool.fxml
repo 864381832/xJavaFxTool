@@ -57,7 +57,7 @@
                         <Insets />
                      </VBox.margin>
                   </Label>
-                  <ScrollPane maxWidth="400.0">
+                  <ScrollPane maxWidth="400.0" minHeight="150.0">
                      <content>
                         <ImageView fx:id="showImageView" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
                      </content>
@@ -67,7 +67,7 @@
                         <Insets />
                      </VBox.margin>
                   </Label>
-                  <ScrollPane maxWidth="400.0">
+                  <ScrollPane maxWidth="400.0" minHeight="150.0">
                      <content>
                         <ImageView fx:id="showCompressionImageView" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
                      </content>

@@ -32,7 +32,7 @@ public class RedisToolDataTableController extends RedisToolDataTableView {
 
 	public static FXMLLoader getFXMLLoader() {
 		FXMLLoader fXMLLoader = new FXMLLoader(
-				IndexController.class.getResource("/fxml/debugTools/redisTool/RedisToolDataTable.fxml"));
+				IndexController.class.getResource("/com/xwintop/xJavaFxTool/fxmlView/debugTools/redisTool/RedisToolDataTable.fxml"));
 		return fXMLLoader;
 	}
 

@@ -68,6 +68,8 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 
 24、DirectoryTreeTool：文件列表生成器；
 
+25、ImageTool：图片压缩工具；
+
 
 项目刚刚启动，以后会陆续添加新工具，欢迎大家参与其中，多提提意见，谢谢。
 
@@ -167,3 +169,4 @@ xJavaFxTool
 ![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/Redis连接工具.png "Redis连接工具.png")
 ![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/Ftp服务器.png "Ftp服务器.png")
 ![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/文件列表生成器.png "文件列表生成器.png")
+![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/图片压缩工具.jpg "图片压缩工具.jpg")

@@ -1,18 +1,18 @@
 package com.xwintop.xJavaFxTool.controller.debugTools.redisTool;
 
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.services.debugTools.redisTool.RedisToolDataViewService;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.view.debugTools.redisTool.RedisToolDataViewView;
 import com.xwintop.xcore.util.RedisUtil;
 import com.xwintop.xcore.util.javafx.AlertUtil;
+
+import org.apache.commons.lang3.StringUtils;
+
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -36,7 +36,7 @@ public class RedisToolDataViewController extends RedisToolDataViewView {
 
 	public static FXMLLoader getFXMLLoader() {
 		FXMLLoader fXMLLoader = new FXMLLoader(
-				IndexController.class.getResource("/fxml/debugTools/redisTool/RedisToolDataView.fxml"));
+				IndexController.class.getResource("/com/xwintop/xJavaFxTool/fxmlView/debugTools/redisTool/RedisToolDataView.fxml"));
 		return fXMLLoader;
 	}
 
