@@ -1,4 +1,5 @@
 package com.xwintop.xJavaFxTool.view.littleTools;
+
 import lombok.Getter;
 import lombok.Setter;
 import javafx.fxml.Initializable;
@@ -19,48 +20,51 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+
 @Getter
 @Setter
 public abstract class ImageToolView implements Initializable {
-@FXML
-protected Button addImageButton;
-@FXML
-protected Button openFolderButton;
-@FXML
-protected Button imageCompressionButton;
-@FXML
-protected TableView tableViewMain;
-@FXML
-protected TableColumn nameTableColumn;
-@FXML
-protected TableColumn sizeTableColumn;
-@FXML
-protected TableColumn resolutionTableColumn;
-@FXML
-protected TableColumn fullPath;
-@FXML
-protected ImageView showImageView;
-@FXML
-protected JFXSlider qualitySlider;
-@FXML
-protected ChoiceBox formatChoiceBox;
-@FXML
-protected CheckBox isResizeCheckBox;
-@FXML
-protected ChoiceBox sizeTypeChoiceBox;
-@FXML
-protected Spinner scaleWidthSpinner;
-@FXML
-protected Spinner scaleHeithtSpinner;
-@FXML
-protected CheckBox keepAspectRatioCheckBox;
-@FXML
-protected TextField outputFolderTextField;
-@FXML
-protected Button outputFolderButton;
-@FXML
-protected CheckBox sameFolderAsInput;
-@FXML
-protected TextField suffixNameTextField;
+    @FXML
+    protected Button addImageButton;
+    @FXML
+    protected Button openFolderButton;
+    @FXML
+    protected Button imageCompressionButton;
+    @FXML
+    protected TableView tableViewMain;
+    @FXML
+    protected TableColumn nameTableColumn;
+    @FXML
+    protected TableColumn sizeTableColumn;
+    @FXML
+    protected TableColumn resolutionTableColumn;
+    @FXML
+    protected TableColumn fullPathTableColumn;
+    @FXML
+    protected ImageView showImageView;
+    @FXML
+    protected ImageView showCompressionImageView;
+    @FXML
+    protected JFXSlider qualitySlider;
+    @FXML
+    protected ChoiceBox<String> formatChoiceBox;
+    @FXML
+    protected CheckBox isResizeCheckBox;
+    @FXML
+    protected ChoiceBox<String> sizeTypeChoiceBox;
+    @FXML
+    protected Spinner<Integer> scaleWidthSpinner;
+    @FXML
+    protected Spinner<Integer> scaleHeightSpinner;
+    @FXML
+    protected CheckBox keepAspectRatioCheckBox;
+    @FXML
+    protected TextField outputFolderTextField;
+    @FXML
+    protected Button outputFolderButton;
+    @FXML
+    protected CheckBox sameFolderAsInput;
+    @FXML
+    protected TextField suffixNameTextField;
 
 }
