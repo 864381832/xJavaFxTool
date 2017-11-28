@@ -43,7 +43,7 @@ import lombok.extern.log4j.Log4j;
 public class ImageToolController extends ImageToolView {
     private ImageToolService imageToolService = new ImageToolService(this);
     private ObservableList<Map<String, String>> tableData = FXCollections.observableArrayList();//表格数据
-    private String[] formatChoiceBoxStrings = new String[]{"原格式", "jpg", "png"};//输出格式类型
+    private String[] formatChoiceBoxStrings = new String[]{"原格式", "jpg", "png", "jpeg", "bmp"};//输出格式类型
     private String[] sizeTypeChoiceBoxStrings = new String[]{"固定值px", "百分比%"};//图片压缩大小类型
 
     @Override
