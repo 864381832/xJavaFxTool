@@ -158,6 +158,11 @@
 		<url>/com/xwintop/xJavaFxTool/fxmlView/littleTools/ImageTool.fxml</url>
 		<title>ImageTool</title>
 		<menuParentId>littleTools</menuParentId>
+	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/com/xwintop/xJavaFxTool/fxmlView/javaFxTools/ShowSystemInfo.fxml</url>
+		<title>ShowSystemInfo</title>
+		<menuParentId>javaFxTools</menuParentId>
 		<isDefaultShow>true</isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 

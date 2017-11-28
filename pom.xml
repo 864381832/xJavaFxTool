@@ -103,6 +103,13 @@
 			<version>5.14.5</version>
 		</dependency>
 
+		<!-- sigar获取系统信息 -->
+		<dependency>
+			<groupId>org.fusesource</groupId>
+			<artifactId>sigar</artifactId>
+			<version>1.6.4</version>
+		</dependency>
+
 		<!-- 目录文件监控工具包 -->
 		<!-- <dependency> <groupId>net.sf.jpathwatch</groupId> <artifactId>jpathwatch</artifactId> 
 			<version>0.95</version> </dependency> -->
