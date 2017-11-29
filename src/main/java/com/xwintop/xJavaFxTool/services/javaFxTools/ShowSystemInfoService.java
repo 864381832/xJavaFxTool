@@ -3,6 +3,8 @@ package com.xwintop.xJavaFxTool.services.javaFxTools;
 import com.xwintop.xJavaFxTool.controller.javaFxTools.ShowSystemInfoController;
 import com.xwintop.xJavaFxTool.utils.SigarUtil;
 
+import org.hyperic.sigar.FileSystem;
+import org.hyperic.sigar.FileSystemUsage;
 import org.hyperic.sigar.Mem;
 import org.hyperic.sigar.Sigar;
 
@@ -14,10 +16,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.layout.FlowPane;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -121,7 +127,7 @@ public class ShowSystemInfoService {
                                 series.getData().remove(0);
                             }
                             Mem mem = sigar.getMem();
-                            series.getData().add(new XYChart.Data(new Date().toLocaleString(), mem.getUsed()/ 1024L));
+                            series.getData().add(new XYChart.Data("" + new Date().getTime(), mem.getUsed() / 1024L));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -151,9 +157,51 @@ public class ShowSystemInfoService {
             new Timer().schedule(new TimerTask() {
                 @Override
                 public void run() {
-
                 }
             }, 1000);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    public void showDidkInfo() {
+        try {
+            FlowPane flowPane = new FlowPane();
+            FileSystem fslist[] = sigar.getFileSystemList();
+            for (int i = 0; i < fslist.length; i++) {
+                FileSystem fs = fslist[i];
+                FileSystemUsage usage = sigar.getFileSystemUsage(fs.getDirName());
+                switch (fs.getType()) {
+                    case 0: // TYPE_UNKNOWN ：未知
+                        break;
+                    case 1: // TYPE_NONE
+                        break;
+                    case 2: // TYPE_LOCAL_DISK : 本地硬盘
+                        ObservableList<PieChart.Data> pieChartData =
+                                FXCollections.observableArrayList(
+                                        new PieChart.Data("已经使用量", usage.getUsed()),
+                                        new PieChart.Data("剩余大小", usage.getFree())
+                                        );
+                        final PieChart chart = new PieChart(pieChartData);
+                        chart.setTitle("盘符名称:" + fs.getDevName());
+                        chart.setStartAngle(90);
+                        chart.setPrefWidth(300);
+                        chart.setPrefHeight(300);
+                        chart.setLegendVisible(false);
+                        flowPane.getChildren().add(chart);
+                        break;
+                    case 3:// TYPE_NETWORK ：网络
+                        break;
+                    case 4:// TYPE_RAM_DISK ：闪存
+                        break;
+                    case 5:// TYPE_CDROM ：光驱
+                        break;
+                    case 6:// TYPE_SWAP ：页面交换
+                        break;
+                }
+            }
+
+            showSystemInfoController.getDiskTab().setContent(flowPane);
         } catch (Exception e) {
             log.error(e.getMessage());
         }

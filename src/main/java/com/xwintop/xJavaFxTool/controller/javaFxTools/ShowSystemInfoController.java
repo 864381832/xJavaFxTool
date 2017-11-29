@@ -35,6 +35,7 @@ public class ShowSystemInfoController extends ShowSystemInfoView {
         showSystemInfoService.showOverviewMemoryLineChart();
         showSystemInfoService.showOverviewDiskLineChart();
         showSystemInfoService.showOverviewNetLineChart();
+        showSystemInfoService.showDidkInfo();
         showSystemInfoService.showVmInfo();
     }
 
