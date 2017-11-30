@@ -3,6 +3,8 @@ package com.xwintop.xJavaFxTool.services.javaFxTools;
 import com.xwintop.xJavaFxTool.controller.javaFxTools.ShowSystemInfoController;
 import com.xwintop.xJavaFxTool.utils.SigarUtil;
 
+import org.hyperic.sigar.CpuInfo;
+import org.hyperic.sigar.CpuPerc;
 import org.hyperic.sigar.FileSystem;
 import org.hyperic.sigar.FileSystemUsage;
 import org.hyperic.sigar.Mem;
@@ -18,9 +20,7 @@ import java.util.TimerTask;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.FlowPane;
@@ -44,69 +44,29 @@ public class ShowSystemInfoService {
 
     public void showOverviewCpuLineChart() {
         try {
+            XYChart.Series[] series = new XYChart.Series[sigar.getCpuInfoList().length];
+            for(int i = 0; i < series.length; i++){
+                series[i] = new XYChart.Series();
+                series[i].setName("第" + (i + 1) + "块CPU信息");
+            }
+            showSystemInfoController.getOverviewCpuLineChart().getData().addAll(series);
             new Timer().schedule(new TimerTask() {
                 @Override
                 public void run() {
-
+                    try {
+                        CpuInfo infos[] = sigar.getCpuInfoList();
+                        CpuPerc cpuList[] = sigar.getCpuPercList();
+                        for (int i = 0; i < infos.length; i++) {// 不管是单块CPU还是多CPU都适用
+                            if (series[i].getData().size() > 60) {
+                                series[i].getData().remove(0);
+                            }
+                            series[i].getData().add(new XYChart.Data(new Date().toLocaleString(), cpuList[i].getCombined()));
+                        }
+                    }catch (Exception e){
+                        log.error(e.getMessage());
+                    }
                 }
-            }, 1000);
-            final CategoryAxis xAxis = new CategoryAxis();
-            final NumberAxis yAxis = new NumberAxis();
-            xAxis.setLabel("Month");
-            final LineChart<String, Number> lineChart
-                    = new LineChart<>(xAxis, yAxis);
-
-            lineChart.setTitle("Stock Monitoring, 2010");
-
-            lineChart.setCreateSymbols(false);
-            lineChart.setAlternativeRowFillVisible(false);
-            XYChart.Series series1 = new XYChart.Series();
-            series1.setName("Portfolio 1");
-
-            series1.getData().add(new XYChart.Data("Jan", 23));
-            series1.getData().add(new XYChart.Data("Feb", 14));
-            series1.getData().add(new XYChart.Data("Mar", 15));
-            series1.getData().add(new XYChart.Data("Apr", 24));
-            series1.getData().add(new XYChart.Data("May", 34));
-            series1.getData().add(new XYChart.Data("Jun", 36));
-            series1.getData().add(new XYChart.Data("Jul", 22));
-            series1.getData().add(new XYChart.Data("Aug", 45));
-            series1.getData().add(new XYChart.Data("Sep", 43));
-            series1.getData().add(new XYChart.Data("Oct", 17));
-            series1.getData().add(new XYChart.Data("Nov", 29));
-            series1.getData().add(new XYChart.Data("Dec", 25));
-
-            XYChart.Series series2 = new XYChart.Series();
-            series2.setName("Portfolio 2");
-            series2.getData().add(new XYChart.Data("Jan", 33));
-            series2.getData().add(new XYChart.Data("Feb", 34));
-            series2.getData().add(new XYChart.Data("Mar", 25));
-            series2.getData().add(new XYChart.Data("Apr", 44));
-            series2.getData().add(new XYChart.Data("May", 39));
-            series2.getData().add(new XYChart.Data("Jun", 16));
-            series2.getData().add(new XYChart.Data("Jul", 55));
-            series2.getData().add(new XYChart.Data("Aug", 54));
-            series2.getData().add(new XYChart.Data("Sep", 48));
-            series2.getData().add(new XYChart.Data("Oct", 27));
-            series2.getData().add(new XYChart.Data("Nov", 37));
-            series2.getData().add(new XYChart.Data("Dec", 29));
-
-            XYChart.Series series3 = new XYChart.Series();
-            series3.setName("Portfolio 3");
-            series3.getData().add(new XYChart.Data("Jan", 44));
-            series3.getData().add(new XYChart.Data("Feb", 35));
-            series3.getData().add(new XYChart.Data("Mar", 36));
-            series3.getData().add(new XYChart.Data("Apr", 33));
-            series3.getData().add(new XYChart.Data("May", 31));
-            series3.getData().add(new XYChart.Data("Jun", 26));
-            series3.getData().add(new XYChart.Data("Jul", 22));
-            series3.getData().add(new XYChart.Data("Aug", 25));
-            series3.getData().add(new XYChart.Data("Sep", 43));
-            series3.getData().add(new XYChart.Data("Oct", 44));
-            series3.getData().add(new XYChart.Data("Nov", 45));
-            series3.getData().add(new XYChart.Data("Dec", 44));
-//            lineChart.getData().addAll(series1, series2, series3);
-            showSystemInfoController.getOverviewCpuLineChart().getData().addAll(series1, series2, series3);
+            }, 0,1000);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
