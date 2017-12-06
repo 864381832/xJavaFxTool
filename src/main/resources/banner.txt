@@ -1,0 +1,50 @@
+﻿ __   __             _           _
+ \ \ / /            (_)         | |
+  \ V /  __      __  _   _ __   | |_    ___    _ __         ___    ___    _ __ ___
+   > <   \ \ /\ / / | | | '_ \  | __|  / _ \  | '_ \       / __|  / _ \  | '_ ` _ \
+  / . \   \ V  V /  | | | | | | | |_  | (_) | | |_) |  _  | (__  | (_) | | | | | | |
+ /_/ \_\   \_/\_/   |_| |_| |_|  \__|  \___/  | .__/  (_)  \___|  \___/  |_| |_| |_|
+                                              | |
+                                              |_|
+//////////////////////////////////////////////////////////////////////
+//                       ;EEE                                       //
+//                      ;EEEEE;                                     //
+//                      EEEEEEE                                     //
+//                      EEEEEEE         jEEEEEEDi                   //
+//                       EEEEEt     ,EEi         DEE                //
+//                       GEEEE    fEE              ;EE              //
+//                       EEEL;   EEE                  EE            //
+//                      EEEEE;  EGE                    DE           //
+//                      EEEEEEEEfE                      ;E          //
+//                     ;EEEEEEEEEE                        E:        //
+//                     DEEEEEEEEEE                         E:       //
+//                     EEEEEEEEEEEj                         G       //
+//                     EEEEEEEEEEEE;                                //
+//            ,        EEEEEEEEEEjEE:                               //
+//           ;E         EEEEEEEEE  EEEE                             //
+//           jE         EEEEEEEEEi  EEEEEEEE;                       //
+//         fE  DEEEEEEEiEEEEEEEEL EEEEEEEEEEEEE                     //
+//        EE  GEEEEEEEEEEEEEEEEELEEEEEEEEEEEEEEEG         E:        //
+//        Ef fEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEG   Df   EE;       //
+//        fEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEfEEE  LEEE       //
+//         ,EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE    EEj       //
+//         EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE               //
+//        ;EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEf       E      //
+//        EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE; f   GE      //
+//        EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEELLEEf      //
+//        EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE       //
+//        EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE        //
+//        EE EEEEEEEEEGEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE         //
+//       EEEE:EEEEEEEE:EEEEEEEEEEEEEEEEEEEEEEE  ;EEEEEEEEEE         //
+//      EEEEEEiGEEEEEE EEEEEEEEEEE,EEEEEEEEEE     iEEEEEEEE         //
+//     EEEEEE:  fEEEEE;EEEEEEEEEEEDEEEEEEEEEED      EEELt f         //
+//     EEEE;     ;EEEE   tDEEEEEEEEEEEEEDEEEEEj                     //
+//    fEEE:       EEEE            LEEEEE EEEEEE                     //
+//    EEEL        EEEE            DEEEE,  EEEEE                     //
+//  EEEE          EEEE         E  EEEEE    ;EEEL                    //
+//  EEE           ;EEEf       EEEEEEEE      EEEj                    //
+//   EE             EEEE     :EEEEEEE         EEE                   //
+//   ;              iEEEL    ,EEEEEL,         EEEE                  //
+//////////////////////////////////////////////////////////////////////
+${AnsiColor.BRIGHT_BLUE}
+::: Project (version:${application.version}) :::    http://www.xwintop.com＼(^O^)／    Spring-Boot ${spring-boot.version}

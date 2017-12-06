@@ -2,12 +2,6 @@ package com.xwintop.xJavaFxTool;
 
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
-
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
-
-import java.util.ResourceBundle;
-
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +10,11 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.ResourceBundle;
 
 /** 
  * @ClassName: Main 
@@ -23,9 +22,20 @@ import javafx.stage.WindowEvent;
  * @author: xufeng
  * @date: 2017年11月10日 下午4:34:11  
  */
+@SpringBootApplication
 public class Main extends Application {
 	private static Logger log = Logger.getLogger(Main.class);
 	private static Stage stage;
+
+	public static void main(String[] args) {
+		PropertyConfigurator.configure(Main.class.getResource("/config/log4j.properties"));//加载日志配置
+		try {
+			launch(args);
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error(e);
+		}
+	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -49,17 +59,6 @@ public class Main extends Application {
 		});
 
 		stage = primaryStage;
-		// IndexController indexController = fXMLLoader.getController();
-	}
-
-	public static void main(String[] args) {
-		PropertyConfigurator.configure(Main.class.getResource("/config/log4j.properties"));//加载日志配置
-		try {
-			launch(args);
-		} catch (Exception e) {
-			e.printStackTrace();
-			log.error(e);
-		}
 	}
 
 	public static Stage getStage() {

@@ -17,7 +17,7 @@
 	<ToolFxmlLoaderConfiguration
 		url="/com/xwintop/xJavaFxTool/fxmlView/javaFxTools/JavaFxXmlToObjectCode.fxml" resourceBundleName=""
 		className="" title="JavaFxXmlToObjectCode" iconPath="/images/icon.jpg"
-		isDefaultShow="true" menuParentId="javaFxTools" controllerType="Node" />
+		menuParentId="javaFxTools" controllerType="Node" />
 	<ToolFxmlLoaderConfiguration>
 		<url>/com/xwintop/xJavaFxTool/fxmlView/epmsTools/GeneratingCode.fxml</url>
 		<resourceBundleName></resourceBundleName>
@@ -163,7 +163,7 @@
 		<url>/com/xwintop/xJavaFxTool/fxmlView/javaFxTools/ShowSystemInfo.fxml</url>
 		<title>ShowSystemInfo</title>
 		<menuParentId>javaFxTools</menuParentId>
-		<isDefaultShow>true</isDefaultShow>
+		<isDefaultShow></isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 
 	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"

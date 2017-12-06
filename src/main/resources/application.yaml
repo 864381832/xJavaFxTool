@@ -1,0 +1,5 @@
+server:
+    port: 10820
+spring:
+    jmx: 
+        enabled: false
