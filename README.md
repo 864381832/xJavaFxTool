@@ -90,6 +90,7 @@ xJavaFxTool
 │  │  │   └─ xwintop
 │  │  │    └─ xJavaFxTool
 │  │  │     ├─ common	第三方工具类
+│  │  │     ├─ config	springBoot配置类
 │  │  │     ├─ controller	javafx控制层
 │  │  │     │  ├─ codeTools	Code工具控制层
 │  │  │     │  ├─ debugTools	调试工具控制层
@@ -111,43 +112,31 @@ xJavaFxTool
 │  │  │     │  ├─ littleTools	小工具服务层
 │  │  │     │  └─ webTools	html工具服务层
 │  │  │     ├─ utils	系统工具类
-│  │  │     └─ view	javafx视图层
-│  │  │      ├─ codeTools	Code工具视图层
-│  │  │      ├─ debugTools	调试工具视图层
-│  │  │      ├─ developTools	开发工具视图层
-│  │  │      ├─ littleTools	小工具视图层
-│  │  │      └─ webTools	html工具视图层
+│  │  │     ├─ view	javafx视图层
+│  │  │     │  ├─ codeTools	Code工具视图层
+│  │  │     │  ├─ debugTools	调试工具视图层
+│  │  │     │  ├─ developTools	开发工具视图层
+│  │  │     │  ├─ littleTools	小工具视图层
+│  │  │     │  └─ webTools	html工具视图层
+│  │  │     └─ web	web控制视图层
 │  │  └─ resources
 │  │   ├─ com
-│  │   │  └─ melloware
-│  │   │   └─ jintellitype	JIntellitype工具lib
+│  │   │  ├─ melloware
+│  │   │  │  └─ jintellitype	JIntellitype工具lib
+│  │   │  └─ xwintop
+│  │   │   └─ xJavaFxTool
+│  │   │    └─ fxmlView     .fxml文件
 │  │   ├─ config	配置文件
 │  │   │  ├─ log4j.properties	log4j配置文件
 │  │   │  └─ toolFxmlLoaderConfiguration.xml	系统菜单加载配置文件
 │  │   ├─ css	样式资源
 │  │   ├─ data	数据资源
-│  │   ├─ fxml	.fxml文件
 │  │   ├─ images	图片资源
 │  │   ├─ locale	国际化
 │  │   └─ web	html工具
-│  └─ test
+│  └─ test  测试类
 │   ├─ java
-│   │  └─ com
-│   │   └─ xwintop
-│   │    └─ xJavaFxTool
-│   │     ├─ apache
-│   │     ├─ datafx
-│   │     ├─ java
-│   │     ├─ javafx
-│   │     ├─ swing
-│   │     └─ tools
 │   └─ resources
-│    ├─ com
-│    ├─ config
-│    ├─ css
-│    ├─ fxml
-│    ├─ images
-│    └─ locale
 ├─ xJavaFxTool.jar	直接运行程序包
 
 ```
