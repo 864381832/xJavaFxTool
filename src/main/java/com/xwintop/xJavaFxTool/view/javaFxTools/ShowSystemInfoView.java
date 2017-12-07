@@ -4,7 +4,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.web.WebView;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,7 +19,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public abstract class ShowSystemInfoView implements Initializable {
-
+    @FXML
+    protected TabPane mainTabPane;
     @FXML
     protected Tab overviewTab;
     @FXML
@@ -32,6 +35,8 @@ public abstract class ShowSystemInfoView implements Initializable {
     protected Tab cpuTab;
     @FXML
     protected Tab diskTab;
+    @FXML
+    protected WebView diskWebView;
     @FXML
     protected Tab vmTab;
     @FXML

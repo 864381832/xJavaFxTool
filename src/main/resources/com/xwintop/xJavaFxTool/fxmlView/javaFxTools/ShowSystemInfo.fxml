@@ -13,12 +13,13 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.web.WebView?>
 
 <AnchorPane prefHeight="532.0" prefWidth="818.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.javaFxTools.ShowSystemInfoController">
    <children>
       <BorderPane layoutX="46.0" layoutY="36.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <center>
-            <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+            <TabPane fx:id="mainTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
               <tabs>
                 <Tab fx:id="overviewTab" text="概览">
                      <content>
@@ -91,7 +92,10 @@
                      </content>
                 </Tab>
                   <Tab fx:id="cpuTab" text="cpu" />
-                  <Tab fx:id="diskTab" text="磁盘" />
+                  <Tab fx:id="diskTab" text="磁盘">
+                     <content>
+                        <WebView fx:id="diskWebView" prefHeight="-1.0" prefWidth="-1.0" />
+                     </content></Tab>
                 <Tab fx:id="vmTab" text="VM概要">
                      <content>
                         <TextArea fx:id="vmTextArea" prefHeight="200.0" prefWidth="200.0" />

@@ -6,6 +6,10 @@ import com.xwintop.xJavaFxTool.view.javaFxTools.ShowSystemInfoView;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.Tab;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -31,15 +35,25 @@ public class ShowSystemInfoController extends ShowSystemInfoView {
     }
 
     private void initView() {
+        diskWebView.getEngine().load(ShowSystemInfoService.class.getResource("/com/xwintop/xJavaFxTool/web/javaFxTools/ShowSystemInfo/diskInfohCharts.html").toExternalForm());
         showSystemInfoService.showOverviewCpuLineChart();
         showSystemInfoService.showOverviewMemoryLineChart();
         showSystemInfoService.showOverviewDiskLineChart();
         showSystemInfoService.showOverviewNetLineChart();
-        showSystemInfoService.showDidkInfo();
+//        showSystemInfoService.showDiskInfo();
         showSystemInfoService.showVmInfo();
     }
 
     private void initEvent() {
+        mainTabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
+            @Override
+            public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
+                if(newValue == diskTab){
+                    System.out.println(newValue.getText());
+                    showSystemInfoService.showDiskInfo();
+                }
+            }
+        });
     }
 
     private void initService() {

@@ -60,7 +60,7 @@ public class IndexController extends IndexView {
 		initEvent();
 		initService();
 		Platform.runLater(()->{//启动SpringBoot
-			SpringApplication.run(Main.class,new String[0]);
+//			SpringApplication.run(Main.class,new String[0]);
 		});
 	}
 

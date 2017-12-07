@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--<meta http-equiv="Access-Control-Allow-Origin" content="*">-->
+    <title>硬盘存储展示</title>
+    <script src="../../libs/highcharts.js"></script>
+    <script src="../../libs/modules/sunburst.js"></script>
+    <script src="../../css/themes/dark-blue.js"></script>
+    <script src="../../libs/jquery-1.11.1.min.js"></script>
+</head>
+<body style="margin: 0px;padding: 0px;">
+<div id="container" style="width: 100%;height:100%;"></div>
+<script>
+    Highcharts.setOptions({
+        lang: {
+            thousandsSep: ','
+        }
+    });
+    var data = [{
+        'id': 's1',
+        'parent': '',
+        'name': 'C盘',
+        'value': 40,
+        'showValue':'4GB'
+    }, {
+        'id': 's2',
+        'parent': '',
+        'name': 'D盘',
+        'value': 60,
+        'showValue':'6GB'
+    }, {
+        'id': '11',
+        'parent': 's1',
+        'name': '已用',
+        'value': 10,
+        'showValue':'1GB'
+    }, {
+        'id': '12',
+        'parent': 's1',
+        'name': '剩余',
+        'value': 30,
+        'showValue':'3GB'
+    }, {
+        'id': '21',
+        'parent': 's2',
+        'name': '已用',
+        'value': 20,
+        'showValue':'2GB'
+    }, {
+        'id': '21',
+        'parent': 's2',
+        'name': '剩余',
+        'value': 40,
+        'showValue':'4GB'
+    }];
+    // Splice in transparent for the center circle
+    //    Highcharts.getOptions().colors.splice(0, 0, 'transparent');
+    var chart = Highcharts.chart('container', {
+        chart: {
+//            margin:0,
+            spacing: [0, 0, 0, 0],
+//            height: '100%'
+        },
+        title: {
+            text: null
+        },
+        series: [{
+            type: "sunburst",
+            data: data,
+            allowDrillToNode: true,
+            cursor: 'pointer',
+            dataLabels: {
+                formatter: function () {
+                    return this.point.name +'<br >'+ this.point.showValue;
+                }
+            },
+            levels: [{
+                level: 2,
+                colorByPoint: true,
+                dataLabels: {
+                    rotationMode: 'parallel'
+                },
+            },
+                {
+                    level: 3,
+                    colorVariation: {
+                        key: 'brightness',
+                        to: -0.5
+                    },
+                }]
+
+        }],
+        tooltip: {
+            headerFormat: "",
+            pointFormat: '<b>{point.name}</b>大小是：<b>{point.value}</b>'
+        }
+    });
+
+    function updateData(data) {
+        chart.update({
+            series: [{data:data}]
+        })
+    }
+
+</script>
+</body>
+</html>
