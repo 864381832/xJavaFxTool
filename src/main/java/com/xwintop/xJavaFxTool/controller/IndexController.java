@@ -1,6 +1,5 @@
 package com.xwintop.xJavaFxTool.controller;
 
-import com.xwintop.xJavaFxTool.Main;
 import com.xwintop.xJavaFxTool.model.ToolFxmlLoaderConfiguration;
 import com.xwintop.xJavaFxTool.services.IndexService;
 import com.xwintop.xJavaFxTool.utils.Config;
@@ -8,6 +7,16 @@ import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import com.xwintop.xJavaFxTool.view.IndexView;
 import com.xwintop.xcore.util.javafx.AlertUtil;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+
+import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
+
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -16,7 +25,6 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -25,18 +33,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang3.reflect.FieldUtils;
-import org.apache.commons.lang3.reflect.MethodUtils;
-import org.apache.log4j.Logger;
-import org.springframework.boot.SpringApplication;
-
-import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
 
 /**
  * @ClassName: IndexController
@@ -203,7 +199,7 @@ public class IndexController extends IndexView {
 				generatingCodeFXMLLoader.setResources(resourceBundle);
 			}
 			if (singleWindowBootCheckBox.isSelected()) {
-				JavaFxViewUtil.getNewStage(title,iconPath, generatingCodeFXMLLoader.load());
+				JavaFxViewUtil.getNewStage(title,iconPath, generatingCodeFXMLLoader);
 				return;
 			}
 			Tab tab = new Tab(title);
@@ -219,13 +215,7 @@ public class IndexController extends IndexView {
 			tabPaneMain.getSelectionModel().select(tab);
 
 			tab.setOnCloseRequest((Event event)->{
-				System.out.println("删除前");
-				try {
-//					Node d = tab.getContent();
-					MethodUtils.invokeMethod(generatingCodeFXMLLoader.getController(),"onCloseRequest",event);
-				} catch (Exception e) {
-					log.error(e.getMessage());
-				}
+				JavaFxViewUtil.setControllerOnCloseRequest(generatingCodeFXMLLoader.getController(),event);
 			});
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -237,19 +227,23 @@ public class IndexController extends IndexView {
 	 * @Description: 添加WebView视图
 	 */
 	private void addWebView(String title, String url, String iconPath) {
-		Tab tab = new Tab(title);
-		if (StringUtils.isNotEmpty(iconPath)) {
-			ImageView imageView = new ImageView(new Image(iconPath));
-			imageView.setFitHeight(18);
-			imageView.setFitWidth(18);
-			tab.setGraphic(imageView);
-		}
 		WebView browser = new WebView();
 		WebEngine webEngine = browser.getEngine();
 		if(url.startsWith("http")){
 			webEngine.load(url);
 		}else{
 			webEngine.load(IndexController.class.getResource(url).toExternalForm());
+		}
+		if (singleWindowBootCheckBox.isSelected()) {
+			JavaFxViewUtil.getNewStage(title,iconPath, browser);
+			return;
+		}
+		Tab tab = new Tab(title);
+		if (StringUtils.isNotEmpty(iconPath)) {
+			ImageView imageView = new ImageView(new Image(iconPath));
+			imageView.setFitHeight(18);
+			imageView.setFitWidth(18);
+			tab.setGraphic(imageView);
 		}
 		tab.setContent(browser);
 		tabPaneMain.getTabs().add(tab);

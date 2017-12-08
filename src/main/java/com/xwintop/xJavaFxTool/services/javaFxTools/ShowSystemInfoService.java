@@ -3,9 +3,8 @@ package com.xwintop.xJavaFxTool.services.javaFxTools;
 import com.alibaba.fastjson.JSON;
 import com.xwintop.xJavaFxTool.controller.javaFxTools.ShowSystemInfoController;
 import com.xwintop.xJavaFxTool.utils.SigarUtil;
-
 import com.xwintop.xcore.util.FileUtil;
-import javafx.scene.web.WebView;
+
 import org.hyperic.sigar.CpuInfo;
 import org.hyperic.sigar.CpuPerc;
 import org.hyperic.sigar.FileSystem;
@@ -14,15 +13,17 @@ import org.hyperic.sigar.Mem;
 import org.hyperic.sigar.Sigar;
 
 import java.net.InetAddress;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.layout.FlowPane;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -40,6 +41,7 @@ public class ShowSystemInfoService {
 
     private ShowSystemInfoController showSystemInfoController;
     private Sigar sigar = SigarUtil.sigar;
+    private List<Timer> timerList = new ArrayList<Timer>();//统一管理线程
 
     public void showOverviewCpuLineChart() {
         try {
@@ -51,7 +53,9 @@ public class ShowSystemInfoService {
             showSystemInfoController.getOverviewCpuLineChart().getData().addAll(series);
             showSystemInfoController.getOverviewCpuLineChart().getXAxis().setTickLabelsVisible(false);
             showSystemInfoController.getOverviewCpuLineChart().getYAxis().setMaxHeight(1);
-            new Timer().schedule(new TimerTask() {
+            Timer timer =  new Timer();
+            timerList.add(timer);
+            timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     try {
@@ -86,7 +90,9 @@ public class ShowSystemInfoService {
             lineChart.getXAxis().setTickLabelsVisible(false);
             lineChart.getYAxis().setMaxHeight(sigar.getMem().getTotal() / 1048576L);
             lineChart.setLegendVisible(false);
-            new Timer().schedule(new TimerTask() {
+            Timer timer =  new Timer();
+            timerList.add(timer);
+            timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     Platform.runLater(() -> {
@@ -109,7 +115,9 @@ public class ShowSystemInfoService {
 
     public void showOverviewDiskLineChart() {
         try {
-            new Timer().schedule(new TimerTask() {
+            Timer timer =  new Timer();
+            timerList.add(timer);
+            timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
 
@@ -122,7 +130,9 @@ public class ShowSystemInfoService {
 
     public void showOverviewNetLineChart() {
         try {
-            new Timer().schedule(new TimerTask() {
+            Timer timer =  new Timer();
+            timerList.add(timer);
+            timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                 }
@@ -207,6 +217,9 @@ public class ShowSystemInfoService {
         }
     }
 
+    /** 
+     * 显示vm信息
+     */
     public void showVmInfo() {//显示Vm信息
         try {
             Runtime r = Runtime.getRuntime();
@@ -259,6 +272,17 @@ public class ShowSystemInfoService {
         } catch (Exception e) {
             log.error(e.getMessage());
         }
+    }
+
+    /**
+     * 停止所以线程
+     */
+    public void stopTimerList(){
+        for (Timer timer : timerList) {
+            timer.cancel();
+            timer = null;
+        }
+        timerList.clear();
     }
 
     public ShowSystemInfoService(ShowSystemInfoController showSystemInfoController) {
