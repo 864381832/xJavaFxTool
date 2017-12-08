@@ -1,30 +1,28 @@
 package com.xwintop.xJavaFxTool.utils;
 
-import org.apache.commons.lang3.StringUtils;
-
-import java.text.DecimalFormat;
-import java.util.Map;
-
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Slider;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.*;
 import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import lombok.extern.log4j.Log4j;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.reflect.MethodUtils;
 
+import java.text.DecimalFormat;
+import java.util.Map;
+
+@Log4j
 public class JavaFxViewUtil {
 
 	/*
@@ -44,6 +42,14 @@ public class JavaFxViewUtil {
 			newStage.getIcons().add(new Image(iconUrl));
 		}
 		newStage.show();
+		newStage.setOnCloseRequest((WindowEvent event)->{
+			System.out.println("删除前");
+			try {
+				MethodUtils.invokeMethod(root,"onCloseRequest",event);
+			} catch (Exception e) {
+				log.error(e.getMessage());
+			}
+		});
 		return newStage;
 	}
 

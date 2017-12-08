@@ -12,9 +12,11 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -24,9 +26,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.reflect.FieldUtils;
+import org.apache.commons.lang3.reflect.MethodUtils;
 import org.apache.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -212,6 +217,16 @@ public class IndexController extends IndexView {
 			tab.setContent(generatingCodeFXMLLoader.load());
 			tabPaneMain.getTabs().add(tab);
 			tabPaneMain.getSelectionModel().select(tab);
+
+			tab.setOnCloseRequest((Event event)->{
+				System.out.println("删除前");
+				try {
+//					Node d = tab.getContent();
+					MethodUtils.invokeMethod(generatingCodeFXMLLoader.getController(),"onCloseRequest",event);
+				} catch (Exception e) {
+					log.error(e.getMessage());
+				}
+			});
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

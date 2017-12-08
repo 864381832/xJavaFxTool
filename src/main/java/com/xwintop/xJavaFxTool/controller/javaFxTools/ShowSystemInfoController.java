@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import lombok.Getter;
@@ -58,4 +59,12 @@ public class ShowSystemInfoController extends ShowSystemInfoView {
 
     private void initService() {
     }
+
+    /** 
+     * 父控件被移除前调用
+     */
+    public void onCloseRequest(Event event){
+        System.out.println("准备移除");
+    }
+
 }
