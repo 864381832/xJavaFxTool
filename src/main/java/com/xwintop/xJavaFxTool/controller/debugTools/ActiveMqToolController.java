@@ -1,19 +1,19 @@
 package com.xwintop.xJavaFxTool.controller.debugTools;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import javax.jms.JMSException;
-import javax.jms.Session;
-
-import org.apache.activemq.ActiveMQSession;
-
 import com.xwintop.xJavaFxTool.model.ActiveMqToolReceiverTableBean;
 import com.xwintop.xJavaFxTool.model.ActiveMqToolTableBean;
 import com.xwintop.xJavaFxTool.services.debugTools.ActiveMqToolService;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.view.debugTools.ActiveMqToolView;
 import com.xwintop.xcore.base.XProperty;
+
+import org.apache.activemq.ActiveMQSession;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import javax.jms.JMSException;
+import javax.jms.Session;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -22,6 +22,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -281,5 +282,13 @@ public class ActiveMqToolController extends ActiveMqToolView {
 		Platform.runLater(() -> {
 			activeMqToolService.receiverPullMessageAction();
 		});
+	}
+
+	/**
+	 * 父控件被移除前调用
+	 */
+	public void onCloseRequest(Event event) throws Exception {
+		activeMqToolService.stopQuartzAction();
+		activeMqToolService.receiverMessageStopListenerAction();
 	}
 }
