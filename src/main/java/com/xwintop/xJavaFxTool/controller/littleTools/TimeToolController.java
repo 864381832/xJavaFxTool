@@ -7,6 +7,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 
+import com.jfoenix.controls.JFXComboBox;
+import com.xwintop.xJavaFxTool.services.littleTools.TimeToolService;
+import com.xwintop.xJavaFxTool.view.littleTools.TimeToolView;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 
 import javafx.event.ActionEvent;
@@ -16,136 +19,86 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
+import org.apache.commons.lang3.time.DateUtils;
 
-public class TimeToolController implements Initializable {
-	/**
-	 * 时间格式.
-	 */
-	private String[] timeFormatter = new String[] { TimeUtils.Formatter, TimeUtils.Formatter_Millisecond,
-			TimeUtils.Formatter_zh, TimeUtils.Formatter_year, TimeUtils.Formatter_zh_year };
+/**
+ * @ClassName: TimeToolController
+ * @Description: 时间转换工具
+ * @author: xufeng
+ * @date: 2017/12/14 16:50
+ */
 
-	/**
-	 * 当前时间格式.
-	 */
-	private String curTimeFormatter = timeFormatter[0];
-	@FXML
-	private TextField textFileldTimeStr;
-	@FXML
-	private ChoiceBox<String> choiceBoxTimeFormatter;
-	@FXML
-	private Button buttonCopy;
-	@FXML
-	private Button buttonConvert;
-	@FXML
-	private TextField textFileldTimeStr2;
-	@FXML
-	private Button buttonCopy2;
-	@FXML
-	private Button buttonRevert;
-	@FXML
-	private TextArea textAreaResult;
+@Getter
+@Setter
+@Log4j
+public class TimeToolController extends TimeToolView {
+    private TimeToolService timeToolService = new TimeToolService(this);
+    /**
+     * 时间格式.
+     */
+    private String[] timeFormatter = new String[]{"yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss.SSS",
+            "yyyy年MM月dd日HH时mm分ss秒", "yyyy-MM-dd", "yyyy年MM月dd日"};
+    //时间后缀格式
+    private String[] timeSuffixFormatter = new String[]{"天", "周", "月", "年", "时", "分", "秒", "毫秒", "时间戳"};
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		initView();
-		initEvent();
-	}
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        initView();
+        initEvent();
+        initService();
+    }
 
-	private void initView() {
-//		ObservableList<String> observableList = choiceBoxTimeFormatter.getItems();
-//		observableList.clear();
-//		for(String string:timeFormatter){
-//			observableList.add(string);
-//		}
-//		choiceBoxTimeFormatter.setValue(observableList.get(0));
-		textFileldTimeStr.setText(new SimpleDateFormat(curTimeFormatter).format(new Date()));
-		textFileldTimeStr2.setText(Long.toString(System.currentTimeMillis()));
-	}
+    private void initView() {
+        choiceBoxTimeFormatter.getItems().addAll(timeFormatter);
+        choiceBoxTimeFormatter.getSelectionModel().select(0);
+        textFileldTimeStr.setText(new SimpleDateFormat(choiceBoxTimeFormatter.getValue()).format(new Date()));
+        textFileldTimeStr2.setText(Long.toString(System.currentTimeMillis()));
+        addTimeChoiceBox.getItems().addAll(timeSuffixFormatter);
+        addTimeChoiceBox.getSelectionModel().select(0);
+    }
 
-	private void initEvent() {
-	}
+    private void initEvent() {
+    }
 
-	@FXML
-	private void copyTimeStr(ActionEvent event) {
-		StringSelection selection = new StringSelection(textFileldTimeStr.getText());
-		// 获取系统剪切板，复制时间戳
-		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(selection, selection);
-	}
+    private void initService() {
 
-	@FXML
-	private void convert(ActionEvent event) {
-		String curTimeFormatter = choiceBoxTimeFormatter.getValue();
-		String timeStr = textFileldTimeStr.getText().trim();
-		if (timeStr.length() == 0) {
-			textAreaResult.setText("没有输入时间字符！");
-			return;
-		}
-		textFileldTimeStr2.setText("");
-		try {
-			textFileldTimeStr2.setText(Long.toString(new SimpleDateFormat(curTimeFormatter).parse(timeStr).getTime()));
-			textAreaResult.setText("转换成功！");
-			TooltipUtil.showToast("转换成功");
-		} catch (Exception e) {
-			textAreaResult.setText(e.getMessage());
-		}
-	}
+    }
 
-	@FXML
-	private void copyTimeStr2(ActionEvent event) {
-		StringSelection selection = new StringSelection(textFileldTimeStr2.getText());
-		// 获取系统剪切板，复制时间戳
-		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(selection, selection);
-	}
+    @FXML
+    private void copyTimeStr(ActionEvent event) {
+        StringSelection selection = new StringSelection(textFileldTimeStr.getText());
+        // 获取系统剪切板，复制时间戳
+        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(selection, selection);
+    }
 
-	@FXML
-	private void revert(ActionEvent event) {
-		String curTimeFormatter = choiceBoxTimeFormatter.getValue();
-		String timestamp = textFileldTimeStr2.getText().trim();
-		if (timestamp.length() == 0) {
-			textAreaResult.setText("没有输入时间戳！");
-			return;
-		}
-		textFileldTimeStr.setText("");
-		try {
-			textFileldTimeStr
-					.setText(new SimpleDateFormat(curTimeFormatter).format(new Date(Long.parseLong(timestamp))));
-			textAreaResult.setText("转换成功！");
-			TooltipUtil.showToast("转换成功");
-		} catch (Exception e) {
-			textAreaResult.setText(e.getMessage());
-		}
-	}
+    @FXML
+    private void convert(ActionEvent event) {
+        timeToolService.convert();
+    }
 
-	/**
-	 * 时间工具类.
-	 */
-	public class TimeUtils {
+    @FXML
+    private void copyTimeStr2(ActionEvent event) {
+        StringSelection selection = new StringSelection(textFileldTimeStr2.getText());
+        // 获取系统剪切板，复制时间戳
+        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(selection, selection);
+    }
 
-		/**
-		 * yyyy-MM-dd HH:mm:ss.
-		 */
-		public static final String Formatter = "yyyy-MM-dd HH:mm:ss";
+    @FXML
+    private void revert(ActionEvent event) {
+        timeToolService.revert();
+    }
 
-		/**
-		 * yyyy-MM-dd HH:mm:ss.SSS.
-		 */
-		public static final String Formatter_Millisecond = "yyyy-MM-dd HH:mm:ss.SSS";
+    @FXML
+    private void calculatePoorAction(ActionEvent event) {
+        timeToolService.calculatePoorAction();
+    }
 
-		/**
-		 * yyyy年MM月dd日HH时mm分ss秒.
-		 */
-		public static final String Formatter_zh = "yyyy年MM月dd日HH时mm分ss秒";
-
-		/**
-		 * yyyy-MM-dd.
-		 */
-		public static final String Formatter_year = "yyyy-MM-dd";
-
-		/**
-		 * yyyy年MM月dd日.
-		 */
-		public static final String Formatter_zh_year = "yyyy年MM月dd日";
-
-	}
+    @FXML
+    private void addTimeAction(ActionEvent event) {
+        timeToolService.addTimeAction();
+    }
 
 }

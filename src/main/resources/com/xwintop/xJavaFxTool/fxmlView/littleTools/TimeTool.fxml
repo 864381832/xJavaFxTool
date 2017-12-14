@@ -1,35 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="368.0" prefWidth="618.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.TimeToolController">
+<AnchorPane prefHeight="368.0" prefWidth="618.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.TimeToolController">
 	<children>
-		<Label layoutX="14.0" layoutY="14.0" prefHeight="15.0" prefWidth="62.0" text="时间字符：" />
-		<TextField fx:id="textFileldTimeStr" layoutX="74.0" layoutY="10.0" prefHeight="23.0" prefWidth="399.0" />
-		<ChoiceBox fx:id="choiceBoxTimeFormatter" layoutX="233.0" layoutY="40.0" prefHeight="23.0" prefWidth="241.0" value="yyyy-MM-dd HH:mm:ss">
-			<items>
-				<FXCollections fx:factory="observableArrayList">
-                    <String fx:value="yyyy-MM-dd HH:mm:ss" />
-                    <String fx:value="yyyy-MM-dd HH:mm:ss.SSS" />
-                    <String fx:value="yyyy年MM月dd日HH时mm分ss秒" />
-                    <String fx:value="yyyy-MM-dd" />
-                    <String fx:value="yyyy年MM月dd日" />
-                </FXCollections>
-			</items>
-		</ChoiceBox>
-		<Button fx:id="buttonCopy" layoutX="483.0" layoutY="10.0" mnemonicParsing="false" onAction="#copyTimeStr" text="复制" />
-		<Button fx:id="buttonConvert" layoutX="540.0" layoutY="10.0" mnemonicParsing="false" onAction="#convert" text="转换" />
-		<Label layoutX="14.0" layoutY="44.0" text="时间戳：" />
-		<TextField fx:id="textFileldTimeStr2" layoutX="74.0" layoutY="40.0" prefHeight="23.0" prefWidth="155.0" />
-		<Button fx:id="buttonCopy2" layoutX="483.0" layoutY="40.0" mnemonicParsing="false" onAction="#copyTimeStr2" text="复制" />
-		<Button fx:id="buttonRevert" layoutX="540.0" layoutY="40.0" mnemonicParsing="false" onAction="#revert" text="还原" />
-		<TextArea fx:id="textAreaResult" layoutX="14.0" layoutY="76.0" prefHeight="248.0" prefWidth="566.0" />
+      <BorderPane layoutX="14.0" layoutY="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <top>
+            <VBox spacing="5.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER_LEFT" spacing="5.0">
+                     <children>
+                  		<Label text="时间字符：" />
+                  		<TextField fx:id="textFileldTimeStr" HBox.hgrow="ALWAYS" />
+                  		<Button fx:id="buttonCopy" mnemonicParsing="false" onAction="#copyTimeStr" text="复制" />
+                  		<Button fx:id="buttonConvert" mnemonicParsing="false" onAction="#convert" text="转换" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="5.0">
+                     <children>
+                  		<Label text="时间戳：   " />
+                  		<TextField fx:id="textFileldTimeStr2" HBox.hgrow="ALWAYS" />
+                        <Label text="格式：" />
+                  		<JFXComboBox fx:id="choiceBoxTimeFormatter" editable="true" value="yyyy-MM-dd HH:mm:ss">
+                  		</JFXComboBox>
+                  		<Button fx:id="buttonCopy2" mnemonicParsing="false" onAction="#copyTimeStr2" text="复制" />
+                  		<Button fx:id="buttonRevert" mnemonicParsing="false" onAction="#revert" text="还原" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="5.0">
+                     <children>
+                        <Label text="起始时间戳：" />
+                        <TextField fx:id="startTimeTextField" HBox.hgrow="ALWAYS" />
+                        <Label text="结束时间戳：" />
+                        <TextField fx:id="endTimeTextField" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="calculatePoorButton" mnemonicParsing="false" onAction="#calculatePoorAction" text="计算相差" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="5.0">
+                     <children>
+                        <Label text="起始时间戳：" />
+                        <TextField fx:id="startTime2TextField" HBox.hgrow="ALWAYS" />
+                        <Label text="相加时间" />
+                        <TextField fx:id="addTimeTextField" HBox.hgrow="ALWAYS" />
+                        <ChoiceBox fx:id="addTimeChoiceBox" />
+                        <Button fx:id="addTimeButton" mnemonicParsing="false" onAction="#addTimeAction" text="相加" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </top>
+         <center>
+      		<TextArea fx:id="textAreaResult" prefHeight="248.0" prefWidth="566.0" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets top="10.0" />
+               </BorderPane.margin>
+            </TextArea>
+         </center>
+      </BorderPane>
 	</children>
 </AnchorPane>
