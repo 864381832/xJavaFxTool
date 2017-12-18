@@ -6,9 +6,9 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 下载试用地址：
 [xJavaFxTool.jar](https://gitee.com/xwintop/xJavaFxTool/raw/master/xJavaFxTool.jar)（可直接运行的jar包）
 
-[xJavaFxTool-windows-x64.exe](http://files.git.oschina.net/group1/M00/02/52/PaAvDFoMK7WAarb1BUr2AITvKOs065.exe?token=d382af44db66517b3744cc4db1b63790&ts=1510747062&attname=xJavaFxTool-windows-x64.exe) （Windows平台64位运行包）
+[xJavaFxTool-windows-x64.exe](http://files.git.oschina.net/group1/M00/02/89/PaAvDFo33RGAJe5bA2lMAD5nJs8755.exe?token=244c13345b9b2d11b156a627f1bcc544&ts=1513611787&attname=xJavaFxTool-windows-x64.exe) （Windows平台64位运行包）
 
-[xJavaFxTool-windows-x86.exe](http://files.git.oschina.net/group1/M00/02/52/PaAvDFoMKsiAZWSVBUp0AMSoQHI477.exe?token=74dd3d5173f0181af50fd1c8ecb3a45a&ts=1510748898&attname=xJavaFxTool-windows-x86.exe) （Windows平台32位运行包）
+[xJavaFxTool-windows-x86.exe](http://files.git.oschina.net/group1/M00/02/8A/PaAvDFo34guAP7_yA2jKAMZw2N4236.exe?token=5da6197f8a284e4bc47cd20312d72162&ts=1513611787&attname=xJavaFxTool-windows-x86.exe) （Windows平台32位运行包）
 
 支持插件开发，将插件jar包放至根目录libs下即可自动加载（插件开发示例见[开源项目xJavaFxPlugIn](https://gitee.com/xwintop/xJavaFxPlugIn)，目前刚刚搭建，后续会持续更新）；
 
