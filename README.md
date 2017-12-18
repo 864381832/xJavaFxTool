@@ -4,7 +4,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 由于SpringBoot的火热，项目已经出SpringBoot-javafx版本，[xJavaFxTool-spring](https://gitee.com/xwintop/xJavaFxTool-spring) 欢迎参考，谢谢。
 
 下载试用地址：
-[xJavaFxTool.jar](http://https://gitee.com/xwintop/xJavaFxTool/raw/master/xJavaFxTool.jar)（可直接运行的jar包）
+[xJavaFxTool.jar](https://gitee.com/xwintop/xJavaFxTool/raw/master/xJavaFxTool.jar)（可直接运行的jar包）
 
 [xJavaFxTool-windows-x64.exe](http://files.git.oschina.net/group1/M00/02/52/PaAvDFoMK7WAarb1BUr2AITvKOs065.exe?token=d382af44db66517b3744cc4db1b63790&ts=1510747062&attname=xJavaFxTool-windows-x64.exe) （Windows平台64位运行包）
 
