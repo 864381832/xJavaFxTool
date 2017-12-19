@@ -1,9 +1,12 @@
 package com.xwintop.xJavaFxTool.controller.littleTools;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.xwintop.xJavaFxTool.utils.MorseConventer;
 import org.apache.commons.codec.binary.Base32;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.BinaryCodec;
@@ -51,7 +54,7 @@ public class EncryptAndDecryptController implements Initializable {
 	 */
 	private String[] cryptos = new String[] { GuiUtils.CRYPTO_ASCII, GuiUtils.CRYPTO_HEX, GuiUtils.CRYPTO_BASE64,
 			GuiUtils.CRYPTO_BASE32, GuiUtils.CRYPTO_URL, "", "", "", GuiUtils.CRYPTO_MD5, "", GuiUtils.CRYPTO_SHA,
-			GuiUtils.CRYPTO_SHA256, GuiUtils.CRYPTO_SHA384, GuiUtils.CRYPTO_SHA512 };
+			GuiUtils.CRYPTO_SHA256, GuiUtils.CRYPTO_SHA384, GuiUtils.CRYPTO_SHA512,"","","文件加密MD5","文件加密SHA1","摩斯密码" };
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -112,8 +115,15 @@ public class EncryptAndDecryptController implements Initializable {
 				decrptyTextArea.setText(DigestUtils.sha384Hex(string.getBytes(charSet)));
 			} else if (GuiUtils.CRYPTO_SHA512.equals(curCrypto)) {
 				decrptyTextArea.setText(DigestUtils.sha512Hex(string.getBytes(charSet)));
+			} else if ("文件加密MD5".equals(curCrypto)) {
+				String md5Val = DigestUtils.md5Hex(new FileInputStream(new File(string)));
+				decrptyTextArea.setText("16Bit：" + md5Val.substring(8, 24) + "\n32Bit：" + md5Val);
+			} else if ("文件加密SHA1".equals(curCrypto)) {
+				decrptyTextArea.setText(DigestUtils.sha1Hex(new FileInputStream(new File(string))));
+			} else if ("摩斯密码".equals(curCrypto)) {
+				decrptyTextArea.setText(MorseConventer.Encryption(string));
 			}
-		} catch (UnsupportedEncodingException e) {
+		} catch (Exception e) {
 			decrptyTextArea.setText(e.getMessage());
 		}
 	}
@@ -139,6 +149,8 @@ public class EncryptAndDecryptController implements Initializable {
 				encrptyTextArea.setText(new String(base32.decode(string.getBytes(charSet)), charSet));
 			} else if (GuiUtils.CRYPTO_URL.equals(curCrypto)) {
 				encrptyTextArea.setText(new String(URLCodec.decodeUrl(string.getBytes(charSet)), charSet));
+			} else if ("摩斯密码".equals(curCrypto)) {
+				encrptyTextArea.setText(MorseConventer.Decryption(string));
 			} else {
 				encrptyTextArea.setText("不支持此种加密算法的解密！");
 			}
