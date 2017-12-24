@@ -8,9 +8,9 @@ import org.junit.Test;
 import java.io.File;
 
 public class JavaFxmlToolTest {
-    private String projectPath = "C:\\IDEA\\xJavaFxTool\\src\\main\\";
+    private String projectPath = "D:\\ideaWorkspaces\\xwintop\\xJavaFxTool\\src\\main\\";
     private String resources = projectPath + "resources\\com\\xwintop\\xJavaFxTool\\fxmlView\\";
-    private String xmlPath = "javaFxTools\\ShowSystemInfo";
+    private String xmlPath = "developTools\\AsciiPicTool";
     private String srcPath = projectPath + "java\\com\\xwintop\\xJavaFxTool\\";
     @Test
     public void buildJava() throws Exception {

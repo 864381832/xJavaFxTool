@@ -165,6 +165,11 @@
 		<menuParentId>javaFxTools</menuParentId>
 		<isDefaultShow></isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/com/xwintop/xJavaFxTool/fxmlView/developTools/AsciiPicTool.fxml</url>
+		<title>AsciiPicTool</title>
+		<menuParentId>developTools</menuParentId>
+	</ToolFxmlLoaderConfiguration>
 
 	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"
 		title="webCronExpBuilder" menuParentId="netWorkToolsMenu"
