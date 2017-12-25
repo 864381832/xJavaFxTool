@@ -1,5 +1,6 @@
 package com.xwintop.xJavaFxTool.controller;
 
+import com.xwintop.xJavaFxTool.Main;
 import com.xwintop.xJavaFxTool.model.ToolFxmlLoaderConfiguration;
 import com.xwintop.xJavaFxTool.services.IndexService;
 import com.xwintop.xJavaFxTool.utils.Config;
@@ -7,16 +8,6 @@ import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import com.xwintop.xJavaFxTool.view.IndexView;
 import com.xwintop.xcore.util.javafx.AlertUtil;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-
-import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -33,6 +24,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.boot.SpringApplication;
+
+import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * @ClassName: IndexController
@@ -60,9 +60,9 @@ public class IndexController extends IndexView {
 		initView();
 		initEvent();
 		initService();
-		Platform.runLater(()->{//启动SpringBoot
+		new Thread(()->{//启动SpringBoot
 //			SpringApplication.run(Main.class,new String[0]);
-		});
+		}).start();
 	}
 
 	private void initView() {

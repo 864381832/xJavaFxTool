@@ -1,5 +1,6 @@
 package com.xwintop.xJavaFxTool.web.controller;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by bysocket on 16/4/26.
  */
 @RestController
+@Lazy
 @RequestMapping("/hello")
 public class HelloWorldController {
 
