@@ -1,6 +1,7 @@
 package com.xwintop.xJavaFxTool.view.developTools;
 
 import com.jfoenix.controls.JFXComboBox;
+import javafx.scene.image.ImageView;
 import lombok.Getter;
 import lombok.Setter;
 import javafx.fxml.Initializable;
@@ -28,10 +29,16 @@ public abstract class AsciiPicToolView implements Initializable {
     @FXML
     protected Button filePathButton;
     @FXML
-    protected Button buildButton;
+    protected Button buildBannerButton;
     @FXML
-    protected TextArea asciiTextArea;
+    protected Button buildBase4Button;
     @FXML
     protected JFXComboBox<String> imageSizeComboBox;
+    @FXML
+    protected ImageView imageImageView;
+    @FXML
+    protected Button saveImageButton;
+    @FXML
+    protected TextArea codeTextArea;
 
 }

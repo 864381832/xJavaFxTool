@@ -4,13 +4,16 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.developTools.AsciiPicToolController">
+<AnchorPane prefHeight="437.0" prefWidth="714.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.developTools.AsciiPicToolController">
    <children>
       <BorderPane layoutX="72.0" layoutY="83.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <top>
@@ -18,8 +21,12 @@
                <children>
                   <Label text="图片地址：" />
                   <TextField fx:id="filePathTextField" />
-                  <Button fx:id="filePathButton" mnemonicParsing="false" onAction="#filePathAction" text="选择" />
-                  <Button fx:id="buildButton" mnemonicParsing="false" onAction="#buildAction" text="一键生成banner" />
+                  <Button fx:id="filePathButton" mnemonicParsing="false" onAction="#filePathAction" text="选择">
+                     <HBox.margin>
+                        <Insets left="-8.0" />
+                     </HBox.margin></Button>
+                  <Button fx:id="buildBannerButton" mnemonicParsing="false" onAction="#buildBannerAction" text="生成banner" />
+                  <Button fx:id="buildBase4Button" mnemonicParsing="false" onAction="#buildBase64Action" text="转Base64码" />
                   <JFXComboBox fx:id="imageSizeComboBox" editable="true" />
                </children>
                <padding>
@@ -28,7 +35,21 @@
             </HBox>
          </top>
          <center>
-            <TextArea fx:id="asciiTextArea" promptText="生成的ascii" BorderPane.alignment="CENTER" />
+            <HBox spacing="10.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox alignment="CENTER" spacing="10.0">
+                     <children>
+                        <ScrollPane maxWidth="400.0" minHeight="150.0">
+                           <content>
+                              <ImageView fx:id="imageImageView" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
+                           </content>
+                        </ScrollPane>
+                        <Button fx:id="saveImageButton" mnemonicParsing="false" onAction="#saveImageAction" text="保存图片" />
+                     </children>
+                  </VBox>
+                  <TextArea fx:id="codeTextArea" promptText="生成的code" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
          </center>
       </BorderPane>
    </children>

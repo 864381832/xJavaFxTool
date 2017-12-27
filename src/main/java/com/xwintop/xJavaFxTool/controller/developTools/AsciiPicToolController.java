@@ -3,6 +3,9 @@ package com.xwintop.xJavaFxTool.controller.developTools;
 import com.xwintop.xJavaFxTool.view.developTools.AsciiPicToolView;
 import com.xwintop.xJavaFxTool.services.developTools.AsciiPicToolService;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.image.Image;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -25,7 +28,7 @@ import javafx.fxml.FXML;
 @Log4j
 public class AsciiPicToolController extends AsciiPicToolView {
     private AsciiPicToolService asciiPicToolService = new AsciiPicToolService(this);
-    private String[] imageSize = new String[]{"不压缩", "60*60","120*120", "256*256", "512*512"};
+    private String[] imageSize = new String[]{"不压缩", "60*60", "120*120", "256*256", "512*512"};
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -41,6 +44,14 @@ public class AsciiPicToolController extends AsciiPicToolView {
 
     private void initEvent() {
         FileChooserUtil.setOnDrag(filePathTextField, FileChooserUtil.FileType.FILE);
+        filePathTextField.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            imageImageView.setImage(new Image("file:" + newValue));
+            imageImageView.setFitWidth(imageImageView.getImage().getWidth());
+            imageImageView.setFitHeight(imageImageView.getImage().getHeight());
+        });
+        codeTextArea.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            asciiPicToolService.buildBase64ToImage(newValue);
+        });
     }
 
     private void initService() {
@@ -55,7 +66,17 @@ public class AsciiPicToolController extends AsciiPicToolView {
     }
 
     @FXML
-    private void buildAction(ActionEvent event) {
-        asciiPicToolService.buildAction();
+    private void buildBannerAction(ActionEvent event) {
+        asciiPicToolService.buildBannerAction();
+    }
+
+    @FXML
+    private void buildBase64Action(ActionEvent event) {
+        asciiPicToolService.buildBase64Action();
+    }
+
+    @FXML
+    private void saveImageAction(ActionEvent event) {
+        asciiPicToolService.saveImageAction();
     }
 }

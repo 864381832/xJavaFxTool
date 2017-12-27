@@ -26,9 +26,9 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 
 3、CharacterConverter：编码转换；
 
-4、EncryptAndDecrypt：加密解密；
+4、EncryptAndDecrypt：加密解密（Ascii、Hex、Base64、Base32、URL、MD5、SHA、文件加密DM5、文件加密SHA1、摩斯密码）；
 
-5、TimeTool：Time转换；
+5、TimeTool：Time转换（常用格式转换、计算时间差、时间叠加计算）；
 
 6、LinuxPathToWindowsPath：路径转换；
 
@@ -68,10 +68,12 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 
 24、DirectoryTreeTool：文件列表生成器；
 
-25、ImageTool：图片压缩工具；
+25、ImageTool：图片压缩工具（批量压缩、修改尺寸、转换格式）；
+
+26、AsciiPicTool：图片转码工具（包括图片生成banner码、图片转Base64码）；
 
 
-项目刚刚启动，以后会陆续添加新工具，欢迎大家参与其中，多提提意见，谢谢。
+项目开发中，以后会陆续添加新工具，欢迎大家参与其中，多提提意见，谢谢。
 
 
 #### 项目结构
