@@ -3,6 +3,7 @@ package com.xwintop.xJavaFxTool.controller.developTools;
 import com.xwintop.xJavaFxTool.view.developTools.AsciiPicToolView;
 import com.xwintop.xJavaFxTool.services.developTools.AsciiPicToolService;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
+import com.xwintop.xcore.util.javafx.ImageUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -51,15 +52,21 @@ public class AsciiPicToolController extends AsciiPicToolView {
         FileChooserUtil.setOnDrag(filePathTextField, FileChooserUtil.FileType.FILE);
         filePathTextField.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             try {
-                Image image = SwingFXUtils.toFXImage(Imaging.getBufferedImage(new File(newValue)), null);
-//                Image image = new Image("file:" + newValue);
+                Image image = ImageUtil.getFXImage(newValue);
+//                try {
+//                    image = SwingFXUtils.toFXImage(Imaging.getBufferedImage(new File(newValue)), null);
+//                } catch (Exception e) {
+//                    log.error(e.getMessage());
+//                    image = new Image("file:" + newValue);
+//                }
                 imageImageView.setImage(image);
                 imageImageView.setFitWidth(image.getWidth());
                 imageImageView.setFitHeight(image.getHeight());
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error(e.getMessage());
                 TooltipUtil.showToast("图片加载失败：" + e.getMessage());
             }
+
         });
         codeTextArea.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             asciiPicToolService.buildBase64ToImage(newValue);

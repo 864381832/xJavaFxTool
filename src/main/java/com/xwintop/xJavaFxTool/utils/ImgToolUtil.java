@@ -119,9 +119,6 @@ public class ImgToolUtil{
     }
     /**
      * 缩略图到目标尺寸
-     * @param width
-     * @param height
-     * @return
      */
     public ImgToolUtil thumbnail(int size){
         return this.thumbnail(size, size);

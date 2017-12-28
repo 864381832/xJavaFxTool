@@ -3,6 +3,7 @@ package com.xwintop.xJavaFxTool.services.developTools;
 import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
 import com.xwintop.xJavaFxTool.controller.developTools.AsciiPicToolController;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
+import com.xwintop.xcore.util.javafx.ImageUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
@@ -12,6 +13,8 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.imaging.ImageFormat;
+import org.apache.commons.imaging.ImageFormats;
 import org.apache.commons.imaging.ImageReadException;
 import org.apache.commons.imaging.Imaging;
 import org.apache.commons.io.FileUtils;
@@ -47,8 +50,7 @@ public class AsciiPicToolService {
         final String base = "@#&$%*o!;.";// 字符串由复杂到简单
         try {
             StringBuilder stringBuffer = new StringBuilder();
-//            BufferedImage image = ImageIO.read(new File(path));
-            BufferedImage image = Imaging.getBufferedImage(new File(path));
+            BufferedImage image = ImageUtil.getBufferedImage(path);
             if (!asciiPicToolController.getImageSizeComboBox().getValue().equals("不压缩")) {
                 String[] size = asciiPicToolController.getImageSizeComboBox().getValue().split("\\*");
                 image = Thumbnails.of(image).size(Integer.parseInt(size[0]), Integer.parseInt(size[1])).asBufferedImage();
@@ -86,8 +88,8 @@ public class AsciiPicToolService {
         if (Base64.isBase64(base64)) {
             try {
                 byte[] base64Byte = Base64.decodeBase64(base64);
-                Image image = SwingFXUtils.toFXImage(Imaging.getBufferedImage(base64Byte), null);
 //              Image image = new Image(new ByteArrayInputStream(base64Byte));
+                Image image = ImageUtil.getFXImage(base64Byte);
                 asciiPicToolController.getImageImageView().setImage(image);
                 asciiPicToolController.getImageImageView().setFitWidth(image.getWidth());
                 asciiPicToolController.getImageImageView().setFitHeight(image.getHeight());
@@ -108,9 +110,9 @@ public class AsciiPicToolService {
             File file = FileChooserUtil.chooseSaveImageFile(fileName);
             if (file != null) {
                 String[] fileType = file.getPath().split("\\.");
-                ImageIO.write(SwingFXUtils.fromFXImage(asciiPicToolController.getImageImageView().getImage(), null), fileType[fileType.length - 1],
-                        file);
-//                Imaging.writeImage(SwingFXUtils.fromFXImage());
+//                ImageIO.write(SwingFXUtils.fromFXImage(asciiPicToolController.getImageImageView().getImage(), null), fileType[fileType.length - 1],
+//                        file);
+                ImageUtil.writeImage(asciiPicToolController.getImageImageView().getImage(),file);
                 TooltipUtil.showToast("保存图片成功,图片在：" + file.getPath());
             }
         } catch (Exception e) {

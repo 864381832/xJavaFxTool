@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import javax.imageio.ImageIO;
 
+import com.xwintop.xcore.util.javafx.ImageUtil;
 import org.apache.commons.lang.StringUtils;
 
 import com.xwintop.xJavaFxTool.services.littleTools.IconToolService;
@@ -89,8 +90,9 @@ public class IconToolController extends IconToolView {
 					return;
 				}
 				try {
-					File file = new File(newValue);
-					Image image = SwingFXUtils.toFXImage(ImageIO.read(file), null);
+//					File file = new File(newValue);
+//					Image image = SwingFXUtils.toFXImage(ImageIO.read(file), null);
+					Image image = ImageUtil.getFXImage(newValue);
 					iconImageView.setImage(image);
 				} catch (Exception e) {
 					TooltipUtil.showToast("图片加载异常");
@@ -105,8 +107,9 @@ public class IconToolController extends IconToolView {
 					return;
 				}
 				try {
-					File file = new File(newValue);
-					Image image = SwingFXUtils.toFXImage(ImageIO.read(file), null);
+//					File file = new File(newValue);
+//					Image image = SwingFXUtils.toFXImage(ImageIO.read(file), null);
+					Image image = ImageUtil.getFXImage(newValue);
 					watermarkImageView.setImage(image);
 				} catch (Exception e) {
 					TooltipUtil.showToast("图片加载异常");
@@ -132,7 +135,8 @@ public class IconToolController extends IconToolView {
 		if (file != null) {
 			try {
 				iconFilePathTextField.setText(file.getPath());
-				Image image = SwingFXUtils.toFXImage(ImageIO.read(file), null);
+//				Image image = SwingFXUtils.toFXImage(ImageIO.read(file), null);
+				Image image = ImageUtil.getFXImage(file);
 				iconImageView.setImage(image);
 			} catch (Exception e) {
 				TooltipUtil.showToast("图片加载异常");
@@ -254,7 +258,8 @@ public class IconToolController extends IconToolView {
 		if (file != null) {
 			try {
 				watermarkPathTextField.setText(file.getPath());
-				Image image = SwingFXUtils.toFXImage(ImageIO.read(file), null);
+//				Image image = SwingFXUtils.toFXImage(ImageIO.read(file), null);
+				Image image = ImageUtil.getFXImage(file);
 				watermarkImageView.setImage(image);
 			} catch (Exception e) {
 				TooltipUtil.showToast("水印图片加载异常");
