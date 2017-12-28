@@ -111,7 +111,7 @@ public class QRCodeUtil {
 	
 	/**
 	 * 二维码绘制logo
-	 * @param twodimensioncodeImg 二维码图片文件
+	 * @param image 二维码图片文件
 	 * @param logoImg logo图片文件
 	 * */
 	public static Image encodeImgLogo(Image image,Image logoImg,int logoSize){

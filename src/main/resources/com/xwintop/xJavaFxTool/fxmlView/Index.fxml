@@ -18,7 +18,7 @@
          <top>
             <HBox alignment="CENTER_LEFT" spacing="5.0" BorderPane.alignment="CENTER">
                <children>
-                  <MenuBar fx:id="mainMenuBar" prefHeight="25.0" prefWidth="455.0">
+                  <MenuBar fx:id="mainMenuBar" cache="true">
                     <menus>
                       <Menu fx:id="fileMenu" mnemonicParsing="false" text="%File">
                         <items>
@@ -43,7 +43,7 @@
                       </Menu>
                     </menus>
                   </MenuBar>
-            		<TextField fx:id="myTextField" promptText="%selectTextField">
+            		<TextField fx:id="myTextField" focusTraversable="false" promptText="%selectTextField">
                      <HBox.margin>
                         <Insets left="10.0" right="10.0" />
                      </HBox.margin>

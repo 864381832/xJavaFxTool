@@ -12,6 +12,8 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.imaging.ImageReadException;
+import org.apache.commons.imaging.Imaging;
 import org.apache.commons.io.FileUtils;
 
 import javax.imageio.ImageIO;
@@ -45,7 +47,8 @@ public class AsciiPicToolService {
         final String base = "@#&$%*o!;.";// 字符串由复杂到简单
         try {
             StringBuilder stringBuffer = new StringBuilder();
-            BufferedImage image = ImageIO.read(new File(path));
+//            BufferedImage image = ImageIO.read(new File(path));
+            BufferedImage image = Imaging.getBufferedImage(new File(path));
             if (!asciiPicToolController.getImageSizeComboBox().getValue().equals("不压缩")) {
                 String[] size = asciiPicToolController.getImageSizeComboBox().getValue().split("\\*");
                 image = Thumbnails.of(image).size(Integer.parseInt(size[0]), Integer.parseInt(size[1])).asBufferedImage();
@@ -61,7 +64,7 @@ public class AsciiPicToolService {
                 stringBuffer.append("\n");
             }
             asciiPicToolController.getCodeTextArea().setText(stringBuffer.toString());
-        } catch (final IOException e) {
+        } catch (final Exception e) {
             e.printStackTrace();
             TooltipUtil.showToast(e.getMessage());
         }
@@ -80,29 +83,34 @@ public class AsciiPicToolService {
 
     //base64编码转图片
     public void buildBase64ToImage(String base64) {
-        System.out.println("test1");
         if (Base64.isBase64(base64)) {
-            System.out.println("test2");
-            byte[] base64Byte = Base64.decodeBase64(base64);
-            Image image = new Image(new ByteArrayInputStream(base64Byte));
-            asciiPicToolController.getImageImageView().setImage(image);
-            asciiPicToolController.getImageImageView().setFitWidth(image.getWidth());
-            asciiPicToolController.getImageImageView().setFitHeight(image.getHeight());
+            try {
+                byte[] base64Byte = Base64.decodeBase64(base64);
+                Image image = SwingFXUtils.toFXImage(Imaging.getBufferedImage(base64Byte), null);
+//              Image image = new Image(new ByteArrayInputStream(base64Byte));
+                asciiPicToolController.getImageImageView().setImage(image);
+                asciiPicToolController.getImageImageView().setFitWidth(image.getWidth());
+                asciiPicToolController.getImageImageView().setFitHeight(image.getHeight());
+            } catch (Exception e) {
+                e.printStackTrace();
+                TooltipUtil.showToast("图片转换失败：" + e.getMessage());
+            }
         }
     }
 
     public void saveImageAction() {
         try {
             String fileName = "x" + new SimpleDateFormat("yyyyMMddHHmm").format(new Date()) + ".jpg";
-            File file = FileChooserUtil.chooseSaveFile(fileName, new FileChooser.ExtensionFilter("All Images", "*.*"),
-                    new FileChooser.ExtensionFilter("JPG", "*.jpg"), new FileChooser.ExtensionFilter("PNG", "*.png"),
-                    new FileChooser.ExtensionFilter("gif", "*.gif"), new FileChooser.ExtensionFilter("jpeg", "*.jpeg"),
-                    new FileChooser.ExtensionFilter("bmp", "*.bmp"));
+//            File file = FileChooserUtil.chooseSaveFile(fileName, new FileChooser.ExtensionFilter("All Images", "*.*"),
+//                    new FileChooser.ExtensionFilter("JPG", "*.jpg"), new FileChooser.ExtensionFilter("PNG", "*.png"),
+//                    new FileChooser.ExtensionFilter("gif", "*.gif"), new FileChooser.ExtensionFilter("jpeg", "*.jpeg"),
+//                    new FileChooser.ExtensionFilter("bmp", "*.bmp"));
+            File file = FileChooserUtil.chooseSaveImageFile(fileName);
             if (file != null) {
                 String[] fileType = file.getPath().split("\\.");
-
                 ImageIO.write(SwingFXUtils.fromFXImage(asciiPicToolController.getImageImageView().getImage(), null), fileType[fileType.length - 1],
                         file);
+//                Imaging.writeImage(SwingFXUtils.fromFXImage());
                 TooltipUtil.showToast("保存图片成功,图片在：" + file.getPath());
             }
         } catch (Exception e) {

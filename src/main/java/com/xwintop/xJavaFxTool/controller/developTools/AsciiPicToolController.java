@@ -3,19 +3,24 @@ package com.xwintop.xJavaFxTool.controller.developTools;
 import com.xwintop.xJavaFxTool.view.developTools.AsciiPicToolView;
 import com.xwintop.xJavaFxTool.services.developTools.AsciiPicToolService;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
+import com.xwintop.xcore.util.javafx.TooltipUtil;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import org.apache.commons.imaging.ImageReadException;
+import org.apache.commons.imaging.Imaging;
 
 /**
  * @ClassName: AsciiPicToolController
@@ -45,9 +50,16 @@ public class AsciiPicToolController extends AsciiPicToolView {
     private void initEvent() {
         FileChooserUtil.setOnDrag(filePathTextField, FileChooserUtil.FileType.FILE);
         filePathTextField.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
-            imageImageView.setImage(new Image("file:" + newValue));
-            imageImageView.setFitWidth(imageImageView.getImage().getWidth());
-            imageImageView.setFitHeight(imageImageView.getImage().getHeight());
+            try {
+                Image image = SwingFXUtils.toFXImage(Imaging.getBufferedImage(new File(newValue)), null);
+//                Image image = new Image("file:" + newValue);
+                imageImageView.setImage(image);
+                imageImageView.setFitWidth(image.getWidth());
+                imageImageView.setFitHeight(image.getHeight());
+            } catch (Exception e) {
+                e.printStackTrace();
+                TooltipUtil.showToast("图片加载失败：" + e.getMessage());
+            }
         });
         codeTextArea.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             asciiPicToolService.buildBase64ToImage(newValue);
