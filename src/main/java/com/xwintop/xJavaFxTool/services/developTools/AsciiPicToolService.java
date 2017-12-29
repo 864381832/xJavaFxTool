@@ -1,30 +1,20 @@
 package com.xwintop.xJavaFxTool.services.developTools;
 
-import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
 import com.xwintop.xJavaFxTool.controller.developTools.AsciiPicToolController;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 import com.xwintop.xcore.util.javafx.ImageUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
-import javafx.stage.FileChooser;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.imaging.ImageFormat;
-import org.apache.commons.imaging.ImageFormats;
-import org.apache.commons.imaging.ImageReadException;
-import org.apache.commons.imaging.Imaging;
 import org.apache.commons.io.FileUtils;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
