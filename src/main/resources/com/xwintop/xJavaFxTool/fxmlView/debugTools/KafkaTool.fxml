@@ -25,7 +25,7 @@
          <top>
             <VBox spacing="5.0" BorderPane.alignment="CENTER">
                <BorderPane.margin>
-                  <Insets />
+                  <Insets bottom="5.0" />
                </BorderPane.margin>
                <children>
                   <HBox alignment="CENTER" spacing="5.0">
@@ -37,9 +37,6 @@
                         <Label text="密码：" />
                         <TextField fx:id="passwordTextField" />
                      </children>
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
                   </HBox>
                </children>
             </VBox>
@@ -191,7 +188,7 @@
                 </Tab>
               </tabs>
                <BorderPane.margin>
-                  <Insets top="5.0" />
+                  <Insets bottom="5.0" />
                </BorderPane.margin>
             </TabPane>
          </center>

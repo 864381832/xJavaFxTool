@@ -11,6 +11,7 @@ import java.util.function.BiConsumer;
 
 import javax.imageio.ImageIO;
 
+import com.xwintop.xcore.util.javafx.ImageUtil;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
@@ -215,8 +216,9 @@ public class IconToolService {
 				int height = Integer.parseInt(checkBoxText[1]);
 				String fileName = iconFileName + "-" + width;
 				BufferedImage bufferedImage = getBufferedImage(iconFilePathFile, width, height);
-				ImageIO.write(bufferedImage, iconFormat,
-						new File(iconTargetPathFile.getPath(), fileName + "." + iconFormat));
+//				ImageIO.write(bufferedImage, iconFormat,
+//						new File(iconTargetPathFile.getPath(), fileName + "." + iconFormat));
+				ImageUtil.writeImage(bufferedImage,new File(iconTargetPathFile.getPath(),fileName + "." + iconFormat));
 			}
 		}
 		if (iconToolController.getIosIconCheckBox().isSelected()) {
@@ -224,11 +226,11 @@ public class IconToolService {
 			File contentsFile = new File(Object.class.getResource("/data/iosAppIcon/Contents.json").getFile());
 			FileUtils.copyFileToDirectory(contentsFile, appIconAppiconsetPathFile);
 			BufferedImage bufferedImage512 = getBufferedImage(iconFilePathFile, 512, 512);
-			ImageIO.write(bufferedImage512, "png",
-					new File(iconTargetPathFile.getPath() + "/ios", "iTunesArtwork.png"));
+//			ImageIO.write(bufferedImage512, "png", new File(iconTargetPathFile.getPath() + "/ios", "iTunesArtwork.png"));
+			ImageUtil.writeImage(bufferedImage512, new File(iconTargetPathFile.getPath() + "/ios", "iTunesArtwork.png"));
 			BufferedImage bufferedImage1024 = getBufferedImage(iconFilePathFile, 1024, 1024);
-			ImageIO.write(bufferedImage1024, "png",
-					new File(iconTargetPathFile.getPath() + "/ios", "iTunesArtwork@2x.png"));
+//			ImageIO.write(bufferedImage1024, "png", new File(iconTargetPathFile.getPath() + "/ios", "iTunesArtwork@2x.png"));
+			ImageUtil.writeImage(bufferedImage1024, new File(iconTargetPathFile.getPath() + "/ios", "iTunesArtwork@2x.png"));
 
 			JSONArray jSONArray = JSON.parseObject(FileUtils.readFileToString(contentsFile, Charset.defaultCharset()))
 					.getJSONArray("images");
@@ -238,7 +240,9 @@ public class IconToolService {
 				float size = Float.parseFloat(jsonObject.getString("size").split("x")[0])
 						* Integer.parseInt(jsonObject.getString("scale").substring(0, 1));
 				BufferedImage bufferedImage = getBufferedImage(iconFilePathFile, (int) size, (int) size);
-				ImageIO.write(bufferedImage, "png", new File(iconTargetPathFile.getPath() + "/ios/AppIcon.appiconset",
+//				ImageIO.write(bufferedImage, "png", new File(iconTargetPathFile.getPath() + "/ios/AppIcon.appiconset",
+//						jsonObject.getString("filename")));
+				ImageUtil.writeImage(bufferedImage,new File(iconTargetPathFile.getPath() + "/ios/AppIcon.appiconset",
 						jsonObject.getString("filename")));
 			}
 		}
@@ -246,7 +250,8 @@ public class IconToolService {
 			File appIconAppiconsetPathFile = new File(iconTargetPathFile.getPath() + "/android/");
 			appIconAppiconsetPathFile.mkdirs();
 			BufferedImage bufferedImage512 = getBufferedImage(iconFilePathFile, 512, 512);
-			ImageIO.write(bufferedImage512, "png", new File(appIconAppiconsetPathFile, "ic_launcher.png"));
+//			ImageIO.write(bufferedImage512, "png", new File(appIconAppiconsetPathFile, "ic_launcher.png"));
+			ImageUtil.writeImage(bufferedImage512, new File(appIconAppiconsetPathFile, "ic_launcher.png"));
 			final String iconTargetPathFileString = iconTargetPathFile.getPath() + "/android/";
 			Map<String, Integer> sizeMap = new HashMap<String, Integer>();
 			sizeMap.put("mipmap-hdpi", 72);
@@ -261,8 +266,8 @@ public class IconToolService {
 					try {
 						new File(iconTargetPathFileString + key).mkdirs();
 						BufferedImage bufferedImage = getBufferedImage(iconFilePathFile, value, value);
-						ImageIO.write(bufferedImage, "png",
-								new File(iconTargetPathFileString + key, "ic_launcher.png"));
+//						ImageIO.write(bufferedImage, "png", new File(iconTargetPathFileString + key, "ic_launcher.png"));
+						ImageUtil.writeImage(bufferedImage, new File(iconTargetPathFileString + key, "ic_launcher.png"));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -277,7 +282,8 @@ public class IconToolService {
 	 * @Description: 根据条件获取生成的图片
 	 */
 	private BufferedImage getBufferedImage(File iconFilePathFile, int width, int height) throws Exception {
-		Builder<File> builderFile = Thumbnails.of(iconFilePathFile);
+//		Builder<File> builderFile = Thumbnails.of(iconFilePathFile);
+		Builder<BufferedImage> builderFile = Thumbnails.of(ImageUtil.getBufferedImage(iconFilePathFile));
 		builderFile.size(width, height).keepAspectRatio(iconToolController.getIsKeepAspectRatioCheckBox().isSelected())
 				.outputFormat(iconToolController.getIconFormatChoiceBox().getValue())
 				.outputQuality(iconToolController.getOutputQualitySlider().getValue());

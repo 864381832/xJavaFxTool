@@ -174,7 +174,7 @@
 		<url>/com/xwintop/xJavaFxTool/fxmlView/debugTools/KafkaTool.fxml</url>
 		<title>KafkaTool</title>
 		<menuParentId>debugTools</menuParentId>
-		<isDefaultShow>true</isDefaultShow>
+		<isDefaultShow></isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 
 	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"
