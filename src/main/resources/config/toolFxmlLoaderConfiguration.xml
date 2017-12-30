@@ -43,22 +43,22 @@
 	<ToolFxmlLoaderConfiguration>
 		<url>/com/xwintop/xJavaFxTool/fxmlView/littleTools/TimeTool.fxml</url>
 		<title>TimeTool</title>
-		<menuParentId>littleTools</menuParentId>
+		<menuParentId>codeTools</menuParentId>
 	</ToolFxmlLoaderConfiguration>
 	<ToolFxmlLoaderConfiguration>
 		<url>/com/xwintop/xJavaFxTool/fxmlView/littleTools/CharacterConverter.fxml</url>
 		<title>CharacterConverter</title>
-		<menuParentId>littleTools</menuParentId>
+		<menuParentId>codeTools</menuParentId>
 	</ToolFxmlLoaderConfiguration>
 	<ToolFxmlLoaderConfiguration>
 		<url>/com/xwintop/xJavaFxTool/fxmlView/littleTools/EncryptAndDecrypt.fxml</url>
 		<title>EncryptAndDecrypt</title>
-		<menuParentId>littleTools</menuParentId>
+		<menuParentId>codeTools</menuParentId>
 	</ToolFxmlLoaderConfiguration>
 	<ToolFxmlLoaderConfiguration>
 		<url>/com/xwintop/xJavaFxTool/fxmlView/littleTools/CronExpBuilder.fxml</url>
 		<title>CronExpBuilder</title>
-		<menuParentId>littleTools</menuParentId>
+		<menuParentId>codeTools</menuParentId>
 	</ToolFxmlLoaderConfiguration>
 	<ToolFxmlLoaderConfiguration>
 		<url>/com/xwintop/xJavaFxTool/fxmlView/littleTools/FileCopy.fxml</url>
@@ -174,7 +174,12 @@
 		<url>/com/xwintop/xJavaFxTool/fxmlView/debugTools/KafkaTool.fxml</url>
 		<title>KafkaTool</title>
 		<menuParentId>debugTools</menuParentId>
-		<isDefaultShow></isDefaultShow>
+	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/com/xwintop/xJavaFxTool/fxmlView/littleTools/EmailTool.fxml</url>
+		<title>EmailTool</title>
+		<menuParentId>littleTools</menuParentId>
+		<isDefaultShow>true</isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 
 	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"

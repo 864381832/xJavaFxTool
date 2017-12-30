@@ -70,7 +70,7 @@ public class JavaFxViewUtil {
     }
 
     //设置窗口移除前回调
-    public static void setControllerOnCloseRequest(Object controller, Event event){
+    public static void setControllerOnCloseRequest(Object controller, Event event) {
         try {
             MethodUtils.invokeMethod(controller, "onCloseRequest", event);
         } catch (Exception e) {
@@ -90,8 +90,7 @@ public class JavaFxViewUtil {
     }
 
     public static void setSpinnerValueFactory(Spinner<Integer> spinner, int min, int max, int initialValue,
-                                              int amountToStepBy)
-    {
+                                              int amountToStepBy) {
         IntegerSpinnerValueFactory secondStart_0svf = new SpinnerValueFactory.IntegerSpinnerValueFactory(min, max,
                 initialValue, amountToStepBy);
         spinner.setValueFactory(secondStart_0svf);
@@ -136,14 +135,26 @@ public class JavaFxViewUtil {
         // });
     }
 
+    public static void setTableColumnMapValueFactory(TableColumn tableColumn, String name, boolean isEdit) {
+        tableColumn.setCellValueFactory(new MapValueFactory(name));
+        tableColumn.setCellFactory(TextFieldTableCell.<Map<String, String>>forTableColumn());
+        if (isEdit) {
+            tableColumn.setOnEditCommit(new EventHandler<CellEditEvent<Map<String, String>, String>>() {
+                @Override
+                public void handle(CellEditEvent<Map<String, String>, String> t) {
+                    t.getRowValue().put(name, t.getNewValue());
+                }
+            });
+        }
+    }
+
     /**
      * @Title: setTableColumnMapValueFactoryAsChoiceBox
      * @Description: 初始化下拉选择表格属性
      */
     @SuppressWarnings({"rawtypes", "unchecked"})
     public static void setTableColumnMapAsChoiceBoxValueFactory(TableColumn tableColumn, String name, String[] choiceBoxStrings,
-                                                                ObservableList<Map<String, String>> tableData)
-    {
+                                                                ObservableList<Map<String, String>> tableData) {
         tableColumn.setCellValueFactory(new MapValueFactory(name));
         tableColumn.setCellFactory(
                 new Callback<TableColumn<Map<String, String>, String>, TableCell<Map<String, String>, String>>() {

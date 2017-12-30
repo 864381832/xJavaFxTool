@@ -34,7 +34,12 @@ import javafx.util.Callback;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
-
+/**
+ * @ClassName: FtpClientToolController
+ * @Description: Ftp客户端工具
+ * @author: xufeng
+ * @date: 2017/12/30 0030 21:35
+ */
 @Getter
 @Setter
 @Log4j
@@ -136,6 +141,7 @@ public class FtpClientToolController extends FtpClientToolView {
 	}
 
 	private void initEvent() {
+		FileChooserUtil.setOnDrag(localFileTextField, FileChooserUtil.FileType.FILE);
 		tableData.addListener((Change<? extends FtpClientToolTableBean> tableBean) -> {
 			try {
 				saveConfigure(null);

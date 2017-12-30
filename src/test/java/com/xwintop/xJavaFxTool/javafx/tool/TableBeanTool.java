@@ -1,5 +1,6 @@
 package com.xwintop.xJavaFxTool.javafx.tool;
 
+import com.xwintop.xJavaFxTool.model.EmailToolTableBean;
 import com.xwintop.xJavaFxTool.model.FtpClientToolTableBean;
 import com.xwintop.xcore.util.StrUtil;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -10,7 +11,7 @@ import java.lang.reflect.Field;
 public class TableBeanTool {
 	@Test
 	public void buildTableBean(){
-		Class<?> beanClass = FtpClientToolTableBean.class;
+		Class<?> beanClass = EmailToolTableBean.class;
 		Field[] fields = FieldUtils.getAllFields(beanClass);
 		StringBuffer soutStringBuffer = new StringBuffer();//输出字符串
 		StringBuffer stringBuffer = new StringBuffer();//构造函数头
@@ -34,6 +35,8 @@ public class TableBeanTool {
 			
 			if("Boolean".equals(typeSimpleName)){
 				stringBuffer3.append("this."+fieldName+" = new "+typeName+"(Boolean.valueOf(strings["+i+"]));\n");
+			}else if("Integer".equals(typeSimpleName)){
+				stringBuffer3.append("this."+fieldName+" = new "+typeName+"(Integer.valueOf(strings["+i+"]));\n");
 			}else{
 				stringBuffer3.append("this."+fieldName+" = new "+typeName+"(strings["+i+"]);\n");
 			}
