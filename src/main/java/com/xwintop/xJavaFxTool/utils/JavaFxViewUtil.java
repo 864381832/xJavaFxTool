@@ -1,8 +1,11 @@
 package com.xwintop.xJavaFxTool.utils;
 
+import com.jfoenix.controls.JFXDecorator;
+import javafx.scene.image.ImageView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 
+import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.Map;
 
@@ -33,6 +36,36 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class JavaFxViewUtil {
 
+    /**
+     * 获取JFoenix窗口
+     * @param stage
+     * @param title 标题
+     * @param iconUrl 图标Url
+     * @param root 显示的面板
+     * @return
+     */
+    public static Scene getJFXDecoratorScene(Stage stage,String title, String iconUrl, Parent root){
+        JFXDecorator decorator = new JFXDecorator(stage, root);
+        decorator.setCustomMaximize(true);
+        decorator.setText(title);
+        if(StringUtils.isNotEmpty(iconUrl)){
+            ImageView imageView = new ImageView(new Image(iconUrl));
+            imageView.setFitWidth(24);
+            imageView.setFitHeight(24);
+            decorator.setGraphic(imageView);
+        }
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double width = screenSize.width / 1.35;
+        double height = screenSize.height / 1.2;
+        Scene scene = new Scene(decorator, width, height);
+        final ObservableList<String> stylesheets = scene.getStylesheets();
+        stylesheets.addAll(
+//                JavaFxViewUtil.class.getResource("/css/jfoenix-fonts.css").toExternalForm(),
+//                JavaFxViewUtil.class.getResource("/css/jfoenix-design.css").toExternalForm(),
+                JavaFxViewUtil.class.getResource("/css/jfoenix-main.css").toExternalForm());
+        return scene;
+    }
+
     /*
      * 获取新窗口
      */
@@ -42,13 +75,15 @@ public class JavaFxViewUtil {
         newStage.setTitle(title);
         newStage.initModality(Modality.NONE);
         newStage.setResizable(true);//可调整大小
-        newStage.setScene(new Scene(root));
-//		newStage.setMaximized(false);
+
         if (StringUtils.isEmpty(iconUrl)) {
-            newStage.getIcons().add(new Image("/images/icon.jpg"));
-        } else {
-            newStage.getIcons().add(new Image(iconUrl));
+            iconUrl = "/images/icon.jpg";
         }
+        Scene scene = JavaFxViewUtil.getJFXDecoratorScene(newStage,title,iconUrl,root);
+        newStage.setScene(scene);
+//        newStage.setScene(new Scene(root));
+//		newStage.setMaximized(false);
+        newStage.getIcons().add(new Image(iconUrl));
         newStage.show();
         return newStage;
     }

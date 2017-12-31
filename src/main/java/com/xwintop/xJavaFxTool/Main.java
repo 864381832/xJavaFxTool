@@ -1,6 +1,7 @@
 package com.xwintop.xJavaFxTool;
 
 import com.xwintop.xJavaFxTool.controller.IndexController;
+import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -45,10 +46,12 @@ public class Main extends Application {
 		FXMLLoader fXMLLoader = IndexController.getFXMLLoader();
 		ResourceBundle resourceBundle = fXMLLoader.getResources();
 		Parent root = fXMLLoader.load();
+		Scene scene = JavaFxViewUtil.getJFXDecoratorScene(primaryStage,resourceBundle.getString("Title"),"/images/icon.jpg",root);
+//		Scene scene = new Scene(root);
 		primaryStage.setResizable(true);
 		primaryStage.setTitle(resourceBundle.getString("Title"));//标题
 		primaryStage.getIcons().add(new Image("/images/icon.jpg"));//图标
-		primaryStage.setScene(new Scene(root));
+		primaryStage.setScene(scene);
 		primaryStage.show();
 
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
