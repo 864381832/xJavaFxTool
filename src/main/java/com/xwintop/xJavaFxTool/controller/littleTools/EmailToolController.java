@@ -1,13 +1,14 @@
 package com.xwintop.xJavaFxTool.controller.littleTools;
 
 import com.xwintop.xJavaFxTool.model.EmailToolTableBean;
-import com.xwintop.xJavaFxTool.model.FtpClientToolTableBean;
 import com.xwintop.xJavaFxTool.services.littleTools.EmailToolService;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.view.littleTools.EmailToolView;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
-import io.swagger.models.auth.In;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,7 +18,6 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseButton;
-import javafx.util.Callback;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -41,6 +41,7 @@ public class EmailToolController extends EmailToolView {
     private EmailToolService emailToolService = new EmailToolService(this);
     private ObservableList<EmailToolTableBean> tableData = FXCollections.observableArrayList();
     private ObservableList<Map<String, String>> attachPathTableData = FXCollections.observableArrayList();
+    private String[] quartzChoiceBoxStrings = new String[] { "简单表达式", "Cron表达式" };
     private String[] hostNameComboBoxStrings = new String[]{"smtp.163.com", "smtp.gmail.com", "smtp.aliyun.com", "smtp.exmail.qq.com", "smtp.qq.com", "smtp.139.com", "smtp.189.cn"};
 
     @Override
@@ -51,6 +52,7 @@ public class EmailToolController extends EmailToolView {
     }
 
     private void initView() {
+        emailToolService.loadingConfigure();
         hostNameComboBox.getItems().addAll(hostNameComboBoxStrings);
         hostNameComboBox.getSelectionModel().select(0);
 
@@ -106,10 +108,35 @@ public class EmailToolController extends EmailToolView {
         JavaFxViewUtil.setTableColumnMapValueFactory(attachNameTableColumn, "attachName");
         JavaFxViewUtil.setTableColumnMapValueFactory(attachDescriptionTableColumn, "attachDescription");
         attachPathTableView.setItems(attachPathTableData);
+
+        quartzChoiceBox.getItems().addAll(quartzChoiceBoxStrings);
+        quartzChoiceBox.getSelectionModel().select(0);
+
+        JavaFxViewUtil.setSpinnerValueFactory(intervalSpinner, 60, Integer.MAX_VALUE);
+        JavaFxViewUtil.setSpinnerValueFactory(repeatCountSpinner, -1, Integer.MAX_VALUE);
     }
 
     private void initEvent() {
         FileChooserUtil.setOnDrag(attachPathTextField, FileChooserUtil.FileType.FILE);
+        tableData.addListener((ListChangeListener.Change<? extends EmailToolTableBean> tableBean) -> {
+            try {
+                saveConfigure(null);
+            } catch (Exception e) {
+                log.error(e.getMessage());
+            }
+        });
+        quartzChoiceBox.valueProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (quartzChoiceBoxStrings[0].equals(newValue)) {
+                    cronTextField.setVisible(false);
+                    simpleScheduleAnchorPane.setVisible(true);
+                } else if (quartzChoiceBoxStrings[1].equals(newValue)) {
+                    cronTextField.setVisible(true);
+                    simpleScheduleAnchorPane.setVisible(false);
+                }
+            }
+        });
         tableViewMain.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
                 MenuItem menu_Copy = new MenuItem("复制选中行");
@@ -171,19 +198,34 @@ public class EmailToolController extends EmailToolView {
     }
 
     @FXML
-    private void saveConfigure(ActionEvent event) {
+    private void saveConfigure(ActionEvent event) throws Exception {
+        emailToolService.saveConfigure();
     }
 
     @FXML
-    private void otherSaveConfigureAction(ActionEvent event) {
+    private void otherSaveConfigureAction(ActionEvent event) throws Exception {
+        emailToolService.otherSaveConfigureAction();
     }
 
     @FXML
     private void loadingConfigureAction(ActionEvent event) {
+        emailToolService.loadingConfigureAction();
     }
 
     @FXML
-    private void runQuartzAction(ActionEvent event) {
+    private void runQuartzAction(ActionEvent event) throws Exception {
+        if ("定时运行".equals(runQuartzButton.getText())) {
+            boolean isTrue = emailToolService.runQuartzAction(quartzChoiceBox.getValue(), cronTextField.getText(),
+                    intervalSpinner.getValue(), repeatCountSpinner.getValue());
+            if (isTrue) {
+                runQuartzButton.setText("停止运行");
+            }
+        } else {
+            boolean isTrue = emailToolService.stopQuartzAction();
+            if (isTrue) {
+                runQuartzButton.setText("定时运行");
+            }
+        }
     }
 
     @FXML

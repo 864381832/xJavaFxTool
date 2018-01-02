@@ -58,15 +58,15 @@ public abstract class EmailToolView implements Initializable {
     @FXML
     protected CheckBox sslCheckBox;
     @FXML
-    protected ChoiceBox quartzChoiceBox;
+    protected ChoiceBox<String> quartzChoiceBox;
     @FXML
     protected TextField cronTextField;
     @FXML
     protected AnchorPane simpleScheduleAnchorPane;
     @FXML
-    protected Spinner intervalSpinner;
+    protected Spinner<Integer> intervalSpinner;
     @FXML
-    protected Spinner repeatCountSpinner;
+    protected Spinner<Integer> repeatCountSpinner;
     @FXML
     protected Button runQuartzButton;
     @FXML
