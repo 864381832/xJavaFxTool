@@ -7,6 +7,7 @@ import com.xwintop.xJavaFxTool.model.EmailToolTableBean;
 import com.xwintop.xJavaFxTool.utils.ConfigureUtil;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
+import javafx.collections.ObservableList;
 import javafx.stage.FileChooser;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +28,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -50,11 +52,11 @@ public class EmailToolService {
     public void runAllAction() {
         ArrayList<EmailToolTableBean> emailToolTableBeanArrayList = new ArrayList<EmailToolTableBean>();
         for (EmailToolTableBean emailToolTableBean : emailToolController.getTableData()) {
-            if(emailToolTableBean.getIsEnabled()){
+            if (emailToolTableBean.getIsEnabled()) {
                 emailToolTableBeanArrayList.add(emailToolTableBean);
             }
         }
-        if(!emailToolTableBeanArrayList.isEmpty()){
+        if (!emailToolTableBeanArrayList.isEmpty()) {
             runAction(emailToolTableBeanArrayList.toArray(new EmailToolTableBean[0]));
         }
     }
@@ -68,37 +70,67 @@ public class EmailToolService {
             email.setSSLOnConnect(emailToolController.getSslCheckBox().isSelected());
             email.setFrom(emailToolController.getUserNameTextField().getText());
             email.setSubject(emailToolController.getSubjectTextField().getText());
-            email.setHtmlMsg(emailToolController.getMsgHtmlEditor().getHtmlText());
             email.setCharset("utf-8");
-            if(emailToolController.getAttachCheckBox().isSelected()){
-                for(Map<String,String> map:emailToolController.getAttachPathTableData()){
+            if (emailToolController.getAttachCheckBox().isSelected()) {
+                for (Map<String, String> map : emailToolController.getAttachPathTableData()) {
                     EmailAttachment attachment = new EmailAttachment();
                     attachment.setName(map.get("attachName"));
                     String attachPath = map.get("attachPath");
-                    if(attachPath.startsWith("http")){
+                    if (attachPath.startsWith("http")) {
                         attachment.setURL(new URL(attachPath));//网络文件
-                    }else {
+                    } else {
                         attachment.setPath(attachPath);//本地文件
                     }
                     attachment.setDescription(map.get("attachDescription"));
                     email.attach(attachment);
                 }
             }
-            if (emailToolController.getSentSeparatelyCheckBox().isSelected()){
-                for (EmailToolTableBean emailToolTableBean : emailToolTableBeans){
+            if (emailToolController.getSentSeparatelyCheckBox().isSelected()) {
+                for (EmailToolTableBean emailToolTableBean : emailToolTableBeans) {
                     ArrayList<InternetAddress> toList = new ArrayList<InternetAddress>();
-                    toList.add(new InternetAddress(emailToolTableBean.getToEmail(),emailToolTableBean.getToEmailName()));
+                    toList.add(new InternetAddress(emailToolTableBean.getToEmail(), emailToolTableBean.getToEmailName()));
                     email.setTo(toList);
+                    String htmlMsg = emailToolController.getMsgHtmlEditor().getHtmlText()
+                            .replace("${1}",emailToolTableBean.getToEmail())
+                            .replace("${2}",emailToolTableBean.getToEmailName());
+                    email.setHtmlMsg(htmlMsg);
                     email.send();
                 }
-            }else {
-                for (EmailToolTableBean emailToolTableBean : emailToolTableBeans){
-                    email.addTo(emailToolTableBean.getToEmail(),emailToolTableBean.getToEmailName());
+            } else {
+                email.setHtmlMsg(emailToolController.getMsgHtmlEditor().getHtmlText());
+                for (EmailToolTableBean emailToolTableBean : emailToolTableBeans) {
+                    email.addTo(emailToolTableBean.getToEmail(), emailToolTableBean.getToEmailName());
                 }
                 email.send();
             }
         } catch (Exception e) {
             log.error(e.getMessage());
+        }
+    }
+
+    /**
+     * 导入收件人邮箱
+     */
+    public void importToEmailAction() {
+        try {
+            File file = FileChooserUtil.chooseFile();
+            if (file != null) {
+                List<String> emailList = FileUtils.readLines(file, "utf-8");
+                ObservableList<EmailToolTableBean> tableData = emailToolController.getTableData();
+                for(String email : emailList){
+                    EmailToolTableBean emailToolTableBean = null;
+                    if(email.contains(" ")){
+                        String[] emailStr = email.split(" ");
+                        emailToolTableBean = new EmailToolTableBean(tableData.size()+1,true, emailStr[0], emailStr[1], "");
+                    }else{
+                        emailToolTableBean = new EmailToolTableBean(tableData.size()+1,true, email, email, "");
+                    }
+                    tableData.add(emailToolTableBean);
+                }
+            }
+        } catch (Exception e) {
+            log.error("导入收件人邮箱失败："+e.getMessage());
+            TooltipUtil.showToast("导入收件人邮箱失败："+e.getMessage());
         }
     }
 

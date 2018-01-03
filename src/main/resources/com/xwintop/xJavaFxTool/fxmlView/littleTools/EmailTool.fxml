@@ -126,7 +126,7 @@
                         <TextField fx:id="SubjectTextField" text="Test Email" />
                      </children>
                   </HBox>
-                  <Label text="邮件内容：" />
+                  <Label text="邮件内容：(可使用$(1)代替收件人邮件账号，${2}代替收件人昵称，分开发送时生效)" />
                   <HTMLEditor fx:id="msgHtmlEditor" htmlText="&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body contenteditable=&quot;true&quot;&gt;&lt;/body&gt;&lt;/html&gt;" />
                   <HBox alignment="CENTER_LEFT" spacing="5.0">
                      <children>

@@ -58,19 +58,23 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 
 19、SwitchHostsTool：切换Hosts工具；
 
-20、FtpServer：Ftp服务器；
+20、FtpServer：Ftp服务器（快速搭建本地Ftp服务）；
 
 21、CmdTool：Cmd调试工具；
 
-22、FtpClientTool：Ftp客户端调试工具；
+22、FtpClientTool：Ftp客户端调试工具（批量上传、下载、删除文件及文件夹）；
 
-23、PdfConvertTool：Pdf转换工具；
+23、PdfConvertTool：Pdf转换工具（目前仅支持pdf转图片、pdf转text功能）；
 
 24、DirectoryTreeTool：文件列表生成器；
 
 25、ImageTool：图片压缩工具（批量压缩、修改尺寸、转换格式）；
 
 26、AsciiPicTool：图片转码工具（包括图片生成banner码、图片转Base64码）；
+
+27、KafkaTool：Kafka调试工具（未完善）；
+
+28、EmailTool：Email群发工具（支持自定义群发模版）；
 
 
 项目开发中，以后会陆续添加新工具，欢迎大家参与其中，多提提意见，谢谢。

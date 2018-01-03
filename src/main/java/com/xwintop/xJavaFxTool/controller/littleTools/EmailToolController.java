@@ -11,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.TableColumn.CellEditEvent;
@@ -120,6 +121,9 @@ public class EmailToolController extends EmailToolView {
         FileChooserUtil.setOnDrag(attachPathTextField, FileChooserUtil.FileType.FILE);
         tableData.addListener((ListChangeListener.Change<? extends EmailToolTableBean> tableBean) -> {
             try {
+                for(int i=0;i<tableData.size();i++){
+                    tableData.get(i).setOrder(i+1);
+                }
                 saveConfigure(null);
             } catch (Exception e) {
                 log.error(e.getMessage());
@@ -195,6 +199,7 @@ public class EmailToolController extends EmailToolView {
 
     @FXML
     private void importToEmailAction(ActionEvent event) {
+        emailToolService.importToEmailAction();
     }
 
     @FXML
@@ -240,5 +245,12 @@ public class EmailToolController extends EmailToolView {
         map.put("attachName",attachNameTableColumn.getText());
         map.put("attachDescription",attachDescriptionTableColumn.getText());
         attachPathTableData.add(map);
+    }
+
+    /**
+     * 父控件被移除前调用
+     */
+    public void onCloseRequest(Event event) throws Exception {
+        emailToolService.stopQuartzAction();
     }
 }
