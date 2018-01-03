@@ -1,6 +1,5 @@
 package com.xwintop.xJavaFxTool.controller;
 
-import com.xwintop.xJavaFxTool.Main;
 import com.xwintop.xJavaFxTool.model.ToolFxmlLoaderConfiguration;
 import com.xwintop.xJavaFxTool.services.IndexService;
 import com.xwintop.xJavaFxTool.utils.Config;
@@ -22,11 +21,11 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.springframework.boot.SpringApplication;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -235,7 +234,7 @@ public class IndexController extends IndexView {
 			webEngine.load(IndexController.class.getResource(url).toExternalForm());
 		}
 		if (singleWindowBootCheckBox.isSelected()) {
-			JavaFxViewUtil.getNewStage(title,iconPath, browser);
+			JavaFxViewUtil.getNewStage(title, iconPath, new BorderPane(browser));
 			return;
 		}
 		Tab tab = new Tab(title);
