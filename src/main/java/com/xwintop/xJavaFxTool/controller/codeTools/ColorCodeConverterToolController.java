@@ -1,13 +1,11 @@
 package com.xwintop.xJavaFxTool.controller.codeTools;
 
-import com.jfoenix.skins.JFXColorPickerSkin;
+import com.xwintop.xJavaFxTool.services.codeTools.ColorCodeConverterToolService;
 import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import com.xwintop.xJavaFxTool.view.codeTools.ColorCodeConverterToolView;
-import com.xwintop.xJavaFxTool.services.codeTools.ColorCodeConverterToolService;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.scene.control.Label;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.paint.Color;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,9 +13,6 @@ import lombok.extern.log4j.Log4j;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 
 /**
  * @ClassName: ColorCodeConverterToolController
@@ -42,15 +37,30 @@ public class ColorCodeConverterToolController extends ColorCodeConverterToolView
     }
 
     private void initEvent() {
-        colorSelect1ColorPicker.valueProperty().addListener((ObservableValue<? extends Color> observable, Color oldValue, Color newValue) -> {
-            String s = ((Label)((JFXColorPickerSkin)colorSelect1ColorPicker.getSkin()).getDisplayNode()).getText();
-            System.out.println(s);
-            colorSelect2ColorPicker.setValue(newValue);
+        colorSelect1ColorPicker.valueProperty().addListener((observable, oldValue, newValue) -> {
             colorCodeConverterToolService.setColorTextField(newValue);
         });
-        colorSelect2ColorPicker.valueProperty().addListener((ObservableValue<? extends Color> observable, Color oldValue, Color newValue) -> {
-            colorSelect1ColorPicker.setValue(newValue);
+        colorSelect2ColorPicker.valueProperty().addListener((observable, oldValue, newValue) -> {
+            colorCodeConverterToolService.setColorTextField(newValue);
         });
+        sysTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            colorCodeConverterToolService.setColorTextField(Color.valueOf(newValue));
+        });
+        rgbTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            colorCodeConverterToolService.setColorTextField(Color.valueOf(newValue));
+        });
+        argbTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            colorCodeConverterToolService.setColorTextField(Color.valueOf(newValue));
+        });
+//        rgbaTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+//            colorCodeConverterToolService.setColorTextField(Color.valueOf(newValue));
+//        });
+        hslTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            colorCodeConverterToolService.setColorTextField(Color.valueOf(newValue));
+        });
+//        hsvTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+//            colorCodeConverterToolService.setColorTextField(Color.valueOf(newValue));
+//        });
     }
 
     private void initService() {
