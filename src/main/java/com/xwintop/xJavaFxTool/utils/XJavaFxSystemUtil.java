@@ -1,5 +1,7 @@
 package com.xwintop.xJavaFxTool.utils;
 
+import java.awt.*;
+import java.awt.datatransfer.StringSelection;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.InputStream;
@@ -170,5 +172,15 @@ public class XJavaFxSystemUtil {
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
+	}
+
+
+	/**
+	 * 设置系统剪切板内容
+	 * @param contents 内容
+	 */
+	public static void setSystemClipboardContents(String contents){
+		StringSelection stsel = new StringSelection(contents);
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stsel, stsel);
 	}
 }
