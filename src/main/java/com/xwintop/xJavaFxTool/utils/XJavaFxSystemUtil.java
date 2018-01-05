@@ -1,19 +1,6 @@
 package com.xwintop.xJavaFxTool.utils;
 
-import java.awt.*;
-import java.awt.datatransfer.StringSelection;
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.InputStream;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-
+import com.xwintop.xJavaFxTool.model.ToolFxmlLoaderConfiguration;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
@@ -26,7 +13,17 @@ import org.dom4j.io.SAXReader;
 import org.dom4j.tree.DefaultAttribute;
 import org.dom4j.tree.DefaultElement;
 
-import com.xwintop.xJavaFxTool.model.ToolFxmlLoaderConfiguration;
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.InputStream;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 /** 
  * @ClassName: XJavaFxSystemUtil 
@@ -174,13 +171,4 @@ public class XJavaFxSystemUtil {
 		}
 	}
 
-
-	/**
-	 * 设置系统剪切板内容
-	 * @param contents 内容
-	 */
-	public static void setSystemClipboardContents(String contents){
-		StringSelection stsel = new StringSelection(contents);
-		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stsel, stsel);
-	}
 }

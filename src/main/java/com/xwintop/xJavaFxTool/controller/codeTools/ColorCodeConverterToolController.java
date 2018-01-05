@@ -1,14 +1,19 @@
 package com.xwintop.xJavaFxTool.controller.codeTools;
 
+import com.jfoenix.skins.JFXColorPickerSkin;
+import com.sun.javafx.scene.control.skin.ComboBoxPopupControl;
 import com.xwintop.xJavaFxTool.services.codeTools.ColorCodeConverterToolService;
 import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import com.xwintop.xJavaFxTool.view.codeTools.ColorCodeConverterToolView;
+import com.xwintop.xcore.util.javafx.ClipboardUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.Value;
 import lombok.extern.log4j.Log4j;
 
 import java.net.URL;
@@ -34,33 +39,59 @@ public class ColorCodeConverterToolController extends ColorCodeConverterToolView
     }
 
     private void initView() {
+        colorCodeConverterToolService.setColorTextField(colorSelect1ColorPicker.getValue());
     }
 
     private void initEvent() {
-        colorSelect1ColorPicker.valueProperty().addListener((observable, oldValue, newValue) -> {
-            colorCodeConverterToolService.setColorTextField(newValue);
+//        colorSelect1ColorPicker.valueProperty().addListener((observable, oldValue, newValue) -> {
+//            colorCodeConverterToolService.setColorTextField(newValue);
+//        });
+//        colorSelect2ColorPicker.valueProperty().addListener((observable, oldValue, newValue) -> {
+//            colorCodeConverterToolService.setColorTextField(newValue);
+//        });
+        colorSelect1ColorPicker.setOnAction((value)->{
+            colorCodeConverterToolService.setColorTextField(colorSelect1ColorPicker.getValue());
         });
-        colorSelect2ColorPicker.valueProperty().addListener((observable, oldValue, newValue) -> {
-            colorCodeConverterToolService.setColorTextField(newValue);
+        colorSelect2ColorPicker.setOnAction((value)->{
+            colorCodeConverterToolService.setColorTextField(colorSelect2ColorPicker.getValue());
         });
-        sysTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            colorCodeConverterToolService.setColorTextField(Color.valueOf(newValue));
+        sysTextField.setOnKeyReleased((event) -> {
+            colorCodeConverterToolService.setColorTextField(Color.valueOf(((TextField)event.getSource()).getText()));
         });
-        rgbTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            colorCodeConverterToolService.setColorTextField(Color.valueOf(newValue));
+        rgbTextField.setOnKeyReleased((event) -> {
+            colorCodeConverterToolService.setColorTextField(Color.valueOf(((TextField)event.getSource()).getText()));
         });
-        argbTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            colorCodeConverterToolService.setColorTextField(Color.valueOf(newValue));
+//        argbTextField.setOnKeyReleased((event) -> {
+//            colorCodeConverterToolService.setColorTextField(Color.valueOf(((TextField)event.getSource()).getText()));
+//        });
+        rgbaTextField.setOnKeyReleased((event) -> {
+            colorCodeConverterToolService.setColorTextField(Color.valueOf(((TextField)event.getSource()).getText()));
         });
+        hslTextField.setOnKeyReleased((event) -> {
+            colorCodeConverterToolService.setColorTextField(Color.valueOf(((TextField)event.getSource()).getText()));
+        });
+        hsvTextField.setOnKeyReleased((event) -> {
+            colorCodeConverterToolService.setColorTextField(ColorCodeConverterToolService.hsvToRgb(((TextField)event.getSource()).getText()));
+        });
+
+//        sysTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+//            colorCodeConverterToolService.setColorTextField(Color.valueOf(newValue));
+//        });
+//        rgbTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+//            colorCodeConverterToolService.setColorTextField(Color.valueOf(newValue));
+//        });
+////        argbTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+////            colorCodeConverterToolService.setColorTextField(Color.valueOf(newValue));
+////        });
 //        rgbaTextField.textProperty().addListener((observable, oldValue, newValue) -> {
 //            colorCodeConverterToolService.setColorTextField(Color.valueOf(newValue));
 //        });
-        hslTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            colorCodeConverterToolService.setColorTextField(Color.valueOf(newValue));
-        });
-//        hsvTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+//        hslTextField.textProperty().addListener((observable, oldValue, newValue) -> {
 //            colorCodeConverterToolService.setColorTextField(Color.valueOf(newValue));
 //        });
+////        hsvTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+////            colorCodeConverterToolService.setColorTextField(Color.valueOf(newValue));
+////        });
     }
 
     private void initService() {
@@ -68,37 +99,37 @@ public class ColorCodeConverterToolController extends ColorCodeConverterToolView
 
     @FXML
     private void sysCopyAction(ActionEvent event) {
-        XJavaFxSystemUtil.setSystemClipboardContents(sysTextField.getText());
+        ClipboardUtil.setStr(sysTextField.getText());
         TooltipUtil.showToast("复制成功！！");
     }
 
     @FXML
     private void rgbCopyAction(ActionEvent event) {
-        XJavaFxSystemUtil.setSystemClipboardContents(rgbTextField.getText());
+        ClipboardUtil.setStr(rgbTextField.getText());
         TooltipUtil.showToast("复制成功！！");
     }
 
     @FXML
     private void argbCopyAction(ActionEvent event) {
-        XJavaFxSystemUtil.setSystemClipboardContents(argbTextField.getText());
+        ClipboardUtil.setStr(argbTextField.getText());
         TooltipUtil.showToast("复制成功！！");
     }
 
     @FXML
     private void rgbaCopyAction(ActionEvent event) {
-        XJavaFxSystemUtil.setSystemClipboardContents(rgbaTextField.getText());
+        ClipboardUtil.setStr(rgbaTextField.getText());
         TooltipUtil.showToast("复制成功！！");
     }
 
     @FXML
     private void hslCopyAction(ActionEvent event) {
-        XJavaFxSystemUtil.setSystemClipboardContents(hslTextField.getText());
+        ClipboardUtil.setStr(hslTextField.getText());
         TooltipUtil.showToast("复制成功！！");
     }
 
     @FXML
     private void hsvCopyAction(ActionEvent event) {
-        XJavaFxSystemUtil.setSystemClipboardContents(hsvTextField.getText());
+        ClipboardUtil.setStr(hsvTextField.getText());
         TooltipUtil.showToast("复制成功！！");
     }
 }
