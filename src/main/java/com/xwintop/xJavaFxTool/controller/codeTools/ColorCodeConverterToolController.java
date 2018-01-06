@@ -61,9 +61,9 @@ public class ColorCodeConverterToolController extends ColorCodeConverterToolView
         rgbTextField.setOnKeyReleased((event) -> {
             colorCodeConverterToolService.setColorTextField(Color.valueOf(((TextField)event.getSource()).getText()));
         });
-//        argbTextField.setOnKeyReleased((event) -> {
-//            colorCodeConverterToolService.setColorTextField(Color.valueOf(((TextField)event.getSource()).getText()));
-//        });
+        argbTextField.setOnKeyReleased((event) -> {
+            colorCodeConverterToolService.setColorTextField(Color.valueOf(((TextField)event.getSource()).getText()));
+        });
         rgbaTextField.setOnKeyReleased((event) -> {
             colorCodeConverterToolService.setColorTextField(Color.valueOf(((TextField)event.getSource()).getText()));
         });

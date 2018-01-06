@@ -22,15 +22,6 @@ public class ColorCodeConverterToolService {
     private ColorCodeConverterToolController colorCodeConverterToolController;
 
     public void setColorTextField(Color color) {
-//        String hex = String.format("#%02X%02X%02X",
-//                (int) (newColor.getRed() * 255),
-//                (int) (newColor.getGreen() * 255),
-//                (int) (newColor.getBlue() * 255));
-//        String rgb = String.format("rgba(%d, %d, %d, %f)",
-//                (int) (newColor.getRed() * 255),
-//                (int) (newColor.getGreen() * 255),
-//                (int) (newColor.getBlue() * 255),
-//                newColor.getOpacity());
         String hsb = String.format("hsl(%d, %d%%, %d%%)",
                 (int) (color.getHue()),
                 (int) (color.getSaturation() * 100),
@@ -40,7 +31,7 @@ public class ColorCodeConverterToolService {
         colorCodeConverterToolController.getSysTextField().setText(JFXNodeUtils.colorToHex(color));
         colorCodeConverterToolController.getRgbTextField().setText(String.format("rgb(%d,%d,%d)" ,(int)(color.getRed() * 255),(int)(color.getGreen() * 255),(int)(color.getBlue() * 255)));
         colorCodeConverterToolController.getArgbTextField().setText("" + String.format("#%02X", color.hashCode()));
-        colorCodeConverterToolController.getRgbaTextField().setText("rgba(" + (int) (color.getRed() * 255) + "," + (int) (color.getGreen() * 255) + "," + (int) (color.getBlue() * 255) + "," + String.format("%.2f", color.getOpacity()) + ")");
+        colorCodeConverterToolController.getRgbaTextField().setText(String.format("rgba(%d,%d,%d,%.2f)",(int)(color.getRed() * 255),(int)(color.getGreen() * 255),(int)(color.getBlue() * 255),color.getOpacity()));
         colorCodeConverterToolController.getHslTextField().setText(hsb);
         double[] hsv = RGBtoHSV(color.getRed(), color.getGreen(), color.getBlue());
         colorCodeConverterToolController.getHsvTextField().setText(String.format("hsv(%.2f,%.2f,%.2f)", hsv[0], hsv[1], hsv[2]));
