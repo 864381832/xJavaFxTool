@@ -30,7 +30,7 @@ public class ColorCodeConverterToolService {
         colorCodeConverterToolController.getColorSelect2ColorPicker().setValue(color);
         colorCodeConverterToolController.getSysTextField().setText(JFXNodeUtils.colorToHex(color));
         colorCodeConverterToolController.getRgbTextField().setText(String.format("rgb(%d,%d,%d)" ,(int)(color.getRed() * 255),(int)(color.getGreen() * 255),(int)(color.getBlue() * 255)));
-        colorCodeConverterToolController.getArgbTextField().setText("" + String.format("#%02X", color.hashCode()));
+        colorCodeConverterToolController.getArgbTextField().setText(String.format("#%02X", color.hashCode()));
         colorCodeConverterToolController.getRgbaTextField().setText(String.format("rgba(%d,%d,%d,%.2f)",(int)(color.getRed() * 255),(int)(color.getGreen() * 255),(int)(color.getBlue() * 255),color.getOpacity()));
         colorCodeConverterToolController.getHslTextField().setText(hsb);
         double[] hsv = RGBtoHSV(color.getRed(), color.getGreen(), color.getBlue());

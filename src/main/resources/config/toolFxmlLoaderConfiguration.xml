@@ -184,7 +184,7 @@
 		<url>/com/xwintop/xJavaFxTool/fxmlView/codeTools/ColorCodeConverterTool.fxml</url>
 		<title>ColorCodeConverterTool</title>
 		<menuParentId>codeTools</menuParentId>
-		<isDefaultShow>true</isDefaultShow>
+		<isDefaultShow></isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 
 	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"

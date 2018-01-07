@@ -37,14 +37,13 @@ import lombok.extern.log4j.Log4j;
 public class JavaFxViewUtil {
 
     /**
-     * 获取JFoenix窗口
+     * 获取JFoenix面板
      * @param stage
      * @param title 标题
      * @param iconUrl 图标Url
      * @param root 显示的面板
-     * @return
      */
-    public static Scene getJFXDecoratorScene(Stage stage,String title, String iconUrl, Parent root){
+    public static JFXDecorator getJFXDecorator(Stage stage,String title, String iconUrl, Parent root){
         JFXDecorator decorator = new JFXDecorator(stage, root);
         decorator.setCustomMaximize(true);
         decorator.setText(title);
@@ -54,6 +53,25 @@ public class JavaFxViewUtil {
             imageView.setFitHeight(24);
             decorator.setGraphic(imageView);
         }
+        return decorator;
+    }
+    /**
+     * 获取JFoenix窗口
+     * @param stage
+     * @param title 标题
+     * @param iconUrl 图标Url
+     * @param root 显示的面板
+     */
+    public static Scene getJFXDecoratorScene(Stage stage,String title, String iconUrl, Parent root){
+        JFXDecorator decorator = getJFXDecorator(stage,title,iconUrl,root);
+        return getJFXDecoratorScene(decorator);
+    }
+
+    /**
+     * 获取JFoenix窗口
+     * @param decorator 显示的decorator面板
+     */
+    public static Scene getJFXDecoratorScene(JFXDecorator decorator){
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.width / 1.35;
         double height = screenSize.height / 1.2;
