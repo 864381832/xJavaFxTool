@@ -76,6 +76,8 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 
 28、EmailTool：Email群发工具（支持自定义群发模版）；
 
+29、ColorCodeConverterTool：颜色代码转换工具（包括16进制、RGB、ARGB、RGBA、HSL、HSV等代码之间转换）；
+
 
 项目开发中，以后会陆续添加新工具，欢迎大家参与其中，多提提意见，谢谢。
 
