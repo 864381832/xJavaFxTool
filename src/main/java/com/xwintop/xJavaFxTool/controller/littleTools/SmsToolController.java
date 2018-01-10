@@ -86,6 +86,8 @@ public class SmsToolController extends SmsToolView {
         });
 
         tableViewMain.setItems(tableData);
+
+        mainTabPane.getSelectionModel().select(2);
     }
 
     private void initEvent() {
@@ -131,22 +133,22 @@ public class SmsToolController extends SmsToolView {
 
     @FXML
     private void registerAliyunAction(ActionEvent event) {
-
+        HttpClientUtil.openBrowseURL("https://promotion.aliyun.com/ntms/act/ambassador/sharetouser.html?userCode=vt7aiwvr&utm_source=vt7aiwvr");
     }
 
     @FXML
     private void registerCmccAction(ActionEvent event) {
-
+        HttpClientUtil.openBrowseURL("http://www.openservice.com.cn");
     }
 
     @FXML
     private void registerOpen189Action(ActionEvent event) {
-
+        HttpClientUtil.openBrowseURL("http://open.189.cn");
     }
 
     @FXML
     private void registerTencentAction(ActionEvent event) {
-
+        HttpClientUtil.openBrowseURL("https://cloud.tencent.com/redirect.php?redirect=1005&cps_key=f312970b0318dd604cd33405d2c6d697");
     }
 
     @FXML

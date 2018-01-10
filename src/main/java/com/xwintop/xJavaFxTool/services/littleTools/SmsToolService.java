@@ -36,6 +36,8 @@ public class SmsToolService {
         }
         if (!smsToolTableBeanArrayList.isEmpty()) {
             runAction(smsToolTableBeanArrayList.toArray(new SmsToolTableBean[0]));
+        }else{
+            TooltipUtil.showToast("未选择联系人！！！");
         }
     }
 

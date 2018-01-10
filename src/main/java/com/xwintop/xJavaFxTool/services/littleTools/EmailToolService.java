@@ -58,6 +58,8 @@ public class EmailToolService {
         }
         if (!emailToolTableBeanArrayList.isEmpty()) {
             runAction(emailToolTableBeanArrayList.toArray(new EmailToolTableBean[0]));
+        }else{
+            TooltipUtil.showToast("未选择收件人！！！");
         }
     }
 

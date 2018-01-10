@@ -203,7 +203,7 @@
                         </VBox>
                      </content>
                   </Tab>
-                  <Tab onSelectionChanged="#registerAliyunAction" text="阿里云">
+                  <Tab text="阿里云">
                      <content>
                         <VBox alignment="TOP_CENTER" spacing="5.0">
                            <children>
@@ -239,7 +239,7 @@
                               </HBox>
                               <HBox alignment="CENTER" spacing="10.0">
                                  <children>
-                                    <Button mnemonicParsing="false" text="注册阿里云短信平台" />
+                                    <Button mnemonicParsing="false" onAction="#registerAliyunAction" text="注册阿里云短信平台" />
                                     <Button fx:id="aliyunSendButton" mnemonicParsing="false" onAction="#aliyunSendAction" text="一键发送" />
                                  </children>
                               </HBox>
