@@ -155,30 +155,6 @@
 			<version>0.11.0.1</version>
 		</dependency>
 
-		<!--腾讯云短信发送SDK-->
-		<dependency>
-			<groupId>com.github.qcloudsms</groupId>
-			<artifactId>sms</artifactId>
-			<version>0.9.2</version>
-		</dependency>
-
-		<!--阿里云短信发送SDK开始-->
-		<dependency>
-			<groupId>com.aliyun</groupId>
-			<artifactId>aliyun-java-sdk-core</artifactId>
-			<version>3.3.1</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/aliyun-java-sdk-core-3.3.1.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.aliyun</groupId>
-			<artifactId>aliyun-java-sdk-dysmsapi</artifactId>
-			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/aliyun-java-sdk-dysmsapi-1.0.0.jar</systemPath>
-		</dependency>
-		<!--阿里云短信发送SDK结束-->
-
 		<!-- 目录文件监控工具包 -->
 		<!-- <dependency> <groupId>net.sf.jpathwatch</groupId> <artifactId>jpathwatch</artifactId> 
 			<version>0.95</version> </dependency> -->

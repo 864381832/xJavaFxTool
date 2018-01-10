@@ -4,6 +4,7 @@ import com.xwintop.xJavaFxTool.model.EmailToolTableBean;
 import com.xwintop.xJavaFxTool.model.SmsToolTableBean;
 import com.xwintop.xJavaFxTool.services.littleTools.SmsToolService;
 import com.xwintop.xJavaFxTool.view.littleTools.SmsToolView;
+import com.xwintop.xcore.util.HttpClientUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -121,5 +122,35 @@ public class SmsToolController extends SmsToolView {
     @FXML
     private void aliyunSendAction(ActionEvent event) {
         smsToolService.runAllAction();
+    }
+
+    @FXML
+    private void monyunSendAction(ActionEvent event) {
+        smsToolService.runAllAction();
+    }
+
+    @FXML
+    private void registerAliyunAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void registerCmccAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void registerOpen189Action(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void registerTencentAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void registerMonyunAction(ActionEvent event) {
+        HttpClientUtil.openBrowseURL("http://www.monyun.cn/?rsdlx7ba");
     }
 }

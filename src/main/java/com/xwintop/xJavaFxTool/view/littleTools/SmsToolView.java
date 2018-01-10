@@ -100,5 +100,21 @@ public abstract class SmsToolView implements Initializable {
     protected TextArea aliyunTemplateParamTextArea;
     @FXML
     protected Button aliyunSendButton;
+    @FXML
+    protected TextField monyunUrlTextField;
+    @FXML
+    protected TextField monyunUseridTextField;
+    @FXML
+    protected TextField monyunPwdTextField;
+    @FXML
+    protected TextField monyunApikeyTextField;
+    @FXML
+    protected TextArea monyunContentTextArea;
+    @FXML
+    protected TextField monyunSvrtypeTextField;
+    @FXML
+    protected TextField monyunExnoTextField;
+    @FXML
+    protected Button monyunSendButton;
 
 }
