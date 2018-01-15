@@ -6,9 +6,9 @@
 	<artifactId>xJavaFxTool</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-
 	<name>xJavaFxTool</name>
-	<url>http://maven.apache.org</url>
+	<description>基于JavaFx搭建的实用小工具集合</description>
+	<url>https://gitee.com/xwintop/xJavaFxTool</url>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
