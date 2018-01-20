@@ -26,6 +26,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseButton;
 
+/**
+ * @ClassName: FileCopyController
+ * @Description: 文件复制工具
+ * @author: xufeng
+ * @date: 2018/1/21 0021 1:08
+ */
+
 public class FileCopyController extends FileCopyView {
 	private FileCopyService fileCopyService = new FileCopyService();
 	private ObservableList<FileCopyTableBean> tableData = FXCollections.observableArrayList();

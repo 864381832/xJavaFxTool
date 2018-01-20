@@ -21,6 +21,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
+/**
+ * @ClassName: RedisToolController
+ * @Description: Redis工具
+ * @author: xufeng
+ * @date: 2018/1/21 0021 1:04
+ */
+
 @Getter
 @Setter
 @Log4j

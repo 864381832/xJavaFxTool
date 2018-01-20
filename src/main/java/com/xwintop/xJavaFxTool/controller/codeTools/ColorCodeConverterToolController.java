@@ -1,11 +1,8 @@
 package com.xwintop.xJavaFxTool.controller.codeTools;
 
-import com.jfoenix.skins.JFXColorPickerSkin;
-import com.sun.javafx.scene.control.skin.ComboBoxPopupControl;
+import cn.hutool.core.util.ClipboardUtil;
 import com.xwintop.xJavaFxTool.services.codeTools.ColorCodeConverterToolService;
-import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import com.xwintop.xJavaFxTool.view.codeTools.ColorCodeConverterToolView;
-import com.xwintop.xcore.util.javafx.ClipboardUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,7 +10,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.Value;
 import lombok.extern.log4j.Log4j;
 
 import java.net.URL;

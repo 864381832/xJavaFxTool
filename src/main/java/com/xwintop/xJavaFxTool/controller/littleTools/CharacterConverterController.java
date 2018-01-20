@@ -18,6 +18,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * @ClassName: CharacterConverterController
+ * @Description: 编码转换工具
+ * @author: xufeng
+ * @date: 2018/1/21 0021 1:07
+ */
+
 public class CharacterConverterController implements Initializable {
 	@FXML
 	private AnchorPane mainAnchorPane;

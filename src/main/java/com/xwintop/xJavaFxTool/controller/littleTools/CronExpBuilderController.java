@@ -32,6 +32,13 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * @ClassName: CronExpBuilderController
+ * @Description: Cron表达式生成工具
+ * @author: xufeng
+ * @date: 2018/1/21 0021 1:08
+ */
+
 public class CronExpBuilderController extends CronExpBuilderView {
 	private CheckBox[] secondCheckBox = new CheckBox[60];
 	private CheckBox[] minuteCheckBox = new CheckBox[60];

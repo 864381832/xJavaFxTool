@@ -19,6 +19,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+/**
+ * @ClassName: LinuxPathToWindowsPathController
+ * @Description: 路径转换工具
+ * @author: xufeng
+ * @date: 2018/1/21 0021 1:09
+ */
+
 public class LinuxPathToWindowsPathController implements Initializable {
 	@FXML
 	private TextField textFieldLinuxPath;

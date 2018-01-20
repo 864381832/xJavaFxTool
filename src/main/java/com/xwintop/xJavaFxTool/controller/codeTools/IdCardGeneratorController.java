@@ -9,6 +9,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+/**
+ * @ClassName: IdCardGeneratorController
+ * @Description: 身份证生成工具
+ * @author: xufeng
+ * @date: 2018/1/21 0021 1:03
+ */
 
 public class IdCardGeneratorController {
     @FXML

@@ -24,6 +24,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * @ClassName: RegexTesterController
+ * @Description: 正则表达式生成工具
+ * @author: xufeng
+ * @date: 2018/1/21 0021 1:02
+ */
 public class RegexTesterController implements Initializable {
 	@FXML
 	private TextField regexTextField;
