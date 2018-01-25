@@ -149,13 +149,6 @@ public class GuiUtils {
 	}
 
 	/**
-	 * 按字符集解码.
-	 */
-	public static String encode(String string, String encode, String decode) throws UnsupportedEncodingException {
-		return new String(string.getBytes(encode), decode);
-	}
-
-	/**
 	 * 字符串前缀字符填充.
 	 */
 	public static String addFillString(String string, String fill, int interval) {
@@ -220,21 +213,6 @@ public class GuiUtils {
 	}
 
 	/**
-	 * 计算时间, 形式1Days 2Hours 3Minutes 4Seconds.
-	 */
-	public static String getCountTime(long time) {
-		time = time / 1000L;
-		long minute = 60L;
-		long hour = minute * 60L;
-		long day = hour * 24L;
-		long seconds = time % minute;
-		long minutes = (time - seconds) % hour / minute;
-		long hours = (time - minutes - seconds) % day / hour;
-		long days = (time - hour - minutes - seconds) / day;
-		return days + " Days " + hours + " Hours " + minutes + " Minutes " + seconds + " Seconds";
-	}
-
-	/**
 	 * 计算文件(单位)大小，单位为字节Byte.
 	 */
 	public static Double getCountFileSizeUnit(String size, String unit) {
@@ -279,27 +257,6 @@ public class GuiUtils {
 	public static Image getImageFromClassloader(String classLoaderImagePath, Toolkit kit) {
 		URL imgURL = ClassLoader.getSystemResource(classLoaderImagePath); // 这种方式可以从jar包中获取资源路径
 		return kit.getImage(imgURL);
-	}
-
-	/**
-	 * parseFalse, 有且仅当对象toString值equalsIgnoreCase("false")时返回false, 其他时候返回true.
-	 */
-	public static boolean parseFalse(Object obj) {
-		return toString(obj).equalsIgnoreCase("false") ? false : true;
-	}
-
-	/**
-	 * trim.
-	 */
-	public static String trim(Object obj) {
-		return toString(obj).trim();
-	}
-
-	/**
-	 * toString.
-	 */
-	public static String toString(Object obj) {
-		return obj == null ? "" : obj.toString();
 	}
 
 }

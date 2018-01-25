@@ -10,7 +10,7 @@ public class KafkaToolJob implements Job {
 
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
-		KafkaToolService kafkaToolService = (KafkaToolService) context.getMergedJobDataMap().get("kafkaToolService");
+		KafkaToolService kafkaToolService = (KafkaToolService) context.getMergedJobDataMap().get("Service");
 		try {
 			kafkaToolService.sendAction();
 		} catch (Exception e) {

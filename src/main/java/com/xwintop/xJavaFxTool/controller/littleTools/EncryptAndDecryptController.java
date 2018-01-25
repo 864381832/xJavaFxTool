@@ -3,11 +3,11 @@ package com.xwintop.xJavaFxTool.controller.littleTools;
 import com.alibaba.druid.filter.config.ConfigTools;
 import com.xwintop.xJavaFxTool.utils.GuiUtils;
 import com.xwintop.xJavaFxTool.utils.MorseConventer;
+import com.xwintop.xJavaFxTool.view.littleTools.EncryptAndDecryptView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import org.apache.commons.codec.binary.Base32;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.BinaryCodec;
@@ -28,20 +28,7 @@ import java.util.ResourceBundle;
  * @date: 2018/1/21 0021 1:08
  */
 
-public class EncryptAndDecryptController implements Initializable {
-	@FXML
-	private AnchorPane mainAnchorPane;
-	@FXML
-	private TextArea encrptyTextArea;
-	@FXML
-	private TextArea decrptyTextArea;
-	@FXML
-	private ChoiceBox<String> charsetsBox;
-	@FXML
-	private Button encrptyButton;
-	@FXML
-	private Button decrptyButton;
-
+public class EncryptAndDecryptController extends EncryptAndDecryptView {
 	private ToggleGroup toggleGroup = new ToggleGroup();
 	/**
 	 * 字符集.

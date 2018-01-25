@@ -11,7 +11,7 @@ public class ActiveMqToolJob implements Job {
 
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
-		ActiveMqToolService activeMqToolService = (ActiveMqToolService) context.getMergedJobDataMap().get("activeMqToolService");
+		ActiveMqToolService activeMqToolService = (ActiveMqToolService) context.getMergedJobDataMap().get("Service");
 		try {
 			activeMqToolService.sendAction();
 		} catch (Exception e) {

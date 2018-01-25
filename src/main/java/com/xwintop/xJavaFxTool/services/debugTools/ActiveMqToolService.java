@@ -1,5 +1,28 @@
 package com.xwintop.xJavaFxTool.services.debugTools;
 
+import com.google.gson.Gson;
+import com.xwintop.xJavaFxTool.controller.debugTools.ActiveMqToolController;
+import com.xwintop.xJavaFxTool.job.ActiveMqToolJob;
+import com.xwintop.xJavaFxTool.manager.ScheduleManager;
+import com.xwintop.xJavaFxTool.model.ActiveMqToolReceiverTableBean;
+import com.xwintop.xJavaFxTool.model.ActiveMqToolTableBean;
+import com.xwintop.xJavaFxTool.utils.ConfigureUtil;
+import com.xwintop.xcore.util.javafx.FileChooserUtil;
+import com.xwintop.xcore.util.javafx.TooltipUtil;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.stage.FileChooser;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
+import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.activemq.command.ActiveMQBytesMessage;
+import org.apache.activemq.command.ActiveMQMapMessage;
+import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
+
+import javax.jms.*;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,65 +30,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import javax.jms.BytesMessage;
-import javax.jms.Connection;
-import javax.jms.ConnectionFactory;
-import javax.jms.DeliveryMode;
-import javax.jms.Destination;
-import javax.jms.JMSException;
-import javax.jms.MapMessage;
-import javax.jms.Message;
-import javax.jms.MessageConsumer;
-import javax.jms.MessageListener;
-import javax.jms.MessageProducer;
-import javax.jms.ObjectMessage;
-import javax.jms.Session;
-import javax.jms.StreamMessage;
-import javax.jms.TextMessage;
-
-import org.apache.activemq.ActiveMQConnectionFactory;
-import org.apache.activemq.command.ActiveMQBytesMessage;
-import org.apache.activemq.command.ActiveMQMapMessage;
-import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
-import org.quartz.CronScheduleBuilder;
-import org.quartz.JobBuilder;
-import org.quartz.JobDetail;
-import org.quartz.JobKey;
-import org.quartz.ScheduleBuilder;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerFactory;
-import org.quartz.SimpleScheduleBuilder;
-import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
-import org.quartz.TriggerKey;
-import org.quartz.impl.StdSchedulerFactory;
-
-import com.google.gson.Gson;
-import com.xwintop.xJavaFxTool.controller.debugTools.ActiveMqToolController;
-import com.xwintop.xJavaFxTool.job.ActiveMqToolJob;
-import com.xwintop.xJavaFxTool.model.ActiveMqToolReceiverTableBean;
-import com.xwintop.xJavaFxTool.model.ActiveMqToolTableBean;
-import com.xwintop.xJavaFxTool.utils.ConfigureUtil;
-import com.xwintop.xcore.util.javafx.FileChooserUtil;
-import com.xwintop.xcore.util.javafx.TooltipUtil;
-
-import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.stage.FileChooser;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
-
 @Getter
 @Setter
 @Log4j
 public class ActiveMqToolService {
 	private ActiveMqToolController activeMqToolController;
-	private SchedulerFactory sf = new StdSchedulerFactory();
-	private String schedulerKeyGroup = "runFileCopy";
-	private String schedulerKeyName = "runFileCopy" + System.currentTimeMillis();
+	private ScheduleManager scheduleManager = new ScheduleManager();
 	private Map<String, Message> receiverMessageMap = new HashMap<String, Message>();
 	// ConnectionFactory ：连接工厂，JMS 用它创建连接
 	private ConnectionFactory connectionFactory = null;
@@ -205,42 +175,21 @@ public class ActiveMqToolService {
 		TooltipUtil.showToast("消息发送成功！！！");
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public boolean runQuartzAction(String quartzType, String cronText, int interval, int repeatCount) throws Exception {
-		JobDetail jobDetail = JobBuilder.newJob(ActiveMqToolJob.class).withIdentity(schedulerKeyName, schedulerKeyGroup)
-				.build();
-		jobDetail.getJobDataMap().put("activeMqToolService", this);
-		ScheduleBuilder scheduleBuilder = null;
 		if ("简单表达式".equals(quartzType)) {
-			scheduleBuilder = SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(interval)// 时间间隔
-					.withRepeatCount(repeatCount);// 重复次数（将执行6次）
+			scheduleManager.runQuartzAction(ActiveMqToolJob.class,this,interval,repeatCount);
 		} else if ("Cron表达式".equals(quartzType)) {
 			if (StringUtils.isEmpty(cronText)) {
 				TooltipUtil.showToast("cron表达式不能为空。");
 				return false;
 			}
-			scheduleBuilder = CronScheduleBuilder.cronSchedule(cronText);
-		}
-		// 描叙触发Job执行的时间触发规则,Trigger实例化一个触发器
-		Trigger trigger = TriggerBuilder.newTrigger()// 创建一个新的TriggerBuilder来规范一个触发器
-				.withIdentity(schedulerKeyName, schedulerKeyGroup)// 给触发器一个名字和组名
-				.startNow()// 立即执行
-				.withSchedule(scheduleBuilder).build();// 产生触发器
-
-		// 运行容器，使用SchedulerFactory创建Scheduler实例
-		Scheduler scheduler = sf.getScheduler();
-		// 向Scheduler添加一个job和trigger
-		scheduler.scheduleJob(jobDetail, trigger);
-		if (!scheduler.isStarted()) {
-			scheduler.start();
+			scheduleManager.runQuartzAction(ActiveMqToolJob.class,this,cronText);
 		}
 		return true;
 	}
 
 	public boolean stopQuartzAction() throws Exception {
-		Scheduler sched = sf.getScheduler();
-		sched.unscheduleJob(new TriggerKey(schedulerKeyName, schedulerKeyGroup));
-		sched.deleteJob(new JobKey(schedulerKeyName, schedulerKeyGroup));
+		scheduleManager.stopQuartzAction();
 		return true;
 	}
 

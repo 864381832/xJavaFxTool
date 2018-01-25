@@ -2,7 +2,9 @@ package com.xwintop.xJavaFxTool.services.debugTools;
 
 import com.google.gson.Gson;
 import com.xwintop.xJavaFxTool.controller.debugTools.KafkaToolController;
+import com.xwintop.xJavaFxTool.job.ActiveMqToolJob;
 import com.xwintop.xJavaFxTool.job.KafkaToolJob;
+import com.xwintop.xJavaFxTool.manager.ScheduleManager;
 import com.xwintop.xJavaFxTool.model.KafkaToolReceiverTableBean;
 import com.xwintop.xJavaFxTool.model.KafkaToolTableBean;
 import com.xwintop.xJavaFxTool.utils.ConfigureUtil;
@@ -41,9 +43,7 @@ import java.util.function.Consumer;
 public class KafkaToolService {
     private KafkaToolController kafkaToolController;
     private String fileName = "KafkaToolConfigure.properties";
-    private SchedulerFactory sf = new StdSchedulerFactory();
-    private String schedulerKeyGroup = "runFileCopy";
-    private String schedulerKeyName = "runFileCopy" + System.currentTimeMillis();
+    private ScheduleManager scheduleManager = new ScheduleManager();
     private Map<String, Message> receiverMessageMap = new HashMap<String, Message>();
 
     public void saveConfigure() throws Exception {
@@ -134,42 +134,21 @@ public class KafkaToolService {
         }
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public boolean runQuartzAction(String quartzType, String cronText, int interval, int repeatCount) throws Exception {
-        JobDetail jobDetail = JobBuilder.newJob(KafkaToolJob.class).withIdentity(schedulerKeyName, schedulerKeyGroup)
-                .build();
-        jobDetail.getJobDataMap().put("kafkaToolService", this);
-        ScheduleBuilder scheduleBuilder = null;
         if ("简单表达式".equals(quartzType)) {
-            scheduleBuilder = SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(interval)// 时间间隔
-                    .withRepeatCount(repeatCount);// 重复次数（将执行6次）
+            scheduleManager.runQuartzAction(KafkaToolJob.class,this,interval,repeatCount);
         } else if ("Cron表达式".equals(quartzType)) {
             if (StringUtils.isEmpty(cronText)) {
                 TooltipUtil.showToast("cron表达式不能为空。");
                 return false;
             }
-            scheduleBuilder = CronScheduleBuilder.cronSchedule(cronText);
-        }
-        // 描叙触发Job执行的时间触发规则,Trigger实例化一个触发器
-        Trigger trigger = TriggerBuilder.newTrigger()// 创建一个新的TriggerBuilder来规范一个触发器
-                .withIdentity(schedulerKeyName, schedulerKeyGroup)// 给触发器一个名字和组名
-                .startNow()// 立即执行
-                .withSchedule(scheduleBuilder).build();// 产生触发器
-
-        // 运行容器，使用SchedulerFactory创建Scheduler实例
-        Scheduler scheduler = sf.getScheduler();
-        // 向Scheduler添加一个job和trigger
-        scheduler.scheduleJob(jobDetail, trigger);
-        if (!scheduler.isStarted()) {
-            scheduler.start();
+            scheduleManager.runQuartzAction(KafkaToolJob.class,this,cronText);
         }
         return true;
     }
 
     public boolean stopQuartzAction() throws Exception {
-        Scheduler sched = sf.getScheduler();
-        sched.unscheduleJob(new TriggerKey(schedulerKeyName, schedulerKeyGroup));
-        sched.deleteJob(new JobKey(schedulerKeyName, schedulerKeyGroup));
+        scheduleManager.stopQuartzAction();
         return true;
     }
 
