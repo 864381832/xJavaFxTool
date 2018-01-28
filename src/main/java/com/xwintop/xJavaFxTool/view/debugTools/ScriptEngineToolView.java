@@ -20,6 +20,12 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+/**
+ * @ClassName: ScriptEngineToolView
+ * @Description: 脚本引擎调试工具类
+ * @author: xufeng
+ * @date: 2018/1/28 23:00
+ */
 @Getter
 @Setter
 public abstract class ScriptEngineToolView implements Initializable {

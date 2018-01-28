@@ -25,11 +25,11 @@
                <children>
                   <CheckBox fx:id="isEnabledCheckBox" mnemonicParsing="false" selected="true" text="是否启用" />
                   <Label alignment="CENTER" contentDisplay="CENTER" text="命令或脚本路径：" />
-                  <TextArea fx:id="scriptTextField" prefHeight="80.0" prefWidth="200.0" />
+                  <TextArea fx:id="scriptTextField" prefHeight="80.0" prefWidth="200.0" promptText="请输入对应的脚本或者脚本路径" />
                   <Label text="类型：" />
                   <ChoiceBox fx:id="typeChoiceBox" prefWidth="150.0" />
                   <Label text="参数：" />
-                  <TextField fx:id="parameterTextField" />
+                  <TextField fx:id="parameterTextField" promptText="参数为json格式" />
                   <Button fx:id="addItemButton" mnemonicParsing="false" onAction="#addItemAction" text="添加" />
                </children>
                <opaqueInsets>

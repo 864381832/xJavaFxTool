@@ -1,8 +1,10 @@
 package com.xwintop.xJavaFxTool.services.debugTools;
 
+import com.alibaba.fastjson.JSON;
 import com.xwintop.xJavaFxTool.controller.debugTools.ScriptEngineToolController;
 import com.xwintop.xJavaFxTool.job.ScriptEngineToolJob;
 import com.xwintop.xJavaFxTool.manager.ScheduleManager;
+import com.xwintop.xJavaFxTool.manager.script.ScriptEngineManager;
 import com.xwintop.xJavaFxTool.model.ScriptEngineToolTableBean;
 import com.xwintop.xJavaFxTool.utils.ConfigureUtil;
 import com.xwintop.xcore.util.javafx.AlertUtil;
@@ -14,10 +16,18 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
+import java.util.Map;
 import java.util.function.Consumer;
+
+/**
+ * @ClassName: ScriptEngineToolService
+ * @Description: 脚本引擎调试工具类
+ * @author: xufeng
+ * @date: 2018/1/28 22:59
+ */
 
 @Getter
 @Setter
@@ -50,9 +60,23 @@ public class ScriptEngineToolService {
         String type = scriptEngineToolTableBean.getType();
         String script = scriptEngineToolTableBean.getScript();
         System.out.println("运行:" + type + " : " + script);
+        Map parameterMap = null;
+        if(StringUtils.isNotEmpty(scriptEngineToolTableBean.getParameter())){
+            parameterMap = JSON.parseObject(scriptEngineToolTableBean.getParameter(),Map.class);
+        }
         try {
-            if (scriptEngineToolController.getTypeChoiceBoxStrings()[0].equals(type)) {// 命令行
-            } else if (scriptEngineToolController.getTypeChoiceBoxStrings()[1].equals(type)) {// 脚本文件
+            if (scriptEngineToolController.getTypeChoiceBoxStrings()[0].equals(type)) {// JavaScript脚本
+                new ScriptEngineManager("JavaScript").exec(script,parameterMap);
+            } else if (scriptEngineToolController.getTypeChoiceBoxStrings()[1].equals(type)) {// JavaScript脚本文件
+                new ScriptEngineManager("JavaScript").exec(new File(script));
+            } else if (scriptEngineToolController.getTypeChoiceBoxStrings()[2].equals(type)) {// Groovy脚本
+                new ScriptEngineManager("Groovy").exec(script,parameterMap);
+            } else if (scriptEngineToolController.getTypeChoiceBoxStrings()[3].equals(type)) {// Groovy脚本文件
+                new ScriptEngineManager("Groovy").exec(new File(script));
+            } else if (scriptEngineToolController.getTypeChoiceBoxStrings()[4].equals(type)) {// Python脚本
+                new ScriptEngineManager("Python").exec(script,parameterMap);
+            } else if (scriptEngineToolController.getTypeChoiceBoxStrings()[5].equals(type)) {// Python脚本文件
+                new ScriptEngineManager("Python").exec(new File(script));
             }
             //继续执行后触发任务
             if(scriptEngineToolTableBean.getIsRunAfterActivate()){
