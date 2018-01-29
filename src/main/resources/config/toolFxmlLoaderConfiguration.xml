@@ -194,7 +194,7 @@
 		<url>/com/xwintop/xJavaFxTool/fxmlView/debugTools/ScriptEngineTool.fxml</url>
 		<title>ScriptEngineTool</title>
 		<menuParentId>debugTools</menuParentId>
-		<isDefaultShow>true</isDefaultShow>
+		<isDefaultShow></isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 
 	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"

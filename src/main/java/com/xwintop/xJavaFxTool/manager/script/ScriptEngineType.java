@@ -7,9 +7,10 @@ package com.xwintop.xJavaFxTool.manager.script;
  * @date: 2018/1/28 22:59
  */
 public enum ScriptEngineType {
-    JavaScript("JavaScript"),
-    Groovy("Groovy"),
-    Python("Python");
+    JavaScript("JavaScript")
+    ,Groovy("Groovy")
+    ,Python("Python")
+    ,Lua("Lua");
     private String value;
     ScriptEngineType(String value){
         this.value = value;

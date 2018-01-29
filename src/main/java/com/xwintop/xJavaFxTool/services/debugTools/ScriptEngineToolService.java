@@ -77,6 +77,10 @@ public class ScriptEngineToolService {
                 new ScriptEngineManager("Python").exec(script,parameterMap);
             } else if (scriptEngineToolController.getTypeChoiceBoxStrings()[5].equals(type)) {// Python脚本文件
                 new ScriptEngineManager("Python").exec(new File(script));
+            } else if (scriptEngineToolController.getTypeChoiceBoxStrings()[6].equals(type)) {// Lua脚本
+                new ScriptEngineManager("Lua").exec(script,parameterMap);
+            } else if (scriptEngineToolController.getTypeChoiceBoxStrings()[7].equals(type)) {// Lua脚本文件
+                new ScriptEngineManager("Lua").exec(new File(script));
             }
             //继续执行后触发任务
             if(scriptEngineToolTableBean.getIsRunAfterActivate()){

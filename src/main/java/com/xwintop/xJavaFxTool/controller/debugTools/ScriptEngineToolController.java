@@ -38,7 +38,8 @@ public class ScriptEngineToolController extends ScriptEngineToolView {
     private ScriptEngineToolService scriptEngineToolService = new ScriptEngineToolService(this);
     private ObservableList<ScriptEngineToolTableBean> tableData = FXCollections.observableArrayList();
     private String[] quartzChoiceBoxStrings = new String[] { "简单表达式", "Cron表达式" };
-    private String[] typeChoiceBoxStrings = new String[] { "JavaScript脚本", "JavaScript脚本文件", "Groovy脚本", "Groovy脚本文件", "Python脚本", "Python脚本文件" };
+    private String[] typeChoiceBoxStrings = new String[] { "JavaScript脚本", "JavaScript脚本文件",
+            "Groovy脚本", "Groovy脚本文件", "Python脚本", "Python脚本文件", "Lua脚本", "Lua脚本文件" };
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

@@ -2,6 +2,7 @@ package com.xwintop.xJavaFxTool.manager.script;
 
 import com.xwintop.xJavaFxTool.manager.script.groovy.GroovyScriptEngine;
 import com.xwintop.xJavaFxTool.manager.script.javaScript.JavaScriptEngine;
+import com.xwintop.xJavaFxTool.manager.script.lua.LuaScriptEngine;
 import com.xwintop.xJavaFxTool.manager.script.python.PythonScriptEngine;
 import lombok.Getter;
 import lombok.Setter;
@@ -58,6 +59,9 @@ public class ScriptEngineManager implements ScriptEngine{
                 break;
             case Python:
                 scriptEngine = new PythonScriptEngine();
+                break;
+            case Lua:
+                scriptEngine = new LuaScriptEngine();
                 break;
             default:
                 break;
