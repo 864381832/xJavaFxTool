@@ -12,6 +12,12 @@ import javafx.scene.control.TreeItem;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
+/**
+ * @ClassName: SwitchHostsToolController
+ * @Description: 切换Hosts工具
+ * @author: xufeng
+ * @date: 2018/1/31 15:18
+ */
 
 @Getter
 @Setter
@@ -64,11 +70,13 @@ public class SwitchHostsToolController extends SwitchHostsToolView {
     }
 
     @FXML
-    private void reloadAction(ActionEvent event) {
+    private void reloadAction(ActionEvent event) throws Exception {
+        switchHostsToolService.reloadSystemHosts();
     }
 
     @FXML
-    private void editAction(ActionEvent event) {
+    private void editAction(ActionEvent event) throws Exception {
+        switchHostsToolService.editAction();
     }
 
     @FXML

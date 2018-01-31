@@ -8,6 +8,13 @@ import javafx.scene.control.TreeView;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * @ClassName: SwitchHostsToolView
+ * @Description: 切换Hosts工具
+ * @author: xufeng
+ * @date: 2018/1/31 15:18
+ */
+
 @Getter
 @Setter
 public abstract class SwitchHostsToolView implements Initializable {
