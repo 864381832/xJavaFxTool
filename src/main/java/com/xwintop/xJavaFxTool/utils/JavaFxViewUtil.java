@@ -174,14 +174,7 @@ public class JavaFxViewUtil {
      */
     @SuppressWarnings({"rawtypes", "unchecked"})
     public static void setTableColumnMapValueFactory(TableColumn tableColumn, String name) {
-        tableColumn.setCellValueFactory(new MapValueFactory(name));
-        tableColumn.setCellFactory(TextFieldTableCell.<Map<String, String>>forTableColumn());
-        tableColumn.setOnEditCommit(new EventHandler<CellEditEvent<Map<String, String>, String>>() {
-            @Override
-            public void handle(CellEditEvent<Map<String, String>, String> t) {
-                t.getRowValue().put(name, t.getNewValue());
-            }
-        });
+        setTableColumnMapValueFactory(tableColumn,name,true);
         // tableColumn.setOnEditCommit((CellEditEvent<Map<String, String>,
         // String> t)-> {
         // t.getRowValue().put(name, t.getNewValue());

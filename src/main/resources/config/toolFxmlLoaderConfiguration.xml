@@ -194,7 +194,12 @@
 		<url>/com/xwintop/xJavaFxTool/fxmlView/debugTools/ScriptEngineTool.fxml</url>
 		<title>ScriptEngineTool</title>
 		<menuParentId>debugTools</menuParentId>
-		<isDefaultShow></isDefaultShow>
+	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/com/xwintop/xJavaFxTool/fxmlView/littleTools/FileRenameTool.fxml</url>
+		<title>FileRenameTool</title>
+		<menuParentId>littleTools</menuParentId>
+		<isDefaultShow>true</isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 
 	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"
