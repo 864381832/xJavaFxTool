@@ -19,6 +19,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
+import java.io.PrintStream;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -60,28 +61,31 @@ public class ScriptEngineToolService {
         String type = scriptEngineToolTableBean.getType();
         String script = scriptEngineToolTableBean.getScript();
         System.out.println("运行:" + type + " : " + script);
+        addLog("运行:" + type + " : " + script);
         Map parameterMap = null;
         if(StringUtils.isNotEmpty(scriptEngineToolTableBean.getParameter())){
             parameterMap = JSON.parseObject(scriptEngineToolTableBean.getParameter(),Map.class);
         }
         try {
+            Object log = null;
             if (scriptEngineToolController.getTypeChoiceBoxStrings()[0].equals(type)) {// JavaScript脚本
-                new ScriptEngineManager("JavaScript").exec(script,parameterMap);
+                log = new ScriptEngineManager("JavaScript").eval(script,parameterMap);
             } else if (scriptEngineToolController.getTypeChoiceBoxStrings()[1].equals(type)) {// JavaScript脚本文件
-                new ScriptEngineManager("JavaScript").exec(new File(script));
+                log = new ScriptEngineManager("JavaScript").eval(new File(script));
             } else if (scriptEngineToolController.getTypeChoiceBoxStrings()[2].equals(type)) {// Groovy脚本
-                new ScriptEngineManager("Groovy").exec(script,parameterMap);
+                log = new ScriptEngineManager("Groovy").eval(script,parameterMap);
             } else if (scriptEngineToolController.getTypeChoiceBoxStrings()[3].equals(type)) {// Groovy脚本文件
-                new ScriptEngineManager("Groovy").exec(new File(script));
+                log = new ScriptEngineManager("Groovy").eval(new File(script));
             } else if (scriptEngineToolController.getTypeChoiceBoxStrings()[4].equals(type)) {// Python脚本
-                new ScriptEngineManager("Python").exec(script,parameterMap);
+                log = new ScriptEngineManager("Python").eval(script,parameterMap);
             } else if (scriptEngineToolController.getTypeChoiceBoxStrings()[5].equals(type)) {// Python脚本文件
-                new ScriptEngineManager("Python").exec(new File(script));
+                log = new ScriptEngineManager("Python").eval(new File(script));
             } else if (scriptEngineToolController.getTypeChoiceBoxStrings()[6].equals(type)) {// Lua脚本
-                new ScriptEngineManager("Lua").exec(script,parameterMap);
+                log = new ScriptEngineManager("Lua").eval(script,parameterMap);
             } else if (scriptEngineToolController.getTypeChoiceBoxStrings()[7].equals(type)) {// Lua脚本文件
-                new ScriptEngineManager("Lua").exec(new File(script));
+                log = new ScriptEngineManager("Lua").eval(new File(script));
             }
+            addLog(log);
             //继续执行后触发任务
             if(scriptEngineToolTableBean.getIsRunAfterActivate()){
                 for(ScriptEngineToolTableBean tableBean:scriptEngineToolController.getTableData()){
@@ -94,6 +98,17 @@ public class ScriptEngineToolService {
         } catch (Exception e) {
             e.printStackTrace();
             log.error(e.getMessage());
+        }
+    }
+
+
+    /**
+     * 向控制台添加日志信息
+     * @param log 日志
+     */
+    public void addLog(Object log){
+        if (log != null){
+            this.getScriptEngineToolController().getLogTextArea().appendText("\n"+log.toString());
         }
     }
 

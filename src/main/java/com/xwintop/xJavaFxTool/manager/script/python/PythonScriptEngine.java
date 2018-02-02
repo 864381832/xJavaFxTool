@@ -18,17 +18,26 @@ import java.util.Set;
 public class PythonScriptEngine implements ScriptEngine {
     @Override
     public Object eval(String script) throws Exception {
-        return null;
+        return eval(script,null);
     }
 
     @Override
     public Object eval(String script, Map vars) throws Exception {
-        return null;
+        PythonInterpreter jy = new PythonInterpreter();
+        if (vars != null) {
+            Iterator i = vars.keySet().iterator();
+            while(i.hasNext()) {
+                String k = (String)i.next();
+                jy.set(k, vars.get(k));
+            }
+        }
+        return jy.eval(script);
     }
 
     @Override
     public Object eval(File scriptFile) throws Exception {
-        return null;
+        exec(scriptFile);
+        return "执行Python脚本文件成功！";
     }
 
     @Override

@@ -75,4 +75,6 @@ public abstract class ScriptEngineToolView implements Initializable {
     protected TableColumn<ScriptEngineToolTableBean,String> runAfterActivateTableColumn;
     @FXML
     protected TableColumn<ScriptEngineToolTableBean,String> remarksTableColumn;
+    @FXML
+    protected TextArea logTextArea;
 }
