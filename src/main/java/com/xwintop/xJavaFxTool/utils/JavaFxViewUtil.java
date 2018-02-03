@@ -1,6 +1,7 @@
 package com.xwintop.xJavaFxTool.utils;
 
 import com.jfoenix.controls.JFXDecorator;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
@@ -15,13 +16,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Slider;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -38,16 +33,17 @@ public class JavaFxViewUtil {
 
     /**
      * 获取JFoenix面板
+     *
      * @param stage
-     * @param title 标题
+     * @param title   标题
      * @param iconUrl 图标Url
-     * @param root 显示的面板
+     * @param root    显示的面板
      */
-    public static JFXDecorator getJFXDecorator(Stage stage,String title, String iconUrl, Parent root){
+    public static JFXDecorator getJFXDecorator(Stage stage, String title, String iconUrl, Parent root) {
         JFXDecorator decorator = new JFXDecorator(stage, root);
         decorator.setCustomMaximize(true);
         decorator.setText(title);
-        if(StringUtils.isNotEmpty(iconUrl)){
+        if (StringUtils.isNotEmpty(iconUrl)) {
             ImageView imageView = new ImageView(new Image(iconUrl));
             imageView.setFitWidth(24);
             imageView.setFitHeight(24);
@@ -55,23 +51,26 @@ public class JavaFxViewUtil {
         }
         return decorator;
     }
+
     /**
      * 获取JFoenix窗口
+     *
      * @param stage
-     * @param title 标题
+     * @param title   标题
      * @param iconUrl 图标Url
-     * @param root 显示的面板
+     * @param root    显示的面板
      */
-    public static Scene getJFXDecoratorScene(Stage stage,String title, String iconUrl, Parent root){
-        JFXDecorator decorator = getJFXDecorator(stage,title,iconUrl,root);
+    public static Scene getJFXDecoratorScene(Stage stage, String title, String iconUrl, Parent root) {
+        JFXDecorator decorator = getJFXDecorator(stage, title, iconUrl, root);
         return getJFXDecoratorScene(decorator);
     }
 
     /**
      * 获取JFoenix窗口
+     *
      * @param decorator 显示的decorator面板
      */
-    public static Scene getJFXDecoratorScene(JFXDecorator decorator){
+    public static Scene getJFXDecoratorScene(JFXDecorator decorator) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.width / 1.35;
         double height = screenSize.height / 1.2;
@@ -97,7 +96,7 @@ public class JavaFxViewUtil {
         if (StringUtils.isEmpty(iconUrl)) {
             iconUrl = "/images/icon.jpg";
         }
-        Scene scene = JavaFxViewUtil.getJFXDecoratorScene(newStage,title,iconUrl,root);
+        Scene scene = JavaFxViewUtil.getJFXDecoratorScene(newStage, title, iconUrl, root);
         newStage.setScene(scene);
 //        newStage.setScene(new Scene(root));
 //		newStage.setMaximized(false);
@@ -174,7 +173,7 @@ public class JavaFxViewUtil {
      */
     @SuppressWarnings({"rawtypes", "unchecked"})
     public static void setTableColumnMapValueFactory(TableColumn tableColumn, String name) {
-        setTableColumnMapValueFactory(tableColumn,name,true);
+        setTableColumnMapValueFactory(tableColumn, name, true);
         // tableColumn.setOnEditCommit((CellEditEvent<Map<String, String>,
         // String> t)-> {
         // t.getRowValue().put(name, t.getNewValue());
@@ -199,8 +198,7 @@ public class JavaFxViewUtil {
      * @Description: 初始化下拉选择表格属性
      */
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public static void setTableColumnMapAsChoiceBoxValueFactory(TableColumn tableColumn, String name, String[] choiceBoxStrings,
-                                                                ObservableList<Map<String, String>> tableData) {
+    public static void setTableColumnMapAsChoiceBoxValueFactory(TableColumn tableColumn, String name, String[] choiceBoxStrings) {
         tableColumn.setCellValueFactory(new MapValueFactory(name));
         tableColumn.setCellFactory(
                 new Callback<TableColumn<Map<String, String>, String>, TableCell<Map<String, String>, String>>() {
@@ -213,6 +211,7 @@ public class JavaFxViewUtil {
                                 this.setText(null);
                                 this.setGraphic(null);
                                 if (!empty) {
+                                    ObservableList<Map<String, String>> tableData = tableColumn.getTableView().getItems();
                                     ChoiceBox<String> choiceBox = new ChoiceBox<String>();
                                     choiceBox.getItems().addAll(choiceBoxStrings);
                                     choiceBox.setValue(tableData.get(this.getIndex()).get(name));
@@ -220,6 +219,37 @@ public class JavaFxViewUtil {
                                         tableData.get(this.getIndex()).put(name, newVal);
                                     });
                                     this.setGraphic(choiceBox);
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                });
+    }
+
+    /**
+     * 初始化选择框表格属性
+     */
+    public static void setTableColumnMapAsCheckBoxValueFactory(TableColumn tableColumn, String name) {
+        tableColumn.setCellValueFactory(new MapValueFactory(name));
+        tableColumn.setCellFactory(
+                new Callback<TableColumn<Map<String, String>, String>, TableCell<Map<String, String>, String>>() {
+                    @Override
+                    public TableCell<Map<String, String>, String> call(TableColumn<Map<String, String>, String> param) {
+                        TableCell<Map<String, String>, String> cell = new TableCell<Map<String, String>, String>() {
+                            @Override
+                            protected void updateItem(String item, boolean empty) {
+                                super.updateItem(item, empty);
+                                this.setText(null);
+                                this.setGraphic(null);
+                                if (!empty) {
+                                    ObservableList<Map<String, String>> tableData = tableColumn.getTableView().getItems();
+                                    CheckBox checkBox = new CheckBox();
+                                    checkBox.setSelected(Boolean.valueOf(tableData.get(this.getIndex()).get(name)));
+                                    checkBox.selectedProperty().addListener((obVal, oldVal, newVal) -> {
+                                        tableData.get(this.getIndex()).put(name, newVal.toString());
+                                    });
+                                    this.setGraphic(checkBox);
                                 }
                             }
                         };

@@ -38,16 +38,16 @@ public abstract class FileRenameToolView implements Initializable {
     @FXML
     protected TableColumn<Map<String,String>,String> explainTableColumn;
     @FXML
-    protected TableView fileInfoTableView;
+    protected TableView<Map<String,String>> fileInfoTableView;
     @FXML
-    protected TableColumn statusTableColumn;
+    protected TableColumn<Map<String,String>,String> statusTableColumn;
     @FXML
-    protected TableColumn fileNameTableColumn;
+    protected TableColumn<Map<String,String>,String> fileNameTableColumn;
     @FXML
-    protected TableColumn newFileNameTableColumn;
+    protected TableColumn<Map<String,String>,String> newFileNameTableColumn;
     @FXML
-    protected TableColumn errorInfoTableColumn;
+    protected TableColumn<Map<String,String>,String> errorInfoTableColumn;
     @FXML
-    protected TableColumn filesPathTableColumn;
+    protected TableColumn<Map<String,String>,String> filesPathTableColumn;
 
 }

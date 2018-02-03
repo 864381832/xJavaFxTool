@@ -1,22 +1,23 @@
 package com.xwintop.xJavaFxTool.controller.littleTools;
 
+import com.xwintop.xJavaFxTool.services.littleTools.FileRenameToolService;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.view.littleTools.FileRenameToolView;
-import com.xwintop.xJavaFxTool.services.littleTools.FileRenameToolService;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
-
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 
 @Getter
 @Setter
@@ -24,6 +25,7 @@ import javafx.fxml.FXML;
 public class FileRenameToolController extends FileRenameToolView {
     private FileRenameToolService fileRenameToolService = new FileRenameToolService(this);
     private ObservableList<Map<String, String>> ruleTableData = FXCollections.observableArrayList();
+    private ObservableList<Map<String, String>> fileInfoTableData = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -33,10 +35,16 @@ public class FileRenameToolController extends FileRenameToolView {
     }
 
     private void initView() {
-        JavaFxViewUtil.setTableColumnMapValueFactory(orderTableColumn, "key",false);
-        JavaFxViewUtil.setTableColumnMapValueFactory(ruleTableColumn, "value");
-        JavaFxViewUtil.setTableColumnMapValueFactory(explainTableColumn, "value");
+        JavaFxViewUtil.setTableColumnMapValueFactory(orderTableColumn, "order",false);
+        JavaFxViewUtil.setTableColumnMapValueFactory(ruleTableColumn, "rule");
+        JavaFxViewUtil.setTableColumnMapValueFactory(explainTableColumn, "explain");
         ruleTableView.setItems(ruleTableData);
+        JavaFxViewUtil.setTableColumnMapAsCheckBoxValueFactory(statusTableColumn, "status");
+        JavaFxViewUtil.setTableColumnMapValueFactory(fileNameTableColumn, "fileName");
+        JavaFxViewUtil.setTableColumnMapValueFactory(newFileNameTableColumn, "newFileName");
+        JavaFxViewUtil.setTableColumnMapValueFactory(errorInfoTableColumn, "errorInfo");
+        JavaFxViewUtil.setTableColumnMapValueFactory(filesPathTableColumn, "filesPath");
+        fileInfoTableView.setItems(fileInfoTableData);
     }
 
     private void initEvent() {
@@ -50,15 +58,29 @@ public class FileRenameToolController extends FileRenameToolView {
     private void addFileAction(ActionEvent event) {
         File file = FileChooserUtil.chooseFile();
         if (file != null) {
-//            textFieldCopyFileOriginalPath.setText(file.getPath());
+            Map<String, String> dataRow = new HashMap<String, String>();
+            dataRow.put("status","true");
+            dataRow.put("fileName",file.getName());
+            dataRow.put("newFileName","");
+            dataRow.put("errorInfo","");
+            dataRow.put("filesPath",file.getPath());
+            fileInfoTableData.add(dataRow);
         }
     }
 
     @FXML
     private void addFolderAction(ActionEvent event) {
-        File file = FileChooserUtil.chooseDirectory();
-        if (file != null) {
-//            textFieldCopyFileTargetPath.setText(file.getPath());
+        File folderFile = FileChooserUtil.chooseDirectory();
+        if (folderFile != null) {
+            for (File file : FileUtils.listFiles(folderFile, null, false)) {
+                Map<String, String> dataRow = new HashMap<String, String>();
+                dataRow.put("status","true");
+                dataRow.put("fileName",file.getName());
+                dataRow.put("newFileName","");
+                dataRow.put("errorInfo","");
+                dataRow.put("filesPath",file.getPath());
+                fileInfoTableData.add(dataRow);
+            }
         }
     }
 
@@ -72,6 +94,11 @@ public class FileRenameToolController extends FileRenameToolView {
 
     @FXML
     private void addRoleTableAction(ActionEvent event) {
+        Map<String, String> dataRow = new HashMap<String, String>();
+        dataRow.put("order","true");
+        dataRow.put("rule","true");
+        dataRow.put("explain","true");
+        ruleTableData.add(dataRow);
     }
 
     @FXML

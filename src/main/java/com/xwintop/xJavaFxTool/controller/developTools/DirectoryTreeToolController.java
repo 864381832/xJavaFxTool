@@ -53,8 +53,8 @@ public class DirectoryTreeToolController extends DirectoryTreeToolView {
         scopeTypeChoiceBox.getItems().addAll(scopeTypeChoiceBoxStrings);
         scopeTypeChoiceBox.getSelectionModel().select(0);
         JavaFxViewUtil.setTableColumnMapValueFactory(filtrationConditionTableColumn, "filtrationCondition");
-        JavaFxViewUtil.setTableColumnMapAsChoiceBoxValueFactory(filtrationTypeTableColumn, "filtrationType",filtrationTypeChoiceBoxStrings,tableData);
-        JavaFxViewUtil.setTableColumnMapAsChoiceBoxValueFactory(scopeTypeTableColumn, "scopeType",scopeTypeChoiceBoxStrings,tableData);
+        JavaFxViewUtil.setTableColumnMapAsChoiceBoxValueFactory(filtrationTypeTableColumn, "filtrationType",filtrationTypeChoiceBoxStrings);
+        JavaFxViewUtil.setTableColumnMapAsChoiceBoxValueFactory(scopeTypeTableColumn, "scopeType",scopeTypeChoiceBoxStrings);
         tableViewMain.setItems(tableData);
     }
 
