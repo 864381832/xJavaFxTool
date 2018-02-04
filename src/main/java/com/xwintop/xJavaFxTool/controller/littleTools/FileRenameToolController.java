@@ -103,6 +103,7 @@ public class FileRenameToolController extends FileRenameToolView {
 
     @FXML
     private void removeRuleTableAction(ActionEvent event) {
+        ruleTableData.remove(ruleTableView.getSelectionModel().getSelectedItem());
     }
 
     @FXML
