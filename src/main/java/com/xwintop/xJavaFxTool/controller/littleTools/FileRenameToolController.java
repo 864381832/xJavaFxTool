@@ -3,6 +3,7 @@ package com.xwintop.xJavaFxTool.controller.littleTools;
 import com.xwintop.xJavaFxTool.services.littleTools.FileRenameToolService;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.view.littleTools.FileRenameToolView;
+import com.xwintop.xcore.util.javafx.AlertUtil;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,6 +19,12 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+/**
+ * @ClassName: FileRenameToolController
+ * @Description: 文件重命名工具
+ * @author: xufeng
+ * @date: 2018/2/5 17:03
+ */
 
 @Getter
 @Setter
@@ -29,6 +36,7 @@ public class FileRenameToolController extends FileRenameToolView {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        AlertUtil.showInfoAlert("该工具未完善，谢谢！！！");
         initView();
         initEvent();
         initService();

@@ -34,9 +34,10 @@ public class IndexService {
 	}
 
 	public ContextMenu getSelectContextMenu(String selectText) {
+		selectText = selectText.toLowerCase();
 		ContextMenu contextMenu = new ContextMenu();
 		for (MenuItem menuItem : menuItemMap.values()) {
-			if (menuItem.getText().contains(selectText)) {
+			if (menuItem.getText().toLowerCase().contains(selectText)) {
 				MenuItem menu_tab = new MenuItem(menuItem.getText(),menuItem.getGraphic());
 				menu_tab.setOnAction(event1 -> {
 					menuItem.fire();

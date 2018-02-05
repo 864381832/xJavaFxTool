@@ -37,6 +37,7 @@ public class ScriptEngineToolService {
     private ScriptEngineToolController scriptEngineToolController;
     private String fileName = "scriptEngineToolConfigure.properties";
     private ScheduleManager scheduleManager = new ScheduleManager();
+
     public ScriptEngineToolService(ScriptEngineToolController scriptEngineToolController) {
         this.scriptEngineToolController = scriptEngineToolController;
     }
@@ -46,8 +47,8 @@ public class ScriptEngineToolService {
      * @Description: 运行所有动作
      */
     public void runAllAction() {
-        for(ScriptEngineToolTableBean scriptEngineToolTableBean : scriptEngineToolController.getTableData()){
-            if(scriptEngineToolTableBean.getIsEnabled()){
+        for (ScriptEngineToolTableBean scriptEngineToolTableBean : scriptEngineToolController.getTableData()) {
+            if (scriptEngineToolTableBean.getIsEnabled()) {
                 runAction(scriptEngineToolTableBean);
             }
         }
@@ -63,33 +64,33 @@ public class ScriptEngineToolService {
         System.out.println("运行:" + type + " : " + script);
         addLog("运行:" + type + " : " + script);
         Map parameterMap = null;
-        if(StringUtils.isNotEmpty(scriptEngineToolTableBean.getParameter())){
-            parameterMap = JSON.parseObject(scriptEngineToolTableBean.getParameter(),Map.class);
+        if (StringUtils.isNotEmpty(scriptEngineToolTableBean.getParameter())) {
+            parameterMap = JSON.parseObject(scriptEngineToolTableBean.getParameter(), Map.class);
         }
         try {
             Object log = null;
             if (scriptEngineToolController.getTypeChoiceBoxStrings()[0].equals(type)) {// JavaScript脚本
-                log = new ScriptEngineManager("JavaScript").eval(script,parameterMap);
+                log = new ScriptEngineManager("JavaScript").eval(script, parameterMap);
             } else if (scriptEngineToolController.getTypeChoiceBoxStrings()[1].equals(type)) {// JavaScript脚本文件
                 log = new ScriptEngineManager("JavaScript").eval(new File(script));
             } else if (scriptEngineToolController.getTypeChoiceBoxStrings()[2].equals(type)) {// Groovy脚本
-                log = new ScriptEngineManager("Groovy").eval(script,parameterMap);
+                log = new ScriptEngineManager("Groovy").eval(script, parameterMap);
             } else if (scriptEngineToolController.getTypeChoiceBoxStrings()[3].equals(type)) {// Groovy脚本文件
                 log = new ScriptEngineManager("Groovy").eval(new File(script));
             } else if (scriptEngineToolController.getTypeChoiceBoxStrings()[4].equals(type)) {// Python脚本
-                log = new ScriptEngineManager("Python").eval(script,parameterMap);
+                log = new ScriptEngineManager("Python").eval(script, parameterMap);
             } else if (scriptEngineToolController.getTypeChoiceBoxStrings()[5].equals(type)) {// Python脚本文件
                 log = new ScriptEngineManager("Python").eval(new File(script));
             } else if (scriptEngineToolController.getTypeChoiceBoxStrings()[6].equals(type)) {// Lua脚本
-                log = new ScriptEngineManager("Lua").eval(script,parameterMap);
+                log = new ScriptEngineManager("Lua").eval(script, parameterMap);
             } else if (scriptEngineToolController.getTypeChoiceBoxStrings()[7].equals(type)) {// Lua脚本文件
                 log = new ScriptEngineManager("Lua").eval(new File(script));
             }
             addLog(log);
             //继续执行后触发任务
-            if(scriptEngineToolTableBean.getIsRunAfterActivate()){
-                for(ScriptEngineToolTableBean tableBean:scriptEngineToolController.getTableData()){
-                    if(tableBean.getOrder().equals(scriptEngineToolTableBean.getRunAfterActivate())){
+            if (scriptEngineToolTableBean.getIsRunAfterActivate()) {
+                for (ScriptEngineToolTableBean tableBean : scriptEngineToolController.getTableData()) {
+                    if (tableBean.getOrder().equals(scriptEngineToolTableBean.getRunAfterActivate())) {
                         runAction(tableBean);
                         break;
                     }
@@ -104,11 +105,12 @@ public class ScriptEngineToolService {
 
     /**
      * 向控制台添加日志信息
+     *
      * @param log 日志
      */
-    public void addLog(Object log){
-        if (log != null){
-            this.getScriptEngineToolController().getLogTextArea().appendText("\n"+log.toString());
+    public void addLog(Object log) {
+        if (log != null) {
+            this.getScriptEngineToolController().getLogTextArea().appendText("\n" + log.toString());
         }
     }
 
@@ -121,26 +123,31 @@ public class ScriptEngineToolService {
         String script = scriptEngineToolTableBean.getScript();
         System.out.println("查看:" + type + " : " + script);
         try {
-            if (scriptEngineToolController.getTypeChoiceBoxStrings()[0].equals(type)) {// 命令行
-                AlertUtil.showInfoAlert("脚本命令",script);
-            } else if (scriptEngineToolController.getTypeChoiceBoxStrings()[1].equals(type)) {// 脚本文件
+//            if (scriptEngineToolController.getTypeChoiceBoxStrings()[0].equals(type)) {// 命令行
+//                AlertUtil.showInfoAlert("脚本命令", script);
+//            } else if (scriptEngineToolController.getTypeChoiceBoxStrings()[1].equals(type)) {// 脚本文件
+//                Runtime.getRuntime().exec("NotePad.exe " + script);
+//            }
+            if (type.contains("文件")) {// 命令行
                 Runtime.getRuntime().exec("NotePad.exe " + script);
+            } else {// 脚本文件
+                AlertUtil.showInfoAlert("脚本命令", script);
             }
         } catch (Exception e) {
-            e.printStackTrace();
             log.error(e.getMessage());
+            TooltipUtil.showToast("查看脚本失败！！" + e.getMessage());
         }
     }
 
     public boolean runQuartzAction(String quartzType, String cronText, int interval, int repeatCount) throws Exception {
         if ("简单表达式".equals(quartzType)) {
-            scheduleManager.runQuartzAction(ScriptEngineToolJob.class,this,interval,repeatCount);
+            scheduleManager.runQuartzAction(ScriptEngineToolJob.class, this, interval, repeatCount);
         } else if ("Cron表达式".equals(quartzType)) {
             if (StringUtils.isEmpty(cronText)) {
                 TooltipUtil.showToast("cron表达式不能为空。");
                 return false;
             }
-            scheduleManager.runQuartzAction(ScriptEngineToolJob.class,this,cronText);
+            scheduleManager.runQuartzAction(ScriptEngineToolJob.class, this, cronText);
         }
         return true;
     }

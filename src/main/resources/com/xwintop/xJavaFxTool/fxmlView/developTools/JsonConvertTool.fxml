@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.developTools.JsonConvertToolController">
+   <children>
+      <SplitPane dividerPositions="0.4" layoutX="100.0" layoutY="92.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <items>
+            <TextArea fx:id="jsonTextArea" />
+            <HBox alignment="CENTER" SplitPane.resizableWithParent="false">
+               <children>
+                  <VBox alignment="TOP_CENTER" minWidth="100.0" spacing="5.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#jsonToXmlAction" text="Json转xml" />
+                        <Button mnemonicParsing="false" onAction="#xmlToJsonAction" text="xml转Json" />
+                        <Button mnemonicParsing="false" onAction="#jsonToJavaBeanAction" text="转javaBean" />
+                        <Button mnemonicParsing="false" onAction="#jsonToCAction" text="转C# bean" />
+                        <Button mnemonicParsing="false" onAction="#excelToJsonAction" text="Excel转Json" />
+                        <Button mnemonicParsing="false" onAction="#jsonToExcelAction" text="Json转Excel" />
+                        <Button mnemonicParsing="false" onAction="#jsonToYamlAction" text="Json转Yaml" />
+                        <Button mnemonicParsing="false" onAction="#yamlToJsonAction" text="Yaml转Json" />
+                     </children>
+                     <HBox.margin>
+                        <Insets top="10.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <TextArea fx:id="afterTextArea" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+         </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

@@ -199,7 +199,12 @@
 		<url>/com/xwintop/xJavaFxTool/fxmlView/littleTools/FileRenameTool.fxml</url>
 		<title>FileRenameTool</title>
 		<menuParentId>littleTools</menuParentId>
-		<isDefaultShow>true</isDefaultShow>
+	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/com/xwintop/xJavaFxTool/fxmlView/developTools/JsonConvertTool.fxml</url>
+		<title>JsonConvertTool</title>
+		<menuParentId>developTools</menuParentId>
+		<isDefaultShow></isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 
 	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"

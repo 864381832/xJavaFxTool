@@ -6,6 +6,7 @@ import com.xwintop.xJavaFxTool.services.debugTools.KafkaToolService;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.view.debugTools.KafkaToolView;
 import com.xwintop.xcore.base.XProperty;
+import com.xwintop.xcore.util.javafx.AlertUtil;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -31,6 +32,12 @@ import javax.jms.Session;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * @ClassName: KafkaToolController
+ * @Description: kafka调试工具
+ * @author: xufeng
+ * @date: 2018/2/5 17:05
+ */
 @Getter
 public class KafkaToolController extends KafkaToolView {
 	private KafkaToolService kafkaToolService = new KafkaToolService(this);
@@ -49,6 +56,7 @@ public class KafkaToolController extends KafkaToolView {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		AlertUtil.showInfoAlert("该工具未完善，谢谢！！！");
 		initService();
 		initView();
 		initEvent();
