@@ -1,5 +1,6 @@
 package com.xwintop.xJavaFxTool.view.assistTools;
 
+import com.jfoenix.controls.JFXSlider;
 import lombok.Getter;
 import lombok.Setter;
 import javafx.fxml.Initializable;
@@ -27,7 +28,7 @@ public abstract class WechatJumpGameToolView implements Initializable {
     @FXML
     protected Label adbConnectHintLabel;
     @FXML
-    protected Spinner<Integer> waitTimeSpinner;
+    protected JFXSlider waitTimeSlider;
     @FXML
     protected JFXCheckBox autoRestartCheckBox;
     @FXML

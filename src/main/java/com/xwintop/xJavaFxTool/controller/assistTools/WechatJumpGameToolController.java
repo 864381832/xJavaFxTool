@@ -1,17 +1,17 @@
 package com.xwintop.xJavaFxTool.controller.assistTools;
 
-import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
-import com.xwintop.xJavaFxTool.view.assistTools.WechatJumpGameToolView;
 import com.xwintop.xJavaFxTool.services.assistTools.WechatJumpGameToolService;
+import com.xwintop.xJavaFxTool.view.assistTools.WechatJumpGameToolView;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 /**
  * @ClassName: WechatJumpGameToolController
  * @Description: 微信跳一跳助手
@@ -33,10 +33,15 @@ public class WechatJumpGameToolController extends WechatJumpGameToolView {
     }
 
     private void initView() {
-        JavaFxViewUtil.setSpinnerValueFactory(waitTimeSpinner, 1, Integer.MAX_VALUE);
     }
 
     private void initEvent() {
+        autoRestartCheckBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                wechatJumpGameToolService.setRestart(newValue);
+            }
+        });
     }
 
     private void initService() {

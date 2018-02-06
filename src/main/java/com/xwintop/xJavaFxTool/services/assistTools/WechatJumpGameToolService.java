@@ -48,10 +48,11 @@ public class WechatJumpGameToolService {
 
     public void adbConnectAction() {
         try {
-            Process processADB = Runtime.getRuntime().exec( adb+" shell");
+            Process processADB = Runtime.getRuntime().exec(adb + " shell");
             InputStream inputStream = processADB.getInputStream();
             new Thread(new Runnable() {
                 byte[] cache = new byte[1024];
+
                 public void run() {
                     try {
                         int i;
@@ -77,17 +78,19 @@ public class WechatJumpGameToolService {
         }
     }
 
-    public void adbRunAction(){
+    public void adbRunAction() {
         if (!running) {
             new Thread(() -> {
                 try {
-                    setRate();
+                    rate = (float) wechatJumpGameToolController.getWaitTimeSlider().getValue();
                     run();
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                    log.error(e.getMessage());
                     String msg = "分析图片错误，请确认已打开跳一跳";
-                    if (step == 0) msg = "时间系数请设置为1-3之间的数字";
-                    if (step == 1) msg = "adb错误，请结束adb.exe进程后重试";
+//                    if (step == 0) msg = "时间系数请设置为1-3之间的数字";
+                    if (step == 1) {
+                        msg = "adb错误，请结束adb.exe进程后重试";
+                    }
                     stop(msg);
                 }
             }).start();
@@ -98,23 +101,18 @@ public class WechatJumpGameToolService {
 
     private void stop(String msg) {
         running = false;
-        Platform.runLater(()->{
+        Platform.runLater(() -> {
             wechatJumpGameToolController.getAdbRunButton().setText(start);
             wechatJumpGameToolController.getErrorInfoLabel().setText(msg);
         });
     }
 
-    private void setRate() throws Exception {
-        step = 0;
-        float f = wechatJumpGameToolController.getWaitTimeSpinner().getValue();
-        if (f < 1 || f > 3) throw new Exception("error number");
-        rate = f;
-    }
-
     private void run() throws Exception {
         running = true;
-        wechatJumpGameToolController.getAdbRunButton().setText(stop);
-        wechatJumpGameToolController.getErrorInfoLabel().setText("=====正在运行中=====");
+        Platform.runLater(() -> {
+            wechatJumpGameToolController.getAdbRunButton().setText(stop);
+            wechatJumpGameToolController.getErrorInfoLabel().setText("=====正在运行中=====");
+        });
         while (running) {
             step = 1;//截屏
             File pic = getScreenPic();

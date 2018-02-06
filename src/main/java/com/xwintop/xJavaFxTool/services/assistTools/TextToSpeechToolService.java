@@ -4,6 +4,9 @@ import com.baidu.aip.speech.AipSpeech;
 import com.baidu.aip.speech.TtsResponse;
 import com.baidu.aip.util.Util;
 import com.xwintop.xJavaFxTool.controller.assistTools.TextToSpeechToolController;
+import com.xwintop.xJavaFxTool.utils.ConfigureUtil;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -12,6 +15,7 @@ import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -28,11 +32,13 @@ import java.util.HashMap;
 public class TextToSpeechToolService {
     private TextToSpeechToolController textToSpeechToolController;
     //设置APPID/AK/SK
-    public static final String APP_ID = "8956338";
-    public static final String API_KEY = "cF4m42flDjPuYqLMfzZrz3kW";
-    public static final String SECRET_KEY = "56f9b56408c4c348dd444218c07d95b9";
+    public static final String APP_ID = "10690878";
+    public static final String API_KEY = "y5VI7DG4YNb1G600X8FpxsN2";
+    public static final String SECRET_KEY = "4RoIZEBGePYU4R4capF4OEYZ3HL3nCSU";
 
     private AudioStream audioStream = null;
+
+    private String mp3Cache = ConfigureUtil.getConfigurePath("output.mp3");
 
     public void playAction() throws Exception {
         AipSpeech client = new AipSpeech(APP_ID, API_KEY, SECRET_KEY);
@@ -47,12 +53,14 @@ public class TextToSpeechToolService {
         TtsResponse res = client.synthesis(textToSpeechToolController.getTextTextArea().getText(), "zh", 1, options);
         byte[] data = res.getData();
         JSONObject res1 = res.getResult();
-        System.out.println(res1.toString());
         if (data != null) {
-//                Util.writeBytesToFileSystem(data, "output.mp3");
-            audioStream = new AudioStream(new ByteArrayInputStream(data));
-            AudioPlayer.player.start(audioStream);//用静态成员player.start播放音乐
+                Util.writeBytesToFileSystem(data, mp3Cache);
+//            audioStream = new AudioStream(new ByteArrayInputStream(data));
+//            AudioPlayer.player.start(audioStream);//用静态成员player.start播放音乐
             //AudioPlayer.player.stop(as);//关闭音乐播放
+            Media media = new Media(new File(mp3Cache).toURI().toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.play();
         }
         if (res1 != null) {
             System.out.println(res1.toString(2));
