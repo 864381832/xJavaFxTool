@@ -94,6 +94,8 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 
 34、WechatJumpGameTool：微信跳一跳助手；
 
+35、TextToSpeechTool：语音转换工具（调用百度语音转换api）；
+
 项目开发中，以后会陆续添加新工具，欢迎大家参与其中，多提提意见，谢谢。
 
 

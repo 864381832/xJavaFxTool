@@ -181,6 +181,13 @@
 			<version>3.0.1</version>
 		</dependency>
 
+		<!--百度人工智能api-->
+		<dependency>
+			<groupId>com.baidu.aip</groupId>
+			<artifactId>java-sdk</artifactId>
+			<version>4.0.0</version>
+		</dependency>
+
 		<!-- 目录文件监控工具包 -->
 		<!-- <dependency> <groupId>net.sf.jpathwatch</groupId> <artifactId>jpathwatch</artifactId> 
 			<version>0.95</version> </dependency> -->

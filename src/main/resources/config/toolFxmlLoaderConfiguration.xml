@@ -211,7 +211,12 @@
 		<url>/com/xwintop/xJavaFxTool/fxmlView/assistTools/WechatJumpGameTool.fxml</url>
 		<title>WechatJumpGameTool</title>
 		<menuParentId>assistTools</menuParentId>
-		<isDefaultShow></isDefaultShow>
+	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/com/xwintop/xJavaFxTool/fxmlView/assistTools/TextToSpeechTool.fxml</url>
+		<title>TextToSpeechTool</title>
+		<menuParentId>assistTools</menuParentId>
+		<isDefaultShow>true</isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 
 	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"
