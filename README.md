@@ -90,7 +90,9 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 
 32、FileRenameTool：文件重命名工具（未完善）；
 
-33、JsonConvertTool：Json转换工具（目前支持Json转Xml、Json转Java实体类、Json转C#实体类、Json转Excel、Json转Yaml）
+33、JsonConvertTool：Json转换工具（目前支持Json转Xml、Json转Java实体类、Json转C#实体类、Json转Excel、Json转Yaml）；
+
+34、WechatJumpGameTool：微信跳一跳助手；
 
 项目开发中，以后会陆续添加新工具，欢迎大家参与其中，多提提意见，谢谢。
 

@@ -14,6 +14,8 @@
 		menuId="developTools" isMenu="true" />
 	<ToolFxmlLoaderConfiguration title="webTools"
 		menuId="webTools" isMenu="true" />
+	<ToolFxmlLoaderConfiguration title="assistTools"
+		menuId="assistTools" isMenu="true" />
 	<ToolFxmlLoaderConfiguration
 		url="/com/xwintop/xJavaFxTool/fxmlView/javaFxTools/JavaFxXmlToObjectCode.fxml" resourceBundleName=""
 		className="" title="JavaFxXmlToObjectCode" iconPath="/images/icon.jpg"
@@ -204,6 +206,11 @@
 		<url>/com/xwintop/xJavaFxTool/fxmlView/developTools/JsonConvertTool.fxml</url>
 		<title>JsonConvertTool</title>
 		<menuParentId>developTools</menuParentId>
+	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/com/xwintop/xJavaFxTool/fxmlView/assistTools/WechatJumpGameTool.fxml</url>
+		<title>WechatJumpGameTool</title>
+		<menuParentId>assistTools</menuParentId>
 		<isDefaultShow></isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 
