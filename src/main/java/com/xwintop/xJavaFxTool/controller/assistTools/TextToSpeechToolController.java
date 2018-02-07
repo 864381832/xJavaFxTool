@@ -1,16 +1,15 @@
 package com.xwintop.xJavaFxTool.controller.assistTools;
 
-import com.xwintop.xJavaFxTool.view.assistTools.TextToSpeechToolView;
 import com.xwintop.xJavaFxTool.services.assistTools.TextToSpeechToolService;
+import com.xwintop.xJavaFxTool.view.assistTools.TextToSpeechToolView;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 /**
  * @ClassName: TextToSpeechToolController
  * @Description: 语音转换工具

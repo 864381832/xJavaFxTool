@@ -15,12 +15,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 import org.json.JSONObject;
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -54,6 +50,9 @@ public class TextToSpeechToolService {
             //AudioPlayer.player.stop(as);//关闭音乐播放
             Media media = new Media(new File(mp3Cache).toURI().toString());
             mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.setOnEndOfMedia(()->{
+                textToSpeechToolController.getPlayButton().setText("播放");
+            });
             mediaPlayer.play();
         }
         JSONObject res1 = res.getResult();
