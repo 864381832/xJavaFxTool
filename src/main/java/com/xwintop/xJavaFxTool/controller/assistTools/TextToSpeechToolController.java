@@ -54,4 +54,9 @@ public class TextToSpeechToolController extends TextToSpeechToolView {
             textToSpeechToolService.stopPlayAction();
         }
     }
+
+    @FXML
+    void saveAudioAction(ActionEvent event) throws Exception {
+        textToSpeechToolService.saveAudioAction();
+    }
 }
