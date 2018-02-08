@@ -216,7 +216,7 @@
 		<url>/com/xwintop/xJavaFxTool/fxmlView/assistTools/TextToSpeechTool.fxml</url>
 		<title>TextToSpeechTool</title>
 		<menuParentId>assistTools</menuParentId>
-		<isDefaultShow>true</isDefaultShow>
+		<isDefaultShow></isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 
 	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"

@@ -8,6 +8,6 @@ import java.util.Locale;
 public class Config {
 	public static Locale defaultLocale = Locale.getDefault();// 设置系统语言
 
-	public static final String xJavaFxToolVersions = "V0.1.3";// xJavaFxTool版本信息
-	public static final int xJavaFxToolVersionsInteger = 4;// xJavaFxTool更新信息
+	public static final String xJavaFxToolVersions = "V0.1.4";// xJavaFxTool版本信息
+	public static final int xJavaFxToolVersionsInteger = 5;// xJavaFxTool更新信息
 }
