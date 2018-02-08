@@ -13,8 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
+import lombok.extern.log4j.Log4j;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.ResourceBundle;
@@ -26,17 +25,16 @@ import java.util.ResourceBundle;
  * @date: 2017年11月10日 下午4:34:11  
  */
 @SpringBootApplication
+@Log4j
 public class Main extends Application {
-	private static Logger log = Logger.getLogger(Main.class);
 	private static Stage stage;
 
 	public static void main(String[] args) {
-		PropertyConfigurator.configure(Main.class.getResource("/config/log4j.properties"));//加载日志配置
 		try {
+			log.info("xJavaFxTool项目启动");
 			launch(args);
 		} catch (Exception e) {
-			e.printStackTrace();
-			log.error(e);
+			log.error(e.getMessage());
 		}
 	}
 

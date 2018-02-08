@@ -88,6 +88,7 @@ public class TextToSpeechToolService {
         String per = textToSpeechToolController.getPerToggleGroup().getSelectedToggle().getUserData().toString();
         options.put("per", per);
 //        System.out.println(options.toString());
+        log.info("转换参数："+options.toString());
         String textString = textToSpeechToolController.getTextTextArea().getText();
         TtsResponse res = CacheUtil.getInstance().get(options.toString() + textString, TtsResponse.class, s -> {
             return client.synthesis(textString, "zh", 1, options);
