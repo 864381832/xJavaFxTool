@@ -10,11 +10,14 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 由于SpringBoot的火热，项目已经出SpringBoot-javafx版本，[xJavaFxTool-spring](https://gitee.com/xwintop/xJavaFxTool-spring) 欢迎参考，谢谢。
 
 下载试用地址：
-[xJavaFxTool.jar](https://gitee.com/xwintop/xJavaFxTool/raw/master/xJavaFxTool.jar)（可直接运行的jar包）
 
-[xJavaFxTool-windows-x64.exe](http://files.git.oschina.net/group1/M00/02/89/PaAvDFo33RGAJe5bA2lMAD5nJs8755.exe?token=244c13345b9b2d11b156a627f1bcc544&ts=1513611787&attname=xJavaFxTool-windows-x64.exe) （Windows平台64位运行包）
+（可直接下载安装使用，不需要任何第三方环境，兼容xp、windows7、8、10等系统）[xJavaFxTool-0.1.4.exe](http://files.git.oschina.net/group1/M00/02/EA/PaAvDFp8eByATSAzBhUKCsTbpUc258.exe?token=3020a95a8a5f6509f5fa9575090d54db&ts=1518139040&attname=xJavaFxTool-install.exe)
 
-[xJavaFxTool-windows-x86.exe](http://files.git.oschina.net/group1/M00/02/8A/PaAvDFo34guAP7_yA2jKAMZw2N4236.exe?token=5da6197f8a284e4bc47cd20312d72162&ts=1513611787&attname=xJavaFxTool-windows-x86.exe) （Windows平台32位运行包）
+（本地需要有jdk1.8环境）[xJavaFxTool-0.1.4.jar](http://files.git.oschina.net/group1/M00/02/EA/PaAvDFp8_Q-AETFIBCfy93hiJyo600.jar?token=e668b2e779efabf8e7414f9dd8e3f0a6&ts=1518140688&attname=xJavaFxTool-0.1.4.jar)（可直接运行的jar包）
+
+（本地需要有jdk1.8环境）[xJavaFxTool-windows-x64-0.1.4.exe](http://files.git.oschina.net/group1/M00/02/EA/PaAvDFp8cFOAZmzcBCy8AHMtHjA024.exe?token=0317b8fc5268c42d110e1d008db28760&ts=1518139040&attname=xJavaFxTool-windows-x64-0.1.4.exe) （Windows平台64位运行包）
+
+（本地需要有jdk1.8环境）[xJavaFxTool-windows-x86-0.1.4.exe](http://files.git.oschina.net/group1/M00/02/EA/PaAvDFp8ckuAejoZBCw6AG93rus326.exe?token=9ee4902139bcf39c0c8c6cdb30f87194&ts=1518139040&attname=xJavaFxTool-windows-x86-0.1.4.exe) （Windows平台32位运行包）
 
 支持插件开发，将插件jar包放至根目录libs下即可自动加载（插件开发示例见[开源项目xJavaFxPlugIn](https://gitee.com/xwintop/xJavaFxPlugIn)，目前刚刚搭建，后续会持续更新）；
 
