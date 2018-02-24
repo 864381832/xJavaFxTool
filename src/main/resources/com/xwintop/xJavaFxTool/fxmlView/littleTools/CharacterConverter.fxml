@@ -5,18 +5,37 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="mainAnchorPane" prefHeight="450.0" prefWidth="662.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.CharacterConverterController">
+<AnchorPane fx:id="mainAnchorPane" prefHeight="450.0" prefWidth="662.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.CharacterConverterController">
    <children>
-      <Label layoutX="14.0" layoutY="14.0" text="Encode String:" />
-      <TextField fx:id="encodeTextField" layoutX="115.0" layoutY="10.0" prefHeight="23.0" prefWidth="386.0" />
-      <Button fx:id="encodeButton" layoutX="582.0" layoutY="10.0" mnemonicParsing="false" text="Encode" />
-      <Label layoutX="14.0" layoutY="41.0" text="编码类别：" />
-      <ChoiceBox fx:id="codeTypesBox" layoutX="86.0" layoutY="37.0" prefHeight="23.0" prefWidth="111.0" />
-      <Label layoutX="219.0" layoutY="41.0" text="进制前缀符:" />
-      <ChoiceBox fx:id="prefixsBox" layoutX="291.0" layoutY="37.0" prefHeight="23.0" prefWidth="83.0" />
-      <Label layoutX="400.0" layoutY="41.0" text="进制大小写:" />
-      <ChoiceBox fx:id="lowUpCaseBox" layoutX="463.0" layoutY="37.0" prefHeight="23.0" prefWidth="49.0" />
-      <Button fx:id="clearButton" layoutX="554.0" layoutY="37.0" mnemonicParsing="false" onAction="#clearTextFields" text="清除输入输出" />
+      <BorderPane layoutX="14.0" layoutY="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <center>
+            <VBox fx:id="mainVBox" alignment="TOP_CENTER" spacing="10.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER" spacing="10.0">
+                     <children>
+                        <Label text="Encode String:" />
+                        <TextField fx:id="encodeTextField" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="encodeButton" mnemonicParsing="false" text="Encode" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" spacing="10.0">
+                     <children>
+                        <Label text="编码类别：" />
+                        <ChoiceBox fx:id="codeTypesBox" />
+                        <Label text="进制前缀符:" />
+                        <ChoiceBox fx:id="prefixsBox" />
+                        <Label text="进制大小写:" />
+                        <ChoiceBox fx:id="lowUpCaseBox" />
+                        <Button fx:id="clearButton" mnemonicParsing="false" onAction="#clearTextFields" text="清除输入输出" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </center>
+      </BorderPane>
    </children>
 </AnchorPane>

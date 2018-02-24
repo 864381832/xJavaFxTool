@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 
 /**
  * @ClassName: CharacterConverterView
@@ -28,4 +29,6 @@ public abstract class CharacterConverterView implements Initializable {
     protected ChoiceBox<String> lowUpCaseBox;
     @FXML
     protected Button clearButton;
+    @FXML
+    protected VBox mainVBox;
 }

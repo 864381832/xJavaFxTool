@@ -8,9 +8,12 @@ import com.xwintop.xJavaFxTool.view.littleTools.CharacterConverterView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -63,29 +66,39 @@ public class CharacterConverterController extends CharacterConverterView {
 		lowUpCaseBox.getItems().addAll(lowUpCase);
 		lowUpCaseBox.setValue(lowUpCaseBox.getItems().get(0));
 		for (int i = 0; i < fields.length; i++) {
+			HBox hBox = new HBox();
+            hBox.setAlignment(Pos.CENTER);
+            hBox.setSpacing(10);
 			fields[i] = new TextField();
-			fields[i].setLayoutX(112);
-			fields[i].setLayoutY(75 + 30 * i);
-			fields[i].setPrefWidth(390);
-			mainAnchorPane.getChildren().add(fields[i]);
+//			fields[i].setLayoutX(112);
+//			fields[i].setLayoutY(75 + 30 * i);
+//			fields[i].setPrefWidth(390);
+//			mainAnchorPane.getChildren().add(fields[i]);
 			if ("".equals(charsets[i])) {
 				customCharsetField = new TextField("UTF-8");
-				customCharsetField.setLayoutX(14);
-				customCharsetField.setLayoutY(75 + 30 * i);
-				customCharsetField.setPrefWidth(90);
-				mainAnchorPane.getChildren().add(customCharsetField);
+//				customCharsetField.setLayoutX(14);
+//				customCharsetField.setLayoutY(75 + 30 * i);
+                customCharsetField.setPrefWidth(90);
+//				mainAnchorPane.getChildren().add(customCharsetField);
+                hBox.getChildren().add(customCharsetField);
 			} else {
 				Label label = new Label(charsets[i]);
-				label.setLayoutX(14);
-				label.setLayoutY(75 + 30 * i);
-				mainAnchorPane.getChildren().add(label);
+//				label.setLayoutX(14);
+//				label.setLayoutY(75 + 30 * i);
+//				mainAnchorPane.getChildren().add(label);
+                label.setPrefWidth(90);
+				hBox.getChildren().add(label);
 			}
 			buttons[i] = new Button("Decode");
-			buttons[i].setLayoutX(577);
-			buttons[i].setLayoutY(75 + 30 * i);
+//			buttons[i].setLayoutX(577);
+//			buttons[i].setLayoutY(75 + 30 * i);
 			buttons[i].setAccessibleText(Integer.toString(i+1));
 			buttons[i].setOnAction(getButtonActionListener(i+1));
-			mainAnchorPane.getChildren().add(buttons[i]);
+//			mainAnchorPane.getChildren().add(buttons[i]);
+            hBox.getChildren().add(fields[i]);
+			hBox.getChildren().add(buttons[i]);
+            HBox.setHgrow(fields[i], Priority.ALWAYS);
+			mainVBox.getChildren().add(hBox);
 		}
 	}
 
