@@ -108,17 +108,18 @@ public class X2048Service {
         table = new int[size][size];
         tableFlight = new Point[size][size];
         tableAfter = new int[size][size];
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 tableFlight[i][j] = new Point(0, 0);
             }
+        }
         x2048Controller.getPlayArea().getChildren().clear();
         paneList.clear();
         width = x2048Controller.getPlayArea().getWidth();
         height = x2048Controller.getPlayArea().getHeight();
-        if(width > height){
+        if (width > height) {
             width = height;
-        }else {
+        } else {
             height = width;
         }
         Rectangle bk = new Rectangle();
@@ -141,7 +142,7 @@ public class X2048Service {
         bk.setArcHeight(10);
         x2048Controller.getPlayArea().getChildren().add(bk);
 
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 StackPane pane = new StackPane();
                 Rectangle r = new Rectangle();
@@ -156,7 +157,8 @@ public class X2048Service {
                 pane.getChildren().add(r);
                 x2048Controller.getPlayArea().getChildren().add(pane);
             }
-        for (int i = 0; i < size; i++)
+        }
+        for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 StackPane pane = new StackPane();
                 Rectangle r = new Rectangle();
@@ -199,6 +201,7 @@ public class X2048Service {
                 x2048Controller.getPlayArea().getChildren().add(pane);
 
             }
+        }
         AfterMove();
     }
 
@@ -210,7 +213,7 @@ public class X2048Service {
         }
         ParallelTransition parallelTransition2 = new ParallelTransition();
         List<MoveAnime> list = new ArrayList<>();
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 StackPane pane = (StackPane) paneList.get(i * size + j);
                 if (tableFlight != null) {
@@ -238,6 +241,7 @@ public class X2048Service {
                     }
                 }
             }
+        }
         StartMoveAnime(list);
         SequentialTransition s = new SequentialTransition();
         PauseTransition pauseTransition = new PauseTransition(Duration.millis(100));
@@ -262,7 +266,7 @@ public class X2048Service {
         animation.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                for (int i = 0; i < size; i++)
+                for (int i = 0; i < size; i++) {
                     for (int j = 0; j < size; j++) {
                         StackPane pane = (StackPane) paneList.get(i * size + j);
                         pane.setLayoutX(j * (width - margin) / size + margin / 2);
@@ -276,6 +280,7 @@ public class X2048Service {
                             t.setText("");
                         }
                     }
+                }
             }
         });
         animation.play();
@@ -287,7 +292,7 @@ public class X2048Service {
             add = 2;
         }
         List<Integer> list = CheckEmptyArea();
-        if (list.size() != 0)
+        if (list.size() != 0) {
             for (int j = 0; j < add; j++) {
                 int i = (int) (Math.random() * list.size());
                 int k = list.get(i);
@@ -296,15 +301,18 @@ public class X2048Service {
                 tableAdd[j] = new Point(k / size, k % size);
 
             }
+        }
     }
 
     private List<Integer> CheckEmptyArea() {
         List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                if (table[i][j] == 0)
+                if (table[i][j] == 0) {
                     list.add(i * size + j);
+                }
             }
+        }
         return list;
     }
 
@@ -326,11 +334,13 @@ public class X2048Service {
 
     private boolean OnChange() {
         if (state == State.RUNNING) {
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < size; i++) {
                 for (int j = 0; j < size; j++) {
-                    if (table[i][j] != tableold[i][j])
+                    if (table[i][j] != tableold[i][j]) {
                         return true;
+                    }
                 }
+            }
         }
         return false;
     }
@@ -352,8 +362,9 @@ public class X2048Service {
         switch (code) {
             case UP:
                 l = new int[size];
-                for (int i = 0; i < size; i++)
+                for (int i = 0; i < size; i++) {
                     l[i] = 0;
+                }
                 for (int i = 1; i < size; i++) {
                     for (int j = 0; j < size; j++) {
                         if (table[i][j] != 0) {
@@ -375,13 +386,15 @@ public class X2048Service {
                         }
                     }
                 }
-                if (OnChange())
+                if (OnChange()) {
                     AfterMove();
+                }
                 break;
             case DOWN:
                 l = new int[size];
-                for (int i = 0; i < size; i++)
+                for (int i = 0; i < size; i++) {
                     l[i] = size - 1;
+                }
                 for (int i = size - 2; i >= 0; i--) {
                     for (int j = 0; j < size; j++) {
                         if (table[i][j] != 0) {
@@ -402,13 +415,15 @@ public class X2048Service {
                         }
                     }
                 }
-                if (OnChange())
+                if (OnChange()) {
                     AfterMove();
+                }
                 break;
             case LEFT:
                 l = new int[size];
-                for (int i = 0; i < size; i++)
+                for (int i = 0; i < size; i++) {
                     l[i] = 0;
+                }
                 for (int j = 1; j < size; j++) {
                     for (int i = 0; i < size; i++) {
                         if (table[i][j] != 0) {
@@ -430,13 +445,15 @@ public class X2048Service {
                         }
                     }
                 }
-                if (OnChange())
+                if (OnChange()) {
                     AfterMove();
+                }
                 break;
             case RIGHT:
                 l = new int[size];
-                for (int i = 0; i < size; i++)
+                for (int i = 0; i < size; i++) {
                     l[i] = size - 1;
+                }
                 for (int j = size - 2; j >= 0; j--) {
                     for (int i = 0; i < size; i++) {
                         if (table[i][j] != 0) {
@@ -458,8 +475,9 @@ public class X2048Service {
                         }
                     }
                 }
-                if (OnChange())
+                if (OnChange()) {
                     AfterMove();
+                }
                 break;
         }
 
@@ -468,29 +486,31 @@ public class X2048Service {
     private void AfterMove() {
         AddRandomBlock();
         AddScore();
-        if (CheckLose())
+        if (CheckLose()) {
             state = State.GAMEOVER;
-        if (Check2048())
+        }
+        if (Check2048()) {
             state = State.GAMESUCCESS;
+        }
 
         Render();
         if (state == State.GAMEOVER) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("抱歉");
             alert.setHeaderText("游戏结束");
-            alert.setContentText("我去买几个橘子，你就站在此地不要走动。\n请点击按钮重置游戏！");
+            alert.setContentText("xwintop，欢迎支持！\n请点击按钮重置游戏！");
             alert.show();
         } else if (state == State.GAMESUCCESS) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("666");
             alert.setHeaderText("大吉大利，晚上吃鸡");
-            alert.setContentText("你赢了？--鲁迅。\n请点击按钮重置游戏！");
+            alert.setContentText("你赢了？--xwintop。\n请点击按钮重置游戏！");
             alert.show();
         }
     }
 
     private boolean Check2048() {
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 if (table[i][j] == 11) {
                     StackPane pane = (StackPane) paneList.get(i * size + j);
@@ -521,17 +541,19 @@ public class X2048Service {
                     return true;
                 }
             }
+        }
         return false;
     }
 
     private void AddScore() {
         int temp = 0;
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 if (tableAfter[i][j] != 0) {
                     temp += (int) (Math.pow(2, table[i][j]));
                 }
             }
+        }
         scoreInt += temp;
         score.setValue(String.format("%d", scoreInt));
 
@@ -540,51 +562,68 @@ public class X2048Service {
     private boolean CheckLose() {
         int s = CheckEmptyArea().size();
         if (s == 0) {
-            if (table[0][0] != 0)
-                if (table[0][0] == table[0][1] || table[0][0] == table[1][0]) return false;
-            if (table[0][size - 1] != 0)
-                if (table[0][size - 1] == table[0][size - 2] || table[0][size - 1] == table[1][size - 1]) return false;
-            if (table[size - 1][size - 1] != 0)
-                if (table[size - 1][size - 1] == table[size - 1][size - 2] || table[size - 1][size - 1] == table[size - 2][size - 1])
+            if (table[0][0] != 0) {
+                if (table[0][0] == table[0][1] || table[0][0] == table[1][0]) {
                     return false;
-            if (table[size - 1][0] != 0)
-                if (table[size - 1][0] == table[size - 2][0] || table[size - 1][0] == table[size - 1][1]) return false;
+                }
+            }
+            if (table[0][size - 1] != 0) {
+                if (table[0][size - 1] == table[0][size - 2] || table[0][size - 1] == table[1][size - 1]) {
+                    return false;
+                }
+            }
+            if (table[size - 1][size - 1] != 0) {
+                if (table[size - 1][size - 1] == table[size - 1][size - 2] || table[size - 1][size - 1] == table[size - 2][size - 1]) {
+                    return false;
+                }
+            }
+            if (table[size - 1][0] != 0) {
+                if (table[size - 1][0] == table[size - 2][0] || table[size - 1][0] == table[size - 1][1]) {
+                    return false;
+                }
+            }
             for (int i = 1; i < size - 1; i++) {
                 if (table[i][0] != 0) {
                     if (table[i][0] == table[i - 1][0]
                             || table[i][0] == table[i + 1][0]
-                            || table[i][0] == table[i][1])
+                            || table[i][0] == table[i][1]) {
                         return false;
+                    }
                 }
                 if (table[i][size - 1] != 0) {
                     if (table[i][size - 1] == table[i - 1][size - 1]
                             || table[i][size - 1] == table[i + 1][size - 1]
-                            || table[i][size - 1] == table[i][size - 2])
+                            || table[i][size - 1] == table[i][size - 2]) {
                         return false;
+                    }
                 }
                 if (table[0][i] != 0) {
                     if (table[0][i] == table[0][i - 1]
                             || table[0][i] == table[0][i + 1]
-                            || table[0][i] == table[1][i])
+                            || table[0][i] == table[1][i]) {
                         return false;
+                    }
                 }
                 if (table[size - 1][i] != 0) {
                     if (table[size - 1][i] == table[size - 1][i - 1]
                             || table[size - 1][i] == table[size - 1][i + 1]
-                            || table[size - 1][i] == table[size - 2][i])
+                            || table[size - 1][i] == table[size - 2][i]) {
                         return false;
+                    }
                 }
             }
-            for (int i = 1; i < size - 1; i++)
+            for (int i = 1; i < size - 1; i++) {
                 for (int j = 1; j < size - 1; j++) {
                     if (table[i][j] != 0) {
                         if (table[i][j] == table[i - 1][j]
                                 || table[i][j] == table[i + 1][j]
                                 || table[i][j] == table[i][j + 1]
-                                || table[i][j] == table[i][j - 1])
+                                || table[i][j] == table[i][j - 1]) {
                             return false;
+                        }
                     }
                 }
+            }
             return true;
         }
         return false;
@@ -614,6 +653,7 @@ public class X2048Service {
     public static class Point {
         int mx;
         int my;
+
         public Point(int x, int y) {
             mx = x;
             my = y;
@@ -634,6 +674,7 @@ class MoveAnime {
     double mFromY;
     double mMoveX;
     double mMoveY;
+
     MoveAnime(X2048Service ctrl, StackPane pane, int dx, int dy) {
         mPane = pane;
         mFromX = pane.getLayoutX();
