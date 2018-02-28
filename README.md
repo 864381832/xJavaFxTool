@@ -5,7 +5,7 @@
 
 **xJavaFxTool交流QQ群：== [387473650](https://jq.qq.com/?_wv=1027&k=59UDEAD) ==**
 
-xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立，利用业余时间把工作中遇到的一些问题总结起来，打包进小工具集中，供大家参考和使用，里面包含了javaFx的一些功能的示例，如布局、国际化、第三方UI库（controlsfx、JFoenix等）、外部jar包加载（插件机制）等一些常用功能，想学习javaFx的同学可以参考参考。
+xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立，利用业余时间把工作中遇到的一些问题总结起来，打包进小工具集中，供大家参考和使用，里面包含了javaFx的一些功能的示例，如布局、国际化、第三方UI库（[controlsfx](http://fxexperience.com/controlsfx/)、[JFoenix](http://www.jfoenix.com/)等）、外部jar包加载（插件机制）等一些常用功能，想学习javaFx的同学可以参考参考，学习javaFx的资料参考[www.javafxchina.net](http://www.javafxchina.net/main/)
 
 由于SpringBoot的火热，项目已经出SpringBoot-javafx版本，[xJavaFxTool-spring](https://gitee.com/xwintop/xJavaFxTool-spring) 欢迎参考，谢谢。
 
@@ -24,7 +24,9 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 #### 环境搭建说明：
 - 开发环境为jdk1.8，基于maven构建；
 
-- 本项目使用了lombok,在查看本项目时如果您没有下载lombok 插件，请先安装,不然找不到get/set方法；
+- 使用eclipase或Intellij Idea开发(推荐使用[Intellij Idea](https://www.jetbrains.com/idea/))
+
+- 本项目使用了[lombok](https://projectlombok.org/),在查看本项目时如果您没有下载lombok 插件，请先安装,不然找不到get/set方法；
 
 - 依赖的[xcore包](https://gitee.com/xwintop/xcore)已上传至git托管的maven平台，git托管maven可参考教程。[教程地址：点击进入](http://blog.csdn.net/u011747754/article/details/78574026)
 
@@ -99,6 +101,8 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 
 35、TextToSpeechTool：语音转换工具（调用百度语音转换api）；
 
+36、2048：小游戏2048；
+
 项目开发中，以后会陆续添加新工具，欢迎大家参与其中，多提提意见，谢谢。
 
 
@@ -120,6 +124,7 @@ xJavaFxTool
 │  │  │     ├─ common	第三方工具类
 │  │  │     ├─ config	springBoot配置类
 │  │  │     ├─ controller	javafx控制层
+│  │  │     │  ├─ assistTools   辅助工具控制层
 │  │  │     │  ├─ codeTools	Code工具控制层
 │  │  │     │  ├─ debugTools	调试工具控制层
 │  │  │     │  ├─ developTools	开发工具控制层
@@ -132,6 +137,7 @@ xJavaFxTool
 │  │  │     ├─ manager	管理层
 │  │  │     ├─ model	基础bean类层
 │  │  │     ├─ services	工具服务层
+│  │  │     │  ├─ assistTools   辅助工具服务层
 │  │  │     │  ├─ codeTools	Code工具服务层
 │  │  │     │  ├─ debugTools	调试工具服务层
 │  │  │     │  ├─ developTools	开发工具服务层
@@ -141,9 +147,11 @@ xJavaFxTool
 │  │  │     │  └─ webTools	html工具服务层
 │  │  │     ├─ utils	系统工具类
 │  │  │     ├─ view	javafx视图层
+│  │  │     │  ├─ assistTools   辅助工具视图层
 │  │  │     │  ├─ codeTools	Code工具视图层
 │  │  │     │  ├─ debugTools	调试工具视图层
 │  │  │     │  ├─ developTools	开发工具视图层
+│  │  │     │  ├─ javaFxTools	javaFx工具视图层
 │  │  │     │  ├─ littleTools	小工具视图层
 │  │  │     │  └─ webTools	html工具视图层
 │  │  │     └─ web	web控制视图层

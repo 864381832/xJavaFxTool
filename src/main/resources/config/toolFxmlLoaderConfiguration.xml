@@ -16,6 +16,8 @@
 		menuId="webTools" isMenu="true" />
 	<ToolFxmlLoaderConfiguration title="assistTools"
 		menuId="assistTools" isMenu="true" />
+	<ToolFxmlLoaderConfiguration title="games"
+		menuId="games" isMenu="true" />
 	<ToolFxmlLoaderConfiguration
 		url="/com/xwintop/xJavaFxTool/fxmlView/javaFxTools/JavaFxXmlToObjectCode.fxml" resourceBundleName=""
 		className="" title="JavaFxXmlToObjectCode" iconPath="/images/icon.jpg"
@@ -216,7 +218,12 @@
 		<url>/com/xwintop/xJavaFxTool/fxmlView/assistTools/TextToSpeechTool.fxml</url>
 		<title>TextToSpeechTool</title>
 		<menuParentId>assistTools</menuParentId>
-		<isDefaultShow></isDefaultShow>
+	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/com/xwintop/xJavaFxTool/fxmlView/games/X2048.fxml</url>
+		<title>x2048</title>
+		<menuParentId>games</menuParentId>
+		<isDefaultShow>true</isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 
 	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"
