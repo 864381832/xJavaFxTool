@@ -37,7 +37,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 
 3、CharacterConverter：编码转换；
 
-4、EncryptAndDecrypt：加密解密（Ascii、Hex、Base64、Base32、URL、MD5、SHA、文件加密DM5、文件加密SHA1、摩斯密码）；
+4、EncryptAndDecrypt：加密解密（Ascii、Hex、Base64、Base32、URL、MD5、SHA、AES、DES、文件加密DM5、文件加密SHA1、摩斯密码）；
 
 5、TimeTool：Time转换（常用格式转换、计算时间差、时间叠加计算）；
 

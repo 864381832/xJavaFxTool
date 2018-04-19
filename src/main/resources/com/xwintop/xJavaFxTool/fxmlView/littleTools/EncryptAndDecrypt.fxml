@@ -4,9 +4,10 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="mainAnchorPane" prefHeight="379.0" prefWidth="654.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.EncryptAndDecryptController">
+<AnchorPane fx:id="mainAnchorPane" prefHeight="379.0" prefWidth="654.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.EncryptAndDecryptController">
    <children>
       <Label layoutX="14.0" layoutY="64.0" text="明文：" />
       <Label layoutX="14.0" layoutY="264.0" text="密文：" />
@@ -14,7 +15,9 @@
       <TextArea fx:id="decrptyTextArea" layoutX="50.0" layoutY="206.0" prefHeight="166.0" prefWidth="364.0" />
       <Label layoutX="435.0" layoutY="25.0" text="字符集：" />
       <ChoiceBox fx:id="charsetsBox" layoutX="490.0" layoutY="21.0" prefHeight="23.0" prefWidth="138.0" />
-      <Button fx:id="encrptyButton" layoutX="431.0" layoutY="318.0" mnemonicParsing="false" onAction="#encrptyAction" prefHeight="23.0" prefWidth="92.0" text="加密" />
-      <Button fx:id="decrptyButton" layoutX="532.0" layoutY="318.0" mnemonicParsing="false" onAction="#decrptyAction" prefHeight="23.0" prefWidth="92.0" text="解密" />
+      <Button fx:id="encrptyButton" layoutX="431.0" layoutY="348.0" mnemonicParsing="false" onAction="#encrptyAction" prefHeight="23.0" prefWidth="92.0" text="加密" />
+      <Button fx:id="decrptyButton" layoutX="532.0" layoutY="348.0" mnemonicParsing="false" onAction="#decrptyAction" prefHeight="23.0" prefWidth="92.0" text="解密" />
+      <Label layoutX="435.0" layoutY="325.0" text="密钥：" />
+      <TextField fx:id="keyTextField" layoutX="477.0" layoutY="321.0" />
    </children>
 </AnchorPane>
