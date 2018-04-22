@@ -223,7 +223,12 @@
 		<url>/com/xwintop/xJavaFxTool/fxmlView/games/X2048.fxml</url>
 		<title>x2048</title>
 		<menuParentId>games</menuParentId>
-		<isDefaultShow></isDefaultShow>
+	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/com/xwintop/xJavaFxTool/fxmlView/debugTools/SocketTool.fxml</url>
+		<title>SocketTool</title>
+		<menuParentId>debugTools</menuParentId>
+		<isDefaultShow>true</isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 
 	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"

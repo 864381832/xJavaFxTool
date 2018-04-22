@@ -15,10 +15,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.Tab;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -62,6 +59,7 @@ public class IndexController extends IndexView {
 		new Thread(()->{//启动SpringBoot
 //			SpringApplication.run(Main.class,new String[0]);
 		}).start();
+		addNodepadAction(null);
 	}
 
 	private void initView() {
@@ -184,6 +182,15 @@ public class IndexController extends IndexView {
 		for (MenuItem value : menuItemMap.values()) {
 			value.fire();
 		}
+	}
+
+	@FXML
+	private void addNodepadAction(ActionEvent event) {
+		Tab tab = new Tab("临时记事板");
+		TextArea textArea = new TextArea();
+		tab.setContent(textArea);
+		textArea.setFocusTraversable(true);
+		tabPaneMain.getTabs().add(tab);
 	}
 
 	/**
