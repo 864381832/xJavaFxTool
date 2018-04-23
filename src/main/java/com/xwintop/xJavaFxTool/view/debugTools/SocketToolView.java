@@ -21,6 +21,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.util.Map;
+
 @Getter
 @Setter
 public abstract class SocketToolView implements Initializable {
@@ -37,9 +39,9 @@ public abstract class SocketToolView implements Initializable {
     @FXML
     protected Button serverUdpListenButton;
     @FXML
-    protected TableView serverConnectTableView;
+    protected TableView<Map<String,String>> serverConnectTableView;
     @FXML
-    protected TableColumn serverConnectTableColumn;
+    protected TableColumn<Map<String,String>,String> serverConnectTableColumn;
     @FXML
     protected TextField serverDataSend1TextField;
     @FXML

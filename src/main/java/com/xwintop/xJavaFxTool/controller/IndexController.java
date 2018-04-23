@@ -191,6 +191,9 @@ public class IndexController extends IndexView {
 		tab.setContent(textArea);
 		textArea.setFocusTraversable(true);
 		tabPaneMain.getTabs().add(tab);
+		if(event != null) {
+			tabPaneMain.getSelectionModel().select(tab);
+		}
 	}
 
 	/**

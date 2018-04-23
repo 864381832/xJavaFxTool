@@ -11,6 +11,8 @@ import org.springframework.util.StreamUtils;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,6 +22,8 @@ public class SocketToolService {
 
     //TCP使用DatagramSocket发送数据包
     private ServerSocket tcpServerSocket = null;
+    private List<Socket> tcpServerSocketConnectList = new ArrayList<>();
+    private Thread tcpServerSocketThread = null;
     //UDP使用DatagramSocket发送数据包
     private DatagramSocket udpServerSocket = null;
     //客户端TCP连接
@@ -36,25 +40,31 @@ public class SocketToolService {
             InetAddress serverAddr = InetAddress.getByName(url);
             tcpServerSocket = new ServerSocket(port, 1000, serverAddr);
             //死循环，一直运行服务器
-            new Thread(() -> {
+            tcpServerSocketThread = new Thread(() -> {
                 try {
-                    log.info("启动服务器");
-                    while (true) {
+                    log.info("启动服务器监听");
+                    while (tcpServerSocket != null && !tcpServerSocket.isClosed()) {
                         //调用accept（）方法侦听，等待客户端的连接以获取Socket实例
                         Socket socket = tcpServerSocket.accept();
                         InputStream is = socket.getInputStream();
-                        log.info("接收：" + IOUtils.toString(is, "utf-8"));
+                        writeServerLog("接收：" + IOUtils.toString(is, "utf-8"));
                         //获取输出流，响应客户端的请求
-                        OutputStream os = socket.getOutputStream();
-                        IOUtils.write("回发" + System.currentTimeMillis(), os, "utf-8");
+//                        OutputStream os = socket.getOutputStream();
+//                        IOUtils.write("回发" + System.currentTimeMillis(), os, "utf-8");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }).start();
+            });
+            tcpServerSocketThread.start();
+            writeServerLog("启动TCP服务器成功。");
+            this.socketToolController.getServerTcpListenButton().setText("TCP停止");
         } else {
             tcpServerSocket.close();
             tcpServerSocket = null;
+//            tcpServerSocketThread.stop();
+            writeServerLog("停止TCP服务器成功。");
+            this.socketToolController.getServerTcpListenButton().setText("TCP侦听");
         }
     }
 
@@ -72,27 +82,21 @@ public class SocketToolService {
     public void clientTcpConnectAction() throws Exception {
         if (clientSocket == null) {
 //            new Thread(() -> {
-                try {
-                    String url = this.socketToolController.getClientUrlComboBox().getValue();
-                    int port = Integer.parseInt(this.socketToolController.getClientPortTextField().getText().trim());
-                    //创建客户端Socket，指定服务器地址和端口
-                    clientSocket = new Socket(url, port);
-                    //获取输入流，接收服务器端响应信息
-//                    InputStream is = clientSocket.getInputStream();
-//                    BufferedReader br = new BufferedReader(new InputStreamReader(is, "GBK"));
-//                    String data = null;
-//                    while ((data = br.readLine()) != null) {
-//                        System.out.println("我是客户端，服务器端提交信息为：" + data);
-//                    }
-                    writeClientLog("连接成功！！！");
-                    this.socketToolController.getClientTcpConnectButton().setText("TCP停止");
-                } catch (Exception e) {
-                    writeClientLog(e.getMessage());
-                }
+            try {
+                String url = this.socketToolController.getClientUrlComboBox().getValue();
+                int port = Integer.parseInt(this.socketToolController.getClientPortTextField().getText().trim());
+                //创建客户端Socket，指定服务器地址和端口
+                clientSocket = new Socket(url, port);
+                writeClientLog("TCP连接成功！！！");
+                this.socketToolController.getClientTcpConnectButton().setText("TCP停止");
+            } catch (Exception e) {
+                writeClientLog(e.getMessage());
+            }
 //            }).start();
         } else {
             clientSocket.close();
             clientSocket = null;
+            writeClientLog("TCP连接关闭！！！");
             this.socketToolController.getClientTcpConnectButton().setText("TCP连接");
         }
 
