@@ -17,7 +17,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
 <AnchorPane prefHeight="470.0" prefWidth="759.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.debugTools.SocketToolController">
    <children>
       <BorderPane AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
@@ -39,7 +38,7 @@
                                                       <Label text="TCP地址：" />
                                                       <ComboBox fx:id="serverTcpUrlComboBox" editable="true" prefWidth="150.0" />
                                                       <Label text="端口：" />
-                                                      <TextField fx:id="serverTcpPortTextField" prefWidth="55.0" />
+                                                      <TextField fx:id="serverTcpPortTextField" prefWidth="55.0" text="8888" />
                                                       <Button fx:id="serverTcpListenButton" mnemonicParsing="false" onAction="#serverTcpListenAction" text="TCP侦听" />
                                                    </children>
                                                 </HBox>
@@ -48,7 +47,7 @@
                                                       <Label text="UDP地址：" />
                                                       <ComboBox fx:id="serverUdpUrlComboBox" editable="true" prefWidth="150.0" />
                                                       <Label text="端口：" />
-                                                      <TextField fx:id="serverUdpPortTextField" prefWidth="55.0" />
+                                                      <TextField fx:id="serverUdpPortTextField" prefWidth="55.0" text="8888" />
                                                       <Button fx:id="serverUdpListenButton" mnemonicParsing="false" onAction="#serverUdpListenAction" text="UDP侦听" />
                                                    </children>
                                                 </HBox>
@@ -111,7 +110,14 @@
                         </BorderPane>
                      </content>
                   </Tab>
-                <Tab text="转发器" />
+                <Tab text="转发器">
+                     <content>
+                        <BorderPane>
+                           <center>
+                              <Label text="暂未开发，谢谢。" textAlignment="CENTER" />
+                           </center>
+                        </BorderPane>
+                     </content></Tab>
                   <Tab text="客户端">
                      <content>
                         <BorderPane prefHeight="200.0" prefWidth="200.0">
@@ -123,7 +129,7 @@
                                           <Label text="服务器地址：" />
                                           <ComboBox fx:id="clientUrlComboBox" editable="true" prefWidth="150.0" />
                                           <Label text="端口：" />
-                                          <TextField fx:id="clientPortTextField" prefWidth="55.0" />
+                                          <TextField fx:id="clientPortTextField" prefWidth="55.0" text="8888" />
                                           <Button fx:id="clientTcpConnectButton" mnemonicParsing="false" onAction="#clientTcpConnectAction" text="TCP连接" />
                                           <Button fx:id="clientUdpConnectButton" mnemonicParsing="false" onAction="#clientUdpConnectAction" text="UDP通道" />
                                        </children>

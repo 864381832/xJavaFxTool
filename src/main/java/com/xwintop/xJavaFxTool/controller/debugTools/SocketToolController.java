@@ -1,29 +1,31 @@
 package com.xwintop.xJavaFxTool.controller.debugTools;
 
+import com.xwintop.xJavaFxTool.services.debugTools.socketTool.SocketToolService;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.utils.SigarUtil;
 import com.xwintop.xJavaFxTool.view.debugTools.SocketToolView;
-import com.xwintop.xJavaFxTool.services.debugTools.SocketToolService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.input.MouseButton;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import org.hyperic.sigar.NetInterfaceConfig;
-import org.hyperic.sigar.NetInterfaceStat;
-import org.hyperic.sigar.Sigar;
-import org.hyperic.sigar.SigarException;
+/**
+ * @ClassName: SocketToolController
+ * @Description: Socket调试工具
+ * @author: xufeng
+ * @date: 2018/4/24 16:45
+ */
 
 @Getter
 @Setter
@@ -58,6 +60,7 @@ public class SocketToolController extends SocketToolView {
         clientUrlComboBox.getSelectionModel().select(0);
         JavaFxViewUtil.setTableColumnMapValueFactory(serverConnectTableColumn, "connect", false);
         serverConnectTableView.setItems(serverConnectTableData);
+        serverConnectTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
     private void initEvent() {
@@ -83,10 +86,38 @@ public class SocketToolController extends SocketToolView {
             if (event.getButton() == MouseButton.SECONDARY && !serverConnectTableData.isEmpty()) {
                 MenuItem menu_Remove = new MenuItem("断开选中连接");
                 menu_Remove.setOnAction(event1 -> {
-                    serverConnectTableData.remove(serverConnectTableView.getSelectionModel().getSelectedIndex());
+                    if(socketToolService.getTcpAcceptor() !=null) {
+                        socketToolService.getTcpAcceptor().getManagedSessions().forEach((aLong, ioSession) -> {
+                            serverConnectTableView.getSelectionModel().getSelectedItems().forEach(stringStringMap -> {
+                                if (stringStringMap.get("connect").contains(ioSession.getRemoteAddress().toString())) {
+                                    ioSession.closeNow();
+                                }
+                            });
+                        });
+                    }
+                    if (socketToolService.getUdpAcceptor() != null){
+                        socketToolService.getUdpAcceptor().getManagedSessions().forEach((aLong, ioSession) -> {
+                            serverConnectTableView.getSelectionModel().getSelectedItems().forEach(stringStringMap -> {
+                                if (stringStringMap.get("connect").contains(ioSession.getRemoteAddress().toString())) {
+                                    ioSession.closeNow();
+                                }
+                            });
+                        });
+                    }
+                    serverConnectTableData.removeAll(serverConnectTableView.getSelectionModel().getSelectedItems());
                 });
                 MenuItem menu_RemoveAll = new MenuItem("断开所有连接");
                 menu_RemoveAll.setOnAction(event1 -> {
+                    if(socketToolService.getTcpAcceptor() !=null) {
+                        socketToolService.getTcpAcceptor().getManagedSessions().forEach((aLong, ioSession) -> {
+                            ioSession.closeNow();
+                        });
+                    }
+                    if(socketToolService.getUdpAcceptor() !=null) {
+                        socketToolService.getUdpAcceptor().getManagedSessions().forEach((aLong, ioSession) -> {
+                            ioSession.closeNow();
+                        });
+                    }
                     serverConnectTableData.clear();
                 });
                 serverConnectTableView.setContextMenu(new ContextMenu(menu_Remove, menu_RemoveAll));
@@ -109,7 +140,7 @@ public class SocketToolController extends SocketToolView {
 
     @FXML
     private void serverClearLogAction(ActionEvent event) throws Exception {
-        socketToolService.serverClearLogAction();
+        serverLogTextArea.clear();
     }
 
     @FXML
@@ -124,6 +155,6 @@ public class SocketToolController extends SocketToolView {
 
     @FXML
     private void clientClearLogAction(ActionEvent event) throws Exception {
-        socketToolService.clientClearLogAction();
+        clientLogTextArea.clear();
     }
 }

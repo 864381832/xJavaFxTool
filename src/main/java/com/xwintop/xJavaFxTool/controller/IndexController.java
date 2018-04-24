@@ -186,7 +186,7 @@ public class IndexController extends IndexView {
 
 	@FXML
 	private void addNodepadAction(ActionEvent event) {
-		Tab tab = new Tab("临时记事板");
+		Tab tab = new Tab(this.bundle.getString("addNodepad"));
 		TextArea textArea = new TextArea();
 		tab.setContent(textArea);
 		textArea.setFocusTraversable(true);

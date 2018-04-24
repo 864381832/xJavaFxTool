@@ -228,7 +228,7 @@
 		<url>/com/xwintop/xJavaFxTool/fxmlView/debugTools/SocketTool.fxml</url>
 		<title>SocketTool</title>
 		<menuParentId>debugTools</menuParentId>
-		<isDefaultShow>true</isDefaultShow>
+		<isDefaultShow></isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 
 	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"
