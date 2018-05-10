@@ -6,6 +6,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.xwintop.xJavaFxTool.services.littleTools.TimeToolService;
@@ -52,6 +53,8 @@ public class TimeToolController extends TimeToolView {
     }
 
     private void initView() {
+        choiceBoxTimeZone.getItems().addAll(TimeZone.getAvailableIDs());
+        choiceBoxTimeZone.setValue(TimeZone.getDefault().getID());
         choiceBoxTimeFormatter.getItems().addAll(timeFormatter);
         choiceBoxTimeFormatter.getSelectionModel().select(0);
         textFileldTimeStr.setText(new SimpleDateFormat(choiceBoxTimeFormatter.getValue()).format(new Date()));

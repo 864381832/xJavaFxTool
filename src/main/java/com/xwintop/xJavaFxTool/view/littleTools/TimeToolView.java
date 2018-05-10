@@ -15,6 +15,8 @@ public abstract class TimeToolView implements Initializable {
     @FXML
     protected TextField textFileldTimeStr;
     @FXML
+    protected JFXComboBox<String> choiceBoxTimeZone;
+    @FXML
     protected Button buttonCopy;
     @FXML
     protected Button buttonConvert;

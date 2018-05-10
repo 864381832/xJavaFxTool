@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXComboBox?>
-<?import java.lang.String?>
-<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
@@ -24,6 +22,8 @@
                      <children>
                   		<Label text="时间字符：" />
                   		<TextField fx:id="textFileldTimeStr" HBox.hgrow="ALWAYS" />
+                        <Label text="时区：" />
+                        <JFXComboBox fx:id="choiceBoxTimeZone" editable="true" value="" />
                   		<Button fx:id="buttonCopy" mnemonicParsing="false" onAction="#copyTimeStr" text="复制" />
                   		<Button fx:id="buttonConvert" mnemonicParsing="false" onAction="#convert" text="转换" />
                      </children>
