@@ -105,6 +105,8 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 
 37、SocketTool：Socket调试工具(使用Apache Mina实现Tcp、Udp服务端和Client端)；
 
+38、ImageAnalysisTool:图片解析工具（1、.atlas文件反解析；2、图片快速拆分工具）；
+
 项目开发中，以后会陆续添加新工具，欢迎大家参与其中，多提提意见，谢谢。
 
 
@@ -178,6 +180,16 @@ xJavaFxTool
 ├─ xJavaFxTool.jar	直接运行程序包
 
 ```
+
+#### 特别感谢
+在一个人还年轻的时候，我觉得，就应该着手致力做一些对社会有意义的事情，一如开源。至此，感谢以下贡献者（排名不分先后）：
++ 李柱
++ luming
+
+#### 后续计划
+不定期添加汇总开发过程中需求的痛点工具，大家有工作上的痛点处可进群讨论，后期可能就会出相应的工具解决方案，谢谢大家的支持。
+
+#### 项目截图如下：
 
 ![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/文件复制.png "文件复制.png")
 ![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/邮件发送工具.png "邮件发送工具.png")
