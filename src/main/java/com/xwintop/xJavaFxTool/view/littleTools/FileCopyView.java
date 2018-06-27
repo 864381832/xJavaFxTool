@@ -34,7 +34,11 @@ public abstract class FileCopyView implements Initializable {
 	@FXML
 	protected TableColumn<FileCopyTableBean, String> tableColumnCopyFileOriginalPath;
 	@FXML
+	protected TableColumn<FileCopyTableBean, Boolean> tableColumnViewCopyFileOriginalPath;
+	@FXML
 	protected TableColumn<FileCopyTableBean, String> tableColumnCopyFileTargetPath;
+	@FXML
+	protected TableColumn<FileCopyTableBean, Boolean> tableColumnViewCopyFileTargetPath;
 	@FXML
 	protected TableColumn<FileCopyTableBean, String> tableColumnCopyNumber;
 	@FXML
@@ -43,6 +47,12 @@ public abstract class FileCopyView implements Initializable {
 	protected TableColumn<FileCopyTableBean, Boolean> tableColumnIsRename;
 	@FXML
 	protected TableColumn<FileCopyTableBean, Boolean> tableColumnIsDelete;
+	@FXML
+	protected TableColumn<FileCopyTableBean, Boolean> tableColumnIsDeleteSourceFile;
+	@FXML
+	protected TableColumn<FileCopyTableBean, Boolean> tableColumnRun;
+	@FXML
+	protected TableColumn<FileCopyTableBean, String> tableColumnRemarks;
 	@FXML
 	protected CheckBox checkBoxIsDelete;
 	@FXML

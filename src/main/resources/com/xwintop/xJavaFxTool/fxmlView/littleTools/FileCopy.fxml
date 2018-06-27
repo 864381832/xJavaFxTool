@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane prefHeight="435.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.FileCopyController">
+<AnchorPane prefHeight="435.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.FileCopyController">
    <children>
       <BorderPane layoutX="14.0" layoutY="7.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
          <top>
@@ -85,16 +85,24 @@
          <center>
             <TableView fx:id="tableViewMain" editable="true" prefHeight="314.0" prefWidth="759.0" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn fx:id="tableColumnCopyFileOriginalPath" prefWidth="281.0" sortable="false" text="原文件路径" />
-                <TableColumn fx:id="tableColumnCopyFileTargetPath" prefWidth="249.0" sortable="false" text="拷贝路径" />
+                <TableColumn fx:id="tableColumnCopyFileOriginalPath" prefWidth="250.0" sortable="false" text="原文件路径" />
+                  <TableColumn fx:id="tableColumnViewCopyFileOriginalPath" minWidth="0.0" prefWidth="42.0" sortable="false" text="查看" />
+                <TableColumn fx:id="tableColumnCopyFileTargetPath" prefWidth="282.0" sortable="false" text="拷贝路径" />
+                  <TableColumn fx:id="tableColumnViewCopyFileTargetPath" prefWidth="68.0" sortable="false" text="查看" />
                   <TableColumn fx:id="tableColumnCopyNumber" prefWidth="59.0" sortable="false" text="拷贝份数" />
                   <TableColumn fx:id="tableColumnIsCopy" prefWidth="57.0" sortable="false" text="是否拷贝" />
                   <TableColumn fx:id="tableColumnIsRename" minWidth="0.0" prefWidth="44.0" sortable="false" text="重命名" />
                   <TableColumn fx:id="tableColumnIsDelete" prefWidth="68.0" sortable="false" text="删除原文件" />
+                  <TableColumn fx:id="tableColumnIsDeleteSourceFile" prefWidth="68.0" sortable="false" text="删除存在文件" />
+                  <TableColumn fx:id="tableColumnRun" prefWidth="68.0" sortable="false" text="手动执行" />
+                  <TableColumn fx:id="tableColumnRemarks" prefWidth="68.0" sortable="false" text="备注" />
               </columns>
                <BorderPane.margin>
                   <Insets bottom="5.0" top="5.0" />
                </BorderPane.margin>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
             </TableView>
          </center>
       </BorderPane>

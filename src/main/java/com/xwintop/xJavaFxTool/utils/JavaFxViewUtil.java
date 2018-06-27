@@ -1,32 +1,33 @@
 package com.xwintop.xJavaFxTool.utils;
 
 import com.jfoenix.controls.JFXDecorator;
-import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.reflect.MethodUtils;
-
-import java.awt.*;
-import java.text.DecimalFormat;
-import java.util.Map;
-
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import lombok.extern.log4j.Log4j;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.reflect.MethodUtils;
+
+import java.awt.*;
+import java.text.DecimalFormat;
+import java.util.Map;
 
 @Log4j
 public class JavaFxViewUtil {
@@ -191,6 +192,38 @@ public class JavaFxViewUtil {
                 }
             });
         }
+    }
+
+    public static void setTableColumnButonFactory(TableColumn tableColumn, String name, EventHandler<? super MouseEvent> value) {
+        setTableColumnButonFactory(tableColumn, name, (mouseEvent, index) -> {
+            value.handle(mouseEvent);
+        });
+    }
+
+    public static void setTableColumnButonFactory(TableColumn tableColumn, String name, MouseEventCallFunc mouseEventCallFunc) {
+        tableColumn.setCellFactory((col) -> {
+            TableCell<Object, Boolean> cell = new TableCell<Object, Boolean>() {
+                @Override
+                public void updateItem(Boolean item, boolean empty) {
+                    super.updateItem(item, empty);
+                    this.setText(null);
+                    this.setGraphic(null);
+                    if (!empty) {
+                        Button delBtn = new Button(name);
+                        this.setContentDisplay(ContentDisplay.CENTER);
+                        this.setGraphic(delBtn);
+                        delBtn.setOnMouseClicked((me) -> {
+                            mouseEventCallFunc.callFun(me, this.getIndex());
+                        });
+                    }
+                }
+            };
+            return cell;
+        });
+    }
+
+    public static interface MouseEventCallFunc {
+        void callFun(MouseEvent mouseEvent, Integer index);
     }
 
     /**
