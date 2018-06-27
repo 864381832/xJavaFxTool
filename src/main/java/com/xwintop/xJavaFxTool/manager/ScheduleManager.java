@@ -1,5 +1,6 @@
 package com.xwintop.xJavaFxTool.manager;
 
+import com.xwintop.xcore.util.javafx.TooltipUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -27,15 +28,27 @@ public class ScheduleManager {
         , CRON //Cron表达式
     }
 
-    public void runQuartzAction(Class <? extends Job> jobClass, Object jobDataMap, int interval, int repeatCount) throws Exception {
+    public void runQuartzAction(Class<? extends Job> jobClass, String quartzType, Object jobDataMap, String cronText, int interval, int repeatCount) throws Exception {
+        if ("简单表达式".equals(quartzType)) {
+            this.runQuartzAction(jobClass, jobDataMap, interval, repeatCount);
+        } else if ("Cron表达式".equals(quartzType)) {
+            if (StringUtils.isEmpty(cronText)) {
+                TooltipUtil.showToast("cron表达式不能为空。");
+                throw new Exception("cron表达式不能为空。");
+            }
+            this.runQuartzAction(jobClass, jobDataMap, cronText);
+        }
+    }
+
+    public void runQuartzAction(Class<? extends Job> jobClass, Object jobDataMap, int interval, int repeatCount) throws Exception {
         runQuartzAction(jobClass, jobDataMap, QuartzType.SIMPLE, null, interval, repeatCount);
     }
 
-    public void runQuartzAction(Class <? extends Job> jobClass, Object jobDataMap, String cronText) throws Exception {
+    public void runQuartzAction(Class<? extends Job> jobClass, Object jobDataMap, String cronText) throws Exception {
         runQuartzAction(jobClass, jobDataMap, QuartzType.CRON, cronText, 0, 0);
     }
 
-    public void runQuartzAction(Class <? extends Job> jobClass, Object jobDataMap, QuartzType quartzType, String cronText, int interval, int repeatCount) throws Exception {
+    public void runQuartzAction(Class<? extends Job> jobClass, Object jobDataMap, QuartzType quartzType, String cronText, int interval, int repeatCount) throws Exception {
         schedulerKeyGroup = jobClass.toString();
         schedulerKeyName = schedulerKeyGroup + System.currentTimeMillis();
         JobDetail jobDetail = JobBuilder.newJob(jobClass).withIdentity(schedulerKeyName, schedulerKeyGroup)
