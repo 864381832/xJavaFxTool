@@ -98,7 +98,7 @@ public class FileCopyController extends FileCopyView {
         tableColumnRemarks.setCellValueFactory(new PropertyValueFactory<FileCopyTableBean, String>("remarks"));
         tableColumnRemarks.setCellFactory(TextFieldTableCell.<FileCopyTableBean>forTableColumn());
         tableColumnRemarks.setOnEditCommit((CellEditEvent<FileCopyTableBean, String> t) -> {
-            t.getRowValue().setCopyNumber(t.getNewValue());
+            t.getRowValue().setRemarks(t.getNewValue());
         });
         tableViewMain.setItems(tableData);
 
