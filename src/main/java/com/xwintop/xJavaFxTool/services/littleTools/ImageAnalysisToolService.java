@@ -59,8 +59,9 @@ public class ImageAnalysisToolService {
         }
         String outputPathTextFieldString = imageAnalysisToolController.getOutputPathTextField().getText();
         if (StringUtils.isBlank(outputPathTextFieldString)) {
-            outputPathTextFieldString = StringUtils.appendIfMissing(FilenameUtils.getFullPath(atlasPathTextFieldString), "/", "/", "\\");
+            outputPathTextFieldString = FilenameUtils.getFullPath(atlasPathTextFieldString);
         }
+        outputPathTextFieldString = StringUtils.appendIfMissing(outputPathTextFieldString, "/", "/", "\\");
         JSONObject jsonObject = JSON.parseObject(FileUtils.readFileToString(new File(atlasPathTextFieldString)));
         JSONObject jsonObject2 = jsonObject.getJSONObject("frames");
         for (String s : jsonObject2.keySet()) {
@@ -84,8 +85,9 @@ public class ImageAnalysisToolService {
         }
         String outputPathTextFieldString = imageAnalysisToolController.getOutputPathTextField().getText();
         if (StringUtils.isBlank(outputPathTextFieldString)) {
-            outputPathTextFieldString = StringUtils.appendIfMissing(FilenameUtils.getFullPath(imagePathTextFieldString), "/", "/", "\\");
+            outputPathTextFieldString = FilenameUtils.getFullPath(imagePathTextFieldString);
         }
+        outputPathTextFieldString = StringUtils.appendIfMissing(outputPathTextFieldString, "/", "/", "\\");
         String imageName = FilenameUtils.getBaseName(imagePathTextFieldString);
         String imageExtensionName = FilenameUtils.getExtension(imagePathTextFieldString);
         Integer analysisNumber = imageAnalysisToolController.getAnalysisNumberComboBox().getValue();
