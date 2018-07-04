@@ -233,6 +233,11 @@
 		<url>/com/xwintop/xJavaFxTool/fxmlView/littleTools/ImageAnalysisTool.fxml</url>
 		<title>ImageAnalysisTool</title>
 		<menuParentId>littleTools</menuParentId>
+	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/com/xwintop/xJavaFxTool/fxmlView/assistTools/DecompilerWxApkgTool.fxml</url>
+		<title>DecompilerWxApkgTool</title>
+		<menuParentId>assistTools</menuParentId>
 		<isDefaultShow></isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 

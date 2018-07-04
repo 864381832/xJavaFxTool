@@ -107,6 +107,8 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 
 38、ImageAnalysisTool:图片解析工具（1、.atlas文件反解析；2、图片快速拆分工具）；
 
+39、DecompilerWxApkgTool:微信小程序反编译工具（一键反编译微信小程序包）；
+
 项目开发中，以后会陆续添加新工具，欢迎大家参与其中，多提提意见，谢谢。
 
 
