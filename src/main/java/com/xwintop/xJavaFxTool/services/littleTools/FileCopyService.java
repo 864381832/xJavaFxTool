@@ -81,6 +81,7 @@ public class FileCopyService {
         int number = Integer.parseInt(tableBean.getCopyNumber());
         File fileOriginal = new File(tableBean.getCopyFileOriginalPath());
         File fileTarget = new File(tableBean.getCopyFileTargetPath());
+        FileUtils.forceMkdir(fileTarget);
         for (int i = 0; i < number; i++) {
             if (fileOriginal.isDirectory()) {
                 if (tableBean.getIsRename()) {

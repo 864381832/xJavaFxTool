@@ -5,14 +5,14 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class FileCopyTableBean {
-    private SimpleStringProperty copyFileOriginalPath;
-    private SimpleStringProperty copyFileTargetPath;
-    private SimpleStringProperty copyNumber;
+    private SimpleStringProperty copyFileOriginalPath;//原文件路径
+    private SimpleStringProperty copyFileTargetPath;//拷贝路径
+    private SimpleStringProperty copyNumber;//拷贝份数
     private SimpleBooleanProperty isCopy;
     private SimpleBooleanProperty isRename;
-    private SimpleBooleanProperty isDelete;
-    private SimpleBooleanProperty isDeleteSourceFile;
-    private SimpleStringProperty remarks;
+    private SimpleBooleanProperty isDelete;//删除原文件
+    private SimpleBooleanProperty isDeleteSourceFile;//删除存在文件
+    private SimpleStringProperty remarks;//备注
 
     public FileCopyTableBean(String copyFileOriginalPath, String copyFileTargetPath, String copyNumber, Boolean isCopy, Boolean isRename, Boolean isDelete, Boolean isDeleteSourceFile, String remarks) {
         this.copyFileOriginalPath = new SimpleStringProperty(copyFileOriginalPath);
