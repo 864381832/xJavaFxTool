@@ -188,6 +188,8 @@ public class EncryptAndDecryptController extends EncryptAndDecryptView {
                 encrptyTextArea.setText(des.decryptStr(string, Charset.forName(charSet)));
             } else if ("摩斯密码".equals(curCrypto)) {
                 encrptyTextArea.setText(MorseConventer.Decryption(string));
+            } else if ("Druid加密".equals(curCrypto)) {
+                encrptyTextArea.setText(ConfigTools.decrypt(keyTextField.getText(), string));
             } else {
                 encrptyTextArea.setText("不支持此种加密算法的解密！");
             }
