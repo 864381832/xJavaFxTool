@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXSnackbar?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+
+<AnchorPane prefHeight="445.0" prefWidth="723.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.epmsTools.gatewayConfTool.GatewayConfToolTaskViewController">
+   <children>
+      <FlowPane columnHalignment="CENTER" hgap="20.0" layoutX="157.0" layoutY="70.0" prefHeight="386.0" prefWidth="692.0" vgap="20.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <Label text="name：" />
+            <TextField fx:id="nameTextField" />
+            <JFXCheckBox fx:id="isEnableCheckBox" selected="true" text="isEnable" />
+            <Label text="taskType：" />
+            <TextField fx:id="taskTypeTextField" />
+            <Label text="triggerType：" />
+            <ChoiceBox fx:id="triggerTypeChoiceBox" prefWidth="150.0" />
+            <Label text="intervalTime：" />
+            <Spinner fx:id="intervalTimeSpinner" editable="true" />
+            <JFXSnackbar />
+            <Label text="executeTimes：" />
+            <Spinner fx:id="executeTimesSpinner" editable="true" />
+            <Label text="triggerCron：" />
+            <TextField fx:id="triggerCronTextField" />
+            <JFXCheckBox fx:id="isStatefullJobCheckBox" text="isStatefulJob" />
+            <Label text="receiverConfig：" />
+            <ListView fx:id="receiverConfigListView" prefHeight="85.0" prefWidth="200.0" />
+            <Label text="filterConfigs：" />
+            <ListView fx:id="filterConfigsListView" prefHeight="32.0" prefWidth="200.0" />
+            <Label text="senderConfig：" />
+            <ListView fx:id="senderConfigListView" prefHeight="77.0" prefWidth="200.0" />
+            <Label text="properties：" />
+            <TableView fx:id="propertiesTableView" prefHeight="112.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="propertiesKeyTableColumn" prefWidth="75.0" text="key" />
+                <TableColumn fx:id="propertiesValueTableColumn" prefWidth="75.0" text="value" />
+              </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+         </children>
+      </FlowPane>
+   </children>
+</AnchorPane>
