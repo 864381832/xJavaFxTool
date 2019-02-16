@@ -25,12 +25,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Getter
 @Setter
 @Slf4j
 public class GatewayConfToolService {
     private GatewayConfToolController gatewayConfToolController;
+    private Map<String, Map<String, TaskConfig>> taskConfigFileMap = new ConcurrentHashMap<>();//任务对应配置文件map
 
     private Map<String, Tab> taskConfigTabMap = new HashMap<String, Tab>();
 
@@ -58,6 +60,7 @@ public class GatewayConfToolService {
             });
             for (File file : all) {
                 try {
+                    Map<String, TaskConfig> taskConfigMap = new ConcurrentHashMap<>();
                     TreeItem<String> treeItem2 = new TreeItem<String>(file.getName());
                     treeItem.getChildren().add(treeItem2);
                     Yaml yaml = new Yaml();
@@ -67,12 +70,15 @@ public class GatewayConfToolService {
                         for (TaskConfig taskConfig : taskConfigs) {
                             TreeItem<String> treeItem3 = new TreeItem<String>(taskConfig.getName());
                             treeItem2.getChildren().add(treeItem3);
+                            taskConfigMap.put(taskConfig.getName(), taskConfig);
                         }
                     } else {
                         TaskConfig taskConfig = (TaskConfig) config;
                         TreeItem<String> treeItem3 = new TreeItem<String>(taskConfig.getName());
                         treeItem2.getChildren().add(treeItem3);
+                        taskConfigMap.put(taskConfig.getName(), taskConfig);
                     }
+                    taskConfigFileMap.put(file.getName(), taskConfigMap);
                 } catch (Exception e) {
                     log.error("load config [" + file.getPath() + "] error.", e);
                 }
@@ -92,8 +98,8 @@ public class GatewayConfToolService {
             @Override
             public void handle(Event event) {
                 List<Tab> tabList = new ArrayList<Tab>();
-                gatewayConfToolController.getTaskConfigTabPane().getTabs().forEach((Tab tab2)->{
-                    if(tab2.getText().startsWith(tabName)){
+                gatewayConfToolController.getTaskConfigTabPane().getTabs().forEach((Tab tab2) -> {
+                    if (tab2.getText().startsWith(tabName)) {
                         tabList.add(tab2);
                     }
                 });
@@ -108,7 +114,7 @@ public class GatewayConfToolService {
             e.printStackTrace();
         }
         GatewayConfToolTaskViewController gatewayConfToolTaskViewController = fXMLLoader.getController();
-        gatewayConfToolTaskViewController.setData(gatewayConfToolController);
+        gatewayConfToolTaskViewController.setData(gatewayConfToolController, taskConfigFileMap.get(fileName).get(taskName));
         gatewayConfToolTaskViewController.setTabName(tabName);
         gatewayConfToolController.getTaskConfigTabPane().getTabs().add(tab);
         gatewayConfToolController.getTaskConfigTabPane().getSelectionModel().select(tab);

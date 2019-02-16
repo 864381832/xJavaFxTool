@@ -2,6 +2,7 @@ package com.xwintop.xJavaFxTool.controller.epmsTools.gatewayConfTool;
 
 import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.GatewayConfToolService;
 import com.xwintop.xJavaFxTool.view.epmsTools.gatewayConfTool.GatewayConfToolView;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -30,7 +31,7 @@ public class GatewayConfToolController extends GatewayConfToolView {
     private void initView() {
         TreeItem<String> treeItem = new TreeItem<String>("TaskConfig列表");
         configurationTreeView.setRoot(treeItem);
-        configurationPathTextField.setText("E:\\ideaWorkspaces\\gatewaySpring\\configuration");
+        configurationPathTextField.setText("D:\\ideaWorkspaces\\gatewaySpring\\configuration");
     }
 
     private void initEvent() {
@@ -39,10 +40,12 @@ public class GatewayConfToolController extends GatewayConfToolView {
                     @Override
                     public void changed(ObservableValue<? extends TreeItem<String>> observable,
                                         TreeItem<String> oldValue, TreeItem<String> newValue) {
-                        String name = newValue.getValue();
-                        if (newValue.getChildren().size() == 0) {
-                            gatewayConfToolService.addTaskConfigTabPane(newValue.getParent().getValue(), name);
-                        }
+                        Platform.runLater(()->{
+                            String name = newValue.getValue();
+                            if (newValue.getChildren().size() == 0) {
+                                gatewayConfToolService.addTaskConfigTabPane(newValue.getParent().getValue(), name);
+                            }
+                        });
                     }
                 });
     }

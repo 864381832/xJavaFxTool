@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXCheckBox?>
-<?import com.jfoenix.controls.JFXSnackbar?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -25,7 +24,6 @@
             <ChoiceBox fx:id="triggerTypeChoiceBox" prefWidth="150.0" />
             <Label text="intervalTime：" />
             <Spinner fx:id="intervalTimeSpinner" editable="true" />
-            <JFXSnackbar />
             <Label text="executeTimes：" />
             <Spinner fx:id="executeTimesSpinner" editable="true" />
             <Label text="triggerCron：" />
