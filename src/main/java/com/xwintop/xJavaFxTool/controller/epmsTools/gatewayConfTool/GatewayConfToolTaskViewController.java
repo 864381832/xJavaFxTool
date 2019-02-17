@@ -11,10 +11,16 @@ import com.xwintop.xJavaFxTool.view.epmsTools.gatewayConfTool.GatewayConfToolTas
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.input.MouseButton;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
+import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,6 +68,39 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
     }
 
     private void initEvent() {
+        receiverConfigListView.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.SECONDARY) {
+                Menu menu = new Menu("添加");
+                String packageName = "com.easipass.gateway.receiver.bean";
+                ClassLoader loader = Thread.currentThread().getContextClassLoader();
+                String packagePath = packageName.replace(".", "/");
+                URL url = loader.getResource(packagePath);
+                for (File childFile : new File(url.getPath()).listFiles()) {
+                    if (!childFile.getName().contains("$")) {
+                        MenuItem menuAdd = new MenuItem(StringUtils.removeEnd(childFile.getName(), ".class"));
+                        menuAdd.setOnAction(event1 -> {
+                            receiverConfigListData.add(menuAdd.getText());
+                        });
+                        menu.getItems().add(menuAdd);
+                    }
+                }
+                MenuItem menu_Copy = new MenuItem("复制选中行");
+                menu_Copy.setOnAction(event1 -> {
+//                    Map<String,String> map = dialogTableView.getSelectionModel().getSelectedItem();
+//                    Map<String,String> map2 =  new HashMap<String,String>(map);
+//                    dialogTableData.add(dialogTableView.getSelectionModel().getSelectedIndex(), map2);
+                });
+                MenuItem menu_Remove = new MenuItem("删除选中行");
+                menu_Remove.setOnAction(event1 -> {
+                    receiverConfigListData.remove(receiverConfigListView.getSelectionModel().getSelectedItem());
+                });
+                MenuItem menu_RemoveAll = new MenuItem("删除所有");
+                menu_RemoveAll.setOnAction(event1 -> {
+                    receiverConfigListData.clear();
+                });
+                receiverConfigListView.setContextMenu(new ContextMenu(menu, menu_Copy, menu_Remove, menu_RemoveAll));
+            }
+        });
     }
 
     private void initService() {
@@ -93,10 +132,10 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
             senderConfigListData.add(senderConfig.getServiceName());
         }
         propertiesTableData.clear();
-        taskConfig.getProperties().forEach((s, o) -> {
+        taskConfig.getProperties().forEach((key, value) -> {
             Map<String, String> map = new HashMap<>();
-            map.put("key",s);
-            map.put("value", o.toString());
+            map.put("key", key);
+            map.put("value", value.toString());
             propertiesTableData.add(map);
         });
     }
