@@ -40,5 +40,6 @@ public abstract class GatewayConfToolTaskViewView implements Initializable {
     protected TableColumn<Map<String, String>, String> propertiesKeyTableColumn;
     @FXML
     protected TableColumn<Map<String, String>, String> propertiesValueTableColumn;
-
+    @FXML
+    protected TabPane serviceViewTabPane;
 }

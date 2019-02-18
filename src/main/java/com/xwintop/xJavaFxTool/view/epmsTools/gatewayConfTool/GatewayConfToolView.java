@@ -21,8 +21,6 @@ public abstract class GatewayConfToolView implements Initializable {
     @FXML
     protected TabPane taskConfigTabPane;
     @FXML
-    protected TabPane serviceViewTabPane;
-    @FXML
     protected TextField hostTextField;
     @FXML
     protected TextField portTextField;

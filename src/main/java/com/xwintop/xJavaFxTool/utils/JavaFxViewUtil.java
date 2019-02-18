@@ -8,13 +8,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.*;
 import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.MapValueFactory;
+import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -27,6 +30,7 @@ import org.apache.commons.lang3.reflect.MethodUtils;
 
 import java.awt.*;
 import java.text.DecimalFormat;
+import java.util.HashMap;
 import java.util.Map;
 
 @Log4j
@@ -164,6 +168,67 @@ public class JavaFxViewUtil {
             @Override
             public Double fromString(String string) {
                 return Double.valueOf(string);
+            }
+        });
+    }
+
+    /**
+     * @Title: addTableViewOnMouseRightClickMenu
+     * @Description: 添加TableView右键菜单
+     */
+    public static void addTableViewOnMouseRightClickMenu(TableView<Map<String, String>> tableView) {
+        tableView.setEditable(true);
+        tableView.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.SECONDARY) {
+                MenuItem menuAdd = new MenuItem("添加行");
+                menuAdd.setOnAction(event1 -> {
+                    tableView.getItems().add(new HashMap<String, String>());
+                });
+                MenuItem menu_Copy = new MenuItem("复制选中行");
+                menu_Copy.setOnAction(event1 -> {
+                    Map<String, String> map = tableView.getSelectionModel().getSelectedItem();
+                    Map<String, String> map2 = new HashMap<String, String>(map);
+                    tableView.getItems().add(tableView.getSelectionModel().getSelectedIndex(), map2);
+                });
+                MenuItem menu_Remove = new MenuItem("删除选中行");
+                menu_Remove.setOnAction(event1 -> {
+                    tableView.getItems().remove(tableView.getSelectionModel().getSelectedIndex());
+                });
+                MenuItem menu_RemoveAll = new MenuItem("删除所有");
+                menu_RemoveAll.setOnAction(event1 -> {
+                    tableView.getItems().clear();
+                });
+                tableView.setContextMenu(new ContextMenu(menuAdd, menu_Copy, menu_Remove, menu_RemoveAll));
+            }
+        });
+    }
+
+    /**
+     * @Title: addListViewOnMouseRightClickMenu
+     * @Description: 添加ListView右键菜单
+     */
+    public static void addListViewOnMouseRightClickMenu(ListView<String> listView) {
+        listView.setEditable(true);
+        listView.setCellFactory(TextFieldListCell.forListView());
+        listView.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.SECONDARY) {
+                MenuItem menuAdd = new MenuItem("添加行");
+                menuAdd.setOnAction(event1 -> {
+                    listView.getItems().add("");
+                });
+                MenuItem menu_Copy = new MenuItem("复制选中行");
+                menu_Copy.setOnAction(event1 -> {
+                    listView.getItems().add(listView.getSelectionModel().getSelectedIndex(), listView.getSelectionModel().getSelectedItem());
+                });
+                MenuItem menu_Remove = new MenuItem("删除选中行");
+                menu_Remove.setOnAction(event1 -> {
+                    listView.getItems().remove(listView.getSelectionModel().getSelectedIndex());
+                });
+                MenuItem menu_RemoveAll = new MenuItem("删除所有");
+                menu_RemoveAll.setOnAction(event1 -> {
+                    listView.getItems().clear();
+                });
+                listView.setContextMenu(new ContextMenu(menuAdd, menu_Copy, menu_Remove, menu_RemoveAll));
             }
         });
     }

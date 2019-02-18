@@ -1,10 +1,8 @@
 package com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool;
 
 import com.easipass.gateway.entity.TaskConfig;
-import com.xwintop.xJavaFxTool.controller.debugTools.redisTool.RedisToolDataTableController;
 import com.xwintop.xJavaFxTool.controller.epmsTools.gatewayConfTool.GatewayConfToolController;
 import com.xwintop.xJavaFxTool.controller.epmsTools.gatewayConfTool.GatewayConfToolTaskViewController;
-import com.xwintop.xcore.util.RedisUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -120,4 +118,5 @@ public class GatewayConfToolService {
         gatewayConfToolController.getTaskConfigTabPane().getSelectionModel().select(tab);
         taskConfigTabMap.put(tabName, tab);
     }
+
 }

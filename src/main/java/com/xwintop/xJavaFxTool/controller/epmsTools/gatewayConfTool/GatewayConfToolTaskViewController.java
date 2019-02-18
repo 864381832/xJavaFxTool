@@ -18,6 +18,7 @@ import javafx.scene.input.MouseButton;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -60,7 +61,7 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
         propertiesTableView.setItems(propertiesTableData);
         triggerTypeChoiceBox.getItems().addAll(triggerTypeChoiceBoxStrings);
         triggerTypeChoiceBox.setValue(triggerTypeChoiceBox.getItems().get(0));
-        JavaFxViewUtil.setSpinnerValueFactory(intervalTimeSpinner, 5, Integer.MAX_VALUE);
+        JavaFxViewUtil.setSpinnerValueFactory(intervalTimeSpinner, 0, Integer.MAX_VALUE, 5);
         JavaFxViewUtil.setSpinnerValueFactory(executeTimesSpinner, -1, Integer.MAX_VALUE);
         receiverConfigListView.setItems(receiverConfigListData);
         filterConfigsListView.setItems(filterConfigsListData);
@@ -68,6 +69,16 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
     }
 
     private void initEvent() {
+        serviceViewTabPane.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.SECONDARY) {
+                MenuItem menu_RemoveAll = new MenuItem("关闭所有");
+                menu_RemoveAll.setOnAction(event1 -> {
+                    serviceViewTabPane.getTabs().removeAll(serviceViewTabPane.getTabs());
+                    gatewayConfToolTaskViewService.getServiceViewTabMap().clear();
+                });
+                serviceViewTabPane.setContextMenu(new ContextMenu(menu_RemoveAll));
+            }
+        });
         receiverConfigListView.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
                 Menu menu = new Menu("添加");
@@ -77,30 +88,157 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
                 URL url = loader.getResource(packagePath);
                 for (File childFile : new File(url.getPath()).listFiles()) {
                     if (!childFile.getName().contains("$")) {
-                        MenuItem menuAdd = new MenuItem(StringUtils.removeEnd(childFile.getName(), ".class"));
+                        String className = StringUtils.removeEnd(childFile.getName(), ".class");
+                        MenuItem menuAdd = new MenuItem(className);
                         menuAdd.setOnAction(event1 -> {
-                            receiverConfigListData.add(menuAdd.getText());
+                            try {
+                                Object configObject = Class.forName(packageName + "." + className).newInstance();
+                                taskConfig.getReceiverConfig().add((ReceiverConfig) configObject);
+                                receiverConfigListData.add(((ReceiverConfig) configObject).getServiceName());
+                                int selectIndex = receiverConfigListData.size() - 1;
+                                receiverConfigListView.getSelectionModel().select(selectIndex);
+                                gatewayConfToolTaskViewService.addServiceViewTabPane(configObject, selectIndex);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         });
                         menu.getItems().add(menuAdd);
                     }
                 }
                 MenuItem menu_Copy = new MenuItem("复制选中行");
                 menu_Copy.setOnAction(event1 -> {
-//                    Map<String,String> map = dialogTableView.getSelectionModel().getSelectedItem();
-//                    Map<String,String> map2 =  new HashMap<String,String>(map);
-//                    dialogTableData.add(dialogTableView.getSelectionModel().getSelectedIndex(), map2);
+                    String selectString = receiverConfigListView.getSelectionModel().getSelectedItem();
+                    receiverConfigListData.add(selectString);
+                    try {
+                        taskConfig.getReceiverConfig().add((ReceiverConfig) BeanUtils.cloneBean(taskConfig.getReceiverConfig().get(receiverConfigListView.getSelectionModel().getSelectedIndex())));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 });
                 MenuItem menu_Remove = new MenuItem("删除选中行");
                 menu_Remove.setOnAction(event1 -> {
-                    receiverConfigListData.remove(receiverConfigListView.getSelectionModel().getSelectedItem());
+                    taskConfig.getReceiverConfig().remove(receiverConfigListView.getSelectionModel().getSelectedIndex());
+//                    receiverConfigListData.remove(receiverConfigListView.getSelectionModel().getSelectedItem());
+                    receiverConfigListData.remove(receiverConfigListView.getSelectionModel().getSelectedIndex());
                 });
                 MenuItem menu_RemoveAll = new MenuItem("删除所有");
                 menu_RemoveAll.setOnAction(event1 -> {
                     receiverConfigListData.clear();
+                    taskConfig.getReceiverConfig().clear();
                 });
                 receiverConfigListView.setContextMenu(new ContextMenu(menu, menu_Copy, menu_Remove, menu_RemoveAll));
+            } else if (event.getButton() == MouseButton.PRIMARY) {
+                int selectIndex = receiverConfigListView.getSelectionModel().getSelectedIndex();
+                gatewayConfToolTaskViewService.addServiceViewTabPane(taskConfig.getReceiverConfig().get(selectIndex), selectIndex);
             }
         });
+        filterConfigsListView.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.SECONDARY) {
+                Menu menu = new Menu("添加");
+                String packageName = "com.easipass.gateway.filter.bean";
+                ClassLoader loader = Thread.currentThread().getContextClassLoader();
+                String packagePath = packageName.replace(".", "/");
+                URL url = loader.getResource(packagePath);
+                for (File childFile : new File(url.getPath()).listFiles()) {
+                    if (!childFile.getName().contains("$") && !childFile.getName().equals("FilterConfig.class")) {
+                        String className = StringUtils.removeEnd(childFile.getName(), ".class");
+                        MenuItem menuAdd = new MenuItem(className);
+                        menuAdd.setOnAction(event1 -> {
+                            try {
+                                Object configObject = Class.forName(packageName + "." + className).newInstance();
+                                taskConfig.getFilterConfigs().add((FilterConfig) configObject);
+                                filterConfigsListData.add(((FilterConfig) configObject).getServiceName());
+                                int selectIndex = filterConfigsListData.size() - 1;
+                                filterConfigsListView.getSelectionModel().select(selectIndex);
+                                gatewayConfToolTaskViewService.addServiceViewTabPane(configObject, selectIndex);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
+                        menu.getItems().add(menuAdd);
+                    }
+                }
+                MenuItem menu_Copy = new MenuItem("复制选中行");
+                menu_Copy.setOnAction(event1 -> {
+                    String selectString = filterConfigsListView.getSelectionModel().getSelectedItem();
+                    filterConfigsListData.add(selectString);
+                    try {
+                        taskConfig.getFilterConfigs().add((FilterConfig) BeanUtils.cloneBean(taskConfig.getFilterConfigs().get(filterConfigsListView.getSelectionModel().getSelectedIndex())));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+                MenuItem menu_Remove = new MenuItem("删除选中行");
+                menu_Remove.setOnAction(event1 -> {
+                    taskConfig.getFilterConfigs().remove(filterConfigsListView.getSelectionModel().getSelectedIndex());
+                    filterConfigsListData.remove(filterConfigsListView.getSelectionModel().getSelectedIndex());
+                });
+                MenuItem menu_RemoveAll = new MenuItem("删除所有");
+                menu_RemoveAll.setOnAction(event1 -> {
+                    filterConfigsListData.clear();
+                    taskConfig.getFilterConfigs().clear();
+                });
+                filterConfigsListView.setContextMenu(new ContextMenu(menu, menu_Copy, menu_Remove, menu_RemoveAll));
+            } else if (event.getButton() == MouseButton.PRIMARY) {
+                int selectIndex = filterConfigsListView.getSelectionModel().getSelectedIndex();
+                gatewayConfToolTaskViewService.addServiceViewTabPane(taskConfig.getFilterConfigs().get(selectIndex), selectIndex);
+            }
+        });
+        senderConfigListView.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.SECONDARY) {
+                Menu menu = new Menu("添加");
+                String packageName = "com.easipass.gateway.route.bean";
+                ClassLoader loader = Thread.currentThread().getContextClassLoader();
+                String packagePath = packageName.replace(".", "/");
+                URL url = loader.getResource(packagePath);
+                for (File childFile : new File(url.getPath()).listFiles()) {
+                    if (!childFile.getName().contains("$")) {
+                        String className = StringUtils.removeEnd(childFile.getName(), ".class");
+                        MenuItem menuAdd = new MenuItem(className);
+                        menuAdd.setOnAction(event1 -> {
+                            try {
+                                Object configObject = Class.forName(packageName + "." + className).newInstance();
+                                taskConfig.getSenderConfig().add((SenderConfig) configObject);
+                                senderConfigListData.add(((SenderConfig) configObject).getServiceName());
+                                int selectIndex = senderConfigListData.size() - 1;
+                                senderConfigListView.getSelectionModel().select(selectIndex);
+                                gatewayConfToolTaskViewService.addServiceViewTabPane(configObject, selectIndex);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
+                        menu.getItems().add(menuAdd);
+                    }
+                }
+                MenuItem menu_Copy = new MenuItem("复制选中行");
+                menu_Copy.setOnAction(event1 -> {
+                    String selectString = senderConfigListView.getSelectionModel().getSelectedItem();
+                    senderConfigListData.add(selectString);
+                    try {
+                        taskConfig.getSenderConfig().add((SenderConfig) BeanUtils.cloneBean(taskConfig.getSenderConfig().get(senderConfigListView.getSelectionModel().getSelectedIndex())));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+                MenuItem menu_Remove = new MenuItem("删除选中行");
+                menu_Remove.setOnAction(event1 -> {
+                    taskConfig.getSenderConfig().remove(senderConfigListView.getSelectionModel().getSelectedIndex());
+//                    senderConfigListData.remove(senderConfigListView.getSelectionModel().getSelectedItem());
+                    senderConfigListData.remove(senderConfigListView.getSelectionModel().getSelectedIndex());
+                });
+                MenuItem menu_RemoveAll = new MenuItem("删除所有");
+                menu_RemoveAll.setOnAction(event1 -> {
+                    senderConfigListData.clear();
+                    taskConfig.getSenderConfig().clear();
+                });
+                senderConfigListView.setContextMenu(new ContextMenu(menu, menu_Copy, menu_Remove, menu_RemoveAll));
+            } else if (event.getButton() == MouseButton.PRIMARY) {
+                int selectIndex = senderConfigListView.getSelectionModel().getSelectedIndex();
+                gatewayConfToolTaskViewService.addServiceViewTabPane(taskConfig.getSenderConfig().get(selectIndex), selectIndex);
+            }
+        });
+
+        JavaFxViewUtil.addTableViewOnMouseRightClickMenu(propertiesTableView);
     }
 
     private void initService() {

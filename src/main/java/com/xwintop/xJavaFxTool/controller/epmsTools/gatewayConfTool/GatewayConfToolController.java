@@ -7,7 +7,10 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
+import javafx.scene.input.MouseButton;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +34,7 @@ public class GatewayConfToolController extends GatewayConfToolView {
     private void initView() {
         TreeItem<String> treeItem = new TreeItem<String>("TaskConfig列表");
         configurationTreeView.setRoot(treeItem);
-        configurationPathTextField.setText("D:\\ideaWorkspaces\\gatewaySpring\\configuration");
+        configurationPathTextField.setText("E:\\ideaWorkspaces\\gatewaySpring\\configuration");
     }
 
     private void initEvent() {
@@ -48,6 +51,16 @@ public class GatewayConfToolController extends GatewayConfToolView {
                         });
                     }
                 });
+        taskConfigTabPane.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.SECONDARY) {
+                MenuItem menu_RemoveAll = new MenuItem("关闭所有");
+                menu_RemoveAll.setOnAction(event1 -> {
+                    taskConfigTabPane.getTabs().removeAll(taskConfigTabPane.getTabs());
+                    gatewayConfToolService.getTaskConfigTabMap().clear();
+                });
+                taskConfigTabPane.setContextMenu(new ContextMenu(menu_RemoveAll));
+            }
+        });
     }
 
     private void initService() {
