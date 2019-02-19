@@ -1,8 +1,10 @@
 package com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool;
 
+import com.easipass.gateway.entity.TaskConfig;
 import com.easipass.gateway.filter.bean.FilterConfig;
 import com.easipass.gateway.receiver.entity.ReceiverConfig;
 import com.easipass.gateway.route.entity.SenderConfig;
+import com.xwintop.xJavaFxTool.controller.epmsTools.gatewayConfTool.GatewayConfToolController;
 import com.xwintop.xJavaFxTool.controller.epmsTools.gatewayConfTool.GatewayConfToolServiceViewController;
 import com.xwintop.xJavaFxTool.controller.epmsTools.gatewayConfTool.GatewayConfToolTaskViewController;
 import javafx.event.Event;
@@ -12,6 +14,7 @@ import javafx.scene.control.Tab;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,6 +27,8 @@ import java.util.Map;
 @Slf4j
 public class GatewayConfToolTaskViewService {
     private GatewayConfToolTaskViewController gatewayConfToolTaskViewController;
+
+    private GatewayConfToolController gatewayConfToolController;
 
     private Map<String, Tab> serviceViewTabMap = new HashMap<String, Tab>();
 
@@ -74,5 +79,32 @@ public class GatewayConfToolTaskViewService {
         gatewayConfToolTaskViewController.getServiceViewTabPane().getTabs().add(tab);
         gatewayConfToolTaskViewController.getServiceViewTabPane().getSelectionModel().select(tab);
         serviceViewTabMap.put(tabName, tab);
+    }
+
+    public void saveTaskConfigAction() {
+        TaskConfig taskConfig = gatewayConfToolTaskViewController.getTaskConfig();
+        String taskConfigName = gatewayConfToolTaskViewController.getNameTextField().getText();
+        if (!taskConfig.getName().equals(taskConfigName)) {
+            String oldTaskConfigName = taskConfig.getName();
+            taskConfig.setName(taskConfigName);
+            gatewayConfToolTaskViewController.setTabName(taskConfigName);
+            gatewayConfToolController.getGatewayConfToolService().getTaskConfigTabMap().get(oldTaskConfigName).setText(taskConfigName);
+            Map<String, TaskConfig> taskConfigMap = gatewayConfToolController.getGatewayConfToolService().getTaskConfigFileMap().get(gatewayConfToolTaskViewController.getFileName());
+            taskConfigMap.put(taskConfigName, taskConfigMap.get(oldTaskConfigName));
+            taskConfigMap.remove(oldTaskConfigName);
+        }
+        taskConfig.setIsEnable(gatewayConfToolTaskViewController.getIsEnableCheckBox().isSelected());
+        String taskType = gatewayConfToolTaskViewController.getTaskTypeTextField().getText();
+        taskConfig.setTaskType(StringUtils.isBlank(taskType) ? null : taskType);
+        taskConfig.setTriggerType(gatewayConfToolTaskViewController.getTriggerCronTextField().getText());
+        taskConfig.setIntervalTime(gatewayConfToolTaskViewController.getIntervalTimeSpinner().getValue());
+        taskConfig.setExecuteTimes(gatewayConfToolTaskViewController.getExecuteTimesSpinner().getValue());
+        String triggerCron = gatewayConfToolTaskViewController.getTriggerCronTextField().getText();
+        taskConfig.setTriggerCron(StringUtils.isBlank(triggerCron) ? null : triggerCron);
+        taskConfig.setIsStatefulJob(gatewayConfToolTaskViewController.getIsStatefullJobCheckBox().isSelected());
+        taskConfig.getProperties().clear();
+        gatewayConfToolTaskViewController.getPropertiesTableData().forEach(map -> {
+            taskConfig.getProperties().put(map.get("key"), map.get("value"));
+        });
     }
 }

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXCheckBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -18,30 +20,61 @@
    <children>
       <BorderPane layoutX="10.0" layoutY="3.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <center>
-            <FlowPane columnHalignment="CENTER" hgap="20.0" prefHeight="386.0" prefWidth="692.0" vgap="20.0">
+            <FlowPane columnHalignment="CENTER" hgap="20.0" vgap="20.0">
                <children>
-                  <Label text="name：" />
+                  <Button fx:id="saveTaskConfigButton" mnemonicParsing="false" onAction="#saveTaskConfigAction" text="保存" />
+                  <Label text="name：">
+                     <FlowPane.margin>
+                        <Insets right="-15.0" />
+                     </FlowPane.margin></Label>
                   <TextField fx:id="nameTextField" />
                   <JFXCheckBox fx:id="isEnableCheckBox" selected="true" text="isEnable" />
-                  <Label text="taskType：" />
+                  <Label text="taskType：">
+                     <FlowPane.margin>
+                        <Insets right="-15.0" />
+                     </FlowPane.margin></Label>
                   <TextField fx:id="taskTypeTextField" />
-                  <Label text="triggerType：" />
-                  <ChoiceBox fx:id="triggerTypeChoiceBox" prefWidth="150.0" />
-                  <Label text="intervalTime：" />
+                  <Label text="triggerType：">
+                     <FlowPane.margin>
+                        <Insets right="-15.0" />
+                     </FlowPane.margin></Label>
+                  <ChoiceBox fx:id="triggerTypeChoiceBox" />
+                  <Label text="intervalTime：">
+                     <FlowPane.margin>
+                        <Insets right="-15.0" />
+                     </FlowPane.margin></Label>
                   <Spinner fx:id="intervalTimeSpinner" editable="true" />
-                  <Label text="executeTimes：" />
+                  <Label text="executeTimes：">
+                     <FlowPane.margin>
+                        <Insets right="-15.0" />
+                     </FlowPane.margin></Label>
                   <Spinner fx:id="executeTimesSpinner" editable="true" />
-                  <Label text="triggerCron：" />
+                  <Label text="triggerCron：">
+                     <FlowPane.margin>
+                        <Insets right="-15.0" />
+                     </FlowPane.margin></Label>
                   <TextField fx:id="triggerCronTextField" />
                   <JFXCheckBox fx:id="isStatefullJobCheckBox" text="isStatefulJob" />
-                  <Label text="receiverConfig：" />
-                  <ListView fx:id="receiverConfigListView" prefHeight="85.0" prefWidth="200.0" />
-                  <Label text="filterConfigs：" />
-                  <ListView fx:id="filterConfigsListView" prefHeight="32.0" prefWidth="200.0" />
-                  <Label text="senderConfig：" />
-                  <ListView fx:id="senderConfigListView" prefHeight="77.0" prefWidth="200.0" />
-                  <Label text="properties：" />
-                  <TableView fx:id="propertiesTableView" editable="true" prefHeight="112.0" prefWidth="200.0">
+                  <Label text="receiverConfig：">
+                     <FlowPane.margin>
+                        <Insets right="-15.0" />
+                     </FlowPane.margin></Label>
+                  <ListView fx:id="receiverConfigListView" prefHeight="80.0" prefWidth="150.0" />
+                  <Label text="filterConfigs：">
+                     <FlowPane.margin>
+                        <Insets right="-15.0" />
+                     </FlowPane.margin></Label>
+                  <ListView fx:id="filterConfigsListView" prefHeight="80.0" prefWidth="180.0" />
+                  <Label text="senderConfig：">
+                     <FlowPane.margin>
+                        <Insets right="-15.0" />
+                     </FlowPane.margin></Label>
+                  <ListView fx:id="senderConfigListView" prefHeight="80.0" prefWidth="150.0" />
+                  <Label text="properties：">
+                     <FlowPane.margin>
+                        <Insets right="-15.0" />
+                     </FlowPane.margin></Label>
+                  <TableView fx:id="propertiesTableView" editable="true" prefHeight="80.0">
                     <columns>
                       <TableColumn fx:id="propertiesKeyTableColumn" prefWidth="75.0" text="key" />
                       <TableColumn fx:id="propertiesValueTableColumn" prefWidth="75.0" text="value" />
@@ -51,6 +84,9 @@
                      </columnResizePolicy>
                   </TableView>
                </children>
+               <BorderPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </BorderPane.margin>
             </FlowPane>
          </center>
          <bottom>

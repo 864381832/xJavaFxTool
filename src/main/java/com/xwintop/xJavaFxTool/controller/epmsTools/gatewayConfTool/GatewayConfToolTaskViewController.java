@@ -10,6 +10,8 @@ import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.view.epmsTools.gatewayConfTool.GatewayConfToolTaskViewView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
@@ -22,6 +24,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +43,7 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
 
     private TaskConfig taskConfig;
 
-    private GatewayConfToolController gatewayConfToolController;
+    private String fileName;
     private String tabName;
 
     public static FXMLLoader getFXMLLoader() {
@@ -128,6 +131,9 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
                 });
                 receiverConfigListView.setContextMenu(new ContextMenu(menu, menu_Copy, menu_Remove, menu_RemoveAll));
             } else if (event.getButton() == MouseButton.PRIMARY) {
+                if (receiverConfigListView.getSelectionModel().getSelectedItems() == null) {
+                    return;
+                }
                 int selectIndex = receiverConfigListView.getSelectionModel().getSelectedIndex();
                 gatewayConfToolTaskViewService.addServiceViewTabPane(taskConfig.getReceiverConfig().get(selectIndex), selectIndex);
             }
@@ -180,6 +186,9 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
                 });
                 filterConfigsListView.setContextMenu(new ContextMenu(menu, menu_Copy, menu_Remove, menu_RemoveAll));
             } else if (event.getButton() == MouseButton.PRIMARY) {
+                if (filterConfigsListView.getSelectionModel().getSelectedItems() == null) {
+                    return;
+                }
                 int selectIndex = filterConfigsListView.getSelectionModel().getSelectedIndex();
                 gatewayConfToolTaskViewService.addServiceViewTabPane(taskConfig.getFilterConfigs().get(selectIndex), selectIndex);
             }
@@ -233,6 +242,9 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
                 });
                 senderConfigListView.setContextMenu(new ContextMenu(menu, menu_Copy, menu_Remove, menu_RemoveAll));
             } else if (event.getButton() == MouseButton.PRIMARY) {
+                if (senderConfigListView.getSelectionModel().getSelectedItems() == null) {
+                    return;
+                }
                 int selectIndex = senderConfigListView.getSelectionModel().getSelectedIndex();
                 gatewayConfToolTaskViewService.addServiceViewTabPane(taskConfig.getSenderConfig().get(selectIndex), selectIndex);
             }
@@ -244,33 +256,42 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
     private void initService() {
     }
 
-    public void setData(GatewayConfToolController gatewayConfToolController, TaskConfig taskConfig) {
-        this.gatewayConfToolController = gatewayConfToolController;
-        this.taskConfig = taskConfig;
-//        gatewayConfToolTaskViewService.reloadTableData();
+    @FXML
+    void saveTaskConfigAction(ActionEvent event) {
+        gatewayConfToolTaskViewService.saveTaskConfigAction();
+    }
 
-        nameTextField.setText(taskConfig.getName());
-        isEnableCheckBox.setSelected(taskConfig.getIsEnable());
-        taskTypeTextField.setText(taskConfig.getTaskType());
-        triggerTypeChoiceBox.setValue(taskConfig.getTriggerType());
-        intervalTimeSpinner.getValueFactory().setValue(taskConfig.getIntervalTime());
-        executeTimesSpinner.getValueFactory().setValue(taskConfig.getExecuteTimes());
-        triggerCronTextField.setText(taskConfig.getTriggerCron());
-        isStatefullJobCheckBox.setSelected(taskConfig.getIsStatefulJob());
+    public void setData(GatewayConfToolController gatewayConfToolController, TaskConfig taskConfig) {
+        gatewayConfToolTaskViewService.setGatewayConfToolController(gatewayConfToolController);
+        this.taskConfig = taskConfig;
+//        try {
+//            this.taskConfig = (TaskConfig) BeanUtils.cloneBean(taskConfig);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+        nameTextField.setText(this.taskConfig.getName());
+        isEnableCheckBox.setSelected(this.taskConfig.getIsEnable());
+        taskTypeTextField.setText(this.taskConfig.getTaskType());
+        triggerTypeChoiceBox.setValue(this.taskConfig.getTriggerType());
+        intervalTimeSpinner.getValueFactory().setValue(this.taskConfig.getIntervalTime());
+        executeTimesSpinner.getValueFactory().setValue(this.taskConfig.getExecuteTimes());
+        triggerCronTextField.setText(this.taskConfig.getTriggerCron());
+        isStatefullJobCheckBox.setSelected(this.taskConfig.getIsStatefulJob());
         receiverConfigListData.clear();
-        for (ReceiverConfig receiverConfig : taskConfig.getReceiverConfig()) {
+        for (ReceiverConfig receiverConfig : this.taskConfig.getReceiverConfig()) {
             receiverConfigListData.add(receiverConfig.getServiceName());
         }
         filterConfigsListData.clear();
-        for (FilterConfig filterConfig : taskConfig.getFilterConfigs()) {
+        for (FilterConfig filterConfig : this.taskConfig.getFilterConfigs()) {
             filterConfigsListData.add(filterConfig.getServiceName());
         }
         senderConfigListData.clear();
-        for (SenderConfig senderConfig : taskConfig.getSenderConfig()) {
+        for (SenderConfig senderConfig : this.taskConfig.getSenderConfig()) {
             senderConfigListData.add(senderConfig.getServiceName());
         }
         propertiesTableData.clear();
-        taskConfig.getProperties().forEach((key, value) -> {
+        this.taskConfig.getProperties().forEach((key, value) -> {
             Map<String, String> map = new HashMap<>();
             map.put("key", key);
             map.put("value", value.toString());

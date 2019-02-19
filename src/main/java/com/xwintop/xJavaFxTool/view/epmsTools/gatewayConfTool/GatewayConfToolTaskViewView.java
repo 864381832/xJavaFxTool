@@ -13,6 +13,8 @@ import java.util.Map;
 @Setter
 public abstract class GatewayConfToolTaskViewView implements Initializable {
     @FXML
+    protected Button saveTaskConfigButton;
+    @FXML
     protected TextField nameTextField;
     @FXML
     protected JFXCheckBox isEnableCheckBox;

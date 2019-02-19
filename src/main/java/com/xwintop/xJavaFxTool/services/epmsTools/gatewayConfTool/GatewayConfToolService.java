@@ -113,6 +113,7 @@ public class GatewayConfToolService {
         }
         GatewayConfToolTaskViewController gatewayConfToolTaskViewController = fXMLLoader.getController();
         gatewayConfToolTaskViewController.setData(gatewayConfToolController, taskConfigFileMap.get(fileName).get(taskName));
+        gatewayConfToolTaskViewController.setFileName(fileName);
         gatewayConfToolTaskViewController.setTabName(tabName);
         gatewayConfToolController.getTaskConfigTabPane().getTabs().add(tab);
         gatewayConfToolController.getTaskConfigTabPane().getSelectionModel().select(tab);
