@@ -258,7 +258,11 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
 
     @FXML
     void saveTaskConfigAction(ActionEvent event) {
-        gatewayConfToolTaskViewService.saveTaskConfigAction();
+        try {
+            gatewayConfToolTaskViewService.saveTaskConfigAction();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void setData(GatewayConfToolController gatewayConfToolController, TaskConfig taskConfig) {

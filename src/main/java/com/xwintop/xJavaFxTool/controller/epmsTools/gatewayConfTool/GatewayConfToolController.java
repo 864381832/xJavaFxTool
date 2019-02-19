@@ -142,6 +142,8 @@ public class GatewayConfToolController extends GatewayConfToolView {
     @FXML
     private void treeRefurbishAction(ActionEvent event) {
         gatewayConfToolService.reloadTaskConfigFile();
+        taskConfigTabPane.getTabs().removeAll(taskConfigTabPane.getTabs());
+        gatewayConfToolService.getTaskConfigTabMap().clear();
     }
 
     @FXML

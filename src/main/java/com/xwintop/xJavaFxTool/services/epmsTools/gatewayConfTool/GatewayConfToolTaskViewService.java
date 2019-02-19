@@ -15,12 +15,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.yaml.snakeyaml.Yaml;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.Writer;
+import java.util.*;
 
 @Getter
 @Setter
@@ -81,17 +82,27 @@ public class GatewayConfToolTaskViewService {
         serviceViewTabMap.put(tabName, tab);
     }
 
-    public void saveTaskConfigAction() {
+    public void saveTaskConfigAction() throws Exception {
         TaskConfig taskConfig = gatewayConfToolTaskViewController.getTaskConfig();
+        String fileName = gatewayConfToolTaskViewController.getFileName();
         String taskConfigName = gatewayConfToolTaskViewController.getNameTextField().getText();
         if (!taskConfig.getName().equals(taskConfigName)) {
             String oldTaskConfigName = taskConfig.getName();
             taskConfig.setName(taskConfigName);
             gatewayConfToolTaskViewController.setTabName(taskConfigName);
             gatewayConfToolController.getGatewayConfToolService().getTaskConfigTabMap().get(oldTaskConfigName).setText(taskConfigName);
-            Map<String, TaskConfig> taskConfigMap = gatewayConfToolController.getGatewayConfToolService().getTaskConfigFileMap().get(gatewayConfToolTaskViewController.getFileName());
+            Map<String, TaskConfig> taskConfigMap = gatewayConfToolController.getGatewayConfToolService().getTaskConfigFileMap().get(fileName);
             taskConfigMap.put(taskConfigName, taskConfigMap.get(oldTaskConfigName));
             taskConfigMap.remove(oldTaskConfigName);
+            gatewayConfToolController.getConfigurationTreeView().getRoot().getChildren().forEach(stringTreeItem -> {
+                if (fileName.equals(stringTreeItem.getValue())) {
+                    stringTreeItem.getChildren().forEach(stringTreeItem1 -> {
+                        if (oldTaskConfigName.equals(stringTreeItem1.getValue())) {
+                            stringTreeItem1.setValue(taskConfigName);
+                        }
+                    });
+                }
+            });
         }
         taskConfig.setIsEnable(gatewayConfToolTaskViewController.getIsEnableCheckBox().isSelected());
         String taskType = gatewayConfToolTaskViewController.getTaskTypeTextField().getText();
@@ -106,5 +117,11 @@ public class GatewayConfToolTaskViewService {
         gatewayConfToolTaskViewController.getPropertiesTableData().forEach(map -> {
             taskConfig.getProperties().put(map.get("key"), map.get("value"));
         });
+        if ("127.0.0.1".equals(gatewayConfToolController.getHostTextField().getText())) {
+            File file = new File(gatewayConfToolController.getConfigurationPathTextField().getText(), fileName);
+            Yaml yaml = new Yaml();
+            Writer writer = new FileWriter(file);
+            yaml.dump(Arrays.asList(taskConfig), writer);
+        }
     }
 }
