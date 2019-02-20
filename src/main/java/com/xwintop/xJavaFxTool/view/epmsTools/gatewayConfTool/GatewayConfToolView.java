@@ -2,10 +2,7 @@ package com.xwintop.xJavaFxTool.view.epmsTools.gatewayConfTool;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,7 +24,7 @@ public abstract class GatewayConfToolView implements Initializable {
     @FXML
     protected TextField usernameTextField;
     @FXML
-    protected TextField passwordTextField;
+    protected PasswordField passwordTextField;
     @FXML
     protected Button connectButton;
 

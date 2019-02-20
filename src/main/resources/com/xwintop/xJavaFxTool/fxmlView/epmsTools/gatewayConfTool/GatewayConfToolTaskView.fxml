@@ -12,6 +12,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
@@ -20,41 +21,65 @@
    <children>
       <BorderPane layoutX="10.0" layoutY="3.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <center>
-            <FlowPane columnHalignment="CENTER" hgap="20.0" vgap="20.0">
+            <FlowPane columnHalignment="CENTER" hgap="20.0" vgap="10.0">
                <children>
                   <Button fx:id="saveTaskConfigButton" mnemonicParsing="false" onAction="#saveTaskConfigAction" text="保存" />
                   <Label text="name：">
                      <FlowPane.margin>
                         <Insets right="-15.0" />
                      </FlowPane.margin></Label>
-                  <TextField fx:id="nameTextField" />
-                  <JFXCheckBox fx:id="isEnableCheckBox" selected="true" text="isEnable" />
+                  <TextField fx:id="nameTextField">
+                     <tooltip>
+                        <Tooltip text="任务名称(唯一标识，不可重复)" />
+                     </tooltip></TextField>
+                  <JFXCheckBox fx:id="isEnableCheckBox" selected="true" text="isEnable">
+                     <tooltip>
+                        <Tooltip text="是否开启" />
+                     </tooltip></JFXCheckBox>
                   <Label text="taskType：">
                      <FlowPane.margin>
                         <Insets right="-15.0" />
                      </FlowPane.margin></Label>
-                  <TextField fx:id="taskTypeTextField" />
+                  <TextField fx:id="taskTypeTextField">
+                     <tooltip>
+                        <Tooltip text="任务类型（选填，可为空）" />
+                     </tooltip></TextField>
                   <Label text="triggerType：">
                      <FlowPane.margin>
                         <Insets right="-15.0" />
                      </FlowPane.margin></Label>
-                  <ChoiceBox fx:id="triggerTypeChoiceBox" />
+                  <ChoiceBox fx:id="triggerTypeChoiceBox">
+                     <tooltip>
+                        <Tooltip text="触发器类型(simple/cron)" />
+                     </tooltip></ChoiceBox>
                   <Label text="intervalTime：">
                      <FlowPane.margin>
                         <Insets right="-15.0" />
                      </FlowPane.margin></Label>
-                  <Spinner fx:id="intervalTimeSpinner" editable="true" />
+                  <Spinner fx:id="intervalTimeSpinner" editable="true">
+                     <tooltip>
+                        <Tooltip text="两次任务调度的间隔时间(simple类型触发器显示该信息)，单位为秒" />
+                     </tooltip></Spinner>
                   <Label text="executeTimes：">
                      <FlowPane.margin>
                         <Insets right="-15.0" />
                      </FlowPane.margin></Label>
-                  <Spinner fx:id="executeTimesSpinner" editable="true" />
+                  <Spinner fx:id="executeTimesSpinner" editable="true">
+                     <tooltip>
+                        <Tooltip text="任务执行次数(simple类型触发器显示该信息，-1表示无限次)" />
+                     </tooltip></Spinner>
                   <Label text="triggerCron：">
                      <FlowPane.margin>
                         <Insets right="-15.0" />
                      </FlowPane.margin></Label>
-                  <TextField fx:id="triggerCronTextField" />
-                  <JFXCheckBox fx:id="isStatefullJobCheckBox" text="isStatefulJob" />
+                  <TextField fx:id="triggerCronTextField" disable="true">
+                     <tooltip>
+                        <Tooltip text="任务调度的时间(cron类型触发器显示该信息)" />
+                     </tooltip></TextField>
+                  <JFXCheckBox fx:id="isStatefullJobCheckBox" text="isStatefulJob">
+                     <tooltip>
+                        <Tooltip text="是否为有状态的job" />
+                     </tooltip></JFXCheckBox>
                   <Label text="receiverConfig：">
                      <FlowPane.margin>
                         <Insets right="-15.0" />
@@ -82,6 +107,9 @@
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
+                     <tooltip>
+                        <Tooltip text="附加配置属性（选填）" />
+                     </tooltip>
                   </TableView>
                </children>
                <BorderPane.margin>

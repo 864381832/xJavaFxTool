@@ -8,6 +8,8 @@ import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.GatewayConfToolTaskViewService;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.view.epmsTools.gatewayConfTool.GatewayConfToolTaskViewView;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,10 +23,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.lang3.StringUtils;
 
-import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -72,11 +71,25 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
     }
 
     private void initEvent() {
+        triggerTypeChoiceBox.valueProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (triggerTypeChoiceBoxStrings[0].equals(newValue)) {
+                    triggerCronTextField.setDisable(true);
+                    intervalTimeSpinner.setDisable(false);
+                    executeTimesSpinner.setDisable(false);
+                } else if (triggerTypeChoiceBoxStrings[1].equals(newValue)) {
+                    triggerCronTextField.setDisable(false);
+                    intervalTimeSpinner.setDisable(true);
+                    executeTimesSpinner.setDisable(true);
+                }
+            }
+        });
         serviceViewTabPane.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
                 MenuItem menu_RemoveAll = new MenuItem("关闭所有");
                 menu_RemoveAll.setOnAction(event1 -> {
-                    serviceViewTabPane.getTabs().removeAll(serviceViewTabPane.getTabs());
+                    serviceViewTabPane.getTabs().clear();
                     gatewayConfToolTaskViewService.getServiceViewTabMap().clear();
                 });
                 serviceViewTabPane.setContextMenu(new ContextMenu(menu_RemoveAll));
@@ -86,28 +99,56 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
             if (event.getButton() == MouseButton.SECONDARY) {
                 Menu menu = new Menu("添加");
                 String packageName = "com.easipass.gateway.receiver.bean";
-                ClassLoader loader = Thread.currentThread().getContextClassLoader();
-                String packagePath = packageName.replace(".", "/");
-                URL url = loader.getResource(packagePath);
-                for (File childFile : new File(url.getPath()).listFiles()) {
-                    if (!childFile.getName().contains("$")) {
-                        String className = StringUtils.removeEnd(childFile.getName(), ".class");
-                        MenuItem menuAdd = new MenuItem(className);
-                        menuAdd.setOnAction(event1 -> {
-                            try {
-                                Object configObject = Class.forName(packageName + "." + className).newInstance();
-                                taskConfig.getReceiverConfig().add((ReceiverConfig) configObject);
-                                receiverConfigListData.add(((ReceiverConfig) configObject).getServiceName());
-                                int selectIndex = receiverConfigListData.size() - 1;
-                                receiverConfigListView.getSelectionModel().select(selectIndex);
-                                gatewayConfToolTaskViewService.addServiceViewTabPane(configObject, selectIndex);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        });
-                        menu.getItems().add(menuAdd);
-                    }
+                String[] classNameS = new String[]{"ReceiverConfigDataBus",
+                        "ReceiverConfigEmail",
+                        "ReceiverConfigFs",
+                        "ReceiverConfigFsSplit",
+                        "ReceiverConfigFtp",
+                        "ReceiverConfigIbmMq",
+                        "ReceiverConfigJms",
+                        "ReceiverConfigKafka",
+                        "ReceiverConfigMq",
+                        "ReceiverConfigRabbitMq",
+                        "ReceiverConfigRocketMq",
+                        "ReceiverConfigSftp"};
+                for (String className : classNameS) {
+                    MenuItem menuAdd = new MenuItem(className);
+                    menuAdd.setOnAction(event1 -> {
+                        try {
+                            Object configObject = Class.forName(packageName + "." + className).newInstance();
+                            taskConfig.getReceiverConfig().add((ReceiverConfig) configObject);
+                            receiverConfigListData.add(((ReceiverConfig) configObject).getServiceName());
+                            int selectIndex = receiverConfigListData.size() - 1;
+                            receiverConfigListView.getSelectionModel().select(selectIndex);
+                            gatewayConfToolTaskViewService.addServiceViewTabPane(configObject, selectIndex);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+                    menu.getItems().add(menuAdd);
                 }
+//                ClassLoader loader = Thread.currentThread().getContextClassLoader();
+//                String packagePath = packageName.replace(".", "/");
+//                URL url = loader.getResource(packagePath);
+//                for (File childFile : new File(url.getPath()).listFiles()) {
+//                    if (!childFile.getName().contains("$")) {
+//                        String className = StringUtils.removeEnd(childFile.getName(), ".class");
+//                        MenuItem menuAdd = new MenuItem(className);
+//                        menuAdd.setOnAction(event1 -> {
+//                            try {
+//                                Object configObject = Class.forName(packageName + "." + className).newInstance();
+//                                taskConfig.getReceiverConfig().add((ReceiverConfig) configObject);
+//                                receiverConfigListData.add(((ReceiverConfig) configObject).getServiceName());
+//                                int selectIndex = receiverConfigListData.size() - 1;
+//                                receiverConfigListView.getSelectionModel().select(selectIndex);
+//                                gatewayConfToolTaskViewService.addServiceViewTabPane(configObject, selectIndex);
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+//                        });
+//                        menu.getItems().add(menuAdd);
+//                    }
+//                }
                 MenuItem menu_Copy = new MenuItem("复制选中行");
                 menu_Copy.setOnAction(event1 -> {
                     String selectString = receiverConfigListView.getSelectionModel().getSelectedItem();
@@ -131,10 +172,10 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
                 });
                 receiverConfigListView.setContextMenu(new ContextMenu(menu, menu_Copy, menu_Remove, menu_RemoveAll));
             } else if (event.getButton() == MouseButton.PRIMARY) {
-                if (receiverConfigListView.getSelectionModel().getSelectedItems() == null) {
+                int selectIndex = receiverConfigListView.getSelectionModel().getSelectedIndex();
+                if (receiverConfigListView.getSelectionModel().getSelectedItems() == null || selectIndex == -1) {
                     return;
                 }
-                int selectIndex = receiverConfigListView.getSelectionModel().getSelectedIndex();
                 gatewayConfToolTaskViewService.addServiceViewTabPane(taskConfig.getReceiverConfig().get(selectIndex), selectIndex);
             }
         });
@@ -142,28 +183,56 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
             if (event.getButton() == MouseButton.SECONDARY) {
                 Menu menu = new Menu("添加");
                 String packageName = "com.easipass.gateway.filter.bean";
-                ClassLoader loader = Thread.currentThread().getContextClassLoader();
-                String packagePath = packageName.replace(".", "/");
-                URL url = loader.getResource(packagePath);
-                for (File childFile : new File(url.getPath()).listFiles()) {
-                    if (!childFile.getName().contains("$") && !childFile.getName().equals("FilterConfig.class")) {
-                        String className = StringUtils.removeEnd(childFile.getName(), ".class");
-                        MenuItem menuAdd = new MenuItem(className);
-                        menuAdd.setOnAction(event1 -> {
-                            try {
-                                Object configObject = Class.forName(packageName + "." + className).newInstance();
-                                taskConfig.getFilterConfigs().add((FilterConfig) configObject);
-                                filterConfigsListData.add(((FilterConfig) configObject).getServiceName());
-                                int selectIndex = filterConfigsListData.size() - 1;
-                                filterConfigsListView.getSelectionModel().select(selectIndex);
-                                gatewayConfToolTaskViewService.addServiceViewTabPane(configObject, selectIndex);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        });
-                        menu.getItems().add(menuAdd);
-                    }
+                String[] classNameS = new String[]{
+                        "FilterConfigBackup",
+                        "FilterConfigCompress",
+                        "FilterConfigDataBusSender",
+                        "FilterConfigDecMsgToDataBus",
+                        "FilterConfigDecompress",
+                        "FilterConfigEncryptDecrypt",
+                        "FilterConfigOracleSqlldr",
+                        "FilterConfigXibFileToDataBus",
+                        "FilterConfigXibToDataBus",
+                        "FilterConfigXmlMsgToDb"
+                };
+                for (String className : classNameS) {
+                    MenuItem menuAdd = new MenuItem(className);
+                    menuAdd.setOnAction(event1 -> {
+                        try {
+                            Object configObject = Class.forName(packageName + "." + className).newInstance();
+                            taskConfig.getFilterConfigs().add((FilterConfig) configObject);
+                            filterConfigsListData.add(((FilterConfig) configObject).getServiceName());
+                            int selectIndex = filterConfigsListData.size() - 1;
+                            filterConfigsListView.getSelectionModel().select(selectIndex);
+                            gatewayConfToolTaskViewService.addServiceViewTabPane(configObject, selectIndex);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+                    menu.getItems().add(menuAdd);
                 }
+//                ClassLoader loader = Thread.currentThread().getContextClassLoader();
+//                String packagePath = packageName.replace(".", "/");
+//                URL url = loader.getResource(packagePath);
+//                for (File childFile : new File(url.getPath()).listFiles()) {
+//                    if (!childFile.getName().contains("$") && !childFile.getName().equals("FilterConfig.class")) {
+//                        String className = StringUtils.removeEnd(childFile.getName(), ".class");
+//                        MenuItem menuAdd = new MenuItem(className);
+//                        menuAdd.setOnAction(event1 -> {
+//                            try {
+//                                Object configObject = Class.forName(packageName + "." + className).newInstance();
+//                                taskConfig.getFilterConfigs().add((FilterConfig) configObject);
+//                                filterConfigsListData.add(((FilterConfig) configObject).getServiceName());
+//                                int selectIndex = filterConfigsListData.size() - 1;
+//                                filterConfigsListView.getSelectionModel().select(selectIndex);
+//                                gatewayConfToolTaskViewService.addServiceViewTabPane(configObject, selectIndex);
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+//                        });
+//                        menu.getItems().add(menuAdd);
+//                    }
+//                }
                 MenuItem menu_Copy = new MenuItem("复制选中行");
                 menu_Copy.setOnAction(event1 -> {
                     String selectString = filterConfigsListView.getSelectionModel().getSelectedItem();
@@ -186,10 +255,10 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
                 });
                 filterConfigsListView.setContextMenu(new ContextMenu(menu, menu_Copy, menu_Remove, menu_RemoveAll));
             } else if (event.getButton() == MouseButton.PRIMARY) {
-                if (filterConfigsListView.getSelectionModel().getSelectedItems() == null) {
+                int selectIndex = filterConfigsListView.getSelectionModel().getSelectedIndex();
+                if (filterConfigsListView.getSelectionModel().getSelectedItems() == null || selectIndex == -1) {
                     return;
                 }
-                int selectIndex = filterConfigsListView.getSelectionModel().getSelectedIndex();
                 gatewayConfToolTaskViewService.addServiceViewTabPane(taskConfig.getFilterConfigs().get(selectIndex), selectIndex);
             }
         });
@@ -197,28 +266,56 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
             if (event.getButton() == MouseButton.SECONDARY) {
                 Menu menu = new Menu("添加");
                 String packageName = "com.easipass.gateway.route.bean";
-                ClassLoader loader = Thread.currentThread().getContextClassLoader();
-                String packagePath = packageName.replace(".", "/");
-                URL url = loader.getResource(packagePath);
-                for (File childFile : new File(url.getPath()).listFiles()) {
-                    if (!childFile.getName().contains("$")) {
-                        String className = StringUtils.removeEnd(childFile.getName(), ".class");
-                        MenuItem menuAdd = new MenuItem(className);
-                        menuAdd.setOnAction(event1 -> {
-                            try {
-                                Object configObject = Class.forName(packageName + "." + className).newInstance();
-                                taskConfig.getSenderConfig().add((SenderConfig) configObject);
-                                senderConfigListData.add(((SenderConfig) configObject).getServiceName());
-                                int selectIndex = senderConfigListData.size() - 1;
-                                senderConfigListView.getSelectionModel().select(selectIndex);
-                                gatewayConfToolTaskViewService.addServiceViewTabPane(configObject, selectIndex);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        });
-                        menu.getItems().add(menuAdd);
-                    }
+                String[] classNameS = new String[]{
+                        "SenderConfigEmail",
+                        "SenderConfigFs",
+                        "SenderConfigFtp",
+                        "SenderConfigIbmMq",
+                        "SenderConfigJms",
+                        "SenderConfigKafka",
+                        "SenderConfigMq",
+                        "SenderConfigRabbitMq",
+                        "SenderConfigRocketMq",
+                        "SenderConfigSftp"
+                };
+                for (String className : classNameS) {
+                    MenuItem menuAdd = new MenuItem(className);
+                    menuAdd.setOnAction(event1 -> {
+                        try {
+                            Object configObject = Class.forName(packageName + "." + className).newInstance();
+                            taskConfig.getSenderConfig().add((SenderConfig) configObject);
+                            senderConfigListData.add(((SenderConfig) configObject).getServiceName());
+                            int selectIndex = senderConfigListData.size() - 1;
+                            senderConfigListView.getSelectionModel().select(selectIndex);
+                            gatewayConfToolTaskViewService.addServiceViewTabPane(configObject, selectIndex);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+                    menu.getItems().add(menuAdd);
                 }
+//                ClassLoader loader = Thread.currentThread().getContextClassLoader();
+//                String packagePath = packageName.replace(".", "/");
+//                URL url = loader.getResource(packagePath);
+//                for (File childFile : new File(url.getPath()).listFiles()) {
+//                    if (!childFile.getName().contains("$")) {
+//                        String className = StringUtils.removeEnd(childFile.getName(), ".class");
+//                        MenuItem menuAdd = new MenuItem(className);
+//                        menuAdd.setOnAction(event1 -> {
+//                            try {
+//                                Object configObject = Class.forName(packageName + "." + className).newInstance();
+//                                taskConfig.getSenderConfig().add((SenderConfig) configObject);
+//                                senderConfigListData.add(((SenderConfig) configObject).getServiceName());
+//                                int selectIndex = senderConfigListData.size() - 1;
+//                                senderConfigListView.getSelectionModel().select(selectIndex);
+//                                gatewayConfToolTaskViewService.addServiceViewTabPane(configObject, selectIndex);
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+//                        });
+//                        menu.getItems().add(menuAdd);
+//                    }
+//                }
                 MenuItem menu_Copy = new MenuItem("复制选中行");
                 menu_Copy.setOnAction(event1 -> {
                     String selectString = senderConfigListView.getSelectionModel().getSelectedItem();
@@ -242,10 +339,10 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
                 });
                 senderConfigListView.setContextMenu(new ContextMenu(menu, menu_Copy, menu_Remove, menu_RemoveAll));
             } else if (event.getButton() == MouseButton.PRIMARY) {
-                if (senderConfigListView.getSelectionModel().getSelectedItems() == null) {
+                int selectIndex = senderConfigListView.getSelectionModel().getSelectedIndex();
+                if (senderConfigListView.getSelectionModel().getSelectedItems() == null || selectIndex == -1) {
                     return;
                 }
-                int selectIndex = senderConfigListView.getSelectionModel().getSelectedIndex();
                 gatewayConfToolTaskViewService.addServiceViewTabPane(taskConfig.getSenderConfig().get(selectIndex), selectIndex);
             }
         });
@@ -268,12 +365,6 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
     public void setData(GatewayConfToolController gatewayConfToolController, TaskConfig taskConfig) {
         gatewayConfToolTaskViewService.setGatewayConfToolController(gatewayConfToolController);
         this.taskConfig = taskConfig;
-//        try {
-//            this.taskConfig = (TaskConfig) BeanUtils.cloneBean(taskConfig);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
         nameTextField.setText(this.taskConfig.getName());
         isEnableCheckBox.setSelected(this.taskConfig.getIsEnable());
         taskTypeTextField.setText(this.taskConfig.getTaskType());

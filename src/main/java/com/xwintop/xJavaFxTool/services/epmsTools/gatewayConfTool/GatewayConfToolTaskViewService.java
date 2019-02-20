@@ -4,11 +4,10 @@ import com.easipass.gateway.entity.TaskConfig;
 import com.easipass.gateway.filter.bean.FilterConfig;
 import com.easipass.gateway.receiver.entity.ReceiverConfig;
 import com.easipass.gateway.route.entity.SenderConfig;
+import com.jcraft.jsch.ChannelSftp;
 import com.xwintop.xJavaFxTool.controller.epmsTools.gatewayConfTool.GatewayConfToolController;
 import com.xwintop.xJavaFxTool.controller.epmsTools.gatewayConfTool.GatewayConfToolServiceViewController;
 import com.xwintop.xJavaFxTool.controller.epmsTools.gatewayConfTool.GatewayConfToolTaskViewController;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Tab;
 import lombok.Getter;
@@ -17,11 +16,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.*;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -31,14 +30,13 @@ public class GatewayConfToolTaskViewService {
 
     private GatewayConfToolController gatewayConfToolController;
 
-    private Map<String, Tab> serviceViewTabMap = new HashMap<String, Tab>();
+    private Map<String, Tab> serviceViewTabMap = new HashMap<>();
 
     public GatewayConfToolTaskViewService(GatewayConfToolTaskViewController gatewayConfToolTaskViewController) {
         this.gatewayConfToolTaskViewController = gatewayConfToolTaskViewController;
     }
 
     public void addServiceViewTabPane(Object configObject, int index) {
-//    public void addServiceViewTabPane(String serviceName, int index) {
         String tabName = null;
         if (configObject instanceof ReceiverConfig) {
             tabName = ((ReceiverConfig) configObject).getServiceName();
@@ -50,23 +48,19 @@ public class GatewayConfToolTaskViewService {
         tabName = tabName + index;
         Tab tab1 = serviceViewTabMap.get(tabName);
         if (tab1 != null) {
-//            gatewayConfToolTaskViewController.getGatewayConfToolController().getServiceViewTabPane().getSelectionModel().select(tab1);
             gatewayConfToolTaskViewController.getServiceViewTabPane().getSelectionModel().select(tab1);
             return;
         }
         final Tab tab = new Tab(tabName);
-        tab.setOnClosed(new EventHandler<Event>() {
-            @Override
-            public void handle(Event event) {
-                List<Tab> tabList = new ArrayList<Tab>();
-                gatewayConfToolTaskViewController.getServiceViewTabPane().getTabs().forEach((Tab tab2) -> {
-                    if (tab2.getText().startsWith(tab.getText())) {
-                        tabList.add(tab2);
-                    }
-                });
-                gatewayConfToolTaskViewController.getServiceViewTabPane().getTabs().removeAll(tabList);
-                serviceViewTabMap.remove(tab.getText());
-            }
+        tab.setOnClosed(event -> {
+            List<Tab> tabList = new ArrayList<Tab>();
+            gatewayConfToolTaskViewController.getServiceViewTabPane().getTabs().forEach((Tab tab2) -> {
+                if (tab2.getText().startsWith(tab.getText())) {
+                    tabList.add(tab2);
+                }
+            });
+            gatewayConfToolTaskViewController.getServiceViewTabPane().getTabs().removeAll(tabList);
+            serviceViewTabMap.remove(tab.getText());
         });
         FXMLLoader fXMLLoader = GatewayConfToolServiceViewController.getFXMLLoader();
         try {
@@ -86,12 +80,12 @@ public class GatewayConfToolTaskViewService {
         TaskConfig taskConfig = gatewayConfToolTaskViewController.getTaskConfig();
         String fileName = gatewayConfToolTaskViewController.getFileName();
         String taskConfigName = gatewayConfToolTaskViewController.getNameTextField().getText();
+        Map<String, TaskConfig> taskConfigMap = gatewayConfToolController.getGatewayConfToolService().getTaskConfigFileMap().get(fileName);
         if (!taskConfig.getName().equals(taskConfigName)) {
             String oldTaskConfigName = taskConfig.getName();
             taskConfig.setName(taskConfigName);
             gatewayConfToolTaskViewController.setTabName(taskConfigName);
             gatewayConfToolController.getGatewayConfToolService().getTaskConfigTabMap().get(oldTaskConfigName).setText(taskConfigName);
-            Map<String, TaskConfig> taskConfigMap = gatewayConfToolController.getGatewayConfToolService().getTaskConfigFileMap().get(fileName);
             taskConfigMap.put(taskConfigName, taskConfigMap.get(oldTaskConfigName));
             taskConfigMap.remove(oldTaskConfigName);
             gatewayConfToolController.getConfigurationTreeView().getRoot().getChildren().forEach(stringTreeItem -> {
@@ -107,7 +101,7 @@ public class GatewayConfToolTaskViewService {
         taskConfig.setIsEnable(gatewayConfToolTaskViewController.getIsEnableCheckBox().isSelected());
         String taskType = gatewayConfToolTaskViewController.getTaskTypeTextField().getText();
         taskConfig.setTaskType(StringUtils.isBlank(taskType) ? null : taskType);
-        taskConfig.setTriggerType(gatewayConfToolTaskViewController.getTriggerCronTextField().getText());
+        taskConfig.setTriggerType(gatewayConfToolTaskViewController.getTriggerTypeChoiceBox().getValue());
         taskConfig.setIntervalTime(gatewayConfToolTaskViewController.getIntervalTimeSpinner().getValue());
         taskConfig.setExecuteTimes(gatewayConfToolTaskViewController.getExecuteTimesSpinner().getValue());
         String triggerCron = gatewayConfToolTaskViewController.getTriggerCronTextField().getText();
@@ -121,7 +115,16 @@ public class GatewayConfToolTaskViewService {
             File file = new File(gatewayConfToolController.getConfigurationPathTextField().getText(), fileName);
             Yaml yaml = new Yaml();
             Writer writer = new FileWriter(file);
-            yaml.dump(Arrays.asList(taskConfig), writer);
+            yaml.dump(taskConfigMap.values().toArray(), writer);
+            writer.close();
+        } else {
+            Yaml yaml = new Yaml();
+            byte[] configBytes = yaml.dump(taskConfigMap.values().toArray()).getBytes();
+            ChannelSftp channel = gatewayConfToolController.getGatewayConfToolService().getSftpChannel();
+            String remotePath = gatewayConfToolController.getConfigurationPathTextField().getText();
+            remotePath = StringUtils.appendIfMissing(remotePath, "/", "/", "\\");
+            channel.put(new ByteArrayInputStream(configBytes), remotePath + fileName);
+            gatewayConfToolController.getGatewayConfToolService().closeSftpSession(channel);
         }
     }
 }

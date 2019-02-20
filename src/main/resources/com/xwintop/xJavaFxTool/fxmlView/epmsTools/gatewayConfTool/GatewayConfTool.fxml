@@ -3,9 +3,11 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -20,9 +22,7 @@
                     <children>
                   <HBox alignment="CENTER_LEFT" spacing="5.0">
                      <children>
-                        <Label text="配置目录：" />
-                        <TextField fx:id="configurationPathTextField" />
-                                <Button fx:id="treeRefurbishButton" mnemonicParsing="false" onAction="#treeRefurbishAction" text="刷新" />
+                                <Button fx:id="treeRefurbishButton" disable="true" mnemonicParsing="false" onAction="#treeRefurbishAction" text="刷新" />
                      </children>
                   </HBox>
                         <TreeView fx:id="configurationTreeView" VBox.vgrow="ALWAYS">
@@ -48,14 +48,39 @@
          <top>
             <HBox alignment="CENTER" prefHeight="30.0" spacing="5.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label text="服务器地址：" />
-                  <TextField fx:id="hostTextField" text="127.0.0.1" />
-                  <Label text="端口：" />
+                  <Label text="服务器地址：">
+                     <HBox.margin>
+                        <Insets right="-5.0" />
+                     </HBox.margin></Label>
+                  <TextField fx:id="hostTextField" text="192.168.129.174">
+                     <tooltip>
+                        <Tooltip text="127.0.0.1时为本地连接不需要填用户名密码" />
+                     </tooltip></TextField>
+                  <Label text="端口：">
+                     <HBox.margin>
+                        <Insets right="-5.0" />
+                     </HBox.margin></Label>
                   <TextField fx:id="portTextField" prefHeight="23.0" prefWidth="44.0" text="22" />
-                  <Label text="用户名：" />
-                  <TextField fx:id="usernameTextField" />
-                  <Label text="密码：" />
-                  <TextField fx:id="passwordTextField" />
+                  <Label text="用户名：">
+                     <HBox.margin>
+                        <Insets right="-5.0" />
+                     </HBox.margin></Label>
+                  <TextField fx:id="usernameTextField" text="root" />
+                  <Label text="密码：">
+                     <HBox.margin>
+                        <Insets right="-5.0" />
+                     </HBox.margin></Label>
+                  <PasswordField fx:id="passwordTextField" text="easipass" />
+                  <Label text="配置目录：">
+                     <HBox.margin>
+                        <Insets right="-5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="configurationPathTextField">
+                     <tooltip>
+                        <Tooltip text="配置文件存放的路径" />
+                     </tooltip>
+                  </TextField>
                   <Button fx:id="connectButton" mnemonicParsing="false" onAction="#connectAction" text="连接" />
                </children>
             </HBox>
