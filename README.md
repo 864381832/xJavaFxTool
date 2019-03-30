@@ -73,7 +73,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 
 21、CmdTool：Cmd调试工具；
 
-22、FtpClientTool：Ftp/Ftps客户端调试工具（批量上传、下载、删除文件及文件夹）（implicit/explicit SSL/TLS）；
+22、FtpClientTool：Ftp(s)/Sftp客户端调试工具（批量上传、下载、删除文件及文件夹）（implicit/explicit SSL/TLS）；
 
 23、PdfConvertTool：Pdf转换工具（目前仅支持pdf转图片、pdf转text功能）；
 

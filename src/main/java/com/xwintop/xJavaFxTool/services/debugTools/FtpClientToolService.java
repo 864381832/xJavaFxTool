@@ -1,9 +1,13 @@
 package com.xwintop.xJavaFxTool.services.debugTools;
 
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.Session;
 import com.xwintop.xJavaFxTool.controller.debugTools.FtpClientToolController;
 import com.xwintop.xJavaFxTool.job.FtpClientToolJob;
 import com.xwintop.xJavaFxTool.model.FtpClientToolTableBean;
 import com.xwintop.xJavaFxTool.utils.ConfigureUtil;
+import com.xwintop.xJavaFxTool.utils.FtpUtil;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 import javafx.stage.FileChooser;
@@ -12,11 +16,14 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Properties;
 import java.util.function.Consumer;
 
 @Getter
@@ -56,26 +63,49 @@ public class FtpClientToolService {
         String username = ftpClientToolController.getUserNameTextField().getText();
         String password = ftpClientToolController.getPasswordTextField().getText();
         int connectionType = ftpClientToolController.getConnectionTypeChoiceBox().getSelectionModel().getSelectedIndex();
-        com.xwintop.xJavaFxTool.utils.FtpUtil ftpUtil = new com.xwintop.xJavaFxTool.utils.FtpUtil(url, port, username, password);
-        if (connectionType == 1) {
-            ftpUtil.setFtps(true);
-            ftpUtil.setImplicit(true);
-        } else if (connectionType == 2) {
-            ftpUtil.setFtps(true);
-            ftpUtil.setImplicit(false);
-            ftpUtil.setProtocol("SSL");
-        } else if (connectionType == 3) {
-            ftpUtil.setFtps(true);
-            ftpUtil.setImplicit(false);
-            ftpUtil.setProtocol("TLS");
-        }
+        FtpUtil ftpUtil = new FtpUtil(url, port, username, password);
+        ChannelSftp sftp = null;
         try {
-            ftpUtil.checkAndConnect();
+            if (connectionType == 0) {
+
+            } else if (connectionType == 1) {
+                JSch jSch = new JSch(); //创建JSch对象
+                Session session = jSch.getSession(username, url, port);//根据用户名，主机ip和端口获取一个Session对象
+                session.setPassword(password);//设置密码
+                Properties sftpConfig = new Properties();
+                sftpConfig.put("StrictHostKeyChecking", "no");
+                session.setConfig(sftpConfig);//为Session对象设置properties
+                session.connect();//通过Session建立连接
+                sftp = (ChannelSftp) session.openChannel("sftp");
+                sftp.connect();
+            } else if (connectionType == 2) {
+                ftpUtil.setFtps(true);
+                ftpUtil.setImplicit(true);
+            } else if (connectionType == 3) {
+                ftpUtil.setFtps(true);
+                ftpUtil.setImplicit(false);
+                ftpUtil.setProtocol("SSL");
+            } else if (connectionType == 4) {
+                ftpUtil.setFtps(true);
+                ftpUtil.setImplicit(false);
+                ftpUtil.setProtocol("TLS");
+            }
+            if (connectionType != 1) {
+                ftpUtil.checkAndConnect();
+            }
             if (ftpClientToolController.getTypeChoiceBoxStrings()[0].equals(type)) {// 上传
-                ftpUtil.changeStringDirectory(serverFile);
+                if (connectionType != 1) {
+                    ftpUtil.changeStringDirectory(serverFile);
+                }
                 File file = new File(localFile);
                 if (file.isFile()) {
-                    boolean flag = ftpUtil.uploadFile(file.getName(), FileUtils.readFileToByteArray(file));
+                    boolean flag = true;
+                    if (connectionType == 1) {
+                        serverFile = StringUtils.appendIfMissing(serverFile, "/", "/", "\\");
+                        sftp.put(new ByteArrayInputStream(FileUtils.readFileToByteArray(file)), serverFile + file.getName());
+                    } else {
+                        flag = ftpUtil.uploadFile(file.getName(), FileUtils.readFileToByteArray(file));
+                    }
                     if (flag) {
                         TooltipUtil.showToast("文件上传成功");
                     } else {
@@ -83,7 +113,13 @@ public class FtpClientToolService {
                     }
                 } else {
                     for (File file1 : file.listFiles()) {
-                        boolean flag = ftpUtil.uploadFile(file1.getName(), FileUtils.readFileToByteArray(file1));
+                        boolean flag = true;
+                        if (connectionType == 1) {
+                            serverFile = StringUtils.appendIfMissing(serverFile, "/", "/", "\\");
+                            sftp.put(new ByteArrayInputStream(FileUtils.readFileToByteArray(file1)), serverFile + file1.getName());
+                        } else {
+                            flag = ftpUtil.uploadFile(file1.getName(), FileUtils.readFileToByteArray(file1));
+                        }
                         if (flag) {
                             TooltipUtil.showToast("文件上传成功");
                         } else {
@@ -94,25 +130,53 @@ public class FtpClientToolService {
 
             } else if (ftpClientToolController.getTypeChoiceBoxStrings()[1].equals(type)) {// 下载
                 File file = new File(serverFile);
-                byte[] messageByte = ftpUtil.downFile(serverFile);
-                FileUtils.writeByteArrayToFile(new File(localFile, file.getName()), messageByte);
+                if (connectionType == 1) {
+                    FileOutputStream fileOutputStream = new FileOutputStream(new File(localFile, file.getName()));
+                    try {
+                        sftp.get(serverFile, fileOutputStream);
+                    } finally {
+                        fileOutputStream.close();
+                    }
+                } else {
+                    byte[] messageByte = ftpUtil.downFile(serverFile);
+                    FileUtils.writeByteArrayToFile(new File(localFile, file.getName()), messageByte);
+                }
                 TooltipUtil.showToast("文件" + file.getName() + "下载成功，保存在:" + localFile);
             } else if (ftpClientToolController.getTypeChoiceBoxStrings()[2].equals(type)) {// 删除文件
-                boolean flag = ftpUtil.deleteFile(serverFile);
+                boolean flag = true;
+                if (connectionType == 1) {
+                    sftp.rm(serverFile);
+                } else {
+                    flag = ftpUtil.deleteFile(serverFile);
+                }
                 if (flag) {
                     TooltipUtil.showToast("文件：" + serverFile + "删除成功");
                 } else {
                     TooltipUtil.showToast("文件：" + serverFile + "删除失败：" + ftpUtil.getFtp().getReplyString());
                 }
             } else if (ftpClientToolController.getTypeChoiceBoxStrings()[3].equals(type)) {// 删除文件夹
-                boolean flag = ftpUtil.removeDirectory(serverFile);
+                boolean flag = true;
+                if (connectionType == 1) {
+                    sftp.rmdir(serverFile);
+                } else {
+                    flag = ftpUtil.removeDirectory(serverFile);
+                }
                 if (flag) {
                     TooltipUtil.showToast("文件夹：" + serverFile + "删除成功");
                 } else {
                     TooltipUtil.showToast("文件夹：" + serverFile + "删除失败：" + ftpUtil.getFtp().getReplyString());
                 }
             }
-            ftpUtil.destroy();
+            if (connectionType == 1) {
+                try {
+                    sftp.disconnect();
+                    sftp.getSession().disconnect();
+                } catch (Exception e) {
+                    log.error("关闭连接失败：", e);
+                }
+            } else {
+                ftpUtil.destroy();
+            }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             TooltipUtil.showToast("运行失败:" + e.getMessage());
