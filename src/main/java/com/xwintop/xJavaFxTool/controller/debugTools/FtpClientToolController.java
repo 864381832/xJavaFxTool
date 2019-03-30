@@ -5,11 +5,6 @@ import com.xwintop.xJavaFxTool.services.debugTools.FtpClientToolService;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.view.debugTools.FtpClientToolView;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
-
-import java.io.File;
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -18,13 +13,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.*;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -34,6 +23,10 @@ import javafx.util.Callback;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
+
+import java.io.File;
+import java.net.URL;
+import java.util.ResourceBundle;
 /**
  * @ClassName: FtpClientToolController
  * @Description: Ftp客户端工具
@@ -46,6 +39,7 @@ import lombok.extern.log4j.Log4j;
 public class FtpClientToolController extends FtpClientToolView {
 	private FtpClientToolService ftpClientToolService = new FtpClientToolService(this);
 	private ObservableList<FtpClientToolTableBean> tableData = FXCollections.observableArrayList();
+	private String[] connectionTypeChoiceBoxStrings = new String[] { "FTP", "FTP using implicit SSL", "FTP using explicit SSL(Auth SSL)","FTP using explicit SSL(Auth TLS)" };
 	private String[] quartzChoiceBoxStrings = new String[] { "简单表达式", "Cron表达式" };
 	private String[] typeChoiceBoxStrings = new String[] { "上传", "下载","删除文件","删除文件夹" };
 
@@ -58,8 +52,7 @@ public class FtpClientToolController extends FtpClientToolView {
 
 	private void initView() {
 		ftpClientToolService.loadingConfigure();
-		isEnabledTableColumn
-				.setCellValueFactory(new PropertyValueFactory<FtpClientToolTableBean, Boolean>("isEnabled"));
+		isEnabledTableColumn.setCellValueFactory(new PropertyValueFactory<FtpClientToolTableBean, Boolean>("isEnabled"));
 		isEnabledTableColumn.setCellFactory(CheckBoxTableCell.forTableColumn(isEnabledTableColumn));
 
 		localFileTableColumn.setCellValueFactory(new PropertyValueFactory<FtpClientToolTableBean, String>("localFile"));
@@ -68,8 +61,7 @@ public class FtpClientToolController extends FtpClientToolView {
 			t.getRowValue().setLocalFile(t.getNewValue());
 		});
 
-		serverFileTableColumn
-				.setCellValueFactory(new PropertyValueFactory<FtpClientToolTableBean, String>("serverFile"));
+		serverFileTableColumn.setCellValueFactory(new PropertyValueFactory<FtpClientToolTableBean, String>("serverFile"));
 		serverFileTableColumn.setCellFactory(TextFieldTableCell.<FtpClientToolTableBean>forTableColumn());
 		serverFileTableColumn.setOnEditCommit((CellEditEvent<FtpClientToolTableBean, String> t) -> {
 			t.getRowValue().setServerFile(t.getNewValue());
@@ -130,6 +122,9 @@ public class FtpClientToolController extends FtpClientToolView {
 		});
 
 		tableViewMain.setItems(tableData);
+
+		connectionTypeChoiceBox.getItems().addAll(connectionTypeChoiceBoxStrings);
+		connectionTypeChoiceBox.setValue(connectionTypeChoiceBoxStrings[0]);
 
 		quartzChoiceBox.getItems().addAll(quartzChoiceBoxStrings);
 		quartzChoiceBox.setValue(quartzChoiceBoxStrings[0]);

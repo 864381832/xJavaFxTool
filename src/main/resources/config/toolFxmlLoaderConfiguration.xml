@@ -244,7 +244,6 @@
 		<url>/com/xwintop/xJavaFxTool/fxmlView/epmsTools/gatewayConfTool/GatewayConfTool.fxml</url>
 		<title>GatewayConfTool</title>
 		<menuParentId>epmsTools</menuParentId>
-		<isDefaultShow>true</isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 
 	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"
