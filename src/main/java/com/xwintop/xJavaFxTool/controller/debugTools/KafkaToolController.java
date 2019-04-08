@@ -43,16 +43,8 @@ public class KafkaToolController extends KafkaToolView {
 	private KafkaToolService kafkaToolService = new KafkaToolService(this);
 	private ObservableList<KafkaToolTableBean> tableData = FXCollections.observableArrayList();
 	private ObservableList<KafkaToolReceiverTableBean> receiverTableData = FXCollections.observableArrayList();
-	private String[] messageTypeStrings = new String[] { "TextMessage", "ObjectMessage", "BytesMessage", "MapMessage",
-			"StreamMessage" };
+	private String[] messageTypeStrings = new String[] { "TextMessage" };
 	private String[] quartzChoiceBoxStrings = new String[] { "简单表达式", "Cron表达式" };
-	@SuppressWarnings("unchecked")
-	private XProperty<Integer>[] receiverAcknowledgeModeChoiceBoxValues = new XProperty[] {
-			new XProperty<Integer>("SESSION_TRANSACTED", Session.SESSION_TRANSACTED),
-			new XProperty<Integer>("AUTO_ACKNOWLEDGE", Session.AUTO_ACKNOWLEDGE),
-			new XProperty<Integer>("CLIENT_ACKNOWLEDGE", Session.CLIENT_ACKNOWLEDGE),
-			new XProperty<Integer>("DUPS_OK_ACKNOWLEDGE", Session.DUPS_OK_ACKNOWLEDGE),
-			new XProperty<Integer>("INDIVIDUAL_ACKNOWLEDGE", ActiveMQSession.INDIVIDUAL_ACKNOWLEDGE) };
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -103,8 +95,6 @@ public class KafkaToolController extends KafkaToolView {
 	}
 
 	private void initReceiverView() {
-		receiverAcknowledgeModeChoiceBox.getItems().addAll(receiverAcknowledgeModeChoiceBoxValues);
-		receiverAcknowledgeModeChoiceBox.setValue(receiverAcknowledgeModeChoiceBoxValues[4]);
 		receiverMessageIDTableColumn
 				.setCellValueFactory(new PropertyValueFactory<KafkaToolReceiverTableBean, String>("messageID"));
 		receiverQueueTableColumn

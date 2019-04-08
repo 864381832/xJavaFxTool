@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="522.0" prefWidth="844.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.debugTools.KafkaToolController">
+<AnchorPane prefHeight="522.0" prefWidth="844.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.debugTools.KafkaToolController">
    <children>
       <BorderPane layoutX="14.0" layoutY="7.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <top>
@@ -33,9 +33,9 @@
                         <Label text="连接地址：" />
                         <TextField fx:id="urlTextField" text="localhost:61616" />
                         <Label text="用户名：" />
-                        <TextField fx:id="userNameTextField" />
+                        <TextField fx:id="userNameTextField" disable="true" />
                         <Label text="密码：" />
-                        <TextField fx:id="passwordTextField" />
+                        <TextField fx:id="passwordTextField" disable="true" />
                      </children>
                   </HBox>
                </children>
@@ -153,14 +153,14 @@
                                           <Insets left="-5.0" />
                                        </HBox.margin>
                                     </TextField>
-                                    <Button fx:id="receiverPullMessageButton" mnemonicParsing="false" onAction="#receiverPullMessageAction" text="拉取消息" />
-                                    <Button fx:id="receiverMessageListenerButton" mnemonicParsing="false" onAction="#receiverMessageListenerAction" text="监听消息" />
-                                    <Label text="AcknowledgeMode:">
+                                    <Label text="groupId:">
                                        <HBox.margin>
                                           <Insets left="10.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <ChoiceBox fx:id="receiverAcknowledgeModeChoiceBox" prefWidth="200.0" />
+                                    <TextField fx:id="groupIdTextField" text="xJavaFxTool" />
+                                    <Button fx:id="receiverPullMessageButton" mnemonicParsing="false" onAction="#receiverPullMessageAction" text="拉取消息" />
+                                    <Button fx:id="receiverMessageListenerButton" mnemonicParsing="false" onAction="#receiverMessageListenerAction" text="监听消息" />
                                  </children>
                                  <VBox.margin>
                                     <Insets top="5.0" />

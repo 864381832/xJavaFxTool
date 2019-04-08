@@ -75,11 +75,11 @@ public abstract class KafkaToolView implements Initializable {
 	@FXML
 	protected TextField receiverQueueTextField;
 	@FXML
+	protected TextField groupIdTextField;
+	@FXML
 	protected Button receiverPullMessageButton;
 	@FXML
 	protected Button receiverMessageListenerButton;
-	@FXML
-	protected ChoiceBox<XProperty<Integer>> receiverAcknowledgeModeChoiceBox;
 	@FXML
 	protected TableView<KafkaToolReceiverTableBean> receiverTableView;
 	@FXML
