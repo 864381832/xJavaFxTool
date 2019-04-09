@@ -67,29 +67,21 @@ public class ZookeeperToolController extends ZookeeperToolView {
                     });
                 });
                 ContextMenu contextMenu = new ContextMenu(menu_UnfoldAll, menu_FoldAll);
-                if (selectedItem.getValue().endsWith("service.yml")) {
-                    MenuItem menu_AddTask = new MenuItem("添加任务");
-                    menu_AddTask.setOnAction(event1 -> {
-                        String taskConfigName = "taskConfig" + DateFormatUtils.format(new Date(), "MMddHHmm");
-                        TreeItem<String> addItem = new TreeItem<>(taskConfigName);
-                        selectedItem.getChildren().add(addItem);
-                        TaskConfig taskConfig = new TaskConfig();
-                        taskConfig.setName(taskConfigName);
-                    });
-                    contextMenu.getItems().add(menu_AddTask);
-                    MenuItem menu_RemoveFile = new MenuItem("删除文件");
-                    menu_RemoveFile.setOnAction(event1 -> {
-                        selectedItem.getParent().getChildren().remove(selectedItem);
-                    });
-                    contextMenu.getItems().add(menu_RemoveFile);
-                    MenuItem menu_RemoveAll = new MenuItem("删除所有任务");
-                    menu_RemoveAll.setOnAction(event1 -> {
-                        selectedItem.getChildren().clear();
-                    });
-                    contextMenu.getItems().add(menu_RemoveAll);
-                    MenuItem menu_SaveFile = new MenuItem("保存文件");
-                    contextMenu.getItems().add(menu_SaveFile);
-                }
+//                MenuItem menu_Rename = new MenuItem("重命名结点");
+//                menu_Rename.setOnAction(event1 -> {
+//                    zookeeperToolService.renameNodeOnAction();
+//                });
+//                contextMenu.getItems().add(menu_Rename);
+                MenuItem menu_AddNode = new MenuItem("添加子结点");
+                menu_AddNode.setOnAction(event1 -> {
+                    zookeeperToolService.addNodeOnAction();
+                });
+                contextMenu.getItems().add(menu_AddNode);
+                MenuItem menu_RemoveNode = new MenuItem("删除");
+                menu_RemoveNode.setOnAction(event1 -> {
+                    zookeeperToolService.deleteNodeOnAction();
+                });
+                contextMenu.getItems().add(menu_RemoveNode);
                 nodeTreeView.setContextMenu(contextMenu);
             }
         });

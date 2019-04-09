@@ -137,7 +137,7 @@ public class ZookeeperToolService {
     }
 
     public void disconnectOnAction() {
-        if(zkClient != null){
+        if (zkClient != null) {
             zkClient.close();
             zkClient = null;
         }
@@ -145,7 +145,7 @@ public class ZookeeperToolService {
     }
 
     public void refreshOnAction() {
-        if(zkClient == null){
+        if (zkClient == null) {
             TooltipUtil.showToast("zookeeper未连接");
             return;
         }
@@ -159,6 +159,9 @@ public class ZookeeperToolService {
             return;
         }
         String nodePath = this.getNodePath(selectedItem);
+        if (selectedItem.getChildren().size() > 0) {
+            zkClient.deleteRecursive(nodePath);
+        }
         zkClient.delete(nodePath);
         selectedItem.getParent().getChildren().remove(selectedItem);
     }
@@ -171,7 +174,20 @@ public class ZookeeperToolService {
         }
         String nodeName = AlertUtil.showInputAlert("请输入结点名称：");
         String nodePath = this.getNodePath(selectedItem);
-        zkClient.createEphemeral(StringUtils.appendIfMissing(nodePath, "/", "/") + nodeName);
+        zkClient.createPersistent(StringUtils.appendIfMissing(nodePath, "/", "/") + nodeName);
+        TreeItem<String> treeItem2 = new TreeItem<>(nodeName);
+        selectedItem.getChildren().add(treeItem2);
+    }
+
+    public void renameNodeOnAction() {
+        TreeItem<String> selectedItem = zookeeperToolController.getNodeTreeView().getSelectionModel().getSelectedItem();
+        if (selectedItem == null) {
+            TooltipUtil.showToast("未选中结点");
+            return;
+        }
+        String nodeName = AlertUtil.showInputAlert("请输入结点新名称：");
+        String nodePath = this.getNodePath(selectedItem);
+        zkClient.createPersistent(StringUtils.appendIfMissing(nodePath, "/", "/") + nodeName);
         TreeItem<String> treeItem2 = new TreeItem<>(nodeName);
         selectedItem.getChildren().add(treeItem2);
     }
