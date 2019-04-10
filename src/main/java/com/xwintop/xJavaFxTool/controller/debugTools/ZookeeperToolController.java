@@ -1,7 +1,7 @@
 package com.xwintop.xJavaFxTool.controller.debugTools;
 
-import com.easipass.gateway.entity.TaskConfig;
 import com.xwintop.xJavaFxTool.services.debugTools.ZookeeperToolService;
+import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.view.debugTools.ZookeeperToolView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,10 +12,8 @@ import javafx.scene.input.MouseButton;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.time.DateFormatUtils;
 
 import java.net.URL;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 /**
@@ -39,6 +37,7 @@ public class ZookeeperToolController extends ZookeeperToolView {
     }
 
     private void initView() {
+        JavaFxViewUtil.setSpinnerValueFactory(connectionTimeoutSpinner, 0, Integer.MAX_VALUE, 5000);
         TreeItem<String> treeItem = new TreeItem<String>("/");
         nodeTreeView.setRoot(treeItem);
     }
@@ -67,6 +66,11 @@ public class ZookeeperToolController extends ZookeeperToolView {
                     });
                 });
                 ContextMenu contextMenu = new ContextMenu(menu_UnfoldAll, menu_FoldAll);
+                MenuItem menu_AddNode = new MenuItem("添加子节点");
+                menu_AddNode.setOnAction(event1 -> {
+                    zookeeperToolService.addNodeOnAction();
+                });
+                contextMenu.getItems().add(menu_AddNode);
                 MenuItem menu_Rename = new MenuItem("重命名节点");
                 menu_Rename.setOnAction(event1 -> {
                     zookeeperToolService.renameNodeOnAction(false);
@@ -77,11 +81,6 @@ public class ZookeeperToolController extends ZookeeperToolView {
                     zookeeperToolService.renameNodeOnAction(true);
                 });
                 contextMenu.getItems().add(menu_Copy);
-                MenuItem menu_AddNode = new MenuItem("添加子节点");
-                menu_AddNode.setOnAction(event1 -> {
-                    zookeeperToolService.addNodeOnAction();
-                });
-                contextMenu.getItems().add(menu_AddNode);
                 MenuItem menu_RemoveNode = new MenuItem("删除");
                 menu_RemoveNode.setOnAction(event1 -> {
                     zookeeperToolService.deleteNodeOnAction();
@@ -118,16 +117,6 @@ public class ZookeeperToolController extends ZookeeperToolView {
     @FXML
     private void refreshOnAction(ActionEvent event) {
         zookeeperToolService.refreshOnAction();
-    }
-
-    @FXML
-    private void deleteNodeOnAction(ActionEvent event) {
-        zookeeperToolService.deleteNodeOnAction();
-    }
-
-    @FXML
-    private void addNodeOnAction(ActionEvent event) {
-        zookeeperToolService.addNodeOnAction();
     }
 
     @FXML

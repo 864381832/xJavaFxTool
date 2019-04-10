@@ -2,10 +2,7 @@ package com.xwintop.xJavaFxTool.view.debugTools;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,15 +19,13 @@ public abstract class ZookeeperToolView implements Initializable {
     @FXML
     protected TextField zkServersTextField;
     @FXML
+    protected Spinner<Integer> connectionTimeoutSpinner;
+    @FXML
     protected Button connectButton;
     @FXML
     protected Button disconnectButton;
     @FXML
     protected Button refreshButton;
-    @FXML
-    protected Button addNodeButton;
-    @FXML
-    protected Button deleteNodeButton;
     @FXML
     protected TreeView<String> nodeTreeView;
     @FXML

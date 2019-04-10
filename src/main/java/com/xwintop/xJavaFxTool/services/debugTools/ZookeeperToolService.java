@@ -48,7 +48,12 @@ public class ZookeeperToolService {
 
     public void connectOnAction() {
         if (zkClient == null) {
-            zkClient = new ZkClient(zookeeperToolController.getZkServersTextField().getText().trim());
+            try {
+                zkClient = new ZkClient(zookeeperToolController.getZkServersTextField().getText().trim(), zookeeperToolController.getConnectionTimeoutSpinner().getValue());
+            } catch (Exception e) {
+                TooltipUtil.showToast("连接失败！！！");
+                zkClient = null;
+            }
             zkClient.setZkSerializer(new ZkSerializer() {
                 @Override
                 public byte[] serialize(Object data) throws ZkMarshallingError {
@@ -68,6 +73,22 @@ public class ZookeeperToolService {
                     }
                 }
             });
+//            zkClient.subscribeStateChanges(new IZkStateListener() {
+//                @Override
+//                public void handleStateChanged(Watcher.Event.KeeperState state) throws Exception {
+//                    log.info("连接状态", state);
+//                }
+//
+//                @Override
+//                public void handleNewSession() throws Exception {
+//                    log.info("handleNewSession");
+//                }
+//
+//                @Override
+//                public void handleSessionEstablishmentError(Throwable error) throws Exception {
+//                    log.warn("handleSessionEstablishmentError:", error);
+//                }
+//            });
         }
         zookeeperToolController.getNodeTreeView().getRoot().getChildren().clear();
         this.addNodeTree("/", zookeeperToolController.getNodeTreeView().getRoot());
@@ -77,7 +98,6 @@ public class ZookeeperToolService {
     private void addNodeTree(String path, TreeItem<String> treeItem) {
         List<String> list = zkClient.getChildren(path);
         for (String name : list) {
-            log.info("获取到文件：" + path + "/" + name);
             TreeItem<String> treeItem2 = new TreeItem<>(name);
             treeItem.getChildren().add(treeItem2);
             this.addNodeTree(StringUtils.appendIfMissing(path, "/", "/") + name, treeItem2);
