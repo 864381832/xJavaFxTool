@@ -67,12 +67,17 @@ public class ZookeeperToolController extends ZookeeperToolView {
                     });
                 });
                 ContextMenu contextMenu = new ContextMenu(menu_UnfoldAll, menu_FoldAll);
-//                MenuItem menu_Rename = new MenuItem("重命名结点");
-//                menu_Rename.setOnAction(event1 -> {
-//                    zookeeperToolService.renameNodeOnAction();
-//                });
-//                contextMenu.getItems().add(menu_Rename);
-                MenuItem menu_AddNode = new MenuItem("添加子结点");
+                MenuItem menu_Rename = new MenuItem("重命名节点");
+                menu_Rename.setOnAction(event1 -> {
+                    zookeeperToolService.renameNodeOnAction(false);
+                });
+                contextMenu.getItems().add(menu_Rename);
+                MenuItem menu_Copy = new MenuItem("复制节点");
+                menu_Copy.setOnAction(event1 -> {
+                    zookeeperToolService.renameNodeOnAction(true);
+                });
+                contextMenu.getItems().add(menu_Copy);
+                MenuItem menu_AddNode = new MenuItem("添加子节点");
                 menu_AddNode.setOnAction(event1 -> {
                     zookeeperToolService.addNodeOnAction();
                 });
@@ -82,6 +87,16 @@ public class ZookeeperToolController extends ZookeeperToolView {
                     zookeeperToolService.deleteNodeOnAction();
                 });
                 contextMenu.getItems().add(menu_RemoveNode);
+                MenuItem menu_AddNodeNotify = new MenuItem("添加节点修改通知");
+                menu_AddNodeNotify.setOnAction(event1 -> {
+                    zookeeperToolService.addNodeNotify();
+                });
+                contextMenu.getItems().add(menu_AddNodeNotify);
+                MenuItem menu_RemoveNodeNotify = new MenuItem("移除节点修改通知");
+                menu_RemoveNodeNotify.setOnAction(event1 -> {
+                    zookeeperToolService.removeNodeNotify();
+                });
+                contextMenu.getItems().add(menu_RemoveNodeNotify);
                 nodeTreeView.setContextMenu(contextMenu);
             }
         });

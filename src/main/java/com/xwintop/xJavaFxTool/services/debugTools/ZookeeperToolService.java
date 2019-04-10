@@ -7,6 +7,8 @@ import javafx.scene.control.TreeItem;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.I0Itec.zkclient.IZkChildListener;
+import org.I0Itec.zkclient.IZkDataListener;
 import org.I0Itec.zkclient.ZkClient;
 import org.I0Itec.zkclient.exception.ZkMarshallingError;
 import org.I0Itec.zkclient.serialize.ZkSerializer;
@@ -17,6 +19,7 @@ import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +38,9 @@ public class ZookeeperToolService {
     public ZookeeperToolController zookeeperToolController;
 
     ZkClient zkClient = null;
+
+    private Map<String, IZkChildListener> childListeners = new HashMap<>();
+    private Map<String, IZkDataListener> dataListeners = new HashMap<>();
 
     public ZookeeperToolService(ZookeeperToolController zookeeperToolController) {
         this.zookeeperToolController = zookeeperToolController;
@@ -92,7 +98,7 @@ public class ZookeeperToolService {
     public void nodeSelectionChanged(TreeItem<String> selectedItem) {
         String nodePath = this.getNodePath(selectedItem);
         if (!zkClient.exists(nodePath)) {
-            TooltipUtil.showToast("结点不存在");
+            TooltipUtil.showToast("节点不存在");
             return;
         }
         zookeeperToolController.getNodeDataValueTextArea().setText(zkClient.readData(nodePath));
@@ -155,50 +161,113 @@ public class ZookeeperToolService {
     public void deleteNodeOnAction() {
         TreeItem<String> selectedItem = zookeeperToolController.getNodeTreeView().getSelectionModel().getSelectedItem();
         if (selectedItem == null) {
-            TooltipUtil.showToast("未选中结点");
+            TooltipUtil.showToast("未选中节点");
             return;
         }
         String nodePath = this.getNodePath(selectedItem);
-        if (selectedItem.getChildren().size() > 0) {
-            zkClient.deleteRecursive(nodePath);
-        }
-        zkClient.delete(nodePath);
+        zkClient.deleteRecursive(nodePath);
         selectedItem.getParent().getChildren().remove(selectedItem);
     }
 
     public void addNodeOnAction() {
         TreeItem<String> selectedItem = zookeeperToolController.getNodeTreeView().getSelectionModel().getSelectedItem();
         if (selectedItem == null) {
-            TooltipUtil.showToast("未选中结点");
+            TooltipUtil.showToast("未选中节点");
             return;
         }
-        String nodeName = AlertUtil.showInputAlert("请输入结点名称：");
+        String nodeName = AlertUtil.showInputAlert("请输入节点名称：");
+        if (StringUtils.isEmpty(nodeName)) {
+            TooltipUtil.showToast("节点名不能为空！");
+            return;
+        }
         String nodePath = this.getNodePath(selectedItem);
         zkClient.createPersistent(StringUtils.appendIfMissing(nodePath, "/", "/") + nodeName);
         TreeItem<String> treeItem2 = new TreeItem<>(nodeName);
         selectedItem.getChildren().add(treeItem2);
     }
 
-    public void renameNodeOnAction() {
+    public void renameNodeOnAction(boolean isCopy) {
         TreeItem<String> selectedItem = zookeeperToolController.getNodeTreeView().getSelectionModel().getSelectedItem();
         if (selectedItem == null) {
-            TooltipUtil.showToast("未选中结点");
+            TooltipUtil.showToast("未选中节点");
             return;
         }
-        String nodeName = AlertUtil.showInputAlert("请输入结点新名称：");
-        String nodePath = this.getNodePath(selectedItem);
-        zkClient.createPersistent(StringUtils.appendIfMissing(nodePath, "/", "/") + nodeName);
-        TreeItem<String> treeItem2 = new TreeItem<>(nodeName);
-        selectedItem.getChildren().add(treeItem2);
+        String nodeName = AlertUtil.showInputAlert("请输入节点新名称：");
+        if (StringUtils.isEmpty(nodeName)) {
+            TooltipUtil.showToast("节点名不能为空！");
+            return;
+        }
+//        String nodePath = this.getNodePath(selectedItem);
+        String nodeParent = this.getNodePath(selectedItem.getParent());
+        String nodeParentPath = StringUtils.appendIfMissing(nodeParent, "/", "/");
+        copyNode(nodeParentPath + selectedItem.getValue(), nodeParentPath + nodeName);
+        if (isCopy) {
+            TreeItem<String> selectedItem2 = new TreeItem<>(nodeName);
+            addNodeTree(nodeParentPath + nodeName, selectedItem2);
+            selectedItem.getParent().getChildren().add(selectedItem2);
+        } else {
+            zkClient.deleteRecursive(nodeParentPath + selectedItem.getValue());
+            selectedItem.setValue(nodeName);
+        }
+    }
+
+    private void copyNode(String path, String copyPath) {
+        zkClient.createPersistent(copyPath, zkClient.readData(path), zkClient.getAcl(path).getKey());
+        List<String> list = zkClient.getChildren(path);
+        for (String name : list) {
+            copyNode(StringUtils.appendIfMissing(path, "/", "/") + name, StringUtils.appendIfMissing(copyPath, "/", "/") + name);
+        }
     }
 
     public void nodeDataSaveOnAction() {
         TreeItem<String> selectedItem = zookeeperToolController.getNodeTreeView().getSelectionModel().getSelectedItem();
         if (selectedItem == null) {
-            TooltipUtil.showToast("未选中结点");
+            TooltipUtil.showToast("未选中节点");
             return;
         }
         String nodePath = this.getNodePath(selectedItem);
         zkClient.writeData(nodePath, zookeeperToolController.getNodeDataValueTextArea().getText());
+    }
+
+    public void addNodeNotify() {//添加节点通知
+        TreeItem<String> selectedItem = zookeeperToolController.getNodeTreeView().getSelectionModel().getSelectedItem();
+        if (selectedItem == null) {
+            TooltipUtil.showToast("未选中节点");
+            return;
+        }
+        String nodePath = this.getNodePath(selectedItem);
+        if (childListeners.containsKey(nodePath)) {
+            TooltipUtil.showToast("该节点已经添加通知！");
+            return;
+        }
+        IZkChildListener childListener = (parentPath, currentChilds) -> TooltipUtil.showToast("节点Child改变了", "Path:" + parentPath + "\r\n 子节点：" + currentChilds.toString());
+        zkClient.subscribeChildChanges(nodePath, childListener);
+        childListeners.put(nodePath, childListener);
+        IZkDataListener dataListener = new IZkDataListener() {
+            @Override
+            public void handleDataChange(String dataPath, Object data) throws Exception {
+                TooltipUtil.showToast("节点Data改变了", "Path:" + dataPath + "\r\n 新数据：" + data.toString());
+            }
+
+            @Override
+            public void handleDataDeleted(String dataPath) throws Exception {
+                TooltipUtil.showToast("节点删除了", "Path:" + dataPath);
+            }
+        };
+        zkClient.subscribeDataChanges(nodePath, dataListener);
+        dataListeners.put(nodePath, dataListener);
+        TooltipUtil.showToast("该节点添加通知成功！");
+    }
+
+    public void removeNodeNotify() {//移除节点通知
+        TreeItem<String> selectedItem = zookeeperToolController.getNodeTreeView().getSelectionModel().getSelectedItem();
+        if (selectedItem == null) {
+            TooltipUtil.showToast("未选中节点");
+            return;
+        }
+        String nodePath = this.getNodePath(selectedItem);
+        zkClient.unsubscribeChildChanges(nodePath, childListeners.remove(nodePath));
+        zkClient.unsubscribeDataChanges(nodePath, dataListeners.remove(nodePath));
+        TooltipUtil.showToast("该节点通知成功移除！");
     }
 }
