@@ -23,7 +23,7 @@
       </RadioButton>
       <Spinner fx:id="splitType1Spinner" layoutX="126.0" layoutY="128.0" prefHeight="23.0" prefWidth="60.0" />
       <RadioButton fx:id="splitType2RadioButton" layoutX="248.0" layoutY="132.0" mnemonicParsing="false" text="按每份" toggleGroup="$splitTypeToggleGroup" />
-      <Label layoutX="198.0" layoutY="132.0" text="行" />
+      <Label layoutX="198.0" layoutY="132.0" text="份" />
       <Spinner fx:id="splitType2Spinner" layoutX="314.0" layoutY="129.0" prefHeight="23.0" prefWidth="60.0" />
       <Label layoutX="384.0" layoutY="132.0" text="行" />
       <Label layoutX="31.0" layoutY="193.0" text="选择输出格式：" />
