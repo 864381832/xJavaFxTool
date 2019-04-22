@@ -200,6 +200,8 @@
 			<artifactId>jsch</artifactId>
 			<version>0.1.55</version>
 		</dependency>
+
+		<!--zookeeper连接工具-->
 		<dependency>
 			<groupId>com.101tec</groupId>
 			<artifactId>zkclient</artifactId>
@@ -207,6 +209,12 @@
 			<scope>compile</scope>
 		</dependency>
 
+		<!--excel操作工具-->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>4.1.0</version>
+		</dependency>
 		<!-- 目录文件监控工具包 -->
 		<!-- <dependency> <groupId>net.sf.jpathwatch</groupId> <artifactId>jpathwatch</artifactId> 
 			<version>0.95</version> </dependency> -->

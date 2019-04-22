@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.ExcelSplitToolController">
+   <children>
+      <Label layoutX="31.0" layoutY="24.0" text="文件选择：" />
+      <TextField fx:id="selectFileTextField" layoutX="99.0" layoutY="20.0" />
+      <Button fx:id="selectFileButton" layoutX="256.0" layoutY="20.0" mnemonicParsing="false" onAction="#selectFileAction" text="选择" />
+      <Label layoutX="31.0" layoutY="66.0" text="文件分隔方式：" />
+      <CheckBox fx:id="includeHandCheckBox" layoutX="31.0" layoutY="100.0" mnemonicParsing="false" text="Excel包含标题行" />
+      <RadioButton fx:id="splitType1RadioButton" layoutX="34.0" layoutY="131.0" mnemonicParsing="false" selected="true" text="按平均分成">
+         <toggleGroup>
+            <ToggleGroup fx:id="splitTypeToggleGroup" />
+         </toggleGroup>
+      </RadioButton>
+      <Spinner fx:id="splitType1Spinner" layoutX="126.0" layoutY="128.0" prefHeight="23.0" prefWidth="60.0" />
+      <RadioButton fx:id="splitType2RadioButton" layoutX="248.0" layoutY="132.0" mnemonicParsing="false" text="按每份" toggleGroup="$splitTypeToggleGroup" />
+      <Label layoutX="198.0" layoutY="132.0" text="行" />
+      <Spinner fx:id="splitType2Spinner" layoutX="314.0" layoutY="129.0" prefHeight="23.0" prefWidth="60.0" />
+      <Label layoutX="384.0" layoutY="132.0" text="行" />
+      <Label layoutX="31.0" layoutY="193.0" text="选择输出格式：" />
+      <RadioButton fx:id="outputType1RadioButton" layoutX="29.0" layoutY="212.0" mnemonicParsing="false" selected="true" text="xls格式">
+         <toggleGroup>
+            <ToggleGroup fx:id="outputTypeToggleGroup" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="outputType2RadioButton" layoutX="125.0" layoutY="212.0" mnemonicParsing="false" text="xlsx格式" toggleGroup="$outputTypeToggleGroup" />
+      <Button fx:id="splitButton" layoutX="29.0" layoutY="247.0" mnemonicParsing="false" onAction="#splitAction" text="开始分隔" />
+      <RadioButton fx:id="splitType3RadioButton" layoutX="436.0" layoutY="133.0" mnemonicParsing="false" text="按列分类拆分" toggleGroup="$splitTypeToggleGroup" />
+   </children>
+</AnchorPane>
