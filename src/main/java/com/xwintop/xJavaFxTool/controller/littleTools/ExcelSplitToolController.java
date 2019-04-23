@@ -20,6 +20,7 @@ import java.util.ResourceBundle;
 @Slf4j
 public class ExcelSplitToolController extends ExcelSplitToolView {
     private ExcelSplitToolService excelSplitToolService = new ExcelSplitToolService(this);
+    private String[] fileTypeChoiceBoxStrings = new String[]{"Excel", "CSV", "文件"};
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -29,13 +30,15 @@ public class ExcelSplitToolController extends ExcelSplitToolView {
     }
 
     private void initView() {
+        fileTypeChoiceBox.getItems().addAll(fileTypeChoiceBoxStrings);
+        fileTypeChoiceBox.getSelectionModel().select(0);
         JavaFxViewUtil.setSpinnerValueFactory(sheetSelectSpinner, 0, Integer.MAX_VALUE, 0);
         JavaFxViewUtil.setSpinnerValueFactory(splitType1Spinner, 1, Integer.MAX_VALUE, 3);
         JavaFxViewUtil.setSpinnerValueFactory(splitType2Spinner, 1, Integer.MAX_VALUE, 10);
     }
 
     private void initEvent() {
-        selectFileTextField.setText("C:\\Users\\5FDSJ068\\Desktop\\test/test.xlsx");
+        selectFileTextField.setText("C:\\Users\\Administrator\\Desktop\\file.csv");
         FileChooserUtil.setOnDrag(selectFileTextField, FileChooserUtil.FileType.FILE);
         FileChooserUtil.setOnDrag(saveFilePathTextField, FileChooserUtil.FileType.FOLDER);
     }

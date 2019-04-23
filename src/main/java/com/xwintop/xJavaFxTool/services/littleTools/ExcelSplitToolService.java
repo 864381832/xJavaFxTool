@@ -4,6 +4,11 @@ import com.xwintop.xJavaFxTool.controller.littleTools.ExcelSplitToolController;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.IteratorUtils;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVPrinter;
+import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
@@ -13,10 +18,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -31,6 +33,17 @@ public class ExcelSplitToolService {
     }
 
     public void splitAction() throws Exception { //拆分表格
+        int fileTypeSelectIndex = excelSplitToolController.getFileTypeChoiceBox().getSelectionModel().getSelectedIndex();
+        if (fileTypeSelectIndex == 0) {
+            splitExcel();
+        } else if (fileTypeSelectIndex == 1) {
+            splitCsv();
+        } else if (fileTypeSelectIndex == 2) {
+            splitFile();
+        }
+    }
+
+    public void splitExcel() throws Exception { //拆分Excel表格
         String filePath = excelSplitToolController.getSelectFileTextField().getText();
         FileInputStream fileInputStream = new FileInputStream(filePath);
 
@@ -67,40 +80,39 @@ public class ExcelSplitToolService {
             }
             saveSplitWorkbook(sheet, newFilePath, splitCellIndex);
         }
+    }
 
-//        for (int i = 0; i <= lastRowIndex; i++) {
-//            Row row = sheet.getRow(i);
-//            if (row == null) {
-//                break;
-//            }
-//            short lastCellNum = row.getLastCellNum();// 列数
-//            for (int j = 0; j < lastCellNum; j++) {
-//                Cell cell = row.getCell(j);
-//                String str = null;
-//                switch (cell.getCellType()) {
-//                    case BLANK:// 空值
-//                        str = "";
-//                        break;
-//                    case BOOLEAN:
-//                        str = String.valueOf(cell.getBooleanCellValue());// 布尔型
-//                        break;
-//                    case FORMULA:
-//                        str = String.valueOf(cell.getCellFormula());// 公式型
-//                        break;
-//                    case NUMERIC:
-//                        str = String.valueOf(cell.getNumericCellValue());// 数值型
-//                        break;
-//                    case STRING:
-//                        str = String.valueOf(cell.getStringCellValue());// 字符型
-//                        break;
-//                    default:
-//                        str = null;
-//                        break;
-//                }
-//                System.out.print(str + "\t\t");
-//            }
-//            System.out.println();
-//        }
+    public void splitCsv() throws Exception {
+        String filePath = excelSplitToolController.getSelectFileTextField().getText();
+        Reader fileReader = new FileReader(filePath);
+        String newFilePath = StringUtils.appendIfMissing(filePath, "", ".csv", ".CSV");
+        if (StringUtils.isNotEmpty(excelSplitToolController.getSaveFilePathTextField().getText())) {
+            newFilePath = StringUtils.appendIfMissing(excelSplitToolController.getSaveFilePathTextField().getText(), "/", "/", "\\") + Paths.get(newFilePath).getFileName();
+        }
+        CSVParser parser = CSVFormat.DEFAULT.parse(fileReader);
+        int splitNumber = 0;
+        if (excelSplitToolController.getSplitType1RadioButton().isSelected()) {
+            List<CSVRecord> csvRecordList = parser.getRecords();
+            splitNumber = csvRecordList.size() / (excelSplitToolController.getSplitType1Spinner().getValue() - 1);
+            saveSplitCsv(csvRecordList.iterator(), splitNumber, newFilePath);
+        } else if (excelSplitToolController.getSplitType2RadioButton().isSelected()) {
+            splitNumber = excelSplitToolController.getSplitType2Spinner().getValue();
+            saveSplitCsv(parser.iterator(), splitNumber, newFilePath);
+        } else if (excelSplitToolController.getSplitType3RadioButton().isSelected()) {
+            String splitType3String = excelSplitToolController.getSplitType3TextField().getText();
+            String[] splitCellIndex = null;
+            if (StringUtils.isEmpty(splitType3String)) {
+                splitCellIndex = new String[]{"0"};
+            } else {
+                splitCellIndex = splitType3String.split(",");
+            }
+            saveSplitCsv(parser.iterator(), newFilePath, splitCellIndex);
+        }
+        fileReader.close();
+    }
+
+    public void splitFile() {
+
     }
 
     private void saveSplitWorkbook(Sheet sheet, int splitNumber, String newFilePath) throws Exception {
@@ -189,7 +201,73 @@ public class ExcelSplitToolService {
 
     }
 
-    public static void saveFile(Workbook workbook, String filePath) {
+    private void saveSplitCsv(Iterator<CSVRecord> iterator, int splitNumber, String newFilePath) throws Exception {
+        int addRowIndex = 0;
+        int saveFileIndex = 0;
+        boolean isAddHead = excelSplitToolController.getIncludeHandCheckBox().isSelected();
+        CSVPrinter printer = null;
+        CSVRecord firstRecord = null;
+        while (iterator.hasNext()) {
+            CSVRecord record = iterator.next();
+            if (isAddHead && addRowIndex == 0 && saveFileIndex == 0) {
+                firstRecord = record;
+            }
+            if (printer == null) {
+                printer = CSVFormat.DEFAULT.print(new PrintWriter(newFilePath + "-" + (saveFileIndex++) + ".csv"));
+                if (isAddHead && saveFileIndex != 0) {
+                    printer.printRecord(IteratorUtils.toList(record.iterator()).toArray());
+                }
+            }
+            printer.printRecord(IteratorUtils.toList(record.iterator()).toArray());
+            if ((addRowIndex++ - splitNumber) == (isAddHead ? 1 : 0)) {
+                printer.flush();
+                printer.close();
+                printer = null;
+                addRowIndex = 0;
+            }
+        }
+        if (printer != null) {
+            printer.flush();
+            printer.close();
+        }
+    }
+
+    private void saveSplitCsv(Iterator<CSVRecord> iterator, String newFilePath, String[] splitCellIndex) throws Exception {
+        CSVRecord firstRecord = null;
+        Map<String, List<CSVRecord>> rowMap = new HashMap<>();
+        while (iterator.hasNext()) {
+            CSVRecord record = iterator.next();
+            if (firstRecord == null) {
+                firstRecord = record;
+            }
+            String rowString = "";
+            for (String cellIndex : splitCellIndex) {
+                rowString += record.get(Integer.valueOf(cellIndex));
+            }
+            if (rowMap.containsKey(rowString)) {
+                rowMap.get(rowString).add(record);
+            } else {
+                List<CSVRecord> rowList = new ArrayList<>();
+                rowList.add(record);
+                rowMap.put(rowString, rowList);
+            }
+        }
+        for (Map.Entry<String, List<CSVRecord>> stringListEntry : rowMap.entrySet()) {
+            String key = stringListEntry.getKey();
+            List<CSVRecord> rows = stringListEntry.getValue();
+            CSVPrinter printer = CSVFormat.DEFAULT.print(new PrintWriter(newFilePath + "-" + key + ".csv"));
+            if (excelSplitToolController.getIncludeHandCheckBox().isSelected()) {
+                printer.printRecord(IteratorUtils.toList(firstRecord.iterator()).toArray());
+            }
+            for (CSVRecord row : rows) {
+                printer.printRecord(IteratorUtils.toList(row.iterator()).toArray());
+            }
+            printer.flush();
+            printer.close();
+        }
+    }
+
+    private static void saveFile(Workbook workbook, String filePath) {
         if (workbook instanceof HSSFWorkbook) {
             filePath = StringUtils.appendIfMissing(filePath, ".xls", ".xls", ".xlsx");
         } else if (workbook instanceof XSSFWorkbook) {
@@ -212,7 +290,7 @@ public class ExcelSplitToolService {
         }
     }
 
-    public static void copyRow(Row row, Row newRow) {
+    private static void copyRow(Row row, Row newRow) {
         try {
             newRow.setHeight(row.getHeight());
             newRow.setHeightInPoints(row.getHeightInPoints());
@@ -226,7 +304,7 @@ public class ExcelSplitToolService {
         });
     }
 
-    public static void setCellValue(Cell cell, Cell newCell) {
+    private static void setCellValue(Cell cell, Cell newCell) {
         try {
             newCell.setCellStyle(cell.getCellStyle());
         } catch (Exception e) {
@@ -254,7 +332,7 @@ public class ExcelSplitToolService {
         }
     }
 
-    public static String getCellValue(Cell cell) {
+    private static String getCellValue(Cell cell) {
         String str = null;
         switch (cell.getCellType()) {
             case BLANK:// 空值

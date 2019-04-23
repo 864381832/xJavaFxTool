@@ -14,6 +14,8 @@ public abstract class ExcelSplitToolView implements Initializable {
     @FXML
     protected Spinner<Integer> sheetSelectSpinner;
     @FXML
+    protected ChoiceBox<String> fileTypeChoiceBox;
+    @FXML
     protected Button selectFileButton;
     @FXML
     protected CheckBox includeHandCheckBox;
