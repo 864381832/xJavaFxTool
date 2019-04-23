@@ -29,13 +29,15 @@ public class ExcelSplitToolController extends ExcelSplitToolView {
     }
 
     private void initView() {
+        JavaFxViewUtil.setSpinnerValueFactory(sheetSelectSpinner, 0, Integer.MAX_VALUE, 0);
         JavaFxViewUtil.setSpinnerValueFactory(splitType1Spinner, 1, Integer.MAX_VALUE, 3);
         JavaFxViewUtil.setSpinnerValueFactory(splitType2Spinner, 1, Integer.MAX_VALUE, 10);
     }
 
     private void initEvent() {
-        selectFileTextField.setText("C:\\Users\\5FDSJ068\\Desktop\\address list20180411.xls");
+        selectFileTextField.setText("C:\\Users\\5FDSJ068\\Desktop\\test/test.xlsx");
         FileChooserUtil.setOnDrag(selectFileTextField, FileChooserUtil.FileType.FILE);
+        FileChooserUtil.setOnDrag(saveFilePathTextField, FileChooserUtil.FileType.FOLDER);
     }
 
     private void initService() {
@@ -46,6 +48,14 @@ public class ExcelSplitToolController extends ExcelSplitToolView {
         File file = FileChooserUtil.chooseFile();
         if (file != null) {
             selectFileTextField.setText(file.getPath());
+        }
+    }
+
+    @FXML
+    private void saveFilePathAction(ActionEvent event) {
+        File file = FileChooserUtil.chooseDirectory();
+        if (file != null) {
+            saveFilePathTextField.setText(file.getPath());
         }
     }
 

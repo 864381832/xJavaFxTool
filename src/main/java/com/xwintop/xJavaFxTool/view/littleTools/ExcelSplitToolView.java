@@ -12,6 +12,8 @@ public abstract class ExcelSplitToolView implements Initializable {
     @FXML
     protected TextField selectFileTextField;
     @FXML
+    protected Spinner<Integer> sheetSelectSpinner;
+    @FXML
     protected Button selectFileButton;
     @FXML
     protected CheckBox includeHandCheckBox;
@@ -35,5 +37,10 @@ public abstract class ExcelSplitToolView implements Initializable {
     protected Button splitButton;
     @FXML
     protected RadioButton splitType3RadioButton;
-
+    @FXML
+    protected TextField splitType3TextField;
+    @FXML
+    protected TextField saveFilePathTextField;
+    @FXML
+    protected Button saveFilePathButton;
 }
