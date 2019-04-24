@@ -64,11 +64,16 @@ public class ExcelSplitToolController extends ExcelSplitToolView {
 
     @FXML
     private void splitAction(ActionEvent event) {
-        try {
-            excelSplitToolService.splitAction();
-        } catch (Exception e) {
-            TooltipUtil.showToast("解析失败：" + e.getMessage());
-            log.error("解析失败：", e);
-        }
+        TooltipUtil.showToast("正在解析请稍后...");
+        new Thread(() -> {
+            try {
+                excelSplitToolService.splitAction();
+                log.info("解析完成。");
+            } catch (Exception e) {
+//                TooltipUtil.showToast("解析失败：" + e.getMessage());
+                log.error("解析失败：", e);
+            }
+        }).start();
+//        TooltipUtil.showToast("解析完成！");
     }
 }

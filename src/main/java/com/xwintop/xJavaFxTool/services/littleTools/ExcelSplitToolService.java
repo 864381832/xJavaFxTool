@@ -1,6 +1,7 @@
 package com.xwintop.xJavaFxTool.services.littleTools;
 
 import com.xwintop.xJavaFxTool.controller.littleTools.ExcelSplitToolController;
+import com.xwintop.xJavaFxTool.utils.DirectoryTreeUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +10,8 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
@@ -111,8 +114,25 @@ public class ExcelSplitToolService {
         fileReader.close();
     }
 
-    public void splitFile() {
-
+    public void splitFile() throws Exception {
+        String filePath = excelSplitToolController.getSelectFileTextField().getText();
+        String newFilePath = filePath;
+        if (StringUtils.isNotEmpty(excelSplitToolController.getSaveFilePathTextField().getText())) {
+            newFilePath = StringUtils.appendIfMissing(excelSplitToolController.getSaveFilePathTextField().getText(), "/", "/", "\\") + Paths.get(newFilePath).getFileName();
+        }
+        int splitNumber = 0;
+        if (excelSplitToolController.getSplitType1RadioButton().isSelected()) {
+            File file = new File(filePath);
+            LineNumberReader rf = new LineNumberReader(new FileReader(file));
+            rf.skip(file.length());
+            splitNumber = (int) Math.ceil((double) rf.getLineNumber() / excelSplitToolController.getSplitType1Spinner().getValue());
+            saveSplitFile(filePath, splitNumber, newFilePath);
+        } else if (excelSplitToolController.getSplitType2RadioButton().isSelected()) {
+            splitNumber = excelSplitToolController.getSplitType2Spinner().getValue();
+            saveSplitFile(filePath, splitNumber, newFilePath);
+        } else if (excelSplitToolController.getSplitType3RadioButton().isSelected()) {
+            throw new Exception("文件不支持按类拆分。");
+        }
     }
 
     private void saveSplitWorkbook(Sheet sheet, int splitNumber, String newFilePath) throws Exception {
@@ -270,6 +290,24 @@ public class ExcelSplitToolService {
             printer.flush();
             printer.close();
         }
+    }
+
+    private void saveSplitFile(String filePath, int splitNumber, String newFilePath) throws Exception {
+        int addRowIndex = 0;
+        int saveFileIndex = 0;
+        LineIterator lineIterator = FileUtils.lineIterator(new File(filePath));
+        File newFile = new File(newFilePath + "-" + (saveFileIndex++));
+        newFile.delete();
+        while (lineIterator.hasNext()) {
+            String line = lineIterator.next();
+            FileUtils.writeStringToFile(newFile, line + DirectoryTreeUtil.LINE_SEPARATOR, true);
+            if (++addRowIndex == splitNumber) {
+                newFile = new File(newFilePath + "-" + (saveFileIndex++));
+                newFile.delete();
+                addRowIndex = 0;
+            }
+        }
+        lineIterator.close();
     }
 
     private static void saveFile(Workbook workbook, String filePath) {

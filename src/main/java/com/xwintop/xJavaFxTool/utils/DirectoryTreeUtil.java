@@ -21,7 +21,7 @@ import lombok.Setter;
 public class DirectoryTreeUtil {
 	private File generateFile;// 初始文件夹
 	/* 换行符 */
-	private static final String LINE_SEPARATOR = System.getProperty("line.separator");
+	public static final String LINE_SEPARATOR = System.getProperty("line.separator");
 	/* 空字符串 */
 	private static final String EMPTY = "";
 	/* 文件连接符 */

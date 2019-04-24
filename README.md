@@ -111,6 +111,8 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 
 40、ZookeeperTool:Zookeeper工具（方便对zookeeper的一系列操作，包括新增、修改、删除（包括子文件）、重命名、复制、添加变更通知）；
 
+41、ExcelSplitTool:Excel拆分工具（对xls、xlsx、csv及文件进行拆分操作）；
+
 项目开发中，以后会陆续添加新工具，欢迎大家参与其中，多提提意见，谢谢。
 
 
