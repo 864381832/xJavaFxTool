@@ -38,7 +38,7 @@ public class ExcelSplitToolController extends ExcelSplitToolView {
     }
 
     private void initEvent() {
-        selectFileTextField.setText("C:\\Users\\Administrator\\Desktop\\file.csv");
+        selectFileTextField.setText("C:\\Users\\5FDSJ068\\Desktop\\test\\file.csv");
         FileChooserUtil.setOnDrag(selectFileTextField, FileChooserUtil.FileType.FILE);
         FileChooserUtil.setOnDrag(saveFilePathTextField, FileChooserUtil.FileType.FOLDER);
     }

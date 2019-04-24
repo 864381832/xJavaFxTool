@@ -17,7 +17,7 @@
       <TextField fx:id="selectFileTextField" layoutX="99.0" layoutY="20.0" />
       <Button fx:id="selectFileButton" layoutX="256.0" layoutY="20.0" mnemonicParsing="false" onAction="#selectFileAction" text="选择" />
       <Label layoutX="31.0" layoutY="82.0" text="文件分隔方式：" />
-      <CheckBox fx:id="includeHandCheckBox" layoutX="31.0" layoutY="107.0" mnemonicParsing="false" selected="true" text="Excel包含标题行" />
+      <CheckBox fx:id="includeHandCheckBox" layoutX="31.0" layoutY="107.0" mnemonicParsing="false" selected="true" text="包含标题行" />
       <RadioButton fx:id="splitType1RadioButton" layoutX="33.0" layoutY="132.0" mnemonicParsing="false" selected="true" text="按平均分成">
          <toggleGroup>
             <ToggleGroup fx:id="splitTypeToggleGroup" />
