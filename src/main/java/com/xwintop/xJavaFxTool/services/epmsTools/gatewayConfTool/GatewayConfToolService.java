@@ -1,6 +1,6 @@
 package com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool;
 
-import com.easipass.gateway.entity.TaskConfig;
+import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.entity.TaskConfig;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;

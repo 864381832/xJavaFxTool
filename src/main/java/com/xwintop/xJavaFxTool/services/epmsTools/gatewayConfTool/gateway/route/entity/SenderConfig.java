@@ -1,14 +1,15 @@
-package com.easipass.gateway.receiver.entity;
+package com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.route.entity;
 
 import java.io.Serializable;
 
 /**
- * @ClassName: ReceiverConfig
- * @Description: 接收器配置
+ * @ClassName: SenderConfig
+ * @Description: 发送器配置类
  * @author: xufeng
- * @date: 2018/5/28 16:32
+ * @date: 2018/5/28 16:33
  */
-public interface ReceiverConfig extends Serializable {
+
+public interface SenderConfig extends Serializable {
     String getServiceName();
     String getId();
     void setId(String id);

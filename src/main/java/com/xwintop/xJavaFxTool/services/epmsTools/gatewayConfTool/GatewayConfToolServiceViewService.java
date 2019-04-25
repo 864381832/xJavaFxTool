@@ -1,9 +1,9 @@
 package com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool;
 
-import com.easipass.gateway.receiver.bean.ReceiverConfigFtp;
-import com.easipass.gateway.receiver.bean.ReceiverConfigSftp;
 import com.jfoenix.controls.JFXCheckBox;
 import com.xwintop.xJavaFxTool.controller.epmsTools.gatewayConfTool.GatewayConfToolServiceViewController;
+import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.receiver.bean.ReceiverConfigFtp;
+import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.receiver.bean.ReceiverConfigSftp;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

@@ -1,6 +1,6 @@
-package com.easipass.gateway.receiver.bean;
+package com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.receiver.bean;
 
-import com.easipass.gateway.receiver.entity.ReceiverConfig;
+import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.receiver.entity.ReceiverConfig;
 import lombok.Data;
 
 import java.io.Serializable;

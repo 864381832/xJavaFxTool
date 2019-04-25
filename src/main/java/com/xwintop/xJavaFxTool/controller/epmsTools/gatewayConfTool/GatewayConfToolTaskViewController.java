@@ -1,11 +1,11 @@
 package com.xwintop.xJavaFxTool.controller.epmsTools.gatewayConfTool;
 
-import com.easipass.gateway.entity.TaskConfig;
-import com.easipass.gateway.filter.bean.FilterConfig;
-import com.easipass.gateway.receiver.entity.ReceiverConfig;
-import com.easipass.gateway.route.entity.SenderConfig;
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.GatewayConfToolTaskViewService;
+import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.entity.TaskConfig;
+import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.filter.bean.FilterConfig;
+import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.receiver.entity.ReceiverConfig;
+import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.route.entity.SenderConfig;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.view.epmsTools.gatewayConfTool.GatewayConfToolTaskViewView;
 import javafx.beans.value.ChangeListener;
@@ -98,7 +98,7 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
         receiverConfigListView.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
                 Menu menu = new Menu("添加");
-                String packageName = "com.easipass.gateway.receiver.bean";
+                String packageName = "com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.receiver.bean";
                 String[] classNameS = new String[]{"ReceiverConfigDataBus",
                         "ReceiverConfigEmail",
                         "ReceiverConfigFs",
@@ -182,7 +182,7 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
         filterConfigsListView.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
                 Menu menu = new Menu("添加");
-                String packageName = "com.easipass.gateway.filter.bean";
+                String packageName = "com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.filter.bean";
                 String[] classNameS = new String[]{
                         "FilterConfigBackup",
                         "FilterConfigCompress",
@@ -265,7 +265,7 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
         senderConfigListView.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
                 Menu menu = new Menu("添加");
-                String packageName = "com.easipass.gateway.route.bean";
+                String packageName = "com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.route.bean";
                 String[] classNameS = new String[]{
                         "SenderConfigEmail",
                         "SenderConfigFs",

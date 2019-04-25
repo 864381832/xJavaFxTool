@@ -1,9 +1,8 @@
-package com.easipass.gateway.entity;
+package com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.entity;
 
-import com.easipass.gateway.filter.bean.FilterConfig;
-import com.easipass.gateway.quartz.enums.QuartzTypeEnum;
-import com.easipass.gateway.receiver.entity.ReceiverConfig;
-import com.easipass.gateway.route.entity.SenderConfig;
+import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.filter.bean.FilterConfig;
+import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.receiver.entity.ReceiverConfig;
+import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.route.entity.SenderConfig;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -23,7 +22,7 @@ public class TaskConfig implements Serializable {
     private String name;//任务名称(唯一标识，不可重复)
     private Boolean isEnable = true;//是否开启
     private String taskType;//任务类型(script/receiver/execute flow)
-    private String triggerType = QuartzTypeEnum.SIMPLE.name();//触发器类型(simple/cron)
+    private String triggerType = "SIMPLE";//触发器类型(simple/cron)
     private Integer intervalTime = 5;//两次任务调度的间隔时间(simple类型触发器显示该信息)，单位为秒
     private Integer executeTimes = -1;//任务执行次数(simple类型触发器显示该信息，-1表示无限次)
     private String triggerCron;//任务调度的时间(cron类型触发器显示该信息)

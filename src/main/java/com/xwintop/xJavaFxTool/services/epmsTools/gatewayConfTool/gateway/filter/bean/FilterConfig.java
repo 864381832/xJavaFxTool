@@ -1,15 +1,15 @@
-package com.easipass.gateway.route.entity;
+package com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.filter.bean;
 
 import java.io.Serializable;
 
 /**
- * @ClassName: SenderConfig
- * @Description: 发送器配置类
+ * @ClassName: FilterConfig
+ * @Description: 中间层过滤类配置
  * @author: xufeng
- * @date: 2018/5/28 16:33
+ * @date: 2018/5/28 16:32
  */
 
-public interface SenderConfig extends Serializable {
+public interface FilterConfig extends Serializable {
     String getServiceName();
     String getId();
     void setId(String id);
