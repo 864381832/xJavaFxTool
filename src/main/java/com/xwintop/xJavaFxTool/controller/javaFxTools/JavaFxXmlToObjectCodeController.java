@@ -10,6 +10,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextArea;
 
+/**
+ * @ClassName: JavaFxXmlToObjectCodeController
+ * @Description: javaFx Xml转对象工具
+ * @author: xufeng
+ * @date: 2019/4/25 0025 23:24
+ */
+
 public class JavaFxXmlToObjectCodeController implements Initializable {
 	@FXML
 	private TextArea textArea1;

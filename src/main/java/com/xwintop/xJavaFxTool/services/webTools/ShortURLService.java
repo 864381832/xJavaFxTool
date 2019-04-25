@@ -10,6 +10,13 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.xwintop.xcore.util.HttpClientUtil;
 
+/**
+ * @ClassName: ShortURLService
+ * @Description: 网址缩短
+ * @author: xufeng
+ * @date: 2019/4/25 0025 23:36
+ */
+
 public class ShortURLService {
 	/**
 	 * 百度转换为短网址.

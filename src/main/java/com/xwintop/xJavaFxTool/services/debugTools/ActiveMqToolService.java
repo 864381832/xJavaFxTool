@@ -30,6 +30,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
+/**
+ * @ClassName: ActiveMqToolService
+ * @Description: ActiveMq调试工具
+ * @author: xufeng
+ * @date: 2019/4/25 0025 23:28
+ */
+
 @Getter
 @Setter
 @Log4j

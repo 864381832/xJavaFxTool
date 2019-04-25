@@ -6,6 +6,13 @@ import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.dictionary.py.Pinyin;
 import com.xwintop.xcore.util.little.MoneyToChineseUtil;
 
+/**
+ * @ClassName: ZHConverterService
+ * @Description: 字符串转换
+ * @author: xufeng
+ * @date: 2019/4/25 0025 23:36
+ */
+
 public class ZHConverterService {
 	private String[] codeTypes;
 	private String[] pinyinTypes;

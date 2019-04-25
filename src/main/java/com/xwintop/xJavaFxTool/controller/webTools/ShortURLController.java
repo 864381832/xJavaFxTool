@@ -20,6 +20,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 
+/**
+ * @ClassName: ShortURLController
+ * @Description: 网址缩短工具
+ * @author: xufeng
+ * @date: 2019/4/25 0025 23:26
+ */
+
 public class ShortURLController extends ShortURLView {
 
 	private String[] shortURLService = new String[] { "百度", "新浪","缩我" };

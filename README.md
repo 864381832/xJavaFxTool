@@ -13,11 +13,11 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 
 （可直接下载安装使用，不需要任何第三方环境，兼容xp、windows7、8、10等系统）[xJavaFxTool-0.1.4.exe](http://files.git.oschina.net/group1/M00/02/EA/PaAvDFp8eByATSAzBhUKCsTbpUc258.exe?token=3020a95a8a5f6509f5fa9575090d54db&ts=1518139040&attname=xJavaFxTool-install.exe)
 
-（本地需要有jdk1.8环境）[xJavaFxTool-0.1.4.jar](http://files.git.oschina.net/group1/M00/02/EA/PaAvDFp8_Q-AETFIBCfy93hiJyo600.jar?token=e668b2e779efabf8e7414f9dd8e3f0a6&ts=1518140688&attname=xJavaFxTool-0.1.4.jar)（可直接运行的jar包）
+（本地需要有jdk1.8环境）[xJavaFxTool-0.1.5.jar](http://files.git.oschina.net/group1/M00/07/7A/PaAvDFzB01eAdG_hBU20mXvGYg8963.jar?token=f37fbd301c8f4cfba7e754553b4188cf&ts=1556206856&attname=xJavaFxTool-0.1.5.jar)（可直接运行的jar包）
 
-（本地需要有jdk1.8环境）[xJavaFxTool-windows-x64-0.1.4.exe](http://files.git.oschina.net/group1/M00/02/EA/PaAvDFp8cFOAZmzcBCy8AHMtHjA024.exe?token=0317b8fc5268c42d110e1d008db28760&ts=1518139040&attname=xJavaFxTool-windows-x64-0.1.4.exe) （Windows平台64位运行包）
+（本地需要有jdk1.8环境）[xJavaFxTool-windows-x64-0.1.5.exe](http://files.git.oschina.net/group1/M00/07/7A/PaAvDFzBz7mAYEqwBVJ-AOhNFZU280.exe?token=94b0d89fc005f610a8f6ac14eb819dc6&ts=1556206929&attname=xJavaFxTool-windows-x64-0.1.5.exe) （Windows平台64位运行包）
 
-（本地需要有jdk1.8环境）[xJavaFxTool-windows-x86-0.1.4.exe](http://files.git.oschina.net/group1/M00/02/EA/PaAvDFp8ckuAejoZBCw6AG93rus326.exe?token=9ee4902139bcf39c0c8c6cdb30f87194&ts=1518139040&attname=xJavaFxTool-windows-x86-0.1.4.exe) （Windows平台32位运行包）
+（本地需要有jdk1.8环境）[xJavaFxTool-windows-x86-0.1.5.exe](http://files.git.oschina.net/group1/M00/07/7A/PaAvDFzB0GOABoCNBVH8ANNaC7w019.exe?token=8ef89a36b221011fb716294680a185e0&ts=1556206916&attname=xJavaFxTool-windows-x86-0.1.5.exe) （Windows平台32位运行包）
 
 支持插件开发，将插件jar包放至根目录libs下即可自动加载（插件开发示例见[开源项目xJavaFxPlugIn](https://gitee.com/xwintop/xJavaFxPlugIn)，目前刚刚搭建，后续会持续更新）；
 
@@ -57,9 +57,9 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 
 13、Mq调试工具（目前仅支持ActiveMq）；
 
-14、Http调试工具（支持自定义发送数据、header和cookie）；
+14、HttpTool：Http调试工具（支持自定义发送数据、header和cookie）；
 
-15、json格式化编辑工具；
+15、jsonEditor：json格式化编辑工具；
 
 16、IconTool：图标生成工具；
 
@@ -191,6 +191,8 @@ xJavaFxTool
 在一个人还年轻的时候，我觉得，就应该着手致力做一些对社会有意义的事情，一如开源。至此，感谢以下贡献者（排名不分先后）：
 + 李柱
 + luming
++ 码志
++ 你的女神
 
 #### 后续计划
 不定期添加汇总开发过程中需求的痛点工具，大家有工作上的痛点处可进群讨论，后期可能就会出相应的工具解决方案，谢谢大家的支持。

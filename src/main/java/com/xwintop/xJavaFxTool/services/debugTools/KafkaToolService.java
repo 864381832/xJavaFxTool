@@ -34,6 +34,13 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Consumer;
 
+/**
+ * @ClassName: KafkaToolService
+ * @Description: Kafka调试工具
+ * @author: xufeng
+ * @date: 2019/4/25 0025 23:33
+ */
+
 @Getter
 @Setter
 @Log4j

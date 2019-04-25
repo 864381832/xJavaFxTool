@@ -35,6 +35,13 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 
+/**
+ * @ClassName: QRCodeBuilderController
+ * @Description: 二维码生成工具
+ * @author: xufeng
+ * @date: 2019/4/25 0025 23:26
+ */
+
 public class QRCodeBuilderController extends QRCodeBuilderView{
 
 	@Override

@@ -41,6 +41,13 @@ import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.Thumbnails.Builder;
 import net.coobird.thumbnailator.geometry.Positions;
 
+/**
+ * @ClassName: IconToolService
+ * @Description: 图标生成工具
+ * @author: xufeng
+ * @date: 2019/4/25 0025 23:20
+ */
+
 @Setter
 public class IconToolService {
 	private IconToolController iconToolController;
