@@ -113,6 +113,8 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 
 41、ExcelSplitTool:Excel拆分工具（对xls、xlsx、csv及文件进行拆分操作）；
 
+42、PathWatchTool:文件夹监控工具；
+
 项目开发中，以后会陆续添加新工具，欢迎大家参与其中，多提提意见，谢谢。
 
 

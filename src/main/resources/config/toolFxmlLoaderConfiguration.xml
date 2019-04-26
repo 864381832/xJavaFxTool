@@ -254,7 +254,12 @@
 		<url>/com/xwintop/xJavaFxTool/fxmlView/littleTools/ExcelSplitTool.fxml</url>
 		<title>ExcelSplitTool</title>
 		<menuParentId>littleTools</menuParentId>
-		<isDefaultShow></isDefaultShow>
+	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/com/xwintop/xJavaFxTool/fxmlView/developTools/PathWatchTool.fxml</url>
+		<title>PathWatchTool</title>
+		<menuParentId>developTools</menuParentId>
+		<isDefaultShow>true</isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 
 	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"
