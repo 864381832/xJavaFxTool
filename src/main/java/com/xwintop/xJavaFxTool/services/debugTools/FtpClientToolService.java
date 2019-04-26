@@ -26,6 +26,13 @@ import java.io.FileOutputStream;
 import java.util.Properties;
 import java.util.function.Consumer;
 
+/**
+ * @ClassName: FtpClientToolService
+ * @Description: Ftp(s)/Sftp客户端调试工具
+ * @author: xufeng
+ * @date: 2019/4/25 0025 23:28
+ */
+
 @Getter
 @Setter
 @Log4j

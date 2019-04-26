@@ -25,6 +25,7 @@
                               <MenuItem mnemonicParsing="false" onAction="#closeAllTabAction" text="%closeAllTab" />
                               <MenuItem mnemonicParsing="false" onAction="#openAllTabAction" text="%openAllTab" />
                               <MenuItem mnemonicParsing="false" onAction="#addNodepadAction" text="%addNodepad" />
+                              <MenuItem mnemonicParsing="false" onAction="#addLogConsoleAction" text="%addLogConsole" />
                           <MenuItem mnemonicParsing="false" onAction="#exitAction" text="%Exit" />
                         </items>
                       </Menu>

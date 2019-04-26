@@ -6,6 +6,13 @@ import javafx.scene.control.*;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * @ClassName: ExcelSplitToolView
+ * @Description: Excel拆分工具
+ * @author: xufeng
+ * @date: 2019/4/25 0025 23:19
+ */
+
 @Getter
 @Setter
 public abstract class ExcelSplitToolView implements Initializable {

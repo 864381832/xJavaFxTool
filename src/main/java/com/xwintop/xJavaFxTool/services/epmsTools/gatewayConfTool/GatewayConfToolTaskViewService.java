@@ -1,9 +1,9 @@
 package com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool;
 
-import com.easipass.gateway.entity.TaskConfig;
-import com.easipass.gateway.filter.bean.FilterConfig;
-import com.easipass.gateway.receiver.entity.ReceiverConfig;
-import com.easipass.gateway.route.entity.SenderConfig;
+import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.entity.TaskConfig;
+import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.filter.bean.FilterConfig;
+import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.receiver.entity.ReceiverConfig;
+import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.route.entity.SenderConfig;
 import com.jcraft.jsch.ChannelSftp;
 import com.xwintop.xJavaFxTool.controller.epmsTools.gatewayConfTool.GatewayConfToolController;
 import com.xwintop.xJavaFxTool.controller.epmsTools.gatewayConfTool.GatewayConfToolServiceViewController;

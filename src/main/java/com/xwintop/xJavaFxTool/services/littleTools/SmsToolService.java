@@ -21,6 +21,13 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 import java.io.File;
 import java.util.*;
 
+/**
+ * @ClassName: SmsToolService
+ * @Description: 短信群发工具
+ * @author: xufeng
+ * @date: 2019/4/25 0025 23:35
+ */
+
 @Getter
 @Setter
 @Log4j

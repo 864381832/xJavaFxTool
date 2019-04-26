@@ -13,6 +13,13 @@ import lombok.extern.slf4j.Slf4j;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * @ClassName: X2048Controller
+ * @Description: 2048游戏
+ * @author: xufeng
+ * @date: 2019/4/25 0025 23:24
+ */
+
 @Getter
 @Setter
 @Slf4j

@@ -15,6 +15,13 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.util.Collection;
 
+/**
+ * @ClassName: FileCopyService
+ * @Description: 文件复制工具
+ * @author: xufeng
+ * @date: 2019/4/25 0025 23:34
+ */
+
 public class FileCopyService {
     private ObservableList<FileCopyTableBean> tableData;
     private ScheduleManager scheduleManager = new ScheduleManager();

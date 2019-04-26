@@ -34,6 +34,13 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseButton;
 import lombok.Getter;
 
+/**
+ * @ClassName: ActiveMqToolController
+ * @Description: ActiveMq调试工具
+ * @author: xufeng
+ * @date: 2019/4/25 0025 23:21
+ */
+
 @Getter
 public class ActiveMqToolController extends ActiveMqToolView {
 	private ActiveMqToolService activeMqToolService = new ActiveMqToolService(this);

@@ -25,6 +25,13 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @ClassName: X2048Service
+ * @Description: 2048游戏
+ * @author: xufeng
+ * @date: 2019/4/25 0025 23:33
+ */
+
 @Getter
 @Setter
 @Slf4j

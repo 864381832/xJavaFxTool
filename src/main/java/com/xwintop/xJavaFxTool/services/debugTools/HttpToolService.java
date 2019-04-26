@@ -23,6 +23,13 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * @ClassName: HttpToolService
+ * @Description: Http调试工具
+ * @author: xufeng
+ * @date: 2019/4/25 0025 23:29
+ */
+
 @Getter
 @Setter
 @Log4j

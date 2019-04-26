@@ -29,6 +29,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
+/**
+ * @ClassName: HttpToolController
+ * @Description: Http调试工具
+ * @author: xufeng
+ * @date: 2019/4/25 0025 23:23
+ */
+
 @Log4j
 @Setter
 @Getter
