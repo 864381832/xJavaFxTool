@@ -1,6 +1,7 @@
 package com.xwintop.xJavaFxTool.config;
 
 
+import com.xwintop.xJavaFxTool.utils.Config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -31,7 +32,7 @@ public class SwaggerConfig {
                 .title("xSpringBootTool接口调用API")
                 .description("如有调用问题请发送邮箱：1277032935@qq.com")
                 .contact(new Contact("xwintop", "http://www.xwintop.com", "1277032935@qq.com"))
-                .version("1.0")
+                .version(Config.xJavaFxToolVersions)
                 .build();
     }
 
