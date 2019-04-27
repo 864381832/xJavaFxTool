@@ -222,6 +222,13 @@
 			<artifactId>commons-csv</artifactId>
 			<version>1.6</version>
 		</dependency>
+
+		<!--编码检测工具-->
+		<dependency>
+			<groupId>com.googlecode.juniversalchardet</groupId>
+			<artifactId>juniversalchardet</artifactId>
+			<version>1.0.3</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

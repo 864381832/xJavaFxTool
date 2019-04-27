@@ -115,6 +115,8 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 
 42、PathWatchTool:文件夹监控工具；
 
+43、CharsetDetectTool:文件编码检测工具；
+
 项目开发中，以后会陆续添加新工具，欢迎大家参与其中，多提提意见，谢谢。
 
 
