@@ -1,7 +1,9 @@
 package com.xwintop.xJavaFxTool.common.logback;
 
+import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.OutputStreamAppender;
+import com.xwintop.xcore.util.javafx.TooltipUtil;
 import javafx.scene.control.TextArea;
 import lombok.Data;
 
@@ -40,5 +42,17 @@ public class ConsoleLogAppender extends OutputStreamAppender<ILoggingEvent> {
         };
         setOutputStream(targetStream);
         super.start();
+    }
+
+    @Override
+    protected void append(ILoggingEvent eventObject) {
+        if (eventObject.getLevel() == Level.ERROR) {
+            try {
+                TooltipUtil.showToast("发生错误:\n" + eventObject.getFormattedMessage());
+            } catch (Exception e) {
+
+            }
+        }
+        super.append(eventObject);
     }
 }

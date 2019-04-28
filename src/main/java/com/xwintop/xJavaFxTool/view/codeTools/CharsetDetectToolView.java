@@ -22,6 +22,8 @@ public abstract class CharsetDetectToolView implements Initializable {
     @FXML
     protected TextField detectPathTextField;
     @FXML
+    protected CheckBox includeSubdirectoryCheckBox;
+    @FXML
     protected Button detectPathButton;
     @FXML
     protected Button detectButton;

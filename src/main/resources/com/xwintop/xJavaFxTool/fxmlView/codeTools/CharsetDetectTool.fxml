@@ -22,6 +22,7 @@
                         <Label text="探测文本/文件夹/URL:" />
                         <TextField fx:id="detectPathTextField" HBox.hgrow="ALWAYS" />
                         <Button fx:id="detectPathButton" mnemonicParsing="false" onAction="#detectPathAction" text="选择" />
+                        <CheckBox fx:id="includeSubdirectoryCheckBox" mnemonicParsing="false" text="包含子目录" />
                         <Button fx:id="detectButton" mnemonicParsing="false" onAction="#detectAction" text="检测" />
                      </children>
                   </HBox>

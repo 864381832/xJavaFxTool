@@ -265,7 +265,6 @@
 		<url>/com/xwintop/xJavaFxTool/fxmlView/codeTools/CharsetDetectTool.fxml</url>
 		<title>CharsetDetectTool</title>
 		<menuParentId>codeTools</menuParentId>
-		<isDefaultShow>true</isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 
 	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"
