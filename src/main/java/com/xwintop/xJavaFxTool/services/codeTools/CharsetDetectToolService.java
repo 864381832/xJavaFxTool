@@ -112,25 +112,6 @@ public class CharsetDetectToolService {
 
     public static String detectFileCharset(File file, int detectLength) throws Exception {
         return detectFileCharset(new FileInputStream(file), detectLength);
-//        String charset = null;
-//        FileInputStream fis = null;
-//        try {
-//            byte[] buf = new byte[detectLength];
-//            fis = new FileInputStream(file);
-//            UniversalDetector detector = new UniversalDetector(null);
-//            int nread;
-//            while ((nread = fis.read(buf)) > 0 && !detector.isDone()) {
-//                detector.handleData(buf, 0, nread);
-//            }
-//            detector.dataEnd();
-//            charset = detector.getDetectedCharset();
-//            detector.reset();
-//        } finally {
-//            if (fis != null) {
-//                fis.close();
-//            }
-//        }
-//        return charset;
     }
 
     public static String detectFileCharset(InputStream inputStream, int detectLength) throws Exception {

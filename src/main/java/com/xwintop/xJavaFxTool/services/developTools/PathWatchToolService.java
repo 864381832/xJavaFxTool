@@ -2,6 +2,7 @@ package com.xwintop.xJavaFxTool.services.developTools;
 
 import com.xwintop.xJavaFxTool.controller.developTools.PathWatchToolController;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
+import javafx.geometry.Pos;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,7 @@ import java.nio.file.*;
 @Slf4j
 public class PathWatchToolService {
     private PathWatchToolController pathWatchToolController;
+    Thread thread = null;
 
     public PathWatchToolService(PathWatchToolController pathWatchToolController) {
         this.pathWatchToolController = pathWatchToolController;
@@ -41,38 +43,40 @@ public class PathWatchToolService {
             TooltipUtil.showToast("只能监控文件夹！");
             return;
         }
-        Thread thread = new Thread(() -> {
+        thread = new Thread(() -> {
             try (WatchService watchService = FileSystems.getDefault().newWatchService()) {
                 //给path路径加上文件观察服务
                 path.register(watchService, StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_MODIFY, StandardWatchEventKinds.ENTRY_DELETE);
                 while (true) {
                     final WatchKey key = watchService.take();
                     for (WatchEvent<?> watchEvent : key.pollEvents()) {
+                        StringBuffer stringBuffer = new StringBuffer();
                         final WatchEvent.Kind<?> kind = watchEvent.kind();
                         if (kind == StandardWatchEventKinds.OVERFLOW) {
                             continue;
                         }
                         //创建事件
                         if (kind == StandardWatchEventKinds.ENTRY_CREATE) {
-                            System.out.print("[新建]");
+                            stringBuffer.append("新建：");
                             pathWatchToolController.getWatchLogTextArea().appendText("新建：");
                         }
                         //修改事件
                         if (kind == StandardWatchEventKinds.ENTRY_MODIFY) {
-                            System.out.print("修改]");
+                            stringBuffer.append("修改：");
                             pathWatchToolController.getWatchLogTextArea().appendText("修改：");
                         }
                         //删除事件
                         if (kind == StandardWatchEventKinds.ENTRY_DELETE) {
-                            System.out.print("[删除]");
+                            stringBuffer.append("删除：");
                             pathWatchToolController.getWatchLogTextArea().appendText("删除：");
                         }
                         // get the filename for the event
                         final WatchEvent<Path> watchEventPath = (WatchEvent<Path>) watchEvent;
                         final Path filename = watchEventPath.context();
-                        // print it out
-                        System.out.println(kind + " -> " + filename);
-                        pathWatchToolController.getWatchLogTextArea().appendText(kind + " -> " + filename + "\n");
+                        stringBuffer.append(kind + " -> " + filename + "\n");
+                        log.info(stringBuffer.toString());
+                        pathWatchToolController.getWatchLogTextArea().appendText(stringBuffer.toString());
+                        TooltipUtil.showToast("文件夹发送变化", stringBuffer.toString(), Pos.BOTTOM_RIGHT);
                     }
                     boolean valid = key.reset();
                     if (!valid) {
@@ -80,9 +84,16 @@ public class PathWatchToolService {
                     }
                 }
             } catch (IOException | InterruptedException ex) {
-                System.err.println(ex);
+                log.error("获取监听异常：", ex);
             }
         });
         thread.start();
+    }
+
+    public void stopWatchAction() {
+        if (thread != null) {
+            thread.stop();
+            thread = null;
+        }
     }
 }

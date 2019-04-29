@@ -53,6 +53,12 @@ public class PathWatchToolController extends PathWatchToolView {
 
     @FXML
     private void watchAction(ActionEvent event) throws Exception {
-        pathWatchToolService.watchAction();
+        if ("监控".equals(watchButton.getText())) {
+            pathWatchToolService.watchAction();
+            watchButton.setText("停止监控");
+        } else {
+            pathWatchToolService.stopWatchAction();
+            watchButton.setText("监控");
+        }
     }
 }
