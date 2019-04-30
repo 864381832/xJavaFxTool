@@ -43,6 +43,9 @@ public class PathWatchToolService {
             TooltipUtil.showToast("只能监控文件夹！");
             return;
         }
+        if (thread != null) {
+            thread.stop();
+        }
         thread = new Thread(() -> {
             try (WatchService watchService = FileSystems.getDefault().newWatchService()) {
                 //给path路径加上文件观察服务
@@ -76,7 +79,9 @@ public class PathWatchToolService {
                         stringBuffer.append(kind + " -> " + filename + "\n");
                         log.info(stringBuffer.toString());
                         pathWatchToolController.getWatchLogTextArea().appendText(stringBuffer.toString());
-                        TooltipUtil.showToast("文件夹发送变化", stringBuffer.toString(), Pos.BOTTOM_RIGHT);
+                        if (pathWatchToolController.getIsShowNotificationCheckBox().isSelected()) {
+                            TooltipUtil.showToast("文件夹发送变化", stringBuffer.toString(), Pos.BOTTOM_RIGHT);
+                        }
                     }
                     boolean valid = key.reset();
                     if (!valid) {

@@ -24,6 +24,8 @@ public abstract class PathWatchToolView implements Initializable {
     @FXML
     protected Button watchPathButton;
     @FXML
+    protected CheckBox isShowNotificationCheckBox;
+    @FXML
     protected Button watchButton;
     @FXML
     protected TextField fileNameContainsTextField;

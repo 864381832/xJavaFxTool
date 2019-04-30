@@ -29,6 +29,7 @@
                         <Label text="监控路径：" />
                         <TextField fx:id="watchPathTextField" HBox.hgrow="ALWAYS" />
                         <Button fx:id="watchPathButton" mnemonicParsing="false" onAction="#watchPathAction" text="选择" />
+                        <CheckBox fx:id="isShowNotificationCheckBox" mnemonicParsing="false" selected="true" text="显示桌面通知" />
                         <Button fx:id="watchButton" mnemonicParsing="false" onAction="#watchAction" text="监控" />
                      </children>
                   </HBox>

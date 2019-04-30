@@ -36,7 +36,7 @@
             <center>
                 <VBox BorderPane.alignment="CENTER">
                     <children>
-                        <TabPane fx:id="taskConfigTabPane" tabClosingPolicy="ALL_TABS">
+                        <TabPane fx:id="taskConfigTabPane" tabClosingPolicy="ALL_TABS" VBox.vgrow="ALWAYS">
                             <tabs>
                                 <Tab closable="false" text="Task任务浏览">
                                 </Tab>

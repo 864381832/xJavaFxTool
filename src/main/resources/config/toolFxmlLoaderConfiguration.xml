@@ -259,7 +259,7 @@
 		<url>/com/xwintop/xJavaFxTool/fxmlView/developTools/PathWatchTool.fxml</url>
 		<title>PathWatchTool</title>
 		<menuParentId>developTools</menuParentId>
-		<isDefaultShow>true</isDefaultShow>
+		<isDefaultShow></isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 	<ToolFxmlLoaderConfiguration>
 		<url>/com/xwintop/xJavaFxTool/fxmlView/codeTools/CharsetDetectTool.fxml</url>
