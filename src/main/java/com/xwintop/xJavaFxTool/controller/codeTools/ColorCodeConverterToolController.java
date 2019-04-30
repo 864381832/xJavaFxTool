@@ -1,6 +1,6 @@
 package com.xwintop.xJavaFxTool.controller.codeTools;
 
-import cn.hutool.core.util.ClipboardUtil;
+import cn.hutool.core.swing.clipboard.ClipboardUtil;
 import com.xwintop.xJavaFxTool.services.codeTools.ColorCodeConverterToolService;
 import com.xwintop.xJavaFxTool.view.codeTools.ColorCodeConverterToolView;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
