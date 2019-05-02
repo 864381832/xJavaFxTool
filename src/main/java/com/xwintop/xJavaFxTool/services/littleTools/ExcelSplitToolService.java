@@ -327,8 +327,9 @@ public class ExcelSplitToolService {
         try {
             out = new FileOutputStream(new File(filePath));
             workbook.write(out);
+            workbook.close();
         } catch (IOException e) {
-            System.out.println(e.toString());
+            log.error("报错文件失败：", e);
         } finally {
             try {
                 if (out != null) {

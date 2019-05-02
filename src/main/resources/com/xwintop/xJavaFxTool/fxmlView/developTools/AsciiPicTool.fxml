@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="437.0" prefWidth="714.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.developTools.AsciiPicToolController">
+<AnchorPane prefHeight="437.0" prefWidth="714.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.developTools.AsciiPicToolController">
    <children>
       <BorderPane layoutX="72.0" layoutY="83.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <top>
@@ -45,6 +45,7 @@
                            </content>
                         </ScrollPane>
                         <Button fx:id="saveImageButton" mnemonicParsing="false" onAction="#saveImageAction" text="保存图片" />
+                        <Button fx:id="saveImageToExcelButton" mnemonicParsing="false" onAction="#saveImageToExcelAction" text="转换为Excel图" />
                      </children>
                   </VBox>
                   <TextArea fx:id="codeTextArea" promptText="生成的code" HBox.hgrow="ALWAYS" />

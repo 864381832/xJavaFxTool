@@ -98,4 +98,9 @@ public class AsciiPicToolController extends AsciiPicToolView {
     private void saveImageAction(ActionEvent event) {
         asciiPicToolService.saveImageAction();
     }
+
+    @FXML
+    private void saveImageToExcelAction(ActionEvent event) throws Exception{
+        asciiPicToolService.saveImageToExcelAction();
+    }
 }

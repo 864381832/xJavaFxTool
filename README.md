@@ -81,7 +81,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 
 25、ImageTool：图片压缩工具（批量压缩、修改尺寸、转换格式）；
 
-26、AsciiPicTool：图片转码工具（包括图片生成banner码、图片转Base64码）；
+26、AsciiPicTool：图片转码工具（包括图片生成banner码、图片转Base64码、图片转Excel表）；
 
 27、KafkaTool：Kafka调试工具（未完善）；
 

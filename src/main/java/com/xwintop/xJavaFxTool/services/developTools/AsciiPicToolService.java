@@ -11,12 +11,21 @@ import lombok.extern.log4j.Log4j;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.*;
 
 /**
  * @ClassName: AsciiPicToolService
@@ -102,12 +111,57 @@ public class AsciiPicToolService {
                 String[] fileType = file.getPath().split("\\.");
 //                ImageIO.write(SwingFXUtils.fromFXImage(asciiPicToolController.getImageImageView().getImage(), null), fileType[fileType.length - 1],
 //                        file);
-                ImageUtil.writeImage(asciiPicToolController.getImageImageView().getImage(),file);
+                ImageUtil.writeImage(asciiPicToolController.getImageImageView().getImage(), file);
                 TooltipUtil.showToast("保存图片成功,图片在：" + file.getPath());
             }
         } catch (Exception e) {
             e.printStackTrace();
             TooltipUtil.showToast(e.getMessage());
         }
+    }
+
+
+    /**
+     * 转换图片为Excel表
+     */
+    public void saveImageToExcelAction() throws Exception {
+        TooltipUtil.showToast("正在转换，请稍后......");
+        String path = asciiPicToolController.getFilePathTextField().getText();
+        File imagePath = new File(path);
+        BufferedImage bi = ImageUtil.getBufferedImage(imagePath);
+        int width = bi.getWidth();
+        int height = bi.getHeight();
+
+        // 读取占位的文件，设置列宽
+        XSSFWorkbook excel = new XSSFWorkbook();
+        XSSFSheet sht = excel.createSheet();
+
+        ExecutorService executor = new ThreadPoolExecutor(height, height * width, 60L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
+        CountDownLatch latch = new CountDownLatch(height * width);
+        for (int i = 0; i < height; i++) {
+            sht.setColumnWidth(i, (short) 500);
+            Row row = sht.createRow(i);
+            row.setHeight((short) 250);
+            int finalI = i;
+            for (int j = 0; j < width; j++) {
+                int finalJ = j;
+                executor.execute(() -> {
+                    XSSFCellStyle style = excel.createCellStyle();
+                    style.setFillForegroundColor(new XSSFColor(new Color(bi.getRGB(finalJ, finalI))));
+                    style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+                    row.createCell(finalJ).setCellStyle(style);
+                    log.info("完成" + finalJ + "列：" + finalI);
+                    latch.countDown();
+                });
+            }
+        }
+        latch.await();
+        File outFile = new File(imagePath.getParent(), imagePath.getName().split("\\.")[0] + ".xlsx");
+        FileOutputStream out = new FileOutputStream(outFile);
+        excel.write(out);
+        excel.close();
+        out.close();
+        log.info("转换完成，文件保存在：" + outFile.getAbsolutePath());
+        TooltipUtil.showToast("转换完成，文件保存在：" + outFile.getAbsolutePath());
     }
 }

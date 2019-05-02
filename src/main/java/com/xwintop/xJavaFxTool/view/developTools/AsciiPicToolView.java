@@ -1,18 +1,14 @@
 package com.xwintop.xJavaFxTool.view.developTools;
 
 import com.jfoenix.controls.JFXComboBox;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import lombok.Getter;
 import lombok.Setter;
-import javafx.fxml.Initializable;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 
 /**
  * @ClassName: AsciiPicToolView
@@ -40,5 +36,6 @@ public abstract class AsciiPicToolView implements Initializable {
     protected Button saveImageButton;
     @FXML
     protected TextArea codeTextArea;
-
+    @FXML
+    protected Button saveImageToExcelButton;
 }
