@@ -1,12 +1,12 @@
 package com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool;
 
-import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.entity.TaskConfig;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import com.xwintop.xJavaFxTool.controller.epmsTools.gatewayConfTool.GatewayConfToolController;
 import com.xwintop.xJavaFxTool.controller.epmsTools.gatewayConfTool.GatewayConfToolTaskViewController;
+import com.xwintop.xTransfer.task.entity.TaskConfig;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 import javafx.event.Event;
 import javafx.event.EventHandler;

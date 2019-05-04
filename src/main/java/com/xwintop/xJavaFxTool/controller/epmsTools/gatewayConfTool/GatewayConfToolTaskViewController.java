@@ -2,12 +2,12 @@ package com.xwintop.xJavaFxTool.controller.epmsTools.gatewayConfTool;
 
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.GatewayConfToolTaskViewService;
-import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.entity.TaskConfig;
-import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.filter.bean.FilterConfig;
-import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.receiver.entity.ReceiverConfig;
-import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.route.entity.SenderConfig;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.view.epmsTools.gatewayConfTool.GatewayConfToolTaskViewView;
+import com.xwintop.xTransfer.filter.bean.FilterConfig;
+import com.xwintop.xTransfer.receiver.bean.ReceiverConfig;
+import com.xwintop.xTransfer.sender.bean.SenderConfig;
+import com.xwintop.xTransfer.task.entity.TaskConfig;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -98,7 +98,7 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
         receiverConfigListView.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
                 Menu menu = new Menu("添加");
-                String packageName = "com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.receiver.bean";
+                String packageName = "com.xwintop.xTransfer.receiver.bean";
                 String[] classNameS = new String[]{"ReceiverConfigDataBus",
                         "ReceiverConfigEmail",
                         "ReceiverConfigFs",
@@ -107,7 +107,6 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
                         "ReceiverConfigIbmMq",
                         "ReceiverConfigJms",
                         "ReceiverConfigKafka",
-                        "ReceiverConfigMq",
                         "ReceiverConfigRabbitMq",
                         "ReceiverConfigRocketMq",
                         "ReceiverConfigSftp"};
@@ -130,25 +129,6 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
 //                ClassLoader loader = Thread.currentThread().getContextClassLoader();
 //                String packagePath = packageName.replace(".", "/");
 //                URL url = loader.getResource(packagePath);
-//                for (File childFile : new File(url.getPath()).listFiles()) {
-//                    if (!childFile.getName().contains("$")) {
-//                        String className = StringUtils.removeEnd(childFile.getName(), ".class");
-//                        MenuItem menuAdd = new MenuItem(className);
-//                        menuAdd.setOnAction(event1 -> {
-//                            try {
-//                                Object configObject = Class.forName(packageName + "." + className).newInstance();
-//                                taskConfig.getReceiverConfig().add((ReceiverConfig) configObject);
-//                                receiverConfigListData.add(((ReceiverConfig) configObject).getServiceName());
-//                                int selectIndex = receiverConfigListData.size() - 1;
-//                                receiverConfigListView.getSelectionModel().select(selectIndex);
-//                                gatewayConfToolTaskViewService.addServiceViewTabPane(configObject, selectIndex);
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//                            }
-//                        });
-//                        menu.getItems().add(menuAdd);
-//                    }
-//                }
                 MenuItem menu_Copy = new MenuItem("复制选中行");
                 menu_Copy.setOnAction(event1 -> {
                     String selectString = receiverConfigListView.getSelectionModel().getSelectedItem();
@@ -182,18 +162,13 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
         filterConfigsListView.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
                 Menu menu = new Menu("添加");
-                String packageName = "com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.filter.bean";
+                String packageName = "com.xwintop.xTransfer.filter.bean";
                 String[] classNameS = new String[]{
                         "FilterConfigBackup",
                         "FilterConfigCompress",
-                        "FilterConfigDataBusSender",
-                        "FilterConfigDecMsgToDataBus",
                         "FilterConfigDecompress",
                         "FilterConfigEncryptDecrypt",
-                        "FilterConfigOracleSqlldr",
-                        "FilterConfigXibFileToDataBus",
-                        "FilterConfigXibToDataBus",
-                        "FilterConfigXmlMsgToDb"
+                        "FilterConfigOracleSqlldr"
                 };
                 for (String className : classNameS) {
                     MenuItem menuAdd = new MenuItem(className);
@@ -214,25 +189,6 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
 //                ClassLoader loader = Thread.currentThread().getContextClassLoader();
 //                String packagePath = packageName.replace(".", "/");
 //                URL url = loader.getResource(packagePath);
-//                for (File childFile : new File(url.getPath()).listFiles()) {
-//                    if (!childFile.getName().contains("$") && !childFile.getName().equals("FilterConfig.class")) {
-//                        String className = StringUtils.removeEnd(childFile.getName(), ".class");
-//                        MenuItem menuAdd = new MenuItem(className);
-//                        menuAdd.setOnAction(event1 -> {
-//                            try {
-//                                Object configObject = Class.forName(packageName + "." + className).newInstance();
-//                                taskConfig.getFilterConfigs().add((FilterConfig) configObject);
-//                                filterConfigsListData.add(((FilterConfig) configObject).getServiceName());
-//                                int selectIndex = filterConfigsListData.size() - 1;
-//                                filterConfigsListView.getSelectionModel().select(selectIndex);
-//                                gatewayConfToolTaskViewService.addServiceViewTabPane(configObject, selectIndex);
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//                            }
-//                        });
-//                        menu.getItems().add(menuAdd);
-//                    }
-//                }
                 MenuItem menu_Copy = new MenuItem("复制选中行");
                 menu_Copy.setOnAction(event1 -> {
                     String selectString = filterConfigsListView.getSelectionModel().getSelectedItem();
@@ -265,7 +221,7 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
         senderConfigListView.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
                 Menu menu = new Menu("添加");
-                String packageName = "com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.route.bean";
+                String packageName = "com.xwintop.xTransfer.sender.bean";
                 String[] classNameS = new String[]{
                         "SenderConfigEmail",
                         "SenderConfigFs",
@@ -273,7 +229,6 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
                         "SenderConfigIbmMq",
                         "SenderConfigJms",
                         "SenderConfigKafka",
-                        "SenderConfigMq",
                         "SenderConfigRabbitMq",
                         "SenderConfigRocketMq",
                         "SenderConfigSftp"
@@ -297,25 +252,6 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
 //                ClassLoader loader = Thread.currentThread().getContextClassLoader();
 //                String packagePath = packageName.replace(".", "/");
 //                URL url = loader.getResource(packagePath);
-//                for (File childFile : new File(url.getPath()).listFiles()) {
-//                    if (!childFile.getName().contains("$")) {
-//                        String className = StringUtils.removeEnd(childFile.getName(), ".class");
-//                        MenuItem menuAdd = new MenuItem(className);
-//                        menuAdd.setOnAction(event1 -> {
-//                            try {
-//                                Object configObject = Class.forName(packageName + "." + className).newInstance();
-//                                taskConfig.getSenderConfig().add((SenderConfig) configObject);
-//                                senderConfigListData.add(((SenderConfig) configObject).getServiceName());
-//                                int selectIndex = senderConfigListData.size() - 1;
-//                                senderConfigListView.getSelectionModel().select(selectIndex);
-//                                gatewayConfToolTaskViewService.addServiceViewTabPane(configObject, selectIndex);
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//                            }
-//                        });
-//                        menu.getItems().add(menuAdd);
-//                    }
-//                }
                 MenuItem menu_Copy = new MenuItem("复制选中行");
                 menu_Copy.setOnAction(event1 -> {
                     String selectString = senderConfigListView.getSelectionModel().getSelectedItem();

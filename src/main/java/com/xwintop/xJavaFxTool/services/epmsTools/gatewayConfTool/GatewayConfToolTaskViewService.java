@@ -1,13 +1,13 @@
 package com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool;
 
-import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.entity.TaskConfig;
-import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.filter.bean.FilterConfig;
-import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.receiver.entity.ReceiverConfig;
-import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.gateway.route.entity.SenderConfig;
 import com.jcraft.jsch.ChannelSftp;
 import com.xwintop.xJavaFxTool.controller.epmsTools.gatewayConfTool.GatewayConfToolController;
 import com.xwintop.xJavaFxTool.controller.epmsTools.gatewayConfTool.GatewayConfToolServiceViewController;
 import com.xwintop.xJavaFxTool.controller.epmsTools.gatewayConfTool.GatewayConfToolTaskViewController;
+import com.xwintop.xTransfer.filter.bean.FilterConfig;
+import com.xwintop.xTransfer.receiver.bean.ReceiverConfig;
+import com.xwintop.xTransfer.sender.bean.SenderConfig;
+import com.xwintop.xTransfer.task.entity.TaskConfig;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Tab;
 import lombok.Getter;

@@ -2,9 +2,11 @@ package com.xwintop.xJavaFxTool.utils;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.net.ftp.FTPSClient;
+import org.apache.commons.net.util.TrustManagerUtils;
 
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSessionContext;
@@ -28,6 +30,7 @@ public class FtpUtil {
     private String passwd;
     private int timeout;
     private boolean passive;
+    private boolean binary;
     private String encoding;
     private int socketTimeout;
     private boolean longConnection;
@@ -38,6 +41,7 @@ public class FtpUtil {
     private boolean implicit = false;//The security mode. (True - Implicit Mode / False - Explicit Mode)（ftps独有）
     private String protocol = "TLS";//The secure socket protocol to be used, e.g. SSL/TLS.（ftps独有）
     private String prot = "P";//数据通道保护等级（ftps独有）
+    private boolean checkServerValidity = false;//是否检测服务器证书有效性（ftps独有）
 
     public FtpUtil() {
     }
@@ -49,13 +53,14 @@ public class FtpUtil {
         this.passwd = passwd;
     }
 
-    public FtpUtil(String host, int port, String user, String passwd, int timeout, boolean passive, String encoding, int socketTimeout, boolean longConnection) {
+    public FtpUtil(String host, int port, String user, String passwd, int timeout, boolean passive, boolean binary, String encoding, int socketTimeout, boolean longConnection) {
         this.host = host;
         this.port = port;
         this.user = user;
         this.passwd = passwd;
         this.timeout = timeout;
         this.passive = passive;
+        this.binary = binary;
         this.encoding = encoding;
         this.socketTimeout = socketTimeout;
         this.longConnection = longConnection;
@@ -76,6 +81,7 @@ public class FtpUtil {
     }
 
     public void checkAndDisconnect() throws Exception {
+        // do not disconnect if the connection mode is long connection.
         if (longConnection) {
             ftp.changeWorkingDirectory(defaultDirectory);
             return;
@@ -90,14 +96,14 @@ public class FtpUtil {
             try {
                 ftp.quit();
                 log.info("quit ftp........");
-            } catch (IOException e) {
-                log.error(e.getMessage(), e);
+            } catch (Exception e) {
+                log.warn("quit ftp fail: " + e.getMessage());
             }
             try {
                 ftp.disconnect();
                 log.info("disconnect ftp........");
-            } catch (IOException e) {
-                log.error(e.getMessage(), e);
+            } catch (Exception e) {
+                log.warn("disconnect ftp fail:" + e.getMessage());
             }
             ftp = null;
         }
@@ -132,6 +138,9 @@ public class FtpUtil {
                         }
                     }
                 };
+                if (checkServerValidity) {
+                    ((FTPSClient) ftp).setTrustManager(TrustManagerUtils.getAcceptAllTrustManager());
+                }
             } else {
                 ftp = new FTPClient();
             }
@@ -163,6 +172,12 @@ public class FtpUtil {
             log.debug(ftp.getReplyString());
         }
         // set the translation mode. The default is ASCII.
+        if (binary) {
+            if (!ftp.setFileType(FTP.BINARY_FILE_TYPE)) {
+                log.error("Failed to change file transfer type to binary.Use the default transfer type.");
+            }
+            log.debug(ftp.getReplyString());
+        }
         if (fileType != null) {
             if (!ftp.setFileType(fileType)) {
                 log.error("Failed to change file transfer type to binary.Use the default transfer type.");
