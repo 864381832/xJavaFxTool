@@ -1,6 +1,7 @@
 package com.xwintop.xJavaFxTool.services.codeTools;
 
 import com.xwintop.xJavaFxTool.controller.codeTools.CharsetDetectToolController;
+import com.xwintop.xJavaFxTool.utils.DirectoryTreeUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 import lombok.Getter;
 import lombok.Setter;
@@ -73,41 +74,13 @@ public class CharsetDetectToolService {
             }
             while (iterator.hasNext()) {
                 Path nextPath = iterator.next();
-                if (Files.isRegularFile(nextPath) && ifMatchText(nextPath.getFileName().toString(), fileNameContains, fileNameNotContains, sRegex, fileNameCsPattern, fileNameNCsPattern)) {
+                if (Files.isRegularFile(nextPath) && DirectoryTreeUtil.ifMatchText(nextPath.getFileName().toString(), fileNameContains, fileNameNotContains, sRegex, fileNameCsPattern, fileNameNCsPattern)) {
                     charsetDetectToolController.getResultTextArea().appendText(nextPath.toString() + "         Charset: " + detectFileCharset(nextPath.toFile(), detectLength) + "\n");
                 }
             }
         } else if (file.isFile()) {
             charsetDetectToolController.getResultTextArea().appendText(file.getAbsolutePath() + "         Charset: " + detectFileCharset(file, detectLength) + "\n");
         }
-    }
-
-    /**
-     * 判断文件(夹)名是否满足匹配.
-     */
-    public static boolean ifMatchText(String fileName, String csText, String ncsText, boolean sRegex, Pattern csPattern, Pattern ncsPattern) {
-        boolean match = true;
-        String lFileName = fileName.toLowerCase();
-        String lcsText = csText.toLowerCase();
-        String lncsText = ncsText.toLowerCase();
-        if (sRegex) {
-            if (csText.length() != 0) {
-                Matcher m = csPattern.matcher(fileName);
-                match = m.find();
-            }
-            if (match && ncsText.length() != 0) {
-                Matcher m = ncsPattern.matcher(fileName);
-                match = !m.find();
-            }
-        } else {
-            if (csText.length() != 0) {
-                match = lFileName.contains(lcsText);
-            }
-            if (match && ncsText.length() != 0) {
-                match = !lFileName.contains(lncsText);
-            }
-        }
-        return match;
     }
 
     public static String detectFileCharset(File file, int detectLength) throws Exception {

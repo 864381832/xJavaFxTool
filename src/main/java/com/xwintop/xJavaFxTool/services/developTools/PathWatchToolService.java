@@ -1,6 +1,7 @@
 package com.xwintop.xJavaFxTool.services.developTools;
 
 import com.xwintop.xJavaFxTool.controller.developTools.PathWatchToolController;
+import com.xwintop.xJavaFxTool.utils.DirectoryTreeUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 import javafx.geometry.Pos;
 import lombok.Getter;
@@ -10,6 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.util.regex.Pattern;
 
 /**
  * @ClassName: PathWatchToolService
@@ -46,10 +49,32 @@ public class PathWatchToolService {
         if (thread != null) {
             thread.stop();
         }
+        boolean fileNameSRegex = pathWatchToolController.getFileNameSupportRegexCheckBox().isSelected();
+        String fileNameContains = pathWatchToolController.getFileNameContainsTextField().getText();
+        String fileNameNotContains = pathWatchToolController.getFileNameNotContainsTextField().getText();
+        Pattern fileNameCsPattern = Pattern.compile(fileNameContains, Pattern.CASE_INSENSITIVE);
+        Pattern fileNameNCsPattern = Pattern.compile(fileNameNotContains, Pattern.CASE_INSENSITIVE);
+
+        String folderPathCsText = pathWatchToolController.getFolderPathContainsTextField().getText();
+        String folderPathNCsText = pathWatchToolController.getFolderPathNotContainsTextField().getText();
+        boolean folderPathSRegex = pathWatchToolController.getFolderPathSupportRegexCheckBox().isSelected();
+        Pattern folderPathCsPattern = Pattern.compile(folderPathCsText, Pattern.CASE_INSENSITIVE);
+        Pattern folderPathNCsPattern = Pattern.compile(folderPathNCsText, Pattern.CASE_INSENSITIVE);
         thread = new Thread(() -> {
             try (WatchService watchService = FileSystems.getDefault().newWatchService()) {
                 //给path路径加上文件观察服务
-                path.register(watchService, StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_MODIFY, StandardWatchEventKinds.ENTRY_DELETE);
+//                path.register(watchService, StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_MODIFY, StandardWatchEventKinds.ENTRY_DELETE);
+                Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
+                    @Override
+                    public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+                        if (DirectoryTreeUtil.ifMatchText(dir.toString(), folderPathCsText, folderPathNCsText, folderPathSRegex, folderPathCsPattern, folderPathNCsPattern)) {
+                            dir.register(watchService, StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_MODIFY, StandardWatchEventKinds.ENTRY_DELETE);
+                        } else {
+                            log.info("跳过监听：" + dir.toString());
+                        }
+                        return FileVisitResult.CONTINUE;
+                    }
+                });
                 while (true) {
                     final WatchKey key = watchService.take();
                     for (WatchEvent<?> watchEvent : key.pollEvents()) {
@@ -58,10 +83,29 @@ public class PathWatchToolService {
                         if (kind == StandardWatchEventKinds.OVERFLOW) {
                             continue;
                         }
+                        // get the filename for the event
+                        final WatchEvent<Path> watchEventPath = (WatchEvent<Path>) watchEvent;
+                        final Path filename = watchEventPath.context();
+                        Path watchable = ((Path) key.watchable()).resolve(filename);
+                        if (Files.isDirectory(watchable)) {
+                            if (!DirectoryTreeUtil.ifMatchText(filename.toString(), folderPathCsText, folderPathNCsText, folderPathSRegex, folderPathCsPattern, folderPathNCsPattern)) {
+                                log.info("跳过文件夹监听：" + watchable);
+                                continue;
+                            }
+                        }
+                        if (Files.isRegularFile(watchable)) {
+                            if (!DirectoryTreeUtil.ifMatchText(filename.toString(), fileNameContains, fileNameNotContains, fileNameSRegex, fileNameCsPattern, fileNameNCsPattern)) {
+                                log.info("跳过文件监听：" + watchable);
+                                continue;
+                            }
+                        }
                         //创建事件
                         if (kind == StandardWatchEventKinds.ENTRY_CREATE) {
                             stringBuffer.append("新建：");
                             pathWatchToolController.getWatchLogTextArea().appendText("新建：");
+                            if (Files.isDirectory(watchable)) {
+                                watchable.register(watchService, StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_MODIFY, StandardWatchEventKinds.ENTRY_DELETE);
+                            }
                         }
                         //修改事件
                         if (kind == StandardWatchEventKinds.ENTRY_MODIFY) {
@@ -73,9 +117,6 @@ public class PathWatchToolService {
                             stringBuffer.append("删除：");
                             pathWatchToolController.getWatchLogTextArea().appendText("删除：");
                         }
-                        // get the filename for the event
-                        final WatchEvent<Path> watchEventPath = (WatchEvent<Path>) watchEvent;
-                        final Path filename = watchEventPath.context();
                         stringBuffer.append(kind + " -> " + filename + "\n");
                         log.info(stringBuffer.toString());
                         pathWatchToolController.getWatchLogTextArea().appendText(stringBuffer.toString());
@@ -84,9 +125,9 @@ public class PathWatchToolService {
                         }
                     }
                     boolean valid = key.reset();
-                    if (!valid) {
-                        break;
-                    }
+//                    if (!valid) {
+//                        break;
+//                    }
                 }
             } catch (IOException | InterruptedException ex) {
                 log.error("获取监听异常：", ex);

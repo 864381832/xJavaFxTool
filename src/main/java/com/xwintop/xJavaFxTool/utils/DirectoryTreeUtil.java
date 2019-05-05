@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.*;
 import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -166,5 +168,33 @@ public class DirectoryTreeUtil {
 				this.appendContents.add(0, to);
 			}
 		}
+	}
+
+	/**
+	 * 判断文件(夹)名是否满足匹配.
+	 */
+	public static boolean ifMatchText(String fileName, String csText, String ncsText, boolean sRegex, Pattern csPattern, Pattern ncsPattern) {
+		boolean match = true;
+		String lFileName = fileName.toLowerCase();
+		String lcsText = csText.toLowerCase();
+		String lncsText = ncsText.toLowerCase();
+		if (sRegex) {
+			if (csText.length() != 0) {
+				Matcher m = csPattern.matcher(fileName);
+				match = m.find();
+			}
+			if (match && ncsText.length() != 0) {
+				Matcher m = ncsPattern.matcher(fileName);
+				match = !m.find();
+			}
+		} else {
+			if (csText.length() != 0) {
+				match = lFileName.contains(lcsText);
+			}
+			if (match && ncsText.length() != 0) {
+				match = !lFileName.contains(lncsText);
+			}
+		}
+		return match;
 	}
 }
