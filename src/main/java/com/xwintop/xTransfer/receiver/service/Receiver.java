@@ -1,6 +1,6 @@
 package com.xwintop.xTransfer.receiver.service;
 
-import com.xwintop.xTransfer.parser.MessageHandler;
+import com.xwintop.xTransfer.messaging.MessageHandler;
 import com.xwintop.xTransfer.receiver.bean.ReceiverConfig;
 
 import java.util.Map;

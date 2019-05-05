@@ -20,7 +20,8 @@ public class ReceiverManagerImpl implements ReceiverManager {
     public Receiver getReceiver(ReceiverConfig receiverConfig) {
         Receiver receiver = null;
         try {
-            receiver = (Receiver) Class.forName(this.getClass().getPackage() + "." + receiverConfig.getServiceName().replaceFirst("receiver", "Receiver") + "Impl").newInstance();
+            String className = this.getClass().getPackage().getName() + "." + receiverConfig.getServiceName().replaceFirst("receiver", "Receiver") + "Impl";
+            receiver = (Receiver) Class.forName(className).newInstance();
         } catch (Exception e) {
             log.warn("获取Receiver失败：", e);
         }

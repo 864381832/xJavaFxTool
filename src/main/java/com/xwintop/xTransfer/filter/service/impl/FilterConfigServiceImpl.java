@@ -7,7 +7,7 @@ import com.xwintop.xTransfer.filter.bean.FilterConfig;
 import com.xwintop.xTransfer.filter.service.Filter;
 import com.xwintop.xTransfer.filter.service.FilterConfigService;
 import com.xwintop.xTransfer.filter.service.FilterManager;
-import com.xwintop.xTransfer.parser.IContext;
+import com.xwintop.xTransfer.messaging.IContext;
 import com.xwintop.xTransfer.task.quartz.TaskQuartzJob;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

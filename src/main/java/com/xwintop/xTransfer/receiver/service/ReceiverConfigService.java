@@ -1,7 +1,7 @@
 package com.xwintop.xTransfer.receiver.service;
 
 import com.xwintop.xTransfer.task.entity.TaskConfig;
-import com.xwintop.xTransfer.parser.MessageHandler;
+import com.xwintop.xTransfer.messaging.MessageHandler;
 
 /**
  * @ClassName: ReceiverConfigService

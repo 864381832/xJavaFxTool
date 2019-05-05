@@ -1,6 +1,6 @@
 package com.xwintop.xTransfer.util;
 
-import com.xwintop.xTransfer.parser.IMessage;
+import com.xwintop.xTransfer.messaging.IMessage;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.InetAddress;

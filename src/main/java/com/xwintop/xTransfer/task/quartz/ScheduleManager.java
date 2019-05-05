@@ -33,7 +33,7 @@ import org.yaml.snakeyaml.Yaml;
 @Slf4j
 @Service("scheduleManager")
 public class ScheduleManager {
-    private SchedulerFactory schedulerFactoryBean = new StdSchedulerFactory();
+    private SchedulerFactory schedulerFactoryBean = Singleton.get(StdSchedulerFactory.class);
 //    @Autowired
 //    private SchedulerFactoryBean schedulerFactoryBean;
 

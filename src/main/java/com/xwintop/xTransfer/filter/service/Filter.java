@@ -1,7 +1,7 @@
 package com.xwintop.xTransfer.filter.service;
 
 import com.xwintop.xTransfer.filter.bean.FilterConfig;
-import com.xwintop.xTransfer.parser.IContext;
+import com.xwintop.xTransfer.messaging.IContext;
 
 import java.util.Map;
 

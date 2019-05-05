@@ -4,7 +4,7 @@ import com.xwintop.xTransfer.common.MsgLogger;
 import com.xwintop.xTransfer.common.model.LOGKEYS;
 import com.xwintop.xTransfer.common.model.LOGVALUES;
 import com.xwintop.xTransfer.common.model.Msg;
-import com.xwintop.xTransfer.parser.*;
+import com.xwintop.xTransfer.messaging.*;
 import com.xwintop.xTransfer.receiver.bean.ReceiverConfig;
 import com.xwintop.xTransfer.receiver.bean.ReceiverConfigRocketMq;
 import com.xwintop.xTransfer.receiver.service.Receiver;

@@ -80,9 +80,6 @@ public class TaskConfigDao {
                 throw new IOException("Config path does not exist.");
             }
         }
-//        if (!CONFIG_DIR.isDirectory()) {
-//            throw new IOException("CONFIG_PATH:[" + CONFIG_PATH + "] is not a Directory.");
-//        }
         log.debug("Start loading all config files in " + CONFIG_DIR);
         File[] all = CONFIG_DIR.listFiles(new FilenameFilter() {
             @Override

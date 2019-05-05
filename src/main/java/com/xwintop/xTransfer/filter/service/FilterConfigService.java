@@ -1,7 +1,7 @@
 package com.xwintop.xTransfer.filter.service;
 
 import com.xwintop.xTransfer.task.entity.TaskConfig;
-import com.xwintop.xTransfer.parser.IContext;
+import com.xwintop.xTransfer.messaging.IContext;
 
 /**
  * @ClassName: FilterConfigService

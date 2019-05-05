@@ -2,8 +2,8 @@ package com.xwintop.xTransfer.sender.service.impl;
 
 import cn.hutool.core.lang.Singleton;
 import com.xwintop.xTransfer.common.ExceptionMsgBackup;
-import com.xwintop.xTransfer.parser.IContext;
-import com.xwintop.xTransfer.parser.IMessage;
+import com.xwintop.xTransfer.messaging.IContext;
+import com.xwintop.xTransfer.messaging.IMessage;
 import com.xwintop.xTransfer.sender.bean.SenderConfig;
 import com.xwintop.xTransfer.sender.service.Sender;
 import com.xwintop.xTransfer.sender.service.SenderConfigService;
@@ -12,7 +12,6 @@ import com.xwintop.xTransfer.task.entity.TaskConfig;
 import com.xwintop.xTransfer.task.quartz.TaskQuartzJob;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

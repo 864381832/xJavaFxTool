@@ -3,14 +3,15 @@ package com.xwintop.xTransfer.datasource.service.impl;
 import cn.hutool.core.lang.Singleton;
 import com.xwintop.xTransfer.datasource.bean.DataSourceConfig;
 import com.xwintop.xTransfer.datasource.dao.DataSourceConfigDao;
-import com.xwintop.xTransfer.datasource.service.DataSourceBean;
 import com.xwintop.xTransfer.datasource.service.DataSourceConfigService;
 import com.xwintop.xTransfer.datasource.service.DataSourceManager;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @Slf4j
 public class DataSourceConfigServiceImpl implements DataSourceConfigService {
@@ -54,5 +55,31 @@ public class DataSourceConfigServiceImpl implements DataSourceConfigService {
     @Override
     public DataSource getDataSource(String name) throws Exception {
         return dataSourceManager.getDataSource(name);
+    }
+
+    /**
+     * 初始化DataSourceConfig数据
+     */
+    @PostConstruct
+    public void initDataSourceConfig() throws Exception {
+        log.debug("初始化DataSourceConfig开始");
+        dataSourceConfigDao.loadConfigsFromFs();
+        List<DataSourceConfig> dataSourceConfigList = dataSourceConfigDao.findAll();
+        for (DataSourceConfig dataSourceConfig : dataSourceConfigList) {
+            if (dataSourceConfig.isEnable()) {
+                this.initDataSourceConfig(dataSourceConfig);
+            }
+        }
+        log.debug("初始化DataSourceConfig结束");
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    dataSourceConfigDao.reloadDataSourceConfigFromFs(DataSourceConfigServiceImpl.this);
+                } catch (Exception e) {
+                    log.error("加载DataSourceConfig文件失败：", e);
+                }
+            }
+        }, 5000, 5000);
     }
 }

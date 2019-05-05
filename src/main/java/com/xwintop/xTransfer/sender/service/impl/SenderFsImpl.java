@@ -4,7 +4,7 @@ import com.xwintop.xTransfer.common.MsgLogger;
 import com.xwintop.xTransfer.common.model.LOGKEYS;
 import com.xwintop.xTransfer.common.model.LOGVALUES;
 import com.xwintop.xTransfer.common.model.Msg;
-import com.xwintop.xTransfer.parser.IMessage;
+import com.xwintop.xTransfer.messaging.IMessage;
 import com.xwintop.xTransfer.task.quartz.TaskQuartzJob;
 import com.xwintop.xTransfer.sender.bean.SenderConfigFs;
 import com.xwintop.xTransfer.sender.bean.SenderConfig;

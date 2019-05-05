@@ -1,19 +1,21 @@
 package com.xwintop.xTransfer.task.service.impl;
 
 import cn.hutool.core.lang.Singleton;
+import com.xwintop.xTransfer.datasource.service.impl.DataSourceConfigServiceImpl;
 import com.xwintop.xTransfer.task.dao.TaskConfigDao;
 import com.xwintop.xTransfer.task.entity.TaskConfig;
 import com.xwintop.xTransfer.task.quartz.ScheduleManager;
 import com.xwintop.xTransfer.task.service.TaskConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @Service("taskConfigService")
 @Transactional(rollbackFor = Exception.class)
@@ -109,6 +111,7 @@ public class TaskConfigServiceImpl implements TaskConfigService {
      */
     @PostConstruct
     public void initTaskSchedule() throws Exception {
+        Singleton.get(DataSourceConfigServiceImpl.class).initDataSourceConfig();
         log.debug("初始化TaskConfig开始");
         scheduleManager.initScheduleJob();
         taskConfigDao.loadConfigsFromFs();
@@ -120,5 +123,15 @@ public class TaskConfigServiceImpl implements TaskConfigService {
             }
         }
         log.debug("初始化TaskSchedule结束");
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    taskConfigDao.reloadTaskConfigFromFs(TaskConfigServiceImpl.this);
+                } catch (Exception e) {
+                    log.error("加载配置文件失败：", e);
+                }
+            }
+        }, 5000, 5000);
     }
 }

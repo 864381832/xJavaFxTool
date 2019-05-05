@@ -4,7 +4,7 @@ import cn.hutool.core.lang.Singleton;
 import com.xwintop.xTransfer.task.entity.TaskConfig;
 import com.xwintop.xTransfer.filter.service.FilterConfigService;
 import com.xwintop.xTransfer.filter.service.impl.FilterConfigServiceImpl;
-import com.xwintop.xTransfer.parser.MessageHandler;
+import com.xwintop.xTransfer.messaging.MessageHandler;
 import com.xwintop.xTransfer.receiver.service.ReceiverConfigService;
 import com.xwintop.xTransfer.receiver.service.impl.ReceiverConfigServiceImpl;
 import com.xwintop.xTransfer.sender.service.SenderConfigService;

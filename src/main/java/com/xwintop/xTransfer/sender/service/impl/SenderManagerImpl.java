@@ -20,7 +20,8 @@ public class SenderManagerImpl implements SenderManager {
     public Sender getSender(SenderConfig senderConfig) {
         Sender sender = null;
         try {
-            sender = (Sender) Class.forName(this.getClass().getPackage() + "." + senderConfig.getServiceName().replaceFirst("sender", "Sender") + "Impl").newInstance();
+            String className = this.getClass().getPackage().getName() + "." + senderConfig.getServiceName().replaceFirst("sender", "Sender") + "Impl";
+            sender = (Sender) Class.forName(className).newInstance();
         } catch (Exception e) {
             log.error("获取Sender失败：", e);
         }

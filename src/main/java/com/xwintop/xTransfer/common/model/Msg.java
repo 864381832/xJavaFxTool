@@ -1,6 +1,6 @@
 package com.xwintop.xTransfer.common.model;
 
-import com.xwintop.xTransfer.parser.IMessage;
+import com.xwintop.xTransfer.messaging.IMessage;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 

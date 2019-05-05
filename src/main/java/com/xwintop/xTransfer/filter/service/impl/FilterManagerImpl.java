@@ -18,7 +18,8 @@ public class FilterManagerImpl implements FilterManager {
     public Filter getFilter(FilterConfig filterConfig) {
         Filter filter = null;
         try {
-            filter = (Filter) Class.forName(this.getClass().getPackage() + "." + filterConfig.getServiceName().replaceFirst("filter", "Filter") + "Impl").newInstance();
+            String className = this.getClass().getPackage().getName() + "." + filterConfig.getServiceName().replaceFirst("filter", "Filter") + "Impl";
+            filter = (Filter) Class.forName(className).newInstance();
         } catch (Exception e) {
             log.warn("获取Filter失败：", e);
         }

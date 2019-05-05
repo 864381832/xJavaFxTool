@@ -1,7 +1,7 @@
 package com.xwintop.xTransfer.receiver.service.impl;
 
 import cn.hutool.core.lang.Singleton;
-import com.xwintop.xTransfer.parser.MessageHandler;
+import com.xwintop.xTransfer.messaging.MessageHandler;
 import com.xwintop.xTransfer.receiver.bean.ReceiverConfig;
 import com.xwintop.xTransfer.receiver.service.Receiver;
 import com.xwintop.xTransfer.receiver.service.ReceiverConfigService;

@@ -1,4 +1,4 @@
-package com.xwintop.xTransfer.parser;
+package com.xwintop.xTransfer.messaging;
 
 import com.xwintop.xcore.util.UuidUtil;
 

@@ -48,8 +48,7 @@ public class GatewayConfToolController extends GatewayConfToolView {
         treeItem.setExpanded(true);
         configurationTreeView.setRoot(treeItem);
         hostTextField.setText("127.0.0.1");
-        configurationPathTextField.setText("E:\\ideaWorkspaces\\gatewaySpring\\configuration");
-//        configurationPathTextField.setText("/opt/TestXf/configuration");
+        configurationPathTextField.setText("./configuration");
     }
 
     private void initEvent() {

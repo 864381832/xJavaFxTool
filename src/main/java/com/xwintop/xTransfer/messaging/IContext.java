@@ -1,4 +1,4 @@
-package com.xwintop.xTransfer.parser;
+package com.xwintop.xTransfer.messaging;
 
 import java.util.List;
 import java.util.Map;

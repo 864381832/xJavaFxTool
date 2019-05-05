@@ -1,8 +1,7 @@
-package com.xwintop.xTransfer.parser;
+package com.xwintop.xTransfer.messaging;
 
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 import java.util.Properties;
 
 /**

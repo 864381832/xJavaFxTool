@@ -1,7 +1,7 @@
 package com.xwintop.xTransfer.common;
 
-import com.xwintop.xTransfer.parser.IContext;
-import com.xwintop.xTransfer.parser.IMessage;
+import com.xwintop.xTransfer.messaging.IContext;
+import com.xwintop.xTransfer.messaging.IMessage;
 import com.xwintop.xTransfer.util.Common;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
