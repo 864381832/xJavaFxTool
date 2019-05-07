@@ -1,4 +1,4 @@
-package com.xwintop.xJavaFxTool.view.epmsTools.gatewayConfTool;
+package com.xwintop.xJavaFxTool.view.developTools.xTransferTool;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class GatewayConfToolView implements Initializable {
+public abstract class TransferToolToolView implements Initializable {
     @FXML
     protected TextField configurationPathTextField;
     @FXML

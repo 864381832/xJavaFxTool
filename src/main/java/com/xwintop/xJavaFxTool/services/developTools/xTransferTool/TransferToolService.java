@@ -1,11 +1,11 @@
-package com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool;
+package com.xwintop.xJavaFxTool.services.developTools.xTransferTool;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
-import com.xwintop.xJavaFxTool.controller.epmsTools.gatewayConfTool.GatewayConfToolController;
-import com.xwintop.xJavaFxTool.controller.epmsTools.gatewayConfTool.GatewayConfToolTaskViewController;
+import com.xwintop.xJavaFxTool.controller.developTools.xTransferTool.TransferToolController;
+import com.xwintop.xJavaFxTool.controller.developTools.xTransferTool.TransferToolTaskViewController;
 import com.xwintop.xTransfer.task.entity.TaskConfig;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 import javafx.event.Event;
@@ -26,25 +26,25 @@ import java.util.concurrent.ConcurrentHashMap;
 @Getter
 @Setter
 @Slf4j
-public class GatewayConfToolService {
-    private GatewayConfToolController gatewayConfToolController;
+public class TransferToolService {
+    private TransferToolController transferToolController;
     private Map<String, Map<String, TaskConfig>> taskConfigFileMap = new ConcurrentHashMap<>();//任务对应配置文件map
 
     private Map<String, Tab> taskConfigTabMap = new HashMap<String, Tab>();
 
-    public GatewayConfToolService(GatewayConfToolController gatewayConfToolController) {
-        this.gatewayConfToolController = gatewayConfToolController;
+    public TransferToolService(TransferToolController transferToolController) {
+        this.transferToolController = transferToolController;
     }
 
     public void reloadTaskConfigFile() throws Exception {
-        if (StringUtils.isBlank(gatewayConfToolController.getConfigurationPathTextField().getText())) {
+        if (StringUtils.isBlank(transferToolController.getConfigurationPathTextField().getText())) {
             TooltipUtil.showToast("配置目录不能为空！");
             return;
         }
-        TreeItem<String> treeItem = gatewayConfToolController.getConfigurationTreeView().getRoot();
+        TreeItem<String> treeItem = transferToolController.getConfigurationTreeView().getRoot();
         treeItem.getChildren().clear();
-        if ("127.0.0.1".equals(gatewayConfToolController.getHostTextField().getText())) {
-            File CONFIG_DIR = new File(gatewayConfToolController.getConfigurationPathTextField().getText());
+        if ("127.0.0.1".equals(transferToolController.getHostTextField().getText())) {
+            File CONFIG_DIR = new File(transferToolController.getConfigurationPathTextField().getText());
             File[] all = CONFIG_DIR.listFiles(new FilenameFilter() {
                 @Override
                 public boolean accept(File dir, String name) {
@@ -83,7 +83,7 @@ public class GatewayConfToolService {
             try {
                 ChannelSftp channel = this.getSftpChannel();
                 TooltipUtil.showToast("连接成功！！！");
-                String remotePath = gatewayConfToolController.getConfigurationPathTextField().getText();
+                String remotePath = transferToolController.getConfigurationPathTextField().getText();
                 remotePath = StringUtils.appendIfMissing(remotePath, "/", "/", "\\");
                 Vector<ChannelSftp.LsEntry> fileList = channel.ls(remotePath);
                 for (ChannelSftp.LsEntry file : fileList) {
@@ -124,8 +124,8 @@ public class GatewayConfToolService {
 
     public ChannelSftp getSftpChannel() throws Exception {
         JSch jSch = new JSch(); //创建JSch对象
-        Session session = jSch.getSession(gatewayConfToolController.getUsernameTextField().getText(), gatewayConfToolController.getHostTextField().getText(), Integer.valueOf(gatewayConfToolController.getPortTextField().getText()));//根据用户名，主机ip和端口获取一个Session对象
-        session.setPassword(gatewayConfToolController.getPasswordTextField().getText());//设置密码
+        Session session = jSch.getSession(transferToolController.getUsernameTextField().getText(), transferToolController.getHostTextField().getText(), Integer.valueOf(transferToolController.getPortTextField().getText()));//根据用户名，主机ip和端口获取一个Session对象
+        session.setPassword(transferToolController.getPasswordTextField().getText());//设置密码
         Properties sftpConfig = new Properties();
         sftpConfig.put("StrictHostKeyChecking", "no");
         session.setConfig(sftpConfig);//为Session对象设置properties
@@ -148,7 +148,7 @@ public class GatewayConfToolService {
         String tabName = taskName;
         Tab tab1 = taskConfigTabMap.get(tabName);
         if (tab1 != null) {
-            gatewayConfToolController.getTaskConfigTabPane().getSelectionModel().select(tab1);
+            transferToolController.getTaskConfigTabPane().getSelectionModel().select(tab1);
             return;
         }
         final Tab tab = new Tab(tabName);
@@ -156,27 +156,27 @@ public class GatewayConfToolService {
             @Override
             public void handle(Event event) {
                 List<Tab> tabList = new ArrayList<Tab>();
-                gatewayConfToolController.getTaskConfigTabPane().getTabs().forEach((Tab tab2) -> {
+                transferToolController.getTaskConfigTabPane().getTabs().forEach((Tab tab2) -> {
                     if (tab2.getText().startsWith(tabName)) {
                         tabList.add(tab2);
                     }
                 });
-                gatewayConfToolController.getTaskConfigTabPane().getTabs().removeAll(tabList);
+                transferToolController.getTaskConfigTabPane().getTabs().removeAll(tabList);
                 taskConfigTabMap.remove(tab.getText());
             }
         });
-        FXMLLoader fXMLLoader = GatewayConfToolTaskViewController.getFXMLLoader();
+        FXMLLoader fXMLLoader = TransferToolTaskViewController.getFXMLLoader();
         try {
             tab.setContent(fXMLLoader.load());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        GatewayConfToolTaskViewController gatewayConfToolTaskViewController = fXMLLoader.getController();
-        gatewayConfToolTaskViewController.setData(gatewayConfToolController, taskConfigFileMap.get(fileName).get(taskName));
-        gatewayConfToolTaskViewController.setFileName(fileName);
-        gatewayConfToolTaskViewController.setTabName(tabName);
-        gatewayConfToolController.getTaskConfigTabPane().getTabs().add(tab);
-        gatewayConfToolController.getTaskConfigTabPane().getSelectionModel().select(tab);
+        TransferToolTaskViewController transferToolTaskViewController = fXMLLoader.getController();
+        transferToolTaskViewController.setData(transferToolController, taskConfigFileMap.get(fileName).get(taskName));
+        transferToolTaskViewController.setFileName(fileName);
+        transferToolTaskViewController.setTabName(tabName);
+        transferToolController.getTaskConfigTabPane().getTabs().add(tab);
+        transferToolController.getTaskConfigTabPane().getSelectionModel().select(tab);
         taskConfigTabMap.put(tabName, tab);
     }
 

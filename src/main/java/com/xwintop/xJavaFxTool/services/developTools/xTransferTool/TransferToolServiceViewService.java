@@ -1,7 +1,7 @@
-package com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool;
+package com.xwintop.xJavaFxTool.services.developTools.xTransferTool;
 
 import com.jfoenix.controls.JFXCheckBox;
-import com.xwintop.xJavaFxTool.controller.epmsTools.gatewayConfTool.GatewayConfToolServiceViewController;
+import com.xwintop.xJavaFxTool.controller.developTools.xTransferTool.TransferToolServiceViewController;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xTransfer.receiver.bean.ReceiverConfigFtp;
 import com.xwintop.xTransfer.receiver.bean.ReceiverConfigSftp;
@@ -28,15 +28,15 @@ import java.util.Map;
 @Getter
 @Setter
 @Slf4j
-public class GatewayConfToolServiceViewService {
-    private GatewayConfToolServiceViewController gatewayConfToolServiceViewController;
+public class TransferToolServiceViewService {
+    private TransferToolServiceViewController transferToolServiceViewController;
 
     private Map<String, Tab> rowTabMap = new HashMap<>();
 
     private Object configObject;
 
-    public GatewayConfToolServiceViewService(GatewayConfToolServiceViewController gatewayConfToolServiceViewController) {
-        this.gatewayConfToolServiceViewController = gatewayConfToolServiceViewController;
+    public TransferToolServiceViewService(TransferToolServiceViewController transferToolServiceViewController) {
+        this.transferToolServiceViewController = transferToolServiceViewController;
     }
 
     public void saveConfigAction(Object configObject, FlowPane flowPane) {
@@ -103,16 +103,16 @@ public class GatewayConfToolServiceViewService {
         String tabName = "row" + selectIndex;
         Tab tab1 = rowTabMap.get(tabName);
         if (tab1 != null) {
-            gatewayConfToolServiceViewController.getRowTabPane().getSelectionModel().select(tab1);
+            transferToolServiceViewController.getRowTabPane().getSelectionModel().select(tab1);
             return;
         }
         final Tab tab = new Tab(tabName);
         tab.setOnClosed(event -> {
-            gatewayConfToolServiceViewController.getRowTabPane().getTabs().remove(rowTabMap.get(tabName));
+            transferToolServiceViewController.getRowTabPane().getTabs().remove(rowTabMap.get(tabName));
             rowTabMap.remove(tab.getText());
         });
-        gatewayConfToolServiceViewController.getRowTabPane().getTabs().add(tab);
-        gatewayConfToolServiceViewController.getRowTabPane().getSelectionModel().select(tab);
+        transferToolServiceViewController.getRowTabPane().getTabs().add(tab);
+        transferToolServiceViewController.getRowTabPane().getSelectionModel().select(tab);
         rowTabMap.put(tabName, tab);
         this.addRowFlowPane(tab, rowConfigObject);
     }

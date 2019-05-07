@@ -1,4 +1,4 @@
-package com.xwintop.xJavaFxTool.view.epmsTools.gatewayConfTool;
+package com.xwintop.xJavaFxTool.view.developTools.xTransferTool;
 
 import com.jfoenix.controls.JFXCheckBox;
 import javafx.fxml.FXML;
@@ -11,7 +11,7 @@ import java.util.Map;
 
 @Getter
 @Setter
-public abstract class GatewayConfToolTaskViewView implements Initializable {
+public abstract class TransferToolTaskViewView implements Initializable {
     @FXML
     protected Button saveTaskConfigButton;
     @FXML

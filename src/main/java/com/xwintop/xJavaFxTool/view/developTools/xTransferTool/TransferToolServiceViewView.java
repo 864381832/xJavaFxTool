@@ -1,4 +1,4 @@
-package com.xwintop.xJavaFxTool.view.epmsTools.gatewayConfTool;
+package com.xwintop.xJavaFxTool.view.developTools.xTransferTool;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class GatewayConfToolServiceViewView implements Initializable {
+public abstract class TransferToolServiceViewView implements Initializable {
     @FXML
     protected FlowPane serviceViewFlowPane;
     @FXML

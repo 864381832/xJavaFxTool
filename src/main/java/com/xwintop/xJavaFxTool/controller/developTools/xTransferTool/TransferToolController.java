@@ -1,8 +1,8 @@
-package com.xwintop.xJavaFxTool.controller.epmsTools.gatewayConfTool;
+package com.xwintop.xJavaFxTool.controller.developTools.xTransferTool;
 
 import com.jcraft.jsch.ChannelSftp;
-import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.GatewayConfToolService;
-import com.xwintop.xJavaFxTool.view.epmsTools.gatewayConfTool.GatewayConfToolView;
+import com.xwintop.xJavaFxTool.services.developTools.xTransferTool.TransferToolService;
+import com.xwintop.xJavaFxTool.view.developTools.xTransferTool.TransferToolToolView;
 import com.xwintop.xTransfer.task.entity.TaskConfig;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -33,8 +33,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Getter
 @Setter
 @Slf4j
-public class GatewayConfToolController extends GatewayConfToolView {
-    private GatewayConfToolService gatewayConfToolService = new GatewayConfToolService(this);
+public class TransferToolController extends TransferToolToolView {
+    private TransferToolService transferToolService = new TransferToolService(this);
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -61,7 +61,7 @@ public class GatewayConfToolController extends GatewayConfToolView {
             }
             if (event.getButton() == MouseButton.PRIMARY) {
                 if (!selectedItem.getValue().endsWith("service.yml") && !selectedItem.getValue().equals("TaskConfig列表")) {
-                    gatewayConfToolService.addTaskConfigTabPane(selectedItem.getParent().getValue(), selectedItem.getValue());
+                    transferToolService.addTaskConfigTabPane(selectedItem.getParent().getValue(), selectedItem.getValue());
                 }
             } else if (event.getButton() == MouseButton.SECONDARY) {
                 MenuItem menu_UnfoldAll = new MenuItem("展开所有");
@@ -86,7 +86,7 @@ public class GatewayConfToolController extends GatewayConfToolView {
                         TreeItem<String> addItem = new TreeItem<>(fileName);
                         selectedItem.getChildren().add(addItem);
                         Map<String, TaskConfig> taskConfigMap = new ConcurrentHashMap<>();
-                        gatewayConfToolService.getTaskConfigFileMap().put(fileName, taskConfigMap);
+                        transferToolService.getTaskConfigFileMap().put(fileName, taskConfigMap);
                     });
                     contextMenu.getItems().add(menu_AddFile);
                 }
@@ -98,21 +98,21 @@ public class GatewayConfToolController extends GatewayConfToolView {
                         selectedItem.getChildren().add(addItem);
                         TaskConfig taskConfig = new TaskConfig();
                         taskConfig.setName(taskConfigName);
-                        gatewayConfToolService.getTaskConfigFileMap().get(selectedItem.getValue()).put(taskConfigName, taskConfig);
+                        transferToolService.getTaskConfigFileMap().get(selectedItem.getValue()).put(taskConfigName, taskConfig);
                     });
                     contextMenu.getItems().add(menu_AddTask);
                     MenuItem menu_RemoveFile = new MenuItem("删除文件");
                     menu_RemoveFile.setOnAction(event1 -> {
-                        gatewayConfToolService.getTaskConfigFileMap().remove(selectedItem.getValue());
+                        transferToolService.getTaskConfigFileMap().remove(selectedItem.getValue());
                         if ("127.0.0.1".equals(hostTextField.getText())) {
                             new File(configurationPathTextField.getText(), selectedItem.getValue()).delete();
                         } else {
                             try {
-                                ChannelSftp channel = gatewayConfToolService.getSftpChannel();
+                                ChannelSftp channel = transferToolService.getSftpChannel();
                                 String remotePath = configurationPathTextField.getText();
                                 remotePath = StringUtils.appendIfMissing(remotePath, "/", "/", "\\");
                                 channel.rm(remotePath + selectedItem.getValue());
-                                gatewayConfToolService.closeSftpSession(channel);
+                                transferToolService.closeSftpSession(channel);
                             } catch (Exception e) {
                                 log.error("删除文件失败：", e);
                             }
@@ -123,7 +123,7 @@ public class GatewayConfToolController extends GatewayConfToolView {
                     MenuItem menu_RemoveAll = new MenuItem("删除所有任务");
                     menu_RemoveAll.setOnAction(event1 -> {
                         selectedItem.getChildren().clear();
-                        gatewayConfToolService.getTaskConfigFileMap().get(selectedItem.getValue()).clear();
+                        transferToolService.getTaskConfigFileMap().get(selectedItem.getValue()).clear();
                     });
                     contextMenu.getItems().add(menu_RemoveAll);
                     MenuItem menu_SaveFile = new MenuItem("保存文件");
@@ -133,16 +133,16 @@ public class GatewayConfToolController extends GatewayConfToolView {
                                 File file = new File(configurationPathTextField.getText(), selectedItem.getValue());
                                 Yaml yaml = new Yaml();
                                 Writer writer = new FileWriter(file);
-                                yaml.dump(gatewayConfToolService.getTaskConfigFileMap().get(selectedItem.getValue()).values().toArray(), writer);
+                                yaml.dump(transferToolService.getTaskConfigFileMap().get(selectedItem.getValue()).values().toArray(), writer);
                                 writer.close();
                             } else {
                                 Yaml yaml = new Yaml();
-                                byte[] configBytes = yaml.dump(gatewayConfToolService.getTaskConfigFileMap().get(selectedItem.getValue()).values().toArray()).getBytes();
-                                ChannelSftp channel = gatewayConfToolService.getSftpChannel();
+                                byte[] configBytes = yaml.dump(transferToolService.getTaskConfigFileMap().get(selectedItem.getValue()).values().toArray()).getBytes();
+                                ChannelSftp channel = transferToolService.getSftpChannel();
                                 String remotePath = configurationPathTextField.getText();
                                 remotePath = StringUtils.appendIfMissing(remotePath, "/", "/", "\\");
                                 channel.put(new ByteArrayInputStream(configBytes), remotePath + selectedItem.getValue());
-                                gatewayConfToolService.closeSftpSession(channel);
+                                transferToolService.closeSftpSession(channel);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -157,10 +157,10 @@ public class GatewayConfToolController extends GatewayConfToolView {
                             String configName = selectedItem.getValue() + "_copy";
                             TreeItem<String> addItem = new TreeItem<>(configName);
                             selectedItem.getParent().getChildren().add(addItem);
-                            TaskConfig taskConfig = gatewayConfToolService.getTaskConfigFileMap().get(selectedItem.getParent().getValue()).get(selectedItem.getValue());
+                            TaskConfig taskConfig = transferToolService.getTaskConfigFileMap().get(selectedItem.getParent().getValue()).get(selectedItem.getValue());
                             TaskConfig newTaskConfig = (TaskConfig) BeanUtils.cloneBean(taskConfig);
                             newTaskConfig.setName(configName);
-                            gatewayConfToolService.getTaskConfigFileMap().get(selectedItem.getParent().getValue()).put(configName, newTaskConfig);
+                            transferToolService.getTaskConfigFileMap().get(selectedItem.getParent().getValue()).put(configName, newTaskConfig);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -168,7 +168,7 @@ public class GatewayConfToolController extends GatewayConfToolView {
                     contextMenu.getItems().add(menu_Copy);
                     MenuItem menu_Remove = new MenuItem("删除选中任务");
                     menu_Remove.setOnAction(event1 -> {
-                        gatewayConfToolService.getTaskConfigFileMap().get(selectedItem.getParent().getValue()).remove(selectedItem.getValue());
+                        transferToolService.getTaskConfigFileMap().get(selectedItem.getParent().getValue()).remove(selectedItem.getValue());
                         selectedItem.getParent().getChildren().remove(selectedItem);
                     });
                     contextMenu.getItems().add(menu_Remove);
@@ -191,10 +191,10 @@ public class GatewayConfToolController extends GatewayConfToolView {
                     });
                     return;
                 }
-                gatewayConfToolService.getTaskConfigFileMap().put(event.getNewValue(), gatewayConfToolService.getTaskConfigFileMap().get(event.getOldValue()));
-                gatewayConfToolService.getTaskConfigFileMap().remove(event.getOldValue());
+                transferToolService.getTaskConfigFileMap().put(event.getNewValue(), transferToolService.getTaskConfigFileMap().get(event.getOldValue()));
+                transferToolService.getTaskConfigFileMap().remove(event.getOldValue());
             } else {
-                Map<String, TaskConfig> taskConfigMap = gatewayConfToolService.getTaskConfigFileMap().get(event.getTreeItem().getParent().getValue());
+                Map<String, TaskConfig> taskConfigMap = transferToolService.getTaskConfigFileMap().get(event.getTreeItem().getParent().getValue());
                 taskConfigMap.get(event.getOldValue()).setName(event.getNewValue());
                 taskConfigMap.put(event.getNewValue(), taskConfigMap.get(event.getOldValue()));
                 taskConfigMap.remove(event.getOldValue());
@@ -205,7 +205,7 @@ public class GatewayConfToolController extends GatewayConfToolView {
                 MenuItem menu_RemoveAll = new MenuItem("关闭所有");
                 menu_RemoveAll.setOnAction(event1 -> {
                     taskConfigTabPane.getTabs().clear();
-                    gatewayConfToolService.getTaskConfigTabMap().clear();
+                    transferToolService.getTaskConfigTabMap().clear();
                 });
                 taskConfigTabPane.setContextMenu(new ContextMenu(menu_RemoveAll));
             }
@@ -218,9 +218,9 @@ public class GatewayConfToolController extends GatewayConfToolView {
     @FXML
     private void treeRefurbishAction(ActionEvent event) {
         try {
-            gatewayConfToolService.reloadTaskConfigFile();
+            transferToolService.reloadTaskConfigFile();
             taskConfigTabPane.getTabs().removeAll(taskConfigTabPane.getTabs());
-            gatewayConfToolService.getTaskConfigTabMap().clear();
+            transferToolService.getTaskConfigTabMap().clear();
         } catch (Exception e) {
             log.error("加载配置失败：", e);
         }

@@ -1,9 +1,9 @@
-package com.xwintop.xJavaFxTool.controller.epmsTools.gatewayConfTool;
+package com.xwintop.xJavaFxTool.controller.developTools.xTransferTool;
 
 import com.xwintop.xJavaFxTool.controller.IndexController;
-import com.xwintop.xJavaFxTool.services.epmsTools.gatewayConfTool.GatewayConfToolTaskViewService;
+import com.xwintop.xJavaFxTool.services.developTools.xTransferTool.TransferToolTaskViewService;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
-import com.xwintop.xJavaFxTool.view.epmsTools.gatewayConfTool.GatewayConfToolTaskViewView;
+import com.xwintop.xJavaFxTool.view.developTools.xTransferTool.TransferToolTaskViewView;
 import com.xwintop.xTransfer.filter.bean.FilterConfig;
 import com.xwintop.xTransfer.receiver.bean.ReceiverConfig;
 import com.xwintop.xTransfer.sender.bean.SenderConfig;
@@ -32,8 +32,8 @@ import java.util.ResourceBundle;
 @Getter
 @Setter
 @Slf4j
-public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewView {
-    private GatewayConfToolTaskViewService gatewayConfToolTaskViewService = new GatewayConfToolTaskViewService(this);
+public class TransferToolTaskViewController extends TransferToolTaskViewView {
+    private TransferToolTaskViewService transferToolTaskViewService = new TransferToolTaskViewService(this);
     private ObservableList<Map<String, String>> propertiesTableData = FXCollections.observableArrayList();
     private ObservableList<String> receiverConfigListData = FXCollections.observableArrayList();
     private ObservableList<String> filterConfigsListData = FXCollections.observableArrayList();
@@ -46,7 +46,7 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
     private String tabName;
 
     public static FXMLLoader getFXMLLoader() {
-        FXMLLoader fXMLLoader = new FXMLLoader(IndexController.class.getResource("/com/xwintop/xJavaFxTool/fxmlView/epmsTools/gatewayConfTool/GatewayConfToolTaskView.fxml"));
+        FXMLLoader fXMLLoader = new FXMLLoader(IndexController.class.getResource("/com/xwintop/xJavaFxTool/fxmlView/developTools/xTransferTool/TransferToolTaskView.fxml"));
         return fXMLLoader;
     }
 
@@ -90,7 +90,7 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
                 MenuItem menu_RemoveAll = new MenuItem("关闭所有");
                 menu_RemoveAll.setOnAction(event1 -> {
                     serviceViewTabPane.getTabs().clear();
-                    gatewayConfToolTaskViewService.getServiceViewTabMap().clear();
+                    transferToolTaskViewService.getServiceViewTabMap().clear();
                 });
                 serviceViewTabPane.setContextMenu(new ContextMenu(menu_RemoveAll));
             }
@@ -119,7 +119,7 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
                             receiverConfigListData.add(((ReceiverConfig) configObject).getServiceName());
                             int selectIndex = receiverConfigListData.size() - 1;
                             receiverConfigListView.getSelectionModel().select(selectIndex);
-                            gatewayConfToolTaskViewService.addServiceViewTabPane(configObject, selectIndex);
+                            transferToolTaskViewService.addServiceViewTabPane(configObject, selectIndex);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -156,7 +156,7 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
                 if (receiverConfigListView.getSelectionModel().getSelectedItems() == null || selectIndex == -1) {
                     return;
                 }
-                gatewayConfToolTaskViewService.addServiceViewTabPane(taskConfig.getReceiverConfig().get(selectIndex), selectIndex);
+                transferToolTaskViewService.addServiceViewTabPane(taskConfig.getReceiverConfig().get(selectIndex), selectIndex);
             }
         });
         filterConfigsListView.setOnMouseClicked(event -> {
@@ -179,7 +179,7 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
                             filterConfigsListData.add(((FilterConfig) configObject).getServiceName());
                             int selectIndex = filterConfigsListData.size() - 1;
                             filterConfigsListView.getSelectionModel().select(selectIndex);
-                            gatewayConfToolTaskViewService.addServiceViewTabPane(configObject, selectIndex);
+                            transferToolTaskViewService.addServiceViewTabPane(configObject, selectIndex);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -215,7 +215,7 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
                 if (filterConfigsListView.getSelectionModel().getSelectedItems() == null || selectIndex == -1) {
                     return;
                 }
-                gatewayConfToolTaskViewService.addServiceViewTabPane(taskConfig.getFilterConfigs().get(selectIndex), selectIndex);
+                transferToolTaskViewService.addServiceViewTabPane(taskConfig.getFilterConfigs().get(selectIndex), selectIndex);
             }
         });
         senderConfigListView.setOnMouseClicked(event -> {
@@ -242,7 +242,7 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
                             senderConfigListData.add(((SenderConfig) configObject).getServiceName());
                             int selectIndex = senderConfigListData.size() - 1;
                             senderConfigListView.getSelectionModel().select(selectIndex);
-                            gatewayConfToolTaskViewService.addServiceViewTabPane(configObject, selectIndex);
+                            transferToolTaskViewService.addServiceViewTabPane(configObject, selectIndex);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -279,7 +279,7 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
                 if (senderConfigListView.getSelectionModel().getSelectedItems() == null || selectIndex == -1) {
                     return;
                 }
-                gatewayConfToolTaskViewService.addServiceViewTabPane(taskConfig.getSenderConfig().get(selectIndex), selectIndex);
+                transferToolTaskViewService.addServiceViewTabPane(taskConfig.getSenderConfig().get(selectIndex), selectIndex);
             }
         });
 
@@ -292,14 +292,14 @@ public class GatewayConfToolTaskViewController extends GatewayConfToolTaskViewVi
     @FXML
     void saveTaskConfigAction(ActionEvent event) {
         try {
-            gatewayConfToolTaskViewService.saveTaskConfigAction();
+            transferToolTaskViewService.saveTaskConfigAction();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void setData(GatewayConfToolController gatewayConfToolController, TaskConfig taskConfig) {
-        gatewayConfToolTaskViewService.setGatewayConfToolController(gatewayConfToolController);
+    public void setData(TransferToolController xTransferToolController, TaskConfig taskConfig) {
+        transferToolTaskViewService.setTransferToolController(xTransferToolController);
         this.taskConfig = taskConfig;
         nameTextField.setText(this.taskConfig.getName());
         isEnableCheckBox.setSelected(this.taskConfig.getIsEnable());
