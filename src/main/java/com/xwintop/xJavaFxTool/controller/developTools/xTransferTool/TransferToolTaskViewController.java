@@ -109,6 +109,7 @@ public class TransferToolTaskViewController extends TransferToolTaskViewView {
                         "ReceiverConfigKafka",
                         "ReceiverConfigRabbitMq",
                         "ReceiverConfigRocketMq",
+                        "ReceiverConfigActiveMq",
                         "ReceiverConfigSftp"};
                 for (String className : classNameS) {
                     MenuItem menuAdd = new MenuItem(className);
@@ -231,6 +232,7 @@ public class TransferToolTaskViewController extends TransferToolTaskViewView {
                         "SenderConfigKafka",
                         "SenderConfigRabbitMq",
                         "SenderConfigRocketMq",
+                        "SenderConfigActiveMq",
                         "SenderConfigSftp"
                 };
                 for (String className : classNameS) {

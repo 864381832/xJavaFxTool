@@ -29,6 +29,6 @@ public class SenderConfigJms implements SenderConfig {
 
     private int sessionCacheSize = 0;
 
-    private String fileNameField = "EP_GATEWAY_FILE_NAME";//文件名获取字段
+    private String fileNameField = "X_TRANSFER_FILE_NAME";//文件名获取字段
     private Map args = new HashMap();//扩展参数
 }

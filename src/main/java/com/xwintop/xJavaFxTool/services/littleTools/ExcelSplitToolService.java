@@ -66,20 +66,31 @@ public class ExcelSplitToolService {
         } else {
             throw new RuntimeException("错误提示: 您设置的Excel文件名不合法!");
         }
-        Sheet sheet = workbook.getSheetAt(excelSplitToolController.getSheetSelectSpinner().getValue());
-        int lastRowIndex = sheet.getLastRowNum();// 行数
-        log.info("读取到Excel文件行数：" + lastRowIndex);
-        int splitNumber = 0;
+        String sheetSelectString = excelSplitToolController.getSheetSelectTextField().getText();
+        Sheet[] sheets = null;
+        if (StringUtils.isEmpty(sheetSelectString)) {
+            sheets = new Sheet[]{workbook.getSheetAt(0)};
+        } else {
+            String[] sheetSelectStrings = sheetSelectString.split(",");
+            sheets = new Sheet[sheetSelectStrings.length];
+            for (int i = 0; i < sheetSelectStrings.length; i++) {
+                sheets[i] = workbook.getSheetAt(Integer.valueOf(sheetSelectStrings[i]));
+            }
+        }
         String newFilePath = StringUtils.appendIfMissing(filePath, "", ".xls", ".xlsx");
         if (StringUtils.isNotEmpty(excelSplitToolController.getSaveFilePathTextField().getText())) {
             newFilePath = StringUtils.appendIfMissing(excelSplitToolController.getSaveFilePathTextField().getText(), "/", "/", "\\") + Paths.get(newFilePath).getFileName();
         }
         if (excelSplitToolController.getSplitType1RadioButton().isSelected()) {
-            splitNumber = (int) Math.ceil((double) lastRowIndex / excelSplitToolController.getSplitType1Spinner().getValue());
-            saveSplitWorkbook(sheet, splitNumber, newFilePath);
+            int allRowNumber = 0;
+            for (Sheet sheet : sheets) {
+                allRowNumber += sheet.getLastRowNum();// 行数
+            }
+            int splitNumber = (int) Math.ceil((double) allRowNumber / excelSplitToolController.getSplitType1Spinner().getValue());
+            saveSplitWorkbook(sheets, splitNumber, newFilePath);
         } else if (excelSplitToolController.getSplitType2RadioButton().isSelected()) {
-            splitNumber = excelSplitToolController.getSplitType2Spinner().getValue();
-            saveSplitWorkbook(sheet, splitNumber, newFilePath);
+            int splitNumber = excelSplitToolController.getSplitType2Spinner().getValue();
+            saveSplitWorkbook(sheets, splitNumber, newFilePath);
         } else if (excelSplitToolController.getSplitType3RadioButton().isSelected()) {
             String splitType3String = excelSplitToolController.getSplitType3TextField().getText();
             String[] splitCellIndex = null;
@@ -88,7 +99,7 @@ public class ExcelSplitToolService {
             } else {
                 splitCellIndex = splitType3String.split(",");
             }
-            saveSplitWorkbook(sheet, newFilePath, splitCellIndex);
+            saveSplitWorkbook(sheets, newFilePath, splitCellIndex);
         }
     }
 
@@ -142,39 +153,40 @@ public class ExcelSplitToolService {
         }
     }
 
-    private void saveSplitWorkbook(Sheet sheet, int splitNumber, String newFilePath) throws Exception {
+    private void saveSplitWorkbook(Sheet[] sheets, int splitNumber, String newFilePath) throws Exception {
         Workbook newWorkbook = null;
         int addRowIndex = 0;
         int saveFileIndex = 0;
-        Iterator<Row> iterator = sheet.rowIterator();
-        boolean isAddHead = excelSplitToolController.getIncludeHandCheckBox().isSelected();
-        while (iterator.hasNext()) {
-            if (newWorkbook == null) {
-                if (excelSplitToolController.getOutputType1RadioButton().isSelected()) {
-                    newWorkbook = new HSSFWorkbook();
-                } else {
-                    newWorkbook = new XSSFWorkbook();
-                }
+        Row firstRow = null;
+        Sheet newSheet = null;
+        for (Sheet sheet : sheets) {
+            Iterator<Row> iterator = sheet.rowIterator();
+            boolean isAddHead = excelSplitToolController.getIncludeHandCheckBox().isSelected();
+            if (isAddHead) {
+                firstRow = iterator.next();
             }
-            Sheet newSheet = null;
-            if (newWorkbook.sheetIterator().hasNext()) {
-                newSheet = newWorkbook.getSheetAt(0);
-            } else {
-                newSheet = newWorkbook.createSheet();
-                if (isAddHead && saveFileIndex != 0) {
-                    Row newRow = newSheet.createRow(addRowIndex++);
-                    Row row = sheet.getRow(0);
-                    copyRow(row, newRow);
+            while (iterator.hasNext()) {
+                if (newWorkbook == null) {
+                    if (excelSplitToolController.getOutputType1RadioButton().isSelected()) {
+                        newWorkbook = new HSSFWorkbook();
+                    } else {
+                        newWorkbook = new XSSFWorkbook();
+                    }
+                    newSheet = newWorkbook.createSheet();
+                    if (isAddHead) {
+                        Row newRow = newSheet.createRow(addRowIndex++);
+                        copyRow(firstRow, newRow);
+                    }
                 }
-            }
-            Row row = iterator.next();
-            Row newRow = newSheet.createRow(addRowIndex++);
-            copyRow(row, newRow);
-            if ((addRowIndex - splitNumber) == (isAddHead ? 1 : 0)) {
-                saveFile(newWorkbook, newFilePath + "-" + (saveFileIndex++));
-                newWorkbook.close();
-                newWorkbook = null;
-                addRowIndex = 0;
+                Row row = iterator.next();
+                Row newRow = newSheet.createRow(addRowIndex++);
+                copyRow(row, newRow);
+                if ((addRowIndex - splitNumber) == (isAddHead ? 1 : 0)) {
+                    saveFile(newWorkbook, newFilePath + "-" + (saveFileIndex++));
+                    newWorkbook.close();
+                    newWorkbook = null;
+                    addRowIndex = 0;
+                }
             }
         }
         if (newWorkbook != null) {
@@ -183,22 +195,29 @@ public class ExcelSplitToolService {
         }
     }
 
-    private void saveSplitWorkbook(Sheet sheet, String newFilePath, String[] splitCellIndex) throws Exception {
+    private void saveSplitWorkbook(Sheet[] sheets, String newFilePath, String[] splitCellIndex) throws Exception {
         Map<String, List<Row>> rowMap = new HashMap<>();
-        Iterator<Row> iterator = sheet.rowIterator();
-        while (iterator.hasNext()) {
-            Row row = iterator.next();
-            String rowString = "";
-            for (String cellIndex : splitCellIndex) {
-                Cell cell = row.getCell(Integer.valueOf(cellIndex));
-                rowString += getCellValue(cell);
+        Row firstRow = null;
+        for (Sheet sheet : sheets) {
+            Iterator<Row> iterator = sheet.rowIterator();
+            boolean isAddHead = excelSplitToolController.getIncludeHandCheckBox().isSelected();
+            if (isAddHead) {
+                firstRow = iterator.next();
             }
-            if (rowMap.containsKey(rowString)) {
-                rowMap.get(rowString).add(row);
-            } else {
-                List<Row> rowList = new ArrayList<>();
-                rowList.add(row);
-                rowMap.put(rowString, rowList);
+            while (iterator.hasNext()) {
+                Row row = iterator.next();
+                String rowString = "";
+                for (String cellIndex : splitCellIndex) {
+                    Cell cell = row.getCell(Integer.valueOf(cellIndex));
+                    rowString += getCellValue(cell);
+                }
+                if (rowMap.containsKey(rowString)) {
+                    rowMap.get(rowString).add(row);
+                } else {
+                    List<Row> rowList = new ArrayList<>();
+                    rowList.add(row);
+                    rowMap.put(rowString, rowList);
+                }
             }
         }
         for (Map.Entry<String, List<Row>> stringListEntry : rowMap.entrySet()) {
@@ -214,7 +233,7 @@ public class ExcelSplitToolService {
             int addRowIndex = 0;
             if (excelSplitToolController.getIncludeHandCheckBox().isSelected()) {
                 Row newRow = newSheet.createRow(addRowIndex++);
-                copyRow(sheet.getRow(0), newRow);
+                copyRow(firstRow, newRow);
             }
             for (Row row : rows) {
                 Row newRow = newSheet.createRow(addRowIndex++);

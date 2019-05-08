@@ -28,6 +28,6 @@ public class ReceiverConfigIbmMq implements ReceiverConfig {
     private String username;//用户名
     private String password;//密码
     private Integer CCSID;//队列管理器字符集
-    private String fileNameField = "EP_GATEWAY_FILE_NAME";//文件名获取字段
+    private String fileNameField = "X_TRANSFER_FILE_NAME";//文件名获取字段
     private Integer concurrentConsumers;//初始化消费者数量
 }

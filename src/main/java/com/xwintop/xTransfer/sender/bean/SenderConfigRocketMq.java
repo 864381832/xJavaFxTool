@@ -31,6 +31,6 @@ public class SenderConfigRocketMq implements SenderConfig {
     private String topic;//topic列表
     private String tags = "";//tags标签
 
-    private String fileNameField = "EP_GATEWAY_FILE_NAME";//文件名获取字段
+    private String fileNameField = "X_TRANSFER_FILE_NAME";//文件名获取字段
     private Map args = new HashMap();//扩展参数
 }

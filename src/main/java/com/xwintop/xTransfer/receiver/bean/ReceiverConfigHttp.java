@@ -29,6 +29,6 @@ public class ReceiverConfigHttp implements ReceiverConfig {
     private String httpMethod = HttpMethod.GET.name(); //接收方式。http请求方式
     private String contentType = "application/problem+json;charset=UTF-8"; //contentType
     private boolean isController = false;
-    private String fileNameField = "EP_GATEWAY_FILE_NAME";//文件名获取字段
+    private String fileNameField = "X_TRANSFER_FILE_NAME";//文件名获取字段
     private Map args = new HashMap();//自定义参数
 }

@@ -1,9 +1,13 @@
 package com.xwintop.xJavaFxTool.controller.developTools.xTransferTool;
 
+import cn.hutool.core.lang.Singleton;
+import cn.hutool.core.thread.ThreadUtil;
 import com.jcraft.jsch.ChannelSftp;
 import com.xwintop.xJavaFxTool.services.developTools.xTransferTool.TransferToolService;
 import com.xwintop.xJavaFxTool.view.developTools.xTransferTool.TransferToolToolView;
 import com.xwintop.xTransfer.task.entity.TaskConfig;
+import com.xwintop.xTransfer.task.service.impl.TaskConfigServiceImpl;
+import com.xwintop.xcore.util.javafx.TooltipUtil;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -224,6 +228,18 @@ public class TransferToolController extends TransferToolToolView {
         } catch (Exception e) {
             log.error("加载配置失败：", e);
         }
+    }
+
+    @FXML
+    private void startTransferAction(ActionEvent event) {
+        TooltipUtil.showToast("正在后台启动传输工具");
+        ThreadUtil.execute(() -> {
+            try {
+                Singleton.get(TaskConfigServiceImpl.class).initTaskSchedule();
+            } catch (Exception e) {
+                log.error("加载任务失败:", e);
+            }
+        });
     }
 
     @FXML

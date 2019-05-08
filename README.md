@@ -134,6 +134,7 @@ Receiver接收器：
 | IbmMq         | ReceiverConfigIbmMq   | 使用IbmMq协议接收消息        |
 | RabbitMq      | ReceiverConfigRabbitMq| 使用RabbitMq协议接收消息     |
 | RocketMq      | ReceiverConfigRocketMq| 使用RocketMq协议接收消息     |
+| ActiveMq      | ReceiverConfigActiveMq| 使用ActiveMq协议接收消息     |
 
 Filter处理器：
 
@@ -160,6 +161,7 @@ Sender发送器：
 | IbmMq         | SenderConfigIbmMq   | 使用IbmMq协议发送消息        |
 | RabbitMq      | SenderConfigRabbitMq| 使用RabbitMq协议发送消息     |
 | RocketMq      | SenderConfigRocketMq| 使用RocketMq协议发送消息     |
+| ActiveMq      | SenderConfigActiveMq| 使用ActiveMq协议发送消息     |
 
 
 项目开发中，以后会陆续添加新工具，欢迎大家参与其中，多提提意见，谢谢。

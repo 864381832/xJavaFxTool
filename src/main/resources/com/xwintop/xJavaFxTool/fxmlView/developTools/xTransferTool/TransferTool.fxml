@@ -23,6 +23,7 @@
                   <HBox alignment="CENTER_LEFT" spacing="5.0">
                      <children>
                                 <Button fx:id="treeRefurbishButton" disable="true" mnemonicParsing="false" onAction="#treeRefurbishAction" text="刷新" />
+                        <Button fx:id="startTransferButton" mnemonicParsing="false" onAction="#startTransferAction" text="启动传输工具" />
                      </children>
                   </HBox>
                         <TreeView fx:id="configurationTreeView" VBox.vgrow="ALWAYS">

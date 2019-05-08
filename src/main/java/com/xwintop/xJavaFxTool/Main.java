@@ -1,13 +1,10 @@
 package com.xwintop.xJavaFxTool;
 
-import cn.hutool.core.lang.Singleton;
-import cn.hutool.core.thread.ThreadUtil;
 import com.jfoenix.controls.JFXDecorator;
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
-import com.xwintop.xTransfer.task.service.impl.TaskConfigServiceImpl;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -35,13 +32,6 @@ public class Main extends Application {
     public static void main(String[] args) {
         try {
             log.info("xJavaFxTool项目启动");
-            ThreadUtil.execute(() -> {
-                try {
-                    Singleton.get(TaskConfigServiceImpl.class).initTaskSchedule();
-                } catch (Exception e) {
-                    log.error("加载任务失败:", e);
-                }
-            });
             launch(args);
         } catch (Exception e) {
             log.error("xJavaFxTool启动失败：", e);

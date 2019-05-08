@@ -39,7 +39,6 @@ public class ExcelSplitToolController extends ExcelSplitToolView {
     private void initView() {
         fileTypeChoiceBox.getItems().addAll(fileTypeChoiceBoxStrings);
         fileTypeChoiceBox.getSelectionModel().select(0);
-        JavaFxViewUtil.setSpinnerValueFactory(sheetSelectSpinner, 0, Integer.MAX_VALUE, 0);
         JavaFxViewUtil.setSpinnerValueFactory(splitType1Spinner, 1, Integer.MAX_VALUE, 3);
         JavaFxViewUtil.setSpinnerValueFactory(splitType2Spinner, 1, Integer.MAX_VALUE, 10);
     }

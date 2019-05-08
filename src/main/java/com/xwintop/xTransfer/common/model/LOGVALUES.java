@@ -17,4 +17,5 @@ public class LOGVALUES {
     public static String CHANNEL_TYPE_SFTP = "SFTP";
     public static String CHANNEL_TYPE_RABBIT_MQ = "RABBITMQ";
     public static String CHANNEL_TYPE_ROCKET_MQ = "ROCKETMQ";
+    public static String CHANNEL_TYPE_ACTIVE_MQ = "ACTIVEMQ";
 }

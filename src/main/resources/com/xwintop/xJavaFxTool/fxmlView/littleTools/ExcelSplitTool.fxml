@@ -46,7 +46,11 @@
       <TextField fx:id="saveFilePathTextField" layoutX="100.0" layoutY="248.0" promptText="留空为原文件同目录" />
       <Button fx:id="saveFilePathButton" layoutX="253.0" layoutY="248.0" mnemonicParsing="false" onAction="#saveFilePathAction" text="选择" />
       <Label layoutX="31.0" layoutY="51.0" text="Sheet选择：" />
-      <Spinner fx:id="sheetSelectSpinner" layoutX="100.0" layoutY="47.0" prefHeight="23.0" prefWidth="81.0" />
+      <TextField fx:id="sheetSelectTextField" layoutX="100.0" layoutY="47.0" promptText="sheet数（默认为0）">
+         <tooltip>
+            <Tooltip text="sheet从0开始，多个组合可用,分割" />
+         </tooltip>
+      </TextField>
       <ChoiceBox fx:id="fileTypeChoiceBox" layoutX="321.0" layoutY="20.0" />
    </children>
 </AnchorPane>

@@ -30,5 +30,5 @@ public class ReceiverConfigJms implements ReceiverConfig {
     private boolean useJms102 = false;
     private int sessionSize = 0;// no cache, or only one
 
-    private String fileNameField = "EP_GATEWAY_FILE_NAME";//文件名获取字段
+    private String fileNameField = "X_TRANSFER_FILE_NAME";//文件名获取字段
 }

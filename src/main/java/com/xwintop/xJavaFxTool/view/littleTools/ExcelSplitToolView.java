@@ -19,7 +19,7 @@ public abstract class ExcelSplitToolView implements Initializable {
     @FXML
     protected TextField selectFileTextField;
     @FXML
-    protected Spinner<Integer> sheetSelectSpinner;
+    protected TextField sheetSelectTextField;
     @FXML
     protected ChoiceBox<String> fileTypeChoiceBox;
     @FXML
