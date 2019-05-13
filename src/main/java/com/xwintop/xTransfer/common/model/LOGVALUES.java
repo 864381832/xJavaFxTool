@@ -3,6 +3,7 @@ package com.xwintop.xTransfer.common.model;
 public class LOGVALUES {
     public static String EVENT_MSG_RECEIVED = "EVENT.MSG.RECEIVED";
     public static String EVENT_MSG_SENDED = "EVENT.MSG.SENDED";
+    public static String EVENT_MSG_FILTER = "EVENT.MSG.FILTER";
     public static String RCV_TYPE_FS = "fsReceiver";
     public static String RCV_TYPE_MQ = "mqReceiver";
     public static String RCV_TYPE_JMS = "jmsReceiver";
