@@ -119,6 +119,10 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 
 44、TransferTool:传输工具（集成各种传输协议，使用自定义定时任务（简单模式、cron表达式模式），分为Receiver接收器、Filter处理器、Sender发送器）；
 
+45、ScanPortTool:端口扫描工具；
+
+传输工具目前支持功能如下：
+
 Receiver接收器：
 
 | 标题 | 配置类名 | 说明 |
