@@ -6,15 +6,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @ClassName: FilterConfigGroovyScript
- * @Description: 执行Groovy脚本配置
+ * @ClassName: FilterConfigLuaScript
+ * @Description: 执行Lua脚本配置
  * @author: xufeng
- * @date: 2019/5/13 15:31
+ * @date: 2019/5/14 9:55
  */
 
 @Data
-public class FilterConfigGroovyScript implements FilterConfig {
-    private String serviceName = "filterGroovyScript";//对应服务名称
+public class FilterConfigLuaScript implements FilterConfig {
+    private String serviceName = "filterLuaScript";//对应服务名称
     private String id;//如果留空则系统自动分配
     private boolean enable = true;//是否开启
     private boolean async = false;//是否异步执行

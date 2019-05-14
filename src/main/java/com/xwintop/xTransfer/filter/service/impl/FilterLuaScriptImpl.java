@@ -6,44 +6,46 @@ import com.xwintop.xTransfer.common.model.LOGKEYS;
 import com.xwintop.xTransfer.common.model.LOGVALUES;
 import com.xwintop.xTransfer.common.model.Msg;
 import com.xwintop.xTransfer.filter.bean.FilterConfig;
-import com.xwintop.xTransfer.filter.bean.FilterConfigGroovyScript;
+import com.xwintop.xTransfer.filter.bean.FilterConfigLuaScript;
 import com.xwintop.xTransfer.filter.service.Filter;
 import com.xwintop.xTransfer.messaging.IContext;
 import com.xwintop.xTransfer.messaging.IMessage;
 import com.xwintop.xTransfer.task.quartz.TaskQuartzJob;
-import groovy.lang.Binding;
-import groovy.lang.GroovyShell;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.luaj.vm2.Globals;
+import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.lib.jse.JsePlatform;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.script.Bindings;
+import javax.script.SimpleBindings;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
 
 /**
- * @ClassName: FilterGroovyScriptImpl
- * @Description: 执行Groovy脚本实现类
+ * @ClassName: FilterLuaScriptImpl
+ * @Description: 执行Lua脚本实现类
  * @author: xufeng
  * @date: 2019/5/13 0013 23:36
  */
 
-
-@Service("filterGroovyScript")
+@Service("filterLuaScript")
 @Scope("prototype")
 @Transactional(rollbackFor = Exception.class)
 @Slf4j
-public class FilterGroovyScriptImpl implements Filter {
-    private FilterConfigGroovyScript filterConfigGroovyScript;
+public class FilterLuaScriptImpl implements Filter {
+    private FilterConfigLuaScript filterConfigLuaScript;
 
     @Override
     public void doFilter(IContext ctx, Map params) throws Exception {
         for (IMessage iMessage : ctx.getMessages()) {
-            if (StringUtils.isNotBlank(filterConfigGroovyScript.getFileNameFilterRegex())) {
-                if (!iMessage.getFileName().matches(filterConfigGroovyScript.getFileNameFilterRegex())) {
-                    log.info("Filter:" + filterConfigGroovyScript.getId() + "跳过fileName：" + iMessage.getFileName());
+            if (StringUtils.isNotBlank(filterConfigLuaScript.getFileNameFilterRegex())) {
+                if (!iMessage.getFileName().matches(filterConfigLuaScript.getFileNameFilterRegex())) {
+                    log.info("Filter:" + filterConfigLuaScript.getId() + "跳过fileName：" + iMessage.getFileName());
                     continue;
                 }
             }
@@ -52,20 +54,22 @@ public class FilterGroovyScriptImpl implements Filter {
     }
 
     public void doFilter(IMessage msg, Map params) throws Exception {
-        Binding binding = new Binding();
-        binding.setVariable("message", msg);
-        binding.setVariable("params", params);
-        binding.setVariable("applicationContext", SpringUtil.getApplicationContext());
-        GroovyShell shell = new GroovyShell(binding);
-
-        if (StringUtils.isNoneEmpty(filterConfigGroovyScript.getScriptString())) {
-            Object value = shell.evaluate(filterConfigGroovyScript.getScriptString());
+        Bindings bindings = new SimpleBindings();
+        bindings.put("message", msg);
+        bindings.put("params", params);
+        bindings.put("applicationContext", SpringUtil.getApplicationContext());
+        if (StringUtils.isNoneEmpty(filterConfigLuaScript.getScriptString())) {
+            Globals globals = JsePlatform.standardGlobals();
+            LuaValue chunk = globals.load(filterConfigLuaScript.getScriptString());
+            chunk.call();
         }
-        if (StringUtils.isNotEmpty(filterConfigGroovyScript.getScriptFilePath())) {
-            String script = new String(Files.readAllBytes(Paths.get(filterConfigGroovyScript.getScriptFilePath())));
-            shell.evaluate(script);
+        if (StringUtils.isNotEmpty(filterConfigLuaScript.getScriptFilePath())) {
+            String script = new String(Files.readAllBytes(Paths.get(filterConfigLuaScript.getScriptFilePath())));
+            Globals globals = JsePlatform.standardGlobals();
+            LuaValue chunk = globals.load(script);
+            chunk.call();
         }
-        log.info("filterGroovyScript success! msgId:" + msg.getId());
+        log.info("filterLuaScript success! msgId:" + msg.getId());
         Msg msgLogInfo = new Msg(LOGVALUES.EVENT_MSG_FILTER, msg.getId(), null);
         msgLogInfo.put(LOGKEYS.CHANNEL_IN_TYPE, msg.getProperty(LOGKEYS.CHANNEL_IN_TYPE));
         msgLogInfo.put(LOGKEYS.CHANNEL_IN, msg.getProperty(LOGKEYS.CHANNEL_IN));
@@ -80,7 +84,7 @@ public class FilterGroovyScriptImpl implements Filter {
 
     @Override
     public void setFilterConfig(FilterConfig filterConfig) throws Exception {
-        this.filterConfigGroovyScript = (FilterConfigGroovyScript) filterConfig;
+        this.filterConfigLuaScript = (FilterConfigLuaScript) filterConfig;
     }
 
     @Override

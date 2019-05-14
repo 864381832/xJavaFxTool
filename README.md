@@ -145,6 +145,10 @@ Filter处理器：
 | Decompress    | FilterConfigDecompress    | 将消息进行解压操作       |
 | EncryptDecrypt| FilterConfigEncryptDecrypt| 将消息进行加密解密操作   |
 | OracleSqlldr  | FilterConfigOracleSqlldr  | 将消息存入Oracle数据库   |
+| GroovyScript  | FilterConfigGroovyScript  | 将执行Groovy脚本   |
+| PythonScript  | FilterConfigPythonScript  | 将执行Python脚本   |
+| JavaScript    | FilterConfigJavaScript    | 将执行JavaScript脚本   |
+| LuaScript     | FilterConfigLuaScript     | 将执行Lua脚本   |
 
 Sender发送器：
 

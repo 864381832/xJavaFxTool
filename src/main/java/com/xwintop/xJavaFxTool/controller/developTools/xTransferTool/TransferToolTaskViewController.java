@@ -169,7 +169,11 @@ public class TransferToolTaskViewController extends TransferToolTaskViewView {
                         "FilterConfigCompress",
                         "FilterConfigDecompress",
                         "FilterConfigEncryptDecrypt",
-                        "FilterConfigOracleSqlldr"
+                        "FilterConfigOracleSqlldr",
+                        "FilterConfigGroovyScript",
+                        "FilterConfigPythonScript",
+                        "FilterConfigJavaScript",
+                        "FilterConfigLuaScript",
                 };
                 for (String className : classNameS) {
                     MenuItem menuAdd = new MenuItem(className);
