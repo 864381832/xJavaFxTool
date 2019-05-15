@@ -9,6 +9,13 @@ import javafx.scene.layout.FlowPane;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * @ClassName: ScanPortToolView
+ * @Description: 端口扫描工具
+ * @author: xufeng
+ * @date: 2019/5/15 17:33
+ */
+
 @Getter
 @Setter
 public abstract class ScanPortToolView implements Initializable {
