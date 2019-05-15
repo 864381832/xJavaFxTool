@@ -98,7 +98,7 @@ public class FilterOracleSqlldrImpl implements Filter {
 //        msgLogInfo.put(LOGKEYS.CHANNEL_OUT_TYPE, "MSGTODB");
 //        msgLogInfo.put(LOGKEYS.CHANNEL_OUT, msg.getFileName());
 //        msgLogInfo.put(LOGKEYS.MSG_TAG, msg.getFileName());
-//        msgLogInfo.put(LOGKEYS.MSG_LENGTH, msg.getMessage().length);
+//        msgLogInfo.put(LOGKEYS.MSG_LENGTH, ArrayUtils.getLength(msg.getMessage()));
 //        msgLogInfo.put(LOGKEYS.JOB_ID, params.get(TaskQuartzJob.JOBID));
 //        msgLogInfo.put(LOGKEYS.JOB_SEQ, params.get(TaskQuartzJob.JOBSEQ));
 //        msgLogInfo.put(LOGKEYS.RECEIVER_TYPE, msg.getProperty(LOGKEYS.RECEIVER_TYPE));

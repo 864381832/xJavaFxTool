@@ -15,6 +15,7 @@ import com.xwintop.xTransfer.util.Common;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -226,7 +227,7 @@ public class ReceiverFsSplitImpl implements Receiver {
             msgLogInfo.put(LOGKEYS.CHANNEL_IN_TYPE, LOGVALUES.CHANNEL_TYPE_FS);
             msgLogInfo.put(LOGKEYS.CHANNEL_IN, pathIn);
             msgLogInfo.put(LOGKEYS.MSG_TAG, curFileName);
-            msgLogInfo.put(LOGKEYS.MSG_LENGTH, msg.getMessage().length);
+            msgLogInfo.put(LOGKEYS.MSG_LENGTH, ArrayUtils.getLength(msg.getMessage()));
             msgLogInfo.put(LOGKEYS.JOB_ID, params.get(TaskQuartzJob.JOBID));
             msgLogInfo.put(LOGKEYS.JOB_SEQ, params.get(TaskQuartzJob.JOBSEQ));
             msgLogInfo.put(LOGKEYS.RECEIVER_TYPE, LOGVALUES.RCV_TYPE_FS);

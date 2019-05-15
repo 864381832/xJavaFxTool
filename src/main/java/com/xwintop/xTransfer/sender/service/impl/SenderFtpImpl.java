@@ -14,6 +14,7 @@ import com.xwintop.xTransfer.util.ParseVariableCommon;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -100,7 +101,7 @@ public class SenderFtpImpl implements Sender {
         }
         // connect to ftp server
         ftpUtil.checkAndConnect();
-        if (!ftpUtil.getFtp().allocate(msg.getMessage().length)) {
+        if (!ftpUtil.getFtp().allocate(ArrayUtils.getLength(msg.getMessage()))) {
             throw new Exception(ftpUtil.getFtp().getReplyString());
         }
         // overload same filename in dest path
@@ -140,7 +141,7 @@ public class SenderFtpImpl implements Sender {
         msgLogInfo.put(LOGKEYS.CHANNEL_OUT_TYPE, LOGVALUES.CHANNEL_TYPE_FTP);
         msgLogInfo.put(LOGKEYS.CHANNEL_OUT, senderConfigFtp.getPath());
         msgLogInfo.put(LOGKEYS.MSG_TAG, msg.getFileName());
-        msgLogInfo.put(LOGKEYS.MSG_LENGTH, msg.getMessage().length);
+        msgLogInfo.put(LOGKEYS.MSG_LENGTH, ArrayUtils.getLength(msg.getMessage()));
         msgLogInfo.put(LOGKEYS.JOB_ID, params.get(TaskQuartzJob.JOBID));
         msgLogInfo.put(LOGKEYS.JOB_SEQ, params.get(TaskQuartzJob.JOBSEQ));
         msgLogInfo.put(LOGKEYS.RECEIVER_TYPE, msg.getProperty(LOGKEYS.RECEIVER_TYPE));

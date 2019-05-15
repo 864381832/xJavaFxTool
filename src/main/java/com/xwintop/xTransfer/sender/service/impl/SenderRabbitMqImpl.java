@@ -12,6 +12,7 @@ import com.xwintop.xTransfer.sender.service.Sender;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
@@ -79,7 +80,7 @@ public class SenderRabbitMqImpl implements Sender {
             }
             rabbitTemplate.setRoutingKey(senderConfigRabbitMq.getTopic());
         }
-        log.debug("发送rabbitMq消息：" + msg.getMessage().length);
+        log.debug("发送rabbitMq消息：" + ArrayUtils.getLength(msg.getMessage()));
         try {
             MessageProperties messageProperties = new MessageProperties();
             if (senderConfigRabbitMq.getArgs() != null && !senderConfigRabbitMq.getArgs().isEmpty()) {
@@ -89,7 +90,7 @@ public class SenderRabbitMqImpl implements Sender {
                 messageProperties.getHeaders().put(senderConfigRabbitMq.getFileNameField(), msg.getFileName());
             }
             messageProperties.setContentType(senderConfigRabbitMq.getContentType());
-            messageProperties.setContentLength(msg.getMessage().length);
+            messageProperties.setContentLength(ArrayUtils.getLength(msg.getMessage()));
             messageProperties.setContentEncoding(msg.getEncoding());
             Message message = new Message(msg.getMessage(), messageProperties);
             rabbitTemplate.convertAndSend(message);
@@ -100,7 +101,7 @@ public class SenderRabbitMqImpl implements Sender {
             msgLogInfo.put(LOGKEYS.CHANNEL_OUT_TYPE, LOGVALUES.CHANNEL_TYPE_RABBIT_MQ);
             msgLogInfo.put(LOGKEYS.CHANNEL_OUT, senderConfigRabbitMq.getHost() + ":" + senderConfigRabbitMq.getPort() + ":" + senderConfigRabbitMq.getVirtualHost() + "/" + senderConfigRabbitMq.getTopic());
             msgLogInfo.put(LOGKEYS.MSG_TAG, msg.getFileName());
-            msgLogInfo.put(LOGKEYS.MSG_LENGTH, msg.getMessage().length);
+            msgLogInfo.put(LOGKEYS.MSG_LENGTH, ArrayUtils.getLength(msg.getMessage()));
             msgLogInfo.put(LOGKEYS.JOB_ID, params.get(TaskQuartzJob.JOBID));
             msgLogInfo.put(LOGKEYS.JOB_SEQ, params.get(TaskQuartzJob.JOBSEQ));
             msgLogInfo.put(LOGKEYS.RECEIVER_TYPE, msg.getProperty(LOGKEYS.RECEIVER_TYPE));

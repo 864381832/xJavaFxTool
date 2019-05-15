@@ -12,6 +12,7 @@ import com.xwintop.xTransfer.sender.service.Sender;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.common.message.Message;
@@ -47,7 +48,7 @@ public class SenderRocketMqImpl implements Sender {
             producer.setRetryTimesWhenSendAsyncFailed(10);
             producer.start();
         }
-        log.debug("发送RocketMq消息：" + msg.getMessage().length);
+        log.debug("发送RocketMq消息：" + ArrayUtils.getLength(msg.getMessage()));
         try {
             Message message = new Message(senderConfigRocketMq.getTopic(), senderConfigRocketMq.getTags(), msg.getId(), msg.getMessage());
             if (senderConfigRocketMq.getArgs() != null && !senderConfigRocketMq.getArgs().isEmpty()) {
@@ -64,7 +65,7 @@ public class SenderRocketMqImpl implements Sender {
             msgLogInfo.put(LOGKEYS.CHANNEL_OUT_TYPE, LOGVALUES.CHANNEL_TYPE_ROCKET_MQ);
             msgLogInfo.put(LOGKEYS.CHANNEL_OUT, senderConfigRocketMq.getNamesrvAddr() + "/" + senderConfigRocketMq.getTopic());
             msgLogInfo.put(LOGKEYS.MSG_TAG, msg.getFileName());
-            msgLogInfo.put(LOGKEYS.MSG_LENGTH, msg.getMessage().length);
+            msgLogInfo.put(LOGKEYS.MSG_LENGTH, ArrayUtils.getLength(msg.getMessage()));
             msgLogInfo.put(LOGKEYS.JOB_ID, params.get(TaskQuartzJob.JOBID));
             msgLogInfo.put(LOGKEYS.JOB_SEQ, params.get(TaskQuartzJob.JOBSEQ));
             msgLogInfo.put(LOGKEYS.RECEIVER_TYPE, msg.getProperty(LOGKEYS.RECEIVER_TYPE));

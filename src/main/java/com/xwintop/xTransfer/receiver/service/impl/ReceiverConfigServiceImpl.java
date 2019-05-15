@@ -1,7 +1,7 @@
 package com.xwintop.xTransfer.receiver.service.impl;
 
 import cn.hutool.core.lang.Singleton;
-import com.xwintop.xTransfer.messaging.MessageHandler;
+import com.xwintop.xTransfer.messaging.*;
 import com.xwintop.xTransfer.receiver.bean.ReceiverConfig;
 import com.xwintop.xTransfer.receiver.service.Receiver;
 import com.xwintop.xTransfer.receiver.service.ReceiverConfigService;
@@ -44,6 +44,14 @@ public class ReceiverConfigServiceImpl implements ReceiverConfigService {
         Map<String, Object> params = new HashMap<>();
         params.put(TaskQuartzJob.JOBID, taskConfig.getName());
         params.put(TaskQuartzJob.JOBSEQ, taskConfig.getProperty(TaskQuartzJob.JOBSEQ));
+        if (receiverConfigList.size() == 0) {
+            IMessage msg = new DefaultMessage();
+            IContext ctx = new DefaultContext();
+            ctx.setMessage(msg);
+            log.info("执行receiver为空：" + taskConfig.getName());
+            messageHandler.handle(ctx);
+            return;
+        }
         for (ReceiverConfig receiverConfig : receiverConfigList) {
             if (StringUtils.isBlank(receiverConfig.getId())) {
                 receiverConfig.setId(taskConfig.getName() + "_" + receiverIndex);

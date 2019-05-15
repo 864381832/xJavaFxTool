@@ -1,6 +1,7 @@
 package com.xwintop.xTransfer.common.model;
 
 import com.xwintop.xTransfer.messaging.IMessage;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
@@ -48,7 +49,7 @@ public class Msg {
         if (null != msg.getRawData()) {
             this.fields.put("length", msg.getRawData().length);
         } else if (null != msg.getMessage()) {
-            this.fields.put("length", msg.getMessage().length);
+            this.fields.put("length", ArrayUtils.getLength(msg.getMessage()));
         }
     }
 

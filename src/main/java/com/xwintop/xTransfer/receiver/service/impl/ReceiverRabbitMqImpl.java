@@ -11,6 +11,7 @@ import com.xwintop.xTransfer.receiver.service.Receiver;
 import com.xwintop.xTransfer.task.quartz.TaskQuartzJob;
 import com.xwintop.xcore.util.UuidUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -120,7 +121,7 @@ public class ReceiverRabbitMqImpl implements Receiver {
                         msgLogInfo.put(LOGKEYS.CHANNEL_IN_TYPE, LOGVALUES.CHANNEL_TYPE_RABBIT_MQ);
                         msgLogInfo.put(LOGKEYS.CHANNEL_IN, receiverConfigRabbitMq.getVirtualHost() + ":" + receiverConfigRabbitMq.getTopic());
                         msgLogInfo.put(LOGKEYS.MSG_TAG, msg.getFileName());
-                        msgLogInfo.put(LOGKEYS.MSG_LENGTH, msg.getMessage().length);
+                        msgLogInfo.put(LOGKEYS.MSG_LENGTH, ArrayUtils.getLength(msg.getMessage()));
                         msgLogInfo.put(LOGKEYS.JOB_ID, params.get(TaskQuartzJob.JOBID));
                         msgLogInfo.put(LOGKEYS.JOB_SEQ, params.get(TaskQuartzJob.JOBSEQ));
                         msgLogInfo.put(LOGKEYS.RECEIVER_TYPE, LOGVALUES.RCV_TYPE_MQ);
