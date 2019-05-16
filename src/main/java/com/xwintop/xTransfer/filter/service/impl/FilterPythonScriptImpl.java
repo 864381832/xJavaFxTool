@@ -55,7 +55,7 @@ public class FilterPythonScriptImpl implements Filter {
         jy.set("message", msg);
         jy.set("params", params);
         jy.set("applicationContext", SpringUtil.getApplicationContext());
-        if (StringUtils.isNoneEmpty(filterConfigPythonScript.getScriptString())) {
+        if (StringUtils.isNotEmpty(filterConfigPythonScript.getScriptString())) {
             jy.eval(filterConfigPythonScript.getScriptString());
         }
         if (StringUtils.isNotEmpty(filterConfigPythonScript.getScriptFilePath())) {

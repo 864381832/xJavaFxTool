@@ -59,7 +59,7 @@ public class FilterLuaScriptImpl implements Filter {
         bindings.put("message", msg);
         bindings.put("params", params);
         bindings.put("applicationContext", SpringUtil.getApplicationContext());
-        if (StringUtils.isNoneEmpty(filterConfigLuaScript.getScriptString())) {
+        if (StringUtils.isNotEmpty(filterConfigLuaScript.getScriptString())) {
             Globals globals = JsePlatform.standardGlobals();
             LuaValue chunk = globals.load(filterConfigLuaScript.getScriptString());
             chunk.call();

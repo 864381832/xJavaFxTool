@@ -59,7 +59,7 @@ public class FilterGroovyScriptImpl implements Filter {
         binding.setVariable("applicationContext", SpringUtil.getApplicationContext());
         GroovyShell shell = new GroovyShell(binding);
 
-        if (StringUtils.isNoneEmpty(filterConfigGroovyScript.getScriptString())) {
+        if (StringUtils.isNotEmpty(filterConfigGroovyScript.getScriptString())) {
             Object value = shell.evaluate(filterConfigGroovyScript.getScriptString());
         }
         if (StringUtils.isNotEmpty(filterConfigGroovyScript.getScriptFilePath())) {

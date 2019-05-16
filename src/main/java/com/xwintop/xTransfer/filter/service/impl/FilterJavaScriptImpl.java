@@ -60,7 +60,7 @@ public class FilterJavaScriptImpl implements Filter {
         bindings.put("applicationContext", SpringUtil.getApplicationContext());
         ScriptEngine engine = new ScriptEngineManager().getEngineByName("JavaScript");
 
-        if (StringUtils.isNoneEmpty(filterConfigJavaScript.getScriptString())) {
+        if (StringUtils.isNotEmpty(filterConfigJavaScript.getScriptString())) {
             engine.eval(filterConfigJavaScript.getScriptString(), bindings);
         }
         if (StringUtils.isNotEmpty(filterConfigJavaScript.getScriptFilePath())) {
