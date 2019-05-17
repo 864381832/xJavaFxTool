@@ -17,6 +17,7 @@ public class FilterConfigBackup implements FilterConfig {
     private boolean async = false;//是否异步执行
     private boolean exceptionExit = true;//是否发生异常时退出任务
     private String fileNameFilterRegex;//文件名过滤正则表达式
+    private String fileNameFilterRegexGroup;//文件名过滤正则表达式分组
 
     private String path;//备份目录
     private String tmpPath;//备份缓冲路径(留空为不使用缓冲目录)

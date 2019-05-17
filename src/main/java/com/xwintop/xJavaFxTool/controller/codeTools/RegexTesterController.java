@@ -104,6 +104,12 @@ public class RegexTesterController implements Initializable {
                 }
 			}
 		});
+		regexTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+			regulatAction(null);
+		});
+		sourceTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
+			regulatAction(null);
+		});
 	}
 
 	@FXML
@@ -112,6 +118,7 @@ public class RegexTesterController implements Initializable {
 		String sourceText = sourceTextArea.getText().trim();
 		String replaceText = replaceTextField.getText();
 		matchTableView.getItems().clear();
+		matchTextArea.setText(null);
 		Pattern p = null;
 		if (ignoreCaseCheckBox.isSelected()) {
 			p = Pattern.compile(regexText, Pattern.CASE_INSENSITIVE); // 不区分大小写
@@ -153,7 +160,8 @@ public class RegexTesterController implements Initializable {
 			matchTableView.getItems().add(map);
 			result = m.find();
 		}
-		sb.insert(0, "\t匹配总数: " + cnt);
+		sb.insert(0, "\n匹配总数: " + cnt);
+		sb.insert(0, "\t直接匹配判断: " + sourceText.matches(regexText));
 		if (isReplaceCheckBox.isSelected()&&replaceText.length() != 0) {
 			m.appendTail(rsb);
 			sb.append("\n\n替换匹配: ").append(rsb);

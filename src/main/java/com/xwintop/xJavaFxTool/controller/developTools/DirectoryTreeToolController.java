@@ -88,7 +88,7 @@ public class DirectoryTreeToolController extends DirectoryTreeToolView {
     }
 
     private void initService() {
-        reloadAction(null);
+//        reloadAction(null);
     }
 
     @FXML

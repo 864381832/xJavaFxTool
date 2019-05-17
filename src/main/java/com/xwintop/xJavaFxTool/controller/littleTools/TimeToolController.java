@@ -67,7 +67,12 @@ public class TimeToolController extends TimeToolView {
     }
 
     private void initService() {
-
+//        textFileldTimeStr.textProperty().addListener((observable, oldValue, newValue) -> {
+//            convert(null);
+//        });
+//        textFileldTimeStr2.textProperty().addListener((observable, oldValue, newValue) -> {
+//            revert(null);
+//        });
     }
 
     @FXML

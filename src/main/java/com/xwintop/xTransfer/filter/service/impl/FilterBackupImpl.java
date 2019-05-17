@@ -42,9 +42,19 @@ public class FilterBackupImpl implements Filter {
     public void doFilter(IContext ctx, Map params) throws Exception {
         for (IMessage iMessage : ctx.getMessages()) {
             if (StringUtils.isNotBlank(filterConfigBackup.getFileNameFilterRegex())) {
-                if (!iMessage.getFileName().matches(filterConfigBackup.getFileNameFilterRegex())) {
-                    log.info("Filter:" + filterConfigBackup.getId() + "跳过fileName：" + iMessage.getFileName());
-                    continue;
+                if ("?!".equals(filterConfigBackup.getFileNameFilterRegex())) {
+                    if (iMessage.checkFileNameFilterRegexGroup(filterConfigBackup.getFileNameFilterRegexGroup())) {
+                        log.info("Filter:" + filterConfigBackup.getId() + "跳过fileName：" + iMessage.getFileName());
+                        continue;
+                    }
+                } else {
+                    if (!iMessage.getFileName().matches(filterConfigBackup.getFileNameFilterRegex())) {
+                        log.info("Filter:" + filterConfigBackup.getId() + "跳过fileName：" + iMessage.getFileName());
+                        continue;
+                    }
+                    if (StringUtils.isNotBlank(filterConfigBackup.getFileNameFilterRegexGroup())) {
+                        iMessage.addFileNameFilterRegexGroup(filterConfigBackup.getFileNameFilterRegexGroup());
+                    }
                 }
             }
             doFilter(iMessage, params);

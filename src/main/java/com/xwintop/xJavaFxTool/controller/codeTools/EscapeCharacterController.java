@@ -82,6 +82,12 @@ public class EscapeCharacterController extends EscapeCharacterView {
 				}
 			}
 		});
+//		unescapeTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
+//			switchAction(null);
+//		});
+//		escapeTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
+//			restoreAction(null);
+//		});
 	}
 
 	@FXML // 转换字符

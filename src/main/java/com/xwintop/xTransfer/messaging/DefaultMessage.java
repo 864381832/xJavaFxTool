@@ -4,7 +4,9 @@ import com.xwintop.xcore.util.UuidUtil;
 
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -26,6 +28,8 @@ public class DefaultMessage implements IMessage, Serializable {
     private long createTimestamp = 0L;
     private Properties properties = null;
     private String version = null;
+
+    private Map<String, Object> fileNameFilterRegexGroupMap;
 
     public DefaultMessage() {
         this.init();
@@ -185,5 +189,21 @@ public class DefaultMessage implements IMessage, Serializable {
         } else {
             return this.getRawData();
         }
+    }
+
+    @Override
+    public boolean checkFileNameFilterRegexGroup(String fileNameFilterRegexGroup) {
+        if (this.fileNameFilterRegexGroupMap == null) {
+            return false;
+        }
+        return this.fileNameFilterRegexGroupMap.get(fileNameFilterRegexGroup) != null;
+    }
+
+    @Override
+    public void addFileNameFilterRegexGroup(String fileNameFilterRegexGroup) {
+        if (this.fileNameFilterRegexGroupMap == null) {
+            this.fileNameFilterRegexGroupMap = new HashMap<>();
+        }
+        this.fileNameFilterRegexGroupMap.put(fileNameFilterRegexGroup, true);
     }
 }

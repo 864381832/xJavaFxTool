@@ -75,6 +75,12 @@ public class EncryptAndDecryptController extends EncryptAndDecryptView {
     }
 
     private void initEvent() {
+//        encrptyTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
+//            encrptyAction(null);
+//        });
+//        decrptyTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
+//            decrptyAction(null);
+//        });
     }
 
     @FXML
