@@ -3,6 +3,7 @@ package com.xwintop.xJavaFxTool.controller.codeTools;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import com.xwintop.xJavaFxTool.view.codeTools.EscapeCharacterView;
@@ -82,12 +83,12 @@ public class EscapeCharacterController extends EscapeCharacterView {
 				}
 			}
 		});
-//		unescapeTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
-//			switchAction(null);
-//		});
-//		escapeTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
-//			restoreAction(null);
-//		});
+		JavaFxViewUtil.setPropertyAddChangeListener(unescapeTextArea, () -> {
+			switchAction(null);
+		});
+		JavaFxViewUtil.setPropertyAddChangeListener(escapeTextArea, () -> {
+			restoreAction(null);
+		});
 	}
 
 	@FXML // 转换字符

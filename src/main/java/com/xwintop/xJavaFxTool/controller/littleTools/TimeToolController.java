@@ -1,29 +1,21 @@
 package com.xwintop.xJavaFxTool.controller.littleTools;
 
-import java.awt.Toolkit;
+import com.xwintop.xJavaFxTool.services.littleTools.TimeToolService;
+import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
+import com.xwintop.xJavaFxTool.view.littleTools.TimeToolView;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
+
+import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
-
-import com.jfoenix.controls.JFXComboBox;
-import com.xwintop.xJavaFxTool.services.littleTools.TimeToolService;
-import com.xwintop.xJavaFxTool.view.littleTools.TimeToolView;
-import com.xwintop.xcore.util.javafx.TooltipUtil;
-
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
-import org.apache.commons.lang3.time.DateUtils;
 
 /**
  * @ClassName: TimeToolController
@@ -67,12 +59,12 @@ public class TimeToolController extends TimeToolView {
     }
 
     private void initService() {
-//        textFileldTimeStr.textProperty().addListener((observable, oldValue, newValue) -> {
-//            convert(null);
-//        });
-//        textFileldTimeStr2.textProperty().addListener((observable, oldValue, newValue) -> {
-//            revert(null);
-//        });
+        JavaFxViewUtil.setPropertyAddChangeListener(textFileldTimeStr, () -> {
+            convert(null);
+        });
+        JavaFxViewUtil.setPropertyAddChangeListener(textFileldTimeStr2, () -> {
+            revert(null);
+        });
     }
 
     @FXML

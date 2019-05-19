@@ -1,6 +1,7 @@
 package com.xwintop.xJavaFxTool.controller.littleTools;
 
 import com.xwintop.xJavaFxTool.services.littleTools.ZHConverterService;
+import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.view.littleTools.ZHConverterView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,12 +35,12 @@ public class ZHConverterController extends ZHConverterView {
     }
 
     private void initEvent() {
-//        simplifiedTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
-//            changeAction(null);
-//        });
-//        traditionalTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
-//            restoreAction(null);
-//        });
+        JavaFxViewUtil.setPropertyAddChangeListener(simplifiedTextArea, () -> {
+            changeAction(null);
+        });
+        JavaFxViewUtil.setPropertyAddChangeListener(traditionalTextArea, () -> {
+            restoreAction(null);
+        });
     }
 
     private void initService() {

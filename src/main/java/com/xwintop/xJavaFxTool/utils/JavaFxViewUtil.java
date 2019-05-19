@@ -1,5 +1,7 @@
 package com.xwintop.xJavaFxTool.utils;
 
+import cn.hutool.cache.impl.TimedCache;
+import cn.hutool.core.lang.Singleton;
 import com.jfoenix.controls.JFXDecorator;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -354,6 +356,26 @@ public class JavaFxViewUtil {
                         return cell;
                     }
                 });
+    }
+
+    /**
+     * 设置改变事件监听操作
+     */
+    public static void setPropertyAddChangeListener(TextInputControl inputControl,Runnable runnable){
+        inputControl.textProperty().addListener((observable, oldValue, newValue) -> {
+            setPropertyChangeRun(runnable);
+        });
+    }
+    /**
+     * 设置改变事件监听防重复操作
+     */
+    public static void setPropertyChangeRun(Runnable runnable) {
+        if (Singleton.get(TimedCache.class, (long) 2000).get("initiativeChange") != null) {
+            return;
+        }
+        Singleton.get(TimedCache.class, (long) 2000).put("initiativeChange", true);
+        runnable.run();
+        Singleton.get(TimedCache.class, (long) 2000).remove("initiativeChange");
     }
 
 }

@@ -5,6 +5,7 @@ import cn.hutool.crypto.symmetric.AES;
 import cn.hutool.crypto.symmetric.DES;
 import com.alibaba.druid.filter.config.ConfigTools;
 import com.xwintop.xJavaFxTool.utils.GuiUtils;
+import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.utils.MorseConventer;
 import com.xwintop.xJavaFxTool.view.littleTools.EncryptAndDecryptView;
 import javafx.event.ActionEvent;
@@ -75,12 +76,12 @@ public class EncryptAndDecryptController extends EncryptAndDecryptView {
     }
 
     private void initEvent() {
-//        encrptyTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
-//            encrptyAction(null);
-//        });
-//        decrptyTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
-//            decrptyAction(null);
-//        });
+        JavaFxViewUtil.setPropertyAddChangeListener(encrptyTextArea, () -> {
+            encrptyAction(null);
+        });
+        JavaFxViewUtil.setPropertyAddChangeListener(decrptyTextArea, () -> {
+            decrptyAction(null);
+        });
     }
 
     @FXML
