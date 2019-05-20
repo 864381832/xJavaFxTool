@@ -4,6 +4,7 @@ import cn.hutool.cache.impl.TimedCache;
 import cn.hutool.core.lang.Singleton;
 import com.jfoenix.controls.JFXDecorator;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -34,6 +35,7 @@ import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 @Log4j
 public class JavaFxViewUtil {
@@ -361,11 +363,26 @@ public class JavaFxViewUtil {
     /**
      * 设置改变事件监听操作
      */
-    public static void setPropertyAddChangeListener(TextInputControl inputControl,Runnable runnable){
+    public static void setPropertyAddChangeListener(TextInputControl inputControl, Consumer<ActionEvent> consumer) {
+        inputControl.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (Singleton.get(TimedCache.class, (long) 2000).get("initiativeChange") != null) {
+                return;
+            }
+            Singleton.get(TimedCache.class, (long) 2000).put("initiativeChange", true);
+            consumer.accept(null);
+            Singleton.get(TimedCache.class, (long) 2000).remove("initiativeChange");
+        });
+    }
+
+    /**
+     * 设置改变事件监听操作
+     */
+    public static void setPropertyAddChangeListener(TextInputControl inputControl, Runnable runnable) {
         inputControl.textProperty().addListener((observable, oldValue, newValue) -> {
             setPropertyChangeRun(runnable);
         });
     }
+
     /**
      * 设置改变事件监听防重复操作
      */

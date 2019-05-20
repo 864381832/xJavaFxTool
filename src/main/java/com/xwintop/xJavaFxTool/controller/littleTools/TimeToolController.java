@@ -59,12 +59,8 @@ public class TimeToolController extends TimeToolView {
     }
 
     private void initService() {
-        JavaFxViewUtil.setPropertyAddChangeListener(textFileldTimeStr, () -> {
-            convert(null);
-        });
-        JavaFxViewUtil.setPropertyAddChangeListener(textFileldTimeStr2, () -> {
-            revert(null);
-        });
+        JavaFxViewUtil.setPropertyAddChangeListener(textFileldTimeStr, this::convert);
+        JavaFxViewUtil.setPropertyAddChangeListener(textFileldTimeStr2, this::revert);
     }
 
     @FXML

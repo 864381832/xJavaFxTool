@@ -5,6 +5,7 @@ import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
+import com.xwintop.xcore.util.javafx.AlertUtil;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -48,7 +49,9 @@ public class Main extends Application {
         Parent root = fXMLLoader.load();
         JFXDecorator decorator = JavaFxViewUtil.getJFXDecorator(primaryStage, resourceBundle.getString("Title") + Config.xJavaFxToolVersions, "/images/icon.jpg", root);
         decorator.setOnCloseButtonAction(() -> {
-            System.exit(0);
+            if (AlertUtil.showConfirmAlert("确定要退出吗？")) {
+                System.exit(0);
+            }
         });
         Scene scene = JavaFxViewUtil.getJFXDecoratorScene(decorator);
 //		Scene scene = new Scene(root);
@@ -61,7 +64,11 @@ public class Main extends Application {
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
-                System.exit(0);
+                if (AlertUtil.showConfirmAlert("确定要退出吗？")) {
+                    System.exit(0);
+                } else {
+                    event.consume();
+                }
             }
         });
 
