@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -23,6 +24,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Callback;
@@ -83,6 +85,11 @@ public class JavaFxViewUtil {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.width / 1.35;
         double height = screenSize.height / 1.2;
+        Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
+        if (width > bounds.getWidth() || height > bounds.getHeight()) {//解决屏幕缩放问题
+            width = bounds.getWidth();
+            height = bounds.getHeight();
+        }
         Scene scene = new Scene(decorator, width, height);
         final ObservableList<String> stylesheets = scene.getStylesheets();
         stylesheets.addAll(
