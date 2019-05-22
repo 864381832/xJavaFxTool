@@ -30,6 +30,8 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 
 - 依赖的[xcore包](https://gitee.com/xwintop/xcore)已上传至git托管的maven平台，git托管maven可参考教程。[教程地址：点击进入](http://blog.csdn.net/u011747754/article/details/78574026)
 
+- 使用[exe4j](https://www.ej-technologies.com/download/exe4j/files)将jar包转成exe执行文件（仅供参考，可使用其它程序打包）
+
 #### 目前集成的小工具有：
 1、FileCopy：文件复制（支持自动调度拷贝功能）；
 
@@ -174,6 +176,9 @@ Sender发送器：
 
 项目开发中，以后会陆续添加新工具，欢迎大家参与其中，多提提意见，谢谢。
 
+计划添加功能：
+
+监控功能（文件夹深度、Ftp/Ftps/sftp文件数量、mq深度）
 
 #### 项目结构
 
