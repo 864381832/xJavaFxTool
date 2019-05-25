@@ -284,8 +284,16 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>com.zenjava</groupId>
+				<artifactId>javafx-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>com.xwintop.xJavaFxTool.Main</mainClass>
+					<vendor>Spartajet</vendor>
+				</configuration>
+			</plugin>
 		</plugins>
-		<!-- <resources> <resource> <targetPath>lib/</targetPath> <directory>lib/</directory> 
+		<!-- <resources> <resource> <targetPath>lib/</targetPath> <directory>lib/</directory>
 			<includes> <include>**/*.jar</include> </includes> </resource> </resources> -->
 	</build>
 </project>
