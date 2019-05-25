@@ -1,6 +1,7 @@
 package com.xwintop.xJavaFxTool.utils;
 
 import com.xwintop.xJavaFxTool.model.ToolFxmlLoaderConfiguration;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
@@ -35,9 +36,8 @@ import java.util.jar.JarFile;
  * @author: xufeng
  * @date: 2017年11月10日 下午4:35:17
  */
+@Slf4j
 public class XJavaFxSystemUtil {
-    private static Logger log = Logger.getLogger(XJavaFxSystemUtil.class);
-
     /**
      * @Title: initSystemLocal
      * @Description: 初始化本地语言

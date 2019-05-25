@@ -34,6 +34,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 
 import java.awt.*;
+import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -140,9 +141,12 @@ public class JavaFxViewUtil {
     //设置窗口移除前回调
     public static void setControllerOnCloseRequest(Object controller, Event event) {
         try {
-            MethodUtils.invokeMethod(controller, "onCloseRequest", event);
+            Method method = MethodUtils.getAccessibleMethod(controller.getClass(), "onCloseRequest", event.getClass());
+            if (method != null) {
+                MethodUtils.invokeMethod(controller, "onCloseRequest", event);
+            }
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("执行onCloseRequest方法失败", e);
         }
     }
 
