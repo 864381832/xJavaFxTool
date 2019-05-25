@@ -10,11 +10,11 @@ import javafx.scene.web.WebView;
 import lombok.Getter;
 import lombok.Setter;
 
-/** 
+/**
  * @ClassName: ShowSystemInfoView
  * @Description: 显示系统信息
  * @author: xufeng
- * @date: 2017/11/28 22:16  
+ * @date: 2017/11/28 22:16
  */
 @Getter
 @Setter
@@ -33,6 +33,8 @@ public abstract class ShowSystemInfoView implements Initializable {
     protected LineChart overviewNetLineChart;
     @FXML
     protected Tab cpuTab;
+    @FXML
+    protected TextArea systemInfoTextArea;
     @FXML
     protected Tab diskTab;
     @FXML
