@@ -134,8 +134,10 @@ public class ShowSystemInfoService {
                                 if (series[ii * 2 + 1].getData().size() > 60) {
                                     series[ii * 2 + 1].getData().remove(0);
                                 }
-                                series[ii * 2 + 0].getData().add(new XYChart.Data(xValue, diskStores[ii].getReadBytes() * 1000 / diskStores[ii].getTransferTime()));
-                                series[ii * 2 + 1].getData().add(new XYChart.Data(xValue, diskStores[ii].getWriteBytes() * 1000 / diskStores[ii].getTransferTime()));
+                                if(diskStores[ii].getTransferTime() > 0){
+                                    series[ii * 2 + 0].getData().add(new XYChart.Data(xValue, diskStores[ii].getReadBytes() * 1000 / diskStores[ii].getTransferTime()));
+                                    series[ii * 2 + 1].getData().add(new XYChart.Data(xValue, diskStores[ii].getWriteBytes() * 1000 / diskStores[ii].getTransferTime()));
+                                }
                             });
                         }
                     } catch (Exception e) {

@@ -1,5 +1,6 @@
 package com.xwintop.xJavaFxTool.services.debugTools;
 
+import com.sun.jna.Platform;
 import com.xwintop.xJavaFxTool.controller.debugTools.SwitchHostsToolController;
 import com.xwintop.xcore.util.SystemInfoUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
@@ -33,8 +34,14 @@ public class SwitchHostsToolService {
     private String localHost2String = "# 方案二\n";
 
     public void reloadSystemHosts() throws Exception {
-        String fileName = SystemInfoUtil.getHostsFilePath();
-        String systemHostString = FileUtils.readFileToString(new File(fileName),"utf-8");
+        String fileName = null;
+        if (Platform.isWindows()) {
+            fileName = "C://WINDOWS//system32//drivers//etc//hosts";
+        } else {
+            fileName = "/etc/hosts";
+        }
+//        String fileName = SystemInfoUtil.getHostsFilePath();
+        String systemHostString = FileUtils.readFileToString(new File(fileName), "utf-8");
         switchHostsToolController.getHostTextArea().setText(systemHostString);
 
     }
@@ -42,7 +49,7 @@ public class SwitchHostsToolService {
     public void editAction() throws Exception {
         String fileName = SystemInfoUtil.getHostsFilePath();
         String systemHostString = switchHostsToolController.getHostTextArea().getText();
-        FileUtils.writeByteArrayToFile(new File(fileName),systemHostString.getBytes());
+        FileUtils.writeByteArrayToFile(new File(fileName), systemHostString.getBytes());
         TooltipUtil.showToast("保存配置成功");
     }
 
