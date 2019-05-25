@@ -2,7 +2,6 @@ package com.xwintop.xJavaFxTool.controller.debugTools;
 
 import com.xwintop.xJavaFxTool.services.debugTools.socketTool.SocketToolService;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
-import com.xwintop.xJavaFxTool.utils.SigarUtil;
 import com.xwintop.xJavaFxTool.view.debugTools.SocketToolView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,6 +14,10 @@ import javafx.scene.input.MouseButton;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ArrayUtils;
+import oshi.SystemInfo;
+import oshi.hardware.HardwareAbstractionLayer;
+import oshi.hardware.NetworkIF;
 
 import java.net.URL;
 import java.util.Map;
@@ -46,15 +49,21 @@ public class SocketToolController extends SocketToolView {
     }
 
     private void initView() throws Exception {
-        String ifNames[] = SigarUtil.sigar.getNetInterfaceList();
-        for (int i = ifNames.length - 1; i >= 0; i--) {
-            String address = SigarUtil.sigar.getNetInterfaceConfig(ifNames[i]).getAddress();
-            if (!"0.0.0.0".equals(address)) {
+        serverTcpUrlComboBox.getItems().add("127.0.0.1");
+        serverUdpUrlComboBox.getItems().add("127.0.0.1");
+        clientUrlComboBox.getItems().add("127.0.0.1");
+        SystemInfo si = new SystemInfo();
+        HardwareAbstractionLayer hal = si.getHardware();
+        NetworkIF[] networkIFs = hal.getNetworkIFs();
+        for (NetworkIF networkIF : networkIFs) {
+            if (ArrayUtils.getLength(networkIF.getIPv4addr()) > 0) {
+                String address = networkIF.getIPv4addr()[0];
                 serverTcpUrlComboBox.getItems().add(address);
                 serverUdpUrlComboBox.getItems().add(address);
                 clientUrlComboBox.getItems().add(address);
             }
         }
+
         serverTcpUrlComboBox.getSelectionModel().select(0);
         serverUdpUrlComboBox.getSelectionModel().select(0);
         clientUrlComboBox.getSelectionModel().select(0);
@@ -86,7 +95,7 @@ public class SocketToolController extends SocketToolView {
             if (event.getButton() == MouseButton.SECONDARY && !serverConnectTableData.isEmpty()) {
                 MenuItem menu_Remove = new MenuItem("断开选中连接");
                 menu_Remove.setOnAction(event1 -> {
-                    if(socketToolService.getTcpAcceptor() !=null) {
+                    if (socketToolService.getTcpAcceptor() != null) {
                         socketToolService.getTcpAcceptor().getManagedSessions().forEach((aLong, ioSession) -> {
                             serverConnectTableView.getSelectionModel().getSelectedItems().forEach(stringStringMap -> {
                                 if (stringStringMap.get("connect").contains(ioSession.getRemoteAddress().toString())) {
@@ -95,7 +104,7 @@ public class SocketToolController extends SocketToolView {
                             });
                         });
                     }
-                    if (socketToolService.getUdpAcceptor() != null){
+                    if (socketToolService.getUdpAcceptor() != null) {
                         socketToolService.getUdpAcceptor().getManagedSessions().forEach((aLong, ioSession) -> {
                             serverConnectTableView.getSelectionModel().getSelectedItems().forEach(stringStringMap -> {
                                 if (stringStringMap.get("connect").contains(ioSession.getRemoteAddress().toString())) {
@@ -108,12 +117,12 @@ public class SocketToolController extends SocketToolView {
                 });
                 MenuItem menu_RemoveAll = new MenuItem("断开所有连接");
                 menu_RemoveAll.setOnAction(event1 -> {
-                    if(socketToolService.getTcpAcceptor() !=null) {
+                    if (socketToolService.getTcpAcceptor() != null) {
                         socketToolService.getTcpAcceptor().getManagedSessions().forEach((aLong, ioSession) -> {
                             ioSession.closeNow();
                         });
                     }
-                    if(socketToolService.getUdpAcceptor() !=null) {
+                    if (socketToolService.getUdpAcceptor() != null) {
                         socketToolService.getUdpAcceptor().getManagedSessions().forEach((aLong, ioSession) -> {
                             ioSession.closeNow();
                         });

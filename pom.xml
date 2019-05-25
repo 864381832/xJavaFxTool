@@ -154,11 +154,11 @@
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
 
-		<!-- sigar获取系统信息 -->
+		<!-- oshi获取系统信息工具 -->
 		<dependency>
-			<groupId>org.fusesource</groupId>
-			<artifactId>sigar</artifactId>
-			<version>1.6.4</version>
+			<groupId>com.github.oshi</groupId>
+			<artifactId>oshi-core</artifactId>
+			<version>3.9.1</version>
 		</dependency>
 
 		<!-- kafka开发 -->

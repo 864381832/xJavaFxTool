@@ -2,31 +2,23 @@ package com.xwintop.xJavaFxTool.services.javaFxTools;
 
 import com.alibaba.fastjson.JSON;
 import com.xwintop.xJavaFxTool.controller.javaFxTools.ShowSystemInfoController;
-import com.xwintop.xJavaFxTool.utils.SigarUtil;
 import com.xwintop.xcore.util.FileUtil;
-
-import org.hyperic.sigar.CpuInfo;
-import org.hyperic.sigar.CpuPerc;
-import org.hyperic.sigar.FileSystem;
-import org.hyperic.sigar.FileSystemUsage;
-import org.hyperic.sigar.Mem;
-import org.hyperic.sigar.Sigar;
-
-import java.net.InetAddress;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import javafx.application.Platform;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
+import oshi.SystemInfo;
+import oshi.hardware.CentralProcessor;
+import oshi.hardware.GlobalMemory;
+import oshi.hardware.HardwareAbstractionLayer;
+import oshi.software.os.FileSystem;
+import oshi.software.os.OSFileStore;
+import oshi.software.os.OperatingSystem;
+
+import java.net.InetAddress;
+import java.util.*;
 
 /**
  * @ClassName: ShowSystemInfoService
@@ -40,12 +32,15 @@ import lombok.extern.log4j.Log4j;
 public class ShowSystemInfoService {
 
     private ShowSystemInfoController showSystemInfoController;
-    private Sigar sigar = SigarUtil.sigar;
     private List<Timer> timerList = new ArrayList<Timer>();//统一管理线程
+
+    private SystemInfo si = new SystemInfo();
+    private HardwareAbstractionLayer hal = si.getHardware();
 
     public void showOverviewCpuLineChart() {
         try {
-            XYChart.Series[] series = new XYChart.Series[sigar.getCpuInfoList().length];
+            CentralProcessor processor = hal.getProcessor();
+            XYChart.Series[] series = new XYChart.Series[processor.getLogicalProcessorCount()];
             for (int i = 0; i < series.length; i++) {
                 series[i] = new XYChart.Series();
                 series[i].setName("第" + (i + 1) + "块CPU信息");
@@ -53,26 +48,25 @@ public class ShowSystemInfoService {
             showSystemInfoController.getOverviewCpuLineChart().getData().addAll(series);
             showSystemInfoController.getOverviewCpuLineChart().getXAxis().setTickLabelsVisible(false);
             showSystemInfoController.getOverviewCpuLineChart().getYAxis().setMaxHeight(1);
-            Timer timer =  new Timer();
+            Timer timer = new Timer();
             timerList.add(timer);
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     try {
-                        CpuInfo infos[] = sigar.getCpuInfoList();
-                        CpuPerc cpuList[] = sigar.getCpuPercList();
-                        String xValue = ""+System.currentTimeMillis();
-                        for (int i = 0; i < infos.length; i++) {// 不管是单块CPU还是多CPU都适用
+                        String xValue = "" + System.currentTimeMillis();
+                        double[] load = processor.getProcessorCpuLoadBetweenTicks();
+                        for (int i = 0; i < series.length; i++) {// 不管是单块CPU还是多CPU都适用
                             final int ii = i;
-                            Platform.runLater(()-> {
+                            Platform.runLater(() -> {
                                 if (series[ii].getData().size() > 60) {
                                     series[ii].getData().remove(0);
                                 }
-                                series[ii].getData().add(new XYChart.Data(xValue, cpuList[ii].getCombined()));
+                                series[ii].getData().add(new XYChart.Data(xValue, load[ii]));
                             });
                         }
                     } catch (Exception e) {
-                        log.error(e.getMessage());
+                        log.error("cpu使用率获取失败：", e);
                     }
                 }
             }, 0, 1000);
@@ -83,14 +77,15 @@ public class ShowSystemInfoService {
 
     public void showOverviewMemoryLineChart() {
         try {
+            GlobalMemory memory = hal.getMemory();
             LineChart lineChart = showSystemInfoController.getOverviewMemoryLineChart();
 //            lineChart.setCreateSymbols(false);
             XYChart.Series<String, Integer> series = new XYChart.Series<String, Integer>();
             lineChart.getData().add(series);
             lineChart.getXAxis().setTickLabelsVisible(false);
-            lineChart.getYAxis().setMaxHeight(sigar.getMem().getTotal() / 1048576L);
+            lineChart.getYAxis().setMaxHeight(memory.getTotal() / 1048576L);
             lineChart.setLegendVisible(false);
-            Timer timer =  new Timer();
+            Timer timer = new Timer();
             timerList.add(timer);
             timer.schedule(new TimerTask() {
                 @Override
@@ -100,8 +95,7 @@ public class ShowSystemInfoService {
                             if (series.getData().size() > 60) {
                                 series.getData().remove(0);
                             }
-                            Mem mem = sigar.getMem();
-                            series.getData().add(new XYChart.Data(""+System.currentTimeMillis(), mem.getUsed() / 1048576L));
+                            series.getData().add(new XYChart.Data("" + System.currentTimeMillis(), (memory.getTotal() - memory.getAvailable()) / 1048576L));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -115,7 +109,7 @@ public class ShowSystemInfoService {
 
     public void showOverviewDiskLineChart() {
         try {
-            Timer timer =  new Timer();
+            Timer timer = new Timer();
             timerList.add(timer);
             timer.schedule(new TimerTask() {
                 @Override
@@ -130,7 +124,7 @@ public class ShowSystemInfoService {
 
     public void showOverviewNetLineChart() {
         try {
-            Timer timer =  new Timer();
+            Timer timer = new Timer();
             timerList.add(timer);
             timer.schedule(new TimerTask() {
                 @Override
@@ -144,80 +138,45 @@ public class ShowSystemInfoService {
 
     public void showDiskInfo() {
         try {
-//            FlowPane flowPane = new FlowPane();
-            FileSystem fslist[] = sigar.getFileSystemList();
+            OperatingSystem os = si.getOperatingSystem();
+            FileSystem fileSystem = os.getFileSystem();
+            OSFileStore[] fsArray = fileSystem.getFileStores();
             List dataList = new ArrayList();
-//            showSystemInfoController.getDiskTab().setContent(flowPane);
-            for (int i = 0; i < fslist.length; i++) {
-                try {
-                    FileSystem fs = fslist[i];
-                    FileSystemUsage usage = sigar.getFileSystemUsage(fs.getDirName());
-                    switch (fs.getType()) {
-                        case 0: // TYPE_UNKNOWN ：未知
-                            break;
-                        case 1: // TYPE_NONE
-                            break;
-                        case 2: // TYPE_LOCAL_DISK : 本地硬盘
-//                            ObservableList<PieChart.Data> pieChartData =
-//                                    FXCollections.observableArrayList(
-//                                            new PieChart.Data("已经使用量", usage.getUsed()),
-//                                            new PieChart.Data("剩余大小", usage.getFree())
-//                                    );
-//                            final PieChart chart = new PieChart(pieChartData);
-//                            chart.setTitle("盘符名称:" + fs.getDevName());
-//                            chart.setStartAngle(90);
-//                            chart.setPrefWidth(300);
-//                            chart.setPrefHeight(300);
-//                            chart.setLegendVisible(false);
-//                            flowPane.getChildren().add(chart);
+            for (int i = 0; i < fsArray.length; i++) {
+                OSFileStore fs = fsArray[i];
+                Map map = new HashMap();
+                map.put("id", "" + i);
+                map.put("name", fs.getName());
+                map.put("parent", "");
+                map.put("value", fs.getTotalSpace());
+                map.put("showValue", FileUtil.FormetFileSize(fs.getTotalSpace()));
 
-                            Map map = new HashMap();
-                            map.put("id", ""+i);
-                            map.put("name", "磁盘" + fs.getDevName());
-                            map.put("parent", "");
-                            map.put("value", usage.getTotal());
-                            map.put("showValue", FileUtil.FormetFileSize(usage.getTotal()*1024));
+                Map map1 = new HashMap();
+                map1.put("id", "" + i + '1');
+                map1.put("name", "已用");
+                map1.put("parent", "" + i);
+                map1.put("value", fs.getTotalSpace() - fs.getUsableSpace());
+                map1.put("showValue", FileUtil.FormetFileSize((fs.getTotalSpace() - fs.getUsableSpace())));
 
-                            Map map1 = new HashMap();
-                            map1.put("id", ""+i + '1');
-                            map1.put("name", "已用");
-                            map1.put("parent", ""+i);
-                            map1.put("value", usage.getUsed());
-                            map1.put("showValue", FileUtil.FormetFileSize(usage.getUsed()*1024));
-
-                            Map map2 = new HashMap();
-                            map2.put("id", ""+i + '2');
-                            map2.put("name", "剩余");
-                            map2.put("parent", ""+i);
-                            map2.put("value", usage.getFree());
-                            map2.put("showValue", FileUtil.FormetFileSize(usage.getFree()*1024));
-                            dataList.add(map);
-                            dataList.add(map1);
-                            dataList.add(map2);
-                            break;
-                        case 3:// TYPE_NETWORK ：网络
-                            break;
-                        case 4:// TYPE_RAM_DISK ：闪存
-                            break;
-                        case 5:// TYPE_CDROM ：光驱
-                            break;
-                        case 6:// TYPE_SWAP ：页面交换
-                            break;
-                        default:
-                            break;
-                    }
-                } catch (Exception e) {
-                    log.error(e.getMessage());
-                }
+                Map map2 = new HashMap();
+                map2.put("id", "" + i + '2');
+                map2.put("name", "剩余");
+                map2.put("parent", "" + i);
+                map2.put("value", fs.getUsableSpace());
+                map2.put("showValue", FileUtil.FormetFileSize(fs.getUsableSpace()));
+                dataList.add(map);
+                dataList.add(map1);
+                dataList.add(map2);
             }
             String s = JSON.toJSONString(dataList);
-            showSystemInfoController.getDiskWebView().getEngine().executeScript("updateData("+s+")");
+            showSystemInfoController.getDiskWebView().getEngine().executeScript("updateData(" + s + ")");
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("获取磁盘空间失败", e);
         }
     }
 
-    /** 
+
+    /**
      * 显示vm信息
      */
     public void showVmInfo() {//显示Vm信息
@@ -277,7 +236,7 @@ public class ShowSystemInfoService {
     /**
      * 停止所以线程
      */
-    public void stopTimerList(){
+    public void stopTimerList() {
         for (Timer timer : timerList) {
             timer.cancel();
             timer = null;
