@@ -7,7 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
@@ -26,7 +26,7 @@ import java.util.TimeZone;
 
 @Getter
 @Setter
-@Log4j
+@Slf4j
 public class TimeToolController extends TimeToolView {
     private TimeToolService timeToolService = new TimeToolService(this);
     /**

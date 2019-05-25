@@ -11,7 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 /**
  * @ClassName: SwitchHostsToolController
  * @Description: 切换Hosts工具
@@ -21,7 +21,7 @@ import lombok.extern.log4j.Log4j;
 
 @Getter
 @Setter
-@Log4j
+@Slf4j
 public class SwitchHostsToolController extends SwitchHostsToolView {
 
     private SwitchHostsToolService switchHostsToolService = new SwitchHostsToolService(this);

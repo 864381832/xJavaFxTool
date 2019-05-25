@@ -31,7 +31,7 @@ import javafx.scene.input.MouseButton;
 import javafx.util.Callback;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @ClassName: CmdToolController
@@ -42,7 +42,7 @@ import lombok.extern.log4j.Log4j;
 
 @Getter
 @Setter
-@Log4j
+@Slf4j
 public class CmdToolController extends CmdToolView {
 	private CmdToolService cmdToolService = new CmdToolService(this);
 	private ObservableList<CmdToolTableBean> tableData = FXCollections.observableArrayList();

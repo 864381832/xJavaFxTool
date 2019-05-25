@@ -21,7 +21,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseButton;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.net.URL;
@@ -37,7 +37,7 @@ import java.util.ResourceBundle;
  */
 @Getter
 @Setter
-@Log4j
+@Slf4j
 public class EmailToolController extends EmailToolView {
     private EmailToolService emailToolService = new EmailToolService(this);
     private ObservableList<EmailToolTableBean> tableData = FXCollections.observableArrayList();

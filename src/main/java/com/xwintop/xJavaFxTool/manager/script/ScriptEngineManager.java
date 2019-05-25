@@ -6,7 +6,7 @@ import com.xwintop.xJavaFxTool.manager.script.lua.LuaScriptEngine;
 import com.xwintop.xJavaFxTool.manager.script.python.PythonScriptEngine;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.util.Map;
@@ -18,7 +18,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-@Log4j
+@Slf4j
 public class ScriptEngineManager implements ScriptEngine{
     private ScriptEngineType scriptEngineType;
     private ScriptEngine scriptEngine = null;

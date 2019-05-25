@@ -14,7 +14,7 @@ import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.command.ActiveMQBytesMessage;
 import org.apache.activemq.command.ActiveMQMapMessage;
@@ -39,7 +39,7 @@ import java.util.function.Consumer;
 
 @Getter
 @Setter
-@Log4j
+@Slf4j
 public class ActiveMqToolService {
 	private ActiveMqToolController activeMqToolController;
 	private ScheduleManager scheduleManager = new ScheduleManager();

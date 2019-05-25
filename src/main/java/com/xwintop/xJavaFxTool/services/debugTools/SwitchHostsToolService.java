@@ -5,7 +5,7 @@ import com.xwintop.xcore.util.SystemInfoUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -19,7 +19,7 @@ import java.io.File;
 
 @Getter
 @Setter
-@Log4j
+@Slf4j
 public class SwitchHostsToolService {
     private SwitchHostsToolController switchHostsToolController;
 

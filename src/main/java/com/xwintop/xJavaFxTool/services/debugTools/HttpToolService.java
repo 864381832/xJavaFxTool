@@ -13,7 +13,7 @@ import com.xwintop.xcore.util.javafx.TooltipUtil;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.FormBody.Builder;
 import okhttp3.Headers;
@@ -32,7 +32,7 @@ import okhttp3.Response;
 
 @Getter
 @Setter
-@Log4j
+@Slf4j
 public class HttpToolService {
 	private HttpToolController httpToolController;
 	public static final MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("text/x-markdown; charset=utf-8");

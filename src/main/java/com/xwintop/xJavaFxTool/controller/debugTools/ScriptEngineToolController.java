@@ -20,7 +20,7 @@ import javafx.scene.input.MouseButton;
 import javafx.util.Callback;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -33,7 +33,7 @@ import java.util.ResourceBundle;
 
 @Getter
 @Setter
-@Log4j
+@Slf4j
 public class ScriptEngineToolController extends ScriptEngineToolView {
     private ScriptEngineToolService scriptEngineToolService = new ScriptEngineToolService(this);
     private ObservableList<ScriptEngineToolTableBean> tableData = FXCollections.observableArrayList();

@@ -10,7 +10,7 @@ import com.xwintop.xcore.util.javafx.TooltipUtil;
 import javafx.collections.ObservableList;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.codec.digest.HmacUtils;
 import org.apache.commons.io.FileUtils;
@@ -30,7 +30,7 @@ import java.util.*;
 
 @Getter
 @Setter
-@Log4j
+@Slf4j
 public class SmsToolService {
     private SmsToolController smsToolController;
 

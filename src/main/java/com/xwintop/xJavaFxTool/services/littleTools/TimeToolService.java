@@ -4,7 +4,7 @@ import com.xwintop.xJavaFxTool.controller.littleTools.TimeToolController;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -22,7 +22,7 @@ import java.util.TimeZone;
 
 @Getter
 @Setter
-@Log4j
+@Slf4j
 public class TimeToolService {
     public static final String 按毫秒计算相差 = "按毫秒计算相差:";
     private TimeToolController timeToolController;

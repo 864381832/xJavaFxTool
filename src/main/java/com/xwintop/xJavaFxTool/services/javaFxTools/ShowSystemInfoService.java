@@ -8,7 +8,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import oshi.SystemInfo;
 import oshi.hardware.*;
 import oshi.hardware.CentralProcessor.TickType;
@@ -27,7 +27,7 @@ import java.util.*;
  */
 @Getter
 @Setter
-@Log4j
+@Slf4j
 public class ShowSystemInfoService {
 
     private ShowSystemInfoController showSystemInfoController;

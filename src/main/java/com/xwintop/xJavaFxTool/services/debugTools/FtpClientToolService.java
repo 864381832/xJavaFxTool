@@ -13,7 +13,7 @@ import com.xwintop.xcore.util.javafx.TooltipUtil;
 import javafx.stage.FileChooser;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -35,7 +35,7 @@ import java.util.function.Consumer;
 
 @Getter
 @Setter
-@Log4j
+@Slf4j
 public class FtpClientToolService {
     private FtpClientToolController ftpClientToolController;
 

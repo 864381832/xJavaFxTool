@@ -28,7 +28,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseButton;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @ClassName: FtpServerController
@@ -39,7 +39,7 @@ import lombok.extern.log4j.Log4j;
 
 @Getter
 @Setter
-@Log4j
+@Slf4j
 public class FtpServerController extends FtpServerView {
 	private FtpServerService ftpServerService = new FtpServerService(this);
 	private ObservableList<FtpServerTableBean> tableData = FXCollections.observableArrayList();

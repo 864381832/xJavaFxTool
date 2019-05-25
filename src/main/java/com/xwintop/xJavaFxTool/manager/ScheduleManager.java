@@ -3,7 +3,7 @@ package com.xwintop.xJavaFxTool.manager;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
@@ -17,7 +17,7 @@ import org.quartz.impl.StdSchedulerFactory;
 
 @Getter
 @Setter
-@Log4j
+@Slf4j
 public class ScheduleManager {
     private SchedulerFactory sf = new StdSchedulerFactory();
     private String schedulerKeyGroup = "x";

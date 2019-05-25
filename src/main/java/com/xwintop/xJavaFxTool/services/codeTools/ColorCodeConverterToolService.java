@@ -5,7 +5,7 @@ import com.xwintop.xJavaFxTool.controller.codeTools.ColorCodeConverterToolContro
 import javafx.scene.paint.Color;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Locale;
 
@@ -17,7 +17,7 @@ import java.util.Locale;
  */
 @Getter
 @Setter
-@Log4j
+@Slf4j
 public class ColorCodeConverterToolService {
     private ColorCodeConverterToolController colorCodeConverterToolController;
 

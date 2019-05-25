@@ -13,7 +13,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -28,7 +28,7 @@ import java.util.HashMap;
 
 @Getter
 @Setter
-@Log4j
+@Slf4j
 public class TextToSpeechToolService {
     private TextToSpeechToolController textToSpeechToolController;
     //设置APPID/AK/SK

@@ -11,7 +11,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,7 +31,7 @@ import org.apache.commons.imaging.Imaging;
  */
 @Getter
 @Setter
-@Log4j
+@Slf4j
 public class AsciiPicToolController extends AsciiPicToolView {
     private AsciiPicToolService asciiPicToolService = new AsciiPicToolService(this);
     private String[] imageSize = new String[]{"不压缩", "60*60", "120*120", "256*256", "512*512"};

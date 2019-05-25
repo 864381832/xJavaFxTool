@@ -8,7 +8,7 @@ import com.xwintop.xcore.util.StrUtil;
 import com.xwintop.xcore.util.XML2BeanUtils;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.betwixt.schema.Element;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.io.SAXReader;
@@ -27,7 +27,7 @@ import java.util.Map;
 
 @Getter
 @Setter
-@Log4j
+@Slf4j
 public class JsonConvertToolService {
     private JsonConvertToolController jsonConvertToolController;
 

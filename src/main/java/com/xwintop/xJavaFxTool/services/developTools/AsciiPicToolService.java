@@ -7,7 +7,7 @@ import com.xwintop.xcore.util.javafx.TooltipUtil;
 import javafx.scene.image.Image;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
@@ -36,7 +36,7 @@ import java.util.concurrent.*;
 
 @Getter
 @Setter
-@Log4j
+@Slf4j
 public class AsciiPicToolService {
     private AsciiPicToolController asciiPicToolController;
 

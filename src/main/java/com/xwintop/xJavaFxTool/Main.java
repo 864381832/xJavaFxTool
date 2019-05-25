@@ -14,7 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.ResourceBundle;
@@ -26,7 +26,7 @@ import java.util.ResourceBundle;
  * @date: 2017年11月10日 下午4:34:11
  */
 @SpringBootApplication
-@Log4j
+@Slf4j
 public class Main extends Application {
     private static Stage stage;
 

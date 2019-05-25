@@ -9,7 +9,7 @@ import javafx.event.Event;
 import javafx.scene.control.Tab;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
  */
 @Getter
 @Setter
-@Log4j
+@Slf4j
 public class ShowSystemInfoController extends ShowSystemInfoView {
 
     private ShowSystemInfoService showSystemInfoService = new ShowSystemInfoService(this);

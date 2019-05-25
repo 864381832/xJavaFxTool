@@ -22,7 +22,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseButton;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @ClassName: DirectoryTreeToolController
@@ -32,7 +32,7 @@ import lombok.extern.log4j.Log4j;
  */
 @Getter
 @Setter
-@Log4j
+@Slf4j
 public class DirectoryTreeToolController extends DirectoryTreeToolView {
     private DirectoryTreeToolService directoryTreeToolService = new DirectoryTreeToolService(this);
     private ObservableList<Map<String, String>> tableData = FXCollections.observableArrayList();

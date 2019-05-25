@@ -11,7 +11,7 @@ import com.xwintop.xJavaFxTool.utils.DirectoryTreeUtil;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @ClassName: DirectoryTreeToolService
@@ -21,7 +21,7 @@ import lombok.extern.log4j.Log4j;
  */
 @Getter
 @Setter
-@Log4j
+@Slf4j
 public class DirectoryTreeToolService {
 	private DirectoryTreeToolController directoryTreeToolController;
 	private Integer totalDirNum = 0;

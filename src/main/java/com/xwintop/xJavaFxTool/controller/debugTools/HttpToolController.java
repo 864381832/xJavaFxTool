@@ -27,7 +27,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.input.MouseButton;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @ClassName: HttpToolController
@@ -36,7 +36,7 @@ import lombok.extern.log4j.Log4j;
  * @date: 2019/4/25 0025 23:23
  */
 
-@Log4j
+@Slf4j
 @Setter
 @Getter
 public class HttpToolController extends HttpToolView {

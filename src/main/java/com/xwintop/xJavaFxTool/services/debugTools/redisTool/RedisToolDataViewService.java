@@ -14,12 +14,12 @@ import javafx.collections.ObservableList;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.Tuple;
 
 @Getter
 @Setter
-@Log4j
+@Slf4j
 public class RedisToolDataViewService {
 	private RedisToolDataViewController redisToolDataViewController;
 	private String type;

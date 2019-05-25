@@ -28,7 +28,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @ClassName: ImageToolController
@@ -39,7 +39,7 @@ import lombok.extern.log4j.Log4j;
 
 @Getter
 @Setter
-@Log4j
+@Slf4j
 public class ImageToolController extends ImageToolView {
     private ImageToolService imageToolService = new ImageToolService(this);
     private ObservableList<Map<String, String>> tableData = FXCollections.observableArrayList();//表格数据

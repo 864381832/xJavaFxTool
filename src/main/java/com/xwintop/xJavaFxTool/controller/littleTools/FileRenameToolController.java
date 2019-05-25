@@ -11,7 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -28,7 +28,7 @@ import java.util.ResourceBundle;
 
 @Getter
 @Setter
-@Log4j
+@Slf4j
 public class FileRenameToolController extends FileRenameToolView {
     private FileRenameToolService fileRenameToolService = new FileRenameToolService(this);
     private ObservableList<Map<String, String>> ruleTableData = FXCollections.observableArrayList();

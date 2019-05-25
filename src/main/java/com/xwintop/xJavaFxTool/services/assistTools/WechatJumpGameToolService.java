@@ -6,7 +6,7 @@ import com.xwintop.xcore.util.javafx.TooltipUtil;
 import javafx.application.Platform;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -26,7 +26,7 @@ import java.util.Random;
 
 @Getter
 @Setter
-@Log4j
+@Slf4j
 public class WechatJumpGameToolService {
     private WechatJumpGameToolController wechatJumpGameToolController;
     private String adb = "";

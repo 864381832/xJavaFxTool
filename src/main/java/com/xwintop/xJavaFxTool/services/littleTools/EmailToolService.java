@@ -3,7 +3,6 @@ package com.xwintop.xJavaFxTool.services.littleTools;
 import com.xwintop.xJavaFxTool.controller.littleTools.EmailToolController;
 import com.xwintop.xJavaFxTool.job.EmailToolJob;
 import com.xwintop.xJavaFxTool.model.EmailToolTableBean;
-import com.xwintop.xJavaFxTool.model.EmailToolTableBean;
 import com.xwintop.xJavaFxTool.utils.ConfigureUtil;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
@@ -11,15 +10,12 @@ import javafx.collections.ObservableList;
 import javafx.stage.FileChooser;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.HtmlEmail;
-import org.apache.commons.mail.SimpleEmail;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
@@ -27,7 +23,6 @@ import javax.mail.internet.InternetAddress;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -40,7 +35,7 @@ import java.util.function.Consumer;
  */
 @Getter
 @Setter
-@Log4j
+@Slf4j
 public class EmailToolService {
     private EmailToolController emailToolController;
 
