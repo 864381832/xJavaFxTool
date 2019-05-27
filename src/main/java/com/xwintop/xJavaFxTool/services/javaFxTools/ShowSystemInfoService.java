@@ -394,7 +394,7 @@ public class ShowSystemInfoService {
         long steal = ticks[TickType.STEAL.getIndex()] - prevTicks[TickType.STEAL.getIndex()];
         long totalCpu = user + nice + sys + idle + iowait + irq + softirq + steal;
 
-        stringBuffer.append(String.format("User: %.1f%% Nice: %.1f%% System: %.1f%% Idle: %.1f%% IOwait: %.1f%% IRQ: %.1f%% SoftIRQ: %.1f%% Steal: %.1f%%%n",
+        stringBuffer.append(String.format("\nUser: %.1f%% Nice: %.1f%% System: %.1f%% Idle: %.1f%% IOwait: %.1f%% IRQ: %.1f%% SoftIRQ: %.1f%% Steal: %.1f%%%n",
                 100d * user / totalCpu, 100d * nice / totalCpu, 100d * sys / totalCpu, 100d * idle / totalCpu,
                 100d * iowait / totalCpu, 100d * irq / totalCpu, 100d * softirq / totalCpu, 100d * steal / totalCpu));
         stringBuffer.append(String.format("CPU load: %.1f%% (counting ticks)%n", processor.getSystemCpuLoadBetweenTicks() * 100));
@@ -433,9 +433,9 @@ public class ShowSystemInfoService {
     private static String printSensors(Sensors sensors) {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("\nSensors:");
-        stringBuffer.append(String.format(" CPU Temperature: %.1f°C%n", sensors.getCpuTemperature()));
+        stringBuffer.append(String.format("\n CPU Temperature: %.1f°C%n", sensors.getCpuTemperature()));
 //        stringBuffer.append("\n Fan Speeds: " + Arrays.toString(sensors.getFanSpeeds()));
-        stringBuffer.append(String.format(" CPU Voltage: %.1fV%n", sensors.getCpuVoltage()));
+        stringBuffer.append(String.format("\n CPU Voltage: %.1fV%n", sensors.getCpuVoltage()));
         return stringBuffer.toString();
     }
 
