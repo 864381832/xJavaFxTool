@@ -30,7 +30,11 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 
 - 依赖的[xcore包](https://gitee.com/xwintop/xcore)已上传至git托管的maven平台，git托管maven可参考教程。[教程地址：点击进入](http://blog.csdn.net/u011747754/article/details/78574026)
 
-- 使用[exe4j](https://www.ej-technologies.com/download/exe4j/files)将jar包转成exe执行文件（仅供参考，可使用其它程序打包）
+- 使用[javafx-maven-plugin](https://github.com/javafx-maven-plugin/javafx-maven-plugin)插件进行打包操作（可打包windows、Linux、Mac安装包）；
+
+- 使用[exe4j](https://www.ej-technologies.com/download/exe4j/files)将jar包转成exe执行文件（仅供参考，可使用其它程序打包）；
+
+- 使用[InnoSetup](http://www.jrsoftware.org/)可进行制作windows安装包；
 
 #### 目前集成的小工具有：
 1、FileCopy：文件复制（支持自动调度拷贝功能）；
