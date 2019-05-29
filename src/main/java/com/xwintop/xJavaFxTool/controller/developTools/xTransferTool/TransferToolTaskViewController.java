@@ -99,7 +99,7 @@ public class TransferToolTaskViewController extends TransferToolTaskViewView {
             if (event.getButton() == MouseButton.SECONDARY) {
                 Menu menu = new Menu("添加");
                 String packageName = "com.xwintop.xTransfer.receiver.bean";
-                String[] classNameS = new String[]{"ReceiverConfigDataBus",
+                String[] classNameS = new String[]{
                         "ReceiverConfigEmail",
                         "ReceiverConfigFs",
                         "ReceiverConfigFsSplit",

@@ -21,7 +21,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 
 （本地需要有jdk1.8环境）[xJavaFxTool-windows-x86-0.1.5.exe](http://files.git.oschina.net/group1/M00/07/7A/PaAvDFzB0GOABoCNBVH8ANNaC7w019.exe?token=8ef89a36b221011fb716294680a185e0&ts=1556206916&attname=xJavaFxTool-windows-x86-0.1.5.exe) （Windows平台32位运行包）
 
-支持插件开发，将插件jar包放至根目录libs下即可自动加载（插件开发示例见[开源项目xJavaFxPlugIn](https://gitee.com/xwintop/xJavaFxPlugIn)，目前刚刚搭建，后续会持续更新）；
+支持插件开发，将插件jar包放至根目录libs下即可自动加载（插件开发示例见[开源项目xJavaFxPlugIn](https://gitee.com/xwintop/xJavaFxPlugIn)，后续准备将小工具拆分至各插件中按需加载）；
 
 #### 环境搭建说明：
 - 开发环境为jdk1.8，基于maven构建；
@@ -259,9 +259,9 @@ xJavaFxTool
 
 #### 特别感谢
 在一个人还年轻的时候，我觉得，就应该着手致力做一些对社会有意义的事情，一如开源。至此，感谢以下贡献者（排名不分先后）：
-+ 李柱
-+ luming
-+ 码志
++ [李柱](https://gitee.com/loyalty521)
++ [luming](https://gitee.com/jeeweb)
++ [码志](https://gitee.com/dazer1992)
 + 你的女神
 
 #### 后续计划
@@ -269,29 +269,29 @@ xJavaFxTool
 
 #### 项目截图如下：
 
-![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/传输工具.png "传输工具.png")
-![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/文件复制.png "文件复制.png")
-![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/邮件发送工具.png "邮件发送工具.png")
-![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/Cron表达式生成器.png "Cron表达式生成器.png")
-![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/Mq调试工具.png "Mq调试工具.png")
-![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/正则表达式生成工具.png "正则表达式生成工具.png")
-![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/二维码生成工具.png "二维码生成工具.png")
-![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/json格式化编辑工具.png "json格式化编辑工具.png")
-![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/网址缩短.png "网址缩短.png")
-![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/字符串转换.png "字符串转换.png")
-![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/Http调试工具.png "Http调试工具.png")
-![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/编码转换.png "编码转换.png")
-![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/转义字符.png "转义字符.png")
-![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/加密解密.png "加密解密.png")
-![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/Time转换.png "Time转换.png")
-![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/图标生成工具.png "图标生成工具.png")
-![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/Redis连接工具.png "Redis连接工具.png")
-![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/Ftp服务器.png "Ftp服务器.png")
-![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/文件列表生成器.png "文件列表生成器.png")
-![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/图片压缩工具.png "图片压缩工具.png")
-![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/Ftp客户端调试工具.png "Ftp客户端调试工具.png")
-![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/Pdf转换工具.png "Pdf转换工具.png")
-![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/图片转码工具.png "图片转码工具.png")
-![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/Cmd调试工具.png "Cmd调试工具.png")
-![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/短信群发工具.png "短信群发工具.png")
-![输入图片说明](https://git.oschina.net/xwintop/xJavaFxTool/raw/master/images/zookeeper工具.png "zookeeper工具.png")
+![输入图片说明](https://gitee.com/xwintop/xJavaFxTool/raw/master/images/传输工具.png "传输工具.png")
+![输入图片说明](https://gitee.com/xwintop/xJavaFxTool/raw/master/images/文件复制.png "文件复制.png")
+![输入图片说明](https://gitee.com/xwintop/xJavaFxTool/raw/master/images/邮件发送工具.png "邮件发送工具.png")
+![输入图片说明](https://gitee.com/xwintop/xJavaFxTool/raw/master/images/Cron表达式生成器.png "Cron表达式生成器.png")
+![输入图片说明](https://gitee.com/xwintop/xJavaFxTool/raw/master/images/Mq调试工具.png "Mq调试工具.png")
+![输入图片说明](https://gitee.com/xwintop/xJavaFxTool/raw/master/images/正则表达式生成工具.png "正则表达式生成工具.png")
+![输入图片说明](https://gitee.com/xwintop/xJavaFxTool/raw/master/images/二维码生成工具.png "二维码生成工具.png")
+![输入图片说明](https://gitee.com/xwintop/xJavaFxTool/raw/master/images/json格式化编辑工具.png "json格式化编辑工具.png")
+![输入图片说明](https://gitee.com/xwintop/xJavaFxTool/raw/master/images/网址缩短.png "网址缩短.png")
+![输入图片说明](https://gitee.com/xwintop/xJavaFxTool/raw/master/images/字符串转换.png "字符串转换.png")
+![输入图片说明](https://gitee.com/xwintop/xJavaFxTool/raw/master/images/Http调试工具.png "Http调试工具.png")
+![输入图片说明](https://gitee.com/xwintop/xJavaFxTool/raw/master/images/编码转换.png "编码转换.png")
+![输入图片说明](https://gitee.com/xwintop/xJavaFxTool/raw/master/images/转义字符.png "转义字符.png")
+![输入图片说明](https://gitee.com/xwintop/xJavaFxTool/raw/master/images/加密解密.png "加密解密.png")
+![输入图片说明](https://gitee.com/xwintop/xJavaFxTool/raw/master/images/Time转换.png "Time转换.png")
+![输入图片说明](https://gitee.com/xwintop/xJavaFxTool/raw/master/images/图标生成工具.png "图标生成工具.png")
+![输入图片说明](https://gitee.com/xwintop/xJavaFxTool/raw/master/images/Redis连接工具.png "Redis连接工具.png")
+![输入图片说明](https://gitee.com/xwintop/xJavaFxTool/raw/master/images/Ftp服务器.png "Ftp服务器.png")
+![输入图片说明](https://gitee.com/xwintop/xJavaFxTool/raw/master/images/文件列表生成器.png "文件列表生成器.png")
+![输入图片说明](https://gitee.com/xwintop/xJavaFxTool/raw/master/images/图片压缩工具.png "图片压缩工具.png")
+![输入图片说明](https://gitee.com/xwintop/xJavaFxTool/raw/master/images/Ftp客户端调试工具.png "Ftp客户端调试工具.png")
+![输入图片说明](https://gitee.com/xwintop/xJavaFxTool/raw/master/images/Pdf转换工具.png "Pdf转换工具.png")
+![输入图片说明](https://gitee.com/xwintop/xJavaFxTool/raw/master/images/图片转码工具.png "图片转码工具.png")
+![输入图片说明](https://gitee.com/xwintop/xJavaFxTool/raw/master/images/Cmd调试工具.png "Cmd调试工具.png")
+![输入图片说明](https://gitee.com/xwintop/xJavaFxTool/raw/master/images/短信群发工具.png "短信群发工具.png")
+![输入图片说明](https://gitee.com/xwintop/xJavaFxTool/raw/master/images/zookeeper工具.png "zookeeper工具.png")

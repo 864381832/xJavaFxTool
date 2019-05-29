@@ -4,12 +4,16 @@ import com.xwintop.xJavaFxTool.services.debugTools.SwitchHostsToolService;
 import com.xwintop.xJavaFxTool.view.debugTools.SwitchHostsToolView;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
@@ -46,6 +50,7 @@ public class SwitchHostsToolController extends SwitchHostsToolView {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
+            executor = Executors.newSingleThreadExecutor();
             initView();
             initEvent();
             initService();
@@ -55,8 +60,7 @@ public class SwitchHostsToolController extends SwitchHostsToolView {
     }
 
     private void initView() {
-        executor = Executors.newSingleThreadExecutor();
-        hostTextArea = new CodeArea();
+        hostTextArea.getStylesheets().add(getClass().getClassLoader().getResource("css/debugTools/hosts-keywords.css").toExternalForm());
         hostTextArea.setParagraphGraphicFactory(LineNumberFactory.get(hostTextArea));
         hostTextArea.richChanges()
                 .filter(ch -> !ch.getInserted().equals(ch.getRemoved())) // XXX
@@ -64,7 +68,7 @@ public class SwitchHostsToolController extends SwitchHostsToolView {
                 .supplyTask(this::computeHighlightingAsync)
                 .awaitLatest(hostTextArea.richChanges())
                 .filterMap(t -> {
-                    if(t.isSuccess()) {
+                    if (t.isSuccess()) {
                         return Optional.of(t.get());
                     } else {
                         t.getFailure().printStackTrace();
@@ -72,24 +76,32 @@ public class SwitchHostsToolController extends SwitchHostsToolView {
                     }
                 })
                 .subscribe(this::applyHighlighting);
+        hostTextArea.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN).match(event)) {
+                    switchHostsToolService.editAction();
+                }
 
+            }
+        });
         TreeItem<String> treeItem = new TreeItem<String>("Hosts");
         treeItem.setExpanded(true);
         hostFileTreeView.setRoot(treeItem);
-        TreeItem<String> commonHostTreeItem = new TreeItem<String>("公共Host");
+//        TreeItem<String> commonHostTreeItem = new TreeItem<String>("公共Host");
         TreeItem<String> systemHostTreeItem = new TreeItem<String>("系统当前Host");
-        TreeItem<String> localHostTreeItem = new TreeItem<String>("本地方案");
-        localHostTreeItem.setExpanded(true);
-        TreeItem<String> localHostTreeItem1 = new TreeItem<String>("方案一");
-        TreeItem<String> localHostTreeItem2 = new TreeItem<String>("方案二");
-        localHostTreeItem.getChildren().add(localHostTreeItem1);
-        localHostTreeItem.getChildren().add(localHostTreeItem2);
-        TreeItem<String> webTreeItem = new TreeItem<String>("在线方案");
-        webTreeItem.setExpanded(true);
-        treeItem.getChildren().add(commonHostTreeItem);
+//        TreeItem<String> localHostTreeItem = new TreeItem<String>("本地方案");
+//        localHostTreeItem.setExpanded(true);
+//        TreeItem<String> localHostTreeItem1 = new TreeItem<String>("方案一");
+//        TreeItem<String> localHostTreeItem2 = new TreeItem<String>("方案二");
+//        localHostTreeItem.getChildren().add(localHostTreeItem1);
+//        localHostTreeItem.getChildren().add(localHostTreeItem2);
+//        TreeItem<String> webTreeItem = new TreeItem<String>("在线方案");
+//        webTreeItem.setExpanded(true);
+//        treeItem.getChildren().add(commonHostTreeItem);
         treeItem.getChildren().add(systemHostTreeItem);
-        treeItem.getChildren().add(localHostTreeItem);
-        treeItem.getChildren().add(webTreeItem);
+//        treeItem.getChildren().add(localHostTreeItem);
+//        treeItem.getChildren().add(webTreeItem);
     }
 
     private void initEvent() {
@@ -138,11 +150,12 @@ public class SwitchHostsToolController extends SwitchHostsToolView {
         int lastKwEnd = 0;
         StyleSpansBuilder<Collection<String>> spansBuilder
                 = new StyleSpansBuilder<>();
-        while(matcher.find()) {
+        while (matcher.find()) {
             String styleClass =
                     matcher.group("KEYWORD") != null ? "keyword" :
                             matcher.group("COMMENT") != null ? "comment" :
-                                    null; /* never happens */ assert styleClass != null;
+                                    null; /* never happens */
+            assert styleClass != null;
             spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
             spansBuilder.add(Collections.singleton(styleClass), matcher.end() - matcher.start());
             lastKwEnd = matcher.end();
