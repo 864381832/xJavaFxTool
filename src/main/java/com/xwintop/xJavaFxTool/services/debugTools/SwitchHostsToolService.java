@@ -2,7 +2,6 @@ package com.xwintop.xJavaFxTool.services.debugTools;
 
 import com.sun.jna.Platform;
 import com.xwintop.xJavaFxTool.controller.debugTools.SwitchHostsToolController;
-import com.xwintop.xcore.util.SystemInfoUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,7 +25,7 @@ public class SwitchHostsToolService {
 
     private String commonHostString = "# common\n" +
             "# 这儿是公用 hosts，其内容会插入到各个方案最前面";
-    private String systemHostString = "";
+    //    private String systemHostString = "";
     private String localHost1String = "# 方案一\n" +
             "# 什么也没有绑定\n" +
             "#\n" +
@@ -34,20 +33,14 @@ public class SwitchHostsToolService {
     private String localHost2String = "# 方案二\n";
 
     public void reloadSystemHosts() throws Exception {
-        String fileName = null;
-        if (Platform.isWindows()) {
-            fileName = "C://WINDOWS//system32//drivers//etc//hosts";
-        } else {
-            fileName = "/etc/hosts";
-        }
-//        String fileName = SystemInfoUtil.getHostsFilePath();
-        String systemHostString = FileUtils.readFileToString(new File(fileName), "utf-8");
-        switchHostsToolController.getHostTextArea().setText(systemHostString);
-
+        String fileName = this.getHostsFilePath();
+        String systemHostString = FileUtils.readFileToString(new File(fileName));
+//        switchHostsToolController.getHostTextArea().setText(systemHostString);
+        switchHostsToolController.getHostTextArea().replaceText(0, 0, systemHostString);
     }
 
     public void editAction() throws Exception {
-        String fileName = SystemInfoUtil.getHostsFilePath();
+        String fileName = this.getHostsFilePath();
         String systemHostString = switchHostsToolController.getHostTextArea().getText();
         FileUtils.writeByteArrayToFile(new File(fileName), systemHostString.getBytes());
         TooltipUtil.showToast("保存配置成功");
@@ -55,5 +48,15 @@ public class SwitchHostsToolService {
 
     public SwitchHostsToolService(SwitchHostsToolController switchHostsToolController) {
         this.switchHostsToolController = switchHostsToolController;
+    }
+
+    public String getHostsFilePath() {
+        String fileName = null;
+        if (Platform.isWindows()) {
+            fileName = "C://WINDOWS//system32//drivers//etc//hosts";
+        } else {
+            fileName = "/etc/hosts";
+        }
+        return fileName;
     }
 }
