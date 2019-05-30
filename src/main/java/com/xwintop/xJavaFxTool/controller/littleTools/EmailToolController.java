@@ -42,7 +42,7 @@ public class EmailToolController extends EmailToolView {
     private EmailToolService emailToolService = new EmailToolService(this);
     private ObservableList<EmailToolTableBean> tableData = FXCollections.observableArrayList();
     private ObservableList<Map<String, String>> attachPathTableData = FXCollections.observableArrayList();
-    private String[] quartzChoiceBoxStrings = new String[] { "简单表达式", "Cron表达式" };
+    private String[] quartzChoiceBoxStrings = new String[]{"简单表达式", "Cron表达式"};
     private String[] hostNameComboBoxStrings = new String[]{"smtp.163.com", "smtp.gmail.com", "smtp.aliyun.com", "smtp.exmail.qq.com", "smtp.qq.com", "smtp.139.com", "smtp.189.cn"};
 
     @Override
@@ -121,12 +121,12 @@ public class EmailToolController extends EmailToolView {
         FileChooserUtil.setOnDrag(attachPathTextField, FileChooserUtil.FileType.FILE);
         tableData.addListener((ListChangeListener.Change<? extends EmailToolTableBean> tableBean) -> {
             try {
-                for(int i=0;i<tableData.size();i++){
-                    tableData.get(i).setOrder(i+1);
+                for (int i = 0; i < tableData.size(); i++) {
+                    tableData.get(i).setOrder(i + 1);
                 }
                 saveConfigure(null);
             } catch (Exception e) {
-                log.error(e.getMessage());
+                log.error("保存配置失败", e);
             }
         });
         quartzChoiceBox.valueProperty().addListener(new ChangeListener<String>() {
@@ -164,8 +164,8 @@ public class EmailToolController extends EmailToolView {
             if (event.getButton() == MouseButton.SECONDARY) {
                 MenuItem menu_Copy = new MenuItem("复制选中行");
                 menu_Copy.setOnAction(event1 -> {
-                    Map<String,String> tableBean = attachPathTableView.getSelectionModel().getSelectedItem();
-                    Map<String,String> tableBean2 = new HashMap<>(tableBean);
+                    Map<String, String> tableBean = attachPathTableView.getSelectionModel().getSelectedItem();
+                    Map<String, String> tableBean2 = new HashMap<>(tableBean);
                     attachPathTableData.add(attachPathTableView.getSelectionModel().getSelectedIndex(), tableBean2);
                 });
                 MenuItem menu_Remove = new MenuItem("删除选中行");
@@ -186,7 +186,7 @@ public class EmailToolController extends EmailToolView {
 
     @FXML
     private void addItemAction(ActionEvent event) {
-        tableData.add(new EmailToolTableBean(tableData.size()+1,isEnabledCheckBox.isSelected(), toEmailTextField.getText(), toEmailNameTextField.getText(), ""));
+        tableData.add(new EmailToolTableBean(tableData.size() + 1, isEnabledCheckBox.isSelected(), toEmailTextField.getText(), toEmailNameTextField.getText(), ""));
     }
 
     @FXML
@@ -240,10 +240,10 @@ public class EmailToolController extends EmailToolView {
 
     @FXML
     private void addAttachPathAction(ActionEvent event) {
-        Map<String,String> map = new HashMap<>();
-        map.put("attachPath",attachPathTextField.getText());
-        map.put("attachName",attachNameTableColumn.getText());
-        map.put("attachDescription",attachDescriptionTableColumn.getText());
+        Map<String, String> map = new HashMap<>();
+        map.put("attachPath", attachPathTextField.getText());
+        map.put("attachName", attachNameTableColumn.getText());
+        map.put("attachDescription", attachDescriptionTableColumn.getText());
         attachPathTableData.add(map);
     }
 

@@ -102,7 +102,7 @@ public class ShowSystemInfoService {
                 }
             }, 0, 1000);
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("显示内存失败", e);
         }
     }
 
@@ -134,7 +134,7 @@ public class ShowSystemInfoService {
                                 if (series[ii * 2 + 1].getData().size() > 60) {
                                     series[ii * 2 + 1].getData().remove(0);
                                 }
-                                if(diskStores[ii].getTransferTime() > 0){
+                                if (diskStores[ii].getTransferTime() > 0) {
                                     series[ii * 2 + 0].getData().add(new XYChart.Data(xValue, diskStores[ii].getReadBytes() * 1000 / diskStores[ii].getTransferTime()));
                                     series[ii * 2 + 1].getData().add(new XYChart.Data(xValue, diskStores[ii].getWriteBytes() * 1000 / diskStores[ii].getTransferTime()));
                                 }
@@ -160,7 +160,7 @@ public class ShowSystemInfoService {
                 }
             }, 1000);
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("", e);
         }
     }
 
@@ -264,7 +264,7 @@ public class ShowSystemInfoService {
             stringBuffer.append("\n用户的当前工作目录：    " + props.getProperty("user.dir"));
             showSystemInfoController.getVmTextArea().setText(stringBuffer.toString());
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("获取jvm信息失败", e);
         }
     }
 

@@ -6,10 +6,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.configuration.tree.ConfigurationNode;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -51,7 +48,7 @@ public class XJavaFxSystemUtil {
                 Config.defaultLocale = new Locale(locale1[0], locale1[1]);
             }
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("初始化本地语言失败", e);
         }
     }
 
@@ -81,7 +78,7 @@ public class XJavaFxSystemUtil {
                 toolList.add(toolFxmlLoaderConfiguration);
             }
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("加载本地工具失败", e);
         }
         return toolList;
     }
@@ -128,7 +125,7 @@ public class XJavaFxSystemUtil {
                 }
             }
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("加载libs下jar包中工具配置失败", e);
         }
         return toolList;
     }
@@ -171,19 +168,19 @@ public class XJavaFxSystemUtil {
                 }
             }
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("添加libs中jar包到系统中", e);
         }
     }
 
     /**
-     * @Description 打开目录
      * @param directoryPath 目录路径
+     * @Description 打开目录
      */
     public static void openDirectory(String directoryPath) {
         try {
             Desktop.getDesktop().open(new File(directoryPath));
         } catch (IOException e) {
-            log.error("打开目录异常：" + e.getMessage());
+            log.error("打开目录异常：" + directoryPath, e);
         }
 //        Runtime runtime = null;
 //        try {

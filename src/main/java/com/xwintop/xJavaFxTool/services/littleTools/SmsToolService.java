@@ -43,7 +43,7 @@ public class SmsToolService {
         }
         if (!smsToolTableBeanArrayList.isEmpty()) {
             runAction(smsToolTableBeanArrayList.toArray(new SmsToolTableBean[0]));
-        }else{
+        } else {
             TooltipUtil.showToast("未选择联系人！！！");
         }
     }
@@ -81,7 +81,7 @@ public class SmsToolService {
         String needReceipt = smsToolController.getCmccNeedReceiptCheckBox().isSelected() ? "1" : "0";//是否回执 1：回执0：不回执
         String message = smsToolController.getCmccMessageTextArea().getText();
         String receiptNotificationURL = smsToolController.getCmccReceiptNotificationUrlTextField().getText();//回调地址
-        for(SmsToolTableBean smsToolTableBean:smsToolTableBeans) {
+        for (SmsToolTableBean smsToolTableBean : smsToolTableBeans) {
 //            String destAddr = "18356971618";//目标地址
             String destAddr = smsToolTableBean.getToPhone();//目标地址
             Map<String, String> map = new HashMap<>();
@@ -113,7 +113,7 @@ public class SmsToolService {
         String template_id = smsToolController.getOpen189TemplateIdTextField().getText();//短信模板ID
         String template_param = smsToolController.getOpen189TemplateParamTextArea().getText();//模板匹配参数,参数格式为(json对象字符串): {参数名：参数值，参数名：参数值}
 
-        for(SmsToolTableBean smsToolTableBean:smsToolTableBeans) {
+        for (SmsToolTableBean smsToolTableBean : smsToolTableBeans) {
 //            String acceptor_tel = "18356971618";//接收方号码
             String acceptor_tel = smsToolTableBean.getToPhone();//接收方号码
             String access_token = "";
@@ -161,12 +161,12 @@ public class SmsToolService {
         String params = smsToolController.getTencentParamsTextArea().getText();
         ArrayList<String> phoneNumbers = new ArrayList<String>();
 //        phoneNumbers.add("18356971618");
-        for(SmsToolTableBean smsToolTableBean:smsToolTableBeans){
+        for (SmsToolTableBean smsToolTableBean : smsToolTableBeans) {
             phoneNumbers.add(smsToolTableBean.getToPhone());
         }
         try {
-            long random = RandomUtils.nextInt(0,999999)+100000;
-            long curTime = System.currentTimeMillis()/1000;
+            long random = RandomUtils.nextInt(0, 999999) + 100000;
+            long curTime = System.currentTimeMillis() / 1000;
 
             Map data = new HashMap();
             ArrayList tel = new ArrayList();
@@ -176,35 +176,35 @@ public class SmsToolService {
                 telElement.put("nationcode", "86");
                 telElement.put("mobile", phoneNumbers.get(i));
                 tel.add(telElement);
-            }while (++i<phoneNumbers.size());
+            } while (++i < phoneNumbers.size());
             data.put("tel", tel);
             data.put("sign", "");
-            if(isParam){
+            if (isParam) {
                 data.put("tpl_id", msg);
                 data.put("params", JSON.parse(params));
-            }else{
+            } else {
                 data.put("msg", msg);
             }
             String sigStr = String.format(
                     "appkey=%s&random=%d&time=%d&mobile=%s",
-                    appkey, random, curTime, StringUtils.join(phoneNumbers,","));
+                    appkey, random, curTime, StringUtils.join(phoneNumbers, ","));
             data.put("sig", DigestUtils.sha256Hex(sigStr));
             data.put("time", curTime);
             data.put("extend", "");
             data.put("ext", "");
 
             String wholeUrl = String.format("%s?sdkappid=%d&random=%d", url, appid, random);
-            String resultStr = HttpClientUtil.getHttpDataByPost(wholeUrl,url, JSON.toJSONString(data));
-            log.info("腾讯云短信发送返回："+resultStr);
+            String resultStr = HttpClientUtil.getHttpDataByPost(wholeUrl, url, JSON.toJSONString(data));
+            log.info("腾讯云短信发送返回：" + resultStr);
             JSONObject jsonObject = JSON.parseObject(resultStr);
-            if(jsonObject.getInteger("result") == 0){
+            if (jsonObject.getInteger("result") == 0) {
                 TooltipUtil.showToast("腾讯云发送短信成功！！！");
-            }else{
-                TooltipUtil.showToast("腾讯云发送短信失败："+resultStr);
+            } else {
+                TooltipUtil.showToast("腾讯云发送短信失败：" + resultStr);
             }
         } catch (Exception e) {
-            log.error(e.getMessage());
-            TooltipUtil.showToast("腾讯云发送短信失败："+e.getMessage());
+            log.error("腾讯云发送短信失败：", e);
+            TooltipUtil.showToast("腾讯云发送短信失败：" + e.getMessage());
         }
     }
 
@@ -214,7 +214,7 @@ public class SmsToolService {
     public void aliyunSendAction(SmsToolTableBean... smsToolTableBeans) {
         try {
             ArrayList<String> phoneNumbers = new ArrayList<String>();
-            for(SmsToolTableBean smsToolTableBean:smsToolTableBeans){
+            for (SmsToolTableBean smsToolTableBean : smsToolTableBeans) {
                 phoneNumbers.add(smsToolTableBean.getToPhone());
             }
             String accessKeyId = smsToolController.getAliyunAccessKeyIdTextField().getText();
@@ -229,13 +229,13 @@ public class SmsToolService {
             paras.put("SignatureNonce", java.util.UUID.randomUUID().toString());
             paras.put("AccessKeyId", accessKeyId);
             paras.put("SignatureVersion", "1.0");
-            paras.put("Timestamp", DateFormatUtils.format(new Date(),"yyyy-MM-dd'T'HH:mm:ss'Z'",new SimpleTimeZone(0, "GMT")));
+            paras.put("Timestamp", DateFormatUtils.format(new Date(), "yyyy-MM-dd'T'HH:mm:ss'Z'", new SimpleTimeZone(0, "GMT")));
             paras.put("Format", "JSON");
             // 2. 业务API参数
             paras.put("Action", "SendSms");
             paras.put("Version", "2017-05-25");
             paras.put("RegionId", "cn-hangzhou");
-            paras.put("PhoneNumbers", StringUtils.join(phoneNumbers,","));
+            paras.put("PhoneNumbers", StringUtils.join(phoneNumbers, ","));
             //必填:短信签名-可在短信控制台中找到
             paras.put("SignName", signName);
             //可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"时
@@ -262,7 +262,7 @@ public class SmsToolService {
             String sign = org.apache.commons.codec.binary.Base64.encodeBase64String(HmacUtils.hmacSha1(accessKeySecret + "&", stringToSign.toString()));
             String signature = specialUrlEncode(sign);
             String url = "http://dysmsapi.aliyuncs.com/?Signature=" + signature + sortQueryStringTmp;
-            String resJson = HttpClientUtil.getHttpDataAsUTF_8(url,url);
+            String resJson = HttpClientUtil.getHttpDataAsUTF_8(url, url);
             log.info("阿里云短信发送返回：" + resJson);
             if ("OK".equals(JSON.parseObject(resJson).getString("Code"))) {
                 TooltipUtil.showToast("阿里云发送短信成功！！！");
@@ -271,14 +271,14 @@ public class SmsToolService {
             }
         } catch (Exception e) {
             TooltipUtil.showToast("阿里云发送短信失败：" + e.getMessage());
-            log.error("阿里云发送短信失败:"+e.getMessage());
+            log.error("阿里云发送短信失败:" + e.getMessage());
         }
     }
 
     /**
      * 梦网云通讯短信发送
      */
-    public void monyunSendAction(SmsToolTableBean... smsToolTableBeans){
+    public void monyunSendAction(SmsToolTableBean... smsToolTableBeans) {
         try {
             String url = smsToolController.getMonyunUrlTextField().getText();//Url
             String userid = smsToolController.getMonyunUseridTextField().getText();//发送账号
@@ -290,7 +290,7 @@ public class SmsToolService {
             String svrtype = smsToolController.getMonyunSvrtypeTextField().getText();//业务类型
             String exno = smsToolController.getMonyunExnoTextField().getText();//扩展号
             ArrayList<String> phoneNumbers = new ArrayList<String>();
-            for(SmsToolTableBean smsToolTableBean:smsToolTableBeans){
+            for (SmsToolTableBean smsToolTableBean : smsToolTableBeans) {
                 phoneNumbers.add(smsToolTableBean.getToPhone());
             }
             Map params = new HashMap<>();
@@ -302,22 +302,23 @@ public class SmsToolService {
                 params.put("apikey", apikey);
             }
             params.put("timestamp", timestamp);
-            params.put("mobile", StringUtils.join(phoneNumbers,","));
+            params.put("mobile", StringUtils.join(phoneNumbers, ","));
             params.put("content", java.net.URLEncoder.encode(content, "GBK"));
             params.put("svrtype", svrtype);
             params.put("exno", exno);
-            String resultStr = HttpClientUtil.getHttpDataByPost(url+"batch_send", url, JSON.toJSONString(params), "text/json; charset=utf-8");
-            log.info("梦网云通讯短信发送返回："+resultStr);
-            if(JSON.parseObject(resultStr).getInteger("result") == 0){
+            String resultStr = HttpClientUtil.getHttpDataByPost(url + "batch_send", url, JSON.toJSONString(params), "text/json; charset=utf-8");
+            log.info("梦网云通讯短信发送返回：" + resultStr);
+            if (JSON.parseObject(resultStr).getInteger("result") == 0) {
                 TooltipUtil.showToast("梦网云通讯发送短信成功！！！");
-            }else{
-                TooltipUtil.showToast("梦网云通讯发送短信失败："+resultStr);
+            } else {
+                TooltipUtil.showToast("梦网云通讯发送短信失败：" + resultStr);
             }
-        }catch (Exception e){
-            log.error(e.getMessage());
-            TooltipUtil.showToast("梦网云通讯发送短信失败："+e.getMessage());
+        } catch (Exception e) {
+            log.error("梦网云通讯发送短信失败：", e);
+            TooltipUtil.showToast("梦网云通讯发送短信失败：" + e.getMessage());
         }
     }
+
     /**
      * 导入联系人号码
      */

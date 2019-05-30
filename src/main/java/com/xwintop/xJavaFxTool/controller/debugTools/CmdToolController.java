@@ -180,7 +180,7 @@ public class CmdToolController extends CmdToolView {
 			try {
 				saveConfigure(null);
 			} catch (Exception e) {
-				log.error(e.getMessage());
+				log.error("保存配置失败",e);
 			}
 		});
 		tableViewMain.setOnMouseClicked(event -> {

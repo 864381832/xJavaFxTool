@@ -142,7 +142,7 @@ public class FtpClientToolController extends FtpClientToolView {
             try {
                 saveConfigure(null);
             } catch (Exception e) {
-                log.error(e.getMessage());
+                log.error("报错配置失败", e);
             }
         });
         tableViewMain.setOnMouseClicked(event -> {

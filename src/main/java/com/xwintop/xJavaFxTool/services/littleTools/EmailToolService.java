@@ -53,7 +53,7 @@ public class EmailToolService {
         }
         if (!emailToolTableBeanArrayList.isEmpty()) {
             runAction(emailToolTableBeanArrayList.toArray(new EmailToolTableBean[0]));
-        }else{
+        } else {
             TooltipUtil.showToast("未选择收件人！！！");
         }
     }
@@ -88,8 +88,8 @@ public class EmailToolService {
                     toList.add(new InternetAddress(emailToolTableBean.getToEmail(), emailToolTableBean.getToEmailName()));
                     email.setTo(toList);
                     String htmlMsg = emailToolController.getMsgHtmlEditor().getHtmlText()
-                            .replace("${1}",emailToolTableBean.getToEmail())
-                            .replace("${2}",emailToolTableBean.getToEmailName());
+                            .replace("${1}", emailToolTableBean.getToEmail())
+                            .replace("${2}", emailToolTableBean.getToEmailName());
                     email.setHtmlMsg(htmlMsg);
                     email.send();
                 }
@@ -101,7 +101,7 @@ public class EmailToolService {
                 email.send();
             }
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("email发送失败", e);
         }
     }
 
@@ -114,20 +114,20 @@ public class EmailToolService {
             if (file != null) {
                 List<String> emailList = FileUtils.readLines(file, "utf-8");
                 ObservableList<EmailToolTableBean> tableData = emailToolController.getTableData();
-                for(String email : emailList){
+                for (String email : emailList) {
                     EmailToolTableBean emailToolTableBean = null;
-                    if(email.contains(" ")){
+                    if (email.contains(" ")) {
                         String[] emailStr = email.split(" ");
-                        emailToolTableBean = new EmailToolTableBean(tableData.size()+1,true, emailStr[0], emailStr[1], "");
-                    }else{
-                        emailToolTableBean = new EmailToolTableBean(tableData.size()+1,true, email, email, "");
+                        emailToolTableBean = new EmailToolTableBean(tableData.size() + 1, true, emailStr[0], emailStr[1], "");
+                    } else {
+                        emailToolTableBean = new EmailToolTableBean(tableData.size() + 1, true, email, email, "");
                     }
                     tableData.add(emailToolTableBean);
                 }
             }
         } catch (Exception e) {
-            log.error("导入收件人邮箱失败："+e.getMessage());
-            TooltipUtil.showToast("导入收件人邮箱失败："+e.getMessage());
+            log.error("导入收件人邮箱失败：" + e.getMessage());
+            TooltipUtil.showToast("导入收件人邮箱失败：" + e.getMessage());
         }
     }
 

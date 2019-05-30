@@ -84,8 +84,7 @@ public class CmdToolService {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            log.error(e.getMessage());
+            log.error("运行cmd失败", e);
         }
     }
 
@@ -96,7 +95,7 @@ public class CmdToolService {
     public void showScriptAction(CmdToolTableBean cmdToolTableBean) {
         String type = cmdToolTableBean.getType();
         String script = cmdToolTableBean.getScript();
-        System.out.println("查看:" + type + " : " + script);
+        log.info("查看:" + type + " : " + script);
         try {
             if (cmdToolController.getTypeChoiceBoxStrings()[0].equals(type)) {// 命令行
                 AlertUtil.showInfoAlert("脚本命令", script);
@@ -104,8 +103,7 @@ public class CmdToolService {
                 Runtime.getRuntime().exec("NotePad.exe " + script);
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            log.error(e.getMessage());
+            log.error("查看脚本文件失败", e);
         }
     }
 

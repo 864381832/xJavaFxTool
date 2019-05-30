@@ -24,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
 /**
  * @ClassName: ScriptEngineToolController
  * @Description: 脚本引擎调试工具类
@@ -37,9 +38,9 @@ import java.util.ResourceBundle;
 public class ScriptEngineToolController extends ScriptEngineToolView {
     private ScriptEngineToolService scriptEngineToolService = new ScriptEngineToolService(this);
     private ObservableList<ScriptEngineToolTableBean> tableData = FXCollections.observableArrayList();
-    private String[] quartzChoiceBoxStrings = new String[] { "简单表达式", "Cron表达式" };
-    private String[] typeChoiceBoxStrings = new String[] { "JavaScript脚本", "JavaScript脚本文件",
-            "Groovy脚本", "Groovy脚本文件", "Python脚本", "Python脚本文件", "Lua脚本", "Lua脚本文件" };
+    private String[] quartzChoiceBoxStrings = new String[]{"简单表达式", "Cron表达式"};
+    private String[] typeChoiceBoxStrings = new String[]{"JavaScript脚本", "JavaScript脚本文件",
+            "Groovy脚本", "Groovy脚本文件", "Python脚本", "Python脚本文件", "Lua脚本", "Lua脚本文件"};
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -172,7 +173,7 @@ public class ScriptEngineToolController extends ScriptEngineToolView {
             try {
                 saveConfigure(null);
             } catch (Exception e) {
-                log.error(e.getMessage());
+                log.error("保存配置失败", e);
             }
         });
         tableViewMain.setOnMouseClicked(event -> {
@@ -213,7 +214,7 @@ public class ScriptEngineToolController extends ScriptEngineToolView {
 
     @FXML
     private void addItemAction(ActionEvent event) {
-        String id = "x"+String.valueOf(System.currentTimeMillis()).substring(7);
+        String id = "x" + String.valueOf(System.currentTimeMillis()).substring(7);
         tableData.add(new ScriptEngineToolTableBean(id, isEnabledCheckBox.isSelected(),
                 scriptTextField.getText(), typeChoiceBox.getValue(), parameterTextField.getText(), false, " ", " "));
     }
@@ -235,15 +236,15 @@ public class ScriptEngineToolController extends ScriptEngineToolView {
 
     @FXML
     private void runQuartzAction(ActionEvent event) throws Exception {
-        if("定时运行".equals(runQuartzButton.getText())){
+        if ("定时运行".equals(runQuartzButton.getText())) {
             boolean isTrue = scriptEngineToolService.runQuartzAction(quartzChoiceBox.getValue(), cronTextField.getText(), intervalSpinner.getValue(),
                     repeatCountSpinner.getValue());
-            if(isTrue){
+            if (isTrue) {
                 runQuartzButton.setText("停止运行");
             }
-        }else{
+        } else {
             boolean isTrue = scriptEngineToolService.stopQuartzAction();
-            if(isTrue){
+            if (isTrue) {
                 runQuartzButton.setText("定时运行");
             }
         }

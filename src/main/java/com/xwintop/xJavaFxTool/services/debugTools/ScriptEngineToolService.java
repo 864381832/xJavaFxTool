@@ -19,7 +19,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.io.PrintStream;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -97,8 +96,7 @@ public class ScriptEngineToolService {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            log.error(e.getMessage());
+            log.error("运行脚本出错", e);
         }
     }
 
@@ -134,7 +132,7 @@ public class ScriptEngineToolService {
                 AlertUtil.showInfoAlert("脚本命令", script);
             }
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("查看脚本失败！！", e);
             TooltipUtil.showToast("查看脚本失败！！" + e.getMessage());
         }
     }

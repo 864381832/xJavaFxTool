@@ -1,27 +1,21 @@
 package com.xwintop.xJavaFxTool.controller.developTools;
 
-import com.xwintop.xJavaFxTool.view.developTools.AsciiPicToolView;
 import com.xwintop.xJavaFxTool.services.developTools.AsciiPicToolService;
+import com.xwintop.xJavaFxTool.view.developTools.AsciiPicToolView;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 import com.xwintop.xcore.util.javafx.ImageUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.embed.swing.SwingFXUtils;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import org.apache.commons.imaging.ImageReadException;
-import org.apache.commons.imaging.Imaging;
 
 /**
  * @ClassName: AsciiPicToolController
@@ -63,7 +57,7 @@ public class AsciiPicToolController extends AsciiPicToolView {
                 imageImageView.setFitWidth(image.getWidth());
                 imageImageView.setFitHeight(image.getHeight());
             } catch (Exception e) {
-                log.error(e.getMessage());
+                log.error("图片加载失败：", e);
                 TooltipUtil.showToast("图片加载失败：" + e.getMessage());
             }
 
@@ -100,7 +94,7 @@ public class AsciiPicToolController extends AsciiPicToolView {
     }
 
     @FXML
-    private void saveImageToExcelAction(ActionEvent event) throws Exception{
+    private void saveImageToExcelAction(ActionEvent event) throws Exception {
         asciiPicToolService.saveImageToExcelAction();
     }
 }

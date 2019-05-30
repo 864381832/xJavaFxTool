@@ -4,33 +4,19 @@ import com.xwintop.xJavaFxTool.controller.debugTools.redisTool.RedisToolControll
 import com.xwintop.xJavaFxTool.controller.debugTools.redisTool.RedisToolDataTableController;
 import com.xwintop.xcore.util.RedisUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
-
-import org.apache.commons.lang3.StringUtils;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TreeItem;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.IOException;
+import java.util.*;
 
 /**
  * @ClassName: RedisToolService
@@ -74,8 +60,7 @@ public class RedisToolService {
             // 根据点击结果返回
             if (_buttonType.get().getButtonData().equals(ButtonBar.ButtonData.YES)) {
                 if (StringUtils.isEmpty(txName.getText()) || StringUtils.isEmpty(txHost.getText())
-                        || StringUtils.isEmpty(txPort.getText()))
-                {
+                        || StringUtils.isEmpty(txPort.getText())) {
                     TooltipUtil.showToast("请输入服务器信息");
                     return;
                 }
@@ -99,8 +84,8 @@ public class RedisToolService {
             redisToolController.getRedisServiceTreeView().getRoot().getChildren().add(treeItem);
             reloadServiceAddress();
         } catch (Exception e) {
-            log.error(e.getMessage());
-            TooltipUtil.showToast(e.getMessage());
+            log.error("添加redis失败", e);
+            TooltipUtil.showToast("添加redis失败" + e.getMessage());
         }
     }
 
@@ -129,8 +114,8 @@ public class RedisToolService {
             @Override
             public void handle(Event event) {
                 List<Tab> tabList = new ArrayList<Tab>();
-                redisToolController.getDataViewTabPane().getTabs().forEach((Tab tab2)->{
-                    if(tab2.getText().startsWith(tabName)){
+                redisToolController.getDataViewTabPane().getTabs().forEach((Tab tab2) -> {
+                    if (tab2.getText().startsWith(tabName)) {
                         tabList.add(tab2);
                     }
                 });

@@ -85,7 +85,7 @@ public class IndexController extends IndexView {
                     }
                 }
             } catch (Exception e) {
-                log.error(e.getMessage());
+                log.error("加载菜单失败", e);
             }
             if (toolConfig.getIsMenu()) {
                 Menu menu = new Menu(toolConfig.getTitle());

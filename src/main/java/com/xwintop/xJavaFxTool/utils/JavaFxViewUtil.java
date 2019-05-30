@@ -133,7 +133,7 @@ public class JavaFxViewUtil {
                 setControllerOnCloseRequest(fXMLLoader.getController(), event);
             });
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("加载新窗口失败", e);
         }
         return newStage;
     }

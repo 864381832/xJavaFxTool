@@ -2,10 +2,6 @@ package com.xwintop.xJavaFxTool.controller.debugTools.redisTool;
 
 import com.xwintop.xJavaFxTool.services.debugTools.redisTool.RedisToolService;
 import com.xwintop.xJavaFxTool.view.debugTools.redisTool.RedisToolView;
-
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -21,6 +17,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 /**
  * @ClassName: RedisToolController
  * @Description: Redis工具
@@ -32,41 +31,41 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 @Slf4j
 public class RedisToolController extends RedisToolView {
-	private RedisToolService redisToolService = new RedisToolService(this);
+    private RedisToolService redisToolService = new RedisToolService(this);
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		initView();
-		initEvent();
-		initService();
-	}
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        initView();
+        initEvent();
+        initService();
+    }
 
-	private void initView() {
-		TreeItem<String> treeItem = new TreeItem<String>("Redis服务器");
-		redisServiceTreeView.setRoot(treeItem);
-	}
+    private void initView() {
+        TreeItem<String> treeItem = new TreeItem<String>("Redis服务器");
+        redisServiceTreeView.setRoot(treeItem);
+    }
 
-	private void initEvent() {
-		redisServiceTreeView.setOnMouseClicked(event -> {
+    private void initEvent() {
+        redisServiceTreeView.setOnMouseClicked(event -> {
 //			System.out.println(event.getTarget().toString());
-			if (event.getClickCount() == 2) {
-				if (event.getTarget() instanceof TreeItem) {
-					TreeItem<String> eventTarget = (TreeItem<String>) event.getTarget();
-					System.out.println(eventTarget.getValue());
-					return;
-				}
-			}
-			if (event.getButton() == MouseButton.SECONDARY) {
-				redisToolService.addServerMenuItem();
-				EventTarget eventTarget = event.getTarget();
-				if (eventTarget instanceof TreeItem) {
-					// TreeViewSkin<String> eventTarget = (TreeViewSkin<String>) event.getTarget();
-					// if("Redis服务器".equals(eventTarget.getValue())) {
+            if (event.getClickCount() == 2) {
+                if (event.getTarget() instanceof TreeItem) {
+                    TreeItem<String> eventTarget = (TreeItem<String>) event.getTarget();
+                    System.out.println(eventTarget.getValue());
+                    return;
+                }
+            }
+            if (event.getButton() == MouseButton.SECONDARY) {
+                redisToolService.addServerMenuItem();
+                EventTarget eventTarget = event.getTarget();
+                if (eventTarget instanceof TreeItem) {
+                    // TreeViewSkin<String> eventTarget = (TreeViewSkin<String>) event.getTarget();
+                    // if("Redis服务器".equals(eventTarget.getValue())) {
 //					redisToolService.addServerMenuItem();
-					// }
-				}
-			} else if (event.getButton() == MouseButton.PRIMARY) {
-				if (event.getTarget() instanceof TreeItem) {
+                    // }
+                }
+            } else if (event.getButton() == MouseButton.PRIMARY) {
+                if (event.getTarget() instanceof TreeItem) {
 //					TreeItem<String> eventTarget = (TreeItem<String>) event.getTarget();
 //					String name = eventTarget.getValue();
 //					if (name.startsWith("db")) {
@@ -78,60 +77,60 @@ public class RedisToolController extends RedisToolView {
 //							System.out.println(key);
 //						}
 //					}
-				}
-			}
-		});
-		redisServiceTreeView.getSelectionModel().selectedItemProperty()
-				.addListener(new ChangeListener<TreeItem<String>>() {
-					@Override
-					public void changed(ObservableValue<? extends TreeItem<String>> observable,
-							TreeItem<String> oldValue, TreeItem<String> newValue) {
-						String name = newValue.getValue();
-						if (name.startsWith("db")) {
+                }
+            }
+        });
+        redisServiceTreeView.getSelectionModel().selectedItemProperty()
+                .addListener(new ChangeListener<TreeItem<String>>() {
+                    @Override
+                    public void changed(ObservableValue<? extends TreeItem<String>> observable,
+                                        TreeItem<String> oldValue, TreeItem<String> newValue) {
+                        String name = newValue.getValue();
+                        if (name.startsWith("db")) {
 //							RedisUtil redisUtil = redisToolService.getJedisMap().get(newValue.getParent().getValue());
-							int id = Integer.parseInt(name.substring(2, name.indexOf("(")));
+                            int id = Integer.parseInt(name.substring(2, name.indexOf("(")));
 //							redisUtil.setId(id);
 //							Set<String> nodekeys = redisUtil.getListKeys();
 //							for (String key : nodekeys) {
 //								System.out.println(key);
 //							}
-							redisToolService.addDataServiceTabPane(newValue.getParent().getValue(),id);
-						}
-					}
-				});
-	}
+                            redisToolService.addDataServiceTabPane(newValue.getParent().getValue(), id);
+                        }
+                    }
+                });
+    }
 
-	private void initService() {
-		try {
-			redisToolService.addServiceAddress("localhost", "localhost", 6379, null);
-		}catch (Exception e){
-			log.error(e.getMessage());
-		}
-		redisServiceTreeView.getRoot().setExpanded(true);
-	}
+    private void initService() {
+        try {
+            redisToolService.addServiceAddress("localhost", "localhost", 6379, null);
+        } catch (Exception e) {
+            log.error("初始化redis失败", e);
+        }
+        redisServiceTreeView.getRoot().setExpanded(true);
+    }
 
-	@FXML
-	private void treeLeftAction(ActionEvent event) {
-	}
+    @FXML
+    private void treeLeftAction(ActionEvent event) {
+    }
 
-	@FXML
-	private void treeRightAction(ActionEvent event) {
-	}
+    @FXML
+    private void treeRightAction(ActionEvent event) {
+    }
 
-	@FXML
-	private void treeUpAction(ActionEvent event) {
-	}
+    @FXML
+    private void treeUpAction(ActionEvent event) {
+    }
 
-	@FXML
-	private void treeRefurbishAction(ActionEvent event) {
-		redisToolService.reloadServiceAddress();
-	}
+    @FXML
+    private void treeRefurbishAction(ActionEvent event) {
+        redisToolService.reloadServiceAddress();
+    }
 
-	private TextField createTextField(String textValue, GridPane gridPane, String label, int row) {
-		TextField textField = new TextField(textValue);
-		GridPane.setHgrow(textField, Priority.ALWAYS);
-		gridPane.add(new Label(label), 0, row);
-		gridPane.add(textField, 1, row);
-		return textField;
-	}
+    private TextField createTextField(String textValue, GridPane gridPane, String label, int row) {
+        TextField textField = new TextField(textValue);
+        GridPane.setHgrow(textField, Priority.ALWAYS);
+        gridPane.add(new Label(label), 0, row);
+        gridPane.add(textField, 1, row);
+        return textField;
+    }
 }
