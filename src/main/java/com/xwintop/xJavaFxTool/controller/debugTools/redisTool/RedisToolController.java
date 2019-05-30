@@ -101,11 +101,11 @@ public class RedisToolController extends RedisToolView {
     }
 
     private void initService() {
-        try {
-            redisToolService.addServiceAddress("localhost", "localhost", 6379, null);
-        } catch (Exception e) {
-            log.error("初始化redis失败", e);
-        }
+//        try {
+//            redisToolService.addServiceAddress("localhost", "localhost", 6379, null);
+//        } catch (Exception e) {
+//            log.error("初始化redis失败", e);
+//        }
         redisServiceTreeView.getRoot().setExpanded(true);
     }
 
