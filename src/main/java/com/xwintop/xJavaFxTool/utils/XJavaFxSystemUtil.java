@@ -98,30 +98,32 @@ public class XJavaFxSystemUtil {
                     return name.endsWith(".jar") || name.endsWith(".zip");
                 }
             });
-            for (File file : jarFiles) {
-                JarFile jarFile = new JarFile(file);
-                JarEntry entry = jarFile.getJarEntry("config/toolFxmlLoaderConfiguration.xml");
-                InputStream input = jarFile.getInputStream(entry);
-                SAXReader saxReader = new SAXReader();
-                Document document = saxReader.read(input);
-                Element root = document.getRootElement();
-                List<Element> elements = root.elements("ToolFxmlLoaderConfiguration");
-                for (Element configurationNode : elements) {
-                    ToolFxmlLoaderConfiguration toolFxmlLoaderConfiguration = new ToolFxmlLoaderConfiguration();
-                    List<DefaultAttribute> attributes = configurationNode.attributes();
-                    for (DefaultAttribute configuration : attributes) {
-                        BeanUtils.copyProperty(toolFxmlLoaderConfiguration, configuration.getName(),
-                                configuration.getValue());
+            if (jarFiles != null) {
+                for (File file : jarFiles) {
+                    JarFile jarFile = new JarFile(file);
+                    JarEntry entry = jarFile.getJarEntry("config/toolFxmlLoaderConfiguration.xml");
+                    InputStream input = jarFile.getInputStream(entry);
+                    SAXReader saxReader = new SAXReader();
+                    Document document = saxReader.read(input);
+                    Element root = document.getRootElement();
+                    List<Element> elements = root.elements("ToolFxmlLoaderConfiguration");
+                    for (Element configurationNode : elements) {
+                        ToolFxmlLoaderConfiguration toolFxmlLoaderConfiguration = new ToolFxmlLoaderConfiguration();
+                        List<DefaultAttribute> attributes = configurationNode.attributes();
+                        for (DefaultAttribute configuration : attributes) {
+                            BeanUtils.copyProperty(toolFxmlLoaderConfiguration, configuration.getName(),
+                                    configuration.getValue());
+                        }
+                        List<DefaultElement> childrenList = configurationNode.elements();
+                        for (DefaultElement configuration : childrenList) {
+                            BeanUtils.copyProperty(toolFxmlLoaderConfiguration, configuration.getName(),
+                                    configuration.getStringValue());
+                        }
+                        if (StringUtils.isEmpty(toolFxmlLoaderConfiguration.getMenuParentId())) {
+                            toolFxmlLoaderConfiguration.setMenuParentId("moreToolsMenu");
+                        }
+                        toolList.add(toolFxmlLoaderConfiguration);
                     }
-                    List<DefaultElement> childrenList = configurationNode.elements();
-                    for (DefaultElement configuration : childrenList) {
-                        BeanUtils.copyProperty(toolFxmlLoaderConfiguration, configuration.getName(),
-                                configuration.getStringValue());
-                    }
-                    if (StringUtils.isEmpty(toolFxmlLoaderConfiguration.getMenuParentId())) {
-                        toolFxmlLoaderConfiguration.setMenuParentId("moreToolsMenu");
-                    }
-                    toolList.add(toolFxmlLoaderConfiguration);
                 }
             }
         } catch (Exception e) {

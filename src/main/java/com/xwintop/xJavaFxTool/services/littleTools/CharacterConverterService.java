@@ -1,8 +1,8 @@
 package com.xwintop.xJavaFxTool.services.littleTools;
 
-import com.xwintop.xJavaFxTool.common.ExCodec;
 import com.xwintop.xJavaFxTool.controller.littleTools.CharacterConverterController;
 import com.xwintop.xJavaFxTool.utils.RadixUtils;
+import org.apache.commons.codec.binary.Hex;
 
 import java.io.UnsupportedEncodingException;
 
@@ -28,7 +28,7 @@ public class CharacterConverterService {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < input.length(); i++) {
             // ExCodec.encodeHex 转16进制
-            sb.append(prefix).append(ExCodec.encodeHex(input.substring(i, i + 1), charset));
+            sb.append(prefix).append(Hex.encodeHexString(input.substring(i, i + 1).getBytes(charset)));
         }
         return sb.toString();
     }
@@ -40,8 +40,7 @@ public class CharacterConverterService {
             throws UnsupportedEncodingException {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < input.length(); i++) {
-            sb.append(prefix).append(
-                    RadixUtils.convertRadixString16To10(ExCodec.encodeHex(input.substring(i, i + 1), charset)));
+            sb.append(prefix).append(RadixUtils.convertRadixString16To10(Hex.encodeHexString(input.substring(i, i + 1).getBytes(charset))));
         }
         return sb.toString();
     }
@@ -53,8 +52,7 @@ public class CharacterConverterService {
             throws UnsupportedEncodingException {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < input.length(); i++) {
-            sb.append(prefix).append(
-                    RadixUtils.convertRadixString16To8(ExCodec.encodeHex(input.substring(i, i + 1), charset)));
+            sb.append(prefix).append(RadixUtils.convertRadixString16To8(Hex.encodeHexString(input.substring(i, i + 1).getBytes(charset))));
         }
         return sb.toString();
     }
@@ -66,8 +64,7 @@ public class CharacterConverterService {
             throws UnsupportedEncodingException {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < input.length(); i++) {
-            sb.append(prefix).append(
-                    RadixUtils.convertRadixString16To2(ExCodec.encodeHex(input.substring(i, i + 1), charset)));
+            sb.append(prefix).append(RadixUtils.convertRadixString16To2(Hex.encodeHexString(input.substring(i, i + 1).getBytes(charset))));
         }
         return sb.toString();
     }
