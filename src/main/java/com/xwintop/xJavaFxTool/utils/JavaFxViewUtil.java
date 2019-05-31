@@ -166,6 +166,9 @@ public class JavaFxViewUtil {
         IntegerSpinnerValueFactory secondStart_0svf = new SpinnerValueFactory.IntegerSpinnerValueFactory(min, max,
                 initialValue, amountToStepBy);
         spinner.setValueFactory(secondStart_0svf);
+        spinner.getEditor().textProperty().addListener((observable, oldValue, newValue) -> {
+            spinner.getValueFactory().setValue(Integer.parseInt(newValue));
+        });
     }
 
     /**
