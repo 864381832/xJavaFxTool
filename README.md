@@ -13,17 +13,17 @@ xJavaFxTool是使用javaFx开发的实用小工具集，目前项目刚刚建立
 
 下载试用地址：
 
-可直接运行的jar包（本地需要有jdk1.8环境）[xJavaFxTool-0.1.6.jar](http://coding-net-production-file-1257242599.cos.ap-shanghai.myqcloud.com/d6640ec0-8481-11e9-a9b4-9b7d20c5f458.jar?sign=q-sign-algorithm%3Dsha1%26q-ak%3DAKIDay83lFmaS6Y4LTdzMVO1SdZOyJSNOYpr%26q-sign-time%3D1559407751%3B1559411351%26q-key-time%3D1559407751%3B1559411351%26q-header-list%3D%26q-url-param-list%3Dresponse-content-disposition%3Bresponse-expires%26q-signature%3D14aadaf387ccd3491f3f552d67549d68f06dcabe&response-content-disposition=attachment%3Bfilename%3DxJavaFxTool-0.1.6.jar&response-expires=Tue%2C%2004%20Jun%202019%2004%3A49%3A11%20GMT)
+可直接运行的jar包（本地需要有jdk1.8环境）[xJavaFxTool-0.1.6.jar](https://dev.tencent.com/s/a9c6b734-4a2e-41c5-8475-e5db462223de)
 
-Windows x86安装包（兼容xp、windows7、8、10等系统）[xJavaFxTool-0.1.6-windows-x86.exe](http://coding-net-production-file-1257242599.cos.ap-shanghai.myqcloud.com/e7f722f0-8489-11e9-a9b4-9b7d20c5f458.exe?sign=q-sign-algorithm%3Dsha1%26q-ak%3DAKIDay83lFmaS6Y4LTdzMVO1SdZOyJSNOYpr%26q-sign-time%3D1559407991%3B1559411591%26q-key-time%3D1559407991%3B1559411591%26q-header-list%3D%26q-url-param-list%3Dresponse-content-disposition%3Bresponse-expires%26q-signature%3D4b026196a7f03b82cd36e96ba50404ccf8c39be2&response-content-disposition=attachment%3Bfilename%3DxJavaFxTool-0.1.6-windows-x86.exe&response-expires=Tue%2C%2004%20Jun%202019%2004%3A53%3A11%20GMT)
+Windows x86安装包（兼容xp、windows7、8、10等系统）[xJavaFxTool-0.1.6-windows-x86.exe](https://dev.tencent.com/s/7a764e5e-1ec3-4b05-8d5f-9cd1bc5fac5b)
 
-Windows x64安装包（兼容xp、windows7、8、10等系统）[xJavaFxTool-0.1.6-windows-x64.exe](http://coding-net-production-file-1257242599.cos.ap-shanghai.myqcloud.com/e7f0e160-8489-11e9-a9b4-9b7d20c5f458.exe?sign=q-sign-algorithm%3Dsha1%26q-ak%3DAKIDay83lFmaS6Y4LTdzMVO1SdZOyJSNOYpr%26q-sign-time%3D1559407902%3B1559411502%26q-key-time%3D1559407902%3B1559411502%26q-header-list%3D%26q-url-param-list%3Dresponse-content-disposition%3Bresponse-expires%26q-signature%3D269eb795e5fa2d5b9b7487c41ec948cfa10a81ec&response-content-disposition=attachment%3Bfilename%3DxJavaFxTool-0.1.6-windows-x64.exe&response-expires=Tue%2C%2004%20Jun%202019%2004%3A51%3A42%20GMT)
+Windows x64安装包（兼容xp、windows7、8、10等系统）[xJavaFxTool-0.1.6-windows-x64.exe](https://dev.tencent.com/s/8ff0b9bb-2b26-46ef-ab8d-20f16954e6b7)
 
-Linux x64 [xJavaFxTool-0.1.6-linux-x64.zip](http://coding-net-production-file-1257242599.cos.ap-shanghai.myqcloud.com/e8d6c6d0-8484-11e9-a9b4-9b7d20c5f458.zip?sign=q-sign-algorithm%3Dsha1%26q-ak%3DAKIDay83lFmaS6Y4LTdzMVO1SdZOyJSNOYpr%26q-sign-time%3D1559408072%3B1559411672%26q-key-time%3D1559408072%3B1559411672%26q-header-list%3D%26q-url-param-list%3Dresponse-content-disposition%3Bresponse-expires%26q-signature%3De34e910eb7103bfb47a28499f342bf7eef9bcd59&response-content-disposition=attachment%3Bfilename%3DxJavaFxTool-0.1.6-linux-x64.zip&response-expires=Tue%2C%2004%20Jun%202019%2004%3A54%3A32%20GMT) （Linux平台64位运行压缩包，解压即可运行）
+Linux x64 [xJavaFxTool-0.1.6-linux-x64.zip](https://dev.tencent.com/s/3e2a75fe-911c-4699-b2b1-7a14eae3e139) （Linux平台64位运行压缩包，解压即可运行）
 
-Mac OS X x64 [xJavaFxTool-0.1.6-macosx-x64.dmg](http://coding-net-production-file-1257242599.cos.ap-shanghai.myqcloud.com/f49b4300-848a-11e9-a8a6-b10fdd8fd444.dmg?sign=q-sign-algorithm%3Dsha1%26q-ak%3DAKIDay83lFmaS6Y4LTdzMVO1SdZOyJSNOYpr%26q-sign-time%3D1559408185%3B1559411785%26q-key-time%3D1559408185%3B1559411785%26q-header-list%3D%26q-url-param-list%3Dresponse-content-disposition%3Bresponse-expires%26q-signature%3D8c2c7a9c391643ed946cad1bd02c408669a1222e&response-content-disposition=attachment%3Bfilename%3DxJavaFxTool-0.1.6-macosx-x64.dmg&response-expires=Tue%2C%2004%20Jun%202019%2004%3A56%3A25%20GMT)
+Mac OS X x64 [xJavaFxTool-0.1.6-macosx-x64.dmg](https://dev.tencent.com/s/29afae82-3814-4d67-85d6-c969ee1ba341)
 
-Mac OS X x64 [xJavaFxTool-0.1.6-macosx-x64.pkg](http://coding-net-production-file-1257242599.cos.ap-shanghai.myqcloud.com/9c742a10-848b-11e9-a8a6-b10fdd8fd444.pkg?sign=q-sign-algorithm%3Dsha1%26q-ak%3DAKIDay83lFmaS6Y4LTdzMVO1SdZOyJSNOYpr%26q-sign-time%3D1559408243%3B1559411843%26q-key-time%3D1559408243%3B1559411843%26q-header-list%3D%26q-url-param-list%3Dresponse-content-disposition%3Bresponse-expires%26q-signature%3Dbc429083f1e39db3dfa8773e8f633c73b3736ae1&response-content-disposition=attachment%3Bfilename%3DxJavaFxTool-0.1.6-macosx-x64.pkg&response-expires=Tue%2C%2004%20Jun%202019%2004%3A57%3A23%20GMT)
+Mac OS X x64 [xJavaFxTool-0.1.6-macosx-x64.pkg](https://dev.tencent.com/s/c5ffd124-cb16-42f9-80df-0c6a72c59c68)
 
 支持插件开发，将插件jar包放至根目录libs下即可自动加载（插件开发示例见[开源项目xJavaFxPlugIn](https://gitee.com/xwintop/xJavaFxPlugIn)，后续准备将小工具拆分至各插件中按需加载）；
 
