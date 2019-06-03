@@ -35,17 +35,11 @@ Mac OS X x64 [xJavaFxTool-0.1.6-macosx-x64.pkg](https://dev.tencent.com/s/c5ffd1
 
 #### 环境搭建说明：
 - 开发环境为jdk1.8，基于maven构建；
-
 - 使用eclipase或Intellij Idea开发(推荐使用[Intellij Idea](https://www.jetbrains.com/idea/))
-
 - 本项目使用了[lombok](https://projectlombok.org/),在查看本项目时如果您没有下载lombok 插件，请先安装,不然找不到get/set方法；
-
 - 依赖的[xcore包](https://gitee.com/xwintop/xcore)已上传至git托管的maven平台，git托管maven可参考教程。[教程地址：点击进入](http://blog.csdn.net/u011747754/article/details/78574026)
-
 - 使用[javafx-maven-plugin](https://github.com/javafx-maven-plugin/javafx-maven-plugin)插件进行打包操作（可打包windows、Linux、Mac安装包）；
-
 - 使用[exe4j](https://www.ej-technologies.com/download/exe4j/files)将jar包转成exe执行文件（仅供参考，可使用其它程序打包）；
-
 - 使用[InnoSetup](http://www.jrsoftware.org/)可进行制作windows安装包；
 
 #### 目前集成的小工具有：
@@ -194,7 +188,8 @@ Sender发送器：
 
 计划添加功能：
 
-监控功能（文件夹深度、Ftp/Ftps/sftp文件数量、mq深度）
+- 监控功能（文件夹深度、Ftp/Ftps/sftp文件数量、mq深度）;
+- 转换excel为sql插入语句;
 
 #### 项目结构
 

@@ -6,7 +6,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.configuration.tree.ConfigurationNode;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -43,8 +43,9 @@ public class XJavaFxSystemUtil {
         try {
             File file = ConfigureUtil.getConfigureFile("systemConfigure.properties");
             PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
-            String[] locale1 = xmlConfigure.getString("Locale").split("_");
-            if (locale1 != null) {
+            String localeString = xmlConfigure.getString("Locale");
+            if (StringUtils.isNotEmpty(localeString)) {
+                String[] locale1 = localeString.split("_");
                 Config.defaultLocale = new Locale(locale1[0], locale1[1]);
             }
         } catch (Exception e) {
