@@ -27,9 +27,9 @@ Mac OS X x64 [xJavaFxTool-0.1.6-macosx-x64.pkg](https://dev.tencent.com/s/c5ffd1
 
 若上面下链接失效可使用下面下载链接：
 
-百度云链接：[https://pan.baidu.com/s/1SNXDUBRTXmGamOTt-yJ9mQ](https://pan.baidu.com/s/1SNXDUBRTXmGamOTt-yJ9mQ)  提取码：wy0x
+百度云链接：[https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA](https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA)  提取码：mokl
 
-腾讯微云链接：[https://share.weiyun.com/5BQYuCA](https://share.weiyun.com/5BQYuCA)
+腾讯微云链接：[https://share.weiyun.com/5T6FPLW](https://share.weiyun.com/5T6FPLW) 提取码：java
 
 支持插件开发，将插件jar包放至根目录libs下即可自动加载（插件开发示例见[开源项目xJavaFxPlugIn](https://gitee.com/xwintop/xJavaFxPlugIn)，后续准备将小工具拆分至各插件中按需加载）；
 

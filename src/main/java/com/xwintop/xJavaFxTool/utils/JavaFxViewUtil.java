@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.*;
 import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
+import javafx.scene.control.SpinnerValueFactory.DoubleSpinnerValueFactory;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.control.cell.TextFieldListCell;
@@ -161,14 +162,38 @@ public class JavaFxViewUtil {
         setSpinnerValueFactory(spinner, min, max, initialValue, 1);
     }
 
-    public static void setSpinnerValueFactory(Spinner<Integer> spinner, int min, int max, int initialValue,
-                                              int amountToStepBy) {
-        IntegerSpinnerValueFactory secondStart_0svf = new SpinnerValueFactory.IntegerSpinnerValueFactory(min, max,
-                initialValue, amountToStepBy);
-        spinner.setValueFactory(secondStart_0svf);
-        spinner.getEditor().textProperty().addListener((observable, oldValue, newValue) -> {
-            spinner.getValueFactory().setValue(Integer.parseInt(newValue));
-        });
+    public static void setSpinnerValueFactory(Spinner<Double> spinner, double min, double max) {
+        setSpinnerValueFactory(spinner, min, max, min, 1d);
+    }
+
+    public static void setSpinnerValueFactory(Spinner<Double> spinner, double min, double max, double initialValue) {
+        setSpinnerValueFactory(spinner, min, max, initialValue, 1d);
+    }
+
+    public static void setSpinnerValueFactory(Spinner spinner, Number min, Number max, Number initialValue, Number amountToStepBy) {
+        if (min instanceof Integer) {
+            IntegerSpinnerValueFactory secondStart_0svf = new IntegerSpinnerValueFactory((int) min, (int) max, (int) initialValue, (int) amountToStepBy);
+            spinner.setValueFactory(secondStart_0svf);
+            spinner.getEditor().textProperty().addListener((observable, oldValue, newValue) -> {
+                try {
+                    spinner.getValueFactory().setValue(Integer.parseInt(newValue));
+                } catch (Exception e) {
+                    log.warn("数字int转换异常 newValue:" + newValue);
+                    spinner.getEditor().setText(oldValue);
+                }
+            });
+        } else if (min instanceof Double) {
+            DoubleSpinnerValueFactory secondStart_0svf = new DoubleSpinnerValueFactory((double) min, (double) max, (double) initialValue, (double) amountToStepBy);
+            spinner.setValueFactory(secondStart_0svf);
+            spinner.getEditor().textProperty().addListener((observable, oldValue, newValue) -> {
+                try {
+                    spinner.getValueFactory().setValue(Double.parseDouble(newValue));
+                } catch (Exception e) {
+                    log.warn("数字double转换异常 newValue:" + newValue);
+                    spinner.getEditor().setText(oldValue);
+                }
+            });
+        }
     }
 
     /**
