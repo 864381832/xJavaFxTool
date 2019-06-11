@@ -133,6 +133,8 @@ Mac OS X x64 [xJavaFxTool-0.1.6-macosx-x64.pkg](https://dev.tencent.com/s/c5ffd1
 
 45、ScanPortTool:端口扫描工具；
 
+46、FileMergeTool:文件合并工具；
+
 传输工具目前支持功能如下：
 
 Receiver接收器：

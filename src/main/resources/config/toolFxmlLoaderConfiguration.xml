@@ -172,7 +172,6 @@
 		<url>/com/xwintop/xJavaFxTool/fxmlView/javaFxTools/ShowSystemInfo.fxml</url>
 		<title>ShowSystemInfo</title>
 		<menuParentId>javaFxTools</menuParentId>
-		<isDefaultShow></isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 	<ToolFxmlLoaderConfiguration>
 		<url>/com/xwintop/xJavaFxTool/fxmlView/developTools/AsciiPicTool.fxml</url>
@@ -270,6 +269,12 @@
 		<url>/com/xwintop/xJavaFxTool/fxmlView/developTools/ScanPortTool.fxml</url>
 		<title>ScanPortTool</title>
 		<menuParentId>developTools</menuParentId>
+	</ToolFxmlLoaderConfiguration>
+	<ToolFxmlLoaderConfiguration>
+		<url>/com/xwintop/xJavaFxTool/fxmlView/littleTools/FileMergeTool.fxml</url>
+		<title>FileMergeTool</title>
+		<menuParentId>littleTools</menuParentId>
+		<isDefaultShow>true</isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 
 	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"
