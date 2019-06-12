@@ -135,6 +135,8 @@ Mac OS X x64 [xJavaFxTool-0.1.6-macosx-x64.pkg](https://dev.tencent.com/s/c5ffd1
 
 46、FileMergeTool:文件合并工具（支持对xls、xlsx、csv及文件进行合并操作）；
 
+47、SedentaryReminderTool:久坐提醒工具；
+
 传输工具目前支持功能如下：
 
 Receiver接收器：
