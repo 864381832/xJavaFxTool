@@ -123,7 +123,7 @@ Mac OS X x64 [xJavaFxTool-0.1.6-macosx-x64.pkg](https://dev.tencent.com/s/c5ffd1
 
 40、ZookeeperTool:Zookeeper工具（方便对zookeeper的一系列操作，包括新增、修改、删除（包括子文件）、重命名、复制、添加变更通知）；
 
-41、ExcelSplitTool:Excel拆分工具（对xls、xlsx、csv及文件进行拆分操作）；
+41、ExcelSplitTool:Excel拆分工具（支持对xls、xlsx、csv及文件进行拆分操作）；
 
 42、PathWatchTool:文件夹监控工具；
 
@@ -133,7 +133,7 @@ Mac OS X x64 [xJavaFxTool-0.1.6-macosx-x64.pkg](https://dev.tencent.com/s/c5ffd1
 
 45、ScanPortTool:端口扫描工具；
 
-46、FileMergeTool:文件合并工具；
+46、FileMergeTool:文件合并工具（支持对xls、xlsx、csv及文件进行合并操作）；
 
 传输工具目前支持功能如下：
 

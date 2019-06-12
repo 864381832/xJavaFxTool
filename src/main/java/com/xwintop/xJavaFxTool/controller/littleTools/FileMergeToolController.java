@@ -74,6 +74,14 @@ public class FileMergeToolController extends FileMergeToolView {
     }
 
     @FXML
+    private void selectFolderAction(ActionEvent event) {
+        File file = FileChooserUtil.chooseDirectory();
+        if (file != null) {
+            selectFileTextField.setText(file.getPath());
+        }
+    }
+
+    @FXML
     private void saveFilePathAction(ActionEvent event) {
         File file = FileChooserUtil.chooseDirectory();
         if (file != null) {

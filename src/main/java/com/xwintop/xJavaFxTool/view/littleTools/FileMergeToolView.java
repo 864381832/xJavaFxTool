@@ -24,6 +24,8 @@ public abstract class FileMergeToolView implements Initializable {
     @FXML
     protected Button selectFileButton;
     @FXML
+    protected Button selectFolderButton;
+    @FXML
     protected CheckBox includeHandCheckBox;
     @FXML
     protected Button mergeButton;

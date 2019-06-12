@@ -56,50 +56,53 @@ public class ExcelSplitToolService {
     public void splitExcel() throws Exception { //拆分Excel表格
         String filePath = excelSplitToolController.getSelectFileTextField().getText();
         FileInputStream fileInputStream = new FileInputStream(filePath);
-
-        Workbook workbook = null;
-        if (filePath.endsWith(".xls")) {
-            POIFSFileSystem fileSystem = new POIFSFileSystem(fileInputStream);
-            workbook = new HSSFWorkbook(fileSystem);
-        } else if (filePath.endsWith(".xlsx")) {
-            workbook = new XSSFWorkbook(fileInputStream);
-        } else {
-            throw new RuntimeException("错误提示: 您设置的Excel文件名不合法!");
-        }
-        String sheetSelectString = excelSplitToolController.getSheetSelectTextField().getText();
-        Sheet[] sheets = null;
-        if (StringUtils.isEmpty(sheetSelectString)) {
-            sheets = new Sheet[]{workbook.getSheetAt(0)};
-        } else {
-            String[] sheetSelectStrings = sheetSelectString.split(",");
-            sheets = new Sheet[sheetSelectStrings.length];
-            for (int i = 0; i < sheetSelectStrings.length; i++) {
-                sheets[i] = workbook.getSheetAt(Integer.valueOf(sheetSelectStrings[i]));
-            }
-        }
-        String newFilePath = StringUtils.appendIfMissing(filePath, "", ".xls", ".xlsx");
-        if (StringUtils.isNotEmpty(excelSplitToolController.getSaveFilePathTextField().getText())) {
-            newFilePath = StringUtils.appendIfMissing(excelSplitToolController.getSaveFilePathTextField().getText(), "/", "/", "\\") + Paths.get(newFilePath).getFileName();
-        }
-        if (excelSplitToolController.getSplitType1RadioButton().isSelected()) {
-            int allRowNumber = 0;
-            for (Sheet sheet : sheets) {
-                allRowNumber += sheet.getLastRowNum();// 行数
-            }
-            int splitNumber = (int) Math.ceil((double) allRowNumber / excelSplitToolController.getSplitType1Spinner().getValue());
-            saveSplitWorkbook(sheets, splitNumber, newFilePath);
-        } else if (excelSplitToolController.getSplitType2RadioButton().isSelected()) {
-            int splitNumber = excelSplitToolController.getSplitType2Spinner().getValue();
-            saveSplitWorkbook(sheets, splitNumber, newFilePath);
-        } else if (excelSplitToolController.getSplitType3RadioButton().isSelected()) {
-            String splitType3String = excelSplitToolController.getSplitType3TextField().getText();
-            String[] splitCellIndex = null;
-            if (StringUtils.isEmpty(splitType3String)) {
-                splitCellIndex = new String[]{"0"};
+        try {
+            Workbook workbook = null;
+            if (filePath.endsWith(".xls")) {
+                POIFSFileSystem fileSystem = new POIFSFileSystem(fileInputStream);
+                workbook = new HSSFWorkbook(fileSystem);
+            } else if (filePath.endsWith(".xlsx")) {
+                workbook = new XSSFWorkbook(fileInputStream);
             } else {
-                splitCellIndex = splitType3String.split(",");
+                throw new RuntimeException("错误提示: 您设置的Excel文件名不合法!");
             }
-            saveSplitWorkbook(sheets, newFilePath, splitCellIndex);
+            String sheetSelectString = excelSplitToolController.getSheetSelectTextField().getText();
+            Sheet[] sheets = null;
+            if (StringUtils.isEmpty(sheetSelectString)) {
+                sheets = new Sheet[]{workbook.getSheetAt(0)};
+            } else {
+                String[] sheetSelectStrings = sheetSelectString.split(",");
+                sheets = new Sheet[sheetSelectStrings.length];
+                for (int i = 0; i < sheetSelectStrings.length; i++) {
+                    sheets[i] = workbook.getSheetAt(Integer.valueOf(sheetSelectStrings[i]));
+                }
+            }
+            String newFilePath = StringUtils.appendIfMissing(filePath, "", ".xls", ".xlsx");
+            if (StringUtils.isNotEmpty(excelSplitToolController.getSaveFilePathTextField().getText())) {
+                newFilePath = StringUtils.appendIfMissing(excelSplitToolController.getSaveFilePathTextField().getText(), "/", "/", "\\") + Paths.get(newFilePath).getFileName();
+            }
+            if (excelSplitToolController.getSplitType1RadioButton().isSelected()) {
+                int allRowNumber = 0;
+                for (Sheet sheet : sheets) {
+                    allRowNumber += sheet.getLastRowNum();// 行数
+                }
+                int splitNumber = (int) Math.ceil((double) allRowNumber / excelSplitToolController.getSplitType1Spinner().getValue());
+                saveSplitWorkbook(sheets, splitNumber, newFilePath);
+            } else if (excelSplitToolController.getSplitType2RadioButton().isSelected()) {
+                int splitNumber = excelSplitToolController.getSplitType2Spinner().getValue();
+                saveSplitWorkbook(sheets, splitNumber, newFilePath);
+            } else if (excelSplitToolController.getSplitType3RadioButton().isSelected()) {
+                String splitType3String = excelSplitToolController.getSplitType3TextField().getText();
+                String[] splitCellIndex = null;
+                if (StringUtils.isEmpty(splitType3String)) {
+                    splitCellIndex = new String[]{"0"};
+                } else {
+                    splitCellIndex = splitType3String.split(",");
+                }
+                saveSplitWorkbook(sheets, newFilePath, splitCellIndex);
+            }
+        } finally {
+            fileInputStream.close();
         }
     }
 

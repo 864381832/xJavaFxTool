@@ -68,7 +68,6 @@
 		<url>/com/xwintop/xJavaFxTool/fxmlView/littleTools/FileCopy.fxml</url>
 		<title>FileCopy</title>
 		<menuParentId>littleTools</menuParentId>
-		<isDefaultShow></isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 	<ToolFxmlLoaderConfiguration>
 		<url>/com/xwintop/xJavaFxTool/fxmlView/littleTools/QRCodeBuilder.fxml</url>
@@ -119,7 +118,6 @@
 		<url>/com/xwintop/xJavaFxTool/fxmlView/debugTools/redisTool/RedisTool.fxml</url>
 		<title>RedisTool</title>
 		<menuParentId>debugTools</menuParentId>
-		<isDefaultShow></isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 	<ToolFxmlLoaderConfiguration>
 		<url>/com/xwintop/xJavaFxTool/fxmlView/codeTools/WebSourcesTool.fxml</url>
@@ -131,7 +129,6 @@
 		<url>/com/xwintop/xJavaFxTool/fxmlView/debugTools/SwitchHostsTool.fxml</url>
 		<title>SwitchHostsTool</title>
 		<menuParentId>debugTools</menuParentId>
-		<isDefaultShow></isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 	<ToolFxmlLoaderConfiguration>
 		<url>/com/xwintop/xJavaFxTool/fxmlView/debugTools/FtpServer.fxml</url>
@@ -242,7 +239,6 @@
 		<url>/com/xwintop/xJavaFxTool/fxmlView/assistTools/DecompilerWxApkgTool.fxml</url>
 		<title>DecompilerWxApkgTool</title>
 		<menuParentId>assistTools</menuParentId>
-		<isDefaultShow></isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 	<ToolFxmlLoaderConfiguration>
 		<url>/com/xwintop/xJavaFxTool/fxmlView/debugTools/ZookeeperTool.fxml</url>
@@ -258,7 +254,6 @@
 		<url>/com/xwintop/xJavaFxTool/fxmlView/developTools/PathWatchTool.fxml</url>
 		<title>PathWatchTool</title>
 		<menuParentId>developTools</menuParentId>
-		<isDefaultShow></isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 	<ToolFxmlLoaderConfiguration>
 		<url>/com/xwintop/xJavaFxTool/fxmlView/codeTools/CharsetDetectTool.fxml</url>
@@ -274,7 +269,7 @@
 		<url>/com/xwintop/xJavaFxTool/fxmlView/littleTools/FileMergeTool.fxml</url>
 		<title>FileMergeTool</title>
 		<menuParentId>littleTools</menuParentId>
-		<isDefaultShow>true</isDefaultShow>
+		<isDefaultShow></isDefaultShow>
 	</ToolFxmlLoaderConfiguration>
 
 	<ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"
