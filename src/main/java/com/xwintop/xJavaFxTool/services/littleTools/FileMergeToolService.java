@@ -76,7 +76,7 @@ public class FileMergeToolService {
         } else if (fileTypeSelectIndex == 1) {
             mergeCsv(fileList, newFilePath);
         } else if (fileTypeSelectIndex == 2) {
-            mergeFile();
+            mergeFile(fileList, newFilePath);
         }
     }
 
@@ -159,32 +159,7 @@ public class FileMergeToolService {
         printer.close();
     }
 
-    public void mergeFile() throws Exception {
-        String filePath = fileMergeToolController.getSelectFileTextField().getText();
-        String[] filePaths = filePath.split("\\|");
-        List<File> fileList = new ArrayList<>();
-        for (String path : filePaths) {
-            File file = new File(path);
-            if (file.isDirectory()) {
-                fileList.addAll(Arrays.asList(file.listFiles()));
-            } else {
-                fileList.add(file);
-            }
-        }
-        String newFilePath = null;
-        if (fileList.get(0).isDirectory()) {
-            if (StringUtils.isNotEmpty(fileMergeToolController.getSaveFilePathTextField().getText())) {
-                newFilePath = StringUtils.appendIfMissing(fileMergeToolController.getSaveFilePathTextField().getText(), "/", "/", "\\") + "merge_file";
-            } else {
-                newFilePath = fileList.get(0).getPath() + "/merge_file.txt";
-            }
-        } else {
-            if (StringUtils.isNotEmpty(fileMergeToolController.getSaveFilePathTextField().getText())) {
-                newFilePath = StringUtils.appendIfMissing(fileMergeToolController.getSaveFilePathTextField().getText(), "/", "/", "\\") + "merge_" + fileList.get(0).getName();
-            } else {
-                newFilePath = fileList.get(0).getParent() + "/merge_" + fileList.get(0).getName();
-            }
-        }
+    public void mergeFile(List<File> fileList, String newFilePath) throws Exception {
         File resultFile = new File(newFilePath);
         try {
             FileChannel resultFileChannel = new FileOutputStream(resultFile, true).getChannel();
