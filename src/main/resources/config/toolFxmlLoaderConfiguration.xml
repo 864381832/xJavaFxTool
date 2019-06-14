@@ -274,6 +274,11 @@
         <url>/com/xwintop/xJavaFxTool/fxmlView/littleTools/SedentaryReminderTool.fxml</url>
         <title>SedentaryReminderTool</title>
         <menuParentId>littleTools</menuParentId>
+    </ToolFxmlLoaderConfiguration>
+    <ToolFxmlLoaderConfiguration>
+        <url>/com/xwintop/xJavaFxTool/fxmlView/codeTools/RandomGeneratorTool.fxml</url>
+        <title>RandomGeneratorTool</title>
+        <menuParentId>codeTools</menuParentId>
         <isDefaultShow></isDefaultShow>
     </ToolFxmlLoaderConfiguration>
 

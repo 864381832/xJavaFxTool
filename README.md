@@ -137,6 +137,8 @@ Mac OS X x64 [xJavaFxTool-0.1.6-macosx-x64.pkg](https://dev.tencent.com/s/c5ffd1
 
 47、SedentaryReminderTool:久坐提醒工具；
 
+48、RandomGeneratorTool:随机数生成工具；
+
 传输工具目前支持功能如下：
 
 Receiver接收器：
