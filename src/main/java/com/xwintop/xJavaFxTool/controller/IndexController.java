@@ -7,6 +7,7 @@ import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import com.xwintop.xJavaFxTool.view.IndexView;
+import com.xwintop.xcore.util.HttpClientUtil;
 import com.xwintop.xcore.util.javafx.AlertUtil;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -297,5 +298,10 @@ public class IndexController extends IndexView {
     private void setLanguageAction(ActionEvent event) throws Exception {
         MenuItem menuItem = (MenuItem) event.getSource();
         indexService.setLanguageAction(menuItem.getText());
+    }
+
+    @FXML
+    private void xwintopLinkOnAction(ActionEvent event) throws Exception {
+        HttpClientUtil.openBrowseURLThrowsException("https://gitee.com/xwintop/xJavaFxTool");
     }
 }
