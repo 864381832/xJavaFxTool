@@ -57,7 +57,7 @@
                      </HBox.margin>
                   </Button>
                   <CheckBox fx:id="singleWindowBootCheckBox" mnemonicParsing="false" text="%singleWindowBootCheckBox" />
-                  <Hyperlink onAction="#xwintopLinkOnAction" text="gitee.com/xwintop/xJavaFxTool" />
+                  <Hyperlink onAction="#xwintopLinkOnAction" text="http://gitee.com/xwintop/xJavaFxTool" textFill="RED" />
                </children>
             </HBox>
          </top>
