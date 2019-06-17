@@ -42,7 +42,7 @@ public class FileMergeToolController extends FileMergeToolView {
 
     private void initView() {
         fileTypeChoiceBox.getItems().addAll(fileTypeChoiceBoxStrings);
-        fileTypeChoiceBox.getSelectionModel().select(0);
+        fileTypeChoiceBox.getSelectionModel().select(2);
     }
 
     private void initEvent() {
