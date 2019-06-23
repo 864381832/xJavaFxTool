@@ -252,19 +252,19 @@ xJavaFxTool
 │  │  │     └─ web	web控制视图层
 │  │  └─ resources
 │  │   ├─ com
-│  │   │  ├─ melloware
-│  │   │  │  └─ jintellitype	JIntellitype工具lib
 │  │   │  └─ xwintop
 │  │   │   └─ xJavaFxTool
 │  │   │    └─ fxmlView     .fxml文件
 │  │   ├─ config	配置文件
-│  │   │  ├─ log4j.properties	log4j配置文件
 │  │   │  └─ toolFxmlLoaderConfiguration.xml	系统菜单加载配置文件
 │  │   ├─ css	样式资源
 │  │   ├─ data	数据资源
 │  │   ├─ images	图片资源
 │  │   ├─ locale	国际化
-│  │   └─ web	html工具
+│  │   ├─ web	html工具
+│  │   ├─ application.yaml	SpringBoot配置文件
+│  │   ├─ banner.txt	启动banner图片
+│  │   └─ logback.xml	logback日志配置文件
 │  └─ test  测试类
 │   ├─ java
 │   └─ resources

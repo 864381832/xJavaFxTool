@@ -24,6 +24,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -39,8 +40,8 @@ import java.util.ResourceBundle;
  * @author: xufeng
  * @date: 2017年7月20日 下午1:50:00
  */
+@Slf4j
 public class IndexController extends IndexView {
-    private static Logger log = Logger.getLogger(IndexController.class);
     private Map<String, Menu> menuMap = new HashMap<String, Menu>();
     private Map<String, MenuItem> menuItemMap = new HashMap<String, MenuItem>();
     private IndexService indexService = new IndexService();
