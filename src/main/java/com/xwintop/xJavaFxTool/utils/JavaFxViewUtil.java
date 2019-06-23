@@ -142,7 +142,7 @@ public class JavaFxViewUtil {
     //设置窗口移除前回调
     public static void setControllerOnCloseRequest(Object controller, Event event) {
         try {
-            Method method = MethodUtils.getAccessibleMethod(controller.getClass(), "onCloseRequest", event.getClass());
+            Method method = MethodUtils.getAccessibleMethod(controller.getClass(), "onCloseRequest", Event.class);
             if (method != null) {
                 MethodUtils.invokeMethod(controller, "onCloseRequest", event);
             }
