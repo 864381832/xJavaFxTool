@@ -4,7 +4,7 @@ import cn.hutool.core.lang.Singleton;
 import cn.hutool.core.thread.ThreadUtil;
 import com.jcraft.jsch.ChannelSftp;
 import com.xwintop.xJavaFxTool.services.developTools.xTransferTool.TransferToolService;
-import com.xwintop.xJavaFxTool.view.developTools.xTransferTool.TransferToolToolView;
+import com.xwintop.xJavaFxTool.view.developTools.xTransferTool.TransferToolView;
 import com.xwintop.xTransfer.task.entity.TaskConfig;
 import com.xwintop.xTransfer.task.service.impl.TaskConfigServiceImpl;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
@@ -37,7 +37,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Getter
 @Setter
 @Slf4j
-public class TransferToolController extends TransferToolToolView {
+public class TransferToolController extends TransferToolView {
     private TransferToolService transferToolService = new TransferToolService(this);
 
     @Override

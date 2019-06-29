@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class TransferToolToolView implements Initializable {
+public abstract class TransferToolView implements Initializable {
     @FXML
     protected TextField configurationPathTextField;
     @FXML
