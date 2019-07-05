@@ -5,11 +5,13 @@ public class LOGVALUES {
     public static String EVENT_MSG_SENDED = "EVENT.MSG.SENDED";
     public static String EVENT_MSG_FILTER = "EVENT.MSG.FILTER";
     public static String RCV_TYPE_FS = "fsReceiver";
+    public static String RCV_TYPE_HDFS = "hdfsReceiver";
     public static String RCV_TYPE_MQ = "mqReceiver";
     public static String RCV_TYPE_JMS = "jmsReceiver";
     public static String RCV_TYPE_FTP = "ftpReceiver";
     public static String RCV_TYPE_SFTP = "sftpReceiver";
     public static String CHANNEL_TYPE_FS = "FS";
+    public static String CHANNEL_TYPE_HDFS = "HDFS";
     public static String CHANNEL_TYPE_MQ = "MQ";
     public static String CHANNEL_TYPE_JMS = "JMS";
     public static String CHANNEL_TYPE_FTP = "FTP";
