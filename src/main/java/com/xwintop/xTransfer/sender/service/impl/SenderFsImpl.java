@@ -5,10 +5,10 @@ import com.xwintop.xTransfer.common.model.LOGKEYS;
 import com.xwintop.xTransfer.common.model.LOGVALUES;
 import com.xwintop.xTransfer.common.model.Msg;
 import com.xwintop.xTransfer.messaging.IMessage;
-import com.xwintop.xTransfer.task.quartz.TaskQuartzJob;
-import com.xwintop.xTransfer.sender.bean.SenderConfigFs;
 import com.xwintop.xTransfer.sender.bean.SenderConfig;
+import com.xwintop.xTransfer.sender.bean.SenderConfigFs;
 import com.xwintop.xTransfer.sender.service.Sender;
+import com.xwintop.xTransfer.task.quartz.TaskQuartzJob;
 import com.xwintop.xTransfer.util.Common;
 import com.xwintop.xTransfer.util.ParseVariableCommon;
 import lombok.Getter;
@@ -95,7 +95,11 @@ public class SenderFsImpl implements Sender {
             }
             tmpFile = new File(tmpPath, fileName + postfixName);
         }
-        FileUtils.writeByteArrayToFile(tmpFile, msg.getMessage());
+        if (StringUtils.isNotEmpty(senderConfigFs.getEncoding()) && !"AUTO".equalsIgnoreCase(senderConfigFs.getEncoding())) {
+            FileUtils.writeByteArrayToFile(tmpFile, msg.getMessage(senderConfigFs.getEncoding()));
+        } else {
+            FileUtils.writeByteArrayToFile(tmpFile, msg.getMessage());
+        }
         try {
             FileUtils.moveFile(tmpFile, new File(filePath, fileName));
         } catch (Exception e) {

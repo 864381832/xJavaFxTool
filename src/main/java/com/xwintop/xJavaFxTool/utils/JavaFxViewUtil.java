@@ -14,8 +14,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.*;
-import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import javafx.scene.control.SpinnerValueFactory.DoubleSpinnerValueFactory;
+import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.control.cell.TextFieldListCell;
@@ -105,8 +105,7 @@ public class JavaFxViewUtil {
      * 获取新窗口
      */
     public static Stage getNewStage(String title, String iconUrl, Parent root) {
-        Stage newStage = null;
-        newStage = new Stage();
+        Stage newStage = new Stage();
         newStage.setTitle(title);
         newStage.initModality(Modality.NONE);
         newStage.setResizable(true);//可调整大小
@@ -137,6 +136,16 @@ public class JavaFxViewUtil {
             log.error("加载新窗口失败", e);
         }
         return newStage;
+    }
+
+    //打开一个等待窗口
+    public static void openNewWindow(String title, Parent root) {
+        Stage window = new Stage();
+        window.setTitle(title);
+        window.initModality(Modality.APPLICATION_MODAL);
+        Scene scene = new Scene(root);
+        window.setScene(scene);
+        window.showAndWait();
     }
 
     //设置窗口移除前回调
@@ -282,14 +291,14 @@ public class JavaFxViewUtil {
      */
     @SuppressWarnings({"rawtypes", "unchecked"})
     public static void setTableColumnMapValueFactory(TableColumn tableColumn, String name) {
-        setTableColumnMapValueFactory(tableColumn, name, true);
-        // tableColumn.setOnEditCommit((CellEditEvent<Map<String, String>,
-        // String> t)-> {
-        // t.getRowValue().put(name, t.getNewValue());
-        // });
+        setTableColumnMapValueFactory(tableColumn, name, true, null);
     }
 
     public static void setTableColumnMapValueFactory(TableColumn tableColumn, String name, boolean isEdit) {
+        setTableColumnMapValueFactory(tableColumn, name, isEdit, null);
+    }
+
+    public static void setTableColumnMapValueFactory(TableColumn tableColumn, String name, boolean isEdit, Runnable onEditCommitHandle) {
         tableColumn.setCellValueFactory(new MapValueFactory(name));
         tableColumn.setCellFactory(TextFieldTableCell.<Map<String, String>>forTableColumn());
         if (isEdit) {
@@ -297,6 +306,9 @@ public class JavaFxViewUtil {
                 @Override
                 public void handle(CellEditEvent<Map<String, String>, String> t) {
                     t.getRowValue().put(name, t.getNewValue());
+                    if (onEditCommitHandle != null) {
+                        onEditCommitHandle.run();
+                    }
                 }
             });
         }

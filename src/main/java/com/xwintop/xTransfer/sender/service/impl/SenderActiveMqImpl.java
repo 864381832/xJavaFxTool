@@ -106,7 +106,7 @@ public class SenderActiveMqImpl implements Sender {
             }
             CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory();
             cachingConnectionFactory.setTargetConnectionFactory(connectionFactory);
-            cachingConnectionFactory.setSessionCacheSize(500);
+            cachingConnectionFactory.setSessionCacheSize(senderConfigActiveMq.getSessionCacheSize());
             cachingConnectionFactory.setReconnectOnException(true);
 
             jmsTemplate = new JmsTemplate(cachingConnectionFactory);

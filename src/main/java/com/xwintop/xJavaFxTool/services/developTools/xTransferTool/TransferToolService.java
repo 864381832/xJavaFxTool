@@ -1,26 +1,32 @@
 package com.xwintop.xJavaFxTool.services.developTools.xTransferTool;
 
-import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.Session;
 import com.xwintop.xJavaFxTool.controller.developTools.xTransferTool.TransferToolController;
+import com.xwintop.xJavaFxTool.controller.developTools.xTransferTool.TransferToolDataSourceController;
 import com.xwintop.xJavaFxTool.controller.developTools.xTransferTool.TransferToolTaskViewController;
+import com.xwintop.xJavaFxTool.utils.TransferViewUtil;
+import com.xwintop.xTransfer.datasource.bean.DataSourceConfigDruid;
 import com.xwintop.xTransfer.task.entity.TaskConfig;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TreeItem;
+import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.*;
-import java.util.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Getter
@@ -29,6 +35,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TransferToolService {
     private TransferToolController transferToolController;
     private Map<String, Map<String, TaskConfig>> taskConfigFileMap = new ConcurrentHashMap<>();//任务对应配置文件map
+    private Map<String, Map<String, DataSourceConfigDruid>> dataSourceConfigFileMap = new ConcurrentHashMap<>();//数据源对应配置文件map
+    private Map<String, String> taskConfigFileStringMap = new ConcurrentHashMap<>();//任务对应文件内容
 
     private Map<String, Tab> taskConfigTabMap = new HashMap<String, Tab>();
 
@@ -45,102 +53,42 @@ public class TransferToolService {
         treeItem.getChildren().clear();
         if ("127.0.0.1".equals(transferToolController.getHostTextField().getText())) {
             File CONFIG_DIR = new File(transferToolController.getConfigurationPathTextField().getText());
-            File[] all = CONFIG_DIR.listFiles(new FilenameFilter() {
-                @Override
-                public boolean accept(File dir, String name) {
-                    if (name.endsWith("service.yml")) {
-                        return true;
-                    }
-                    return false;
-                }
-            });
+            File[] all = CONFIG_DIR.listFiles();
             for (File file : all) {
                 try {
-                    Map<String, TaskConfig> taskConfigMap = new ConcurrentHashMap<>();
-                    TreeItem<String> treeItem2 = new TreeItem<String>(file.getName());
-                    treeItem.getChildren().add(treeItem2);
-                    Yaml yaml = new Yaml();
-                    Object config = yaml.load(new FileInputStream(file));
-                    if (config instanceof List) {
-                        Iterable<TaskConfig> taskConfigs = (Iterable<TaskConfig>) config;
-                        for (TaskConfig taskConfig : taskConfigs) {
-                            TreeItem<String> treeItem3 = new TreeItem<String>(taskConfig.getName());
-                            treeItem2.getChildren().add(treeItem3);
-                            taskConfigMap.put(taskConfig.getName(), taskConfig);
-                        }
-                    } else {
-                        TaskConfig taskConfig = (TaskConfig) config;
-                        TreeItem<String> treeItem3 = new TreeItem<String>(taskConfig.getName());
-                        treeItem2.getChildren().add(treeItem3);
-                        taskConfigMap.put(taskConfig.getName(), taskConfig);
+                    if (!file.isFile()) {
+                        continue;
                     }
-                    taskConfigFileMap.put(file.getName(), taskConfigMap);
+                    String yamlFileString = FileUtils.readFileToString(file, "UTF-8");
+                    TransferViewUtil.readConfig(this, treeItem, file.getName(), yamlFileString);
+                    taskConfigFileStringMap.put(file.getName(), yamlFileString);
                 } catch (Exception e) {
                     log.error("load config [" + file.getPath() + "] error.", e);
                 }
             }
+            TooltipUtil.showToast("连接成功！！！");
         } else {
             try {
-                ChannelSftp channel = this.getSftpChannel();
-                TooltipUtil.showToast("连接成功！！！");
+                ChannelSftp channel = TransferViewUtil.getSftpChannel(transferToolController);
                 String remotePath = transferToolController.getConfigurationPathTextField().getText();
                 remotePath = StringUtils.appendIfMissing(remotePath, "/", "/", "\\");
                 Vector<ChannelSftp.LsEntry> fileList = channel.ls(remotePath);
                 for (ChannelSftp.LsEntry file : fileList) {
-                    if (file.getFilename().endsWith("service.yml")) {
-                        try {
-                            Map<String, TaskConfig> taskConfigMap = new ConcurrentHashMap<>();
-                            TreeItem<String> treeItem2 = new TreeItem<String>(file.getFilename());
-                            treeItem.getChildren().add(treeItem2);
-                            Yaml yaml = new Yaml();
-                            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                            channel.get(remotePath + file.getFilename(), outputStream);
-                            Object config = yaml.load(new ByteArrayInputStream(outputStream.toByteArray()));
-                            if (config instanceof List) {
-                                Iterable<TaskConfig> taskConfigs = (Iterable<TaskConfig>) config;
-                                for (TaskConfig taskConfig : taskConfigs) {
-                                    TreeItem<String> treeItem3 = new TreeItem<String>(taskConfig.getName());
-                                    treeItem2.getChildren().add(treeItem3);
-                                    taskConfigMap.put(taskConfig.getName(), taskConfig);
-                                }
-                            } else {
-                                TaskConfig taskConfig = (TaskConfig) config;
-                                TreeItem<String> treeItem3 = new TreeItem<String>(taskConfig.getName());
-                                treeItem2.getChildren().add(treeItem3);
-                                taskConfigMap.put(taskConfig.getName(), taskConfig);
-                            }
-                            taskConfigFileMap.put(file.getFilename(), taskConfigMap);
-                        } catch (Exception e) {
-                            log.error("load config [" + file.getFilename() + "] error.", e);
-                        }
+                    if (file.getAttrs().isDir() || ".".equals(file.getFilename()) || "..".equals(file.getFilename())) {
+                        continue;
                     }
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    channel.get(remotePath + file.getFilename(), outputStream);
+                    String yamlFileString = outputStream.toString("utf-8");
+                    TransferViewUtil.readConfig(this, treeItem, file.getFilename(), yamlFileString);
+                    taskConfigFileStringMap.put(file.getFilename(), yamlFileString);
                 }
-                this.closeSftpSession(channel);
+                TransferViewUtil.closeSftpSession(channel);
+                TooltipUtil.showToast("连接成功！！！");
             } catch (Exception e) {
                 log.error("连接错误：", e);
+                TooltipUtil.showToast("连接失败！！！" + e.getMessage());
             }
-        }
-    }
-
-    public ChannelSftp getSftpChannel() throws Exception {
-        JSch jSch = new JSch(); //创建JSch对象
-        Session session = jSch.getSession(transferToolController.getUsernameTextField().getText(), transferToolController.getHostTextField().getText(), Integer.valueOf(transferToolController.getPortTextField().getText()));//根据用户名，主机ip和端口获取一个Session对象
-        session.setPassword(transferToolController.getPasswordTextField().getText());//设置密码
-        Properties sftpConfig = new Properties();
-        sftpConfig.put("StrictHostKeyChecking", "no");
-        session.setConfig(sftpConfig);//为Session对象设置properties
-        session.connect();//通过Session建立连接
-        ChannelSftp channel = (ChannelSftp) session.openChannel("sftp");
-        channel.connect();
-        return channel;
-    }
-
-    public void closeSftpSession(Channel channel) {
-        try {
-            channel.disconnect();
-            channel.getSession().disconnect();
-        } catch (Exception e) {
-            log.error("关闭连接失败：", e);
         }
     }
 
@@ -152,32 +100,99 @@ public class TransferToolService {
             return;
         }
         final Tab tab = new Tab(tabName);
-        tab.setOnClosed(new EventHandler<Event>() {
-            @Override
-            public void handle(Event event) {
-                List<Tab> tabList = new ArrayList<Tab>();
-                transferToolController.getTaskConfigTabPane().getTabs().forEach((Tab tab2) -> {
-                    if (tab2.getText().startsWith(tabName)) {
-                        tabList.add(tab2);
-                    }
-                });
-                transferToolController.getTaskConfigTabPane().getTabs().removeAll(tabList);
-                taskConfigTabMap.remove(tab.getText());
+        tab.setOnClosed(event -> taskConfigTabMap.remove(tab.getText()));
+        if (fileName.endsWith("service.yml")) {
+            FXMLLoader fXMLLoader = TransferToolTaskViewController.getFXMLLoader();
+            try {
+                tab.setContent(fXMLLoader.load());
+            } catch (IOException e) {
+                log.error("加载失败", e);
             }
-        });
-        FXMLLoader fXMLLoader = TransferToolTaskViewController.getFXMLLoader();
-        try {
-            tab.setContent(fXMLLoader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
+            TransferToolTaskViewController transferToolTaskViewController = fXMLLoader.getController();
+            transferToolTaskViewController.setData(transferToolController, taskConfigFileMap.get(fileName).get(taskName));
+            transferToolTaskViewController.setFileName(fileName);
+            transferToolTaskViewController.setTabName(tabName);
+        } else if (fileName.endsWith("datasource.yml")) {
+            FXMLLoader fXMLLoader = TransferToolDataSourceController.getFXMLLoader();
+            try {
+                tab.setContent(fXMLLoader.load());
+            } catch (IOException e) {
+                log.error("加载失败", e);
+            }
+            TransferToolDataSourceController transferToolDataSourceController = fXMLLoader.getController();
+            transferToolDataSourceController.setData(transferToolController, dataSourceConfigFileMap.get(fileName).get(taskName));
+            transferToolDataSourceController.setFileName(fileName);
+            transferToolDataSourceController.setTabName(tabName);
         }
-        TransferToolTaskViewController transferToolTaskViewController = fXMLLoader.getController();
-        transferToolTaskViewController.setData(transferToolController, taskConfigFileMap.get(fileName).get(taskName));
-        transferToolTaskViewController.setFileName(fileName);
-        transferToolTaskViewController.setTabName(tabName);
         transferToolController.getTaskConfigTabPane().getTabs().add(tab);
         transferToolController.getTaskConfigTabPane().getSelectionModel().select(tab);
         taskConfigTabMap.put(tabName, tab);
+    }
+
+    public void addTaskFileTextArea(String fileName, String value) {
+        Tab tab = new Tab(fileName);
+        TextArea textArea = new TextArea();
+        textArea.setText(value);
+        tab.setContent(textArea);
+        textArea.setFocusTraversable(true);
+        textArea.setOnKeyPressed(event -> {
+            if (new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN).match(event)) {
+                TransferToolService.this.saveFileAction(fileName, textArea.getText().trim());
+            }
+        });
+        MenuItem menu_SaveFile = new MenuItem("保存文件");
+        menu_SaveFile.setOnAction(event1 -> {
+            TransferToolService.this.saveFileAction(fileName, textArea.getText().trim());
+        });
+        ContextMenu contextMenu = new ContextMenu(menu_SaveFile);
+        textArea.setContextMenu(contextMenu);
+        transferToolController.getTaskConfigTabPane().getTabs().add(tab);
+        transferToolController.getTaskConfigTabPane().getSelectionModel().select(tab);
+    }
+
+    private void saveFileAction(String fileName, String yamlFileString) {
+        try {
+            if (fileName.endsWith("service.yml")) {
+                Map<String, TaskConfig> taskConfigMap = new ConcurrentHashMap<>();
+                Object config = new Yaml().load(yamlFileString);
+                if (config instanceof List) {
+                    Iterable<TaskConfig> taskConfigs = (Iterable<TaskConfig>) config;
+                    for (TaskConfig taskConfig : taskConfigs) {
+                        taskConfigMap.put(taskConfig.getName(), taskConfig);
+                    }
+                } else {
+                    TaskConfig taskConfig = (TaskConfig) config;
+                    taskConfigMap.put(taskConfig.getName(), taskConfig);
+                }
+                taskConfigFileMap.put(fileName, taskConfigMap);
+            } else if (fileName.endsWith("datasource.yml")) {
+                Map<String, DataSourceConfigDruid> dataSourceConfigMap = new ConcurrentHashMap<>();
+                Object config = new Yaml().load(yamlFileString);
+                if (config instanceof List) {
+                    Iterable<DataSourceConfigDruid> taskConfigs = (Iterable<DataSourceConfigDruid>) config;
+                    for (DataSourceConfigDruid taskConfig : taskConfigs) {
+                        dataSourceConfigMap.put(taskConfig.getId(), taskConfig);
+                    }
+                } else {
+                    DataSourceConfigDruid taskConfig = (DataSourceConfigDruid) config;
+                    dataSourceConfigMap.put(taskConfig.getId(), taskConfig);
+                }
+                dataSourceConfigFileMap.put(fileName, dataSourceConfigMap);
+            }
+            TransferViewUtil.saveConfigStringToFile(transferToolController, fileName, yamlFileString);
+            taskConfigFileStringMap.put(fileName, yamlFileString);
+            TooltipUtil.showToast("保存成功！");
+        } catch (Exception e) {
+            TooltipUtil.showToast("保存失败！" + e.getMessage());
+            log.error("保存失败", e);
+        }
+    }
+
+    public void removeTaskConfigTabPane(String taskName) {
+        Tab tab1 = taskConfigTabMap.get(taskName);
+        if (tab1 != null) {
+            transferToolController.getTaskConfigTabPane().getTabs().remove(tab1);
+        }
     }
 
 }

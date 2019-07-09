@@ -1,5 +1,6 @@
 package com.xwintop.xJavaFxTool.controller.developTools.xTransferTool;
 
+import cn.hutool.core.swing.clipboard.ClipboardUtil;
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.services.developTools.xTransferTool.TransferToolTaskViewService;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
@@ -8,6 +9,8 @@ import com.xwintop.xTransfer.filter.bean.FilterConfig;
 import com.xwintop.xTransfer.receiver.bean.ReceiverConfig;
 import com.xwintop.xTransfer.sender.bean.SenderConfig;
 import com.xwintop.xTransfer.task.entity.TaskConfig;
+import com.xwintop.xcore.util.javafx.AlertUtil;
+import com.xwintop.xcore.util.javafx.TooltipUtil;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -22,7 +25,7 @@ import javafx.scene.input.MouseButton;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.beanutils.BeanUtils;
+import org.yaml.snakeyaml.Yaml;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -58,6 +61,9 @@ public class TransferToolTaskViewController extends TransferToolTaskViewView {
     }
 
     private void initView() {
+        nameTextField.prefColumnCountProperty().bind(nameTextField.textProperty().length());
+        taskTypeTextField.prefColumnCountProperty().bind(taskTypeTextField.textProperty().length());
+        triggerCronTextField.prefColumnCountProperty().bind(triggerCronTextField.textProperty().length());
         JavaFxViewUtil.setTableColumnMapValueFactory(propertiesKeyTableColumn, "key");
         JavaFxViewUtil.setTableColumnMapValueFactory(propertiesValueTableColumn, "value");
         propertiesTableView.setItems(propertiesTableData);
@@ -123,7 +129,8 @@ public class TransferToolTaskViewController extends TransferToolTaskViewView {
                             receiverConfigListView.getSelectionModel().select(selectIndex);
                             transferToolTaskViewService.addServiceViewTabPane(configObject, selectIndex);
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            log.error("添加失败：", e);
+                            TooltipUtil.showToast("添加失败：" + e.getMessage());
                         }
                     });
                     menu.getItems().add(menuAdd);
@@ -135,24 +142,46 @@ public class TransferToolTaskViewController extends TransferToolTaskViewView {
                 menu_Copy.setOnAction(event1 -> {
                     String selectString = receiverConfigListView.getSelectionModel().getSelectedItem();
                     receiverConfigListData.add(selectString);
+                    Yaml yaml = new Yaml();
+                    taskConfig.getReceiverConfig().add(yaml.load(yaml.dump(taskConfig.getReceiverConfig().get(receiverConfigListView.getSelectionModel().getSelectedIndex()))));
+                });
+                MenuItem menu_CopyToClipboard = new MenuItem("复制选中行到剪切板");
+                menu_CopyToClipboard.setOnAction(event1 -> {
                     try {
-                        taskConfig.getReceiverConfig().add((ReceiverConfig) BeanUtils.cloneBean(taskConfig.getReceiverConfig().get(receiverConfigListView.getSelectionModel().getSelectedIndex())));
+                        String taskConfigString = new Yaml().dump(taskConfig.getReceiverConfig().get(receiverConfigListView.getSelectionModel().getSelectedIndex()));
+                        ClipboardUtil.setStr(taskConfigString);
+                        TooltipUtil.showToast("复制成功！" + taskConfigString);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        log.error("复制失败：", e);
+                        TooltipUtil.showToast("复制失败：" + e.getMessage());
+                    }
+                });
+                MenuItem menuAddByClipboard = new MenuItem("粘贴Receiver");
+                menuAddByClipboard.setOnAction(event1 -> {
+                    String configString = ClipboardUtil.getStr();
+                    try {
+                        ReceiverConfig receiverConfig = new Yaml().load(configString);
+                        receiverConfigListData.add(receiverConfig.getServiceName());
+                        taskConfig.getReceiverConfig().add(receiverConfig);
+                    } catch (Exception e) {
+                        log.error("粘贴Receiver加载异常:", e);
+                        TooltipUtil.showToast("粘贴Receiver加载异常:" + e.getMessage());
                     }
                 });
                 MenuItem menu_Remove = new MenuItem("删除选中行");
                 menu_Remove.setOnAction(event1 -> {
                     taskConfig.getReceiverConfig().remove(receiverConfigListView.getSelectionModel().getSelectedIndex());
-//                    receiverConfigListData.remove(receiverConfigListView.getSelectionModel().getSelectedItem());
                     receiverConfigListData.remove(receiverConfigListView.getSelectionModel().getSelectedIndex());
                 });
                 MenuItem menu_RemoveAll = new MenuItem("删除所有");
                 menu_RemoveAll.setOnAction(event1 -> {
+                    if (!AlertUtil.showConfirmAlert("确定要删除所有吗？")) {
+                        return;
+                    }
                     receiverConfigListData.clear();
                     taskConfig.getReceiverConfig().clear();
                 });
-                receiverConfigListView.setContextMenu(new ContextMenu(menu, menu_Copy, menu_Remove, menu_RemoveAll));
+                receiverConfigListView.setContextMenu(new ContextMenu(menu, menu_Copy, menu_CopyToClipboard, menuAddByClipboard, menu_Remove, menu_RemoveAll));
             } else if (event.getButton() == MouseButton.PRIMARY) {
                 int selectIndex = receiverConfigListView.getSelectionModel().getSelectedIndex();
                 if (receiverConfigListView.getSelectionModel().getSelectedItems() == null || selectIndex == -1) {
@@ -187,7 +216,8 @@ public class TransferToolTaskViewController extends TransferToolTaskViewView {
                             filterConfigsListView.getSelectionModel().select(selectIndex);
                             transferToolTaskViewService.addServiceViewTabPane(configObject, selectIndex);
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            log.error("添加异常:", e);
+                            TooltipUtil.showToast("添加异常:" + e.getMessage());
                         }
                     });
                     menu.getItems().add(menuAdd);
@@ -199,10 +229,30 @@ public class TransferToolTaskViewController extends TransferToolTaskViewView {
                 menu_Copy.setOnAction(event1 -> {
                     String selectString = filterConfigsListView.getSelectionModel().getSelectedItem();
                     filterConfigsListData.add(selectString);
+                    Yaml yaml = new Yaml();
+                    taskConfig.getFilterConfigs().add(yaml.load(yaml.dump(taskConfig.getFilterConfigs().get(filterConfigsListView.getSelectionModel().getSelectedIndex()))));
+                });
+                MenuItem menu_CopyToClipboard = new MenuItem("复制选中行到剪切板");
+                menu_CopyToClipboard.setOnAction(event1 -> {
                     try {
-                        taskConfig.getFilterConfigs().add((FilterConfig) BeanUtils.cloneBean(taskConfig.getFilterConfigs().get(filterConfigsListView.getSelectionModel().getSelectedIndex())));
+                        String taskConfigString = new Yaml().dump(taskConfig.getFilterConfigs().get(filterConfigsListView.getSelectionModel().getSelectedIndex()));
+                        ClipboardUtil.setStr(taskConfigString);
+                        TooltipUtil.showToast("复制成功！" + taskConfigString);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        log.error("复制失败：", e);
+                        TooltipUtil.showToast("复制失败：" + e.getMessage());
+                    }
+                });
+                MenuItem menuAddByClipboard = new MenuItem("粘贴Filter");
+                menuAddByClipboard.setOnAction(event1 -> {
+                    String configString = ClipboardUtil.getStr();
+                    try {
+                        FilterConfig filterConfig = new Yaml().load(configString);
+                        filterConfigsListData.add(filterConfig.getServiceName());
+                        taskConfig.getFilterConfigs().add(filterConfig);
+                    } catch (Exception e) {
+                        log.error("粘贴Filter加载异常:", e);
+                        TooltipUtil.showToast("粘贴Filter加载异常:" + e.getMessage());
                     }
                 });
                 MenuItem menu_Remove = new MenuItem("删除选中行");
@@ -215,7 +265,7 @@ public class TransferToolTaskViewController extends TransferToolTaskViewView {
                     filterConfigsListData.clear();
                     taskConfig.getFilterConfigs().clear();
                 });
-                filterConfigsListView.setContextMenu(new ContextMenu(menu, menu_Copy, menu_Remove, menu_RemoveAll));
+                filterConfigsListView.setContextMenu(new ContextMenu(menu, menu_Copy, menu_CopyToClipboard, menuAddByClipboard, menu_Remove, menu_RemoveAll));
             } else if (event.getButton() == MouseButton.PRIMARY) {
                 int selectIndex = filterConfigsListView.getSelectionModel().getSelectedIndex();
                 if (filterConfigsListView.getSelectionModel().getSelectedItems() == null || selectIndex == -1) {
@@ -252,7 +302,8 @@ public class TransferToolTaskViewController extends TransferToolTaskViewView {
                             senderConfigListView.getSelectionModel().select(selectIndex);
                             transferToolTaskViewService.addServiceViewTabPane(configObject, selectIndex);
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            log.error("添加异常:", e);
+                            TooltipUtil.showToast("添加异常:" + e.getMessage());
                         }
                     });
                     menu.getItems().add(menuAdd);
@@ -264,16 +315,34 @@ public class TransferToolTaskViewController extends TransferToolTaskViewView {
                 menu_Copy.setOnAction(event1 -> {
                     String selectString = senderConfigListView.getSelectionModel().getSelectedItem();
                     senderConfigListData.add(selectString);
+                    Yaml yaml = new Yaml();
+                    taskConfig.getSenderConfig().add(yaml.load(yaml.dump(taskConfig.getSenderConfig().get(senderConfigListView.getSelectionModel().getSelectedIndex()))));
+                });
+                MenuItem menu_CopyToClipboard = new MenuItem("复制选中行到剪切板");
+                menu_CopyToClipboard.setOnAction(event1 -> {
                     try {
-                        taskConfig.getSenderConfig().add((SenderConfig) BeanUtils.cloneBean(taskConfig.getSenderConfig().get(senderConfigListView.getSelectionModel().getSelectedIndex())));
+                        String taskConfigString = new Yaml().dump(taskConfig.getSenderConfig().get(senderConfigListView.getSelectionModel().getSelectedIndex()));
+                        ClipboardUtil.setStr(taskConfigString);
+                        TooltipUtil.showToast("复制成功！" + taskConfigString);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        log.error("复制失败：", e);
+                        TooltipUtil.showToast("复制失败：" + e.getMessage());
+                    }
+                });
+                MenuItem menuAddByClipboard = new MenuItem("粘贴Sender");
+                menuAddByClipboard.setOnAction(event1 -> {
+                    String configString = ClipboardUtil.getStr();
+                    try {
+                        SenderConfig senderConfig = new Yaml().load(configString);
+                        senderConfigListData.add(senderConfig.getServiceName());
+                        taskConfig.getSenderConfig().add(senderConfig);
+                    } catch (Exception e) {
+                        TooltipUtil.showToast("粘贴Sender加载异常:" + e.getMessage());
                     }
                 });
                 MenuItem menu_Remove = new MenuItem("删除选中行");
                 menu_Remove.setOnAction(event1 -> {
                     taskConfig.getSenderConfig().remove(senderConfigListView.getSelectionModel().getSelectedIndex());
-//                    senderConfigListData.remove(senderConfigListView.getSelectionModel().getSelectedItem());
                     senderConfigListData.remove(senderConfigListView.getSelectionModel().getSelectedIndex());
                 });
                 MenuItem menu_RemoveAll = new MenuItem("删除所有");
@@ -281,7 +350,7 @@ public class TransferToolTaskViewController extends TransferToolTaskViewView {
                     senderConfigListData.clear();
                     taskConfig.getSenderConfig().clear();
                 });
-                senderConfigListView.setContextMenu(new ContextMenu(menu, menu_Copy, menu_Remove, menu_RemoveAll));
+                senderConfigListView.setContextMenu(new ContextMenu(menu, menu_Copy, menu_CopyToClipboard, menuAddByClipboard, menu_Remove, menu_RemoveAll));
             } else if (event.getButton() == MouseButton.PRIMARY) {
                 int selectIndex = senderConfigListView.getSelectionModel().getSelectedIndex();
                 if (senderConfigListView.getSelectionModel().getSelectedItems() == null || selectIndex == -1) {
@@ -302,7 +371,18 @@ public class TransferToolTaskViewController extends TransferToolTaskViewView {
         try {
             transferToolTaskViewService.saveTaskConfigAction();
         } catch (Exception e) {
-            e.printStackTrace();
+            TooltipUtil.showToast("保存配置失败：" + e.getMessage());
+            log.error("保存配置失败：", e);
+        }
+    }
+
+    @FXML
+    void viewTaskConfigAction(ActionEvent event) {
+        try {
+            transferToolTaskViewService.viewTaskConfigAction();
+        } catch (Exception e) {
+            TooltipUtil.showToast("预览配置失败：" + e.getMessage());
+            log.error("预览配置失败：", e);
         }
     }
 

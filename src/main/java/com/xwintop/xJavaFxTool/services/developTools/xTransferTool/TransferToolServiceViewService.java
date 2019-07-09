@@ -6,6 +6,7 @@ import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xTransfer.receiver.bean.ReceiverConfigFtp;
 import com.xwintop.xTransfer.receiver.bean.ReceiverConfigSftp;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -46,16 +47,28 @@ public class TransferToolServiceViewService {
                 if (field.getName().equals(node.getId())) {
                     try {
                         if (field.getType() == String.class) {
-                            if (StringUtils.isBlank(((TextField) node).getText())) {
-                                field.set(configObject, null);
+                            if ("strategy".equals(field.getName())) {
+                                field.set(configObject, ((ChoiceBox<String>) node).getValue());
                             } else {
-                                field.set(configObject, ((TextField) node).getText());
+                                if (StringUtils.isBlank(((TextField) node).getText())) {
+                                    field.set(configObject, null);
+                                } else {
+                                    field.set(configObject, ((TextField) node).getText());
+                                }
                             }
                         } else if (field.getType() == Boolean.class || field.getType() == boolean.class) {
-                            field.set(configObject, ((JFXCheckBox) node).isSelected());
-                        } else if (field.getType() == int.class || field.getType() == long.class) {
-                            if (((Spinner<Integer>) node).getValue() != null) {
-                                field.set(configObject, ((Spinner<Integer>) node).getValue());
+                            field.set(configObject, ((CheckBox) node).isSelected());
+                        } else if (field.getType() == int.class) {
+                            if ("connectionType".equals(field.getName())) {
+                                field.set(configObject, ((ChoiceBox<String>) node).getSelectionModel().getSelectedIndex());
+                            } else {
+                                if (((Spinner<Integer>) node).getValue() != null) {
+                                    field.set(configObject, ((Spinner<Integer>) node).getValue());
+                                }
+                            }
+                        } else if (field.getType() == long.class) {
+                            if (((Spinner<Double>) node).getValue() != null) {
+                                field.set(configObject, ((Spinner<Double>) node).getValue().longValue());
                             }
                         } else if (field.getType() == Map.class) {
                             TableView<Map<String, String>> propertiesTableView = (TableView<Map<String, String>>) node;
@@ -91,7 +104,7 @@ public class TransferToolServiceViewService {
                             }
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        log.error("保存失败：", e);
                     }
                     break;
                 }
@@ -122,11 +135,11 @@ public class TransferToolServiceViewService {
         rowFlowPane.setPadding(new Insets(5, 5, 5, 5));
         rowFlowPane.setHgap(20);
         rowFlowPane.setVgap(10);
-        Button saveButton = new Button("保存");
-        saveButton.setOnAction(event -> {
-            saveConfigAction(rowConfigObject, rowFlowPane);
-        });
-        rowFlowPane.getChildren().add(saveButton);
+//        Button saveButton = new Button("保存");
+//        saveButton.setOnAction(event -> {
+//            saveConfigAction(rowConfigObject, rowFlowPane);
+//        });
+//        rowFlowPane.getChildren().add(saveButton);
         this.addFlowPane(rowConfigObject, rowFlowPane);
         tab.setContent(rowFlowPane);
     }
@@ -140,27 +153,104 @@ public class TransferToolServiceViewService {
                     label.setTextFill(Color.RED);
                     FlowPane.setMargin(label, new Insets(0, -15, 0, 0));
                     flowPane.getChildren().add(label);
-                    TextField textField = new TextField(field.get(configObject) == null ? "" : field.get(configObject).toString());
-                    textField.setId(field.getName());
-                    if ("serviceName".equals(field.getName())) {
-                        textField.setEditable(false);
+                    if ("strategy".equals(field.getName())) {
+                        ChoiceBox<String> choiceBox = new ChoiceBox();
+                        choiceBox.setId(field.getName());
+                        String[] strategyChoiceBoxStrings = new String[]{"direct", "day", "hour", "day_hour", "minutes"};
+                        choiceBox.getItems().addAll(strategyChoiceBoxStrings);
+                        choiceBox.setValue(field.get(configObject) == null ? "direct" : field.get(configObject).toString());
+                        flowPane.getChildren().addAll(choiceBox);
+                        choiceBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+                            try {
+                                field.set(configObject, newValue);
+                            } catch (IllegalAccessException e) {
+                                log.error("设置值失败：", e);
+                            }
+                        });
+                    } else {
+                        TextField textField = new TextField(field.get(configObject) == null ? "" : field.get(configObject).toString());
+                        textField.setMinWidth(30);
+                        textField.setMaxWidth(400);
+                        textField.prefColumnCountProperty().bind(textField.textProperty().length());
+                        textField.setId(field.getName());
+                        if ("serviceName".equals(field.getName())) {
+                            textField.setEditable(false);
+                            textField.setMaxWidth(150);
+                        }
+                        flowPane.getChildren().add(textField);
+                        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+                            try {
+                                if (StringUtils.isBlank(newValue)) {
+                                    field.set(configObject, null);
+                                } else {
+                                    field.set(configObject, newValue);
+                                }
+                            } catch (IllegalAccessException e) {
+                                log.error("设置值失败：", e);
+                            }
+                        });
                     }
-                    flowPane.getChildren().add(textField);
                 } else if (field.getType() == Boolean.class || field.getType() == boolean.class) {
-                    JFXCheckBox checkBox = new JFXCheckBox(field.getName());
+                    CheckBox checkBox = new CheckBox(field.getName());
                     checkBox.setId(field.getName());
                     checkBox.setSelected(field.getBoolean(configObject));
                     flowPane.getChildren().add(checkBox);
+                    checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+                        try {
+                            field.set(configObject, newValue);
+                        } catch (IllegalAccessException e) {
+                            log.error("设置值失败：", e);
+                        }
+                    });
                 } else if (field.getType() == int.class || field.getType() == long.class) {
                     Label label = new Label(field.getName() + ":");
                     label.setTextFill(Color.RED);
                     FlowPane.setMargin(label, new Insets(0, -15, 0, 0));
                     flowPane.getChildren().add(label);
-                    Spinner<Integer> spinner = new Spinner<>();
-                    spinner.setId(field.getName());
-                    JavaFxViewUtil.setSpinnerValueFactory(spinner, Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.valueOf(field.get(configObject).toString()));
-                    spinner.setEditable(true);
-                    flowPane.getChildren().add(spinner);
+                    if ("connectionType".equals(field.getName())) {
+                        ChoiceBox<String> choiceBox = new ChoiceBox();
+                        choiceBox.setId(field.getName());
+                        String[] choiceBoxStrings = new String[]{"0:FTP", "1:FTP using implicit SSL", "2:FTP using explicit SSL(Auth SSL)", "3:FTP using explicit SSL(Auth TLS)"};
+                        choiceBox.getItems().addAll(choiceBoxStrings);
+                        choiceBox.getSelectionModel().select((int) field.get(configObject));
+                        flowPane.getChildren().addAll(choiceBox);
+                        choiceBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+                            try {
+                                field.set(configObject, newValue);
+                            } catch (IllegalAccessException e) {
+                                log.error("设置值失败：", e);
+                            }
+                        });
+                    } else {
+                        Spinner spinner = null;
+                        if (field.getType() == int.class) {
+                            spinner = new Spinner<Integer>();
+                            JavaFxViewUtil.setSpinnerValueFactory((Spinner<Integer>) spinner, Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.valueOf(field.get(configObject).toString()));
+                            spinner.valueProperty().addListener((observable, oldValue, newValue) -> {
+                                try {
+                                    field.set(configObject, newValue);
+                                } catch (IllegalAccessException e) {
+                                    log.error("设置值失败：", e);
+                                }
+                            });
+                        } else {
+                            spinner = new Spinner<Double>();
+                            JavaFxViewUtil.setSpinnerValueFactory(spinner, (double) Long.MIN_VALUE, (double) Long.MAX_VALUE, (double) Long.valueOf(field.get(configObject).toString()));
+                            spinner.valueProperty().addListener((observable, oldValue, newValue) -> {
+                                try {
+                                    field.set(configObject, ((Double) newValue).longValue());
+                                } catch (IllegalAccessException e) {
+                                    log.error("设置值失败：", e);
+                                }
+                            });
+                        }
+                        spinner.setId(field.getName());
+                        spinner.setEditable(true);
+                        flowPane.getChildren().add(spinner);
+                        spinner.setMinWidth(70);
+                        spinner.setMaxWidth(400);
+                        spinner.getEditor().prefColumnCountProperty().bind(spinner.getEditor().textProperty().length());
+                    }
                 } else if (field.getType() == Map.class) {
                     Label label = new Label(field.getName() + ":");
                     label.setTextFill(Color.RED);
@@ -170,18 +260,29 @@ public class TransferToolServiceViewService {
                     propertiesTableView.setId(field.getName());
                     propertiesTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
                     propertiesTableView.setPrefHeight(80);
+                    Runnable runnable = () -> {
+                        Map<String, String> propertiesMap = new HashMap<>();
+                        for (Map<String, String> map : propertiesTableView.getItems()) {
+                            propertiesMap.put(map.get("key"), map.get("value"));
+                        }
+                        try {
+                            field.set(configObject, propertiesMap);
+                        } catch (IllegalAccessException e) {
+                            log.error("设置值失败：", e);
+                        }
+                    };
                     TableColumn<Map<String, String>, String> propertiesKeyTableColumn = new TableColumn<>("key");
                     TableColumn<Map<String, String>, String> propertiesValueTableColumn = new TableColumn<>("value");
                     propertiesTableView.getColumns().add(propertiesKeyTableColumn);
                     propertiesTableView.getColumns().add(propertiesValueTableColumn);
-                    JavaFxViewUtil.setTableColumnMapValueFactory(propertiesKeyTableColumn, "key");
-                    JavaFxViewUtil.setTableColumnMapValueFactory(propertiesValueTableColumn, "value");
+                    JavaFxViewUtil.setTableColumnMapValueFactory(propertiesKeyTableColumn, "key", true, runnable);
+                    JavaFxViewUtil.setTableColumnMapValueFactory(propertiesValueTableColumn, "value", true, runnable);
                     ObservableList<Map<String, String>> propertiesTableData = FXCollections.observableArrayList();
                     propertiesTableView.setItems(propertiesTableData);
                     ((Map) field.get(configObject)).forEach((key, value) -> {
                         Map<String, String> map = new HashMap<>();
-                        map.put("key", key.toString());
-                        map.put("value", value.toString());
+                        map.put("key", String.valueOf(key));
+                        map.put("value", String.valueOf(value));
                         propertiesTableData.add(map);
                     });
                     JavaFxViewUtil.addTableViewOnMouseRightClickMenu(propertiesTableView);
@@ -201,6 +302,17 @@ public class TransferToolServiceViewService {
                     } else {
                         listData.addAll((List) field.get(configObject));
                         JavaFxViewUtil.addListViewOnMouseRightClickMenu(listView);
+                        listData.addListener(new ListChangeListener<String>() {
+                            @Override
+                            public void onChanged(Change<? extends String> c) {
+                                List<String> list = new ArrayList<>(listData);
+                                try {
+                                    field.set(configObject, list);
+                                } catch (IllegalAccessException e) {
+                                    log.error("设置值失败：", e);
+                                }
+                            }
+                        });
                     }
                     flowPane.getChildren().add(listView);
                 } else {
@@ -210,10 +322,30 @@ public class TransferToolServiceViewService {
                     flowPane.getChildren().add(label);
                     TextField textField = new TextField(field.get(configObject) == null ? "" : field.get(configObject).toString());
                     textField.setId(field.getName());
+                    textField.setMinWidth(30);
+                    textField.setMaxWidth(400);
+                    textField.prefColumnCountProperty().bind(textField.textProperty().length());
                     flowPane.getChildren().add(textField);
+                    textField.textProperty().addListener((observable, oldValue, newValue) -> {
+                        try {
+                            if (StringUtils.isBlank(newValue)) {
+                                field.set(configObject, null);
+                            } else {
+                                if (field.getType() == Integer.class) {
+                                    field.set(configObject, Integer.valueOf(newValue));
+                                } else if (field.getType() == Long.class) {
+                                    field.set(configObject, Long.valueOf(newValue));
+                                } else {
+                                    field.set(configObject, newValue);
+                                }
+                            }
+                        } catch (IllegalAccessException e) {
+                            log.error("设置值失败：", e);
+                        }
+                    });
                 }
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
+                log.error("加载失败", e);
             }
         }
     }
@@ -245,7 +377,7 @@ public class TransferToolServiceViewService {
                     try {
                         rowList.add(listView.getSelectionModel().getSelectedIndex(), BeanUtils.cloneBean(rowList.get(listView.getSelectionModel().getSelectedIndex())));
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        log.error("复制失败", e);
                     }
                     listView.getItems().add(listView.getSelectionModel().getSelectedIndex(), listView.getSelectionModel().getSelectedItem());
                 });
@@ -266,6 +398,7 @@ public class TransferToolServiceViewService {
                     return;
                 }
                 this.addRowTabPane(rowList.get(selectIndex), selectIndex);
+//                transferToolServiceViewController.getServiceViewSplitPane().setDividerPositions(0.5);
             }
         });
     }

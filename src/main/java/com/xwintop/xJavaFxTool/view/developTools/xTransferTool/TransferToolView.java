@@ -14,6 +14,10 @@ public abstract class TransferToolView implements Initializable {
     @FXML
     protected Button treeRefurbishButton;
     @FXML
+    protected Button startTransferButton;
+    @FXML
+    protected ChoiceBox flowStyleChoiceBox;
+    @FXML
     protected TreeView<String> configurationTreeView;
     @FXML
     protected TabPane taskConfigTabPane;

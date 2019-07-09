@@ -5,10 +5,10 @@ import com.xwintop.xTransfer.common.model.LOGKEYS;
 import com.xwintop.xTransfer.common.model.LOGVALUES;
 import com.xwintop.xTransfer.common.model.Msg;
 import com.xwintop.xTransfer.messaging.IMessage;
-import com.xwintop.xTransfer.task.quartz.TaskQuartzJob;
-import com.xwintop.xTransfer.sender.bean.SenderConfigRocketMq;
 import com.xwintop.xTransfer.sender.bean.SenderConfig;
+import com.xwintop.xTransfer.sender.bean.SenderConfigRocketMq;
 import com.xwintop.xTransfer.sender.service.Sender;
+import com.xwintop.xTransfer.task.quartz.TaskQuartzJob;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -40,15 +40,19 @@ public class SenderRocketMqImpl implements Sender {
 
     @Override
     public Boolean send(IMessage msg, Map params) throws Exception {
-        log.debug("SenderRocketMq,taskName:" + params.get(TaskQuartzJob.JOBID));
-        if (producer == null) {
-            producer = new DefaultMQProducer(senderConfigRocketMq.getGroupName());
-            producer.setNamesrvAddr(senderConfigRocketMq.getNamesrvAddr());
-            producer.setVipChannelEnabled(false);
-            producer.setRetryTimesWhenSendAsyncFailed(10);
-            producer.start();
+//        log.debug("SenderRocketMq,taskName:" + params.get(TaskQuartzJob.JOBID));
+        synchronized (this) {
+            if (producer == null) {
+                producer = new DefaultMQProducer(senderConfigRocketMq.getGroupName());
+                producer.setNamesrvAddr(senderConfigRocketMq.getNamesrvAddr());
+                producer.setVipChannelEnabled(false);
+                producer.setRetryTimesWhenSendAsyncFailed(10);
+                producer.start();
+            }
         }
-        log.debug("发送RocketMq消息：" + ArrayUtils.getLength(msg.getMessage()));
+        if (log.isDebugEnabled()) {
+            log.debug("发送RocketMq消息：" + ArrayUtils.getLength(msg.getMessage()));
+        }
         try {
             Message message = new Message(senderConfigRocketMq.getTopic(), senderConfigRocketMq.getTags(), msg.getId(), msg.getMessage());
             if (senderConfigRocketMq.getArgs() != null && !senderConfigRocketMq.getArgs().isEmpty()) {

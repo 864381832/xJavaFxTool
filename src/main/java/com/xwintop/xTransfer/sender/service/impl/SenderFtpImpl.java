@@ -6,10 +6,10 @@ import com.xwintop.xTransfer.common.model.LOGKEYS;
 import com.xwintop.xTransfer.common.model.LOGVALUES;
 import com.xwintop.xTransfer.common.model.Msg;
 import com.xwintop.xTransfer.messaging.IMessage;
-import com.xwintop.xTransfer.task.quartz.TaskQuartzJob;
-import com.xwintop.xTransfer.sender.bean.SenderConfigFtp;
 import com.xwintop.xTransfer.sender.bean.SenderConfig;
+import com.xwintop.xTransfer.sender.bean.SenderConfigFtp;
 import com.xwintop.xTransfer.sender.service.Sender;
+import com.xwintop.xTransfer.task.quartz.TaskQuartzJob;
 import com.xwintop.xTransfer.util.ParseVariableCommon;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,8 +20,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @ClassName: SenderFtpImpl
@@ -36,37 +37,20 @@ import java.util.concurrent.BlockingQueue;
 @Slf4j
 public class SenderFtpImpl implements Sender {
     private SenderConfigFtp senderConfigFtp;
-    private BlockingQueue<FtpUtil> ftpUtilPool = null;
+    private volatile BlockingQueue<FtpUtil> ftpUtilPool = new LinkedBlockingQueue<>();
+    private volatile BlockingQueue<FtpUtil> ftpUtilPoolRunning = new LinkedBlockingQueue<>();
+    private volatile int pollSize = 0;
 
     @Override
     public Boolean send(IMessage msg, Map params) throws Exception {
-        if (ftpUtilPool == null) {
-            int connectionPoolSize = senderConfigFtp.getConnectionPoolSize() > 0 ? senderConfigFtp.getConnectionPoolSize() : 10;
-            ftpUtilPool = new ArrayBlockingQueue<>(connectionPoolSize);
-            for (int i = 0; i < connectionPoolSize; i++) {
-                FtpUtil ftpUtil = new FtpUtil(senderConfigFtp.getHost(), senderConfigFtp.getPort(), senderConfigFtp.getUser(), senderConfigFtp.getPassword(), senderConfigFtp.getTimeout(), senderConfigFtp.isPassive(), senderConfigFtp.isBinary(), senderConfigFtp.getServersEncoding(), senderConfigFtp.getSocketTimeout(), senderConfigFtp.isLongConnection());
-                ftpUtil.setFileType(senderConfigFtp.getFileType());
-                ftpUtil.setBufferSize(senderConfigFtp.getBufferSize());
-                if (senderConfigFtp.getConnectionType() == 0) {
-                    ftpUtil.setFtps(false);
-                } else if (senderConfigFtp.getConnectionType() == 1) {
-                    ftpUtil.setFtps(true);
-                    ftpUtil.setImplicit(true);
-                } else if (senderConfigFtp.getConnectionType() == 2) {
-                    ftpUtil.setFtps(true);
-                    ftpUtil.setImplicit(false);
-                    ftpUtil.setProtocol("SSL");
-                } else if (senderConfigFtp.getConnectionType() == 3) {
-                    ftpUtil.setFtps(true);
-                    ftpUtil.setImplicit(false);
-                    ftpUtil.setProtocol("TLS");
-                }
-                ftpUtil.setProt(senderConfigFtp.getProt());
-                ftpUtil.setCheckServerValidity(senderConfigFtp.isCheckServerValidity());
-                ftpUtilPool.put(ftpUtil);
-            }
+        this.checkInit(params);
+//        FtpUtil ftpUtil = ftpUtilPool.take();
+        FtpUtil ftpUtil = ftpUtilPool.poll(10, TimeUnit.SECONDS);
+        if (ftpUtil == null) {
+            log.warn("ftpUtilPool is null:" + senderConfigFtp.getId());
+            return false;
         }
-        FtpUtil ftpUtil = ftpUtilPool.take();
+        ftpUtilPoolRunning.put(ftpUtil);
         String path = StringUtils.appendIfMissing(senderConfigFtp.getPath(), "/", "/", "\\");
         path = ParseVariableCommon.parseVariable(path, msg, params);
         boolean createPathFlag = senderConfigFtp.isCreatePathFlag();
@@ -112,7 +96,9 @@ public class SenderFtpImpl implements Sender {
             ftpUtil.deleteFile(path + fileName);
         }
         String tmpFileName = fileName;
-        log.debug("tmp:" + tmp + " path:" + path + " fileName:" + fileName + " tmpFileName:" + tmpFileName);
+        if (log.isDebugEnabled()) {
+            log.debug("tmp:" + tmp + " path:" + path + " fileName:" + fileName + " tmpFileName:" + tmpFileName);
+        }
         byte[] msgByte = msg.getMessage();
         if (senderConfigFtp.getEncoding() != null && !"AUTO".equalsIgnoreCase(senderConfigFtp.getEncoding())) {
             msgByte = msg.getMessage(senderConfigFtp.getEncoding());
@@ -151,6 +137,7 @@ public class SenderFtpImpl implements Sender {
         log.info("sent <" + msg.getId() + "> to " + path + " as " + fileName);
 
         ftpUtil.checkAndDisconnect();
+        ftpUtilPoolRunning.remove(ftpUtil);
         ftpUtilPool.put(ftpUtil);
         return true;
     }
@@ -162,11 +149,38 @@ public class SenderFtpImpl implements Sender {
 
     @Override
     public void destroy() throws Exception {
-        if (ftpUtilPool != null) {
-            while (ftpUtilPool.size() > 0) {
-                ftpUtilPool.take().destroy();
+        pollSize = 0;
+        for (FtpUtil ftpUtil = ftpUtilPool.poll(); ftpUtil != null; ftpUtil = ftpUtilPool.poll()) {
+            ftpUtil.destroy();
+        }
+        for (FtpUtil ftpUtil = ftpUtilPoolRunning.poll(); ftpUtil != null; ftpUtil = ftpUtilPoolRunning.poll()) {
+            ftpUtil.destroy();
+        }
+    }
+
+    private synchronized void checkInit(Map params) throws Exception {
+        if (pollSize < senderConfigFtp.getConnectionPoolSize() && ftpUtilPool.size() <= 0) {
+            FtpUtil ftpUtil = new FtpUtil(senderConfigFtp.getHost(), senderConfigFtp.getPort(), senderConfigFtp.getUser(), senderConfigFtp.getPassword(), senderConfigFtp.getTimeout(), senderConfigFtp.isPassive(), senderConfigFtp.isBinary(), senderConfigFtp.getServersEncoding(), senderConfigFtp.getSocketTimeout(), senderConfigFtp.isLongConnection());
+            ftpUtil.setFileType(senderConfigFtp.getFileType());
+            ftpUtil.setBufferSize(senderConfigFtp.getBufferSize());
+            if (senderConfigFtp.getConnectionType() == 0) {
+                ftpUtil.setFtps(false);
+            } else if (senderConfigFtp.getConnectionType() == 1) {
+                ftpUtil.setFtps(true);
+                ftpUtil.setImplicit(true);
+            } else if (senderConfigFtp.getConnectionType() == 2) {
+                ftpUtil.setFtps(true);
+                ftpUtil.setImplicit(false);
+                ftpUtil.setProtocol("SSL");
+            } else if (senderConfigFtp.getConnectionType() == 3) {
+                ftpUtil.setFtps(true);
+                ftpUtil.setImplicit(false);
+                ftpUtil.setProtocol("TLS");
             }
-            ftpUtilPool = null;
+            ftpUtil.setProt(senderConfigFtp.getProt());
+            ftpUtil.setCheckServerValidity(senderConfigFtp.isCheckServerValidity());
+            ftpUtilPool.put(ftpUtil);
+            pollSize++;
         }
     }
 }

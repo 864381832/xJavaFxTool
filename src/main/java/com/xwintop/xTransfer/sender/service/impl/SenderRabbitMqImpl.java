@@ -5,10 +5,10 @@ import com.xwintop.xTransfer.common.model.LOGKEYS;
 import com.xwintop.xTransfer.common.model.LOGVALUES;
 import com.xwintop.xTransfer.common.model.Msg;
 import com.xwintop.xTransfer.messaging.IMessage;
-import com.xwintop.xTransfer.task.quartz.TaskQuartzJob;
-import com.xwintop.xTransfer.sender.bean.SenderConfigRabbitMq;
 import com.xwintop.xTransfer.sender.bean.SenderConfig;
+import com.xwintop.xTransfer.sender.bean.SenderConfigRabbitMq;
 import com.xwintop.xTransfer.sender.service.Sender;
+import com.xwintop.xTransfer.task.quartz.TaskQuartzJob;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
-import org.springframework.amqp.rabbit.connection.RabbitConnectionFactoryBean;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -43,50 +42,14 @@ public class SenderRabbitMqImpl implements Sender {
     @Override
     public Boolean send(IMessage msg, Map params) throws Exception {
         log.debug("SenderRabbitMq,taskName:" + params.get(TaskQuartzJob.JOBID));
-        if (rabbitTemplate == null) {
-            if (StringUtils.isEmpty(senderConfigRabbitMq.getTopic())) {
-                throw new Exception("SenderRabbitMq失败，topic不能为空" + params.get(TaskQuartzJob.JOBID));
-            }
-            RabbitConnectionFactoryBean factory = new RabbitConnectionFactoryBean();
-            if (senderConfigRabbitMq.getHost() != null) {
-                factory.setHost(senderConfigRabbitMq.getHost());
-            }
-            factory.setPort(senderConfigRabbitMq.getPort());
-            if (senderConfigRabbitMq.getUsername() != null) {
-                factory.setUsername(senderConfigRabbitMq.getUsername());
-            }
-            if (senderConfigRabbitMq.getPassword() != null) {
-                factory.setPassword(senderConfigRabbitMq.getPassword());
-            }
-            if (senderConfigRabbitMq.getVirtualHost() != null) {
-                factory.setVirtualHost(senderConfigRabbitMq.getVirtualHost());
-            }
-            if (senderConfigRabbitMq.getRequestedHeartbeat() != null) {
-                factory.setRequestedHeartbeat(senderConfigRabbitMq.getRequestedHeartbeat());
-            }
-
-            if (senderConfigRabbitMq.getConnectionTimeout() != null) {
-                factory.setConnectionTimeout(senderConfigRabbitMq.getConnectionTimeout());
-            }
-            factory.afterPropertiesSet();
-            CachingConnectionFactory connectionFactory = new CachingConnectionFactory(
-                    factory.getObject());
-            connectionFactory.setAddresses(senderConfigRabbitMq.getAddresses());
-            connectionFactory.setPublisherConfirms(senderConfigRabbitMq.isPublisherConfirms());
-            connectionFactory.setPublisherReturns(senderConfigRabbitMq.isPublisherReturns());
-            rabbitTemplate = new RabbitTemplate(connectionFactory);
-            if (StringUtils.isNotEmpty(senderConfigRabbitMq.getExchange())) {
-                rabbitTemplate.setExchange(senderConfigRabbitMq.getExchange());
-            }
-            rabbitTemplate.setRoutingKey(senderConfigRabbitMq.getTopic());
-        }
-        log.debug("发送rabbitMq消息：" + ArrayUtils.getLength(msg.getMessage()));
+        this.checkInit();
+//        log.debug("发送rabbitMq消息：" + ArrayUtils.getLength(msg.getMessage()));
         try {
             MessageProperties messageProperties = new MessageProperties();
             if (senderConfigRabbitMq.getArgs() != null && !senderConfigRabbitMq.getArgs().isEmpty()) {
                 messageProperties.getHeaders().putAll(senderConfigRabbitMq.getArgs());
             }
-            if(StringUtils.isNotEmpty(senderConfigRabbitMq.getFileNameField())){
+            if (StringUtils.isNotEmpty(senderConfigRabbitMq.getFileNameField())) {
                 messageProperties.getHeaders().put(senderConfigRabbitMq.getFileNameField(), msg.getFileName());
             }
             messageProperties.setContentType(senderConfigRabbitMq.getContentType());
@@ -126,6 +89,42 @@ public class SenderRabbitMqImpl implements Sender {
             rabbitTemplate.stop();
             ((CachingConnectionFactory) rabbitTemplate.getConnectionFactory()).destroy();
             rabbitTemplate = null;
+        }
+    }
+
+    private synchronized void checkInit() throws Exception {
+        if (rabbitTemplate == null) {
+            if (StringUtils.isEmpty(senderConfigRabbitMq.getTopic())) {
+                throw new Exception("SenderRabbitMq失败，topic不能为空" + senderConfigRabbitMq.getId());
+            }
+            CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
+            if (senderConfigRabbitMq.getHost() != null) {
+                connectionFactory.setHost(senderConfigRabbitMq.getHost());
+            }
+            connectionFactory.setPort(senderConfigRabbitMq.getPort());
+            if (senderConfigRabbitMq.getUsername() != null) {
+                connectionFactory.setUsername(senderConfigRabbitMq.getUsername());
+            }
+            if (senderConfigRabbitMq.getPassword() != null) {
+                connectionFactory.setPassword(senderConfigRabbitMq.getPassword());
+            }
+            if (senderConfigRabbitMq.getVirtualHost() != null) {
+                connectionFactory.setVirtualHost(senderConfigRabbitMq.getVirtualHost());
+            }
+            if (senderConfigRabbitMq.getRequestedHeartbeat() != null) {
+                connectionFactory.setRequestedHeartBeat(senderConfigRabbitMq.getRequestedHeartbeat());
+            }
+            if (senderConfigRabbitMq.getConnectionTimeout() != null) {
+                connectionFactory.setConnectionTimeout(senderConfigRabbitMq.getConnectionTimeout());
+            }
+            connectionFactory.setAddresses(senderConfigRabbitMq.getAddresses());
+            connectionFactory.setPublisherConfirms(senderConfigRabbitMq.isPublisherConfirms());
+            connectionFactory.setPublisherReturns(senderConfigRabbitMq.isPublisherReturns());
+            rabbitTemplate = new RabbitTemplate(connectionFactory);
+            if (StringUtils.isNotEmpty(senderConfigRabbitMq.getExchange())) {
+                rabbitTemplate.setExchange(senderConfigRabbitMq.getExchange());
+            }
+            rabbitTemplate.setRoutingKey(senderConfigRabbitMq.getTopic());
         }
     }
 }

@@ -1,17 +1,17 @@
 package com.xwintop.xTransfer.sender.service.impl;
 
+import com.ibm.mq.jms.MQDestination;
+import com.ibm.mq.jms.MQQueueConnectionFactory;
+import com.ibm.msg.client.wmq.compat.jms.internal.JMSC;
 import com.xwintop.xTransfer.common.MsgLogger;
 import com.xwintop.xTransfer.common.model.LOGKEYS;
 import com.xwintop.xTransfer.common.model.LOGVALUES;
 import com.xwintop.xTransfer.common.model.Msg;
 import com.xwintop.xTransfer.messaging.IMessage;
-import com.xwintop.xTransfer.task.quartz.TaskQuartzJob;
-import com.xwintop.xTransfer.sender.bean.SenderConfigIbmMq;
 import com.xwintop.xTransfer.sender.bean.SenderConfig;
+import com.xwintop.xTransfer.sender.bean.SenderConfigIbmMq;
 import com.xwintop.xTransfer.sender.service.Sender;
-import com.ibm.mq.jms.MQDestination;
-import com.ibm.mq.jms.MQQueueConnectionFactory;
-import com.ibm.msg.client.wmq.compat.jms.internal.JMSC;
+import com.xwintop.xTransfer.task.quartz.TaskQuartzJob;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -107,6 +107,7 @@ public class SenderIbmMqImpl implements Sender {
             if (StringUtils.isNotBlank(senderConfigIbmMq.getHostName())) {
                 mqQueueConnectionFactory.setHostName(senderConfigIbmMq.getHostName());
                 mqQueueConnectionFactory.setTransportType(JMSC.MQJMS_TP_CLIENT_MQ_TCPIP);
+                mqQueueConnectionFactory.setClientReconnectTimeout(10);
             }
             if (StringUtils.isNotBlank(senderConfigIbmMq.getChannel())) {
                 mqQueueConnectionFactory.setChannel(senderConfigIbmMq.getChannel());
@@ -128,7 +129,7 @@ public class SenderIbmMqImpl implements Sender {
                 userCredentialsConnectionFactoryAdapter.setTargetConnectionFactory(mqQueueConnectionFactory);
                 cachingConnectionFactory.setTargetConnectionFactory(userCredentialsConnectionFactoryAdapter);
             }
-            cachingConnectionFactory.setSessionCacheSize(500);
+            cachingConnectionFactory.setSessionCacheSize(senderConfigIbmMq.getSessionCacheSize());
             cachingConnectionFactory.setReconnectOnException(true);
             jmsTemplate = new JmsTemplate(cachingConnectionFactory);
             jmsTemplate.setDefaultDestinationName(senderConfigIbmMq.getQueueName());

@@ -9,22 +9,16 @@ import com.xwintop.xTransfer.receiver.bean.ReceiverConfig;
 import com.xwintop.xTransfer.receiver.bean.ReceiverConfigRabbitMq;
 import com.xwintop.xTransfer.receiver.service.Receiver;
 import com.xwintop.xTransfer.task.quartz.TaskQuartzJob;
-import com.xwintop.xcore.util.UuidUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.dom4j.Document;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
 import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
-import org.springframework.amqp.rabbit.connection.RabbitConnectionFactoryBean;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.api.ChannelAwareMessageListener;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayInputStream;
 import java.util.Map;
 
 /**
@@ -45,38 +39,58 @@ public class ReceiverRabbitMqImpl implements Receiver {
     @Override
     public void receive(Map params) throws Exception {
         log.debug("ReceiverRabbitMqImpl开始执行");
+        this.checkInit(params);
+    }
+
+    @Override
+    public void setReceiverConfig(ReceiverConfig receiverConfig) {
+        this.receiverConfigRabbitMq = (ReceiverConfigRabbitMq) receiverConfig;
+    }
+
+    @Override
+    public void setMessageHandler(MessageHandler messageHandler) {
+        this.messageHandler = messageHandler;
+    }
+
+    @Override
+    public void destroy() {
+        if (simpleMessageListenerContainer != null && simpleMessageListenerContainer.isRunning()) {
+            simpleMessageListenerContainer.stop();
+            ((CachingConnectionFactory) simpleMessageListenerContainer.getConnectionFactory()).destroy();
+            simpleMessageListenerContainer = null;
+        }
+    }
+
+    private synchronized void checkInit(Map params) throws Exception {
         if (simpleMessageListenerContainer == null) {
             simpleMessageListenerContainer = new SimpleMessageListenerContainer();
-            RabbitConnectionFactoryBean factory = new RabbitConnectionFactoryBean();
+            CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
             if (StringUtils.isNotEmpty(receiverConfigRabbitMq.getHost())) {
-                factory.setHost(receiverConfigRabbitMq.getHost());
+                connectionFactory.setHost(receiverConfigRabbitMq.getHost());
             }
-            factory.setPort(receiverConfigRabbitMq.getPort());
+            connectionFactory.setPort(receiverConfigRabbitMq.getPort());
             if (StringUtils.isNotEmpty(receiverConfigRabbitMq.getUsername())) {
-                factory.setUsername(receiverConfigRabbitMq.getUsername());
+                connectionFactory.setUsername(receiverConfigRabbitMq.getUsername());
             }
             if (StringUtils.isNotEmpty(receiverConfigRabbitMq.getPassword())) {
-                factory.setPassword(receiverConfigRabbitMq.getPassword());
+                connectionFactory.setPassword(receiverConfigRabbitMq.getPassword());
             }
             if (StringUtils.isNotEmpty(receiverConfigRabbitMq.getVirtualHost())) {
-                factory.setVirtualHost(receiverConfigRabbitMq.getVirtualHost());
+                connectionFactory.setVirtualHost(receiverConfigRabbitMq.getVirtualHost());
             }
             if (receiverConfigRabbitMq.getRequestedHeartbeat() != null) {
-                factory.setRequestedHeartbeat(receiverConfigRabbitMq.getRequestedHeartbeat());
+                connectionFactory.setRequestedHeartBeat(receiverConfigRabbitMq.getRequestedHeartbeat());
             }
             if (receiverConfigRabbitMq.getConnectionTimeout() != null) {
-                factory.setConnectionTimeout(receiverConfigRabbitMq.getConnectionTimeout());
+                connectionFactory.setConnectionTimeout(receiverConfigRabbitMq.getConnectionTimeout());
             }
-            factory.setAutomaticRecoveryEnabled(true);//如果连接超时，会自动去恢复
-            factory.afterPropertiesSet();
-            CachingConnectionFactory connectionFactory = new CachingConnectionFactory(factory.getObject());
             if (StringUtils.isNotEmpty(receiverConfigRabbitMq.getAddresses())) {
                 //该方法配置多个host，在当前连接host down掉的时候会自动去重连后面的host
                 connectionFactory.setAddresses(receiverConfigRabbitMq.getAddresses());
             }
             connectionFactory.setPublisherConfirms(receiverConfigRabbitMq.isPublisherConfirms());
             connectionFactory.setPublisherReturns(receiverConfigRabbitMq.isPublisherReturns());
-
+            connectionFactory.getRabbitConnectionFactory().setAutomaticRecoveryEnabled(true);//如果连接超时，会自动去恢复
             simpleMessageListenerContainer.setConnectionFactory(connectionFactory);
             simpleMessageListenerContainer.setQueueNames(receiverConfigRabbitMq.getTopic());
             simpleMessageListenerContainer.setExposeListenerChannel(true);
@@ -92,24 +106,17 @@ public class ReceiverRabbitMqImpl implements Receiver {
             }
             simpleMessageListenerContainer.setAcknowledgeMode(AcknowledgeMode.MANUAL);//设置确认模式为手工确认
             simpleMessageListenerContainer.setMessageListener((ChannelAwareMessageListener) (message, channel) -> {
-                Map<String, Object> headers = message.getMessageProperties().getHeaders();
                 byte[] body = message.getBody();
                 if (null != body) {
-                    log.debug("RabbitMq接收到消息:" + body.length);
+//                    log.debug("RabbitMq接收到消息:" + body.length);
                     try {
                         IMessage msg = new DefaultMessage();
                         msg.setRawData(body);
                         if (StringUtils.isNotEmpty(message.getMessageProperties().getContentEncoding())) {
                             msg.setEncoding(message.getMessageProperties().getContentEncoding());
                         }
-                        if (StringUtils.isBlank(msg.getFileName())) {
-                            String rabbitMqFileName = ReceiverRabbitMqImpl.this.getFileName(body);
-                            if (StringUtils.isEmpty(rabbitMqFileName)) {
-                                msg.setFileName(StringUtils.defaultIfEmpty((String) headers.get(receiverConfigRabbitMq.getFileNameField()), UuidUtil.get32UUID()));
-                            } else {
-                                msg.setFileName(rabbitMqFileName);
-                            }
-                        }
+                        Map<String, Object> headers = message.getMessageProperties().getHeaders();
+                        msg.setFileName(StringUtils.defaultIfEmpty((String) headers.get(receiverConfigRabbitMq.getFileNameField()), msg.getId()));
                         msg.setProperty(LOGKEYS.CHANNEL_IN_TYPE, LOGVALUES.CHANNEL_TYPE_RABBIT_MQ);
                         msg.setProperty(LOGKEYS.CHANNEL_IN, receiverConfigRabbitMq.getVirtualHost() + ":" + receiverConfigRabbitMq.getTopic());
                         msg.setProperty(LOGKEYS.RECEIVER_TYPE, LOGVALUES.RCV_TYPE_MQ);
@@ -138,42 +145,16 @@ public class ReceiverRabbitMqImpl implements Receiver {
                         log.error("RabbitMq处理消息失败：", e);
                         this.destroy();
                     }
+                } else {
+                    try {
+                        log.warn("receiver rabbitMq message body is null:" + message.getMessageProperties().getDeliveryTag());
+                        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);//确认消息消费成功
+                    } catch (Exception e) {
+                        log.error("receiver rabbitMq message basicAck error", e);
+                    }
                 }
             });
             simpleMessageListenerContainer.start();
         }
-    }
-
-    @Override
-    public void setReceiverConfig(ReceiverConfig receiverConfig) {
-        this.receiverConfigRabbitMq = (ReceiverConfigRabbitMq) receiverConfig;
-    }
-
-    @Override
-    public void setMessageHandler(MessageHandler messageHandler) {
-        this.messageHandler = messageHandler;
-    }
-
-    @Override
-    public void destroy() {
-        if (simpleMessageListenerContainer != null && simpleMessageListenerContainer.isRunning()) {
-            simpleMessageListenerContainer.stop();
-            ((CachingConnectionFactory) simpleMessageListenerContainer.getConnectionFactory()).destroy();
-            simpleMessageListenerContainer = null;
-        }
-    }
-
-    public String getFileName(byte[] bytes) {
-        try {
-            SAXReader reader = new SAXReader();
-            Document document = reader.read(new ByteArrayInputStream(bytes));
-            Element bookStore = document.getRootElement();
-            Element addInfo = bookStore.element("AddInfo");
-            //存放解析节点值得实体
-            return addInfo.element("FileName").getStringValue().trim();
-        } catch (Exception e) {
-            log.debug("从消息中获取文件名失败，非标准客户端生成消息：", e);
-        }
-        return null;
     }
 }

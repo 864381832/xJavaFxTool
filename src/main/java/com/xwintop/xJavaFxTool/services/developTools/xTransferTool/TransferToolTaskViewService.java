@@ -4,6 +4,7 @@ import com.jcraft.jsch.ChannelSftp;
 import com.xwintop.xJavaFxTool.controller.developTools.xTransferTool.TransferToolController;
 import com.xwintop.xJavaFxTool.controller.developTools.xTransferTool.TransferToolServiceViewController;
 import com.xwintop.xJavaFxTool.controller.developTools.xTransferTool.TransferToolTaskViewController;
+import com.xwintop.xJavaFxTool.utils.TransferViewUtil;
 import com.xwintop.xTransfer.filter.bean.FilterConfig;
 import com.xwintop.xTransfer.receiver.bean.ReceiverConfig;
 import com.xwintop.xTransfer.sender.bean.SenderConfig;
@@ -53,7 +54,7 @@ public class TransferToolTaskViewService {
         }
         final Tab tab = new Tab(tabName);
         tab.setOnClosed(event -> {
-            List<Tab> tabList = new ArrayList<Tab>();
+            List<Tab> tabList = new ArrayList<>();
             transferToolTaskViewController.getServiceViewTabPane().getTabs().forEach((Tab tab2) -> {
                 if (tab2.getText().startsWith(tab.getText())) {
                     tabList.add(tab2);
@@ -66,7 +67,7 @@ public class TransferToolTaskViewService {
         try {
             tab.setContent(fXMLLoader.load());
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("加载失败", e);
         }
         TransferToolServiceViewController transferToolServiceViewController = fXMLLoader.getController();
         transferToolServiceViewController.setData(transferToolTaskViewController, configObject);
@@ -86,6 +87,7 @@ public class TransferToolTaskViewService {
             taskConfig.setName(taskConfigName);
             transferToolTaskViewController.setTabName(taskConfigName);
             transferToolController.getTransferToolService().getTaskConfigTabMap().get(oldTaskConfigName).setText(taskConfigName);
+            transferToolController.getTransferToolService().getTaskConfigTabMap().put(oldTaskConfigName, transferToolController.getTransferToolService().getTaskConfigTabMap().get(oldTaskConfigName));
             taskConfigMap.put(taskConfigName, taskConfigMap.get(oldTaskConfigName));
             taskConfigMap.remove(oldTaskConfigName);
             transferToolController.getConfigurationTreeView().getRoot().getChildren().forEach(stringTreeItem -> {
@@ -111,20 +113,28 @@ public class TransferToolTaskViewService {
         transferToolTaskViewController.getPropertiesTableData().forEach(map -> {
             taskConfig.getProperties().put(map.get("key"), map.get("value"));
         });
-        if ("127.0.0.1".equals(transferToolController.getHostTextField().getText())) {
-            File file = new File(transferToolController.getConfigurationPathTextField().getText(), fileName);
-            Yaml yaml = new Yaml();
-            Writer writer = new FileWriter(file);
-            yaml.dump(taskConfigMap.values().toArray(), writer);
-            writer.close();
-        } else {
-            Yaml yaml = new Yaml();
-            byte[] configBytes = yaml.dump(taskConfigMap.values().toArray()).getBytes();
-            ChannelSftp channel = transferToolController.getTransferToolService().getSftpChannel();
-            String remotePath = transferToolController.getConfigurationPathTextField().getText();
-            remotePath = StringUtils.appendIfMissing(remotePath, "/", "/", "\\");
-            channel.put(new ByteArrayInputStream(configBytes), remotePath + fileName);
-            transferToolController.getTransferToolService().closeSftpSession(channel);
-        }
+        String configYamlString = TransferViewUtil.saveConfig(transferToolController, fileName, taskConfigMap.values().toArray());
+        transferToolController.getTransferToolService().getTaskConfigFileStringMap().put(fileName, configYamlString);
+    }
+
+    public void viewTaskConfigAction() throws Exception {
+        TaskConfig taskConfig = transferToolTaskViewController.getTaskConfig();
+        String fileName = transferToolTaskViewController.getFileName();
+        Map<String, TaskConfig> taskConfigMap = transferToolController.getTransferToolService().getTaskConfigFileMap().get(fileName);
+        taskConfig.setIsEnable(transferToolTaskViewController.getIsEnableCheckBox().isSelected());
+        String taskType = transferToolTaskViewController.getTaskTypeTextField().getText();
+        taskConfig.setTaskType(StringUtils.isBlank(taskType) ? null : taskType);
+        taskConfig.setTriggerType(transferToolTaskViewController.getTriggerTypeChoiceBox().getValue());
+        taskConfig.setIntervalTime(transferToolTaskViewController.getIntervalTimeSpinner().getValue());
+        taskConfig.setExecuteTimes(transferToolTaskViewController.getExecuteTimesSpinner().getValue());
+        String triggerCron = transferToolTaskViewController.getTriggerCronTextField().getText();
+        taskConfig.setTriggerCron(StringUtils.isBlank(triggerCron) ? null : triggerCron);
+        taskConfig.setIsStatefulJob(transferToolTaskViewController.getIsStatefullJobCheckBox().isSelected());
+        taskConfig.getProperties().clear();
+        transferToolTaskViewController.getPropertiesTableData().forEach(map -> {
+            taskConfig.getProperties().put(map.get("key"), map.get("value"));
+        });
+        String configYamlString = TransferViewUtil.getYamlString(transferToolController.getFlowStyleChoiceBox().getValue().toString(), taskConfigMap.values().toArray());
+        transferToolController.getTransferToolService().addTaskFileTextArea(fileName, configYamlString);
     }
 }

@@ -28,6 +28,7 @@ public class ReceiverConfigSftp implements ReceiverConfig {
     private int timeout = 300000;       //Ftp服务器超时限制，单位为毫秒
     private int socketTimeout = 300000; //Socket连接超时限制，单位为毫秒；用于FTP服务器未知的情况，避免接收器长时间无响应；非特别情况下无需指定
     private boolean longConnection;     //连接方式：长连接或每次接收消息时创建连接；使用长连接可以提高FTP接收器的接收消息的速度
+    private int connectionPoolSize = 10;//sftp连接池大小
     private String tmpPath;             //远程临时路径。用于存放中间读入的消息文件。读取完成后（消息成功放入队列）将删除该文件。同一FTPServer的多个Remote Path共享一个TMP路径
     private boolean hasTmpPath = true;  //是否使用临时目录，该选项与Tmp Path和Postfix参数相关
     private String serversEncoding = "AUTO";//编码格式

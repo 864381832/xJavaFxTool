@@ -15,9 +15,11 @@ public abstract class TransferToolTaskViewView implements Initializable {
     @FXML
     protected Button saveTaskConfigButton;
     @FXML
+    protected Button viewTaskConfigButton;
+    @FXML
     protected TextField nameTextField;
     @FXML
-    protected JFXCheckBox isEnableCheckBox;
+    protected CheckBox isEnableCheckBox;
     @FXML
     protected TextField taskTypeTextField;
     @FXML
@@ -29,7 +31,7 @@ public abstract class TransferToolTaskViewView implements Initializable {
     @FXML
     protected TextField triggerCronTextField;
     @FXML
-    protected JFXCheckBox isStatefullJobCheckBox;
+    protected CheckBox isStatefullJobCheckBox;
     @FXML
     protected ListView<String> receiverConfigListView;
     @FXML

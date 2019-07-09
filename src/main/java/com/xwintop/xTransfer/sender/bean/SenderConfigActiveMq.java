@@ -27,6 +27,7 @@ public class SenderConfigActiveMq implements SenderConfig {
     private String queueName;//Mq队列的名称
     private String username;//用户名
     private String password;//密码
+    private int sessionCacheSize = 10;//session缓存数量
 
     private String fileNameField = "X_TRANSFER_FILE_NAME";//文件名获取字段
     private Map args = new HashMap();//扩展参数

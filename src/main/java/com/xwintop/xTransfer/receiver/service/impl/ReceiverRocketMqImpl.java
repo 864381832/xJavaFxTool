@@ -42,51 +42,53 @@ public class ReceiverRocketMqImpl implements Receiver {
     @Override
     public void receive(Map params) throws Exception {
         log.debug("ReceiverRocketMqImpl开始收取");
-        if (consumer == null) {
-            consumer = new DefaultMQPushConsumer(receiverConfigRocketMq.getGroupName());
-            consumer.setNamesrvAddr(receiverConfigRocketMq.getNamesrvAddr());
-            consumer.subscribe(receiverConfigRocketMq.getTopic(), receiverConfigRocketMq.getTags());
-            // 开启内部类实现监听
-            consumer.registerMessageListener(new MessageListenerConcurrently() {
-                @Override
-                public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs, ConsumeConcurrentlyContext context) {
-                    for (MessageExt messageExt : msgs) {
-                        try {
-                            log.debug("接收到消息：" + messageExt.getBody().length);
-                            IMessage msg = new DefaultMessage();
-                            msg.setRawData(messageExt.getBody());
-                            msg.setProperty(LOGKEYS.CHANNEL_IN_TYPE, LOGVALUES.CHANNEL_TYPE_ROCKET_MQ);
-                            msg.setProperty(LOGKEYS.CHANNEL_IN, receiverConfigRocketMq.getNamesrvAddr() + ":" + receiverConfigRocketMq.getTopic());
-                            msg.setProperty(LOGKEYS.RECEIVER_TYPE, LOGVALUES.RCV_TYPE_MQ);
-                            msg.setProperty(LOGKEYS.RECEIVER_ID, receiverConfigRocketMq.getId());
-                            messageExt.getProperties().get(receiverConfigRocketMq.getFileNameField());
-                            msg.setFileName(StringUtils.defaultIfEmpty(messageExt.getProperties().get(receiverConfigRocketMq.getFileNameField()), UuidUtil.get32UUID()));
-                            IContext ctx = new DefaultContext();
-                            ctx.setMessage(msg);
+        synchronized (this) {
+            if (consumer == null) {
+                consumer = new DefaultMQPushConsumer(receiverConfigRocketMq.getGroupName());
+                consumer.setNamesrvAddr(receiverConfigRocketMq.getNamesrvAddr());
+                consumer.subscribe(receiverConfigRocketMq.getTopic(), receiverConfigRocketMq.getTags());
+                // 开启内部类实现监听
+                consumer.registerMessageListener(new MessageListenerConcurrently() {
+                    @Override
+                    public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs, ConsumeConcurrentlyContext context) {
+                        for (MessageExt messageExt : msgs) {
+                            try {
+                                log.debug("接收到消息：" + messageExt.getBody().length);
+                                IMessage msg = new DefaultMessage();
+                                msg.setRawData(messageExt.getBody());
+                                msg.setProperty(LOGKEYS.CHANNEL_IN_TYPE, LOGVALUES.CHANNEL_TYPE_ROCKET_MQ);
+                                msg.setProperty(LOGKEYS.CHANNEL_IN, receiverConfigRocketMq.getNamesrvAddr() + ":" + receiverConfigRocketMq.getTopic());
+                                msg.setProperty(LOGKEYS.RECEIVER_TYPE, LOGVALUES.RCV_TYPE_MQ);
+                                msg.setProperty(LOGKEYS.RECEIVER_ID, receiverConfigRocketMq.getId());
+                                messageExt.getProperties().get(receiverConfigRocketMq.getFileNameField());
+                                msg.setFileName(StringUtils.defaultIfEmpty(messageExt.getProperties().get(receiverConfigRocketMq.getFileNameField()), UuidUtil.get32UUID()));
+                                IContext ctx = new DefaultContext();
+                                ctx.setMessage(msg);
 
-                            Msg msgLogInfo = new Msg(LOGVALUES.EVENT_MSG_RECEIVED, msg.getId(), null);
-                            msgLogInfo.put(LOGKEYS.CHANNEL_IN_TYPE, LOGVALUES.CHANNEL_TYPE_ROCKET_MQ);
-                            msgLogInfo.put(LOGKEYS.CHANNEL_IN, receiverConfigRocketMq.getNamesrvAddr() + ":" + receiverConfigRocketMq.getTopic());
-                            msgLogInfo.put(LOGKEYS.MSG_TAG, msg.getFileName());
-                            msgLogInfo.put(LOGKEYS.MSG_LENGTH, ArrayUtils.getLength(msg.getMessage()));
-                            msgLogInfo.put(LOGKEYS.JOB_ID, params.get(TaskQuartzJob.JOBID));
-                            msgLogInfo.put(LOGKEYS.JOB_SEQ, params.get(TaskQuartzJob.JOBSEQ));
-                            msgLogInfo.put(LOGKEYS.RECEIVER_TYPE, LOGVALUES.RCV_TYPE_MQ);
-                            msgLogInfo.put(LOGKEYS.RECEIVER_ID, receiverConfigRocketMq.getId());
+                                Msg msgLogInfo = new Msg(LOGVALUES.EVENT_MSG_RECEIVED, msg.getId(), null);
+                                msgLogInfo.put(LOGKEYS.CHANNEL_IN_TYPE, LOGVALUES.CHANNEL_TYPE_ROCKET_MQ);
+                                msgLogInfo.put(LOGKEYS.CHANNEL_IN, receiverConfigRocketMq.getNamesrvAddr() + ":" + receiverConfigRocketMq.getTopic());
+                                msgLogInfo.put(LOGKEYS.MSG_TAG, msg.getFileName());
+                                msgLogInfo.put(LOGKEYS.MSG_LENGTH, ArrayUtils.getLength(msg.getMessage()));
+                                msgLogInfo.put(LOGKEYS.JOB_ID, params.get(TaskQuartzJob.JOBID));
+                                msgLogInfo.put(LOGKEYS.JOB_SEQ, params.get(TaskQuartzJob.JOBSEQ));
+                                msgLogInfo.put(LOGKEYS.RECEIVER_TYPE, LOGVALUES.RCV_TYPE_MQ);
+                                msgLogInfo.put(LOGKEYS.RECEIVER_ID, receiverConfigRocketMq.getId());
 
-                            MsgLogger.info(msgLogInfo.toMap());
+                                MsgLogger.info(msgLogInfo.toMap());
 
-                            messageHandler.handle(ctx);
-                        } catch (Exception e) {
-                            log.error("处理Rocket接收消息失败：", e);
-                            return ConsumeConcurrentlyStatus.RECONSUME_LATER;//失败回滚
+                                messageHandler.handle(ctx);
+                            } catch (Exception e) {
+                                log.error("处理Rocket接收消息失败：", e);
+                                return ConsumeConcurrentlyStatus.RECONSUME_LATER;//失败回滚
+                            }
                         }
+                        return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
                     }
-                    return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
-                }
-            });
-            consumer.start();
-            log.debug("ReceiverRocketMqImpl poll start...");
+                });
+                consumer.start();
+                log.debug("ReceiverRocketMqImpl poll start...");
+            }
         }
     }
 

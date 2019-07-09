@@ -1,19 +1,19 @@
 package com.xwintop.xTransfer.sender.service.impl;
 
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.Session;
+import com.jcraft.jsch.SftpException;
 import com.xwintop.xTransfer.common.MsgLogger;
 import com.xwintop.xTransfer.common.model.LOGKEYS;
 import com.xwintop.xTransfer.common.model.LOGVALUES;
 import com.xwintop.xTransfer.common.model.Msg;
 import com.xwintop.xTransfer.messaging.IMessage;
-import com.xwintop.xTransfer.task.quartz.TaskQuartzJob;
-import com.xwintop.xTransfer.sender.bean.SenderConfigSftp;
 import com.xwintop.xTransfer.sender.bean.SenderConfig;
+import com.xwintop.xTransfer.sender.bean.SenderConfigSftp;
 import com.xwintop.xTransfer.sender.service.Sender;
+import com.xwintop.xTransfer.task.quartz.TaskQuartzJob;
 import com.xwintop.xTransfer.util.ParseVariableCommon;
-import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.Session;
-import com.jcraft.jsch.SftpException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +25,9 @@ import org.springframework.stereotype.Service;
 import java.io.ByteArrayInputStream;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @ClassName: SenderSftpImpl
@@ -41,24 +44,34 @@ import java.util.Properties;
 public class SenderSftpImpl implements Sender {
     private SenderConfigSftp senderConfigSftp;
 
-    private Session session = null;
-    private ChannelSftp channel = null;
+    private volatile BlockingQueue<ChannelSftp> channelPool = new LinkedBlockingQueue<>();
+    private volatile BlockingQueue<ChannelSftp> channelPoolRunning = new LinkedBlockingQueue<>();
+    private volatile int pollSize = 0;
 
     @Override
     public Boolean send(IMessage msg, Map params) throws Exception {
-        if (session == null) {
-            JSch jSch = new JSch(); //创建JSch对象
-            session = jSch.getSession(senderConfigSftp.getUsername(), senderConfigSftp.getHost(), senderConfigSftp.getPort());//根据用户名，主机ip和端口获取一个Session对象
-            session.setPassword(senderConfigSftp.getPassword());//设置密码
-            Properties config = new Properties();
-            config.put("StrictHostKeyChecking", "no");
-            session.setConfig(config);//为Session对象设置properties
-            session.setTimeout(senderConfigSftp.getTimeout());//设置超时
-            session.connect();//通过Session建立连接
-            channel = (ChannelSftp) session.openChannel("sftp");
-            channel.connect();
+        ChannelSftp channel;
+        if (senderConfigSftp.isLongConnection()) {
+            synchronized (this) {
+                if (pollSize < senderConfigSftp.getConnectionPoolSize() && channelPool.size() <= 0) {
+                    channelPool.put(createChannelSftp());
+                    pollSize++;
+                }
+            }
+//            channel = channelPool.take();
+            channel = channelPool.poll(10, TimeUnit.SECONDS);
+            if (channel == null) {
+                log.warn("channelPool is null:" + senderConfigSftp.getId());
+                return false;
+            }
+            if (!channel.isConnected()) {
+                channel.getSession().disconnect();
+                channel = createChannelSftp();
+            }
+        } else {
+            channel = createChannelSftp();
         }
-//        log.debug("SenderSftp:" + msg.getTo() + "  " + msg.getMessageByString());
+        channelPoolRunning.put(channel);
         // parse the variable of send properties
         String path = StringUtils.appendIfMissing(senderConfigSftp.getPath(), "/", "/", "\\");
         path = ParseVariableCommon.parseVariable(path, msg, params);
@@ -76,10 +89,9 @@ public class SenderSftpImpl implements Sender {
             throw new Exception("configuration for fileName is missing.MessageSender:" + senderConfigSftp.toString());
         }
         if (createPathFlag) {
-            changeStringDirectory(path);
+            changeStringDirectory(channel, path);
         }
         String tmp = "";
-        String postfixName = "";
         if (hasTmpPath) {
             tmp = StringUtils.appendIfMissing(senderConfigSftp.getTmpPath(), "/", "/", "\\");
             tmp = ParseVariableCommon.parseVariable(tmp, msg, params);
@@ -87,35 +99,42 @@ public class SenderSftpImpl implements Sender {
                 throw new Exception("configuration for tmp is missing.FtpSender:" + senderConfigSftp.toString());
             }
             if (createPathFlag) {
-                changeStringDirectory(tmp);
+                changeStringDirectory(channel, tmp);
             }
-        }
-        if (StringUtils.isBlank(tmp) && StringUtils.isBlank(postfixName)) {
-            postfixName = "." + msg.getId();
         }
         // overload same filename in dest path
         if (overload) {
-            if (StringUtils.isNotBlank(tmp)) {
-                channel.rm(tmp + fileName);
+            try {
+                if (StringUtils.isNotBlank(tmp)) {
+                    channel.rm(tmp + fileName);
+                }
+            } catch (Exception e) {
+                if (!e.getMessage().contains("No such file")) {
+                    log.warn("rm fail" + tmp + fileName, e);
+                }
             }
-            channel.rm(path + fileName);
+            try {
+                channel.rm(path + fileName);
+            } catch (Exception e) {
+                if (!e.getMessage().contains("No such file")) {
+                    log.warn("rm fail" + path + fileName, e);
+                }
+            }
         }
-        String tmpFileName = fileName + postfixName;
-        if (tmp == null || tmp.trim().equals("")) {
-            tmp = path;
-            tmpFileName = fileName;
-        }
+        String tmpFileName = fileName + "." + msg.getId();
         log.debug("tmp:" + tmp + " path:" + path + " fileName:" + fileName + " tmpFileName:" + tmpFileName);
-        byte[] msgByte = msg.getMessage();
+        byte[] msgByte = null;
         if (senderConfigSftp.getEncoding() != null && !"AUTO".equalsIgnoreCase(senderConfigSftp.getEncoding())) {
             msgByte = msg.getMessage(senderConfigSftp.getEncoding());
-        }
-        if (!hasTmpPath) {
-            channel.put(new ByteArrayInputStream(msgByte), path + fileName);
-            log.debug("direct to destniation,fileName is:" + fileName);
         } else {
+            msgByte = msg.getMessage();
+        }
+        if (hasTmpPath) {
             channel.put(new ByteArrayInputStream(msgByte), tmp + tmpFileName);
             channel.rename(tmp + tmpFileName, path + fileName);
+        } else {
+            channel.put(new ByteArrayInputStream(msgByte), path + fileName);
+            log.debug("direct to destniation,fileName is:" + fileName);
         }
         Msg msgLogInfo = new Msg(LOGVALUES.EVENT_MSG_SENDED, msg.getId(), null);
         msgLogInfo.put(LOGKEYS.CHANNEL_IN_TYPE, msg.getProperty(LOGKEYS.CHANNEL_IN_TYPE));
@@ -131,6 +150,12 @@ public class SenderSftpImpl implements Sender {
         MsgLogger.info(msgLogInfo.toMap());
 
         log.info("sent <" + msg.getId() + "> to " + path + " as " + fileName);
+        channelPoolRunning.remove(channel);
+        if (senderConfigSftp.isLongConnection()) {
+            channelPool.put(channel);
+        } else {
+            channel.getSession().disconnect();
+        }
         return true;
     }
 
@@ -141,18 +166,48 @@ public class SenderSftpImpl implements Sender {
 
     @Override
     public void destroy() throws Exception {
-        if (channel != null) {
-            channel.quit();
-            channel.disconnect();
-            channel = null;
+        pollSize = 0;
+        for (ChannelSftp channel = channelPool.poll(); channel != null; channel = channelPool.poll()) {
+            try {
+                channel.getSession().disconnect();
+            } catch (Exception e) {
+                log.warn("Session disconnect fail");
+            }
+            try {
+                channel.disconnect();
+            } catch (Exception e) {
+                log.warn("channel.disconnect fail");
+            }
         }
-        if (session != null) {
-            session.disconnect();
-            session = null;
+        for (ChannelSftp channel = channelPoolRunning.poll(); channel != null; channel = channelPoolRunning.poll()) {
+            try {
+                channel.getSession().disconnect();
+            } catch (Exception e) {
+                log.warn("Session disconnect fail");
+            }
+            try {
+                channel.disconnect();
+            } catch (Exception e) {
+                log.warn("channel.disconnect fail");
+            }
         }
     }
 
-    public void changeStringDirectory(String path) throws SftpException {
+    private ChannelSftp createChannelSftp() throws Exception {
+        JSch jSch = new JSch(); //创建JSch对象
+        Session session = jSch.getSession(senderConfigSftp.getUsername(), senderConfigSftp.getHost(), senderConfigSftp.getPort());//根据用户名，主机ip和端口获取一个Session对象
+        session.setPassword(senderConfigSftp.getPassword());//设置密码
+        Properties config = new Properties();
+        config.put("StrictHostKeyChecking", "no");
+        session.setConfig(config);//为Session对象设置properties
+        session.setTimeout(senderConfigSftp.getTimeout());//设置超时
+        session.connect();//通过Session建立连接
+        ChannelSftp channel = (ChannelSftp) session.openChannel("sftp");
+        channel.connect();
+        return channel;
+    }
+
+    public void changeStringDirectory(ChannelSftp channel, String path) throws SftpException {
         if (channel.ls(path) == null) {
             channel.mkdir(path);
         }

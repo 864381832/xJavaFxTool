@@ -1,5 +1,6 @@
 package com.xwintop.xTransfer.receiver.service.impl;
 
+import com.ibm.mq.jmqi.system.JmqiCodepage;
 import com.ibm.mq.jms.MQQueueConnectionFactory;
 import com.ibm.msg.client.wmq.compat.jms.internal.JMSC;
 import com.xwintop.xTransfer.common.MsgLogger;
@@ -11,18 +12,19 @@ import com.xwintop.xTransfer.receiver.bean.ReceiverConfig;
 import com.xwintop.xTransfer.receiver.bean.ReceiverConfigIbmMq;
 import com.xwintop.xTransfer.receiver.service.Receiver;
 import com.xwintop.xTransfer.task.quartz.TaskQuartzJob;
-import com.xwintop.xcore.util.UuidUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Scope;
-import org.springframework.jms.connection.CachingConnectionFactory;
+import org.springframework.jms.connection.SingleConnectionFactory;
 import org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter;
-import org.springframework.jms.listener.SessionAwareMessageListener;
-import org.springframework.jms.listener.SimpleMessageListenerContainer;
+import org.springframework.jms.listener.DefaultMessageListenerContainer;
 import org.springframework.stereotype.Service;
 
 import javax.jms.*;
+import java.io.ByteArrayOutputStream;
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -38,17 +40,48 @@ import java.util.Map;
 public class ReceiverIbmMqImpl implements Receiver {
     private ReceiverConfigIbmMq receiverConfigIbmMq;
     private MessageHandler messageHandler;
-    private SimpleMessageListenerContainer simpleMessageListenerContainer = null;
+    private DefaultMessageListenerContainer defaultMessageListenerContainer = null;
 
     @Override
     public void receive(Map params) throws Exception {
-        if (simpleMessageListenerContainer == null) {
-            simpleMessageListenerContainer = new SimpleMessageListenerContainer();
+        this.checkInit(params);
+    }
+
+    @Override
+    public void setReceiverConfig(ReceiverConfig receiverConfig) {
+        this.receiverConfigIbmMq = (ReceiverConfigIbmMq) receiverConfig;
+    }
+
+    @Override
+    public void setMessageHandler(MessageHandler messageHandler) {
+        this.messageHandler = messageHandler;
+    }
+
+    @Override
+    public void destroy() {
+        new Thread(() -> {
+            if (defaultMessageListenerContainer != null) {
+                try {
+                    defaultMessageListenerContainer.stop();
+                    defaultMessageListenerContainer.destroy();
+                    ((SingleConnectionFactory) defaultMessageListenerContainer.getConnectionFactory()).destroy();
+                } catch (Exception e) {
+                    log.error("destroy receiver IbmMq error:", e);
+                }
+                defaultMessageListenerContainer = null;
+            }
+        }).start();
+    }
+
+    private synchronized void checkInit(Map params) throws Exception {
+        if (defaultMessageListenerContainer == null) {
+            defaultMessageListenerContainer = new DefaultMessageListenerContainer();
             MQQueueConnectionFactory mqQueueConnectionFactory = new MQQueueConnectionFactory();
             mqQueueConnectionFactory.setQueueManager(receiverConfigIbmMq.getQueueManagerName());
             if (StringUtils.isNotBlank(receiverConfigIbmMq.getHostName())) {
                 mqQueueConnectionFactory.setHostName(receiverConfigIbmMq.getHostName());
                 mqQueueConnectionFactory.setTransportType(JMSC.MQJMS_TP_CLIENT_MQ_TCPIP);
+                mqQueueConnectionFactory.setClientReconnectTimeout(10);
             }
             if (StringUtils.isNotBlank(receiverConfigIbmMq.getChannel())) {
                 mqQueueConnectionFactory.setChannel(receiverConfigIbmMq.getChannel());
@@ -59,7 +92,7 @@ public class ReceiverIbmMqImpl implements Receiver {
             if (receiverConfigIbmMq.getCCSID() != null) {
                 mqQueueConnectionFactory.setCCSID(receiverConfigIbmMq.getCCSID());
             }
-            CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory();
+            SingleConnectionFactory cachingConnectionFactory = new SingleConnectionFactory();
             if (StringUtils.isEmpty(receiverConfigIbmMq.getUsername())) {
                 cachingConnectionFactory.setTargetConnectionFactory(mqQueueConnectionFactory);
             } else {
@@ -69,48 +102,67 @@ public class ReceiverIbmMqImpl implements Receiver {
                 userCredentialsConnectionFactoryAdapter.setTargetConnectionFactory(mqQueueConnectionFactory);
                 cachingConnectionFactory.setTargetConnectionFactory(userCredentialsConnectionFactoryAdapter);
             }
-            cachingConnectionFactory.setSessionCacheSize(500);
-            cachingConnectionFactory.setReconnectOnException(true);
 
-            simpleMessageListenerContainer.setConnectionFactory(cachingConnectionFactory);
-            simpleMessageListenerContainer.setDestinationName(receiverConfigIbmMq.getQueueName());
-            simpleMessageListenerContainer.setSessionAcknowledgeMode(Session.CLIENT_ACKNOWLEDGE);
-            simpleMessageListenerContainer.setExceptionListener(exception -> {
+            defaultMessageListenerContainer.setConnectionFactory(cachingConnectionFactory);
+            defaultMessageListenerContainer.setDestinationName(receiverConfigIbmMq.getQueueName());
+            defaultMessageListenerContainer.setSessionTransacted(true);
+            defaultMessageListenerContainer.setErrorHandler(exception -> {
+                log.error("IbmMq接收器ErrorHandler:", exception);
+                this.destroy();
+            });
+            defaultMessageListenerContainer.setExceptionListener(exception -> {
                 log.error("IbmMq接收器监听异常:", exception);
                 this.destroy();
             });
             if (receiverConfigIbmMq.getConcurrentConsumers() != null) {
                 //消费者个数
-                simpleMessageListenerContainer.setConcurrentConsumers(receiverConfigIbmMq.getConcurrentConsumers());
+                defaultMessageListenerContainer.setConcurrentConsumers(receiverConfigIbmMq.getConcurrentConsumers());
             }
-            simpleMessageListenerContainer.setMessageListener((SessionAwareMessageListener<Message>) (message, session) -> {
+            defaultMessageListenerContainer.setMessageListener((MessageListener) (message) -> {
                 try {
                     IMessage msg = new DefaultMessage();
-                    log.debug("IbmMq接收到消息：" + message);
+                    log.info("received mq message id is:" + msg.getId() + " message：" + message.getClass());
                     if (message instanceof BytesMessage) {
-                        byte[] b = new byte[(int) ((BytesMessage) message).getBodyLength()];
-                        ((BytesMessage) message).readBytes(b);
-                        msg.setRawData(b);
+                        ByteArrayOutputStream fout = new ByteArrayOutputStream();
+                        byte[] b = new byte[4096];
+                        int len = 0;
+                        while ((len = ((BytesMessage) message).readBytes(b)) != -1) {
+                            fout.write(b, 0, len);
+                        }
+                        msg.setRawData(fout.toByteArray());
                     } else if (message instanceof TextMessage) {
-                        msg.setRawData(((TextMessage) message).getText().getBytes());
+                        log.info("received mq TextMessage:" + msg.getId());
+                        try {
+                            if (receiverConfigIbmMq.getCCSID() != null) {
+                                JmqiCodepage jmqiCodepage = JmqiCodepage.getJmqiCodepage(null, receiverConfigIbmMq.getCCSID());
+                                if (jmqiCodepage != null && jmqiCodepage.charsetId != null) {
+                                    msg.setRawData(((TextMessage) message).getText().getBytes(jmqiCodepage.charsetId));
+                                } else {
+                                    msg.setRawData(((TextMessage) message).getText().getBytes());
+                                }
+                            } else {
+                                msg.setRawData(((TextMessage) message).getText().getBytes());
+                            }
+//                        log.info("接收消息：" + new String(new String(msg.getRawData(), "UTF-8").getBytes("ISO-8859-1")));
+                        } catch (Exception e) {
+                            log.error("转码错误", e);
+                        }
                     } else if (message instanceof ObjectMessage) {
-                        Object o = ((ObjectMessage) message).getObject();
-                        if (o instanceof IMessage) {
-                            msg = (IMessage) o;
-                        } else {
-                            msg.setRawData((byte[]) o);
-                        }
+                        log.info("received mq ObjectMessage:" + msg.getId());
+                        Serializable o = ((ObjectMessage) message).getObject();
+                        msg.setRawData(SerializationUtils.serialize(o));
                     } else {
-                        msg.setRawData((byte[]) ((ObjectMessage) message).getObject());
-                    }
-                    if (StringUtils.isBlank(msg.getFileName())) {
-                        String fileName = message.getStringProperty(receiverConfigIbmMq.getFileNameField());
-                        if (fileName == null) {
-                            fileName = UuidUtil.get32UUID();
+                        log.info("received mq JMSMessage:" + msg.getId());
+                        try {
+                            msg.setRawData(SerializationUtils.serialize((Serializable) message));
+                        } catch (Exception e) {
+                            log.error("received IbmMq 接收到异常消息msgId:" + msg.getId(), e);
                         }
-                        msg.setFileName(fileName);
+                        if (msg.getRawData() == null) {
+                            msg.setRawData("".getBytes());
+                        }
                     }
-                    log.info("received mq message id is:" + msg.getId());
+                    msg.setFileName(StringUtils.defaultIfEmpty(message.getStringProperty(receiverConfigIbmMq.getFileNameField()), msg.getId()));
                     msg.setProperty(LOGKEYS.CHANNEL_IN_TYPE, LOGVALUES.CHANNEL_TYPE_MQ);
                     msg.setProperty(LOGKEYS.CHANNEL_IN, receiverConfigIbmMq.getQueueManagerName() + ":" + receiverConfigIbmMq.getQueueName());
                     msg.setProperty(LOGKEYS.RECEIVER_TYPE, LOGVALUES.RCV_TYPE_MQ);
@@ -129,36 +181,20 @@ public class ReceiverIbmMqImpl implements Receiver {
                     msgLogInfo.put(LOGKEYS.RECEIVER_ID, this.receiverConfigIbmMq.getId());
 
                     MsgLogger.info(msgLogInfo.toMap());
-
-                    messageHandler.handle(ctx);
-                    log.info("success put into queue:" + msg.getId());
-
-                    message.acknowledge();
+                    try {
+                        messageHandler.handle(ctx);
+                        log.info("success put into queue:" + msg.getId());
+                    } catch (Exception e) {
+                        throw new JMSException("receiverIbmMq handle Exception:" + e.getMessage());
+                    }
                 } catch (Exception e) {
-                    log.error("receiverIbmMq收取处理异常:", e);
-                    session.rollback();
-                    this.destroy();
+                    log.error("receiverIbmMq occur exception:", e);
+                    throw new RuntimeException(e);
                 }
             });
-            simpleMessageListenerContainer.start();
-        }
-    }
-
-    @Override
-    public void setReceiverConfig(ReceiverConfig receiverConfig) {
-        this.receiverConfigIbmMq = (ReceiverConfigIbmMq) receiverConfig;
-    }
-
-    @Override
-    public void setMessageHandler(MessageHandler messageHandler) {
-        this.messageHandler = messageHandler;
-    }
-
-    @Override
-    public void destroy() {
-        if (simpleMessageListenerContainer != null) {
-            simpleMessageListenerContainer.stop();
-            simpleMessageListenerContainer = null;
+            defaultMessageListenerContainer.setAutoStartup(false);
+            defaultMessageListenerContainer.afterPropertiesSet();
+            defaultMessageListenerContainer.start();
         }
     }
 }
