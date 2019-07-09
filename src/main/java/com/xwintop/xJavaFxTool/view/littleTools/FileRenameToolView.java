@@ -5,6 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -50,4 +51,19 @@ public abstract class FileRenameToolView implements Initializable {
     @FXML
     protected TableColumn<Map<String,String>,String> filesPathTableColumn;
 
+
+    @FXML
+    protected TextField filePrefixTextField;
+    @FXML
+    protected TextField filePostfixTextField;
+    @FXML
+    protected TextField startNumberOfRenameTab;
+    @FXML
+    protected TextField fileQueryStringOfRenameTab;
+    @FXML
+    protected TextField fileReplaceStringOfRenameTab;
+    @FXML
+    protected TextField filePrefixAddableText;
+    @FXML
+    protected TextField filePostfixAddableText;
 }
