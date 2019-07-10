@@ -2,10 +2,7 @@ package com.xwintop.xJavaFxTool.view.littleTools;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -57,7 +54,7 @@ public abstract class FileRenameToolView implements Initializable {
     @FXML
     protected TextField filePostfixTextField;
     @FXML
-    protected TextField startNumberOfRenameTab;
+    protected Spinner<Integer> startNumberOfRenameTab;
     @FXML
     protected TextField fileQueryStringOfRenameTab;
     @FXML

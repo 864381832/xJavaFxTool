@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -12,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.FileRenameToolController">
+<AnchorPane prefHeight="453.0" prefWidth="748.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.FileRenameToolController">
    <children>
       <BorderPane layoutX="154.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <top>
@@ -36,23 +37,24 @@
                         <HBox alignment="CENTER_LEFT" spacing="5.0">
                            <children>
                               <Label text="格式化：" />
-                              <TextField fx:id="filePrefixTextField" promptText="文件前缀" />
-                              <TextField fx:id="filePostfixTextField" promptText="文件后缀" />
-                              <TextField fx:id="startNumberOfRenameTab" promptText="开始数字" />
+                              <TextField fx:id="filePrefixTextField" onKeyReleased="#generateRenameDestFilesOfFormat" promptText="文件前缀" />
+                              <TextField fx:id="filePostfixTextField" onKeyReleased="#generateRenameDestFilesOfFormat" promptText="文件后缀" />
+                              <Label text="开始数字：" />
+                              <Spinner fx:id="startNumberOfRenameTab" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" spacing="5.0">
                            <children>
                               <Label text="替换文本：" />
-                              <TextField fx:id="fileQueryStringOfRenameTab" promptText="查找" />
-                              <TextField fx:id="fileReplaceStringOfRenameTab" promptText="替换成" />
+                              <TextField fx:id="fileQueryStringOfRenameTab" onKeyReleased="#generateRenameDestFilesOfReplace" promptText="查找" />
+                              <TextField fx:id="fileReplaceStringOfRenameTab" onKeyReleased="#generateRenameDestFilesOfReplace" promptText="替换成" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" spacing="5.0">
                            <children>
                               <Label text="添加文本：" />
-                              <TextField fx:id="filePrefixAddableText" promptText="文件名称之前内容" />
-                              <TextField fx:id="filePostfixAddableText" promptText="文件名称之后内容" />
+                              <TextField fx:id="filePrefixAddableText" onKeyReleased="#generateRenameDestFilesOfAddable" promptText="文件名称之前内容" />
+                              <TextField fx:id="filePostfixAddableText" onKeyReleased="#generateRenameDestFilesOfAddable" promptText="文件名称之后内容" />
                            </children>
                         </HBox>
                      </children>
