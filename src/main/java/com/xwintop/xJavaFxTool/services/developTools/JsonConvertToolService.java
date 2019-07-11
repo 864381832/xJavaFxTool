@@ -4,6 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xwintop.xJavaFxTool.controller.developTools.JsonConvertToolController;
+import com.xwintop.xJavaFxTool.services.developTools.JsonConvertToolServiceUtil.ArrayProcessor;
+import com.xwintop.xJavaFxTool.services.developTools.JsonConvertToolServiceUtil.PropertyTree;
+import com.xwintop.xJavaFxTool.services.developTools.JsonConvertToolServiceUtil.TreeBuilder;
 import com.xwintop.xcore.util.StrUtil;
 import com.xwintop.xcore.util.XML2BeanUtils;
 import lombok.Getter;
@@ -14,10 +17,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.dom4j.io.SAXReader;
 import org.yaml.snakeyaml.Yaml;
 
+import java.io.StringReader;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 /**
  * @ClassName: JsonConvertToolService
  * @Description: Json转换工具
@@ -61,7 +64,7 @@ public class JsonConvertToolService {
         StringBuilder importString = new StringBuilder("package ;");
         StringBuilder propertyString = new StringBuilder();
         StringBuilder getSetString = new StringBuilder();
-        Map<String,String> subclass = new HashMap<String, String>();
+        Map<String, String> subclass = new HashMap<String, String>();
         for (Map.Entry<String, Object> entry : ((JSONObject) jsonObject).entrySet()) {
             Object value = entry.getValue();
             String key = entry.getKey();
@@ -84,21 +87,21 @@ public class JsonConvertToolService {
                 getSetString.append("\n\tpublic void set" + keyName + "(List<" + keyName + "> " + key + "){\n\t\tthis." + key + " = " + key + ";\n\t}");
                 getSetString.append("\n\tpublic List<" + keyName + "> " + "get" + keyName + "(){\n\t\treturn this." + key + ";\n\t}");
                 String subclassString = jsonToJavaBean(keyName, value);
-                subclass.put(keyName,subclassString);
+                subclass.put(keyName, subclassString);
             } else if (value instanceof Map) {
                 propertyString.append("\n\tprivate " + keyName + " " + key + ";");
                 String subclassString = jsonToJavaBean(keyName, value);
-                subclass.put(keyName,subclassString);
+                subclass.put(keyName, subclassString);
                 getSetString.append("\n\tpublic void set" + keyName + "(" + keyName + " " + key + "){\n\t\tthis." + key + " = " + key + ";\n\t}");
                 getSetString.append("\n\tpublic " + keyName + " get" + keyName + "(){\n\t\treturn this." + key + ";\n\t}");
             }
         }
         afterString.append(importString.toString());
-        afterString.append("\npublic class "+beanName+"\n{");
+        afterString.append("\npublic class " + beanName + "\n{");
         afterString.append(propertyString.toString());
-        afterString.append("\n"+getSetString.toString());
+        afterString.append("\n" + getSetString.toString());
         afterString.append("\n}");
-        subclass.forEach((key,value)->{
+        subclass.forEach((key, value) -> {
             afterString.append("\n\n=============================\n");
             afterString.append(value.toString());
         });
@@ -118,7 +121,7 @@ public class JsonConvertToolService {
         }
         StringBuilder afterString = new StringBuilder();
         StringBuilder propertyString = new StringBuilder();
-        Map<String,String> subclass = new HashMap<String, String>();
+        Map<String, String> subclass = new HashMap<String, String>();
         for (Map.Entry<String, Object> entry : ((JSONObject) jsonObject).entrySet()) {
             Object value = entry.getValue();
             String key = entry.getKey();
@@ -132,17 +135,17 @@ public class JsonConvertToolService {
             } else if (value instanceof List) {
                 propertyString.append("\n\tpublic List<" + keyName + "> " + key + " {get; set;}");
                 String subclassString = jsonToCBean(keyName, value);
-                subclass.put(keyName,subclassString);
+                subclass.put(keyName, subclassString);
             } else if (value instanceof Map) {
                 propertyString.append("\n\tpublic " + keyName + " " + key + " {get; set;}");
                 String subclassString = jsonToCBean(keyName, value);
-                subclass.put(keyName,subclassString);
+                subclass.put(keyName, subclassString);
             }
         }
-        afterString.append("\npublic class "+beanName+"\n{");
+        afterString.append("\npublic class " + beanName + "\n{");
         afterString.append(propertyString.toString());
         afterString.append("\n}");
-        subclass.forEach((key,value)->{
+        subclass.forEach((key, value) -> {
             afterString.append("\n\n=============================\n");
             afterString.append(value.toString());
         });
@@ -190,7 +193,48 @@ public class JsonConvertToolService {
         jsonConvertToolController.getJsonTextArea().setText(jsonString);
     }
 
+    public void propsToYamlAction() throws Exception {
+        String jsonString = jsonConvertToolController.getJsonTextArea().getText();
+        Properties properties = new Properties();
+        properties.load(new StringReader(jsonString));
+        PropertyTree tree = new TreeBuilder(properties, true).build();
+        tree = new ArrayProcessor(tree).apply();
+        jsonConvertToolController.getAfterTextArea().setText(tree.toYAML());
+    }
+
+    public void yamlToPropsAction() throws Exception {
+        String afterString = jsonConvertToolController.getAfterTextArea().getText();
+        Yaml yaml = new Yaml();
+        Map<String, Object> map = (Map<String, Object>) yaml.load(afterString);
+        Properties properties = new Properties() {
+            @Override
+            public synchronized Enumeration<Object> keys() {
+                return Collections.enumeration(new TreeSet<Object>(super.keySet()));
+            }
+        };
+        iterateAndProcess(properties, map, "");
+        StringBuffer stringBuffer = new StringBuffer();
+        Iterator iterator = properties.keySet().iterator();
+        while (iterator.hasNext()) {
+            Object key = iterator.next();
+            stringBuffer.append(key + "=" + properties.get(key) + "\n");
+        }
+        jsonConvertToolController.getJsonTextArea().setText(stringBuffer.toString());
+    }
+
     public JsonConvertToolService(JsonConvertToolController jsonConvertToolController) {
         this.jsonConvertToolController = jsonConvertToolController;
+    }
+
+    private static void iterateAndProcess(Properties properties, Map<String, Object> ymlEntry, String rootKey) {
+        for (String key : ymlEntry.keySet()) {
+            Object value = ymlEntry.get(key);
+            if (value instanceof Map) {
+                iterateAndProcess(properties, (Map<String, Object>) value, StringUtils.isEmpty(rootKey) ? key : rootKey
+                        + "." + key);
+            } else {
+                properties.setProperty(StringUtils.isEmpty(rootKey) ? key : rootKey + "." + key, value.toString());
+            }
+        }
     }
 }

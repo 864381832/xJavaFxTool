@@ -25,6 +25,8 @@
                         <Button mnemonicParsing="false" onAction="#jsonToExcelAction" text="Json转Excel" />
                         <Button mnemonicParsing="false" onAction="#jsonToYamlAction" text="Json转Yaml" />
                         <Button mnemonicParsing="false" onAction="#yamlToJsonAction" text="Yaml转Json" />
+                        <Button mnemonicParsing="false" onAction="#propsToYamlAction" text="Props转Yaml" />
+                        <Button mnemonicParsing="false" onAction="#yamlToPropsAction" text="Yaml转Props" />
                      </children>
                      <HBox.margin>
                         <Insets top="10.0" />

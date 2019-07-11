@@ -105,9 +105,9 @@ Mac OS X x64 [xJavaFxTool-0.1.6-macosx-x64.pkg](https://dev.tencent.com/s/c5ffd1
 
 31、ScriptEngineTool：脚本引擎调试工具（目前支持JavaScript、Groovy、Python、Lua等脚本）；
 
-32、FileRenameTool：文件重命名工具（未完善）；
+32、FileRenameTool：文件重命名工具；
 
-33、JsonConvertTool：Json转换工具（目前支持Json转Xml、Json转Java实体类、Json转C#实体类、Json转Excel、Json转Yaml）；
+33、JsonConvertTool：Json转换工具（目前支持Json转Xml、Json转Java实体类、Json转C#实体类、Json转Excel、Json转Yaml、Properties转Yaml、Yaml转Properties）；
 
 34、WechatJumpGameTool：微信跳一跳助手；
 
