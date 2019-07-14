@@ -13,17 +13,17 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 
 下载试用地址：
 
-可直接运行的jar包（本地需要有jdk1.8环境）[xJavaFxTool-0.1.6.jar](https://dev.tencent.com/s/a9c6b734-4a2e-41c5-8475-e5db462223de)
+可直接运行的jar包（本地需要有jdk1.8环境）[xJavaFxTool-0.1.7.jar](https://dev.tencent.com/s/8c2f9586-475f-4ece-9027-74c98b8c2c6c)
 
-Windows x86安装包（兼容xp、windows7、8、10等系统）[xJavaFxTool-0.1.6-windows-x86.exe](https://dev.tencent.com/s/7a764e5e-1ec3-4b05-8d5f-9cd1bc5fac5b)
+Windows x86安装包（兼容xp、windows7、8、10等系统）[xJavaFxTool-0.1.7-windows-x86.exe](https://dev.tencent.com/s/61e19e79-9745-4746-8e46-8f39f14a0ed4)
 
-Windows x64安装包（兼容xp、windows7、8、10等系统）[xJavaFxTool-0.1.6-windows-x64.exe](https://dev.tencent.com/s/8ff0b9bb-2b26-46ef-ab8d-20f16954e6b7)
+Windows x64安装包（兼容xp、windows7、8、10等系统）[xJavaFxTool-0.1.7-windows-x64.exe](https://dev.tencent.com/s/dce303db-cd17-40fa-99fd-c3be431fc384)
 
-Linux x64 [xJavaFxTool-0.1.6-linux-x64.zip](https://dev.tencent.com/s/3e2a75fe-911c-4699-b2b1-7a14eae3e139) （Linux平台64位运行压缩包，解压即可运行）
+Linux x64 [xJavaFxTool-0.1.7-linux-x64.zip](https://dev.tencent.com/s/8c55b6f4-ddec-4a3e-b808-33519fea313a) （Linux平台64位运行压缩包，解压即可运行）
 
-Mac OS X x64 [xJavaFxTool-0.1.6-macosx-x64.dmg](https://dev.tencent.com/s/29afae82-3814-4d67-85d6-c969ee1ba341)
+Mac OS X x64 [xJavaFxTool-0.1.7-macosx-x64.dmg](https://dev.tencent.com/s/c923e93f-6729-4748-87b6-2ffd71451a46)
 
-Mac OS X x64 [xJavaFxTool-0.1.6-macosx-x64.pkg](https://dev.tencent.com/s/c5ffd124-cb16-42f9-80df-0c6a72c59c68)
+Mac OS X x64 [xJavaFxTool-0.1.7-macosx-x64.pkg](https://dev.tencent.com/s/bb44f658-2123-4f8b-a514-7361d3bf4c89)
 
 若上面下链接失效可使用下面下载链接：
 
