@@ -95,7 +95,43 @@ public class TransferToolController extends TransferToolView {
             contextMenu.getItems().add(menu_tab);
             contextMenu.show(hostTextField, null, 0, hostTextField.getHeight());
         });
-//        configurationTreeView.setEditable(true);
+
+        selectTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (contextMenu.isShowing()) {
+                contextMenu.hide();
+            }
+            contextMenu.getItems().clear();
+            for (Map.Entry<String, String> stringStringEntry : transferToolService.getTaskConfigFileStringMap().entrySet()) {
+                if (stringStringEntry.getValue().contains(newValue)) {
+                    Map<String, TaskConfig> taskConfigMap = transferToolService.getTaskConfigFileMap().get(stringStringEntry.getKey());
+                    if (taskConfigMap != null && !taskConfigMap.isEmpty()) {
+                        for (Map.Entry<String, TaskConfig> stringTaskConfigEntry : taskConfigMap.entrySet()) {
+                            if (stringTaskConfigEntry.getValue().toString().contains(newValue)) {
+                                MenuItem menu_tab = new MenuItem(stringTaskConfigEntry.getKey());
+                                menu_tab.setOnAction(event1 -> {
+                                    transferToolService.addTaskConfigTabPane(stringStringEntry.getKey(), stringTaskConfigEntry.getKey());
+                                });
+                                contextMenu.getItems().add(menu_tab);
+                            }
+                        }
+                    }
+                    Map<String, DataSourceConfigDruid> dataSourceConfigDruidMap = transferToolService.getDataSourceConfigFileMap().get(stringStringEntry.getKey());
+                    if (dataSourceConfigDruidMap != null && !dataSourceConfigDruidMap.isEmpty()) {
+                        for (Map.Entry<String, DataSourceConfigDruid> stringDataSourceConfigDruidEntry : dataSourceConfigDruidMap.entrySet()) {
+                            if (stringDataSourceConfigDruidEntry.getValue().toString().contains(newValue)) {
+                                MenuItem menu_tab = new MenuItem(stringDataSourceConfigDruidEntry.getKey());
+                                menu_tab.setOnAction(event1 -> {
+                                    transferToolService.addTaskConfigTabPane(stringStringEntry.getKey(), stringDataSourceConfigDruidEntry.getKey());
+                                });
+                                contextMenu.getItems().add(menu_tab);
+                            }
+                        }
+                    }
+                }
+            }
+            contextMenu.show(selectTextField, null, 0, selectTextField.getHeight());
+        });
+
         configurationTreeView.setCellFactory(TextFieldTreeCell.forTreeView());
         configurationTreeView.setOnMouseClicked(event -> {
             TreeItem<String> selectedItem = configurationTreeView.getSelectionModel().getSelectedItem();
