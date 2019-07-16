@@ -158,7 +158,6 @@ public class TransferToolController extends TransferToolView {
                 });
                 MenuItem menu_FoldAll = new MenuItem("折叠所有");
                 menu_FoldAll.setOnAction(event1 -> {
-//                    configurationTreeView.getRoot().setExpanded(false);
                     configurationTreeView.getRoot().getChildren().forEach(stringTreeItem -> {
                         stringTreeItem.setExpanded(false);
                     });
@@ -298,7 +297,6 @@ public class TransferToolController extends TransferToolView {
                                 String taskConfigString = ClipboardUtil.getStr();
                                 try {
                                     TaskConfig taskConfig = new Yaml().load(taskConfigString);
-//                            String taskConfigName = taskConfig.getName() + "_copy";
                                     String taskConfigName = StringUtils.appendIfMissing(taskConfig.getName(), "_copy", "_copy");
                                     while (transferToolService.getTaskConfigFileMap().get(selectedItem.getValue()).containsKey(taskConfigName)) {
                                         String[] copyName = taskConfigName.split("_copy");
