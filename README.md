@@ -141,6 +141,8 @@ Mac OS X x64 [xJavaFxTool-0.1.7-macosx-x64.pkg](https://dev.tencent.com/s/bb44f6
 
 49、ClipboardHistoryTool:剪贴板历史工具；
 
+50、FileSearchTool:文件搜索工具；
+
 传输工具目前支持功能如下：
 
 Receiver接收器：
