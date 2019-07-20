@@ -4,7 +4,7 @@
 
     <groupId>com.xwintop</groupId>
     <artifactId>xJavaFxTool</artifactId>
-    <version>0.1.7</version>
+    <version>0.1.8</version>
     <packaging>jar</packaging>
     <name>xJavaFxTool</name>
     <description>基于JavaFx搭建的实用小工具集合</description>
@@ -246,6 +246,12 @@
             <groupId>com.ibm.mq</groupId>
             <artifactId>com.ibm.mq.allclient</artifactId>
             <version>9.1.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-core</artifactId>
+            <version>7.1.0</version>
         </dependency>
 
     </dependencies>

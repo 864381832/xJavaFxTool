@@ -284,7 +284,12 @@
         <url>/com/xwintop/xJavaFxTool/fxmlView/developTools/ClipboardHistoryTool.fxml</url>
         <title>ClipboardHistoryTool</title>
         <menuParentId>developTools</menuParentId>
-        <isDefaultShow></isDefaultShow>
+    </ToolFxmlLoaderConfiguration>
+    <ToolFxmlLoaderConfiguration>
+        <url>/com/xwintop/xJavaFxTool/fxmlView/littleTools/FileSearchTool.fxml</url>
+        <title>FileSearchTool</title>
+        <menuParentId>littleTools</menuParentId>
+        <isDefaultShow>true</isDefaultShow>
     </ToolFxmlLoaderConfiguration>
 
     <ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"
