@@ -140,7 +140,7 @@ public class EncryptAndDecryptController extends EncryptAndDecryptView {
             } else if ("文件加密SHA1".equals(curCrypto)) {
                 decrptyTextArea.setText(DigestUtils.sha1Hex(new FileInputStream(new File(string))));
             } else if ("摩斯密码".equals(curCrypto)) {
-                decrptyTextArea.setText(MorseConventer.Encryption(string));
+                decrptyTextArea.setText(MorseConventer.encryption(string));
             } else if ("Druid加密".equals(curCrypto)) {
                 String[] arr = ConfigTools.genKeyPair(512);
                 StringBuilder decrptyStr = new StringBuilder();
@@ -194,7 +194,7 @@ public class EncryptAndDecryptController extends EncryptAndDecryptView {
                 DES des = SecureUtil.des(keyByte);
                 encrptyTextArea.setText(des.decryptStr(string, Charset.forName(charSet)));
             } else if ("摩斯密码".equals(curCrypto)) {
-                encrptyTextArea.setText(MorseConventer.Decryption(string));
+                encrptyTextArea.setText(MorseConventer.decryption(string));
             } else if ("Druid加密".equals(curCrypto)) {
                 encrptyTextArea.setText(ConfigTools.decrypt(keyTextField.getText(), string));
             } else {

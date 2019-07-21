@@ -90,7 +90,7 @@ public class SenderFsImpl implements Sender {
         if (hasTmpPath && StringUtils.isNotEmpty(tmp)) {
             tmpFile = new File(tmpPath, fileName);
         } else {
-            if (postfixName == null || postfixName.trim().equals("")) {
+            if (postfixName == null || "".equals(postfixName.trim())) {
                 postfixName = "." + msg.getId();
             }
             tmpFile = new File(tmpPath, fileName + postfixName);

@@ -152,6 +152,7 @@ class Shoter extends JPanel {
 
 	}
 
+	@Override
 	public void paintComponent(Graphics comp) {
 		Graphics2D comp2D = (Graphics2D) comp;
 		comp2D.drawImage(screenImg, 0, 0, this);
@@ -169,8 +170,9 @@ class Shoter extends JPanel {
 		 * comp2D.drawImage(getNewImage(), _start.x, _start.y, this);
 		 */
 
-		if (_end.x - _start.x > 0 && _end.y - _start.y > 0)
-			comp2D.drawImage(getNewImage(), _start.x, _start.y, this);
+		if (_end.x - _start.x > 0 && _end.y - _start.y > 0) {
+            comp2D.drawImage(getNewImage(), _start.x, _start.y, this);
+        }
 	}
 
 	private class RectListener extends MouseAdapter {
@@ -254,8 +256,9 @@ class Shoter extends JPanel {
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
-			if (operationStatus == SShoterConfig.MOUSE_DRAG)
-				return;
+			if (operationStatus == SShoterConfig.MOUSE_DRAG) {
+                return;
+            }
 			// in the sub image
 			if (e.getX() > _start.getX() + SShoterConfig.MOVE_EDGE && e.getX() < _end.getX() - SShoterConfig.MOVE_EDGE
 					&& e.getY() > _start.getY() + SShoterConfig.MOVE_EDGE
@@ -325,15 +328,16 @@ class Shoter extends JPanel {
 
 	public void setButtonsPosition() {
 		buttonsPosition = new Point();
-		if (_end.y + SShoterConfig.BUTTONS_PANEL_SIZE.getHeight() < SShoterConfig.SCREEN_SIZE.getHeight())
-			buttonsPosition.y = (int) _end.getY();
-		else {
+		if (_end.y + SShoterConfig.BUTTONS_PANEL_SIZE.getHeight() < SShoterConfig.SCREEN_SIZE.getHeight()) {
+            buttonsPosition.y = (int) _end.getY();
+        } else {
 			buttonsPosition.y = (int) (_end.y - SShoterConfig.BUTTONS_PANEL_SIZE.getHeight());
 		}
-		if (_end.getX() - SShoterConfig.BUTTONS_PANEL_SIZE.getWidth() >= SShoterConfig.BUTTONS_PANEL_SIZE.getWidth())
-			buttonsPosition.x = (int) (_end.x - SShoterConfig.BUTTONS_PANEL_SIZE.getWidth());
-		else
-			buttonsPosition.x = (int) _start.getX();
+		if (_end.getX() - SShoterConfig.BUTTONS_PANEL_SIZE.getWidth() >= SShoterConfig.BUTTONS_PANEL_SIZE.getWidth()) {
+            buttonsPosition.x = (int) (_end.x - SShoterConfig.BUTTONS_PANEL_SIZE.getWidth());
+        } else {
+            buttonsPosition.x = (int) _start.getX();
+        }
 		buttons.setLocation(buttonsPosition);
 	}
 

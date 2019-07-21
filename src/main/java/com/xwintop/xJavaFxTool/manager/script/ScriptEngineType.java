@@ -20,11 +20,12 @@ public enum ScriptEngineType {
     }
     public static ScriptEngineType getEnum(String value) {
         ScriptEngineType e = null;
-        for (ScriptEngineType e1 : ScriptEngineType.values())
+        for (ScriptEngineType e1 : ScriptEngineType.values()) {
             if (e1.value.equals(value)) {
                 e = e1;
                 break;
             }
+        }
         return e;
     }
 }

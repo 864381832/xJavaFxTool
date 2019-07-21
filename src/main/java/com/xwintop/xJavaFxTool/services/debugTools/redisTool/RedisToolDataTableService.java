@@ -6,17 +6,6 @@ import com.xwintop.xJavaFxTool.controller.debugTools.redisTool.RedisToolDialogCo
 import com.xwintop.xJavaFxTool.model.RedisToolDataTableBean;
 import com.xwintop.xcore.util.RedisUtil;
 import com.xwintop.xcore.util.javafx.AlertUtil;
-
-import org.apache.commons.lang3.StringUtils;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -27,6 +16,10 @@ import javafx.scene.control.Tab;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.IOException;
+import java.util.*;
 
 @Getter
 @Setter
@@ -126,6 +119,8 @@ public class RedisToolDataTableService {
             case "Hash":
                 addHash();
                 break;
+            default:
+                break;
         }
         reloadTableData();
     }
@@ -134,52 +129,52 @@ public class RedisToolDataTableService {
         String key = redisToolDialogController.getKeyTextField().getText();
         List<String> list = new ArrayList<String>();
         redisToolDialogController.getDialogTableData().forEach((map) -> {
-            if(StringUtils.isNotEmpty(map.get("value"))){
+            if (StringUtils.isNotEmpty(map.get("value"))) {
                 list.add(map.get("value"));
             }
         });
-        redisToolDataTableController.getRedisUtil().addList(key,list,false,true);
-        redisToolDataTableController.getRedisUtil().setDeadLine(key,Integer.parseInt(redisToolDialogController.getOverdueTimeTextField().getText()));
+        redisToolDataTableController.getRedisUtil().addList(key, list, false, true);
+        redisToolDataTableController.getRedisUtil().setDeadLine(key, Integer.parseInt(redisToolDialogController.getOverdueTimeTextField().getText()));
     }
 
     private void addSet() {
         String key = redisToolDialogController.getKeyTextField().getText();
         Set<String> list = new HashSet<String>();
         redisToolDialogController.getDialogTableData().forEach((map) -> {
-            if(StringUtils.isNotEmpty(map.get("value"))){
+            if (StringUtils.isNotEmpty(map.get("value"))) {
                 list.add(map.get("value"));
             }
         });
-        redisToolDataTableController.getRedisUtil().addSet(key,list);
-        redisToolDataTableController.getRedisUtil().setDeadLine(key,Integer.parseInt(redisToolDialogController.getOverdueTimeTextField().getText()));
+        redisToolDataTableController.getRedisUtil().addSet(key, list);
+        redisToolDataTableController.getRedisUtil().setDeadLine(key, Integer.parseInt(redisToolDialogController.getOverdueTimeTextField().getText()));
     }
 
     private void addSortedSet() {
         String key = redisToolDialogController.getKeyTextField().getText();
-        Map<String,Double> list = new HashMap<String,Double>();
+        Map<String, Double> list = new HashMap<String, Double>();
         redisToolDialogController.getDialogTableData().forEach((map) -> {
-            if(StringUtils.isNotEmpty(map.get("value"))&&StringUtils.isNotEmpty(map.get("key"))){
-                list.put(map.get("value"),Double.valueOf(map.get("key")));
+            if (StringUtils.isNotEmpty(map.get("value")) && StringUtils.isNotEmpty(map.get("key"))) {
+                list.put(map.get("value"), Double.valueOf(map.get("key")));
             }
         });
-        redisToolDataTableController.getRedisUtil().addZSet(key,list);
-        redisToolDataTableController.getRedisUtil().setDeadLine(key,Integer.parseInt(redisToolDialogController.getOverdueTimeTextField().getText()));
+        redisToolDataTableController.getRedisUtil().addZSet(key, list);
+        redisToolDataTableController.getRedisUtil().setDeadLine(key, Integer.parseInt(redisToolDialogController.getOverdueTimeTextField().getText()));
     }
 
     private void addHash() {
         String key = redisToolDialogController.getKeyTextField().getText();
-        Map<String,String> list = new HashMap<String,String>();
+        Map<String, String> list = new HashMap<String, String>();
         redisToolDialogController.getDialogTableData().forEach((map) -> {
-            if(StringUtils.isNotEmpty(map.get("value"))&&StringUtils.isNotEmpty(map.get("key"))){
-                list.put(map.get("key"),map.get("value"));
+            if (StringUtils.isNotEmpty(map.get("value")) && StringUtils.isNotEmpty(map.get("key"))) {
+                list.put(map.get("key"), map.get("value"));
             }
         });
-        redisToolDataTableController.getRedisUtil().addHash(key,list);
-        redisToolDataTableController.getRedisUtil().setDeadLine(key,Integer.parseInt(redisToolDialogController.getOverdueTimeTextField().getText()));
+        redisToolDataTableController.getRedisUtil().addHash(key, list);
+        redisToolDataTableController.getRedisUtil().setDeadLine(key, Integer.parseInt(redisToolDialogController.getOverdueTimeTextField().getText()));
     }
 
     public void addRedisToolDataViewTab(String key) {
-        String tabName = redisToolDataTableController.getTabName()+"_"+key;
+        String tabName = redisToolDataTableController.getTabName() + "_" + key;
         Tab tab1 = dataViewTabMap.get(tabName);
         if (tab1 != null) {
             redisToolDataTableController.getRedisToolController().getDataViewTabPane().getSelectionModel().select(tab1);
@@ -197,7 +192,7 @@ public class RedisToolDataTableService {
             tab.setContent(fXMLLoader.load());
         } catch (IOException e) {
             e.printStackTrace();
-            log.error("addRedisToolDataViewTab:"+e.getMessage());
+            log.error("addRedisToolDataViewTab:" + e.getMessage());
         }
         RedisToolDataViewController redisToolDataViewController = fXMLLoader.getController();
         redisToolDataViewController.setData(redisToolDataTableController.getRedisUtil(), key);

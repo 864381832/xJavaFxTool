@@ -90,7 +90,7 @@ public class SenderFtpImpl implements Sender {
         }
         // overload same filename in dest path
         if (overload) {
-            if (tmp != null && !tmp.trim().equals("")) {
+            if (tmp != null && !"".equals(tmp.trim())) {
                 ftpUtil.deleteFile(tmp + fileName);
             }
             ftpUtil.deleteFile(path + fileName);

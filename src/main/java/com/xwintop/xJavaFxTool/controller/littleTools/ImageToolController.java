@@ -123,7 +123,7 @@ public class ImageToolController extends ImageToolView {
         String resolution = ""+image.getWidth()+"×"+image.getHeight();
         Map<String, String> rowValue = new HashMap<>();
         rowValue.put("name", file.getName());
-        rowValue.put("size", "" + FileUtil.FormetFileSize(file.length()));
+        rowValue.put("size", "" + FileUtil.formetFileSize(file.length()));
         rowValue.put("resolution", resolution);
         rowValue.put("fullPath", file.getAbsolutePath());
         tableData.add(rowValue);

@@ -72,6 +72,8 @@ public class SenderHttpImpl implements Sender {
                         throw new RuntimeException("Forbidden :" + url);
                     case 404:
                         throw new RuntimeException("Resource Not Found :" + url);
+                    default:
+                        break;
                 }
                 return false;
             }

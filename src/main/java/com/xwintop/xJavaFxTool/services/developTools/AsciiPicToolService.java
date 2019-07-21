@@ -50,7 +50,7 @@ public class AsciiPicToolService {
         try {
             StringBuilder stringBuffer = new StringBuilder();
             BufferedImage image = ImageUtil.getBufferedImage(path);
-            if (!asciiPicToolController.getImageSizeComboBox().getValue().equals("不压缩")) {
+            if (!"不压缩".equals(asciiPicToolController.getImageSizeComboBox().getValue())) {
                 String[] size = asciiPicToolController.getImageSizeComboBox().getValue().split("\\*");
                 image = Thumbnails.of(image).size(Integer.parseInt(size[0]), Integer.parseInt(size[1])).asBufferedImage();
             }

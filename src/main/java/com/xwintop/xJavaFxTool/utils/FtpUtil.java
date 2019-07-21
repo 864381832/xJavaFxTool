@@ -145,7 +145,7 @@ public class FtpUtil {
                 ftp = new FTPClient();
             }
         }
-        if (encoding != null && !encoding.equalsIgnoreCase("AUTO")) {
+        if (encoding != null && !"AUTO".equalsIgnoreCase(encoding)) {
             ftp.setControlEncoding(encoding);
         }
         if (socketTimeout > 0) {

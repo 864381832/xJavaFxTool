@@ -139,7 +139,7 @@ public class TransferToolController extends TransferToolView {
                 return;
             }
             if (event.getButton() == MouseButton.PRIMARY) {
-                if (selectedItem.getValue().equals("TaskConfig列表") || selectedItem.getValue().endsWith("service.yml") || selectedItem.getValue().endsWith("datasource.yml")) {
+                if ("TaskConfig列表".equals(selectedItem.getValue()) || selectedItem.getValue().endsWith("service.yml") || selectedItem.getValue().endsWith("datasource.yml")) {
                     selectedItem.setExpanded(!selectedItem.isExpanded());
                 } else {
                     if (selectedItem.getParent().getValue().endsWith("service.yml") || selectedItem.getParent().getValue().endsWith("datasource.yml")) {
@@ -163,7 +163,7 @@ public class TransferToolController extends TransferToolView {
                     });
                 });
                 ContextMenu contextMenu = new ContextMenu(menu_UnfoldAll, menu_FoldAll);
-                if (selectedItem.getValue().equals("TaskConfig列表")) {
+                if ("TaskConfig列表".equals(selectedItem.getValue())) {
                     MenuItem menu_AddFile = new MenuItem("添加任务配置文件");
                     menu_AddFile.setOnAction(event1 -> {
                         String fileName = "taskConf" + DateFormatUtils.format(new Date(), "MMddHHmm") + "service.yml";
@@ -185,7 +185,7 @@ public class TransferToolController extends TransferToolView {
                     });
                     contextMenu.getItems().add(menu_AddDataSourceFile);
                 } else {
-                    if (selectedItem.getValue().endsWith("service.yml") || selectedItem.getValue().endsWith("datasource.yml") || selectedItem.getParent().getValue().equals("TaskConfig列表")) {
+                    if (selectedItem.getValue().endsWith("service.yml") || selectedItem.getValue().endsWith("datasource.yml") || "TaskConfig列表".equals(selectedItem.getParent().getValue())) {
                         MenuItem menu_ViewFile = new MenuItem("查看文件内容");
                         menu_ViewFile.setOnAction(event1 -> {
                             transferToolService.addTaskFileTextArea(selectedItem.getValue(), transferToolService.getTaskConfigFileStringMap().get(selectedItem.getValue()));
@@ -379,7 +379,7 @@ public class TransferToolController extends TransferToolView {
                         });
                         contextMenu.getItems().add(menu_SaveFile);
                     }
-                    if (!selectedItem.getValue().endsWith("service.yml") && !selectedItem.getValue().equals("TaskConfig列表") && !selectedItem.getValue().endsWith("datasource.yml") && !selectedItem.getParent().getValue().equals("TaskConfig列表")) {
+                    if (!selectedItem.getValue().endsWith("service.yml") && !"TaskConfig列表".equals(selectedItem.getValue()) && !selectedItem.getValue().endsWith("datasource.yml") && !"TaskConfig列表".equals(selectedItem.getParent().getValue())) {
                         if (selectedItem.getParent().getValue().endsWith("service.yml")) {
                             MenuItem menu_Copy = new MenuItem("复制选中行");
                             menu_Copy.setOnAction(event1 -> {

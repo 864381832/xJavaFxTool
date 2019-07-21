@@ -44,7 +44,8 @@ public class SnapshotRectUtil extends JFrame {
 		setSize(d);// 最大化窗口
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
+			@Override
+            public void mousePressed(MouseEvent e) {
 				orgx = e.getX();
 				orgy = e.getY();
 			}
@@ -56,7 +57,8 @@ public class SnapshotRectUtil extends JFrame {
 			}
 		});
 		this.addMouseMotionListener(new MouseMotionAdapter() {
-			public void mouseDragged(MouseEvent e) {
+			@Override
+            public void mouseDragged(MouseEvent e) {
 				endx = e.getX();
 				endy = e.getY();
 				g = getGraphics();

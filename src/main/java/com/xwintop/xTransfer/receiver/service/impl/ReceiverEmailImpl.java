@@ -224,7 +224,7 @@ public class ReceiverEmailImpl implements Receiver {
         }
         ArrayList msgList = new ArrayList();
         // added by paulqing
-        if (mailMsg != null && !mailMsg.equals("")) {
+        if (mailMsg != null && !"".equals(mailMsg)) {
             IMessage msg = new DefaultMessage();
             msg.setRawData(mailMsg.getBytes(msg.getEncoding()));
             msgList.add(msg);

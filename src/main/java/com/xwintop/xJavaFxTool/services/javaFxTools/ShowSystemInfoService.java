@@ -177,21 +177,21 @@ public class ShowSystemInfoService {
                 map.put("name", fs.getName());
                 map.put("parent", "");
                 map.put("value", fs.getTotalSpace());
-                map.put("showValue", FileUtil.FormetFileSize(fs.getTotalSpace()));
+                map.put("showValue", FileUtil.formetFileSize(fs.getTotalSpace()));
 
                 Map map1 = new HashMap();
                 map1.put("id", "" + i + '1');
                 map1.put("name", "已用");
                 map1.put("parent", "" + i);
                 map1.put("value", fs.getTotalSpace() - fs.getUsableSpace());
-                map1.put("showValue", FileUtil.FormetFileSize((fs.getTotalSpace() - fs.getUsableSpace())));
+                map1.put("showValue", FileUtil.formetFileSize((fs.getTotalSpace() - fs.getUsableSpace())));
 
                 Map map2 = new HashMap();
                 map2.put("id", "" + i + '2');
                 map2.put("name", "剩余");
                 map2.put("parent", "" + i);
                 map2.put("value", fs.getUsableSpace());
-                map2.put("showValue", FileUtil.FormetFileSize(fs.getUsableSpace()));
+                map2.put("showValue", FileUtil.formetFileSize(fs.getUsableSpace()));
                 dataList.add(map);
                 dataList.add(map1);
                 dataList.add(map2);

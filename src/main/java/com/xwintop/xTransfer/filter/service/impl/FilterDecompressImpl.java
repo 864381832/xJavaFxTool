@@ -44,14 +44,14 @@ public class FilterDecompressImpl implements Filter {
         log.debug("执行了解压动作");
         String zipType = filterConfigDecompress.getMethod();
         String zipEntryEncoding = msg.getProperties().getProperty("ZIP_ENTRY_ENCODING");
-        if ((zipEntryEncoding == null || zipEntryEncoding.trim().equals("")) && StringUtils.isNotBlank(filterConfigDecompress.getEncoding())) {
+        if ((zipEntryEncoding == null || "".equals(zipEntryEncoding.trim())) && StringUtils.isNotBlank(filterConfigDecompress.getEncoding())) {
             zipEntryEncoding = filterConfigDecompress.getEncoding();
         }
         if (StringUtils.isBlank(zipType)) {
             zipType = StringUtils.defaultIfBlank(msg.getProperties().getProperty("COMPRESS_METHOD"), "zip");
         }
         log.debug("begin unzip data,zip type is:" + zipType);
-        if (zipType.equalsIgnoreCase("zip")) {
+        if ("zip".equalsIgnoreCase(zipType)) {
             List list = this.unzip(msg, zipEntryEncoding);
             log.debug("list size is:" + list.size());
 //            if (args.get("oneMessage") != null && args.get("oneMessage").equals("true") && list.size() == 1) {
@@ -62,7 +62,7 @@ public class FilterDecompressImpl implements Filter {
 //            }
         } else {
             byte[] zippedData = this.ungzip(msg);
-            if (zipEntryEncoding != null && !zipEntryEncoding.trim().equals("")) {
+            if (zipEntryEncoding != null && !"".equals(zipEntryEncoding.trim())) {
                 msg.setEncoding(zipEntryEncoding);
             }
             msg.getProperties().put("COMPRESS_METHOD", zipType);
@@ -89,7 +89,7 @@ public class FilterDecompressImpl implements Filter {
                     baos.write(bb, 0, curLen);
                 }
                 IMessage unzipMsg = (IMessage) msg.clone();
-                if (zipEntryEncoding != null && !zipEntryEncoding.trim().equals("")) {
+                if (zipEntryEncoding != null && !"".equals(zipEntryEncoding.trim())) {
                     unzipMsg.setEncoding(zipEntryEncoding);
                 }
                 unzipMsg.getProperties().put("ZIP_ENTRY_PATH", fileName);

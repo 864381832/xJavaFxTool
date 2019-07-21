@@ -32,6 +32,8 @@ public class WebSourcesToolService {
 	private WebSourcesToolController webSourcesToolController;
 	private final OkHttpClient client = new OkHttpClient();
 	private String sourcesFilePathString = "D://TestXf//";
+	private static Pattern srcPattern = Pattern.compile("src *= *['\"]*(\\S+)[\"']", Pattern.CASE_INSENSITIVE); // 不区分大小写
+	private static Pattern hrefPattern = Pattern.compile("href *= *['\"]*(\\S+)[\"']", Pattern.CASE_INSENSITIVE); // 不区分大小写
 
 	public WebSourcesToolService(WebSourcesToolController webSourcesToolController) {
 		this.webSourcesToolController = webSourcesToolController;
@@ -42,29 +44,27 @@ public class WebSourcesToolService {
 		String urlString = webSourcesToolController.getUrlTextField().getText().trim();
 		Request request = new Request.Builder().url(urlString).build();
 		Response response = client.newCall(request).execute();
-		if (!response.isSuccessful())
-			throw new IOException("Unexpected code " + response);
+		if (!response.isSuccessful()) {
+            throw new IOException("Unexpected code " + response);
+        }
 		String indexHtml = response.body().string();
 		new File(sourcesFilePathString).mkdirs();
 		File indexHtmlFile = new File(sourcesFilePathString + "index.html");
 		// FileUtils.touch(indexHtmlFile);
 		FileUtils.writeStringToFile(indexHtmlFile, indexHtml, Charset.defaultCharset());
-		Pattern srcPattern = Pattern.compile("src *= *['\"]*(\\S+)[\"']", Pattern.CASE_INSENSITIVE); // 不区分大小写
+
 		// 用Pattern类的matcher()方法生成一个Matcher对象
 		Matcher srcMatcher = srcPattern.matcher(indexHtml);
 		while (srcMatcher.find()) {
 			String str0 = srcMatcher.group();
 			String str1 = srcMatcher.group(1); // 捕获的子序列
-			System.out.println(str0);
-			System.out.println(str1);
 			saveSourcesFile(urlString,str1);
 		}
 		FileUtils.writeStringToFile(indexHtmlFile, indexHtml, Charset.defaultCharset());
-		Pattern hrefPattern = Pattern.compile("href *= *['\"]*(\\S+)[\"']", Pattern.CASE_INSENSITIVE); // 不区分大小写
+
 		Matcher hrefMatcher = hrefPattern.matcher(indexHtml);
 		while (hrefMatcher.find()) {
 			String str1 = hrefMatcher.group(1); // 捕获的子序列
-			System.out.println(str1);
 			saveSourcesFile(urlString,str1);
 		}
 	}
@@ -86,8 +86,9 @@ public class WebSourcesToolService {
 			}
 			Request request = new Request.Builder().url(url+"/"+sUrlStrings[sUrlStrings.length-1]).build();
 			Response response = client.newCall(request).execute();
-			if (!response.isSuccessful())
-				throw new IOException("Unexpected code " + response);
+			if (!response.isSuccessful()) {
+                throw new IOException("Unexpected code " + response);
+            }
 			File sourcesFile = new File(sourcesIndexPathFile, "/" + sUrlStrings[sUrlStrings.length-1]);
 			FileUtils.touch(sourcesFile);
 			FileUtils.writeByteArrayToFile(sourcesFile, response.body().bytes());

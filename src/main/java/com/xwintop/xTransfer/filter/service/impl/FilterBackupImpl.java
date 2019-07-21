@@ -95,6 +95,8 @@ public class FilterBackupImpl implements Filter {
             case minutes:
                 filePath = Common.dirByMinutes(filePath);
                 break;
+            default:
+                break;
         }
         File tmpPath = null;
         File tmpFile;

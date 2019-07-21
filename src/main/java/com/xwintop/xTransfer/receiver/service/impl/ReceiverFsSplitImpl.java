@@ -270,6 +270,8 @@ public class ReceiverFsSplitImpl implements Receiver {
             case minutes:
                 filePath = Common.dirByMinutes(filePath);
                 break;
+            default:
+                break;
         }
         File tmpFile;
         if (StringUtils.isBlank(tmp)) {

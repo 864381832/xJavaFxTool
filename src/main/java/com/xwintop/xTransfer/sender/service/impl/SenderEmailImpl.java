@@ -5,11 +5,11 @@ import com.xwintop.xTransfer.common.model.LOGKEYS;
 import com.xwintop.xTransfer.common.model.LOGVALUES;
 import com.xwintop.xTransfer.common.model.Msg;
 import com.xwintop.xTransfer.messaging.IMessage;
-import com.xwintop.xTransfer.task.quartz.TaskQuartzJob;
-import com.xwintop.xTransfer.sender.bean.SenderConfigEmail;
 import com.xwintop.xTransfer.sender.bean.SenderConfig;
+import com.xwintop.xTransfer.sender.bean.SenderConfigEmail;
 import com.xwintop.xTransfer.sender.enums.EmailMethod;
 import com.xwintop.xTransfer.sender.service.Sender;
+import com.xwintop.xTransfer.task.quartz.TaskQuartzJob;
 import com.xwintop.xTransfer.util.ParseVariableCommon;
 import lombok.Getter;
 import lombok.Setter;
@@ -71,6 +71,8 @@ public class SenderEmailImpl implements Sender {
                 break;
             case plain:
                 helper.setText(msg.getMessageByString());
+                break;
+            default:
                 break;
         }
         mailSender.send(message);

@@ -45,6 +45,7 @@ public class HttpToolController extends HttpToolView {
 	private ObservableList<Map<String, String>> paramsDatatableData = FXCollections.observableArrayList();
 	private ObservableList<Map<String, String>> paramsHeadertableData = FXCollections.observableArrayList();
 	private ObservableList<Map<String, String>> paramsCookietableData = FXCollections.observableArrayList();
+	private static Pattern p = Pattern.compile("\\s*|\t|\r|\n");
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -97,7 +98,6 @@ public class HttpToolController extends HttpToolView {
 		setTableViewOnMouseClicked(paramsCookieTableView, paramsCookietableData);
 		MenuItem compressJsonMenuItem = new MenuItem("压缩JSON");
 		compressJsonMenuItem.setOnAction(event -> {
-			Pattern p = Pattern.compile("\\s*|\t|\r|\n");
 			Matcher m = p.matcher(ResponseBodyTextArea.getText());
 			ResponseBodyTextArea.setText(m.replaceAll(""));
 		});

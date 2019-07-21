@@ -50,7 +50,7 @@ public class FilterCompressImpl implements Filter {
         }
         log.debug("begin unzip data,zip type is:" + zipType);
         byte[] zippedData;
-        if (zipType.equalsIgnoreCase("zip")) {
+        if ("zip".equalsIgnoreCase(zipType)) {
             List rawList = ctx.getMessages();
             zippedData = this.zip(rawList);
         } else {

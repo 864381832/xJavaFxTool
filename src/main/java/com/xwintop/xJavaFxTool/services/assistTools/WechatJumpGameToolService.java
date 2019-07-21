@@ -53,6 +53,7 @@ public class WechatJumpGameToolService {
             new Thread(new Runnable() {
                 byte[] cache = new byte[1024];
 
+                @Override
                 public void run() {
                     try {
                         int i;
@@ -134,14 +135,18 @@ public class WechatJumpGameToolService {
         //扫描获取黑棋位置
         for (int i = 50; i < width; i++) {
             for (int flag = 0, j = height * 3 / 4; j > height / 3; j -= 5) {
-                if (!colorDiff(bi.getRGB(i, j), 55 << 16 | 58 << 8 | 100)) flag++;
+                if (!colorDiff(bi.getRGB(i, j), 55 << 16 | 58 << 8 | 100)) {
+                    flag++;
+                }
                 if (flag > 3) {
                     x1 = i + 13 * r;
                     y1 = j + 2 * r;
                     break;
                 }
             }
-            if (x1 > 0) break;
+            if (x1 > 0) {
+                break;
+            }
         }
         Graphics2D g2d = bi.createGraphics();
         g2d.setColor(Color.BLUE);
@@ -163,10 +168,17 @@ public class WechatJumpGameToolService {
             if (x2 > 0) {//找到了目标块顶点
                 int p2 = bi.getRGB(x2, y2 - 10), j, max = -1;
                 for (; i < y1 - 50 * r; i += 5) {
-                    for (j = x2; colorDiff(bi.getRGB(j, i), p2) && j < x2 + 200 * r; ) j++;
-                    if (max < 0 && j - x2 > 0) x2 = x2 + (j - x2) / 2;//修正顶点横坐标
-                    if (max < j - x2) max = j - x2;//找到目标块最长宽度
-                    else break;
+                    for (j = x2; colorDiff(bi.getRGB(j, i), p2) && j < x2 + 200 * r; ) {
+                        j++;
+                    }
+                    if (max < 0 && j - x2 > 0) {
+                        x2 = x2 + (j - x2) / 2;//修正顶点横坐标
+                    }
+                    if (max < j - x2) {
+                        max = j - x2;//找到目标块最长宽度
+                    } else {
+                        break;
+                    }
                 }
                 g2d.drawLine(x2, y2, x2, i);
                 y2 = i - 5;
@@ -178,13 +190,23 @@ public class WechatJumpGameToolService {
         ImageIO.write(bi, "png", new FileOutputStream(pic));//保存成图片
         double distance = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
         if (x1 < 50 || y1 < 50 || x2 < 50 || y2 < 50 || distance < 100) {
-            if (!restart) throw new Exception("scan error:" + x1 + "|" + y1 + "|" + x2 + "|" + y2);
+            if (!restart) {
+                throw new Exception("scan error:" + x1 + "|" + y1 + "|" + x2 + "|" + y2);
+            }
             int x = width / 2, y = height * 3 / 4, z = 9 * height / 10, i = y;//获取开始按钮位置，自动重新开始
-            while ((i += 20) < z) if (bi.getRGB(x, i) == -1 && bi.getRGB(x + 20, i + 20) == -1) break;
-            if (i == y - 20 || i == z) throw new Exception("scan error:game not start");
+            while ((i += 20) < z) {
+                if (bi.getRGB(x, i) == -1 && bi.getRGB(x + 20, i + 20) == -1) {
+                    break;
+                }
+            }
+            if (i == y - 20 || i == z) {
+                throw new Exception("scan error:game not start");
+            }
             return x + " " + i + " " + x + " " + i + " 100";
         }
-        if (distance < 150) distance = 150;
+        if (distance < 150) {
+            distance = 150;
+        }
         return x1 + " " + y1 + " " + x2 + " " + y2 + " " + (int) (distance * rate);
     }
 
@@ -198,11 +220,15 @@ public class WechatJumpGameToolService {
         File pic = new File(path + "pic.png");
         if (pic.exists()) {//备份一下之前的一张图片
             File back = new File(path + System.currentTimeMillis() + ".png");
-            if (!back.exists() || back.delete()) pic.renameTo(back);
+            if (!back.exists() || back.delete()) {
+                pic.renameTo(back);
+            }
         }
         exec(adb + " shell screencap -p /sdcard/screen.png");
         exec(adb + " pull /sdcard/screen.png " + pic.getAbsolutePath());
-        if (!pic.exists()) throw new Exception("error getScreenPic");
+        if (!pic.exists()) {
+            throw new Exception("error getScreenPic");
+        }
         return pic;
     }
 
@@ -212,9 +238,13 @@ public class WechatJumpGameToolService {
             System.out.println(cmd);
             ps = Runtime.getRuntime().exec(cmd.split(" "));
             int code = ps.waitFor();
-            if (code != 0) throw new Exception("exec error(code=" + code + "): " + cmd);
+            if (code != 0) {
+                throw new Exception("exec error(code=" + code + "): " + cmd);
+            }
         } finally {
-            if (ps != null) ps.destroy();
+            if (ps != null) {
+                ps.destroy();
+            }
         }
     }
 

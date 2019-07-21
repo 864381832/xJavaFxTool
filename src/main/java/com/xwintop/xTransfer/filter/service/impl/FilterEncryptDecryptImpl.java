@@ -69,6 +69,8 @@ public class FilterEncryptDecryptImpl implements Filter {
             case Base64:
                 msg.setMessage(Base64.encodeBase64(msg.getMessage()));
                 break;
+            default:
+                break;
         }
     }
 
@@ -83,6 +85,8 @@ public class FilterEncryptDecryptImpl implements Filter {
                 break;
             case Base64:
                 msg.setMessage(Base64.decodeBase64(msg.getMessage()));
+                break;
+            default:
                 break;
         }
     }

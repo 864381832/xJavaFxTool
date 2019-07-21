@@ -142,8 +142,9 @@ public class ActiveMqToolService {
                     TooltipUtil.showToast("发送失败：" + e.getMessage());
                 } finally {
                     try {
-                        if (null != connection)
+                        if (null != connection) {
                             connection.close();
+                        }
                     } catch (Throwable ignore) {
                     }
                 }

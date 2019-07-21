@@ -63,7 +63,7 @@ public class MorseConventer {
     /**
      * 加密
      */
-    public static String Encryption(String str){
+    public static String encryption(String str){
         char[] plaintext = str.toUpperCase().toCharArray();
         StringBuffer cipherStr = new StringBuffer(); // 密文字符串
         for(int i=0; i<plaintext.length; i++){
@@ -81,7 +81,7 @@ public class MorseConventer {
     /**
      * 解密
      */
-    public static String Decryption(String cipherStr){
+    public static String decryption(String cipherStr){
         String[] ciphertext = cipherStr.toString().split(" ");
         StringBuffer plainStr = new StringBuffer();  // 明文字符串
         for(int i=0; i<ciphertext.length; i++){

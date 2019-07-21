@@ -3,7 +3,7 @@ package com.xwintop.xJavaFxTool.services.developTools.JsonConvertToolServiceUtil
 class ValueConverter {
 
     public static Object asObject(String string) {
-        if (string.equalsIgnoreCase("true") || string.equalsIgnoreCase("false")) {
+        if ("true".equalsIgnoreCase(string) || "false".equalsIgnoreCase(string)) {
             return Boolean.valueOf(string);
         } else {
             try {
