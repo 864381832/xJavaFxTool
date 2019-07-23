@@ -44,6 +44,8 @@ public class FileSearchToolController extends FileSearchToolView {
         JavaFxViewUtil.setTableColumnMapValueFactory(fileSizeTableColumn, "fileSize", false);
         JavaFxViewUtil.setTableColumnMapValueFactory(lastModifiedTableColumn, "lastModified", false);
         searchResultTableVIew.setItems(searchResultTableData);
+
+        searchDirectoryTextField.setText("D:\\TestXf\\");
     }
 
     private void initEvent() {
@@ -53,16 +55,17 @@ public class FileSearchToolController extends FileSearchToolView {
     private void initService() {
     }
 
-    public void searchContentAction() {
-
+    public void searchContentAction() throws Exception{
+        fileSearchToolService.searchContentAction();
     }
 
     @FXML
-    private void refreshIndexAction(ActionEvent event) {
+    private void refreshIndexAction(ActionEvent event) throws Exception{
+        fileSearchToolService.refreshIndexAction();
     }
 
     @FXML
-    private void searchDirectoryAction(ActionEvent event) {
+    private void searchDirectoryAction(ActionEvent event) throws Exception{
         File file = FileChooserUtil.chooseDirectory();
         if (file != null) {
             searchDirectoryTextField.setText(file.getPath());
