@@ -31,7 +31,9 @@ public abstract class FileSearchToolView implements Initializable {
     @FXML
     protected CheckBox fullTextMatchingCheckBox;
     @FXML
-    protected CheckBox showHideFileCheckBox;
+    protected ChoiceBox showHideFileChoice;
+    @FXML
+    protected ChoiceBox fileTypeChoiceBox;
     @FXML
     protected TextField searchDirectoryTextField;
     @FXML
@@ -46,5 +48,7 @@ public abstract class FileSearchToolView implements Initializable {
     protected TableColumn<Map<String, String>, String> fileSizeTableColumn;
     @FXML
     protected TableColumn<Map<String, String>, String> lastModifiedTableColumn;
+    @FXML
+    protected Label searchTextLabel;
 
 }
