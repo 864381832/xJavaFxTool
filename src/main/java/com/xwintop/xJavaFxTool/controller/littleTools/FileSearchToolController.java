@@ -55,17 +55,17 @@ public class FileSearchToolController extends FileSearchToolView {
     private void initService() {
     }
 
-    public void searchContentAction() throws Exception{
+    public void searchContentAction() throws Exception {
         fileSearchToolService.searchContentAction();
     }
 
     @FXML
-    private void refreshIndexAction(ActionEvent event) throws Exception{
+    private void refreshIndexAction(ActionEvent event) throws Exception {
         fileSearchToolService.refreshIndexAction();
     }
 
     @FXML
-    private void searchDirectoryAction(ActionEvent event) throws Exception{
+    private void searchDirectoryAction(ActionEvent event) throws Exception {
         File file = FileChooserUtil.chooseDirectory();
         if (file != null) {
             searchDirectoryTextField.setText(file.getPath());

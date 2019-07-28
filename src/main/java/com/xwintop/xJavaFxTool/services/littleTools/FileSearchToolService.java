@@ -3,6 +3,7 @@ package com.xwintop.xJavaFxTool.services.littleTools;
 import cn.hutool.core.thread.ThreadUtil;
 import com.xwintop.xJavaFxTool.controller.littleTools.FileSearchToolController;
 import com.xwintop.xJavaFxTool.utils.ConfigureUtil;
+import com.xwintop.xcore.util.javafx.TooltipUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +11,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
@@ -25,6 +25,7 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -45,18 +46,14 @@ public class FileSearchToolService {
     private static final String searchIndexDir = ConfigureUtil.getConfigurePath("searchIndexDir/");
 
     private static IndexWriter indexWriter = null;
-//    private static IndexSearcher indexSearcher = null;
+
+//    private static RAMDirectory directory;
 
     static {
         File searchIndexDirFile = new File(searchIndexDir);
         try {
             FileUtils.forceMkdir(searchIndexDirFile);
             Directory directory = FSDirectory.open(searchIndexDirFile.toPath());
-//            Analyzer analyzer = new StandardAnalyzer(); // 标准分词器，适用于英文
-//            //创建索引写入配置
-//            IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
-//            //创建索引写入对象
-//            indexWriter = new IndexWriter(directory, indexWriterConfig);
             getIndexWriter(directory);
             if (!DirectoryReader.indexExists(directory)) {
                 indexWriter.close();
@@ -71,13 +68,14 @@ public class FileSearchToolService {
         Analyzer analyzer = new StandardAnalyzer(); // 标准分词器，适用于英文
         //创建索引写入配置
         IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
+        indexWriterConfig.setRAMBufferSizeMB(Runtime.getRuntime().totalMemory() / 1024 / 1024 / 4);
+//        indexWriterConfig.setMaxBufferedDocs(2000);
         //创建索引写入对象
         indexWriter = new IndexWriter(directory, indexWriterConfig);
     }
 
     public IndexSearcher getIndexSearcher() {
         IndexSearcher indexSearcher = null;
-//        if (indexSearcher == null) {
         try {
             Directory directory = FSDirectory.open(Paths.get(searchIndexDir));
             // 创建索引的读取器
@@ -87,7 +85,6 @@ public class FileSearchToolService {
         } catch (Exception e) {
             log.error("创建索引读取器失败：", e);
         }
-//        }
         return indexSearcher;
     }
 
@@ -100,7 +97,7 @@ public class FileSearchToolService {
         String path = fileSearchToolController.getSearchDirectoryTextField().getText().trim();
         BooleanQuery.Builder builder = new BooleanQuery.Builder();
         String fileName = "fileName";
-        if (fileSearchToolController.getMatchCaseCheckBox().isSelected()) {
+        if (!fileSearchToolController.getMatchCaseCheckBox().isSelected()) {
             fileName = "fileNameLowerCase";
             queryText = queryText.toLowerCase();
         }
@@ -136,39 +133,50 @@ public class FileSearchToolService {
         }
         BooleanQuery query = builder.build();
         IndexSearcher indexSearcher = getIndexSearcher();
-        TopDocs topDocs = indexSearcher.search(query, Integer.MAX_VALUE);
+        TopDocs topDocs = indexSearcher.search(query, 100);
         fileSearchToolController.getSearchResultTableData().clear();
         for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
             //取得对应的文档对象
             Document document = indexSearcher.doc(scoreDoc.doc);
 //            System.out.println("fileName：" + document.get("fileName"));
-//            System.out.println("absolutePath：" + document.get("absolutePath"));
             Map map = new HashMap();
             map.put("fileName", document.get("fileName"));
             map.put("absolutePath", document.get("absolutePath"));
             map.put("fileSize", document.get("fileSize"));
-            map.put("lastModified", document.get("lastModified"));
+//            map.put("lastModified", document.get("lastModified"));
+            map.put("lastModified", new Date(Long.parseLong(document.get("lastModified"))).toLocaleString());
             fileSearchToolController.getSearchResultTableData().add(map);
         }
-        fileSearchToolController.getSearchTextLabel().setText("总共查询到" + topDocs.totalHits + "个文档");
+        int allCount = indexSearcher.count(new MatchAllDocsQuery());
+        fileSearchToolController.getSearchTextLabel().setText("总共查询到" + topDocs.totalHits.value + "个文档;当前一共缓存" + allCount + "个文档");
     }
 
     public void refreshIndexAction() throws Exception {
         String path = fileSearchToolController.getSearchDirectoryTextField().getText();
-        addSearchIndexFile(path);
+        if (StringUtils.isEmpty(path)) {
+            TooltipUtil.showToast("路径不能为空！");
+            return;
+        }
+        addSearchIndexFile(Paths.get(path));
     }
 
-    public void addSearchIndexFile(String path) {
+    public void addSearchIndexFile(Path path) {
         ThreadUtil.execute(() -> {
             try {
-                DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(path));
+                DirectoryStream<Path> stream = Files.newDirectoryStream(path);
                 Iterator<Path> pathIterator = stream.iterator();
                 while (pathIterator.hasNext()) {
                     Path curPath = pathIterator.next();
-                    addIndexDocument(curPath.toFile());
-                    if (Files.isDirectory(curPath)) {
-                        addSearchIndexFile(curPath.toString());
-                    }
+                    ThreadUtil.execute(() -> {
+                        try {
+                            addIndexDocument(curPath.toFile());
+                            if (Files.isDirectory(curPath)) {
+                                addSearchIndexFile(curPath);
+                            }
+                        } catch (Exception e) {
+                            log.warn("添加索引失败：", e);
+                        }
+                    });
                 }
             } catch (Exception e) {
                 log.warn("获取失败：", e);
@@ -179,16 +187,24 @@ public class FileSearchToolService {
     public void addIndexDocument(File file) throws Exception {
         Document doc = new Document();
         doc.add(new StringField("fileName", file.getName(), Field.Store.YES));
-        doc.add(new StringField("fileNameLowerCase", file.getName().toLowerCase(), Field.Store.YES));
+        doc.add(new StringField("fileNameLowerCase", file.getName().toLowerCase(), Field.Store.NO));
         doc.add(new StringField("absolutePath", file.getAbsolutePath(), Field.Store.YES));
 //        doc.add(new DoubleDocValuesField("fileSize", file.length()));
 //        doc.add(new DoubleDocValuesField("lastModified", file.lastModified()));
         doc.add(new StringField("fileSize", String.valueOf(file.length()), Field.Store.YES));
-        doc.add(new StringField("lastModified", DateTools.timeToString(file.lastModified(), DateTools.Resolution.MILLISECOND), Field.Store.YES));
-        doc.add(new StringField("isHidden", String.valueOf(file.isHidden()), Field.Store.YES));
-        doc.add(new StringField("isDirectory", String.valueOf(file.isDirectory()), Field.Store.YES));
+        doc.add(new StringField("lastModified", String.valueOf(file.lastModified()), Field.Store.YES));
+        doc.add(new StringField("isHidden", String.valueOf(file.isHidden()), Field.Store.NO));
+        doc.add(new StringField("isDirectory", String.valueOf(file.isDirectory()), Field.Store.NO));
         indexWriter.updateDocument(new Term("absolutePath", file.getAbsolutePath()), doc);
 //        indexWriter.addDocument(doc);
         indexWriter.commit();
+    }
+
+    public void autoRefreshIndexAction() {
+        File[] listRoots = File.listRoots();
+        for (File listRoot : listRoots) {
+            System.out.println("加载目录: " + listRoot.getAbsolutePath());
+            addSearchIndexFile(listRoot.toPath());
+        }
     }
 }
