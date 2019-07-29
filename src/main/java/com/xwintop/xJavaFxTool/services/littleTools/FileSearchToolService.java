@@ -176,7 +176,6 @@ public class FileSearchToolService {
                         log.warn("添加索引失败：", e);
                     }
                 }
-                indexWriter.commit();
             } catch (Exception e) {
                 log.warn("获取失败：", e);
             }
@@ -196,7 +195,7 @@ public class FileSearchToolService {
         doc.add(new StringField("isDirectory", String.valueOf(file.isDirectory()), Field.Store.NO));
         indexWriter.updateDocument(new Term("absolutePath", file.getAbsolutePath()), doc);
 //        indexWriter.addDocument(doc);
-//        indexWriter.commit();
+        indexWriter.commit();
     }
 
     public void autoRefreshIndexAction() {
