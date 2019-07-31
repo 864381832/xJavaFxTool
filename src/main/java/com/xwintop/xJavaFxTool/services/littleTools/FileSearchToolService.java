@@ -47,7 +47,8 @@ public class FileSearchToolService {
 
     private static IndexWriter indexWriter = null;
 
-//    private static RAMDirectory directory;
+    //    private static RAMDirectory directory;
+    private static int commonIndex = 0;
 
     static {
         File searchIndexDirFile = new File(searchIndexDir);
@@ -70,6 +71,14 @@ public class FileSearchToolService {
         IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
         indexWriterConfig.setRAMBufferSizeMB(Runtime.getRuntime().totalMemory() / 1024 / 1024 / 4);
 //        indexWriterConfig.setMaxBufferedDocs(2000);
+//        LogMergePolicy mergePolicy = new LogByteSizeMergePolicy();
+//        //设置segment添加文档(Document)时的合并频率          //值较小,建立索引的速度就较慢          //值较大,建立索引的速度就较快,>10适合批量建立索引
+//        mergePolicy.setMergeFactor(50);
+//        //设置segment最大合并文档(Document)数
+//        //值较小有利于追加索引的速度
+//        //值较大,适合批量建立索引和更快的搜索
+//        mergePolicy.setMaxMergeDocs(5000);
+//        indexWriterConfig.setMergePolicy(mergePolicy);
         //创建索引写入对象
         indexWriter = new IndexWriter(directory, indexWriterConfig);
     }
@@ -176,6 +185,7 @@ public class FileSearchToolService {
                         log.warn("添加索引失败：", e);
                     }
                 }
+                indexWriter.commit();
             } catch (Exception e) {
                 log.warn("获取失败：", e);
             }
@@ -194,8 +204,11 @@ public class FileSearchToolService {
         doc.add(new StringField("isHidden", String.valueOf(file.isHidden()), Field.Store.NO));
         doc.add(new StringField("isDirectory", String.valueOf(file.isDirectory()), Field.Store.NO));
         indexWriter.updateDocument(new Term("absolutePath", file.getAbsolutePath()), doc);
+
 //        indexWriter.addDocument(doc);
-        indexWriter.commit();
+        if (commonIndex++ % 50 == 0) {
+            indexWriter.commit();
+        }
     }
 
     public void autoRefreshIndexAction() {
