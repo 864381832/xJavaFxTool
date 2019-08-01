@@ -102,6 +102,7 @@ public class FileSearchToolService {
     }
 
     public void searchContentAction() throws Exception {
+        long startTime = System.currentTimeMillis();
         String queryText = fileSearchToolController.getSearchContentTextField().getText().trim();
         String path = fileSearchToolController.getSearchDirectoryTextField().getText().trim();
         BooleanQuery.Builder builder = new BooleanQuery.Builder();
@@ -157,7 +158,8 @@ public class FileSearchToolService {
             fileSearchToolController.getSearchResultTableData().add(map);
         }
         int allCount = indexSearcher.count(new MatchAllDocsQuery());
-        fileSearchToolController.getSearchTextLabel().setText("总共查询到" + topDocs.totalHits.value + "个文档;当前一共缓存" + allCount + "个文档");
+        long consumingTime = System.currentTimeMillis() - startTime;
+        fileSearchToolController.getSearchTextLabel().setText("总共查询到" + topDocs.totalHits.value + "个文档; 当前一共缓存" + allCount + "个文档; 耗时:" + consumingTime + "毫秒");
     }
 
     public void refreshIndexAction() throws Exception {
