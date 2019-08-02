@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
@@ -47,14 +46,14 @@ public class FileSearchToolService {
 
     private static IndexWriter indexWriter = null;
 
-    //    private static RAMDirectory directory;
+    private static Directory directory;
     private static int commonIndex = 0;
 
     static {
         File searchIndexDirFile = new File(searchIndexDir);
         try {
             FileUtils.forceMkdir(searchIndexDirFile);
-            Directory directory = FSDirectory.open(searchIndexDirFile.toPath());
+            directory = FSDirectory.open(searchIndexDirFile.toPath());
             getIndexWriter(directory);
             if (!DirectoryReader.indexExists(directory)) {
                 indexWriter.close();
@@ -66,7 +65,13 @@ public class FileSearchToolService {
     }
 
     public static void getIndexWriter(Directory directory) throws IOException {
-        Analyzer analyzer = new StandardAnalyzer(); // 标准分词器，适用于英文
+//        Analyzer analyzer = new StandardAnalyzer(); // 标准分词器，适用于英文
+        Analyzer analyzer = new Analyzer() {
+            @Override
+            protected TokenStreamComponents createComponents(String fieldName) {
+                return null;
+            }
+        }; // 标准分词器，适用于英文
         //创建索引写入配置
         IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
         indexWriterConfig.setRAMBufferSizeMB(Runtime.getRuntime().totalMemory() / 1024 / 1024 / 4);
@@ -86,7 +91,6 @@ public class FileSearchToolService {
     public IndexSearcher getIndexSearcher() {
         IndexSearcher indexSearcher = null;
         try {
-            Directory directory = FSDirectory.open(Paths.get(searchIndexDir));
             // 创建索引的读取器
             IndexReader indexReader = DirectoryReader.open(directory);
             // 创建一个索引的查找器，来检索索引库
