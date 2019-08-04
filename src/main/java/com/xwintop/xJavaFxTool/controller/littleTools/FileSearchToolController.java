@@ -4,14 +4,24 @@ import com.xwintop.xJavaFxTool.services.littleTools.FileSearchToolService;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.view.littleTools.FileSearchToolView;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.util.Callback;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
 import java.util.Map;
@@ -40,6 +50,43 @@ public class FileSearchToolController extends FileSearchToolView {
 
     private void initView() {
         JavaFxViewUtil.setTableColumnMapValueFactory(fileNameTableColumn, "fileName", false);
+        fileNameTableColumn.setCellFactory(new Callback<TableColumn<Map<String, String>, String>, TableCell<Map<String, String>, String>>() {
+            @Override
+            public TableCell<Map<String, String>, String> call(TableColumn<Map<String, String>, String> param) {
+                TableCell<Map<String, String>, String> cell = new TableCell<Map<String, String>, String>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        this.setText(item);
+                        if (item != null) {
+                            try {
+                                String absolutePath = searchResultTableData.get(this.getIndex()).get("absolutePath");
+                                File file = new File(absolutePath);
+                                if (!file.exists()) {
+                                    this.setText(null);
+                                    this.setGraphic(null);
+                                    Platform.runLater(() -> {
+                                        fileSearchToolService.deleteDocument(absolutePath);
+                                        searchResultTableData.remove(this.getIndex());
+                                    });
+                                    return;
+                                }
+                                ImageIcon icon = (ImageIcon) FileSystemView.getFileSystemView().getSystemIcon(file);
+                                Image fxImage = SwingFXUtils.toFXImage((BufferedImage) icon.getImage(), null);
+                                ImageView imageView = new ImageView(fxImage);
+                                this.setGraphic(imageView);
+                            } catch (Exception e) {
+                                log.warn("设置图标失败：" + item, e);
+                                this.setGraphic(null);
+                            }
+                        } else {
+                            this.setGraphic(null);
+                        }
+                    }
+                };
+                return cell;
+            }
+        });
         JavaFxViewUtil.setTableColumnMapValueFactory(absolutePathTableColumn, "absolutePath", false);
         JavaFxViewUtil.setTableColumnMapValueFactory(fileSizeTableColumn, "fileSize", false);
         JavaFxViewUtil.setTableColumnMapValueFactory(lastModifiedTableColumn, "lastModified", false);

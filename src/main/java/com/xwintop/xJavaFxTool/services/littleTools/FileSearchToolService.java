@@ -10,13 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.store.NoLockFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,16 +43,19 @@ public class FileSearchToolService {
 
     private static final String searchIndexDir = ConfigureUtil.getConfigurePath("searchIndexDir/");
 
-    private static IndexWriter indexWriter = null;
-
     private static Directory directory;
+    private static IndexWriter indexWriter = null;
+    private static IndexSearcher indexSearcher = null;
+
     private static int commonIndex = 0;
+    private static boolean isAddIndex = false;
 
     static {
         File searchIndexDirFile = new File(searchIndexDir);
         try {
             FileUtils.forceMkdir(searchIndexDirFile);
-            directory = FSDirectory.open(searchIndexDirFile.toPath());
+            directory = FSDirectory.open(searchIndexDirFile.toPath(), NoLockFactory.INSTANCE);
+//            directory = new RAMDirectory();
             getIndexWriter(directory);
             if (!DirectoryReader.indexExists(directory)) {
                 indexWriter.close();
@@ -74,9 +76,10 @@ public class FileSearchToolService {
         }; // 标准分词器，适用于英文
         //创建索引写入配置
         IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
-        indexWriterConfig.setRAMBufferSizeMB(Runtime.getRuntime().totalMemory() / 1024 / 1024 / 4);
-//        indexWriterConfig.setMaxBufferedDocs(2000);
-//        LogMergePolicy mergePolicy = new LogByteSizeMergePolicy();
+//        indexWriterConfig.setRAMBufferSizeMB(Runtime.getRuntime().totalMemory() / 1024 / 1024 / 4);
+        indexWriterConfig.setRAMBufferSizeMB(64);
+//        indexWriterConfig.setMaxBufferedDocs(1000);
+//        LogMergePolicy mergePolicy = new LogDocMergePolicy();
 //        //设置segment添加文档(Document)时的合并频率          //值较小,建立索引的速度就较慢          //值较大,建立索引的速度就较快,>10适合批量建立索引
 //        mergePolicy.setMergeFactor(50);
 //        //设置segment最大合并文档(Document)数
@@ -84,12 +87,16 @@ public class FileSearchToolService {
 //        //值较大,适合批量建立索引和更快的搜索
 //        mergePolicy.setMaxMergeDocs(5000);
 //        indexWriterConfig.setMergePolicy(mergePolicy);
+//        indexWriterConfig.setUseCompoundFile(false);
         //创建索引写入对象
         indexWriter = new IndexWriter(directory, indexWriterConfig);
     }
 
     public IndexSearcher getIndexSearcher() {
-        IndexSearcher indexSearcher = null;
+        if (!isAddIndex && indexSearcher != null) {
+            return indexSearcher;
+        }
+//        IndexSearcher indexSearcher = null;
         try {
             // 创建索引的读取器
             IndexReader indexReader = DirectoryReader.open(directory);
@@ -98,6 +105,7 @@ public class FileSearchToolService {
         } catch (Exception e) {
             log.error("创建索引读取器失败：", e);
         }
+        isAddIndex = false;
         return indexSearcher;
     }
 
@@ -128,17 +136,17 @@ public class FileSearchToolService {
             }
         }
         if (fileSearchToolController.getShowHideFileChoice().getSelectionModel().getSelectedIndex() == 1) {
-            TermQuery isHiddenQuery = new TermQuery(new Term("isHidden", "false"));
+            Query isHiddenQuery = IntPoint.newExactQuery("isHidden", 0);
             builder.add(isHiddenQuery, BooleanClause.Occur.MUST);
         } else if (fileSearchToolController.getShowHideFileChoice().getSelectionModel().getSelectedIndex() == 2) {
-            TermQuery isHiddenQuery = new TermQuery(new Term("isHidden", "true"));
+            Query isHiddenQuery = IntPoint.newExactQuery("isHidden", 1);
             builder.add(isHiddenQuery, BooleanClause.Occur.MUST);
         }
         if (fileSearchToolController.getFileTypeChoiceBox().getSelectionModel().getSelectedIndex() == 1) {
-            TermQuery isDirectoryQuery = new TermQuery(new Term("isDirectory", "false"));
+            Query isDirectoryQuery = IntPoint.newExactQuery("isDirectory", 0);
             builder.add(isDirectoryQuery, BooleanClause.Occur.MUST);
         } else if (fileSearchToolController.getFileTypeChoiceBox().getSelectionModel().getSelectedIndex() == 2) {
-            TermQuery isDirectoryQuery = new TermQuery(new Term("isDirectory", "true"));
+            Query isDirectoryQuery = IntPoint.newExactQuery("isDirectory", 1);
             builder.add(isDirectoryQuery, BooleanClause.Occur.MUST);
         }
         if (StringUtils.isNotEmpty(path)) {
@@ -152,18 +160,22 @@ public class FileSearchToolService {
         for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
             //取得对应的文档对象
             Document document = indexSearcher.doc(scoreDoc.doc);
-//            System.out.println("fileName：" + document.get("fileName"));
             Map map = new HashMap();
             map.put("fileName", document.get("fileName"));
             map.put("absolutePath", document.get("absolutePath"));
-            map.put("fileSize", document.get("fileSize"));
-//            map.put("lastModified", document.get("lastModified"));
-            map.put("lastModified", new Date(Long.parseLong(document.get("lastModified"))).toLocaleString());
+//            map.put("fileSize", document.get("fileSize"));
+            map.put("fileSize", (int) Math.ceil(document.getField("fileSize").numericValue().longValue() / 1024.0) + "KB");
+//            map.put("lastModified", new Date(Long.parseLong(document.get("lastModified"))).toLocaleString());
+            map.put("lastModified", new Date(document.getField("lastModified").numericValue().longValue()).toLocaleString());
             fileSearchToolController.getSearchResultTableData().add(map);
         }
+        long selectCount = topDocs.totalHits.value;
         int allCount = indexSearcher.count(new MatchAllDocsQuery());
         long consumingTime = System.currentTimeMillis() - startTime;
-        fileSearchToolController.getSearchTextLabel().setText("总共查询到" + topDocs.totalHits.value + "个文档; 当前一共缓存" + allCount + "个文档; 耗时:" + consumingTime + "毫秒");
+        if (selectCount == 1001) {
+            selectCount = indexSearcher.count(query);
+        }
+        fileSearchToolController.getSearchTextLabel().setText("总共查询到" + selectCount + "个文档; 当前一共缓存" + allCount + "个文档; 耗时:" + consumingTime + "毫秒");
     }
 
     public void refreshIndexAction() throws Exception {
@@ -192,6 +204,7 @@ public class FileSearchToolService {
                     }
                 }
                 indexWriter.commit();
+                isAddIndex = true;
             } catch (Exception e) {
                 log.warn("获取失败：", e);
             }
@@ -203,18 +216,21 @@ public class FileSearchToolService {
         doc.add(new StringField("fileName", file.getName(), Field.Store.YES));
         doc.add(new StringField("fileNameLowerCase", file.getName().toLowerCase(), Field.Store.NO));
         doc.add(new StringField("absolutePath", file.getAbsolutePath(), Field.Store.YES));
-//        doc.add(new DoubleDocValuesField("fileSize", file.length()));
-//        doc.add(new DoubleDocValuesField("lastModified", file.lastModified()));
-        doc.add(new StringField("fileSize", String.valueOf(file.length()), Field.Store.YES));
-        doc.add(new StringField("lastModified", String.valueOf(file.lastModified()), Field.Store.YES));
-        doc.add(new StringField("isHidden", String.valueOf(file.isHidden()), Field.Store.NO));
-        doc.add(new StringField("isDirectory", String.valueOf(file.isDirectory()), Field.Store.NO));
-        indexWriter.updateDocument(new Term("absolutePath", file.getAbsolutePath()), doc);
+        doc.add(new StoredField("fileSize", file.length()));
+        doc.add(new StoredField("lastModified", file.lastModified()));
+        doc.add(new IntPoint("isHidden", file.isHidden() ? 1 : 0));
+        doc.add(new IntPoint("isDirectory", file.isDirectory() ? 1 : 0));
+//        doc.add(new StringField("fileSize", String.valueOf(file.length()), Field.Store.YES));
+//        doc.add(new StringField("lastModified", String.valueOf(file.lastModified()), Field.Store.YES));
+//        doc.add(new StringField("isHidden", String.valueOf(file.isHidden()), Field.Store.NO));
+//        doc.add(new StringField("isDirectory", String.valueOf(file.isDirectory()), Field.Store.NO));
 
+        indexWriter.updateDocument(new Term("absolutePath", file.getAbsolutePath()), doc);
 //        indexWriter.addDocument(doc);
-        if (commonIndex++ % 50 == 0) {
-            indexWriter.commit();
-        }
+
+//        if (commonIndex++ % 200 == 0) {
+//            indexWriter.commit();
+//        }
     }
 
     public void autoRefreshIndexAction() {
@@ -222,6 +238,16 @@ public class FileSearchToolService {
         for (File listRoot : listRoots) {
             System.out.println("加载目录: " + listRoot.getAbsolutePath());
             addSearchIndexFile(listRoot.toPath());
+        }
+    }
+
+    public void deleteDocument(String absolutePath) {
+        try {
+            indexWriter.deleteDocuments(new Term("absolutePath", absolutePath));
+            indexWriter.commit();
+            isAddIndex = true;
+        } catch (Exception e) {
+            log.error("删除索引失败：", e);
         }
     }
 }
