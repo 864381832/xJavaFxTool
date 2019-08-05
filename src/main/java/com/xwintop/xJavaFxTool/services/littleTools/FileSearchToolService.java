@@ -23,10 +23,7 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @ClassName: FileSearchToolService
@@ -40,7 +37,7 @@ import java.util.Map;
 @Slf4j
 public class FileSearchToolService {
     private FileSearchToolController fileSearchToolController;
-
+    private static Timer autoRefreshIndexTimer = null;
     private static final String searchIndexDir = ConfigureUtil.getConfigurePath("searchIndexDir/");
 
     private static Directory directory;
@@ -234,10 +231,25 @@ public class FileSearchToolService {
     }
 
     public void autoRefreshIndexAction() {
-        File[] listRoots = File.listRoots();
-        for (File listRoot : listRoots) {
-            System.out.println("加载目录: " + listRoot.getAbsolutePath());
-            addSearchIndexFile(listRoot.toPath());
+        if (autoRefreshIndexTimer == null) {
+            autoRefreshIndexTimer = new Timer();
+            autoRefreshIndexTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    File[] listRoots = File.listRoots();
+                    for (File listRoot : listRoots) {
+                        System.out.println("加载目录: " + listRoot.getAbsolutePath());
+                        addSearchIndexFile(listRoot.toPath());
+                    }
+                }
+            }, 5000, 600000);
+        }
+    }
+
+    public void stopAutoRefreshIndexTimer() {
+        if (autoRefreshIndexTimer != null) {
+            autoRefreshIndexTimer.cancel();
+            autoRefreshIndexTimer = null;
         }
     }
 

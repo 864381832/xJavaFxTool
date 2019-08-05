@@ -24,7 +24,7 @@
                         <HBox alignment="CENTER_LEFT" spacing="5.0">
                             <children>
                                 <TextField fx:id="searchContentTextField" onKeyReleased="#searchContentAction" promptText="请输入搜索内容" HBox.hgrow="ALWAYS" />
-                                <CheckBox fx:id="autoRefreshIndexCheckBox" mnemonicParsing="false" selected="true" text="自动刷新索引" />
+                                <CheckBox fx:id="autoRefreshIndexCheckBox" mnemonicParsing="false" selected="false" onAction="#autoRefreshIndexAction" text="自动刷新索引" />
                                 <Button fx:id="refreshIndexButton" mnemonicParsing="false" onAction="#refreshIndexAction" text="刷新索引" />
                             </children>
                         </HBox>
@@ -62,7 +62,7 @@
                 <TableView fx:id="searchResultTableVIew" BorderPane.alignment="CENTER">
                     <columns>
                         <TableColumn fx:id="fileNameTableColumn" minWidth="100.0" prefWidth="200.0" text="名称" />
-                        <TableColumn fx:id="absolutePathTableColumn" minWidth="200.0" prefWidth="400.0" text="路径" />
+                        <TableColumn fx:id="absolutePathTableColumn" minWidth="200.0" prefWidth="500.0" text="路径" />
                         <TableColumn fx:id="fileSizeTableColumn" maxWidth="160.0" minWidth="60.0" prefWidth="100.0" text="大小" />
                         <TableColumn fx:id="lastModifiedTableColumn" maxWidth="200.0" minWidth="120.0" prefWidth="160.0" text="修改时间" />
                     </columns>

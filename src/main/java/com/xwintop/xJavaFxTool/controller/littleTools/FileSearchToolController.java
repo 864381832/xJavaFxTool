@@ -1,7 +1,10 @@
 package com.xwintop.xJavaFxTool.controller.littleTools;
 
+import cn.hutool.core.swing.clipboard.ClipboardUtil;
 import com.xwintop.xJavaFxTool.services.littleTools.FileSearchToolService;
+import com.xwintop.xJavaFxTool.utils.ImgToolUtil;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
+import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import com.xwintop.xJavaFxTool.view.littleTools.FileSearchToolView;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 import javafx.application.Platform;
@@ -9,15 +12,21 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.paint.Color;
 import javafx.util.Callback;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
@@ -73,6 +82,12 @@ public class FileSearchToolController extends FileSearchToolView {
                                 }
                                 ImageIcon icon = (ImageIcon) FileSystemView.getFileSystemView().getSystemIcon(file);
                                 Image fxImage = SwingFXUtils.toFXImage((BufferedImage) icon.getImage(), null);
+                                if (file.isHidden()) {
+                                    this.setTextFill(Color.GREY);
+                                    fxImage = ImgToolUtil.pixWithImage(8, fxImage);
+                                } else {
+                                    this.setTextFill(Color.BLACK);
+                                }
                                 ImageView imageView = new ImageView(fxImage);
                                 this.setGraphic(imageView);
                             } catch (Exception e) {
@@ -92,14 +107,54 @@ public class FileSearchToolController extends FileSearchToolView {
         JavaFxViewUtil.setTableColumnMapValueFactory(lastModifiedTableColumn, "lastModified", false);
         searchResultTableVIew.setItems(searchResultTableData);
 
-        searchDirectoryTextField.setText("D:\\TestXf\\");
+//        searchDirectoryTextField.setText("D:\\TestXf\\");
+        searchDirectoryTextField.setText(StringUtils.removeEnd(new File("./").getAbsolutePath(), "."));
     }
 
     private void initEvent() {
         FileChooserUtil.setOnDrag(searchDirectoryTextField, FileChooserUtil.FileType.FOLDER);
+
+        searchResultTableVIew.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.SECONDARY) {
+                MenuItem menuOpen = new MenuItem("打开");
+                menuOpen.setOnAction(event1 -> {
+                    String absolutePath = searchResultTableVIew.getSelectionModel().getSelectedItem().get("absolutePath");
+                    XJavaFxSystemUtil.openDirectory(absolutePath);
+                });
+                MenuItem menuOpenPath = new MenuItem("打开路径");
+                menuOpenPath.setOnAction(event1 -> {
+                    String absolutePath = searchResultTableVIew.getSelectionModel().getSelectedItem().get("absolutePath");
+                    File file = new File(absolutePath);
+                    if (!file.isDirectory()) {
+                        absolutePath = file.getParent();
+                    }
+                    XJavaFxSystemUtil.openDirectory(absolutePath);
+                });
+                MenuItem menuCopyFileName = new MenuItem("复制文件名");
+                menuCopyFileName.setOnAction(event1 -> {
+                    ClipboardUtil.setStr(searchResultTableVIew.getSelectionModel().getSelectedItem().get("fileName"));
+                });
+                MenuItem menuCopyFilePath = new MenuItem("复制完整路径");
+                menuCopyFilePath.setOnAction(event1 -> {
+                    ClipboardUtil.setStr(searchResultTableVIew.getSelectionModel().getSelectedItem().get("absolutePath"));
+                });
+                searchResultTableVIew.setContextMenu(new ContextMenu(menuOpen, menuOpenPath, menuCopyFileName, menuCopyFilePath));
+            }
+        });
     }
 
     private void initService() {
+        if (autoRefreshIndexCheckBox.isSelected()) {
+            fileSearchToolService.autoRefreshIndexAction();
+        }
+    }
+
+    public void autoRefreshIndexAction() throws Exception {
+        if (autoRefreshIndexCheckBox.isSelected()) {
+            fileSearchToolService.autoRefreshIndexAction();
+        } else {
+            fileSearchToolService.stopAutoRefreshIndexTimer();
+        }
     }
 
     public void searchContentAction() throws Exception {
@@ -117,5 +172,12 @@ public class FileSearchToolController extends FileSearchToolView {
         if (file != null) {
             searchDirectoryTextField.setText(file.getPath());
         }
+    }
+
+    /**
+     * 父控件被移除前调用
+     */
+    public void onCloseRequest(Event event) {
+        fileSearchToolService.stopAutoRefreshIndexTimer();
     }
 }
