@@ -6,7 +6,9 @@ import com.xwintop.xJavaFxTool.utils.ImgToolUtil;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import com.xwintop.xJavaFxTool.view.littleTools.FileSearchToolView;
+import com.xwintop.xcore.util.javafx.AlertUtil;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
+import com.xwintop.xcore.util.javafx.TooltipUtil;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,12 +28,14 @@ import javafx.util.Callback;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -138,7 +142,21 @@ public class FileSearchToolController extends FileSearchToolView {
                 menuCopyFilePath.setOnAction(event1 -> {
                     ClipboardUtil.setStr(searchResultTableVIew.getSelectionModel().getSelectedItem().get("absolutePath"));
                 });
-                searchResultTableVIew.setContextMenu(new ContextMenu(menuOpen, menuOpenPath, menuCopyFileName, menuCopyFilePath));
+                MenuItem menuDeleteFile = new MenuItem("删除文件");
+                menuDeleteFile.setOnAction(event1 -> {
+                    if (AlertUtil.showConfirmAlert("确定要删除吗？")) {
+                        String absolutePath = searchResultTableVIew.getSelectionModel().getSelectedItem().get("absolutePath");
+                        try {
+                            FileUtils.forceDelete(new File(absolutePath));
+                            fileSearchToolService.deleteDocument(absolutePath);
+                            searchResultTableData.remove(searchResultTableVIew.getSelectionModel().getSelectedIndex());
+                        } catch (IOException e) {
+                            log.error("删除失败！" + absolutePath, e);
+                        }
+                        TooltipUtil.showToast("删除文件成功：" + absolutePath);
+                    }
+                });
+                searchResultTableVIew.setContextMenu(new ContextMenu(menuOpen, menuOpenPath, menuCopyFileName, menuCopyFilePath, menuDeleteFile));
             }
         });
     }

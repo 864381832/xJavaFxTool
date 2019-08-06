@@ -251,7 +251,7 @@ public class FileSearchToolService {
                         addSearchIndexFile(listRoot.toPath());
                     }
                 }
-            }, 5000, 600000);
+            }, 5000, 3600000);
         }
     }
 

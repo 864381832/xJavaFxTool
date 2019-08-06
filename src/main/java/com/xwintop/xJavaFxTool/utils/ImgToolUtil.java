@@ -525,7 +525,11 @@ public class ImgToolUtil {
                             break;
                         case 8:
                             // 颜色透明
-                            color = new javafx.scene.paint.Color(color.getRed(), color.getGreen(), color.getBlue(), 0.5);
+                            if (color.getOpacity() == 0) {
+                                color = new javafx.scene.paint.Color(color.getRed(), color.getGreen(), color.getBlue(), 0);
+                            } else {
+                                color = new javafx.scene.paint.Color(color.getRed(), color.getGreen(), color.getBlue(), 0.5);
+                            }
                             break;
                         default:
                             break;
