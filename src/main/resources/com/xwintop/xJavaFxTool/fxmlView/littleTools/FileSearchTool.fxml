@@ -7,6 +7,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -15,7 +16,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.FileSearchToolController">
+<AnchorPane prefHeight="630.0" prefWidth="935.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.FileSearchToolController">
     <children>
         <BorderPane AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
             <top>
@@ -24,7 +25,7 @@
                         <HBox alignment="CENTER_LEFT" spacing="5.0">
                             <children>
                                 <TextField fx:id="searchContentTextField" onKeyReleased="#searchContentAction" promptText="请输入搜索内容" HBox.hgrow="ALWAYS" />
-                                <CheckBox fx:id="autoRefreshIndexCheckBox" mnemonicParsing="false" selected="false" onAction="#autoRefreshIndexAction" text="自动刷新索引" />
+                                <CheckBox fx:id="autoRefreshIndexCheckBox" mnemonicParsing="false" onAction="#autoRefreshIndexAction" selected="false" text="自动刷新索引" />
                                 <Button fx:id="refreshIndexButton" mnemonicParsing="false" onAction="#refreshIndexAction" text="刷新索引" />
                             </children>
                         </HBox>
@@ -51,6 +52,30 @@
                                         </FXCollections>
                                     </items>
                                 </ChoiceBox>
+                        <Label text="大小" />
+                        <Spinner fx:id="fileSizeFromSpinner" prefWidth="80.0" />
+                        <ChoiceBox fx:id="fileSizeFromChoiceBox" onAction="#searchContentAction" value="MB">
+                           <items>
+                              <FXCollections fx:factory="observableArrayList">
+                                  <String fx:value="Bytes" />
+                                  <String fx:value="KB" />
+                                  <String fx:value="MB" />
+                                  <String fx:value="GB" />
+                              </FXCollections>
+                           </items>
+                        </ChoiceBox>
+                        <Label text="到" />
+                        <Spinner fx:id="fileSizeToSpinner" prefWidth="80.0" />
+                        <ChoiceBox fx:id="fileSizeToChoiceBox" onAction="#searchContentAction" value="MB">
+                           <items>
+                              <FXCollections fx:factory="observableArrayList">
+                                 <String fx:value="Bytes" />
+                                 <String fx:value="KB" />
+                                 <String fx:value="MB" />
+                                 <String fx:value="GB" />
+                              </FXCollections>
+                           </items>
+                        </ChoiceBox>
                                 <TextField fx:id="searchDirectoryTextField" onKeyReleased="#searchContentAction" promptText="搜索文件夹" HBox.hgrow="ALWAYS" />
                                 <Button fx:id="searchDirectoryButton" mnemonicParsing="false" onAction="#searchDirectoryAction" text="浏览" />
                             </children>

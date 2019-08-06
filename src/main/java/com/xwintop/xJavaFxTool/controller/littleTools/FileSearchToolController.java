@@ -62,6 +62,8 @@ public class FileSearchToolController extends FileSearchToolView {
     }
 
     private void initView() {
+        JavaFxViewUtil.setSpinnerValueFactory(fileSizeFromSpinner, 0, Integer.MAX_VALUE, 0);
+        JavaFxViewUtil.setSpinnerValueFactory(fileSizeToSpinner, 0, Integer.MAX_VALUE, 0);
         JavaFxViewUtil.setTableColumnMapValueFactory(fileNameTableColumn, "fileName", false);
         fileNameTableColumn.setCellFactory(new Callback<TableColumn<Map<String, String>, String>, TableCell<Map<String, String>, String>>() {
             @Override
@@ -84,8 +86,16 @@ public class FileSearchToolController extends FileSearchToolView {
                                     });
                                     return;
                                 }
-                                ImageIcon icon = (ImageIcon) FileSystemView.getFileSystemView().getSystemIcon(file);
-                                Image fxImage = SwingFXUtils.toFXImage((BufferedImage) icon.getImage(), null);
+//                                ImageIcon icon = (ImageIcon) FileSystemView.getFileSystemView().getSystemIcon(file);
+//                                Image fxImage = SwingFXUtils.toFXImage((BufferedImage) icon.getImage(), null);
+                                Icon icon = FileSystemView.getFileSystemView().getSystemIcon(file);
+                                BufferedImage bufferedImage = new BufferedImage(
+                                        icon.getIconWidth(),
+                                        icon.getIconHeight(),
+                                        BufferedImage.TYPE_INT_ARGB
+                                );
+                                icon.paintIcon(null, bufferedImage.getGraphics(), 0, 0);
+                                Image fxImage = SwingFXUtils.toFXImage(bufferedImage, null);
                                 if (file.isHidden()) {
                                     this.setTextFill(Color.GREY);
                                     fxImage = ImgToolUtil.pixWithImage(8, fxImage);
@@ -119,6 +129,10 @@ public class FileSearchToolController extends FileSearchToolView {
         FileChooserUtil.setOnDrag(searchDirectoryTextField, FileChooserUtil.FileType.FOLDER);
 
         searchResultTableVIew.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                String absolutePath = searchResultTableVIew.getSelectionModel().getSelectedItem().get("absolutePath");
+                XJavaFxSystemUtil.openDirectory(absolutePath);
+            }
             if (event.getButton() == MouseButton.SECONDARY) {
                 MenuItem menuOpen = new MenuItem("打开");
                 menuOpen.setOnAction(event1 -> {

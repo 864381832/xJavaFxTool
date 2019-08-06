@@ -35,6 +35,14 @@ public abstract class FileSearchToolView implements Initializable {
     @FXML
     protected ChoiceBox fileTypeChoiceBox;
     @FXML
+    protected Spinner<Integer> fileSizeFromSpinner;
+    @FXML
+    protected ChoiceBox fileSizeFromChoiceBox;
+    @FXML
+    protected Spinner<Integer> fileSizeToSpinner;
+    @FXML
+    protected ChoiceBox fileSizeToChoiceBox;
+    @FXML
     protected TextField searchDirectoryTextField;
     @FXML
     protected Button searchDirectoryButton;
