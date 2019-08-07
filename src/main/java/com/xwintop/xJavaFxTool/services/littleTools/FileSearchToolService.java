@@ -155,6 +155,22 @@ public class FileSearchToolService {
             Query isDirectoryQuery = IntPoint.newExactQuery("isDirectory", 1);
             builder.add(isDirectoryQuery, BooleanClause.Occur.MUST);
         }
+        long fileSizeFrom = fileSearchToolController.getFileSizeFromSpinner().getValue();
+        long fileSizeTo = fileSearchToolController.getFileSizeToSpinner().getValue();
+        if (fileSizeFrom > 0 || fileSizeTo > 0) {
+            if (fileSizeFrom > 0) {
+                fileSizeFrom = getFileSize(fileSearchToolController.getFileSizeFromChoiceBox().getSelectionModel().getSelectedIndex(), fileSizeFrom);
+            } else {
+                fileSizeFrom = -1;
+            }
+            if (fileSizeTo > 0) {
+                fileSizeTo = getFileSize(fileSearchToolController.getFileSizeToChoiceBox().getSelectionModel().getSelectedIndex(), fileSizeTo);
+            } else {
+                fileSizeTo = Long.MAX_VALUE;
+            }
+            Query fileSizeFromQuery = LongPoint.newRangeQuery("fileSize", fileSizeFrom, fileSizeTo);
+            builder.add(fileSizeFromQuery, BooleanClause.Occur.MUST);
+        }
         if (StringUtils.isNotEmpty(path)) {
             PrefixQuery pathQuery = new PrefixQuery(new Term("absolutePath", path));// 字段搜索 Field:Keyword，自动在结尾添加 *
             builder.add(pathQuery, BooleanClause.Occur.MUST);
@@ -169,7 +185,6 @@ public class FileSearchToolService {
             Map map = new HashMap();
             map.put("fileName", document.get("fileName"));
             map.put("absolutePath", document.get("absolutePath"));
-//            map.put("fileSize", document.get("fileSize"));
             map.put("fileSize", (int) Math.ceil(document.getField("fileSize").numericValue().longValue() / 1024.0) + "KB");
 //            map.put("lastModified", new Date(Long.parseLong(document.get("lastModified"))).toLocaleString());
             map.put("lastModified", new Date(document.getField("lastModified").numericValue().longValue()).toLocaleString());
@@ -182,6 +197,18 @@ public class FileSearchToolService {
             selectCount = indexSearcher.count(query);
         }
         fileSearchToolController.getSearchTextLabel().setText("总共查询到" + selectCount + "个文档; 当前一共缓存" + allCount + "个文档; 耗时:" + consumingTime + "毫秒");
+    }
+
+    private long getFileSize(int fileSizeType, long fileSize) {
+        if (fileSizeType == 0) {
+        } else if (fileSizeType == 1) {
+            fileSize = fileSize * 1024;
+        } else if (fileSizeType == 2) {
+            fileSize = fileSize * 1024 * 1024;
+        } else if (fileSizeType == 3) {
+            fileSize = fileSize * 1024 * 1024 * 1024;
+        }
+        return fileSize;
     }
 
     public void refreshIndexAction() throws Exception {
@@ -223,13 +250,10 @@ public class FileSearchToolService {
         doc.add(new StringField("fileNameLowerCase", file.getName().toLowerCase(), Field.Store.NO));
         doc.add(new StringField("absolutePath", file.getAbsolutePath(), Field.Store.YES));
         doc.add(new StoredField("fileSize", file.length()));
+        doc.add(new LongPoint("fileSize", file.length()));
         doc.add(new StoredField("lastModified", file.lastModified()));
         doc.add(new IntPoint("isHidden", file.isHidden() ? 1 : 0));
         doc.add(new IntPoint("isDirectory", file.isDirectory() ? 1 : 0));
-//        doc.add(new StringField("fileSize", String.valueOf(file.length()), Field.Store.YES));
-//        doc.add(new StringField("lastModified", String.valueOf(file.lastModified()), Field.Store.YES));
-//        doc.add(new StringField("isHidden", String.valueOf(file.isHidden()), Field.Store.NO));
-//        doc.add(new StringField("isDirectory", String.valueOf(file.isDirectory()), Field.Store.NO));
 
         indexWriter.updateDocument(new Term("absolutePath", file.getAbsolutePath()), doc);
 //        indexWriter.addDocument(doc);

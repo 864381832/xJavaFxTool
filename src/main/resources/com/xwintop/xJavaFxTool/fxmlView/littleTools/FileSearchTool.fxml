@@ -53,11 +53,11 @@
                                     </items>
                                 </ChoiceBox>
                         <Label text="大小" />
-                        <Spinner fx:id="fileSizeFromSpinner" prefWidth="80.0" />
+                        <Spinner fx:id="fileSizeFromSpinner" editable="true" prefWidth="80.0" />
                         <ChoiceBox fx:id="fileSizeFromChoiceBox" onAction="#searchContentAction" value="MB">
                            <items>
                               <FXCollections fx:factory="observableArrayList">
-                                  <String fx:value="Bytes" />
+                                  <String fx:value="B" />
                                   <String fx:value="KB" />
                                   <String fx:value="MB" />
                                   <String fx:value="GB" />
@@ -65,11 +65,11 @@
                            </items>
                         </ChoiceBox>
                         <Label text="到" />
-                        <Spinner fx:id="fileSizeToSpinner" prefWidth="80.0" />
+                        <Spinner fx:id="fileSizeToSpinner" editable="true" prefWidth="80.0" />
                         <ChoiceBox fx:id="fileSizeToChoiceBox" onAction="#searchContentAction" value="MB">
                            <items>
                               <FXCollections fx:factory="observableArrayList">
-                                 <String fx:value="Bytes" />
+                                 <String fx:value="B" />
                                  <String fx:value="KB" />
                                  <String fx:value="MB" />
                                  <String fx:value="GB" />

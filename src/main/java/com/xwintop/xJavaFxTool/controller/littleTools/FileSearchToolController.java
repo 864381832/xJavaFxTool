@@ -126,6 +126,12 @@ public class FileSearchToolController extends FileSearchToolView {
     }
 
     private void initEvent() {
+        fileSizeFromSpinner.valueProperty().addListener((observable, oldValue, newValue) -> {
+            searchContentAction();
+        });
+        fileSizeToSpinner.valueProperty().addListener((observable, oldValue, newValue) -> {
+            searchContentAction();
+        });
         FileChooserUtil.setOnDrag(searchDirectoryTextField, FileChooserUtil.FileType.FOLDER);
 
         searchResultTableVIew.setOnMouseClicked(event -> {
@@ -189,8 +195,12 @@ public class FileSearchToolController extends FileSearchToolView {
         }
     }
 
-    public void searchContentAction() throws Exception {
-        fileSearchToolService.searchContentAction();
+    public void searchContentAction() {
+        try {
+            fileSearchToolService.searchContentAction();
+        } catch (Exception e) {
+            log.error("搜索出问题：", e);
+        }
     }
 
     @FXML
