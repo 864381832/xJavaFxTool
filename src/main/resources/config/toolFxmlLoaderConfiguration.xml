@@ -289,6 +289,11 @@
         <url>/com/xwintop/xJavaFxTool/fxmlView/littleTools/FileSearchTool.fxml</url>
         <title>FileSearchTool</title>
         <menuParentId>littleTools</menuParentId>
+    </ToolFxmlLoaderConfiguration>
+    <ToolFxmlLoaderConfiguration>
+        <url>/com/xwintop/xJavaFxTool/fxmlView/littleTools/Mp3ConvertTool.fxml</url>
+        <title>Mp3ConvertTool</title>
+        <menuParentId>littleTools</menuParentId>
         <isDefaultShow>true</isDefaultShow>
     </ToolFxmlLoaderConfiguration>
 
