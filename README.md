@@ -22,132 +22,84 @@
 **xJavaFxTool交流QQ群：== [387473650](https://jq.qq.com/?_wv=1027&k=59UDEAD) ==**
 
 #### 项目简介：
-xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工作中遇到的一些问题总结起来，打包进小工具集中，供大家参考和使用，里面包含了javaFx的一些功能的示例，如布局、国际化、第三方UI库（[controlsfx](http://fxexperience.com/controlsfx/)、[JFoenix](http://www.jfoenix.com/)等）、外部jar包加载（插件机制）等一些常用功能，想学习javaFx的同学可以参考参考，学习javaFx的资料参考[www.javafxchina.net](http://www.javafxchina.net/main/)
+xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工作中遇到的一些问题总结起来，打包进小工具集中，供大家参考和使用，里面包含了javaFx的一些功能的示例，如布局、国际化、第三方UI库([controlsfx](http://fxexperience.com/controlsfx/)、[JFoenix](http://www.jfoenix.com/)等)、外部jar包加载(插件机制)等一些常用功能，想学习javaFx的同学可以参考参考，学习javaFx的资料参考[www.javafxchina.net](http://www.javafxchina.net/main/)
 
 由于SpringBoot的火热，项目已经出SpringBoot-javafx版本，[xJavaFxTool-spring](https://gitee.com/xwintop/xJavaFxTool-spring) 欢迎参考，谢谢。
 
 #### 下载试用地址：
-- 可直接运行的jar包（本地需要有jdk1.8环境）[xJavaFxTool-0.1.7.jar](https://dev.tencent.com/s/8c2f9586-475f-4ece-9027-74c98b8c2c6c)
-- Windows x86安装包（兼容xp、windows7、8、10等系统）[xJavaFxTool-0.1.7-windows-x86.exe](https://dev.tencent.com/s/61e19e79-9745-4746-8e46-8f39f14a0ed4)
-- Windows x64安装包（兼容xp、windows7、8、10等系统）[xJavaFxTool-0.1.7-windows-x64.exe](https://dev.tencent.com/s/dce303db-cd17-40fa-99fd-c3be431fc384)
-- Linux x64 [xJavaFxTool-0.1.7-linux-x64.zip](https://dev.tencent.com/s/8c55b6f4-ddec-4a3e-b808-33519fea313a) （Linux平台64位运行压缩包，解压即可运行）
+- 可直接运行的jar包(本地需要有jdk1.8环境)[xJavaFxTool-0.1.7.jar](https://dev.tencent.com/s/8c2f9586-475f-4ece-9027-74c98b8c2c6c)
+- Windows x86安装包(兼容xp、windows7、8、10等系统)[xJavaFxTool-0.1.7-windows-x86.exe](https://dev.tencent.com/s/61e19e79-9745-4746-8e46-8f39f14a0ed4)
+- Windows x64安装包(兼容xp、windows7、8、10等系统)[xJavaFxTool-0.1.7-windows-x64.exe](https://dev.tencent.com/s/dce303db-cd17-40fa-99fd-c3be431fc384)
+- Linux x64 [xJavaFxTool-0.1.7-linux-x64.zip](https://dev.tencent.com/s/8c55b6f4-ddec-4a3e-b808-33519fea313a) (Linux平台64位运行压缩包，解压即可运行)
 - Mac OS X x64 [xJavaFxTool-0.1.7-macosx-x64.dmg](https://dev.tencent.com/s/c923e93f-6729-4748-87b6-2ffd71451a46)
 - Mac OS X x64 [xJavaFxTool-0.1.7-macosx-x64.pkg](https://dev.tencent.com/s/bb44f658-2123-4f8b-a514-7361d3bf4c89)
 #### 若上面下链接失效可使用下面下载链接：
 - 百度云链接：[https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA](https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA)  提取码：mokl
 - 腾讯微云链接：[https://share.weiyun.com/5T6FPLW](https://share.weiyun.com/5T6FPLW) 提取码：java
 
-支持插件开发，将插件jar包放至根目录libs下即可自动加载（插件开发示例见[开源项目xJavaFxPlugIn](https://gitee.com/xwintop/xJavaFxPlugIn)，后续准备将小工具拆分至各插件中按需加载，目前插件功能暂不完善，后续将各功能拆分至各模块按需加载，减小jar包的大小）；
+支持插件开发，将插件jar包放至根目录libs下即可自动加载(插件开发示例见[开源项目xJavaFxPlugIn](https://gitee.com/xwintop/xJavaFxPlugIn)，后续准备将小工具拆分至各插件中按需加载，目前插件功能暂不完善，后续将各功能拆分至各模块按需加载，减小jar包的大小);
 
 #### 环境搭建说明：
-- 开发环境为jdk1.8，基于maven构建；
+- 开发环境为jdk1.8，基于maven构建
 - 使用eclipase或Intellij Idea开发(推荐使用[Intellij Idea](https://www.jetbrains.com/idea/))
-- 本项目使用了[lombok](https://projectlombok.org/),在查看本项目时如果您没有下载lombok 插件，请先安装,不然找不到get/set等方法；
-- 依赖的[xcore包](https://gitee.com/xwintop/xcore)已上传至git托管的maven平台，git托管maven可参考教程（若无法下载请拉取项目自行编译）。[教程地址：点击进入](http://blog.csdn.net/u011747754/article/details/78574026)
-- 使用[javafx-maven-plugin](https://github.com/javafx-maven-plugin/javafx-maven-plugin)插件进行打包操作（可打包windows、Linux、Mac安装包）；
-- 使用[exe4j](https://www.ej-technologies.com/download/exe4j/files)将jar包转成exe执行文件（仅供参考，可使用其它程序打包）；
-- 使用[InnoSetup](http://www.jrsoftware.org/)可进行制作windows安装包；
+- 本项目使用了[lombok](https://projectlombok.org/),在查看本项目时如果您没有下载lombok 插件，请先安装,不然找不到get/set等方法
+- 依赖的[xcore包](https://gitee.com/xwintop/xcore)已上传至git托管的maven平台，git托管maven可参考教程(若无法下载请拉取项目自行编译)。[教程地址：点击进入](http://blog.csdn.net/u011747754/article/details/78574026)
+- 使用[javafx-maven-plugin](https://github.com/javafx-maven-plugin/javafx-maven-plugin)插件进行打包操作(可打包windows、Linux、Mac安装包)
+- 使用[exe4j](https://www.ej-technologies.com/download/exe4j/files)将jar包转成exe执行文件(仅供参考，可使用其它程序打包)
+- 使用[InnoSetup](http://www.jrsoftware.org/)可进行制作windows安装包
 
 #### 目前集成的小工具有：
-1、FileCopy：文件复制（支持自动调度拷贝功能）；
-
-2、CronExpBuilder：Cron表达式生成器；
-
-3、CharacterConverter：编码转换；
-
-4、EncryptAndDecrypt：加密解密（Ascii、Hex、Base64、Base32、URL、MD5、SHA、AES、DES、文件加密DM5、文件加密SHA1、摩斯密码、Druid加密）；
-
-5、TimeTool：Time转换（常用格式转换（含时区）、计算时间差、时间叠加计算）；
-
-6、LinuxPathToWindowsPath：路径转换；
-
-7、QRCodeBuilder：二维码生成工具（自动生成、加入logo、截图识别、自定义格式）；
-
-8、IdCardGenerator：身份证生成器；
-
-9、RegexTester：正则表达式生成工具；
-
-10、ShortURL：网址缩短（目前支持百度、新浪、缩我等短网址缩短）；
-
-11、EscapeCharacter：转义字符（支持Html、XML、Java、JavaScript、CSV、Sql）；
-
-12、ZHConverter：字符串转换（使用hanlp开源工具，实现拼音、简体-繁体、简体-臺灣正體、简体-香港繁體、繁體-臺灣正體、繁體-香港繁體、香港繁體-臺灣正體、数字金额-大写金额等直接的转换）；
-
-13、Mq调试工具（目前仅支持ActiveMq）；
-
-14、HttpTool：Http调试工具（支持自定义发送数据、header和cookie）；
-
-15、jsonEditor：json格式化编辑工具；
-
-16、IconTool：图标生成工具；
-
-17、RedisTool：Redis连接工具；
-
-18、WebSourcesTool：网页源码下载工具；
-
-19、SwitchHostsTool：切换Hosts工具；
-
-20、FtpServer：Ftp服务器（快速搭建本地Ftp服务）；
-
-21、CmdTool：Cmd调试工具；
-
-22、FtpClientTool：Ftp(s)/Sftp客户端调试工具（批量上传、下载、删除文件及文件夹）（implicit/explicit SSL/TLS）；
-
-23、PdfConvertTool：Pdf转换工具（目前仅支持pdf转图片、pdf转text功能）；
-
-24、DirectoryTreeTool：文件列表生成器；
-
-25、ImageTool：图片压缩工具（批量压缩、修改尺寸、转换格式）；
-
-26、AsciiPicTool：图片转码工具（包括图片生成banner码、图片转Base64码、图片转Excel表）；
-
-27、KafkaTool：Kafka调试工具（未完善）；
-
-28、EmailTool：Email群发工具（支持自定义群发模版）；
-
-29、ColorCodeConverterTool：颜色代码转换工具（包括16进制、RGB、ARGB、RGBA、HSL、HSV等代码之间转换）；
-
-30、SmsTool：短信群发工具（目前支持中国移动、中国电信、腾讯云、阿里云、梦网云通讯等平台）；
-
-31、ScriptEngineTool：脚本引擎调试工具（目前支持JavaScript、Groovy、Python、Lua等脚本）；
-
-32、FileRenameTool：文件重命名工具；
-
-33、JsonConvertTool：Json转换工具（目前支持Json转Xml、Json转Java实体类、Json转C#实体类、Json转Excel、Json转Yaml、Properties转Yaml、Yaml转Properties）；
-
-34、WechatJumpGameTool：微信跳一跳助手；
-
-35、TextToSpeechTool：语音转换工具（调用百度语音转换api）；
-
-36、2048：小游戏2048；
-
-37、SocketTool：Socket调试工具(使用Apache Mina实现Tcp、Udp服务端和Client端)；
-
-38、ImageAnalysisTool:图片解析工具（1、.atlas文件反解析；2、图片快速拆分工具）；
-
-39、DecompilerWxApkgTool:微信小程序反编译工具（一键反编译微信小程序包）；
-
-40、ZookeeperTool:Zookeeper工具（方便对zookeeper的一系列操作，包括新增、修改、删除（包括子文件）、重命名、复制、添加变更通知）；
-
-41、ExcelSplitTool:Excel拆分工具（支持对xls、xlsx、csv及文件进行拆分操作）；
-
-42、PathWatchTool:文件夹监控工具；
-
-43、CharsetDetectTool:文件编码检测工具；
-
-44、TransferTool:传输工具（集成各种传输协议，使用自定义定时任务（简单模式、cron表达式模式），分为Receiver接收器、Filter处理器、Sender发送器）；
-
-45、ScanPortTool:端口扫描工具；
-
-46、FileMergeTool:文件合并工具（支持对xls、xlsx、csv及文件进行合并操作）；
-
-47、SedentaryReminderTool:久坐提醒工具；
-
-48、RandomGeneratorTool:随机数生成工具；
-
-49、ClipboardHistoryTool:剪贴板历史工具；
-
-50、FileSearchTool:文件搜索工具；
+1. FileCopy：文件复制(支持自动调度拷贝功能)
+2. CronExpBuilder：Cron表达式生成器
+3. CharacterConverter：编码转换
+4. EncryptAndDecrypt：加密解密(Ascii、Hex、Base64、Base32、URL、MD5、SHA、AES、DES、文件加密DM5、文件加密SHA1、摩斯密码、Druid加密)
+5. TimeTool：Time转换(常用格式转换(含时区)、计算时间差、时间叠加计算)
+6. LinuxPathToWindowsPath：路径转换
+7. QRCodeBuilder：二维码生成工具(自动生成、加入logo、截图识别、自定义格式)
+8. IdCardGenerator：身份证生成器
+9. RegexTester：正则表达式生成工具
+10. ShortURL：网址缩短(目前支持百度、新浪、缩我等短网址缩短)
+11. EscapeCharacter：转义字符(支持Html、XML、Java、JavaScript、CSV、Sql)
+12. ZHConverter：字符串转换(使用hanlp开源工具，实现拼音、简体-繁体、简体-臺灣正體、简体-香港繁體、繁體-臺灣正體、繁體-香港繁體、香港繁體-臺灣正體、数字金额-大写金额等直接的转换)
+13. Mq调试工具(目前仅支持ActiveMq)
+14. HttpTool：Http调试工具(支持自定义发送数据、header和cookie)
+15. jsonEditor：json格式化编辑工具
+16. IconTool：图标生成工具
+17. RedisTool：Redis连接工具
+18. WebSourcesTool：网页源码下载工具
+19. SwitchHostsTool：切换Hosts工具
+20. FtpServer：Ftp服务器(快速搭建本地Ftp服务)
+21. CmdTool：Cmd调试工具
+22. FtpClientTool：Ftp(s)/Sftp客户端调试工具(批量上传、下载、删除文件及文件夹)(implicit/explicit SSL/TLS)
+23. PdfConvertTool：Pdf转换工具(目前仅支持pdf转图片、pdf转text功能)
+24. DirectoryTreeTool：文件列表生成器
+25. ImageTool：图片压缩工具(批量压缩、修改尺寸、转换格式)
+26. AsciiPicTool：图片转码工具(包括图片生成banner码、图片转Base64码、图片转Excel表)
+27. KafkaTool：Kafka调试工具(未完善)
+28. EmailTool：Email群发工具(支持自定义群发模版)
+29. ColorCodeConverterTool：颜色代码转换工具(包括16进制、RGB、ARGB、RGBA、HSL、HSV等代码之间转换)
+30. SmsTool：短信群发工具(目前支持中国移动、中国电信、腾讯云、阿里云、梦网云通讯等平台)
+31. ScriptEngineTool：脚本引擎调试工具(目前支持JavaScript、Groovy、Python、Lua等脚本)
+32. FileRenameTool：文件重命名工具
+33. JsonConvertTool：Json转换工具(目前支持Json转Xml、Json转Java实体类、Json转C#实体类、Json转Excel、Json转Yaml、Properties转Yaml、Yaml转Properties)
+34. WechatJumpGameTool：微信跳一跳助手
+35. TextToSpeechTool：语音转换工具(调用百度语音转换api)
+36. 2048：小游戏2048
+37. SocketTool：Socket调试工具(使用Apache Mina实现Tcp、Udp服务端和Client端)
+38. ImageAnalysisTool:图片解析工具(1、.atlas文件反解析2、图片快速拆分工具)
+39. DecompilerWxApkgTool:微信小程序反编译工具(一键反编译微信小程序包)
+40. ZookeeperTool:Zookeeper工具(方便对zookeeper的一系列操作，包括新增、修改、删除(包括子文件)、重命名、复制、添加变更通知)
+41. ExcelSplitTool:Excel拆分工具(支持对xls、xlsx、csv及文件进行拆分操作)
+42. PathWatchTool:文件夹监控工具
+43. CharsetDetectTool:文件编码检测工具
+44. TransferTool:传输工具(集成各种传输协议，使用自定义定时任务(简单模式、cron表达式模式)，分为Receiver接收器、Filter处理器、Sender发送器)
+45. ScanPortTool:端口扫描工具
+46. FileMergeTool:文件合并工具(支持对xls、xlsx、csv及文件进行合并操作)
+47. SedentaryReminderTool:久坐提醒工具
+48. RandomGeneratorTool:随机数生成工具
+49. ClipboardHistoryTool:剪贴板历史工具
+50. FileSearchTool:文件搜索工具
+51. Mp3ConvertTool:Mp3转换工具(目前支持.ncm、.qmc转换为mp3格式)
 
 传输工具目前支持功能如下：
 
@@ -157,7 +109,7 @@ Receiver接收器：
 | ------------- | ------------- | ------------- |
 | Fs            | ReceiverConfigFs      | 从磁盘文件中读取消息    |
 | Ftp           | ReceiverConfigFtp     | 使用Ftp/Ftps协议中接收消息    |
-| Http          | ReceiverConfigHttp    | 使用http/https协议接收消息（支持拉取模式和提供Restfull接口方式） |
+| Http          | ReceiverConfigHttp    | 使用http/https协议接收消息(支持拉取模式和提供Restfull接口方式) |
 | Ftp           | ReceiverConfigFtp     | 使用Ftp/Ftps协议接收消息   |
 | SFtp          | ReceiverConfigSftp    | 使用SFtp协议接收消息       |
 | Email         | ReceiverConfigEmail   | 使用Email协议接收消息          |
@@ -206,10 +158,11 @@ Sender发送器：
 
 计划添加功能：
 
-- 监控功能（文件夹深度、Ftp/Ftps/sftp文件数量、mq深度）;
-- 转换excel为sql插入语句;
-- 记录键盘使用情况小工具;
-- 随机文件生成器（带模版引擎）;
+- [ ] 监控功能(文件夹深度、Ftp/Ftps/sftp文件数量、mq深度)
+- [ ] 转换excel为sql插入语句
+- [ ] 记录键盘使用情况小工具
+- [ ] 随机文件生成器(带模版引擎)
+- [x] 文件搜索功能
 
 #### 项目结构
 
@@ -283,7 +236,7 @@ xJavaFxTool
 ```
 
 #### 特别感谢
-在一个人还年轻的时候，我觉得，就应该着手致力做一些对社会有意义的事情，一如开源。至此，感谢以下贡献者（排名不分先后）：
+在一个人还年轻的时候，我觉得，就应该着手致力做一些对社会有意义的事情，一如开源。至此，感谢以下贡献者(排名不分先后)：
 + [李柱](https://gitee.com/loyalty521)
 + [luming](https://gitee.com/jeeweb)
 + [码志](https://gitee.com/dazer1992)
