@@ -99,7 +99,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 48. RandomGeneratorTool:随机数生成工具
 49. ClipboardHistoryTool:剪贴板历史工具
 50. FileSearchTool:文件搜索工具
-51. Mp3ConvertTool:Mp3转换工具(目前支持.ncm、.qmc转换为mp3格式)
+51. Mp3ConvertTool:Mp3转换工具(目前支持网易云音乐.ncm、QQ音乐.qmc转换为mp3格式)
 
 传输工具目前支持功能如下：
 

@@ -1,6 +1,7 @@
 package com.xwintop.xJavaFxTool.services.littleTools;
 
 import com.xwintop.xJavaFxTool.controller.littleTools.Mp3ConvertToolController;
+import com.xwintop.xJavaFxTool.utils.NcmDump;
 import com.xwintop.xcore.util.FileUtil;
 import lombok.Getter;
 import lombok.Setter;
@@ -47,11 +48,18 @@ public class Mp3ConvertToolService {
                 } else {
                     tableDatum.put("convertStatus", "转换失败");
                 }
+            } else if (StringUtils.endsWithIgnoreCase(absolutePath, ".ncm")) {
+                if (convertNcm(absolutePath)) {
+                    tableDatum.put("convertStatus", "转换成功");
+                } else {
+                    tableDatum.put("convertStatus", "转换失败");
+                }
             }
         }
         mp3ConvertToolController.getTableViewMain().refresh();
     }
 
+    //QQ音乐格式转换
     private boolean convertQmc(String absolutePath) {
         try {
             byte[] buffer = FileUtils.readFileToByteArray(new File(absolutePath));
@@ -69,6 +77,15 @@ public class Mp3ConvertToolService {
         } catch (Exception e) {
             log.error("转换异常", e);
             return false;
+        }
+    }
+
+    //网易云音乐格式转换
+    private boolean convertNcm(String absolutePath) {
+        if (StringUtils.isEmpty(mp3ConvertToolController.getOutputFolderTextField().getText())) {
+            return NcmDump.dump(new File(absolutePath), new File(absolutePath).getParentFile());
+        } else {
+            return NcmDump.dump(new File(absolutePath), new File(mp3ConvertToolController.getOutputFolderTextField().getText()));
         }
     }
 }
