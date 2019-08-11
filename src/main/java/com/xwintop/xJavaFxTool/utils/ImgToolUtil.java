@@ -542,4 +542,9 @@ public class ImgToolUtil {
         }
         return null;
     }
+
+    public static Color getAwtColor(javafx.scene.paint.Color color) {
+        java.awt.Color colorw = new java.awt.Color((float) color.getRed(), (float) color.getGreen(), (float) color.getBlue(), (float) color.getOpacity());
+        return colorw;
+    }
 }
