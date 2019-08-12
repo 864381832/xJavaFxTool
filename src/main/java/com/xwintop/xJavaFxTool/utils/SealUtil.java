@@ -12,6 +12,13 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
+/**
+ * @ClassName: SealUtil
+ * @Description: 印章生成工具
+ * @author: xufeng
+ * @date: 2019/8/12 0012 23:04
+ */
+
 @Builder
 @Getter
 public class SealUtil {
@@ -436,7 +443,7 @@ public class SealUtil {
         Graphics2D g2d = bi.createGraphics();
 
         //2.1设置画笔颜色
-        g2d.setPaint(Color.RED);
+        g2d.setPaint(color == null ? Color.RED : color);
 
         //2.2抗锯齿设置
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -450,9 +457,11 @@ public class SealUtil {
 
         if (mainFont.getFontText().length() == 2) {
             if (stamp != null && stamp.trim().length() > 0) {
-                bi = drawThreeFont(bi, g2d, mainFont.append(stamp), borderSquare, size, fixH, fixW, true);
+                bi = drawThreeFont(bi, g2d, mainFont.append(stamp), borderSquare, size, fixH, fixW, true, color);
             } else {
-                f = new Font(mainFont.getFontFamily(), Font.BOLD, mainFont.getFontSize());
+                //3.字体样式
+                int style = mainFont.getIsBold() ? Font.BOLD : Font.PLAIN;
+                f = new Font(mainFont.getFontFamily(), style, mainFont.getFontSize());
                 g2d.setFont(f);
                 rectangle = f.getStringBounds(mainFont.getFontText().substring(0, 1), context);
                 marginH = (float) (Math.abs(rectangle.getCenterY()) * 2 + marginW) + fixH - 4;
@@ -463,7 +472,7 @@ public class SealUtil {
                 //拉伸
                 BufferedImage nbi = new BufferedImage(size, size, bi.getType());
                 Graphics2D ng2d = nbi.createGraphics();
-                ng2d.setPaint(Color.RED);
+                ng2d.setPaint(color == null ? Color.RED : color);
                 ng2d.drawImage(bi, 0, 0, size, size, null);
 
                 //画正方形
@@ -474,12 +483,12 @@ public class SealUtil {
             }
         } else if (mainFont.getFontText().length() == 3) {
             if (stamp != null && stamp.trim().length() > 0) {
-                bi = drawFourFont(bi, mainFont.append(stamp), borderSquare, size, fixH, fixW);
+                bi = drawFourFont(bi, mainFont.append(stamp), borderSquare, size, fixH, fixW, color);
             } else {
-                bi = drawThreeFont(bi, g2d, mainFont, borderSquare, size, fixH, fixW, false);
+                bi = drawThreeFont(bi, g2d, mainFont, borderSquare, size, fixH, fixW, false, color);
             }
         } else {
-            bi = drawFourFont(bi, mainFont, borderSquare, size, fixH, fixW);
+            bi = drawFourFont(bi, mainFont, borderSquare, size, fixH, fixW, color);
         }
         g2d.dispose();
         return bi;
@@ -488,7 +497,7 @@ public class SealUtil {
     /**
      * 画三字
      */
-    private static BufferedImage drawThreeFont(BufferedImage bi, Graphics2D g2d, SealFont font, int lineSize, int imageSize, int fixH, int fixW, boolean isWithYin) {
+    private static BufferedImage drawThreeFont(BufferedImage bi, Graphics2D g2d, SealFont font, int lineSize, int imageSize, int fixH, int fixW, boolean isWithYin, Color color) {
         fixH -= 9;
         int marginW = fixW + lineSize;
         //设置字体
@@ -510,7 +519,7 @@ public class SealUtil {
         //拉伸
         BufferedImage nbi = new BufferedImage(imageSize, imageSize, bi.getType());
         Graphics2D ng2d = nbi.createGraphics();
-        ng2d.setPaint(Color.RED);
+        ng2d.setPaint(color == null ? Color.RED : color);
         ng2d.drawImage(bi, 0, 0, imageSize, imageSize, null);
 
         //画正方形
@@ -520,7 +529,7 @@ public class SealUtil {
         bi = nbi;
 
         g2d = bi.createGraphics();
-        g2d.setPaint(Color.RED);
+        g2d.setPaint(color == null ? Color.RED : color);
         g2d.setFont(f);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -541,12 +550,12 @@ public class SealUtil {
     /**
      * 画四字
      */
-    private static BufferedImage drawFourFont(BufferedImage bi, SealFont font, int lineSize, int imageSize, int fixH, int fixW) {
+    private static BufferedImage drawFourFont(BufferedImage bi, SealFont font, int lineSize, int imageSize, int fixH, int fixW, Color color) {
         int marginW = fixW + lineSize;
         //拉伸
         BufferedImage nbi = new BufferedImage(imageSize, imageSize, bi.getType());
         Graphics2D ng2d = nbi.createGraphics();
-        ng2d.setPaint(Color.RED);
+        ng2d.setPaint(color == null ? Color.RED : color);
         ng2d.drawImage(bi, 0, 0, imageSize, imageSize, null);
 
         //画正方形
@@ -556,11 +565,12 @@ public class SealUtil {
         bi = nbi;
 
         Graphics2D g2d = bi.createGraphics();
-        g2d.setPaint(Color.RED);
+        g2d.setPaint(color == null ? Color.RED : color);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         FontRenderContext context = g2d.getFontRenderContext();
 
-        Font f = new Font(font.getFontFamily(), Font.BOLD, font.getFontSize());
+        int style = font.getIsBold() ? Font.BOLD : Font.PLAIN;
+        Font f = new Font(font.getFontFamily(), style, font.getFontSize());
         g2d.setFont(f);
         Rectangle2D rectangle = f.getStringBounds(font.getFontText().substring(0, 1), context);
         float marginH = (float) (Math.abs(rectangle.getCenterY()) * 2 + marginW) + fixH;

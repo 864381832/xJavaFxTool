@@ -8,9 +8,18 @@ import javafx.scene.image.ImageView;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * @ClassName: SealBuilderToolView
+ * @Description: 印章生成工具
+ * @author: xufeng
+ * @date: 2019/8/12 0012 23:04
+ */
+
 @Getter
 @Setter
 public abstract class SealBuilderToolView implements Initializable {
+    @FXML
+    protected TabPane sealTypeTabPane;
     @FXML
     protected TextField contentTextField;
     @FXML
@@ -77,6 +86,22 @@ public abstract class SealBuilderToolView implements Initializable {
     protected Spinner<Integer> circleWidthSpinner2;
     @FXML
     protected Spinner<Integer> circleHeightSpinner2;
+
+    @FXML
+    protected TextField contentTextField4;
+    @FXML
+    protected JFXCheckBox isBoldCheckBox4;
+    @FXML
+    protected ChoiceBox<String> fontFamilyChoiceBox4;
+    @FXML
+    protected Spinner<Integer> fontSizeSpinner4;
+    @FXML
+    protected Spinner<Double> fontSpaceSpinner4;
+    @FXML
+    protected Spinner<Integer> marginSizeSpinner4;
+    @FXML
+    protected Spinner<Integer> lineSizeSpinner3;
+
     @FXML
     protected ColorPicker onColorColorPicker;
     @FXML

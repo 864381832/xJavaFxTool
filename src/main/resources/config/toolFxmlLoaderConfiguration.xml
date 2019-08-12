@@ -299,7 +299,7 @@
         <url>/com/xwintop/xJavaFxTool/fxmlView/littleTools/SealBuilderTool.fxml</url>
         <title>SealBuilderTool</title>
         <menuParentId>littleTools</menuParentId>
-        <isDefaultShow>true</isDefaultShow>
+        <isDefaultShow></isDefaultShow>
     </ToolFxmlLoaderConfiguration>
 
     <ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"

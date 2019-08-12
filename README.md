@@ -285,3 +285,4 @@ xJavaFxTool
 ![输入图片说明](images/随机数生成工具.png "随机数生成工具.png")
 ![输入图片说明](images/剪贴板历史工具.png "剪贴板历史工具.png")
 ![输入图片说明](images/久坐提醒工具.png "久坐提醒工具.png")
+![输入图片说明](images/印章生成工具.png "印章生成工具.png")
