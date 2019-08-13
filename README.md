@@ -49,57 +49,57 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 - 使用[InnoSetup](http://www.jrsoftware.org/)可进行制作windows安装包
 
 #### 目前集成的小工具有：
-1. FileCopy：文件复制(支持自动调度拷贝功能)
+1. FileCopy：文件复制(支持自动调度拷贝功能)(使用[quartz](https://www.quartz-scheduler.org/)工具)
 2. CronExpBuilder：Cron表达式生成器
 3. CharacterConverter：编码转换
-4. EncryptAndDecrypt：加密解密(Ascii、Hex、Base64、Base32、URL、MD5、SHA、AES、DES、文件加密DM5、文件加密SHA1、摩斯密码、Druid加密)
+4. EncryptAndDecrypt：加密解密(Ascii、Hex、Base64、Base32、URL、MD5、SHA、AES、DES、文件加密DM5、文件加密SHA1、摩斯密码、Druid加密)(使用[commons-codec](http://commons.apache.org/codec/)工具)
 5. TimeTool：Time转换(常用格式转换(含时区)、计算时间差、时间叠加计算)
-6. LinuxPathToWindowsPath：路径转换
-7. QRCodeBuilder：二维码生成工具(自动生成、加入logo、截图识别、自定义格式)
+6. LinuxPathToWindowsPath：路径转换(使用[oshi](https://github.com/oshi/oshi)工具)
+7. QRCodeBuilder：二维码生成工具(自动生成、加入logo、截图识别、自定义格式)(使用[google.zxing](https://github.com/zxing/zxing)、[jkeymaster](https://github.com/tulskiy/jkeymaster)等工具)
 8. IdCardGenerator：身份证生成器
 9. RegexTester：正则表达式生成工具
 10. ShortURL：网址缩短(目前支持百度、新浪、缩我等短网址缩短)
-11. EscapeCharacter：转义字符(支持Html、XML、Java、JavaScript、CSV、Sql)
-12. ZHConverter：字符串转换(使用hanlp开源工具，实现拼音、简体-繁体、简体-臺灣正體、简体-香港繁體、繁體-臺灣正體、繁體-香港繁體、香港繁體-臺灣正體、数字金额-大写金额等直接的转换)
-13. Mq调试工具(目前仅支持ActiveMq)
-14. HttpTool：Http调试工具(支持自定义发送数据、header和cookie)
+11. EscapeCharacter：转义字符(支持Html、XML、Java、JavaScript、CSV、Sql)(使用[commons-lang3](https://commons.apache.org/lang)工具)
+12. ZHConverter：字符串转换(使用[hanlp](http://hanlp.com/)开源工具，实现拼音、简体-繁体、简体-臺灣正體、简体-香港繁體、繁體-臺灣正體、繁體-香港繁體、香港繁體-臺灣正體、数字金额-大写金额等直接的转换)
+13. ActiveMqTool:Mq调试工具(目前仅支持[ActiveMq](http://activemq.apache.org))
+14. HttpTool：Http调试工具(支持自定义发送数据、header和cookie)(使用[okhttp](https://square.github.io/okhttp/))
 15. jsonEditor：json格式化编辑工具
-16. IconTool：图标生成工具
-17. RedisTool：Redis连接工具
+16. IconTool：图标生成工具(使用[thumbnailator](https://github.com/coobird/thumbnailator)工具)
+17. RedisTool：Redis连接工具(使用[jedis](https://github.com/xetorthio/jedis)工具)
 18. WebSourcesTool：网页源码下载工具
-19. SwitchHostsTool：切换Hosts工具
-20. FtpServer：Ftp服务器(快速搭建本地Ftp服务)
+19. SwitchHostsTool：切换Hosts工具(使用[richtextfx](https://github.com/FXMisc/RichTextFX)工具)
+20. FtpServer：Ftp服务器(快速搭建本地Ftp服务)(基于[apache.ftpserver](https://mina.apache.org/ftpserver-project))
 21. CmdTool：Cmd调试工具
-22. FtpClientTool：Ftp(s)/Sftp客户端调试工具(批量上传、下载、删除文件及文件夹)(implicit/explicit SSL/TLS)
-23. PdfConvertTool：Pdf转换工具(目前仅支持pdf转图片、pdf转text功能)
+22. FtpClientTool：Ftp(s)/Sftp客户端调试工具(批量上传、下载、删除文件及文件夹)(implicit/explicit SSL/TLS)(使用[jsch](http://www.jcraft.com/jsch)、[commons-io](http://commons.apache.org/io/)等工具)
+23. PdfConvertTool：Pdf转换工具(目前仅支持pdf转图片、pdf转text功能)(使用[pdfbox](https://pdfbox.apache.org/)工具)
 24. DirectoryTreeTool：文件列表生成器
 25. ImageTool：图片压缩工具(批量压缩、修改尺寸、转换格式)
 26. AsciiPicTool：图片转码工具(包括图片生成banner码、图片转Base64码、图片转Excel表)
-27. KafkaTool：Kafka调试工具(未完善)
-28. EmailTool：Email群发工具(支持自定义群发模版)
+27. KafkaTool：Kafka调试工具(未完善)(使用了[kafka-clients](http://kafka.apache.org/))
+28. EmailTool：Email群发工具(支持自定义群发模版)(使用[commons-email](https://commons.apache.org/email)工具)
 29. ColorCodeConverterTool：颜色代码转换工具(包括16进制、RGB、ARGB、RGBA、HSL、HSV等代码之间转换)
 30. SmsTool：短信群发工具(目前支持中国移动、中国电信、腾讯云、阿里云、梦网云通讯等平台)
-31. ScriptEngineTool：脚本引擎调试工具(目前支持JavaScript、Groovy、Python、Lua等脚本)
+31. ScriptEngineTool：脚本引擎调试工具(目前支持JavaScript、Groovy、Python、Lua等脚本)(使用[groovy](http://groovy-lang.org)、[jython](https://jython.org)、[luaj](http://www.luaj.org/luaj.html)等工具)
 32. FileRenameTool：文件重命名工具
-33. JsonConvertTool：Json转换工具(目前支持Json转Xml、Json转Java实体类、Json转C#实体类、Json转Excel、Json转Yaml、Properties转Yaml、Yaml转Properties)
+33. JsonConvertTool：Json转换工具(目前支持Json转Xml、Json转Java实体类、Json转C#实体类、Json转Excel、Json转Yaml、Properties转Yaml、Yaml转Properties)(使用[fastjson](https://github.com/alibaba/fastjson)、[snakeyaml](https://bitbucket.org/asomov/snakeyaml)、[dom4j](https://dom4j.github.io)等工具)
 34. WechatJumpGameTool：微信跳一跳助手
-35. TextToSpeechTool：语音转换工具(调用百度语音转换api)
+35. TextToSpeechTool：语音转换工具(调用[百度语音](https://ai.baidu.com/tech/speech/tts)转换api)
 36. 2048：小游戏2048
-37. SocketTool：Socket调试工具(使用Apache Mina实现Tcp、Udp服务端和Client端)
+37. SocketTool：Socket调试工具(使用[Apache Mina](http://mina.apache.org)实现Tcp、Udp服务端和Client端)
 38. ImageAnalysisTool:图片解析工具(1、.atlas文件反解析2、图片快速拆分工具)
 39. DecompilerWxApkgTool:微信小程序反编译工具(一键反编译微信小程序包)
-40. ZookeeperTool:Zookeeper工具(方便对zookeeper的一系列操作，包括新增、修改、删除(包括子文件)、重命名、复制、添加变更通知)
-41. ExcelSplitTool:Excel拆分工具(支持对xls、xlsx、csv及文件进行拆分操作)
+40. ZookeeperTool:Zookeeper工具(方便对zookeeper的一系列操作，包括新增、修改、删除(包括子文件)、重命名、复制、添加变更通知)(使用[zkclient](https://github.com/sgroschupf/zkclient)工具)
+41. ExcelSplitTool:Excel拆分工具(支持对xls、xlsx、csv及文件进行拆分操作)(使用[commons-csv](http://commons.apache.org/csv)工具)
 42. PathWatchTool:文件夹监控工具
-43. CharsetDetectTool:文件编码检测工具
+43. CharsetDetectTool:文件编码检测工具(使用[juniversalchardet](https://github.com/albfernandez/juniversalchardet)工具)
 44. TransferTool:传输工具(集成各种传输协议，使用自定义定时任务(简单模式、cron表达式模式)，分为Receiver接收器、Filter处理器、Sender发送器)
 45. ScanPortTool:端口扫描工具
-46. FileMergeTool:文件合并工具(支持对xls、xlsx、csv及文件进行合并操作)
+46. FileMergeTool:文件合并工具(支持对xls、xlsx、csv及文件进行合并操作)(使用[apache.poi](http://poi.apache.org/)工具)
 47. SedentaryReminderTool:久坐提醒工具
-48. RandomGeneratorTool:随机数生成工具
+48. RandomGeneratorTool:随机数生成工具(使用[hutool](https://hutool.cn)工具)
 49. ClipboardHistoryTool:剪贴板历史工具
-50. FileSearchTool:文件搜索工具
-51. Mp3ConvertTool:Mp3转换工具(目前支持网易云音乐.ncm、QQ音乐.qmc转换为mp3格式)
+50. FileSearchTool:文件搜索工具(使用[lucene](https://lucene.apache.org/)搜索引擎)
+51. Mp3ConvertTool:Mp3转换工具(目前支持网易云音乐.ncm、QQ音乐.qmc转换为mp3格式)(使用[jaudiotagger](http://www.jthink.net/jaudiotagger/)工具)
 52. SealBuilderTool:印章生成工具
 
 传输工具目前支持功能如下：

@@ -1,13 +1,9 @@
 package com.xwintop.xJavaFxTool.services.debugTools.socketTool;
 
 import com.xwintop.xJavaFxTool.controller.debugTools.SocketToolController;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.mina.core.future.ConnectFuture;
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.service.IoConnector;
@@ -20,12 +16,9 @@ import org.apache.mina.transport.socket.nio.NioDatagramAcceptor;
 import org.apache.mina.transport.socket.nio.NioDatagramConnector;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
-import org.springframework.util.StreamUtils;
 
-import java.io.*;
-import java.net.*;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.Map;
 
@@ -110,7 +103,7 @@ public class SocketToolService {
 
     public void serverDataSendAction(String data) {
         List<Map<String, String>> selectedItems = this.socketToolController.getServerConnectTableView().getSelectionModel().getSelectedItems();
-        if(selectedItems == null || selectedItems.isEmpty()){
+        if (selectedItems == null || selectedItems.isEmpty()) {
             writeServerLog("未选择客户端连接。");
             return;
         }
