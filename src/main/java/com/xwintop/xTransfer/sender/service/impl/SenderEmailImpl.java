@@ -22,6 +22,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Map;
 
@@ -57,7 +58,10 @@ public class SenderEmailImpl implements Sender {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
         helper.setFrom(ParseVariableCommon.parseVariable(senderConfigEmail.getFrom(), msg, params));
-        helper.setTo(ParseVariableCommon.parseVariable(senderConfigEmail.getTo(), msg, params));
+        helper.setTo(InternetAddress.parse(ParseVariableCommon.parseVariable(senderConfigEmail.getTo(), msg, params)));
+        if (StringUtils.isNotEmpty(senderConfigEmail.getCc())) {
+            helper.setCc(InternetAddress.parse(ParseVariableCommon.parseVariable(senderConfigEmail.getCc(), msg, params)));
+        }
         helper.setSubject(ParseVariableCommon.parseVariable(senderConfigEmail.getSubject(), msg, params));
 
         String fileName = msg.getFileName();

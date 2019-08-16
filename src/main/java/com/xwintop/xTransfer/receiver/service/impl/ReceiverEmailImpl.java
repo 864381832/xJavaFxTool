@@ -102,7 +102,7 @@ public class ReceiverEmailImpl implements Receiver {
                 log.error("send msg to queue:", exc);
             } finally {
                 // set delete mail
-//                message.setFlag(Flags.Flag.DELETED, true);
+                message.setFlag(Flags.Flag.DELETED, true);
             }
         }
         folder.close(true);
