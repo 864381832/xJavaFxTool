@@ -30,8 +30,9 @@ public class SenderConfigEmail implements SenderConfig {
 
     private String from;//发件人。发送邮件方地址,支持变量替换。
     private String to;//收件人。接收方邮件地址,支持变量替换。
+    private String cc;//抄送人。抄送方邮件地址,支持变量替换。
     private String subject;//主题,邮件主题,支持变量替换。
-    private String protocol;//协议。发送邮件协议。目前只有smtp可以选择。
+    private String protocol = "smtp";//协议。发送邮件协议。目前只有smtp可以选择。
     private String method = EmailMethod.attachment.name();//发送类型
     private String fileName;//文件名,发送方式为附件时的文件名。支持变量替换。
     private String encoding = "utf-8";//编码。详细说明请参考[wiki:EpmsBook/SenderFs 文件发送器]的配置中的Encoding说明。

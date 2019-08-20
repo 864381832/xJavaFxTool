@@ -16,8 +16,8 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.common.serialization.ByteArrayDeserializer;
-import org.apache.kafka.common.serialization.StringDeserializer;
+import org.apache.kafka.common.serialization.ByteArraySerializer;
+import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -51,9 +51,9 @@ public class SenderKafkaImpl implements Sender {
             props.put(ProducerConfig.BATCH_SIZE_CONFIG, senderConfigKafka.getBatchSize());
             props.put(ProducerConfig.LINGER_MS_CONFIG, senderConfigKafka.getLinger());
             props.put(ProducerConfig.BUFFER_MEMORY_CONFIG, senderConfigKafka.getBufferMemory());
-            props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+            props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 //            props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-            props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, ByteArrayDeserializer.class);
+            props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, ByteArraySerializer.class);
             producer = new KafkaProducer<>(props);
         }
         try {
