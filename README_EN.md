@@ -19,6 +19,8 @@
 	</a>
 </p>
 
+[中文说明/Chinese Documentation](README.md)
+
 **xJavaFxTool exchange QQ group：== [387473650](https://jq.qq.com/?_wv=1027&k=59UDEAD) ==**
 
 #### Project Description:
@@ -49,57 +51,57 @@ Support plug-in development, the plug-in jar package can be automatically loaded
 - Use [InnoSetup](http://www.jrsoftware.org/) to make windows installation packages
 
 #### The currently integrated gadgets are:
-1. FileCopy: File Copy (supports automatic scheduled copy function) (using the quartz tool)
+1. FileCopy: File Copy (supports automatic scheduled copy function) (using the [quartz](https://www.quartz-scheduler.org/) tool)
 2. CronExpBuilder: Cron Expression Builder
 3. CharacterConverter: code conversion
-4. EncryptAndDecrypt: Encryption and decryption (Ascii, Hex, Base64, Base32, URL, MD5, SHA, AES, DES, file encryption DM5, file encryption SHA1, Morse password, Druid encryption) (using the commons-codec tool)
+4. EncryptAndDecrypt: Encryption and decryption (Ascii, Hex, Base64, Base32, URL, MD5, SHA, AES, DES, file encryption DM5, file encryption SHA1, Morse password, Druid encryption) (using the [commons-codec](http://commons.apache.org/codec/) tool)
 5. TimeTool: Time conversion (common format conversion (including time zone), calculation time difference, time superposition calculation)
-6. LinuxPathToWindowsPath: path conversion (using the oshi tool)
-7. QRCodeBuilder: QR code generation tool (automatically generate, add logo, screenshot recognition, custom format) (using google.zxing , jkeymaster, etc.)
+6. LinuxPathToWindowsPath: path conversion (using the [oshi](https://github.com/oshi/oshi) tool)
+7. QRCodeBuilder: QR code generation tool (automatically generate, add logo, screenshot recognition, custom format) (using [google.zxing](https://github.com/zxing/zxing) , [jkeymaster](https://github.com/tulskiy/jkeymaster), etc.)
 8. IdCardGenerator: ID Generator
 9. RegexTester: Regular Expression Generation Tool
 10. ShortURL: URL shortening (currently support Baidu, Sina, shrink me and other short URL shortening)
-11. EscapeCharacter: escape characters (supports Html, XML, Java, JavaScript, CSV, Sql) (using the commons-lang3 tool)
-12. ZHConverter: string conversion (using hanlp open source tools, to achieve pinyin, simplified - traditional, simplified - Taiwanese body, simplified - Hong Kong traditional, traditional - Taiwanese body, traditional - Hong Kong traditional, Hong Kong traditional - Taiwanese body, digital amount - capital amount, etc. Direct conversion)
-13. ActiveMqTool: Mq debugging tool (currently only supports ActiveMq )
-14. HttpTool: Http debugging tool (supports custom send data, header and cookie) (using okhttp )
+11. EscapeCharacter: escape characters (supports Html, XML, Java, JavaScript, CSV, Sql) (using the [commons-lang3](https://commons.apache.org/lang) tool)
+12. ZHConverter: string conversion (using [hanlp](http://hanlp.com/) open source tools, to achieve pinyin, simplified - traditional, simplified - Taiwanese body, simplified - Hong Kong traditional, traditional - Taiwanese body, traditional - Hong Kong traditional, Hong Kong traditional - Taiwanese body, digital amount - capital amount, etc. Direct conversion)
+13. ActiveMqTool: Mq debugging tool (currently only supports [ActiveMq](http://activemq.apache.org) )
+14. HttpTool: Http debugging tool (supports custom send data, header and cookie) (using [okhttp](https://square.github.io/okhttp/) )
 15. jsonEditor: json format editing tool
-16. IconTool: Icon Generation Tool (using the thumbnailtool tool)
-17. RedisTool: Redis connection tool (using the jedis tool)
+16. IconTool: Icon Generation Tool (using the [thumbnailator](https://github.com/coobird/thumbnailator) tool)
+17. RedisTool: Redis connection tool (using the [jedis](https://github.com/xetorthio/jedis) tool)
 18. WebSourcesTool: web source download tool
-19. SwitchHostsTool: Switch the Hosts tool (using the richtextfx tool)
-20. FtpServer: Ftp server (quickly build local Ftp service) (based on apache.ftpserver )
+19. SwitchHostsTool: Switch the Hosts tool (using the [richtextfx](https://github.com/FXMisc/RichTextFX) tool)
+20. FtpServer: Ftp server (quickly build local Ftp service) (based on [apache.ftpserver](https://mina.apache.org/ftpserver-project) )
 21. CmdTool: Cmd debugging tool
-22. FtpClientTool: Ftp(s)/Sftp client debugging tool (batch upload, download, delete files and folders) (implicit/explicit SSL/TLS) (using jsch , commons-io, etc.)
-23. PdfConvertTool: Pdf conversion tool (currently only supports pdf to image, pdf to text function) (using pdfbox tool)
+22. FtpClientTool: Ftp(s)/Sftp client debugging tool (batch upload, download, delete files and folders) (implicit/explicit SSL/TLS) (using [jsch](http://www.jcraft.com/jsch) , [commons-io](http://commons.apache.org/io/), etc.)
+23. PdfConvertTool: Pdf conversion tool (currently only supports pdf to image, pdf to text function) (using [pdfbox](https://pdfbox.apache.org/) tool)
 24. DirectoryTreeTool: File List Generator
 25. ImageTool: Image compression tool (bulk compression, resizing, conversion format)
 26. AsciiPicTool: Image transcoding tool (including image generation banner code, picture to Base64 code, picture to Excel table)
-27. KafkaTool: Kafka debugging tool (not perfect) (using kafka-clients )
-28. EmailTool: Email bulk tool (supports custom bulk template) (using the commons-email tool)
+27. KafkaTool: Kafka debugging tool (not perfect) (using [kafka-clients](http://kafka.apache.org/) )
+28. EmailTool: Email bulk tool (supports custom bulk template) (using the [commons-email](https://commons.apache.org/email) tool)
 29. ColorCodeConverterTool: color code conversion tool (including conversion between hexadecimal, RGB, ARGB, RGBA, HSL, HSV, etc.)
 30. SmsTool: SMS group sending tool (currently supports China Mobile, China Telecom, Tencent Cloud, Alibaba Cloud, Monternet Cloud Communication and other platforms)
-31. ScriptEngineTool: script engine debugging tool (currently supports scripts such as JavaScript, Groovy, Python, Lua, etc.) (using tools such as groovy , jython , luaj, etc.)
+31. ScriptEngineTool: script engine debugging tool (currently supports scripts such as JavaScript, Groovy, Python, Lua, etc.) (using tools such as [groovy](http://groovy-lang.org),[jython](https://jython.org),[luaj](http://www.luaj.org/luaj.html), etc.)
 32. FileRenameTool: File Rename Tool
-33. JsonConvertTool: Json conversion tool (currently supports Json to Xml, Json to Java entity class, Json to C# entity class, Json to Excel, Json to Yaml, Properties to Yaml, Yaml to Properties) (using fastjson , snakeyaml , dom4j, etc.)
+33. JsonConvertTool: Json conversion tool (currently supports Json to Xml, Json to Java entity class, Json to C# entity class, Json to Excel, Json to Yaml, Properties to Yaml, Yaml to Properties) (using [fastjson](https://github.com/alibaba/fastjson), [snakeyaml](https://bitbucket.org/asomov/snakeyaml), [dom4j](https://dom4j.github.io), etc.)
 34. WechatJumpGameTool: WeChat Jumping Assistant
-35. TextToSpeechTool: Voice Conversion Tool (call Baidu Voice Conversion API)
+35. TextToSpeechTool: Voice Conversion Tool (call [Baidu Voice Conversion](https://ai.baidu.com/tech/speech/tts) API)
 36. 2048: Small game 2048
-37. SocketTool: Socket debugging tool (using Apache Mina to implement Tcp, Udp server and client)
+37. SocketTool: Socket debugging tool (using [Apache Mina](http://mina.apache.org) to implement Tcp, Udp server and client)
 38. ImageAnalysisTool: Image parsing tool (1. Atlas file anti-parsing 2, image quick split tool)
 39. DecompilerWxApkgTool: WeChat applet decompilation tool (one-click decompilation WeChat small package)
-40. ZooKeeperTool: Zookeeper Tool (a convenient operation for ZooKeeper, including adding, modifying, deleting (including subfiles), renaming, copying, adding change notifications) (using the zkclient tool)
-41. ExcelSplitTool: Excel split tool (supports splitting xls, xlsx, csv and files) (using the commons-csv tool)
+40. ZooKeeperTool: Zookeeper Tool (a convenient operation for ZooKeeper, including adding, modifying, deleting (including subfiles), renaming, copying, adding change notifications) (using the [zkclient](https://github.com/sgroschupf/zkclient) tool)
+41. ExcelSplitTool: Excel split tool (supports splitting xls, xlsx, csv and files) (using the [commons-csv](http://commons.apache.org/csv) tool)
 42. PathWatchTool: Folder Monitoring Tool
-43. CharsetDetectTool: File Encoding Detection Tool (using the juniversalchardet tool)
+43. CharsetDetectTool: File Encoding Detection Tool (using the [juniversalchardet](https://github.com/albfernandez/juniversalchardet) tool)
 44. TransferTool: Transfer tool (integrated with various transport protocols, using custom timing tasks (simple mode, cron expression mode), divided into Receiver receiver, Filter processor, Sender transmitter)
 45. ScanPortTool: Port Scanning Tool
-46. FileMergeTool: File Merge Tool (supports merging xls, xlsx, csv, and files) (using the apache.poi tool)
+46. FileMergeTool: File Merge Tool (supports merging xls, xlsx, csv, and files) (using the [apache.poi](http://poi.apache.org/) tool)
 47. SedentaryReminderTool: Sedentary Reminder Tool
-48. RandomGeneratorTool: random number generation tool (using hutool tool)
+48. RandomGeneratorTool: random number generation tool (using [hutool](https://hutool.cn) tool)
 49. ClipboardHistoryTool: Clipboard History Tool
-50. FileSearchTool: File Search Tool (using the lucene search engine)
-51. Mp3ConvertTool: Mp3 conversion tool (currently supports NetEase cloud music.ncm, QQ music.qmc converted to mp3 format) (using jaudiotagger tool)
+50. FileSearchTool: File Search Tool (using the [lucene](https://lucene.apache.org/) search engine)
+51. Mp3ConvertTool: Mp3 conversion tool (currently supports NetEase cloud music.ncm, QQ music.qmc converted to mp3 format) (using [jaudiotagger](http://www.jthink.net/jaudiotagger/) tool)
 52. SealBuilderTool: Stamp Generation Tool
 
 ##### The transfer tools currently support the following features:
@@ -110,48 +112,48 @@ Support plug-in development, the plug-in jar package can be automatically loaded
 | Fs            | ReceiverConfigFs      | Read a message from a disk file    |
 | Ftp           | ReceiverConfigFtp     | Receive messages using the Ftp/Ftps protocol    |
 | Http          | ReceiverConfigHttp    | Receive messages using the http/https protocol (supports pull mode and provides the Restfull interface mode) |
-| Ftp           | ReceiverConfigFtp     | 使用Ftp/Ftps协议接收消息   |
-| SFtp          | ReceiverConfigSftp    | 使用SFtp协议接收消息       |
-| Email         | ReceiverConfigEmail   | 使用Email协议接收消息          |
-| Jms           | ReceiverConfigJms     | 使用Jms协议接收消息        |
-| Kafka         | ReceiverConfigKafka   | 使用Kafka协议接收消息        |
-| IbmMq         | ReceiverConfigIbmMq   | 使用IbmMq协议接收消息        |
-| RabbitMq      | ReceiverConfigRabbitMq| 使用RabbitMq协议接收消息     |
-| RocketMq      | ReceiverConfigRocketMq| 使用RocketMq协议接收消息     |
-| ActiveMq      | ReceiverConfigActiveMq| 使用ActiveMq协议接收消息     |
-| Hdfs          | ReceiverConfigHdfs    | 使用HDFS协议接收消息         |
+| Ftp           | ReceiverConfigFtp     | Receive messages using the Ftp/Ftps protocol   |
+| SFtp          | ReceiverConfigSftp    | Receive messages using the SFtp protocol       |
+| Email         | ReceiverConfigEmail   | Receive messages using the Email protocol          |
+| Jms           | ReceiverConfigJms     | Receive messages using the Jms protocol   |
+| Kafka         | ReceiverConfigKafka   | Receive messages using the Kafka protocol     |
+| IbmMq         | ReceiverConfigIbmMq   | Receive messages using the IbmMq protocol     |
+| RabbitMq      | ReceiverConfigRabbitMq| Receive messages using the RabbitMq protocol     |
+| RocketMq      | ReceiverConfigRocketMq| Receive messages using the RocketMq protocol     |
+| ActiveMq      | ReceiverConfigActiveMq| Receive messages using the ActiveMq protocol     |
+| Hdfs          | ReceiverConfigHdfs    | Receive messages using the HDFS protocol     |
 
 Filter：
 
 | title | Configuration class name | Description |
 | --------      | -----                    | :----  |
-| Backup        | FilterConfigBackup        | 将消息备份到文件系统中   |
-| Compress      | FilterConfigCompress      | 将消息进行压缩操作       |
-| Decompress    | FilterConfigDecompress    | 将消息进行解压操作       |
-| EncryptDecrypt| FilterConfigEncryptDecrypt| 将消息进行加密解密操作   |
-| OracleSqlldr  | FilterConfigOracleSqlldr  | 将消息存入Oracle数据库   |
-| GroovyScript  | FilterConfigGroovyScript  | 将执行Groovy脚本   |
-| PythonScript  | FilterConfigPythonScript  | 将执行Python脚本   |
-| JavaScript    | FilterConfigJavaScript    | 将执行JavaScript脚本   |
-| LuaScript     | FilterConfigLuaScript     | 将执行Lua脚本   |
+| Backup        | FilterConfigBackup        | Back up messages to the file system   |
+| Compress      | FilterConfigCompress      | Compress the message  |
+| Decompress    | FilterConfigDecompress    | Decompress the message  |
+| EncryptDecrypt| FilterConfigEncryptDecrypt| Encrypt and decrypt the message   |
+| OracleSqlldr  | FilterConfigOracleSqlldr  | Save the message to the Oracle database   |
+| GroovyScript  | FilterConfigGroovyScript  | Will execute the Groovy script    |
+| PythonScript  | FilterConfigPythonScript  | Will execute Python script         |
+| JavaScript    | FilterConfigJavaScript    | Will execute a JavaScript script   |
+| LuaScript     | FilterConfigLuaScript     | Will execute the Lua script        |
 
 Sender：
 
 | title | Configuration class name | Description |
 | --------      | -----                | :----  |
-| Fs            | SenderConfigFs      | 从磁盘文件中读取消息    |
-| Ftp           | SenderConfigFtp     | 使用Ftp/Ftps协议中发送消息    |
-| Http          | SenderConfigHttp    | 使用http/https协议发送消息  |
-| Ftp           | SenderConfigFtp     | 使用Ftp/Ftps协议发送消息   |
-| SFtp          | SenderConfigSftp    | 使用SFtp协议发送消息       |
-| Email         | SenderConfigEmail   | 使用Email中发送消息          |
-| Jms           | SenderConfigJms     | 使用Jms协议发送消息        |
-| Kafka         | SenderConfigKafka   | 使用Kafka协议发送消息        |
-| IbmMq         | SenderConfigIbmMq   | 使用IbmMq协议发送消息        |
-| RabbitMq      | SenderConfigRabbitMq| 使用RabbitMq协议发送消息     |
-| RocketMq      | SenderConfigRocketMq| 使用RocketMq协议发送消息     |
-| ActiveMq      | SenderConfigActiveMq| 使用ActiveMq协议发送消息     |
-| Hdfs          | SenderConfigHdfs    | 使用HDFS协议发送消息     |
+| Fs            | SenderConfigFs      | Read a message from a disk file  |
+| Ftp           | SenderConfigFtp     | Send messages using the Ftp/Ftps protocol   |
+| Http          | SenderConfigHttp    | Send a message using the http/https protocol  |
+| Ftp           | SenderConfigFtp     | Send messages using the Ftp/Ftps protocol |
+| SFtp          | SenderConfigSftp    | Send messages using the SFtp protocol |
+| Email         | SenderConfigEmail   | Send a message using Email    |
+| Jms           | SenderConfigJms     | Send messages using the Jms protocol |
+| Kafka         | SenderConfigKafka   | Send messages using the Kafka protocol   |
+| IbmMq         | SenderConfigIbmMq   | Send messages using the IbmMq protocol   |
+| RabbitMq      | SenderConfigRabbitMq| Send messages using the RabbitMq protocol   |
+| RocketMq      | SenderConfigRocketMq| Send messages using the RocketMq protocol   |
+| ActiveMq      | SenderConfigActiveMq| Send messages using the ActiveMq protocol   |
+| Hdfs          | SenderConfigHdfs    | Send messages using the HDFS protocol  |
 
 #### In the development of the project, new tools will be added in the future. Welcome everyone to participate and give more comments, thank you.
 #### Plan to add features:
@@ -174,61 +176,61 @@ xJavaFxTool
 │ ├─ main 
 │ │ ├─ the Java 
 │ │ │ └ com 
-│ │ │ └ ─ xwintop 
-│ │ │ └ ─ ─ xJavaFxTool 
-│ │ │ 
-├─ common third-party tools │ │ │ ├─ config springBoot configuration class 
-│ │ │ 
-├─ controller javafx control layer │ │ │ │ ├─ assistTools Auxiliary Tool Control Layer 
-│ │ │ │ ├ ─ codeTools Code Tool Control Layer 
-│ │ │ │ ├─ debugTools Debug Tool Control Layer 
-│ │ │ │ ├─ developTools Development Tool Control Layer 
-│ │ │ │ ├─ epmsTools epms Tool Control Layer 
-│ │ │ │ ├─ javaFxTools javaFx tool control layer 
-│ │ │ │ ├─ littleTools gadget control layer
-│ │ │ │ └ ─ webTools html tool control layer 
-│ │ │ ├─ job timed task processing job 
-│ │ │ ├─ main main function package 
-│ │ │ ├─ manager management 
-│ │ │ ├─ model basic bean class layer 
-│ │ │ ├─ services tool service layer 
-│ │ │ │ ├─ assistTools auxiliary tool service layer 
-│ │ │ │ ├─ codeTools Code tool service layer 
-│ │ │ │ ├─ debugTools debugging tool service layer 
-│ │ │ │ ├─ developTools development tool service layer 
-│ │ │ │ ├─ epmsTools epms tool service layer 
-│ │ │ │ ├─ javaFxTools javaFx tool service layer 
-│ │ │ │ ├─ littleTools gadgets service layer 
-│ │ │ │ └─ webTools html tool service layer 
-│ │ │ ├─ Utils system tools class 
-│ │ │ ├─ view javafx view layer 
-│ │ │ │ ├─ assistTools auxiliary tool view layer 
-│ │ │ │ ├─ codeTools Code tool view layer
-│ │ │ │ ├─ debugTools debugging tool View layer 
-│ │ │ │ ├─ developTools development tools view layer 
-│ │ │ │ ├─ javaFxTools javaFx tool view layer 
-│ │ │ │ ├─ littleTools widget view layer 
-│ │ │ │ └─ webTools html tool view layer 
-│ │ │ └ ─ web web control view layer 
-│ └ ─ resources 
-│ │ ├ com 
-│ │ │ └ ─ xwintop 
-│ │ │ └─ xJavaFxTool 
-│ │ │ └─ fxmlView .fxml file│ 
-│ 
-├─ Config configuration file │ │ │ └─ toolFxmlLoaderConfiguration.xml system menu loading configuration file 
-│ │ ├─ css style resource 
-│ │ ├─ data data resource 
-│ │ ├─ images image resource 
-│ │ ├─ locale internationalization 
-│ │ ├─ web html tools 
-│ │ ├─ application.yaml SpringBoot configuration file 
-│ │ ├─ banner.txt start banner pictures
-│ │ └─ logback.xml logback log configuration file 
+│ │ │  └ ─ xwintop 
+│ │ │   └ ─ ─ xJavaFxTool 
+│ │ │   ├─ common third-party tools 
+│ │ │   ├─ config springBoot configuration class 
+│ │ │   ├─ controller javafx control layer 
+│ │ │   │ ├─ assistTools Auxiliary Tool Control Layer 
+│ │ │   │ ├ ─ codeTools Code Tool Control Layer 
+│ │ │   │ ├─ debugTools Debug Tool Control Layer 
+│ │ │   │ ├─ developTools Development Tool Control Layer 
+│ │ │   │ ├─ epmsTools epms Tool Control Layer 
+│ │ │   │ ├─ javaFxTools javaFx tool control layer 
+│ │ │   │ ├─ littleTools gadget control layer
+│ │ │   │ └ ─ webTools html tool control layer 
+│ │ │   ├─ job timed task processing job 
+│ │ │   ├─ main main function package 
+│ │ │   ├─ manager management 
+│ │ │   ├─ model basic bean class layer 
+│ │ │   ├─ services tool service layer 
+│ │ │   │ ├─ assistTools auxiliary tool service layer 
+│ │ │   │ ├─ codeTools Code tool service layer 
+│ │ │   │ ├─ debugTools debugging tool service layer 
+│ │ │   │ ├─ developTools development tool service layer 
+│ │ │   │ ├─ epmsTools epms tool service layer 
+│ │ │   │ ├─ javaFxTools javaFx tool service layer 
+│ │ │   │ ├─ littleTools gadgets service layer 
+│ │ │   │ └─ webTools html tool service layer 
+│ │ │   ├─ Utils system tools class 
+│ │ │   ├─ view javafx view layer 
+│ │ │   │ ├─ assistTools auxiliary tool view layer 
+│ │ │   │ ├─ codeTools Code tool view layer
+│ │ │   │ ├─ debugTools debugging tool View layer 
+│ │ │   │ ├─ developTools development tools view layer 
+│ │ │   │ ├─ javaFxTools javaFx tool view layer 
+│ │ │   │ ├─ littleTools widget view layer 
+│ │ │   │ └─ webTools html tool view layer 
+│ │ │   └ ─ web web control view layer 
+│ │ └ ─ resources 
+│ │     ├ com 
+│ │     │ └ ─ xwintop 
+│ │     │  └─ xJavaFxTool 
+│ │     │   └─ fxmlView .fxml file
+│ │     ├─ Config configuration file 
+│ │     │ └─ toolFxmlLoaderConfiguration.xml system menu loading configuration file 
+│ │     ├─ css style resource 
+│ │     ├─ data data resource 
+│ │     ├─ images image resource 
+│ │     ├─ locale internationalization 
+│ │     ├─ web html tools 
+│ │     ├─ application.yaml SpringBoot configuration file 
+│ │     ├─ banner.txt start banner pictures
+│ │     └─ logback.xml logback log configuration file 
 │ └─ test test class 
-│ 
-├─ java │ 
-└─ resources ├─ xJavaFxTool.jar run the package directly
+│   ├─ java 
+│   └─ resources 
+├─ xJavaFxTool.jar run the package directly
 
 ```
 

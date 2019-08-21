@@ -19,6 +19,8 @@
 	</a>
 </p>
 
+[英文说明/English Documentation](README_EN.md)
+
 **xJavaFxTool交流QQ群：== [387473650](https://jq.qq.com/?_wv=1027&k=59UDEAD) ==**
 
 #### 项目简介：
