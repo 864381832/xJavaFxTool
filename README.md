@@ -103,6 +103,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 50. FileSearchTool:文件搜索工具(使用[lucene](https://lucene.apache.org/)搜索引擎)
 51. Mp3ConvertTool:Mp3转换工具(目前支持网易云音乐.ncm、QQ音乐.qmc转换为mp3格式)(使用[jaudiotagger](http://www.jthink.net/jaudiotagger/)工具)
 52. SealBuilderTool:印章生成工具
+53. BullsAndCowsGame:猜数字小游戏
 
 传输工具目前支持功能如下：
 
