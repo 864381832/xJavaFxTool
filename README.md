@@ -29,12 +29,12 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 由于SpringBoot的火热，项目已经出SpringBoot-javafx版本，[xJavaFxTool-spring](https://gitee.com/xwintop/xJavaFxTool-spring) 欢迎参考，谢谢。
 
 #### 下载试用地址：
-- 可直接运行的jar包(本地需要有jdk1.8环境)[xJavaFxTool-0.1.7.jar](https://dev.tencent.com/s/8c2f9586-475f-4ece-9027-74c98b8c2c6c)
-- Windows x86安装包(兼容xp、windows7、8、10等系统)[xJavaFxTool-0.1.7-windows-x86.exe](https://dev.tencent.com/s/61e19e79-9745-4746-8e46-8f39f14a0ed4)
-- Windows x64安装包(兼容xp、windows7、8、10等系统)[xJavaFxTool-0.1.7-windows-x64.exe](https://dev.tencent.com/s/dce303db-cd17-40fa-99fd-c3be431fc384)
-- Linux x64 [xJavaFxTool-0.1.7-linux-x64.zip](https://dev.tencent.com/s/8c55b6f4-ddec-4a3e-b808-33519fea313a) (Linux平台64位运行压缩包，解压即可运行)
-- Mac OS X x64 [xJavaFxTool-0.1.7-macosx-x64.dmg](https://dev.tencent.com/s/c923e93f-6729-4748-87b6-2ffd71451a46)
-- Mac OS X x64 [xJavaFxTool-0.1.7-macosx-x64.pkg](https://dev.tencent.com/s/bb44f658-2123-4f8b-a514-7361d3bf4c89)
+- 可直接运行的jar包(本地需要有jdk1.8环境)[xJavaFxTool-0.1.8.jar](https://dev.tencent.com/s/5c25970c-6379-42ac-a0b5-902774e9c7cf)
+- Windows x86安装包(兼容xp、windows7、8、10等系统)[xJavaFxTool-0.1.8-windows-x86.exe](https://dev.tencent.com/s/58230a77-efb2-4b78-9ee1-b966d3263e68)
+- Windows x64安装包(兼容xp、windows7、8、10等系统)[xJavaFxTool-0.1.8-windows-x64.exe](https://dev.tencent.com/s/d0e4c8cb-75bf-416f-8d6d-ef75e47ddcf4)
+- Linux x64 [xJavaFxTool-0.1.8-linux-x64.zip](https://dev.tencent.com/s/614f64f5-29f7-432c-8db4-83ca30ac1617) (Linux平台64位运行压缩包，解压即可运行)
+- Mac OS X x64 [xJavaFxTool-0.1.8-macosx-x64.dmg](https://dev.tencent.com/s/eb26c1ef-b57a-46d7-8151-e48aff74753a)
+- Mac OS X x64 [xJavaFxTool-0.1.8-macosx-x64.pkg](https://dev.tencent.com/s/c4fc6118-33b5-4fea-86c8-5653d4ab22e1)
 #### 若上面下链接失效可使用下面下载链接：
 - 百度云链接：[https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA](https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA)  提取码：mokl
 - 腾讯微云链接：[https://share.weiyun.com/5T6FPLW](https://share.weiyun.com/5T6FPLW) 提取码：java
