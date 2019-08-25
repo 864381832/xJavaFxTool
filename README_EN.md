@@ -285,3 +285,4 @@ From time to time, add the pain points tool that summarizes the requirements in 
 ![输入图片说明](images/剪贴板历史工具.png "剪贴板历史工具.png")
 ![输入图片说明](images/久坐提醒工具.png "久坐提醒工具.png")
 ![输入图片说明](images/印章生成工具.png "印章生成工具.png")
+![输入图片说明](images/猜数字游戏.png "猜数字游戏.png")

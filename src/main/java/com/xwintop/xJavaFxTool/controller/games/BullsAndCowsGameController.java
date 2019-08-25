@@ -2,6 +2,7 @@ package com.xwintop.xJavaFxTool.controller.games;
 
 import com.xwintop.xJavaFxTool.services.games.BullsAndCowsGameService;
 import com.xwintop.xJavaFxTool.view.games.BullsAndCowsGameView;
+import com.xwintop.xcore.util.javafx.AlertUtil;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -120,6 +121,7 @@ public class BullsAndCowsGameController extends BullsAndCowsGameView {
     private void initService() {
         bullsAndCowsGameService.initAnswerNumber();
         bullsAndCowsGameService.initRecordData();
+        AlertUtil.showInfoAlert("游戏说明", "程序生成一个每个数字不同的四位数，根据游戏者每次猜测的数字做出提示，有喜者经过逻辑推理，在最短的时间内用最少的猜测次数得到正确的数字，来挑战一下自己的记录吧！！");
     }
 
     @FXML
