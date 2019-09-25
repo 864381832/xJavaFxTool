@@ -48,7 +48,6 @@ public class KafkaToolController extends KafkaToolView {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		AlertUtil.showInfoAlert("该工具未完善，谢谢！！！");
 		initService();
 		initView();
 		initEvent();

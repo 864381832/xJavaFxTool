@@ -27,6 +27,11 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.kafka.core.ConsumerFactory;
+import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.listener.AcknowledgingMessageListener;
+import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
+import org.springframework.kafka.listener.ContainerProperties;
 
 import javax.jms.Message;
 import java.io.File;
@@ -49,6 +54,8 @@ public class KafkaToolService {
     private String fileName = "KafkaToolConfigure.properties";
     private ScheduleManager scheduleManager = new ScheduleManager();
     private Map<String, Message> receiverMessageMap = new HashMap<String, Message>();
+
+    private ConcurrentMessageListenerContainer<String, String> concurrentMessageListenerContainer = null;
 
     public void saveConfigure() throws Exception {
         saveConfigure(ConfigureUtil.getConfigureFile(fileName));
@@ -157,17 +164,47 @@ public class KafkaToolService {
      * @Description: receiver端监听消息
      */
     public void receiverMessageListenerAction() {
+        if (concurrentMessageListenerContainer == null) {
+            Properties props = new Properties();
+            props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaToolController.getUrlTextField().getText().trim());
+            props.put(ConsumerConfig.GROUP_ID_CONFIG, kafkaToolController.getGroupIdTextField().getText().trim());
+            props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
+            props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, 180000);
+            props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+            props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+            props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+            props.put(ConsumerConfig.MAX_PARTITION_FETCH_BYTES_CONFIG, 5242880);
+            props.put(ConsumerConfig.REQUEST_TIMEOUT_MS_CONFIG, 305000);
+            props.put("pollTimeoutms", 5000);
+            props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 3);
+            ConsumerFactory<String, byte[]> consumerFactory = new DefaultKafkaConsumerFactory(props);
+            ContainerProperties containerProperties = new ContainerProperties(kafkaToolController.getReceiverQueueTextField().getText().trim());
+            containerProperties.setAckMode(ContainerProperties.AckMode.MANUAL);
+
+            concurrentMessageListenerContainer = new ConcurrentMessageListenerContainer(consumerFactory, containerProperties);
+            concurrentMessageListenerContainer.setErrorHandler((thrownException, data) -> {
+                log.error(" Kafka接收器ErrorHandler:", thrownException);
+                concurrentMessageListenerContainer.stop();
+            });
+            concurrentMessageListenerContainer.setupMessageListener((AcknowledgingMessageListener<String, String>) (record, acknowledgment) -> {
+                try {
+                    String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(record.timestamp()));
+                    KafkaToolReceiverTableBean kafkaToolReceiverTableBean = new KafkaToolReceiverTableBean(record.key(), record.topic(), record.value(), "String", timestamp, true);
+                    kafkaToolController.getReceiverTableData().add(kafkaToolReceiverTableBean);
+                    acknowledgment.acknowledge();
+                } catch (Exception e) {
+                    log.error("ReceiverKafka处理消息失败：" + e.getMessage());
+                    concurrentMessageListenerContainer.stop();
+                }
+            });
+            concurrentMessageListenerContainer.start();
+        }
     }
 
     public void receiverMessageStopListenerAction() {
-//        if (connection != null) {
-//            try {
-//                connection.close();
-//            } catch (JMSException e) {
-//                log.error(e.getMessage());
-//                TooltipUtil.showToast(e.getMessage());
-//            }
-//        }
+        if (concurrentMessageListenerContainer != null) {
+            concurrentMessageListenerContainer.stop();
+        }
     }
 
     /**
@@ -189,17 +226,21 @@ public class KafkaToolService {
         props.put("pollTimeoutms", 5000);
         props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 3);
         KafkaConsumer consumer = new KafkaConsumer(props);
-        consumer.subscribe(Arrays.asList(kafkaToolController.getReceiverQueueTextField().getText().trim()));
-        ConsumerRecords<String, String> records = consumer.poll(0);
-        for (ConsumerRecord<String, String> record : records) {
+        try {
+            consumer.subscribe(Arrays.asList(kafkaToolController.getReceiverQueueTextField().getText().trim()));
+            ConsumerRecords<String, String> records = consumer.poll(1000);
+            for (ConsumerRecord<String, String> record : records) {
 //            log.info("offset = %d, key = %s, value = %s", record.offset(), record.key(), record.value());
-            log.info("msgValue" + record.value());
-            String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(record.timestamp()));
-            KafkaToolReceiverTableBean kafkaToolReceiverTableBean = new KafkaToolReceiverTableBean(
-                    record.key(), record.topic(), record.value(), "String", timestamp, false);
-            kafkaToolController.getReceiverTableData().add(kafkaToolReceiverTableBean);
+                log.info("msgValue" + record.value());
+                String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(record.timestamp()));
+                KafkaToolReceiverTableBean kafkaToolReceiverTableBean = new KafkaToolReceiverTableBean(
+                        record.key(), record.topic(), record.value(), "String", timestamp, false);
+                kafkaToolController.getReceiverTableData().add(kafkaToolReceiverTableBean);
+            }
+            consumer.commitAsync();
+        } finally {
+            consumer.close();
         }
-        consumer.commitAsync();
     }
 
     public KafkaToolService(KafkaToolController kafkaToolController) {

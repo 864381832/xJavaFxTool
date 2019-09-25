@@ -17,6 +17,5 @@ public class KafkaToolJob implements Job {
 			e.printStackTrace();
 		}
 		 JobKey jobKey = context.getJobDetail().getKey();
-		 System.out.println("执行了"+jobKey);
 	}
 }
