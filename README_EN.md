@@ -104,6 +104,7 @@ Support plug-in development, the plug-in jar package can be automatically loaded
 51. Mp3ConvertTool: Mp3 conversion tool (currently supports NetEase cloud music.ncm, QQ music.qmc converted to mp3 format) (using [jaudiotagger](http://www.jthink.net/jaudiotagger/) tool)
 52. SealBuilderTool: Stamp Generation Tool
 53. BullsAndCowsGame: A number guessing game
+54. FileUnicodeTransformationTool: File encoding conversion tool
 
 ##### The transfer tools currently support the following features:
 ###### Receiver:

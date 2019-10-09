@@ -304,6 +304,11 @@
         <url>/com/xwintop/xJavaFxTool/fxmlView/games/BullsAndCowsGame.fxml</url>
         <title>BullsAndCowsGame</title>
         <menuParentId>games</menuParentId>
+    </ToolFxmlLoaderConfiguration>
+    <ToolFxmlLoaderConfiguration>
+        <url>/com/xwintop/xJavaFxTool/fxmlView/codeTools/FileUnicodeTransformationTool.fxml</url>
+        <title>FileUnicodeTransformationTool</title>
+        <menuParentId>codeTools</menuParentId>
         <isDefaultShow></isDefaultShow>
     </ToolFxmlLoaderConfiguration>
 
