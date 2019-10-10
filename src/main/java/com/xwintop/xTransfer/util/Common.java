@@ -3,8 +3,11 @@ package com.xwintop.xTransfer.util;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.mozilla.universalchardet.UniversalDetector;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.InputStream;
 import java.util.Date;
 
 /**
@@ -109,5 +112,37 @@ public class Common {
             file = new File(file.getPath() + DateFormatUtils.format(new Date(), ".yyyyMMddHHmmssss"));
         }
         return file;
+    }
+
+    /**
+     * @param bytes 待检测编码bytes
+     * @return 字符串编码
+     */
+    public static String detectFileCharset(byte[] bytes) throws Exception {
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
+        return detectFileCharset(byteArrayInputStream, 51200);
+    }
+
+    /**
+     * @param inputStream  输入流
+     * @param detectLength 检测长度
+     * @return 字符串编码
+     */
+    public static String detectFileCharset(InputStream inputStream, int detectLength) throws Exception {
+        String charset;
+        byte[] buf = new byte[detectLength];
+        UniversalDetector detector = new UniversalDetector(null);
+        int nread;
+        while ((nread = inputStream.read(buf)) > 0 && !detector.isDone()) {
+            detector.handleData(buf, 0, nread);
+        }
+        detector.handleData(buf, 0, buf.length);
+        detector.dataEnd();
+        charset = detector.getDetectedCharset();
+        detector.reset();
+        if (inputStream != null) {
+            inputStream.close();
+        }
+        return charset;
     }
 }

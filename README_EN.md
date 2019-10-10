@@ -138,6 +138,7 @@ Filter：
 | PythonScript  | FilterConfigPythonScript  | Will execute Python script         |
 | JavaScript    | FilterConfigJavaScript    | Will execute a JavaScript script   |
 | LuaScript     | FilterConfigLuaScript     | Will execute the Lua script        |
+| UnicodeTransformation     | FilterConfigUnicodeTransformation     | Encode the message for conversion   |
 
 Sender：
 

@@ -139,6 +139,7 @@ Filter处理器：
 | PythonScript  | FilterConfigPythonScript  | 将执行Python脚本   |
 | JavaScript    | FilterConfigJavaScript    | 将执行JavaScript脚本   |
 | LuaScript     | FilterConfigLuaScript     | 将执行Lua脚本   |
+| UnicodeTransformation     | FilterConfigUnicodeTransformation     | 将消息编码进行转换   |
 
 Sender发送器：
 
@@ -169,7 +170,6 @@ Sender发送器：
 - [ ] 随机文件生成器(带模版引擎)
 - [x] 文件搜索功能
 - [ ] OCR小工具
-- [ ] 文件编码转换工具
 
 #### 项目结构
 

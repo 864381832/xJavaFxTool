@@ -204,6 +204,7 @@ public class TransferToolTaskViewController extends TransferToolTaskViewView {
                         "FilterConfigPythonScript",
                         "FilterConfigJavaScript",
                         "FilterConfigLuaScript",
+                        "FilterConfigUnicodeTransformation",
                 };
                 for (String className : classNameS) {
                     MenuItem menuAdd = new MenuItem(className);
