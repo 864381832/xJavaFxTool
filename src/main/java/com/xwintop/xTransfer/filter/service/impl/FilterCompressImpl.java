@@ -7,17 +7,30 @@ import com.xwintop.xTransfer.messaging.IContext;
 import com.xwintop.xTransfer.messaging.IMessage;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.compress.archivers.ArchiveEntry;
+import org.apache.commons.compress.archivers.ArchiveOutputStream;
+import org.apache.commons.compress.archivers.ArchiveStreamFactory;
+import org.apache.commons.compress.archivers.ar.ArArchiveEntry;
+import org.apache.commons.compress.archivers.ar.ArArchiveOutputStream;
+import org.apache.commons.compress.archivers.cpio.CpioArchiveEntry;
+import org.apache.commons.compress.archivers.cpio.CpioArchiveOutputStream;
+import org.apache.commons.compress.archivers.sevenz.SevenZArchiveEntry;
+import org.apache.commons.compress.archivers.sevenz.SevenZOutputFile;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
+import org.apache.commons.compress.compressors.CompressorOutputStream;
+import org.apache.commons.compress.compressors.CompressorStreamFactory;
+import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
+import org.apache.commons.compress.compressors.gzip.GzipParameters;
+import org.apache.commons.compress.utils.SeekableInMemoryByteChannel;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
-import java.util.Iterator;
+import java.io.File;
 import java.util.List;
 import java.util.Map;
-import java.util.zip.GZIPOutputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 /**
  * @ClassName: FilterCompressImpl
@@ -35,71 +48,102 @@ public class FilterCompressImpl implements Filter {
 
     @Override
     public void doFilter(IContext ctx, Map params) throws Exception {
-        String zipType = null;
         IMessage msg = ctx.getMessages().get(0);
-        Map args = filterConfigCompress.getArgs();
-        log.debug("执行了压缩动作");
-        if (msg != null) {
-            zipType = msg.getProperties().getProperty("COMPRESS_METHOD");
-            if (StringUtils.isBlank(zipType)) {
-                zipType = StringUtils.defaultIfBlank(filterConfigCompress.getMethod(), "zip");
+        if (StringUtils.isNotBlank(filterConfigCompress.getFileNameFilterRegex())) {
+            String fileNameFilterRegexGroup = filterConfigCompress.getFileNameFilterRegexGroup();
+            if (StringUtils.isEmpty(fileNameFilterRegexGroup)) {
+                fileNameFilterRegexGroup = "defaultRegexGroup";
+            }
+            if ("?!".equals(filterConfigCompress.getFileNameFilterRegex())) {
+                if (msg.checkFileNameFilterRegexGroup(fileNameFilterRegexGroup)) {
+                    log.info("Filter:" + filterConfigCompress.getId() + "跳过fileName：" + msg.getFileName());
+                    return;
+                }
+            } else {
+                if (!msg.getFileName().matches(filterConfigCompress.getFileNameFilterRegex())) {
+                    log.info("Filter:" + filterConfigCompress.getId() + "跳过fileName：" + msg.getFileName());
+                    return;
+                }
+                msg.addFileNameFilterRegexGroup(fileNameFilterRegexGroup);
             }
         }
+        //        Map args = filterConfigCompress.getArgs();
+        String zipType = msg.getProperties().getProperty("COMPRESS_METHOD");
         if (StringUtils.isBlank(zipType)) {
-            zipType = "zip";
+            zipType = StringUtils.defaultIfBlank(filterConfigCompress.getMethod(), "zip");
         }
-        log.debug("begin unzip data,zip type is:" + zipType);
-        byte[] zippedData;
-        if ("zip".equalsIgnoreCase(zipType)) {
-            List rawList = ctx.getMessages();
-            zippedData = this.zip(rawList);
+        byte[] zippedData = null;
+        if (new ArchiveStreamFactory().getOutputStreamArchiveNames().contains(zipType.toLowerCase())) {
+            zippedData = this.zip(ctx.getMessages(), zipType);
+        } else if (CompressorStreamFactory.getSingleton().getOutputStreamCompressorNames().contains(zipType.toLowerCase())) {
+            zippedData = this.gzip(msg, zipType);
         } else {
-            zippedData = this.gzip(msg);
+            log.warn("未支持该压缩格式：" + zipType + " Filter:" + filterConfigCompress.getId() + " fileName:" + msg.getFileName());
+            return;
         }
         msg.getProperties().put("COMPRESS_METHOD", zipType);
         if (filterConfigCompress.isAddPostfixName()) {
+            msg.getProperties().put("ZIP_FILE_NAME", msg.getFileName());
             msg.setFileName(msg.getFileName() + "." + zipType);
         }
-        log.debug("success zip data.");
+        log.info("Filter:" + filterConfigCompress.getId() + "success zip data." + msg.getFileName());
         msg.setMessage(zippedData);
         ctx.setMessage(msg);
     }
 
-    private byte[] zip(List list) throws Exception {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        if (list != null && list.size() > 0) {
-            ZipOutputStream zout = new ZipOutputStream(baos);
-            for (Iterator it = list.iterator(); it.hasNext(); ) {
-                IMessage msg = (IMessage) it.next();
-                this.zip(msg, zout);
+    private byte[] zip(List<IMessage> list, String zipType) throws Exception {
+        if (ArchiveStreamFactory.SEVEN_Z.equalsIgnoreCase(zipType)) {
+            SeekableInMemoryByteChannel seekableByteChannel = new SeekableInMemoryByteChannel();
+            SevenZOutputFile sevenZOutput = new SevenZOutputFile(seekableByteChannel);
+            for (IMessage msg : list) {
+                SevenZArchiveEntry entry = new SevenZArchiveEntry();
+                entry.setName(msg.getFileName());
+                sevenZOutput.putArchiveEntry(entry);
+                sevenZOutput.write(msg.getMessage());
+                sevenZOutput.closeArchiveEntry();
             }
-            zout.close();
-            zout = null;
-        } else {
-            log.warn("no message for compress...");
+            sevenZOutput.close();
+            return seekableByteChannel.array();
         }
-        byte zippedData[] = baos.toByteArray();
-        baos.close();
-        baos = null;
-        return zippedData;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ArchiveOutputStream archiveOutputStream = new ArchiveStreamFactory().createArchiveOutputStream(zipType, outputStream);
+        for (IMessage msg : list) {
+            if (archiveOutputStream instanceof ArArchiveOutputStream) {
+                ((ArArchiveOutputStream) archiveOutputStream).setLongFileMode(ArArchiveOutputStream.LONGFILE_BSD);
+            }
+            ArchiveEntry entry = null;
+            if (archiveOutputStream instanceof ArArchiveOutputStream) {
+                entry = new ArArchiveEntry(msg.getFileName(), msg.getMessage().length);
+            } else if (archiveOutputStream instanceof TarArchiveOutputStream) {
+                entry = new TarArchiveEntry(msg.getFileName());
+                ((TarArchiveEntry) entry).setSize(msg.getMessage().length);
+            } else if (archiveOutputStream instanceof CpioArchiveOutputStream) {
+                entry = new CpioArchiveEntry(msg.getFileName());
+                ((CpioArchiveEntry) entry).setSize(msg.getMessage().length);
+            } else {
+                entry = archiveOutputStream.createArchiveEntry(new File(msg.getFileName()), msg.getFileName());
+            }
+            archiveOutputStream.putArchiveEntry(entry);
+            archiveOutputStream.write(msg.getMessage());
+            archiveOutputStream.closeArchiveEntry();
+        }
+        archiveOutputStream.close();
+        return outputStream.toByteArray();
     }
 
-
-    private void zip(IMessage msg, ZipOutputStream zout) throws Exception {
-        zout.putNextEntry(new ZipEntry(msg.getFileName()));
-        zout.write(msg.getMessage());
-    }
-
-    private byte[] gzip(IMessage msg) throws Exception {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        GZIPOutputStream gout = new GZIPOutputStream(baos);
-        gout.write(msg.getMessage());
-        gout.close();
-        gout = null;
-        byte[] zipData = baos.toByteArray();
-        baos.close();
-        baos = null;
-        return zipData;
+    private byte[] gzip(IMessage msg, String zipType) throws Exception {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        CompressorOutputStream compressorOutputStream;
+        if (CompressorStreamFactory.GZIP.equalsIgnoreCase(zipType)) {
+            GzipParameters gzipParameters = new GzipParameters();
+            gzipParameters.setFilename(msg.getFileName());
+            compressorOutputStream = new GzipCompressorOutputStream(outputStream, gzipParameters);
+        } else {
+            compressorOutputStream = CompressorStreamFactory.getSingleton().createCompressorOutputStream(zipType, outputStream);
+        }
+        compressorOutputStream.write(msg.getMessage());
+        compressorOutputStream.close();
+        return outputStream.toByteArray();
     }
 
     @Override

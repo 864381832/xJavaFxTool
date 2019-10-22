@@ -20,6 +20,7 @@ public class FilterConfigCompress implements FilterConfig {
     private boolean async = false;//是否异步执行
     private boolean exceptionExit = false;//是否发生异常时退出任务
     private String fileNameFilterRegex;//文件名过滤正则表达式
+    private String fileNameFilterRegexGroup;//文件名过滤正则表达式分组
 
     private boolean isAddPostfixName = true;//是否添加压缩后缀名
     private String method = "zip";//压缩类型

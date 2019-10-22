@@ -64,7 +64,7 @@ public class FilterGroovyScriptImpl implements Filter {
         }
         if (StringUtils.isNotEmpty(filterConfigGroovyScript.getScriptFilePath())) {
             String script = new String(Files.readAllBytes(Paths.get(filterConfigGroovyScript.getScriptFilePath())));
-            shell.evaluate(script);
+            shell.evaluate(script, filterConfigGroovyScript.getFileNameFilterRegex(), filterConfigGroovyScript.getFileNameFilterRegex());
         }
         log.info("filterGroovyScript success! msgId:" + msg.getId());
         Msg msgLogInfo = new Msg(LOGVALUES.EVENT_MSG_FILTER, msg.getId(), null);

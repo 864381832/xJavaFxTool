@@ -19,8 +19,10 @@ public class FilterConfigDecompress implements FilterConfig {
     private boolean async = false;//是否异步执行
     private boolean exceptionExit = false;//是否发生异常时退出任务
     private String fileNameFilterRegex;//文件名过滤正则表达式
+    private String fileNameFilterRegexGroup;//文件名过滤正则表达式分组
 
     private String method = "zip";//解压类型
     private String encoding;      //文件编码
+    private String actualEncoding;//用于文件名和注释的字符集
     private Map args = new HashMap();
 }
