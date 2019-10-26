@@ -309,7 +309,12 @@
         <url>/com/xwintop/xJavaFxTool/fxmlView/codeTools/FileUnicodeTransformationTool.fxml</url>
         <title>FileUnicodeTransformationTool</title>
         <menuParentId>codeTools</menuParentId>
-        <isDefaultShow></isDefaultShow>
+    </ToolFxmlLoaderConfiguration>
+    <ToolFxmlLoaderConfiguration>
+        <url>/com/xwintop/xJavaFxTool/fxmlView/littleTools/FileCompressTool.fxml</url>
+        <title>FileCompressTool</title>
+        <menuParentId>littleTools</menuParentId>
+        <isDefaultShow>true</isDefaultShow>
     </ToolFxmlLoaderConfiguration>
 
     <ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"

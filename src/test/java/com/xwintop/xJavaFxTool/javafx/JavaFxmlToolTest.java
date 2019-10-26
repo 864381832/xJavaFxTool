@@ -10,8 +10,8 @@ public class JavaFxmlToolTest {
 //    private String projectPath = "E:\\ideaWorkspaces\\xwintop\\xJavaFxTool\\src\\main\\";
     private String projectPath = "";
     private String resources = projectPath + "resources\\com\\xwintop\\xJavaFxTool\\fxmlView\\";
-//    private String xmlPath = "littleTools\\FileRenameTool";
-    private String xmlPath = "epmsTools\\gatewayConfTool\\GatewayConfToolServiceView";
+    private String xmlPath = "littleTools\\FileCompressTool";
+//    private String xmlPath = "epmsTools\\gatewayConfTool\\GatewayConfToolServiceView";
     private String srcPath = projectPath + "java\\com\\xwintop\\xJavaFxTool\\";
     @Test
     public void buildJava() throws Exception {
