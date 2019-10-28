@@ -314,7 +314,7 @@
         <url>/com/xwintop/xJavaFxTool/fxmlView/littleTools/FileCompressTool.fxml</url>
         <title>FileCompressTool</title>
         <menuParentId>littleTools</menuParentId>
-        <isDefaultShow>true</isDefaultShow>
+        <isDefaultShow></isDefaultShow>
     </ToolFxmlLoaderConfiguration>
 
     <ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"

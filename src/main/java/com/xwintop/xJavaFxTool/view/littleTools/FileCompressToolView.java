@@ -34,6 +34,6 @@ public abstract class FileCompressToolView implements Initializable {
     @FXML
     protected Button saveFilePathButton;
     @FXML
-    protected ChoiceBox fileTypeChoiceBox;
+    protected ChoiceBox<String> fileTypeChoiceBox;
 
 }

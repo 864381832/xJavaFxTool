@@ -3,6 +3,7 @@ package com.xwintop.xJavaFxTool.controller.littleTools;
 import com.xwintop.xJavaFxTool.services.littleTools.FileCompressToolService;
 import com.xwintop.xJavaFxTool.view.littleTools.FileCompressToolView;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
+import com.xwintop.xcore.util.javafx.TooltipUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
@@ -47,7 +48,7 @@ public class FileCompressToolController extends FileCompressToolView {
     }
 
     private void initEvent() {
-        FileChooserUtil.setOnDrag(selectFileTextField, FileChooserUtil.FileType.FOLDER);
+        FileChooserUtil.setOnDrag(selectFileTextField, FileChooserUtil.FileType.FILE);
         FileChooserUtil.setOnDrag(saveFilePathTextField, FileChooserUtil.FileType.FOLDER);
     }
 
@@ -92,7 +93,12 @@ public class FileCompressToolController extends FileCompressToolView {
 
     @FXML
     private void compressAction(ActionEvent event) {
-        fileCompressToolService.compressAction();
+        try {
+            fileCompressToolService.compressAction();
+        } catch (Exception e) {
+            log.error("操作失败：", e);
+            TooltipUtil.showToast("操作失败！" + e.getMessage());
+        }
     }
 
 }
