@@ -1,23 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="mainAnchorPane" prefHeight="379.0" prefWidth="654.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.EncryptAndDecryptController">
+<AnchorPane fx:id="mainAnchorPane" prefHeight="449.0" prefWidth="660.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.EncryptAndDecryptController">
    <children>
-      <Label layoutX="14.0" layoutY="64.0" text="明文：" />
-      <Label layoutX="14.0" layoutY="264.0" text="密文：" />
-      <TextArea fx:id="encrptyTextArea" layoutX="50.0" layoutY="14.0" prefHeight="181.0" prefWidth="364.0" />
-      <TextArea fx:id="decrptyTextArea" layoutX="50.0" layoutY="206.0" prefHeight="166.0" prefWidth="364.0" />
-      <Label layoutX="435.0" layoutY="25.0" text="字符集：" />
-      <ChoiceBox fx:id="charsetsBox" layoutX="490.0" layoutY="21.0" prefHeight="23.0" prefWidth="138.0" />
-      <Button fx:id="encrptyButton" layoutX="431.0" layoutY="348.0" mnemonicParsing="false" onAction="#encrptyAction" prefHeight="23.0" prefWidth="92.0" text="加密" />
-      <Button fx:id="decrptyButton" layoutX="532.0" layoutY="348.0" mnemonicParsing="false" onAction="#decrptyAction" prefHeight="23.0" prefWidth="92.0" text="解密" />
-      <Label layoutX="435.0" layoutY="325.0" text="密钥：" />
-      <TextField fx:id="keyTextField" layoutX="477.0" layoutY="321.0" />
+      <BorderPane layoutX="14.0" layoutY="14.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <center>
+            <SplitPane dividerPositions="0.5" orientation="VERTICAL">
+               <items>
+                  <HBox>
+                     <children>
+                        <Label text="明文：" />
+                        <TextArea fx:id="encrptyTextArea" HBox.hgrow="ALWAYS" />
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Label text="密文：" />
+                        <TextArea fx:id="decrptyTextArea" HBox.hgrow="ALWAYS" />
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+               </items>
+            </SplitPane>
+         </center>
+         <top>
+            <VBox spacing="5.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER_LEFT" spacing="5.0">
+                     <children>
+                        <Label text="字符集：" />
+                        <ComboBox fx:id="charsetsBox" editable="true" />
+                        <Label text="密钥：" />
+                        <TextField fx:id="keyTextField" />
+                        <Button fx:id="encrptyButton" mnemonicParsing="false" onAction="#encrptyAction" prefHeight="23.0" prefWidth="92.0" text="加密" />
+                        <Button fx:id="decrptyButton" mnemonicParsing="false" onAction="#decrptyAction" prefHeight="23.0" prefWidth="92.0" text="解密" />
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" />
+                     </padding>
+                  </HBox>
+                  <FlowPane fx:id="cryptosFlowPane" hgap="5.0" vgap="5.0">
+                     <padding>
+                        <Insets bottom="5.0" />
+                     </padding>
+                  </FlowPane>
+               </children>
+            </VBox>
+         </top>
+      </BorderPane>
    </children>
 </AnchorPane>

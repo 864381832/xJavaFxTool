@@ -37,12 +37,6 @@ import java.util.ResourceBundle;
 
 public class EncryptAndDecryptController extends EncryptAndDecryptView {
     private ToggleGroup toggleGroup = new ToggleGroup();
-    /**
-     * 字符集.
-     */
-    private String[] charsets = new String[]{GuiUtils.CHARSET_UTF_8, GuiUtils.CHARSET_UTF_16BE,
-            GuiUtils.CHARSET_UTF_16LE, GuiUtils.CHARSET_UTF_16, GuiUtils.CHARSET_GBK, GuiUtils.CHARSET_Big5,
-            GuiUtils.CHARSET_ISO_8859_1};
 
     /**
      * 加密算法. 空""用于填充一个空位.
@@ -58,16 +52,14 @@ public class EncryptAndDecryptController extends EncryptAndDecryptView {
     }
 
     private void initView() {
-        charsetsBox.getItems().addAll(charsets);
-        charsetsBox.setValue(charsetsBox.getItems().get(0));
+        charsetsBox.getItems().addAll(Charset.availableCharsets().keySet());
+        charsetsBox.setValue("UTF-8");
         for (int i = 0; i < cryptos.length; i++) {
             if (!"".equals(cryptos[i])) {
                 RadioButton radioButton = new RadioButton(cryptos[i]);
-                radioButton.setLayoutX(440 + i % 3 * 100);
-                radioButton.setLayoutY(60 + i / 3 * 26);
                 radioButton.setToggleGroup(toggleGroup);
                 radioButton.setUserData(cryptos[i]);
-                mainAnchorPane.getChildren().add(radioButton);
+                cryptosFlowPane.getChildren().add(radioButton);
                 if (i == 0) {
                     radioButton.setSelected(true);
                 }
