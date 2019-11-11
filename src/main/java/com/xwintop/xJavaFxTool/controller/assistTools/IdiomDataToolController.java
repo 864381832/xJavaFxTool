@@ -7,6 +7,7 @@ import com.xwintop.xcore.util.javafx.TooltipUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import lombok.Getter;
 import lombok.Setter;
@@ -50,6 +51,7 @@ public class IdiomDataToolController extends IdiomDataToolView {
     }
 
     private void initService() {
+        idiomDataToolService.initIdiomData();
     }
 
     @FXML
@@ -65,5 +67,9 @@ public class IdiomDataToolController extends IdiomDataToolView {
     @FXML
     private void clearAction(ActionEvent event) {
         idiomDataToolService.clearAction();
+    }
+
+    public void onCloseRequest(Event event) throws Exception {
+        idiomDataToolService.destroy();
     }
 }
