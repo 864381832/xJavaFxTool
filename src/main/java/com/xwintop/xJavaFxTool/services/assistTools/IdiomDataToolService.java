@@ -75,7 +75,7 @@ public class IdiomDataToolService {
         if (jdbcTemplate == null) {
             TooltipUtil.showToast("成语词典数据未准备好，请稍后重试...");
         }
-        String sql = "SELECT * FROM Idiom_dirty WHERE word like ?";
+        String sql = "SELECT * FROM Idiom_dirty WHERE word like ? or abbreviation like ?";
         String sqlArgs = "";
         if (StringUtils.isEmpty(idiomDataToolController.getSelectWordTextField().getText())) {
             String[] indexString = new String[]{
@@ -95,7 +95,7 @@ public class IdiomDataToolService {
         } else {
             sqlArgs = "%" + idiomDataToolController.getSelectWordTextField().getText() + "%";
         }
-        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, sqlArgs);
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, sqlArgs, sqlArgs);
         idiomDataToolController.getIdiomDataTableData().clear();
         for (Map<String, Object> stringObjectMap : list) {
             Map<String, String> dataRow = new HashMap<String, String>();

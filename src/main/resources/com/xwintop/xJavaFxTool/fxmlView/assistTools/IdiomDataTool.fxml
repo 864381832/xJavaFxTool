@@ -35,8 +35,8 @@
          <center>
             <TableView fx:id="idiomDataTableView" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn fx:id="wordTableColumn" maxWidth="140.0" minWidth="60.0" prefWidth="60.0" text="词目" />
-                <TableColumn fx:id="pinyinTableColumn" maxWidth="280.0" minWidth="120.0" prefWidth="120.0" text="发音" />
+                <TableColumn fx:id="wordTableColumn" maxWidth="200.0" minWidth="60.0" prefWidth="60.0" text="词目" />
+                <TableColumn fx:id="pinyinTableColumn" maxWidth="320.0" minWidth="120.0" prefWidth="120.0" text="发音" />
                   <TableColumn fx:id="explanationTableColumn" prefWidth="300.0" text="释义" />
                   <TableColumn fx:id="derivationTableColumn" prefWidth="250.0" text="出处" />
                   <TableColumn fx:id="exampleTableColumn" minWidth="0.0" prefWidth="250.0" text="示例" />
