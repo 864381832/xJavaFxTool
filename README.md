@@ -29,9 +29,9 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 由于SpringBoot的火热，项目已经出SpringBoot-javafx版本，[xJavaFxTool-spring](https://gitee.com/xwintop/xJavaFxTool-spring) 欢迎参考，谢谢。
 
 #### 下载试用地址：
-- 可直接运行的jar包(本地需要有jdk1.8环境)[xJavaFxTool-0.1.8.jar](https://dev.tencent.com/s/5c25970c-6379-42ac-a0b5-902774e9c7cf)
-- Windows x86安装包(兼容xp、windows7、8、10等系统)[xJavaFxTool-0.1.8-windows-x86.exe](https://dev.tencent.com/s/58230a77-efb2-4b78-9ee1-b966d3263e68)
-- Windows x64安装包(兼容xp、windows7、8、10等系统)[xJavaFxTool-0.1.8-windows-x64.exe](https://dev.tencent.com/s/d0e4c8cb-75bf-416f-8d6d-ef75e47ddcf4)
+- 可直接运行的jar包(本地需要有jdk1.8环境)[xJavaFxTool-0.1.9.jar](https://dev.tencent.com/s/a921ea8d-b27a-4166-aa27-0b5a3c87e5c4)
+- Windows x86安装包(兼容xp、windows7、8、10等系统)[xJavaFxTool-0.1.9-windows-x86.exe](https://dev.tencent.com/s/5c918250-0cb9-4e17-8f77-7167af0be772)
+- Windows x64安装包(兼容xp、windows7、8、10等系统)[xJavaFxTool-0.1.9-windows-x64.exe](https://dev.tencent.com/s/8cf9fa30-e033-4af0-beac-920c7eafce16)
 - Linux x64 [xJavaFxTool-0.1.8-linux-x64.zip](https://dev.tencent.com/s/614f64f5-29f7-432c-8db4-83ca30ac1617) (Linux平台64位运行压缩包，解压即可运行)
 - Mac OS X x64 [xJavaFxTool-0.1.8-macosx-x64.dmg](https://dev.tencent.com/s/eb26c1ef-b57a-46d7-8151-e48aff74753a)
 - Mac OS X x64 [xJavaFxTool-0.1.8-macosx-x64.pkg](https://dev.tencent.com/s/c4fc6118-33b5-4fea-86c8-5653d4ab22e1)
