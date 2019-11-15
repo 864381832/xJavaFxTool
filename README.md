@@ -33,8 +33,8 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 - Windows x86安装包(兼容xp、windows7、8、10等系统)[xJavaFxTool-0.1.9-windows-x86.exe](https://dev.tencent.com/s/5c918250-0cb9-4e17-8f77-7167af0be772)
 - Windows x64安装包(兼容xp、windows7、8、10等系统)[xJavaFxTool-0.1.9-windows-x64.exe](https://dev.tencent.com/s/8cf9fa30-e033-4af0-beac-920c7eafce16)
 - Linux x64 [xJavaFxTool-0.1.8-linux-x64.zip](https://dev.tencent.com/s/614f64f5-29f7-432c-8db4-83ca30ac1617) (Linux平台64位运行压缩包，解压即可运行)
-- Mac OS X x64 [xJavaFxTool-0.1.8-macosx-x64.dmg](https://dev.tencent.com/s/eb26c1ef-b57a-46d7-8151-e48aff74753a)
-- Mac OS X x64 [xJavaFxTool-0.1.8-macosx-x64.pkg](https://dev.tencent.com/s/c4fc6118-33b5-4fea-86c8-5653d4ab22e1)
+- Mac OS X x64 [xJavaFxTool-0.1.9-macosx-x64.dmg](https://dev.tencent.com/s/ab7e53a3-f827-46b1-825e-fae6a6bc9499)
+- Mac OS X x64 [xJavaFxTool-0.1.9-macosx-x64.pkg](https://dev.tencent.com/s/851780c6-ac34-42a6-8119-a3a0d9bf89d0)
 #### 若上面下链接失效可使用下面下载链接：
 - 百度云链接：[https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA](https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA)  提取码：mokl
 - 腾讯微云链接：[https://share.weiyun.com/5T6FPLW](https://share.weiyun.com/5T6FPLW) 提取码：java
