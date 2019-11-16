@@ -29,7 +29,7 @@
         </repository>
         <repository>
             <id>xwintop-maven</id>
-            <url>https://gitee.com/xwintop/maven/raw/master/repository</url>
+            <url>https://xwintop.gitee.io/maven/repository</url>
         </repository>
         <repository>
             <id>spring-snapshots</id>
