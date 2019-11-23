@@ -142,6 +142,7 @@ Filter处理器：
 | JavaScript    | FilterConfigJavaScript    | 将执行JavaScript脚本   |
 | LuaScript     | FilterConfigLuaScript     | 将执行Lua脚本   |
 | UnicodeTransformation     | FilterConfigUnicodeTransformation     | 将消息编码进行转换   |
+| ChangeStr     | FilterConfigChangeStr     | 将消息内容进行替换操作   |
 
 Sender发送器：
 
