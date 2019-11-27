@@ -125,7 +125,7 @@ public class RegexTesterController extends RegexTesterView {
         sb.insert(0, "\t直接匹配判断: " + sourceText.matches(regexText));
         if (isReplaceCheckBox.isSelected() && replaceText.length() != 0) {
             m.appendTail(rsb);
-            sb.append("\n\n替换匹配: ").append(rsb);
+            sb.append("\n\n替换匹配后内容: \n").append(rsb);
         }
         matchTextArea.setText(sb.length() > 0 ? sb.substring(1) : "");
     }

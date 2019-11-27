@@ -14,6 +14,7 @@ import javafx.stage.FileChooser;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -44,6 +45,7 @@ public class TextToSpeechToolService {
         TtsResponse res = getTtsResponse();
         byte[] data = res.getData(); //生成的音频数据
         if (data != null) {
+            FileUtils.forceMkdirParent(new File(mp3Cache));
             Util.writeBytesToFileSystem(data, mp3Cache);
 //            audioStream = new AudioStream(new ByteArrayInputStream(data));
 //            AudioPlayer.player.start(audioStream);//用静态成员player.start播放音乐
