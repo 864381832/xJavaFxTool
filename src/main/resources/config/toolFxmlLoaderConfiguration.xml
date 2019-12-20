@@ -319,6 +319,11 @@
         <url>/com/xwintop/xJavaFxTool/fxmlView/assistTools/IdiomDataTool.fxml</url>
         <title>IdiomDataTool</title>
         <menuParentId>assistTools</menuParentId>
+    </ToolFxmlLoaderConfiguration>
+    <ToolFxmlLoaderConfiguration>
+        <url>/com/xwintop/xJavaFxTool/fxmlView/epmsTools/DxpMsgTool.fxml</url>
+        <title>DxpMsgTool</title>
+        <menuParentId>epmsTools</menuParentId>
         <isDefaultShow></isDefaultShow>
     </ToolFxmlLoaderConfiguration>
 
