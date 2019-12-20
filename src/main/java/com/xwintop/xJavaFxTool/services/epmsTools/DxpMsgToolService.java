@@ -35,21 +35,21 @@ public class DxpMsgToolService {
 
     public void createAction() throws Exception {
         String dxpMode = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n" +
-                "<DxpMsg ver=\"1.0\" Id=\"dxpEport\" xmlns=\"http://www.chinaport.gov.cn/dxp\" xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><TransInfo><CopMsgId></CopMsgId><SenderId>DXPEDCINVT000002</SenderId><ReceiverIds><ReceiverId>DXPENT0000024643</ReceiverId></ReceiverIds><CreatTime></CreatTime><MsgType>INV</MsgType></TransInfo><Data></Data><AddInfo><FileName></FileName><IcCard>1</IcCard></AddInfo></DxpMsg>";
-        SAXReader reader = new SAXReader();
-        Document document = reader.read(new ByteArrayInputStream(dxpMode.getBytes()));
-        Element rootElement = document.getRootElement();
-        Element transInfo = rootElement.element("TransInfo");
-        transInfo.element("CopMsgId").setText(dxpMsgToolController.getCopMsgIdTextField().getText());
-        transInfo.element("MsgType").setText(dxpMsgToolController.getMsgTypeTextField().getText());
-        if (StringUtils.isEmpty(dxpMsgToolController.getCreatTimeTextField().getText())) {
-            transInfo.element("CreatTime").setText(DateFormatUtils.format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"));
-        } else {
-            transInfo.element("CreatTime").setText(dxpMsgToolController.getCreatTimeTextField().getText());
-        }
-        Element addInfo = rootElement.element("AddInfo");
-        addInfo.element("FileName").setText(dxpMsgToolController.getFileNameTextField().getText());
-        rootElement.element("Data").setText(Base64.encodeBase64String(dxpMsgToolController.getDataTextArea().getText().getBytes()));
+                "<DxpMsg ver=\"1.0\" Id=\"dxpEport\" xmlns=\"http://www.chinaport.gov.cn/dxp\" xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><TransInfo><CopMsgId></CopMsgId><SenderId>DXPEDCINVT000002</SenderId><ReceiverIds><ReceiverId>DXPENT0000024643</ReceiverId></ReceiverIds><CreatTime></CreatTime><MsgType></MsgType></TransInfo><Data></Data><AddInfo><FileName></FileName><IcCard>1</IcCard></AddInfo></DxpMsg>";
+//        SAXReader reader = new SAXReader();
+//        Document document = reader.read(new ByteArrayInputStream(dxpMode.getBytes()));
+//        Element rootElement = document.getRootElement();
+//        Element transInfo = rootElement.element("TransInfo");
+//        transInfo.element("CopMsgId").setText(dxpMsgToolController.getCopMsgIdTextField().getText());
+//        transInfo.element("MsgType").setText(dxpMsgToolController.getMsgTypeTextField().getText());
+//        if (StringUtils.isEmpty(dxpMsgToolController.getCreatTimeTextField().getText())) {
+//            transInfo.element("CreatTime").setText(DateFormatUtils.format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"));
+//        } else {
+//            transInfo.element("CreatTime").setText(dxpMsgToolController.getCreatTimeTextField().getText());
+//        }
+//        Element addInfo = rootElement.element("AddInfo");
+//        addInfo.element("FileName").setText(dxpMsgToolController.getFileNameTextField().getText());
+//        rootElement.element("Data").setText(Base64.encodeBase64String(dxpMsgToolController.getDataTextArea().getText().getBytes("utf-8")));
         File file = null;
         if (StringUtils.isEmpty(dxpMsgToolController.getSavePathTextField().getText())) {
             FileSystemView fsv = FileSystemView.getFileSystemView();
@@ -58,11 +58,24 @@ public class DxpMsgToolService {
         } else {
             file = new File(dxpMsgToolController.getSavePathTextField().getText(), dxpMsgToolController.getFileNameTextField().getText());
         }
-        OutputFormat format = OutputFormat.createPrettyPrint();
-        StringWriter stringWriter = new StringWriter();
-        XMLWriter writer = new XMLWriter(stringWriter, format);
-        writer.write(document);
-        FileUtils.write(file, stringWriter.toString());
+//        OutputFormat format = OutputFormat.createPrettyPrint();
+//        FileOutputStream fileOutputStream = new FileOutputStream(file);
+//        try {
+//            XMLWriter writer = new XMLWriter(fileOutputStream, format);
+//            writer.write(document);
+//        } finally {
+//            fileOutputStream.close();
+//        }
+        dxpMode = dxpMode.replace("<CopMsgId></CopMsgId>", "<CopMsgId>" + dxpMsgToolController.getCopMsgIdTextField().getText() + "</CopMsgId>");
+        dxpMode = dxpMode.replace("<MsgType></MsgType>", "<MsgType>" + dxpMsgToolController.getMsgTypeTextField().getText() + "</MsgType>");
+        if (StringUtils.isEmpty(dxpMsgToolController.getCreatTimeTextField().getText())) {
+            dxpMode = dxpMode.replace("<CreatTime></CreatTime>", "<CreatTime>" + DateFormatUtils.format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX") + "</CreatTime>");
+        } else {
+            dxpMode = dxpMode.replace("<CreatTime></CreatTime>", "<CreatTime>" + dxpMsgToolController.getCreatTimeTextField().getText() + "</CreatTime>");
+        }
+        dxpMode = dxpMode.replace("<FileName></FileName>", "<FileName>" + dxpMsgToolController.getFileNameTextField().getText() + "</FileName>");
+        dxpMode = dxpMode.replace("<Data></Data>", "<Data>" + Base64.encodeBase64String(dxpMsgToolController.getDataTextArea().getText().getBytes("utf-8")) + "</Data>");
+        FileUtils.write(file, dxpMode, "utf-8");
     }
 
     public void parserDxpMsg(byte[] msg) throws Exception {
@@ -77,13 +90,17 @@ public class DxpMsgToolService {
         if (addInfo != null) {
             dxpMsgToolController.getFileNameTextField().setText(addInfo.elementTextTrim("FileName"));
         }
-        SAXReader readerData = new SAXReader();
-        Document documentData = readerData.read(new ByteArrayInputStream(Base64.decodeBase64(rootElement.elementTextTrim("Data"))));
-        OutputFormat format = OutputFormat.createPrettyPrint();
-        StringWriter stringWriter = new StringWriter();
-        XMLWriter writer = new XMLWriter(stringWriter, format);
-        writer.write(documentData);
-        dxpMsgToolController.getDataTextArea().setText(stringWriter.toString());
+        try {
+            SAXReader readerData = new SAXReader();
+            Document documentData = readerData.read(new ByteArrayInputStream(Base64.decodeBase64(rootElement.elementTextTrim("Data"))));
+            OutputFormat format = OutputFormat.createPrettyPrint();
+            StringWriter stringWriter = new StringWriter();
+            XMLWriter writer = new XMLWriter(stringWriter, format);
+            writer.write(documentData);
+            dxpMsgToolController.getDataTextArea().setText(stringWriter.toString());
+        } catch (Exception e) {
+            dxpMsgToolController.getDataTextArea().setText(new String(Base64.decodeBase64(rootElement.elementTextTrim("Data"))));
+        }
     }
 
     public DxpMsgToolService(DxpMsgToolController dxpMsgToolController) {
