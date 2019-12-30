@@ -64,6 +64,7 @@ public class TransferToolController extends TransferToolView {
     }
 
     private void initEvent() {
+        JavaFxViewUtil.setPasswordTextFieldFactory(passwordTextField);
         hostTextField.setOnMouseClicked(event -> {
             if (contextMenu.isShowing()) {
                 contextMenu.hide();

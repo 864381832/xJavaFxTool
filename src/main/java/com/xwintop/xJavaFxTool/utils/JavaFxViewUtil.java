@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,6 +17,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.*;
 import javafx.scene.control.SpinnerValueFactory.DoubleSpinnerValueFactory;
 import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.control.cell.TextFieldListCell;
@@ -24,6 +26,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -446,4 +449,25 @@ public class JavaFxViewUtil {
         Singleton.get(TimedCache.class, (long) 2000).remove("initiativeChange");
     }
 
+    //设置密码框可预览密码
+    public static void setPasswordTextFieldFactory(PasswordField passwordTextField) {
+        TextField password2TextField = new TextField(passwordTextField.getText());
+        password2TextField.setVisible(false);
+        RadioButton passwordRadioButton = new RadioButton();
+        passwordRadioButton.mnemonicParsingProperty().set(false);
+        passwordTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            password2TextField.setText(newValue);
+        });
+        password2TextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            passwordTextField.setText(newValue);
+        });
+        passwordRadioButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            passwordTextField.setVisible(!newValue);
+            password2TextField.setVisible(newValue);
+        });
+        StackPane stackPane = (StackPane) passwordTextField.getParent();
+        stackPane.getChildren().add(password2TextField);
+        stackPane.getChildren().add(passwordRadioButton);
+        stackPane.setAlignment(passwordRadioButton, Pos.CENTER_RIGHT);
+    }
 }

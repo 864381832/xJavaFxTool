@@ -16,6 +16,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.layout.StackPane?>
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.developTools.xTransferTool.TransferToolController">
     <children>
         <BorderPane AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
@@ -44,7 +45,11 @@
                             <HBox.margin>
                                 <Insets right="-5.0" />
                             </HBox.margin></Label>
-                        <PasswordField fx:id="passwordTextField" minWidth="60.0" text="easipass" />
+                        <StackPane>
+                            <children>
+                                <PasswordField fx:id="passwordTextField" text="xwintop" />
+                            </children>
+                        </StackPane>
                         <Label text="配置目录：">
                             <HBox.margin>
                                 <Insets right="-5.0" />
