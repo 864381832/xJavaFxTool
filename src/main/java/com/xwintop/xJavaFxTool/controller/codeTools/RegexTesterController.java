@@ -1,5 +1,6 @@
 package com.xwintop.xJavaFxTool.controller.codeTools;
 
+import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.view.codeTools.RegexTesterView;
 import com.xwintop.xcore.util.javafx.AlertUtil;
 import javafx.event.ActionEvent;
@@ -140,6 +141,7 @@ public class RegexTesterController extends RegexTesterView {
 
     @FXML
     private void aboutRegularAction(ActionEvent event) {
-        AlertUtil.showInfoAlert("到底什么是正则表达式？", "在编写处理字符串的程序或网页时，经常有查找符合某些复杂规则的字符串的需要。正则表达式就是用于描述这些规则的工具。换句话说，正则表达式就是记录文本规则的代码。");
+        String url = "/com/xwintop/xJavaFxTool/web/littleTools/正则表达式教程.html";
+        JavaFxViewUtil.openUrlOnWebView(url, "正则表达式教程", null);
     }
 }

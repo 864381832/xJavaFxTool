@@ -26,7 +26,7 @@
                   <CheckBox fx:id="ignoreCaseCheckBox" mnemonicParsing="false" text="忽略大小写" />
                   <CheckBox fx:id="isReplaceCheckBox" mnemonicParsing="false" text="替换匹配内容" />
                   <TextField fx:id="replaceTextField" prefHeight="23.0" prefWidth="103.0" promptText="要替换的内容" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="aboutRegularButton" mnemonicParsing="false" onAction="#aboutRegularAction" text="关于正则" />
+                  <Button fx:id="aboutRegularButton" mnemonicParsing="false" onAction="#aboutRegularAction" text="正则教程" />
                </children>
                <padding>
                   <Insets bottom="10.0" />
