@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXDecorator;
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
+import com.xwintop.xJavaFxTool.utils.StageUtils;
 import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import com.xwintop.xcore.util.javafx.AlertUtil;
 import javafx.application.Application;
@@ -72,6 +73,7 @@ public class Main extends Application {
             }
         });
 
+        StageUtils.updateStageStyle(primaryStage);
         stage = primaryStage;
     }
 

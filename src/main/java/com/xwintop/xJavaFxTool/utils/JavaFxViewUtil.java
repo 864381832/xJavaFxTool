@@ -454,7 +454,6 @@ public class JavaFxViewUtil {
         TextField password2TextField = new TextField(passwordTextField.getText());
         password2TextField.setVisible(false);
         RadioButton passwordRadioButton = new RadioButton();
-        passwordRadioButton.mnemonicParsingProperty().set(false);
         passwordTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             password2TextField.setText(newValue);
         });
