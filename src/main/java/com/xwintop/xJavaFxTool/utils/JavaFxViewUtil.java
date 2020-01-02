@@ -3,6 +3,7 @@ package com.xwintop.xJavaFxTool.utils;
 import cn.hutool.cache.impl.TimedCache;
 import cn.hutool.core.lang.Singleton;
 import com.jfoenix.controls.JFXDecorator;
+import com.xwintop.xJavaFxTool.controller.IndexController;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -26,7 +27,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -149,6 +153,17 @@ public class JavaFxViewUtil {
         Scene scene = new Scene(root);
         window.setScene(scene);
         window.showAndWait();
+    }
+
+    public static void openUrlOnWebView(String url, String title, String iconUrl) {
+        WebView browser = new WebView();
+        WebEngine webEngine = browser.getEngine();
+        if (url.startsWith("http")) {
+            webEngine.load(url);
+        } else {
+            webEngine.load(IndexController.class.getResource(url).toExternalForm());
+        }
+        JavaFxViewUtil.getNewStage(title, iconUrl, new BorderPane(browser));
     }
 
     //设置窗口移除前回调

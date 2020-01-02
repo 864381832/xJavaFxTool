@@ -10,7 +10,11 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public abstract class CronExpBuilderView implements Initializable {
 	@FXML
 	protected TabPane mainTabPane;
@@ -180,6 +184,8 @@ public abstract class CronExpBuilderView implements Initializable {
 	protected TextField jTF_Cron_Year;
 	@FXML
 	protected TextField jTF_Cron_Exp;
+	@FXML
+	protected TextField jTF_Cron_ExpCronTab;
 	@FXML
 	protected Button button_Parse;
 	@FXML
