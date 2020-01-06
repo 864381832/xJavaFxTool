@@ -32,7 +32,7 @@ import java.util.*;
  */
 
 public class SudokuController extends SudokuView {
-//    private SudokuService sudokuService = new SudokuService(this);
+    private SudokuService sudokuService = new SudokuService(this);
     Sudoku sudoku = new Sudoku();
 
     private Matrix puzzle;
@@ -62,11 +62,11 @@ public class SudokuController extends SudokuView {
     }
 
     private void initService() {
-        initTimer();
+        sudokuService.initTimer();
         puzzle = sudoku.init(levelChoiceBox.getSelectionModel().getSelectedIndex() + 1).get(0);
         ans = sudoku.getAns();
-        ansMap = ansParse(this.ans);
-        setCellNums(puzzle);
+        ansMap = sudokuService.ansParse(this.ans);
+        sudokuService.setCellNums(puzzle);
     }
 
     private void addCellFocusedProperty() {
@@ -76,71 +76,11 @@ public class SudokuController extends SudokuView {
                 @Override
                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                     if (newValue.booleanValue()) {
-                        showSelectedCells(cell);
+                        sudokuService.showSelectedCells(cell);
                     }
                 }
             });
         }
-    }
-
-    private void setCellNums(Matrix puzzle) {
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                cells.get(i * 9 + j).setInitStatus();
-                if (puzzle.get(i, j) != 0) {
-                    cells.get(i * 9 + j).setText(Integer.toString(puzzle.get(i, j)));
-                } else {
-                    cells.get(i * 9 + j).setText("");
-                }
-            }
-        }
-    }
-
-    private void initTimer() {
-        stop = false;
-        startTime = System.currentTimeMillis();
-        thread = new Thread() {
-            public void run() {
-                while (!stop) {
-                    curTime = System.currentTimeMillis();
-                    int interval = (int) ((curTime - startTime) / 1000);
-                    int hour = interval / 3600;
-                    int minute = (interval / 60) % 60;
-                    int second = interval % 60;
-                    timer.setText(String.format("%02d:%02d:%02d", hour, minute, second));
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            }
-        };
-        thread.setDaemon(true);
-        thread.start();
-    }
-
-    /**
-     * 将二维数组类型的数独ANS转为Map类型。
-     */
-    private Map<String, String> ansParse(Matrix ans) {
-        Map<String, String> ansMap = new HashMap<String, String>();
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                ansMap.put("cell" + i + j, String.valueOf(ans.get(i, j)));
-            }
-        }
-        return ansMap;
-    }
-
-    private boolean checkSucess() {
-        for (SCell cell : cells) {
-            if (cell.getText().isEmpty() || cell.status.equals(CStatus.NOTE)) {
-                return false;
-            }
-        }
-        return true;
     }
 
     @FXML
@@ -149,7 +89,7 @@ public class SudokuController extends SudokuView {
         SCell cell = ((SCell) e.getSource());
         if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
             if (cell.status.equals(CStatus.INIT) && !cell.getText().isEmpty()) {
-                highLight(cell);
+                sudokuService.highLight(cell);
             }
         } else if (!noteItem.isSelected()) {
             setInputText(cell, input);
@@ -162,7 +102,7 @@ public class SudokuController extends SudokuView {
     private void mouseListener(MouseEvent e) {
         SCell cell = (SCell) e.getSource();
         if (cell.status.equals(CStatus.NOTE) || showSelectedRC.isSelected() || showSelectedBlock.isSelected()) return;
-        highLight(cell);
+        sudokuService.highLight(cell);
     }
 
     private void setInputText(SCell cell, String input) {
@@ -173,7 +113,7 @@ public class SudokuController extends SudokuView {
                 cell.setInitStatus();
                 ;
                 cell.setText(input);
-                if (checkSucess()) {
+                if (sudokuService.checkSucess()) {
                     stop = true;
                     AlertUtil.showInfoAlert("Sucessful", "Sucessful!\nTime: " + timer.getText());
                 }
@@ -191,34 +131,6 @@ public class SudokuController extends SudokuView {
         }
     }
 
-    private void highLight(SCell cell) {
-        // cell空或ERROR或已经高亮，取消所有高亮
-        if (cell.getText().isEmpty() || cell.status.equals(CStatus.ERROR) || cell.status.equals(CStatus.NOTE) || cell.isHighLight) {
-            for (SCell cell2 : cells) {
-                if (cell2.status.equals(CStatus.INIT)) {
-                    cell2.setInitStatus();
-                }
-            }
-            // cell未高亮，则执行高亮
-        } else {
-            for (SCell cell2 : cells) {
-                if (cell2.getText().equals(cell.getText()) && !cell2.status.equals(CStatus.NOTE)) {
-                    cell2.setHighLightStatus();
-                } else if (cell2.status.equals(CStatus.INIT)) {
-                    cell2.setInitStatus();
-                } else if (cell2.status.equals(CStatus.ERROR)) {
-                    cell2.setEffect(null);
-                    cell2.isHighLight = false;
-                    cell2.setErrorStatus();
-                } else if (cell2.status.equals(CStatus.NOTE)) {
-                    cell2.setEffect(null);
-                    cell2.isHighLight = false;
-                    cell2.setNoteStatus(getFontSize(cell2.getText()));
-                }
-            }
-        }
-    }
-
     @FXML
     private void newGame() {
         noteItem.setSelected(false);
@@ -228,9 +140,9 @@ public class SudokuController extends SudokuView {
         times.setFill(Color.BLACK);
         puzzle = sudoku.init(levelChoiceBox.getSelectionModel().getSelectedIndex() + 1).get(0);
         ans = sudoku.getAns();
-        ansMap = ansParse(this.ans);
-        setCellNums(puzzle);
-        initTimer();
+        ansMap = sudokuService.ansParse(this.ans);
+        sudokuService.setCellNums(puzzle);
+        sudokuService.initTimer();
     }
 
     @FXML
@@ -241,7 +153,7 @@ public class SudokuController extends SudokuView {
             else num = Integer.parseInt(cell.getText());
             puzzle.set(Character.getNumericValue(cell.getId().charAt(4)), Character.getNumericValue(cell.getId().charAt(5)), num);
             ans = sudoku.solve(puzzle).get(0);
-            setCellNums(ans);
+            sudokuService.setCellNums(ans);
             stop = true;
         }
     }
@@ -271,8 +183,8 @@ public class SudokuController extends SudokuView {
                 return;
             }
             ans = sudoku.solve(puzzle).get(0);
-            setCellNums(puzzle);
-            initTimer();
+            sudokuService.setCellNums(puzzle);
+            sudokuService.initTimer();
         }
     }
 
@@ -327,7 +239,7 @@ public class SudokuController extends SudokuView {
                     }
                     Collections.sort(candidates);
                     String cellText = String.join("", candidates);
-                    cell.setNoteStatus(getFontSize(cellText));
+                    cell.setNoteStatus(sudokuService.getFontSize(cellText));
                     cell.wrapTextProperty().setValue(true);
                     cell.setText(cellText);
                 }
@@ -341,45 +253,6 @@ public class SudokuController extends SudokuView {
         }
     }
 
-    private void showSelectedCells(SCell focusCells) {
-        if (!showSelectedRC.isSelected() && !showSelectedBlock.isSelected()) return;
-        List<SCell> showCells = new ArrayList<SCell>();
-        for (SCell cell : cells) {
-            if (showSelectedRC.isSelected() && (cell.getId().charAt(4) == focusCells.getId().charAt(4) || cell.getId().charAt(5) == focusCells.getId().charAt(5))) {
-                showCells.add(cell);
-            }
-            if (showSelectedBlock.isSelected() && sudoku.getBlock(Character.getNumericValue(cell.getId().charAt(4)), Character.getNumericValue(cell.getId().charAt(5))) == sudoku.getBlock(Character.getNumericValue(focusCells.getId().charAt(4)), Character.getNumericValue(focusCells.getId().charAt(5)))) {
-                showCells.add(cell);
-            }
-        }
-        if (showSelectedRC.isSelected() || showSelectedBlock.isSelected()) {
-            for (SCell cell : cells) {
-                if (cell.equals(focusCells)) {
-                    cell.setEffect(null);
-                    cell.isHighLight = false;
-                } else if (showCells.contains(cell)) {
-                    cell.setHighLightStatus();
-                } else {
-                    cell.isHighLight = false;
-                    if (cell.status.equals(CStatus.INIT) && !cell.isHighLight) {
-                        cell.setInitStatus();
-                    } else if (cell.status.equals(CStatus.NOTE)) {
-                        cell.setNoteStatus(getFontSize(cell.getText()));
-                        cell.setEffect(null);
-                    } else if (cell.status.equals(CStatus.ERROR)) {
-                        cell.setErrorStatus();
-                        cell.setEffect(null);
-                    }
-                }
-            }
-        }
-    }
-
-    private int getFontSize(String cellText) {
-        if (cellText.length() <= 2) return 24 - cellText.length() * 4;
-        else return 12;
-    }
-
     @FXML
     private void hideAllHighLightCells() {
         for (SCell cell : cells) {
@@ -387,7 +260,7 @@ public class SudokuController extends SudokuView {
             if (cell.status.equals(CStatus.INIT) && !cell.isHighLight) {
                 cell.setInitStatus();
             } else if (cell.status.equals(CStatus.NOTE)) {
-                cell.setNoteStatus(getFontSize(cell.getText()));
+                cell.setNoteStatus(sudokuService.getFontSize(cell.getText()));
                 cell.setEffect(null);
             } else if (cell.status.equals(CStatus.ERROR)) {
                 cell.setErrorStatus();

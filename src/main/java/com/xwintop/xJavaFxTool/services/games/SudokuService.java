@@ -16,6 +16,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @ClassName: SudokuService
+ * @Description: 数独游戏
+ * @author: xufeng
+ * @date: 2020/1/6 16:08
+ */
+
 @Getter
 @Setter
 @Slf4j
@@ -33,7 +40,7 @@ public class SudokuService {
     private long curTime;
     private Thread thread;
 
-    private void setCellNums(Matrix puzzle) {
+    public void setCellNums(Matrix puzzle) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 sudokuController.getCells().get(i * 9 + j).setInitStatus();
@@ -46,7 +53,7 @@ public class SudokuService {
         }
     }
 
-    private void initTimer() {
+    public void initTimer() {
         stop = false;
         startTime = System.currentTimeMillis();
         thread = new Thread() {
@@ -74,7 +81,7 @@ public class SudokuService {
     /**
      * 将二维数组类型的数独ANS转为Map类型。
      */
-    private Map<String, String> ansParse(Matrix ans) {
+    public Map<String, String> ansParse(Matrix ans) {
         Map<String, String> ansMap = new HashMap<String, String>();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -84,7 +91,7 @@ public class SudokuService {
         return ansMap;
     }
 
-    private boolean checkSucess() {
+    public boolean checkSucess() {
         for (SCell cell : sudokuController.getCells()) {
             if (cell.getText().isEmpty() || cell.status.equals(CStatus.NOTE)) {
                 return false;
@@ -93,7 +100,7 @@ public class SudokuService {
         return true;
     }
 
-    private void setInputText(SCell cell, String input) {
+    public void setInputText(SCell cell, String input) {
         if (!(cell.getText().isEmpty() || cell.status.equals(CStatus.NOTE) || cell.status.equals(CStatus.ERROR)))
             return;
         if (!input.isEmpty() && "123456789".contains(input)) {
@@ -119,7 +126,7 @@ public class SudokuService {
         }
     }
 
-    private void highLight(SCell cell) {
+    public void highLight(SCell cell) {
         // cell空或ERROR或已经高亮，取消所有高亮
         if (cell.getText().isEmpty() || cell.status.equals(CStatus.ERROR) || cell.status.equals(CStatus.NOTE) || cell.isHighLight) {
             for (SCell cell2 : sudokuController.getCells()) {
@@ -147,7 +154,7 @@ public class SudokuService {
         }
     }
 
-    private void showSelectedCells(SCell focusCells) {
+    public void showSelectedCells(SCell focusCells) {
         if (!sudokuController.getShowSelectedRC().isSelected() && !sudokuController.getShowSelectedBlock().isSelected())
             return;
         List<SCell> showCells = new ArrayList<SCell>();
@@ -182,7 +189,7 @@ public class SudokuService {
         }
     }
 
-    private int getFontSize(String cellText) {
+    public int getFontSize(String cellText) {
         if (cellText.length() <= 2) return 24 - cellText.length() * 4;
         else return 12;
     }

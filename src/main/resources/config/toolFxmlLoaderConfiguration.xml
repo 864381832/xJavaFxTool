@@ -329,7 +329,7 @@
         <url>/com/xwintop/xJavaFxTool/fxmlView/games/Sudoku.fxml</url>
         <title>Sudoku</title>
         <menuParentId>games</menuParentId>
-        <isDefaultShow>true</isDefaultShow>
+        <isDefaultShow></isDefaultShow>
     </ToolFxmlLoaderConfiguration>
 
     <ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"

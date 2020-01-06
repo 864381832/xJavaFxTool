@@ -12,6 +12,13 @@ import lombok.Setter;
 
 import java.util.List;
 
+/**
+ * @ClassName: SudokuView
+ * @Description: 数独游戏
+ * @author: xufeng
+ * @date: 2020/1/6 16:08
+ */
+
 @Getter
 @Setter
 public abstract class SudokuView implements Initializable {
@@ -23,7 +30,6 @@ public abstract class SudokuView implements Initializable {
     protected CheckMenuItem showSelectedRC;
     @FXML
     protected CheckMenuItem showSelectedBlock;
-
     @FXML
     protected ImageView noteIcon;
     @FXML

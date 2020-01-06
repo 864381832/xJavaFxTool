@@ -107,6 +107,7 @@ Support plug-in development, the plug-in jar package can be automatically loaded
 54. FileUnicodeTransformationTool: File encoding conversion tool
 55. FileCompressTool: File decompression tool (currently supports ar, zip, tar, jar, cpio, 7z, gz, bzip2, xz, lzma, pack200, deflate, snappy-framed, lz4-block, lz4-framed, ZSTD, etc.)
 56. IdiomDataTool:IdiomDataTool(Use the [h2](http://www.h2database.com) database to store the data dictionary)
+57. Sudoku:Sudoku Game
 
 ##### The transfer tools currently support the following features:
 ###### Receiver:
