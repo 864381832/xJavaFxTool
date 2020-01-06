@@ -324,7 +324,12 @@
         <url>/com/xwintop/xJavaFxTool/fxmlView/epmsTools/DxpMsgTool.fxml</url>
         <title>DxpMsgTool</title>
         <menuParentId>epmsTools</menuParentId>
-        <isDefaultShow></isDefaultShow>
+    </ToolFxmlLoaderConfiguration>
+    <ToolFxmlLoaderConfiguration>
+        <url>/com/xwintop/xJavaFxTool/fxmlView/games/Sudoku.fxml</url>
+        <title>Sudoku</title>
+        <menuParentId>games</menuParentId>
+        <isDefaultShow>true</isDefaultShow>
     </ToolFxmlLoaderConfiguration>
 
     <ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"
