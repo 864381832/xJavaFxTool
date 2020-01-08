@@ -335,7 +335,11 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.1.1</version>
                 <configuration>
-                    <aggregate>true</aggregate>
+                    <show>private</show>
+                    <nohelp>true</nohelp>
+                    <additionalOptions>
+                        <additionalOption>-Xdoclint:none</additionalOption>
+                    </additionalOptions>
                 </configuration>
                 <executions>
                     <execution>
