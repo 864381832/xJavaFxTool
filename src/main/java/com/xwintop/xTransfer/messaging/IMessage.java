@@ -54,8 +54,6 @@ public interface IMessage extends Cloneable, Serializable {
 
     void setVersion(String var1);
 
-    Object clone() throws CloneNotSupportedException;
-
     void addFileNameFilterRegexGroup(String fileNameFilterRegexGroup);
 
     boolean checkFileNameFilterRegexGroup(String fileNameFilterRegexGroup);

@@ -108,14 +108,14 @@ $(function() {
 
 		});
         //当前选中项之前的如果为*，则都设置成0
-		for (var i = currentIndex; i >= 1; i--) {
+		for (let i = currentIndex; i >= 1; i--) {
 		    if (item[i] != "*" && item[i - 1] == "*") {
 		        item[i - 1] = "0";
 		    }
 		}
 	    //当前选中项之后的如果不为*则都设置成*
 		if (item[currentIndex] == "*") {
-		    for (var i = currentIndex + 1; i < item.length; i++) {
+		    for (let i = currentIndex + 1; i < item.length; i++) {
 		        if (i == 5) {
 		            item[i] = "?";
 		        } else {
