@@ -136,7 +136,7 @@ public class DefaultMessage implements IMessage, Serializable {
     }
 
     @Override
-    public Object clone() throws CloneNotSupportedException {
+    public Object cloneMessage() throws CloneNotSupportedException {
         super.clone();
         DefaultMessage c = new DefaultMessage();
         c.setEncoding(this.getEncoding());

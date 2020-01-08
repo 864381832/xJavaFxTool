@@ -148,7 +148,7 @@ public class FilterDecompressImpl implements Filter {
     }
 
     private IMessage getUnzipMsg(IMessage msg, byte[] bytes, ArchiveEntry entry) throws Exception {
-        IMessage unzipMsg = (IMessage) msg.clone();
+        IMessage unzipMsg = (IMessage) msg.cloneMessage();
         if (StringUtils.isNotEmpty(filterConfigDecompress.getEncoding())) {
             unzipMsg.setEncoding(filterConfigDecompress.getEncoding());
         }
