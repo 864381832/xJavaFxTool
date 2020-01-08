@@ -118,7 +118,7 @@ public class TimeToolService {
             Date startTime = new Date(Long.parseLong(timeToolController.getStartTime2TextField().getText()));
             int addTime = Integer.parseInt(timeToolController.getAddTimeTextField().getText());
             String addTimeChoiceBoxString = timeToolController.getAddTimeChoiceBox().getValue();
-            Date endTime = null;
+            Date endTime = new Date();
             if (timeToolController.getTimeSuffixFormatter()[0].equals(addTimeChoiceBoxString)) {
                 endTime = DateUtils.addDays(startTime, addTime);
             } else if (timeToolController.getTimeSuffixFormatter()[1].equals(addTimeChoiceBoxString)) {

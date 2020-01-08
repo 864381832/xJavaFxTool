@@ -13,11 +13,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Iterator;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * @ClassName: CharsetDetectToolService
@@ -58,24 +59,35 @@ public class CharsetDetectToolService {
         if (file.isDirectory()) {
             Path path = file.toPath();
             Iterator<Path> iterator = null;
+            AutoCloseable autoCloseable = null;
             if (charsetDetectToolController.getIncludeSubdirectoryCheckBox().isSelected()) {
-                iterator = Files.walk(path).iterator();
+                Stream<Path> stream = Files.walk(path);
+                autoCloseable = stream;
+                iterator = stream.iterator();
             } else {
-                iterator = Files.newDirectoryStream(path).iterator();
+                DirectoryStream<Path> stream = Files.newDirectoryStream(path);
+                autoCloseable = stream;
+                iterator = stream.iterator();
             }
-            boolean sRegex = charsetDetectToolController.getFileNameSupportRegexCheckBox().isSelected();
-            String fileNameContains = charsetDetectToolController.getFileNameContainsTextField().getText();
-            String fileNameNotContains = charsetDetectToolController.getFileNameNotContainsTextField().getText();
-            Pattern fileNameCsPattern = null;
-            Pattern fileNameNCsPattern = null;
-            if (sRegex) {
-                fileNameCsPattern = Pattern.compile(fileNameContains, Pattern.CASE_INSENSITIVE);
-                fileNameNCsPattern = Pattern.compile(fileNameNotContains, Pattern.CASE_INSENSITIVE);
-            }
-            while (iterator.hasNext()) {
-                Path nextPath = iterator.next();
-                if (Files.isRegularFile(nextPath) && DirectoryTreeUtil.ifMatchText(nextPath.getFileName().toString(), fileNameContains, fileNameNotContains, sRegex, fileNameCsPattern, fileNameNCsPattern)) {
-                    charsetDetectToolController.getResultTextArea().appendText(nextPath.toString() + "         Charset: " + detectFileCharset(nextPath.toFile(), detectLength) + "\n");
+            try {
+                boolean sRegex = charsetDetectToolController.getFileNameSupportRegexCheckBox().isSelected();
+                String fileNameContains = charsetDetectToolController.getFileNameContainsTextField().getText();
+                String fileNameNotContains = charsetDetectToolController.getFileNameNotContainsTextField().getText();
+                Pattern fileNameCsPattern = null;
+                Pattern fileNameNCsPattern = null;
+                if (sRegex) {
+                    fileNameCsPattern = Pattern.compile(fileNameContains, Pattern.CASE_INSENSITIVE);
+                    fileNameNCsPattern = Pattern.compile(fileNameNotContains, Pattern.CASE_INSENSITIVE);
+                }
+                while (iterator.hasNext()) {
+                    Path nextPath = iterator.next();
+                    if (Files.isRegularFile(nextPath) && DirectoryTreeUtil.ifMatchText(nextPath.getFileName().toString(), fileNameContains, fileNameNotContains, sRegex, fileNameCsPattern, fileNameNCsPattern)) {
+                        charsetDetectToolController.getResultTextArea().appendText(nextPath.toString() + "         Charset: " + detectFileCharset(nextPath.toFile(), detectLength) + "\n");
+                    }
+                }
+            } finally {
+                if (autoCloseable != null) {
+                    autoCloseable.close();
                 }
             }
         } else if (file.isFile()) {

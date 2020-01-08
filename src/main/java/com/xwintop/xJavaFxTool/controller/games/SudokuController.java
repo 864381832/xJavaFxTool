@@ -9,7 +9,6 @@ import com.xwintop.xJavaFxTool.view.games.SudokuView;
 import com.xwintop.xcore.util.javafx.AlertUtil;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
@@ -19,6 +18,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser.ExtensionFilter;
+import org.apache.commons.io.FileUtils;
 
 import java.io.*;
 import java.net.URL;
@@ -163,16 +163,13 @@ public class SudokuController extends SudokuView {
         File file = FileChooserUtil.chooseFile(new ExtensionFilter("Text Files", "*.txt"), new ExtensionFilter("All Files", "*.*"));
         if (file != null) {
             String[][] inputPuzzle = new String[9][9];
-            BufferedReader reader;
             try {
-                reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-                String line;
+                List<String> stringList = FileUtils.readLines(file, "utf-8");
                 int lineNum = 0;
-                while ((line = reader.readLine()) != null) {
+                for (String line : stringList) {
                     inputPuzzle[lineNum] = line.trim().split("\\s+");
                     lineNum++;
                 }
-                reader.close();
                 for (int i = 0; i < 9; i++) {
                     for (int j = 0; j < 9; j++) {
                         puzzle.set(i, j, Integer.parseInt(inputPuzzle[i][j]));
@@ -191,20 +188,32 @@ public class SudokuController extends SudokuView {
     @FXML
     private void saveFile() {
         File file = FileChooserUtil.chooseSaveFile("Sudoku.txt");
-        BufferedWriter writer;
+        BufferedWriter writer = null;
         if (file != null) {
             try {
                 writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
                 String num;
                 for (int i = 0; i < cells.size(); i++) {
                     num = cells.get(i).getText();
-                    if (num.isEmpty() || num.equals("X")) writer.write("0 ");
-                    else writer.write(num + " ");
-                    if ((i + 1) % 9 == 0) writer.newLine();
+                    if (num.isEmpty() || num.equals("X")) {
+                        writer.write("0 ");
+                    } else {
+                        writer.write(num + " ");
+                    }
+                    if ((i + 1) % 9 == 0) {
+                        writer.newLine();
+                    }
                 }
-                writer.close();
             } catch (IOException e) {
                 TooltipUtil.showToast("保存文件失败：" + e.getMessage());
+            } finally {
+                try {
+                    if (writer != null) {
+                        writer.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

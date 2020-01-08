@@ -10,10 +10,12 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * @ClassName: FileUnicodeTransformationToolService
@@ -42,31 +44,42 @@ public class FileUnicodeTransformationToolService {
         if (file.isDirectory()) {
             Path path = file.toPath();
             Iterator<Path> iterator = null;
+            AutoCloseable autoCloseable = null;
             if (fileUnicodeTransformationToolController.getIncludeSubdirectoryCheckBox().isSelected()) {
-                iterator = Files.walk(path).iterator();
+                Stream<Path> stream = Files.walk(path);
+                autoCloseable = stream;
+                iterator = stream.iterator();
             } else {
-                iterator = Files.newDirectoryStream(path).iterator();
+                DirectoryStream<Path> stream = Files.newDirectoryStream(path);
+                autoCloseable = stream;
+                iterator = stream.iterator();
             }
-            boolean sRegex = fileUnicodeTransformationToolController.getFileNameSupportRegexCheckBox().isSelected();
-            String fileNameContains = fileUnicodeTransformationToolController.getFileNameContainsTextField().getText();
-            String fileNameNotContains = fileUnicodeTransformationToolController.getFileNameNotContainsTextField().getText();
-            Pattern fileNameCsPattern = null;
-            Pattern fileNameNCsPattern = null;
-            if (sRegex) {
-                fileNameCsPattern = Pattern.compile(fileNameContains, Pattern.CASE_INSENSITIVE);
-                fileNameNCsPattern = Pattern.compile(fileNameNotContains, Pattern.CASE_INSENSITIVE);
-            }
-            while (iterator.hasNext()) {
-                Path nextPath = iterator.next();
-                if (Files.isRegularFile(nextPath) && DirectoryTreeUtil.ifMatchText(nextPath.getFileName().toString(), fileNameContains, fileNameNotContains, sRegex, fileNameCsPattern, fileNameNCsPattern)) {
-                    File newFile = nextPath.toFile();
-                    String showHideFile = fileUnicodeTransformationToolController.getShowHideFileChoice().getValue();
-                    if ("非隐藏".equals(showHideFile) && file.isHidden()) {
-                        return;
-                    } else if ("隐藏文件".equals(showHideFile) && !file.isHidden()) {
-                        return;
+            try {
+                boolean sRegex = fileUnicodeTransformationToolController.getFileNameSupportRegexCheckBox().isSelected();
+                String fileNameContains = fileUnicodeTransformationToolController.getFileNameContainsTextField().getText();
+                String fileNameNotContains = fileUnicodeTransformationToolController.getFileNameNotContainsTextField().getText();
+                Pattern fileNameCsPattern = null;
+                Pattern fileNameNCsPattern = null;
+                if (sRegex) {
+                    fileNameCsPattern = Pattern.compile(fileNameContains, Pattern.CASE_INSENSITIVE);
+                    fileNameNCsPattern = Pattern.compile(fileNameNotContains, Pattern.CASE_INSENSITIVE);
+                }
+                while (iterator.hasNext()) {
+                    Path nextPath = iterator.next();
+                    if (Files.isRegularFile(nextPath) && DirectoryTreeUtil.ifMatchText(nextPath.getFileName().toString(), fileNameContains, fileNameNotContains, sRegex, fileNameCsPattern, fileNameNCsPattern)) {
+                        File newFile = nextPath.toFile();
+                        String showHideFile = fileUnicodeTransformationToolController.getShowHideFileChoice().getValue();
+                        if ("非隐藏".equals(showHideFile) && file.isHidden()) {
+                            return;
+                        } else if ("隐藏文件".equals(showHideFile) && !file.isHidden()) {
+                            return;
+                        }
+                        fileUnicodeTransformation(newFile);
                     }
-                    fileUnicodeTransformation(newFile);
+                }
+            } finally {
+                if (autoCloseable != null) {
+                    autoCloseable.close();
                 }
             }
         } else if (file.isFile()) {

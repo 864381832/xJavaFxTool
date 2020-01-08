@@ -18,6 +18,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,9 +73,6 @@ public class IdiomDataToolService {
     }
 
     public void selectAction() throws Exception {
-        if (jdbcTemplate == null) {
-            TooltipUtil.showToast("成语词典数据未准备好，请稍后重试...");
-        }
         String sql = "SELECT * FROM Idiom_dirty WHERE word like ? or abbreviation like ?";
         String sqlArgs = "";
         if (StringUtils.isEmpty(idiomDataToolController.getSelectWordTextField().getText())) {
@@ -95,7 +93,12 @@ public class IdiomDataToolService {
         } else {
             sqlArgs = "%" + idiomDataToolController.getSelectWordTextField().getText() + "%";
         }
-        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, sqlArgs, sqlArgs);
+        List<Map<String, Object>> list = new ArrayList<>();
+        if (jdbcTemplate == null) {
+            TooltipUtil.showToast("成语词典数据未准备好，请稍后重试...");
+        } else {
+            list = jdbcTemplate.queryForList(sql, sqlArgs, sqlArgs);
+        }
         idiomDataToolController.getIdiomDataTableData().clear();
         for (Map<String, Object> stringObjectMap : list) {
             Map<String, String> dataRow = new HashMap<String, String>();

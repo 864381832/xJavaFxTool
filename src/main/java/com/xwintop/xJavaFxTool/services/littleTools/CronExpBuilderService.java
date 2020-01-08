@@ -39,7 +39,7 @@ public class CronExpBuilderService {
         for (int i = 0; i < cronExpBuilderController.getTypeNameString().length - 1; i++) {
             this.initObj(regs[i], cronExpBuilderController.getTypeNameString()[i]);
         }
-        this.initYear(regs.length > 6 ? regs[6] : null);
+        this.initYear(regs.length > 6 ? regs[6] : "");
     }
 
     public void parseActionPerformedCronTab() throws Exception {

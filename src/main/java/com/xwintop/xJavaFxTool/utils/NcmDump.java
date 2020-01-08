@@ -52,7 +52,7 @@ public class NcmDump {
             Tag tag = f.getTag();
             tag.setField(FieldKey.ALBUM, ncm.id3.album);
             tag.setField(FieldKey.TITLE, ncm.id3.musicName);
-            tag.setField(FieldKey.ARTIST, ncm.id3.artist());
+            tag.setField(FieldKey.ARTIST, ncm.id3.artistString());
             if (ncm.albumImage != null) {
                 BufferedImage image = ImageIO.read(new ByteArrayInputStream(ncm.albumImage));
                 MetadataBlockDataPicture coverArt = new MetadataBlockDataPicture(ncm.albumImage, 0, //
@@ -249,7 +249,7 @@ class ID3Data {
         return "mp3".equals(format);
     }
 
-    public String artist() {
+    public String artistString() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < artist.length; i++) {
             if (sb.length() > 0) {

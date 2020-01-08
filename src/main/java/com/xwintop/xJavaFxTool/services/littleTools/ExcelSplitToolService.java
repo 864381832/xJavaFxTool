@@ -144,9 +144,16 @@ public class ExcelSplitToolService {
         int splitNumber = 0;
         if (excelSplitToolController.getSplitType1RadioButton().isSelected()) {
             File file = new File(filePath);
-            LineNumberReader rf = new LineNumberReader(new FileReader(file));
-            rf.skip(file.length());
-            splitNumber = (int) Math.ceil((double) rf.getLineNumber() / excelSplitToolController.getSplitType1Spinner().getValue());
+            LineNumberReader rf = null;
+            try {
+                rf = new LineNumberReader(new FileReader(file));
+                rf.skip(file.length());
+                splitNumber = (int) Math.ceil((double) rf.getLineNumber() / excelSplitToolController.getSplitType1Spinner().getValue());
+            } finally {
+                if (rf != null) {
+                    rf.close();
+                }
+            }
             saveSplitFile(filePath, splitNumber, newFilePath);
         } else if (excelSplitToolController.getSplitType2RadioButton().isSelected()) {
             splitNumber = excelSplitToolController.getSplitType2Spinner().getValue();
@@ -311,7 +318,9 @@ public class ExcelSplitToolService {
             List<CSVRecord> rows = stringListEntry.getValue();
             CSVPrinter printer = CSVFormat.DEFAULT.print(new PrintWriter(newFilePath + "-" + key + ".csv"));
             if (excelSplitToolController.getIncludeHandCheckBox().isSelected()) {
-                printer.printRecord(IteratorUtils.toList(firstRecord.iterator()).toArray());
+                if (firstRecord != null) {
+                    printer.printRecord(IteratorUtils.toList(firstRecord.iterator()).toArray());
+                }
             }
             for (CSVRecord row : rows) {
                 printer.printRecord(IteratorUtils.toList(row.iterator()).toArray());

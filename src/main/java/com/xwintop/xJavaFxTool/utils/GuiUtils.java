@@ -57,7 +57,7 @@ public class GuiUtils {
 	/**
 	 * 所有字体.
 	 */
-	public static Map<String, Font> availableFontsMap = availableFontsMap();
+	public static Map<String, Font> availableFontsMap = getAvailableFontsMap();
 
 	/**
 	 * 中文字体集.
@@ -139,7 +139,7 @@ public class GuiUtils {
 	/**
 	 * 支持的字体.
 	 */
-	public static Map<String, Font> availableFontsMap() {
+	public static Map<String, Font> getAvailableFontsMap() {
 		Font[] fonts = availableFonts();
 		Map<String, Font> fontsMap = new HashMap<String, Font>();
 		for (Font font : fonts) {

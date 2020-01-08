@@ -53,6 +53,7 @@ public class ZookeeperToolService {
             } catch (Exception e) {
                 TooltipUtil.showToast("连接失败！！！");
                 zkClient = null;
+                return;
             }
             zkClient.setZkSerializer(new ZkSerializer() {
                 @Override

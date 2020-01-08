@@ -96,6 +96,7 @@ public class PdfConvertToolService {
 
     public void pdfToTxtAction() {
         PDDocument document = null;
+        Writer output = null;// 文件输入流，生成文本文件
         try {
             File pdfFile = new File(pdfConvertToolController.getFileOriginalPathTextField().getText());
             String fileTargetPath = pdfConvertToolController.getFileTargetPathTextField().getText();
@@ -107,7 +108,6 @@ public class PdfConvertToolService {
             int endPage = (int) pdfConvertToolController.getChoosePageRangeSlider().getHighValue() + 1;
 
             File textFile = new File(fileTargetPath, FileUtil.getFileName(pdfFile) + ".txt");
-            Writer output = null;// 文件输入流，生成文本文件
             // 文件输入流，写入文件倒textFile
             output = new OutputStreamWriter(new FileOutputStream(textFile), "UTF-8");
             // PDFTextStrippe来提取文本  
@@ -120,16 +120,25 @@ public class PdfConvertToolService {
             stripper.setEndPage(endPage);
             // 调用PDFTextStripper的writeText提取并输出文本  
             stripper.writeText(document, output);
-            output.close();
+
             TooltipUtil.showToast("pdf转换成txt成功，保存在：" + textFile.getAbsolutePath());
         } catch (Exception e) {
             log.error("pdf转换错误：", e);
             TooltipUtil.showToast("pdf转换错误：" + e.getMessage());
         } finally {
             try {
-                document.close();
+                if (document != null) {
+                    document.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+            if (output != null) {
+                try {
+                    output.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

@@ -161,16 +161,26 @@ public class FileMergeToolService {
 
     public void mergeFile(List<File> fileList, String newFilePath) throws Exception {
         File resultFile = new File(newFilePath);
+        FileChannel resultFileChannel = null;
         try {
-            FileChannel resultFileChannel = new FileOutputStream(resultFile, true).getChannel();
+            resultFileChannel = new FileOutputStream(resultFile, true).getChannel();
             for (File file : fileList) {
-                FileChannel blk = new FileInputStream(file).getChannel();
-                resultFileChannel.transferFrom(blk, resultFileChannel.size(), blk.size());
-                blk.close();
+                FileChannel blk = null;
+                try {
+                    blk = new FileInputStream(file).getChannel();
+                    resultFileChannel.transferFrom(blk, resultFileChannel.size(), blk.size());
+                } finally {
+                    if (blk != null) {
+                        blk.close();
+                    }
+                }
             }
-            resultFileChannel.close();
         } catch (Exception e) {
             log.error("合并文件失败：", e);
+        } finally {
+            if (resultFileChannel != null) {
+                resultFileChannel.close();
+            }
         }
     }
 

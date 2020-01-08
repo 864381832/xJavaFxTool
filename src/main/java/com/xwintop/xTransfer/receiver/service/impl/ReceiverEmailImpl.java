@@ -248,8 +248,8 @@ public class ReceiverEmailImpl implements Receiver {
 //                    msg.setRawData(IOUtils.toString((BASE64DecoderStream) mpart.getContent(), "UTF-8").getBytes());
                     attList.add(msg);
                     log.info("mpart.getContentType  catch ClassCastException  " + mpart.getFileName());
-                    return attList;
                 }
+                return attList;
             }
 
             for (int j = 0, m = mp.getCount(); j < m; j++) {
