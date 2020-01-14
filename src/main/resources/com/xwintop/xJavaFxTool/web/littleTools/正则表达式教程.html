@@ -207,7 +207,7 @@
         class="code">*</span>类似的元字符，不同的是<span class="code">*</span>匹配<span class="desc">重复任意次(可能是0次)</span>，而<span
         class="code">+</span>则匹配<span class="desc">重复1次或更多次</span>。</p>
 <p><span class="regex">\b\w{6}\b</span> 匹配<span class="desc">刚好6个字符的单词</span>。</p>
-<table cellspacing="0">
+<table>
     <caption>表1.常用的元字符</caption>
     <thead>
     <tr>
@@ -277,7 +277,7 @@
 <h2 id="repeat">重复</h2>
 <p>你已经看过了前面的<span class="code">*</span>,<span class="code">+</span>,<span class="code">{2}</span>,<span class="code">{5,12}</span>这几个匹配重复的方式了。下面是正则表达式中所有的限定符(指定数量的代码，例如*,{5,12}等)：
 </p>
-<table cellspacing="0">
+<table>
     <caption>表2.常用的限定符</caption>
     <thead>
     <tr>
@@ -363,7 +363,7 @@
 
 <h2 id="negation">反义</h2>
 <p>有时需要查找不属于某个能简单定义的字符类的字符。比如想查找除了数字以外，其它任意字符都行的情况，这时需要用到<span class="name">反义</span>：</p>
-<table cellspacing="0">
+<table>
     <caption>表3.常用的反义代码</caption>
     <thead>
     <tr>
@@ -428,7 +428,7 @@
         class="part">Word</span>了。要反向引用这个分组<span class="name">捕获</span>的内容，你可以使用<span class="code">\k&lt;Word&gt;</span>,所以上一个例子也可以写成这样：<span
         class="regex">\b(?&lt;Word&gt;\w+)\b\s+\k&lt;Word&gt;\b</span>。</p>
 <p>使用小括号的时候，还有很多特定用途的语法。下面列出了最常用的一些：</p>
-<table cellspacing="0">
+<table>
     <caption>表4.常用分组语法</caption>
     <tbody>
     <tr>
@@ -544,7 +544,7 @@
 </p>
 <p class="note">为什么第一个匹配是aab（第一到第三个字符）而不是ab（第二到第三个字符）？简单地说，因为正则表达式有另一条规则，比懒惰／贪婪规则的优先级更高：最先开始的匹配拥有最高的优先权——The match that
     begins earliest wins。</p>
-<table cellspacing="0">
+<table>
     <caption>表5.懒惰限定符</caption>
     <thead>
     <tr>
@@ -582,7 +582,7 @@
 
 <h2 id="regexoptions">处理选项</h2>
 <p>上面介绍了几个选项如忽略大小写，处理多行等，这些选项能用来改变处理正则表达式的方式。下面是.Net中常用的正则表达式选项：</p>
-<table cellspacing="0">
+<table>
     <caption>表6.常用的处理选项</caption>
     <thead>
     <tr>
@@ -656,7 +656,7 @@
 <p>平衡组的一个最常见的应用就是匹配HTML,下面这个例子可以匹配<span class="desc">嵌套的&lt;div&gt;标签</span>：<span class="regex">&lt;div[^&gt;]*&gt;[^&lt;&gt;]*(((?'Open'&lt;div[^&gt;]*&gt;)[^&lt;&gt;]*)+((?'-Open'&lt;/div&gt;)[^&lt;&gt;]*)+)*(?(Open)(?!))&lt;/div&gt;</span>.
 </p>
 
-<table cellspacing="0">
+<table>
     <caption>表7.尚未详细讨论的语法</caption>
     <thead>
     <tr>
