@@ -1,18 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.Hyperlink?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.IndexController">
 	<children>
       <BorderPane layoutY="2.0" prefHeight="600.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0">
@@ -27,6 +17,7 @@
                               <MenuItem mnemonicParsing="false" onAction="#openAllTabAction" text="%openAllTab" />
                               <MenuItem mnemonicParsing="false" onAction="#addNodepadAction" text="%addNodepad" />
                               <MenuItem mnemonicParsing="false" onAction="#addLogConsoleAction" text="%addLogConsole" />
+                            <SeparatorMenuItem/>
                           <MenuItem mnemonicParsing="false" onAction="#exitAction" text="%Exit" />
                         </items>
                       </Menu>
@@ -34,6 +25,10 @@
                         <Menu fx:id="moreToolsMenu" mnemonicParsing="false" text="%More_Tools" />
                         <Menu fx:id="netWorkToolsMenu" mnemonicParsing="false" text="%NetWork_Tools" />
                       <Menu fx:id="helpMenu" mnemonicParsing="false" text="%Help">
+                          <MenuItem mnemonicParsing="false" onAction="#openLogFile" text="%openLogFile" />
+                          <MenuItem mnemonicParsing="false" onAction="#openLogFolder" text="%openLogFolder" />
+                          <MenuItem mnemonicParsing="false" onAction="#openConfigFolder" text="%openConfigFolder" />
+                          <SeparatorMenuItem/>
                         <items>
                               <Menu mnemonicParsing="false" text="%SetLanguage">
                                 <items>
@@ -41,6 +36,7 @@
                                     <MenuItem mnemonicParsing="false" onAction="#setLanguageAction" text="English" />
                                 </items>
                               </Menu>
+                            <SeparatorMenuItem/>
                           <MenuItem mnemonicParsing="false" onAction="#aboutAction" text="%About" />
                         </items>
                       </Menu>

@@ -4,6 +4,7 @@ import com.xwintop.xJavaFxTool.common.logback.ConsoleLogAppender;
 import com.xwintop.xJavaFxTool.model.ToolFxmlLoaderConfiguration;
 import com.xwintop.xJavaFxTool.services.IndexService;
 import com.xwintop.xJavaFxTool.utils.Config;
+import com.xwintop.xJavaFxTool.utils.ConfigureUtil;
 import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import com.xwintop.xJavaFxTool.view.IndexView;
@@ -26,13 +27,10 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.commons.lang3.time.DateFormatUtils;
 
 import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * @ClassName: IndexController
@@ -299,6 +297,21 @@ public class IndexController extends IndexView {
     private void setLanguageAction(ActionEvent event) throws Exception {
         MenuItem menuItem = (MenuItem) event.getSource();
         indexService.setLanguageAction(menuItem.getText());
+    }
+
+    @FXML
+    private void openLogFile(ActionEvent event) throws Exception {
+        String filePath = "logs/logFile." + DateFormatUtils.format(new Date(), "yyyy-MM-dd") + ".log";
+        XJavaFxSystemUtil.openDirectory(filePath);
+    }
+
+    @FXML
+    private void openLogFolder(ActionEvent event) throws Exception {
+        XJavaFxSystemUtil.openDirectory("logs/");
+    }
+    @FXML
+    private void openConfigFolder(ActionEvent event) throws Exception {
+        XJavaFxSystemUtil.openDirectory(ConfigureUtil.getConfigurePath());
     }
 
     @FXML
