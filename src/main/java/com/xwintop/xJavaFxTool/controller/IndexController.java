@@ -289,6 +289,10 @@ public class IndexController extends IndexView {
     }
 
     @FXML
+    private void pluginManageAction(ActionEvent event) throws Exception {
+    }
+
+    @FXML
     private void aboutAction(ActionEvent event) throws Exception {
         AlertUtil.showInfoAlert(bundle.getString("aboutText") + Config.xJavaFxToolVersions);
     }
@@ -300,18 +304,23 @@ public class IndexController extends IndexView {
     }
 
     @FXML
-    private void openLogFile(ActionEvent event) throws Exception {
+    private void openLogFileAction(ActionEvent event) throws Exception {
         String filePath = "logs/logFile." + DateFormatUtils.format(new Date(), "yyyy-MM-dd") + ".log";
         XJavaFxSystemUtil.openDirectory(filePath);
     }
 
     @FXML
-    private void openLogFolder(ActionEvent event) throws Exception {
+    private void openLogFolderAction(ActionEvent event) throws Exception {
         XJavaFxSystemUtil.openDirectory("logs/");
     }
     @FXML
-    private void openConfigFolder(ActionEvent event) throws Exception {
+    private void openConfigFolderAction(ActionEvent event) throws Exception {
         XJavaFxSystemUtil.openDirectory(ConfigureUtil.getConfigurePath());
+    }
+
+    @FXML
+    private void openPluginFolderAction(ActionEvent event) throws Exception {
+        XJavaFxSystemUtil.openDirectory("libs/");
     }
 
     @FXML

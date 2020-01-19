@@ -34,7 +34,7 @@ public class TransferToolUrlDocumentDialogController extends TransferToolUrlDocu
     private ObservableList<Map<String, String>> tableData = FXCollections.observableArrayList();
 
     public static FXMLLoader getFXMLLoader() {
-        FXMLLoader fXMLLoader = new FXMLLoader(IndexController.class.getResource("/com/xwintop/xJavaFxTool/fxmlView/developTools/xTransferTool/UrlDocumentDialog.fxml"));
+        FXMLLoader fXMLLoader = new FXMLLoader(IndexController.class.getResource("/com/xwintop/xJavaFxTool/fxmlView/developTools/xTransferTool/TransferToolUrlDocumentDialog.fxml"));
         return fXMLLoader;
     }
 

@@ -15,6 +15,7 @@
                         <items>
                               <MenuItem mnemonicParsing="false" onAction="#closeAllTabAction" text="%closeAllTab" />
                               <MenuItem mnemonicParsing="false" onAction="#openAllTabAction" text="%openAllTab" />
+                              <MenuItem mnemonicParsing="false" onAction="#pluginManageAction" text="%plugin_manage" />
                               <MenuItem mnemonicParsing="false" onAction="#addNodepadAction" text="%addNodepad" />
                               <MenuItem mnemonicParsing="false" onAction="#addLogConsoleAction" text="%addLogConsole" />
                             <SeparatorMenuItem/>
@@ -25,9 +26,10 @@
                         <Menu fx:id="moreToolsMenu" mnemonicParsing="false" text="%More_Tools" />
                         <Menu fx:id="netWorkToolsMenu" mnemonicParsing="false" text="%NetWork_Tools" />
                       <Menu fx:id="helpMenu" mnemonicParsing="false" text="%Help">
-                          <MenuItem mnemonicParsing="false" onAction="#openLogFile" text="%openLogFile" />
-                          <MenuItem mnemonicParsing="false" onAction="#openLogFolder" text="%openLogFolder" />
-                          <MenuItem mnemonicParsing="false" onAction="#openConfigFolder" text="%openConfigFolder" />
+                          <MenuItem mnemonicParsing="false" onAction="#openLogFileAction" text="%openLogFile" />
+                          <MenuItem mnemonicParsing="false" onAction="#openLogFolderAction" text="%openLogFolder" />
+                          <MenuItem mnemonicParsing="false" onAction="#openConfigFolderAction" text="%openConfigFolder" />
+                          <MenuItem mnemonicParsing="false" onAction="#openPluginFolderAction" text="%openPluginFolder" />
                           <SeparatorMenuItem/>
                         <items>
                               <Menu mnemonicParsing="false" text="%SetLanguage">
