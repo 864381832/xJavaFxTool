@@ -1,6 +1,7 @@
 package com.xwintop.xJavaFxTool.controller;
 
 import com.xwintop.xJavaFxTool.common.logback.ConsoleLogAppender;
+import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
 import com.xwintop.xJavaFxTool.model.ToolFxmlLoaderConfiguration;
 import com.xwintop.xJavaFxTool.services.IndexService;
 import com.xwintop.xJavaFxTool.utils.Config;
@@ -290,6 +291,8 @@ public class IndexController extends IndexView {
 
     @FXML
     private void pluginManageAction(ActionEvent event) throws Exception {
+        FXMLLoader fXMLLoader = PluginManageController.getFXMLLoader();
+        JavaFxViewUtil.openNewWindow(bundle.getString("plugin_manage"), fXMLLoader.load());
     }
 
     @FXML
@@ -313,6 +316,7 @@ public class IndexController extends IndexView {
     private void openLogFolderAction(ActionEvent event) throws Exception {
         XJavaFxSystemUtil.openDirectory("logs/");
     }
+
     @FXML
     private void openConfigFolderAction(ActionEvent event) throws Exception {
         XJavaFxSystemUtil.openDirectory(ConfigureUtil.getConfigurePath());
