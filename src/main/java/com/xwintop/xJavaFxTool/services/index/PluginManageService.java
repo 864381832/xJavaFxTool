@@ -5,12 +5,13 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
+import com.xwintop.xJavaFxTool.model.PluginJarInfo;
+import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.util.HashMap;
@@ -41,13 +42,25 @@ public class PluginManageService {
             JSONArray jsonArray = JSON.parseArray(jsonString);
             for (Object json : jsonArray) {
                 JSONObject data = (JSONObject) json;
+                PluginJarInfo pluginJarInfo = XJavaFxSystemUtil.pluginJarInfoMap.get(data.getString("jarName"));
                 Map<String, String> dataRow = new HashMap<String, String>();
                 dataRow.put("nameTableColumn", data.getString("name"));
                 dataRow.put("synopsisTableColumn", data.getString("synopsis"));
                 dataRow.put("versionTableColumn", data.getString("version"));
-                dataRow.put("isDownloadTableColumn", "否");
-                dataRow.put("isEnableTableColumn", "false");
+                if (pluginJarInfo == null) {
+                    dataRow.put("isDownloadTableColumn", "否");
+                    dataRow.put("isEnableTableColumn", "false");
+                } else {
+                    if (Integer.parseInt(data.getString("versionNumber")) > pluginJarInfo.getVersionNumber()) {
+                        dataRow.put("isDownloadTableColumn", "更新");
+                    } else {
+                        dataRow.put("isDownloadTableColumn", "是");
+                    }
+                    dataRow.put("isEnableTableColumn", pluginJarInfo.getIsDownload().toString());
+                }
+                dataRow.put("jarName", data.getString("jarName"));
                 dataRow.put("downloadUrl", data.getString("downloadUrl"));
+                dataRow.put("versionNumber", data.getString("versionNumber"));
                 pluginManageController.getPluginDataTableData().add(dataRow);
             }
         } catch (Exception e) {
@@ -56,8 +69,19 @@ public class PluginManageService {
         }
     }
 
-    public void downloadPluginJar(String downloadUrl) throws Exception {
-        File file = new File("libs/", StringUtils.substring(downloadUrl, 56, downloadUrl.length()));
-        HttpUtil.downloadFile(downloadUrl, file);
+    public void downloadPluginJar(Map<String, String> dataRow) throws Exception {
+        PluginJarInfo pluginJarInfo = new PluginJarInfo();
+        pluginJarInfo.setName(dataRow.get("nameTableColumn"));
+        pluginJarInfo.setSynopsis(dataRow.get("synopsisTableColumn"));
+        pluginJarInfo.setVersion(dataRow.get("versionTableColumn"));
+        pluginJarInfo.setVersionNumber(Integer.parseInt(dataRow.get("versionNumber")));
+        pluginJarInfo.setDownloadUrl(dataRow.get("downloadUrl"));
+        pluginJarInfo.setJarName(dataRow.get("jarName"));
+        pluginJarInfo.setIsDownload(true);
+        pluginJarInfo.setIsEnable(true);
+//        File file = new File("libs/", StringUtils.substring(downloadUrl, 56, downloadUrl.length()));
+        File file = new File("libs/", pluginJarInfo.getJarName() + "-" + pluginJarInfo.getVersion() + ".jar");
+        HttpUtil.downloadFile(pluginJarInfo.getDownloadUrl(), file);
+        XJavaFxSystemUtil.pluginJarInfoMap.put(pluginJarInfo.getJarName(), pluginJarInfo);
     }
 }

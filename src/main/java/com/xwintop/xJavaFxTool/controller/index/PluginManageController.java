@@ -53,8 +53,7 @@ public class PluginManageController extends PluginManageView {
         JavaFxViewUtil.setTableColumnButonFactory(downloadTableColumn, "下载", (me, index) -> {
             try {
                 Map<String, String> dataRow = pluginDataTableData.get(index);
-                String downloadUrl = dataRow.get("downloadUrl");
-                pluginManageService.downloadPluginJar(downloadUrl);
+                pluginManageService.downloadPluginJar(dataRow);
                 TooltipUtil.showToast("下载插件完成");
             } catch (Exception e) {
                 log.error("下载插件失败：", e);

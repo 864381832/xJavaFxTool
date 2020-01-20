@@ -1,11 +1,16 @@
 package com.xwintop.xJavaFxTool.utils;
 
+import com.alibaba.fastjson.JSON;
+import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.model.ToolFxmlLoaderConfiguration;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.configuration.tree.ConfigurationNode;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -21,9 +26,8 @@ import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -35,6 +39,8 @@ import java.util.jar.JarFile;
  */
 @Slf4j
 public class XJavaFxSystemUtil {
+    public final static Map<String, PluginJarInfo> pluginJarInfoMap = new HashMap<>();
+
     /**
      * @Title: initSystemLocal
      * @Description: 初始化本地语言
@@ -143,14 +149,21 @@ public class XJavaFxSystemUtil {
      * @Description: 添加libs中jar包到系统中
      */
     public static void addJarByLibs() {
+        File systemPluginListfile = ConfigureUtil.getConfigureFile("system_plugin_list.json");
         try {
+            if (systemPluginListfile.exists()) {
+                List<PluginJarInfo> pluginJarInfoList = JSON.parseArray(FileUtils.readFileToString(systemPluginListfile, "utf-8"), PluginJarInfo.class);
+                for (PluginJarInfo pluginJarInfo : pluginJarInfoList) {
+                    pluginJarInfoMap.put(pluginJarInfo.getJarName(), pluginJarInfo);
+                }
+            }
             // 系统类库路径
             File libPath = new File("libs/");
             // 获取所有的.jar和.zip文件
             File[] jarFiles = libPath.listFiles(new FilenameFilter() {
                 @Override
                 public boolean accept(File dir, String name) {
-                    return name.endsWith(".jar") || name.endsWith(".zip");
+                    return name.endsWith(".jar");
                 }
             });
             if (jarFiles != null) {
@@ -165,6 +178,12 @@ public class XJavaFxSystemUtil {
                     // 获取系统类加载器
                     URLClassLoader classLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
                     for (File file : jarFiles) {
+                        String fileName = file.getName();
+                        String jarName = StringUtils.substring(fileName, 0, StringUtils.lastIndexOf(fileName, "-"));
+                        PluginJarInfo pluginJarInfo = pluginJarInfoMap.get(jarName);
+                        if (pluginJarInfo != null && !pluginJarInfo.getIsEnable()) {
+                            continue;
+                        }
                         URL url = file.toURI().toURL();
                         try {
                             method.invoke(classLoader, url);
@@ -177,7 +196,7 @@ public class XJavaFxSystemUtil {
                 }
             }
         } catch (Exception e) {
-            log.error("添加libs中jar包到系统中", e);
+            log.error("添加libs中jar包到系统中异常:", e);
         }
     }
 
@@ -191,20 +210,5 @@ public class XJavaFxSystemUtil {
         } catch (IOException e) {
             log.error("打开目录异常：" + directoryPath, e);
         }
-//        Runtime runtime = null;
-//        try {
-//            runtime = Runtime.getRuntime();
-//            if (File.separatorChar == '\\') {
-//                runtime.exec("cmd /c start explorer " + directoryPath);
-//            } else {
-//                runtime.exec("nautilus " + directoryPath);
-//            }
-//        } catch (IOException ex) {
-//            log.error("打开目录异常：" + ex.getMessage());
-//        } finally {
-//            if (null != runtime) {
-//                runtime.runFinalization();
-//            }
-//        }
     }
 }

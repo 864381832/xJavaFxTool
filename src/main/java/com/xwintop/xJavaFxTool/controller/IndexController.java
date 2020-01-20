@@ -59,9 +59,9 @@ public class IndexController extends IndexView {
         initView();
         initEvent();
         initService();
-        new Thread(() -> {//启动SpringBoot
+//        new Thread(() -> {//启动SpringBoot
 //			SpringApplication.run(Main.class,new String[0]);
-        }).start();
+//        }).start();
         addNodepadAction(null);
     }
 
