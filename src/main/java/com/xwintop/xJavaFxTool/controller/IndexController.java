@@ -1,6 +1,5 @@
 package com.xwintop.xJavaFxTool.controller;
 
-import com.xwintop.xJavaFxTool.common.logback.ConsoleLogAppender;
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
 import com.xwintop.xJavaFxTool.model.ToolFxmlLoaderConfiguration;
 import com.xwintop.xJavaFxTool.services.IndexService;
@@ -15,17 +14,16 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.*;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
-import javafx.stage.Stage;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -40,10 +38,12 @@ import java.util.*;
  * @date: 2017年7月20日 下午1:50:00
  */
 @Slf4j
+@Getter
+@Setter
 public class IndexController extends IndexView {
     private Map<String, Menu> menuMap = new HashMap<String, Menu>();
     private Map<String, MenuItem> menuItemMap = new HashMap<String, MenuItem>();
-    private IndexService indexService = new IndexService();
+    private IndexService indexService = new IndexService(this);
     private ContextMenu contextMenu = new ContextMenu();
 
     public static FXMLLoader getFXMLLoader() {
@@ -119,19 +119,19 @@ public class IndexController extends IndexView {
             }
             if ("Node".equals(toolConfig.getControllerType())) {
                 menuItem.setOnAction((ActionEvent event) -> {
-                    addContent(menuItem.getText(), toolConfig.getUrl(), toolConfig.getResourceBundleName(),
+                    indexService.addContent(menuItem.getText(), toolConfig.getUrl(), toolConfig.getResourceBundleName(),
                             toolConfig.getIconPath());
                 });
                 if (toolConfig.getIsDefaultShow()) {
-                    addContent(menuItem.getText(), toolConfig.getUrl(), toolConfig.getResourceBundleName(),
+                    indexService.addContent(menuItem.getText(), toolConfig.getUrl(), toolConfig.getResourceBundleName(),
                             toolConfig.getIconPath());
                 }
             } else if ("WebView".equals(toolConfig.getControllerType())) {
                 menuItem.setOnAction((ActionEvent event) -> {
-                    addWebView(menuItem.getText(), toolConfig.getUrl(), toolConfig.getIconPath());
+                    indexService.addWebView(menuItem.getText(), toolConfig.getUrl(), toolConfig.getIconPath());
                 });
                 if (toolConfig.getIsDefaultShow()) {
-                    addWebView(menuItem.getText(), toolConfig.getUrl(), toolConfig.getIconPath());
+                    indexService.addWebView(menuItem.getText(), toolConfig.getUrl(), toolConfig.getIconPath());
                 }
             }
             menuMap.get(toolConfig.getMenuParentId()).getItems().add(menuItem);
@@ -158,8 +158,6 @@ public class IndexController extends IndexView {
     }
 
     private void initService() {
-        indexService.setBundle(bundle);
-        indexService.setMenuItemMap(menuItemMap);
     }
 
     public void selectAction(String selectText) {
@@ -189,104 +187,12 @@ public class IndexController extends IndexView {
 
     @FXML
     private void addNodepadAction(ActionEvent event) {
-        TextArea textArea = new TextArea();
-        textArea.setFocusTraversable(true);
-        if (singleWindowBootCheckBox.isSelected()) {
-            JavaFxViewUtil.getNewStage(this.bundle.getString("addNodepad"), null, textArea);
-        } else {
-            Tab tab = new Tab(this.bundle.getString("addNodepad"));
-            tab.setContent(textArea);
-            tabPaneMain.getTabs().add(tab);
-            if (event != null) {
-                tabPaneMain.getSelectionModel().select(tab);
-            }
-        }
+        indexService.addNodepadAction(event);
     }
 
     @FXML
     private void addLogConsoleAction(ActionEvent event) {
-        TextArea textArea = new TextArea();
-        textArea.setFocusTraversable(true);
-        ConsoleLogAppender.textAreaList.add(textArea);
-        if (singleWindowBootCheckBox.isSelected()) {
-            Stage newStage = JavaFxViewUtil.getNewStage(this.bundle.getString("addLogConsole"), null, textArea);
-            newStage.setOnCloseRequest(event1 -> {
-                ConsoleLogAppender.textAreaList.remove(textArea);
-            });
-        } else {
-            Tab tab = new Tab(this.bundle.getString("addLogConsole"));
-            tab.setContent(textArea);
-            tabPaneMain.getTabs().add(tab);
-            if (event != null) {
-                tabPaneMain.getSelectionModel().select(tab);
-            }
-            tab.setOnCloseRequest((Event event1) -> {
-                ConsoleLogAppender.textAreaList.remove(textArea);
-            });
-        }
-    }
-
-    /**
-     * @Title: addContent
-     * @Description: 添加Content内容
-     */
-    private void addContent(String title, String url, String resourceBundleName, String iconPath) {
-        try {
-            FXMLLoader generatingCodeFXMLLoader = new FXMLLoader(getClass().getResource(url));
-            if (StringUtils.isNotEmpty(resourceBundleName)) {
-                ResourceBundle resourceBundle = ResourceBundle.getBundle(resourceBundleName, Config.defaultLocale);
-                generatingCodeFXMLLoader.setResources(resourceBundle);
-            }
-            if (singleWindowBootCheckBox.isSelected()) {
-                JavaFxViewUtil.getNewStage(title, iconPath, generatingCodeFXMLLoader);
-                return;
-            }
-            Tab tab = new Tab(title);
-            if (StringUtils.isNotEmpty(iconPath)) {
-                ImageView imageView = new ImageView(new Image(iconPath));
-                imageView.setFitHeight(18);
-                imageView.setFitWidth(18);
-                tab.setGraphic(imageView);
-            }
-
-            tab.setContent(generatingCodeFXMLLoader.load());
-            tabPaneMain.getTabs().add(tab);
-            tabPaneMain.getSelectionModel().select(tab);
-
-            tab.setOnCloseRequest((Event event) -> {
-                JavaFxViewUtil.setControllerOnCloseRequest(generatingCodeFXMLLoader.getController(), event);
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * @Title: addWebView
-     * @Description: 添加WebView视图
-     */
-    private void addWebView(String title, String url, String iconPath) {
-        WebView browser = new WebView();
-        WebEngine webEngine = browser.getEngine();
-        if (url.startsWith("http")) {
-            webEngine.load(url);
-        } else {
-            webEngine.load(IndexController.class.getResource(url).toExternalForm());
-        }
-        if (singleWindowBootCheckBox.isSelected()) {
-            JavaFxViewUtil.getNewStage(title, iconPath, new BorderPane(browser));
-            return;
-        }
-        Tab tab = new Tab(title);
-        if (StringUtils.isNotEmpty(iconPath)) {
-            ImageView imageView = new ImageView(new Image(iconPath));
-            imageView.setFitHeight(18);
-            imageView.setFitWidth(18);
-            tab.setGraphic(imageView);
-        }
-        tab.setContent(browser);
-        tabPaneMain.getTabs().add(tab);
-        tabPaneMain.getSelectionModel().select(tab);
+        indexService.addLogConsoleAction(event);
     }
 
     @FXML

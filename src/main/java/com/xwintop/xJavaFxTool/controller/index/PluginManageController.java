@@ -15,7 +15,6 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -53,7 +52,10 @@ public class PluginManageController extends PluginManageView {
         JavaFxViewUtil.setTableColumnMapAsCheckBoxValueFactory(isEnableTableColumn, "isEnableTableColumn");
         JavaFxViewUtil.setTableColumnButonFactory(downloadTableColumn, "下载", (me, index) -> {
             try {
-//       fileCopyService.copyAction(tableData.get(index));
+                Map<String, String> dataRow = pluginDataTableData.get(index);
+                String downloadUrl = dataRow.get("downloadUrl");
+                pluginManageService.downloadPluginJar(downloadUrl);
+                TooltipUtil.showToast("下载插件完成");
             } catch (Exception e) {
                 log.error("下载插件失败：", e);
                 TooltipUtil.showToast("下载插件失败：" + e.getMessage());
@@ -66,13 +68,7 @@ public class PluginManageController extends PluginManageView {
     }
 
     private void initService() {
-        Map<String, String> dataRow = new HashMap<String, String>();
-        dataRow.put("nameTableColumn", "nameTableColumn");
-        dataRow.put("synopsisTableColumn", "synopsisTableColumn");
-        dataRow.put("versionTableColumn", "0.0.1");
-        dataRow.put("isDownloadTableColumn", "否");
-        dataRow.put("isEnableTableColumn", "false");
-        pluginDataTableData.add(dataRow);
+        pluginManageService.getPluginList();
     }
 
     @FXML
