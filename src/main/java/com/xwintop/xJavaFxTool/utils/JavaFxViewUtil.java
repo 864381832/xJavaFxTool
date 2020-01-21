@@ -398,10 +398,14 @@ public class JavaFxViewUtil {
                 });
     }
 
+    public static void setTableColumnMapAsCheckBoxValueFactory(TableColumn tableColumn, String name) {
+        setTableColumnMapAsCheckBoxValueFactory(tableColumn, name, null);
+    }
+
     /**
      * 初始化选择框表格属性
      */
-    public static void setTableColumnMapAsCheckBoxValueFactory(TableColumn tableColumn, String name) {
+    public static void setTableColumnMapAsCheckBoxValueFactory(TableColumn tableColumn, String name, MouseEventCallFunc mouseEventCallFunc) {
         tableColumn.setCellValueFactory(new MapValueFactory(name));
         tableColumn.setCellFactory(
                 new Callback<TableColumn<Map<String, String>, String>, TableCell<Map<String, String>, String>>() {
@@ -419,6 +423,9 @@ public class JavaFxViewUtil {
                                     checkBox.setSelected(Boolean.valueOf(tableData.get(this.getIndex()).get(name)));
                                     checkBox.selectedProperty().addListener((obVal, oldVal, newVal) -> {
                                         tableData.get(this.getIndex()).put(name, newVal.toString());
+                                        if (mouseEventCallFunc != null) {
+                                            mouseEventCallFunc.callFun(null, this.getIndex());
+                                        }
                                     });
                                     this.setGraphic(checkBox);
                                 }

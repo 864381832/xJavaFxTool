@@ -1,16 +1,12 @@
 package com.xwintop.xJavaFxTool.utils;
 
-import com.alibaba.fastjson.JSON;
-import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.model.ToolFxmlLoaderConfiguration;
-import lombok.Getter;
-import lombok.Setter;
+import com.xwintop.xJavaFxTool.services.index.PluginManageService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.configuration.tree.ConfigurationNode;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -39,7 +35,6 @@ import java.util.jar.JarFile;
  */
 @Slf4j
 public class XJavaFxSystemUtil {
-    public final static Map<String, PluginJarInfo> pluginJarInfoMap = new HashMap<>();
 
     /**
      * @Title: initSystemLocal
@@ -96,21 +91,28 @@ public class XJavaFxSystemUtil {
      */
     @SuppressWarnings({"unchecked", "resource"})
     public static List<ToolFxmlLoaderConfiguration> loaderPlugInToolFxmlLoaderConfiguration() {
-        List<ToolFxmlLoaderConfiguration> toolList = new ArrayList<ToolFxmlLoaderConfiguration>();
+        Map<String, ToolFxmlLoaderConfiguration> toolMap = new HashMap<>();
+        List<ToolFxmlLoaderConfiguration> toolList = new ArrayList<>();
         try {
             File libPath = new File("libs/");
             // 获取所有的.jar和.zip文件
             File[] jarFiles = libPath.listFiles(new FilenameFilter() {
                 @Override
                 public boolean accept(File dir, String name) {
-                    return name.endsWith(".jar") || name.endsWith(".zip");
+                    return name.endsWith(".jar");
                 }
             });
             if (jarFiles != null) {
                 for (File file : jarFiles) {
+                    if (!PluginManageService.getPluginJarIsEnable(file.getName())) {
+                        continue;
+                    }
                     JarFile jarFile = new JarFile(file);
                     try {
                         JarEntry entry = jarFile.getJarEntry("config/toolFxmlLoaderConfiguration.xml");
+                        if (entry == null) {
+                            continue;
+                        }
                         InputStream input = jarFile.getInputStream(entry);
                         SAXReader saxReader = new SAXReader();
                         Document document = saxReader.read(input);
@@ -131,12 +133,17 @@ public class XJavaFxSystemUtil {
                             if (StringUtils.isEmpty(toolFxmlLoaderConfiguration.getMenuParentId())) {
                                 toolFxmlLoaderConfiguration.setMenuParentId("moreToolsMenu");
                             }
-                            toolList.add(toolFxmlLoaderConfiguration);
+                            if (toolFxmlLoaderConfiguration.getIsMenu()) {
+                                toolMap.putIfAbsent(toolFxmlLoaderConfiguration.getMenuId(), toolFxmlLoaderConfiguration);
+                            } else {
+                                toolList.add(toolFxmlLoaderConfiguration);
+                            }
                         }
                     } finally {
                         jarFile.close();
                     }
                 }
+                toolList.addAll(toolMap.values());
             }
         } catch (Exception e) {
             log.error("加载libs下jar包中工具配置失败", e);
@@ -149,14 +156,8 @@ public class XJavaFxSystemUtil {
      * @Description: 添加libs中jar包到系统中
      */
     public static void addJarByLibs() {
-        File systemPluginListfile = ConfigureUtil.getConfigureFile("system_plugin_list.json");
+        PluginManageService.reloadPluginJarList();
         try {
-            if (systemPluginListfile.exists()) {
-                List<PluginJarInfo> pluginJarInfoList = JSON.parseArray(FileUtils.readFileToString(systemPluginListfile, "utf-8"), PluginJarInfo.class);
-                for (PluginJarInfo pluginJarInfo : pluginJarInfoList) {
-                    pluginJarInfoMap.put(pluginJarInfo.getJarName(), pluginJarInfo);
-                }
-            }
             // 系统类库路径
             File libPath = new File("libs/");
             // 获取所有的.jar和.zip文件
@@ -178,10 +179,7 @@ public class XJavaFxSystemUtil {
                     // 获取系统类加载器
                     URLClassLoader classLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
                     for (File file : jarFiles) {
-                        String fileName = file.getName();
-                        String jarName = StringUtils.substring(fileName, 0, StringUtils.lastIndexOf(fileName, "-"));
-                        PluginJarInfo pluginJarInfo = pluginJarInfoMap.get(jarName);
-                        if (pluginJarInfo != null && !pluginJarInfo.getIsEnable()) {
+                        if (!PluginManageService.getPluginJarIsEnable(file.getName())) {
                             continue;
                         }
                         URL url = file.toURI().toURL();
