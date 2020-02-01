@@ -164,6 +164,17 @@ public class PluginProgectPomBuildTool {
                 "</root>";
     }
 
+    public static String getPluginList_Json(String projectName, String xmlPath){
+        return "{\n" +
+                "    \"name\": \""+projectName+"\",\n" +
+                "    \"synopsis\": \"\",\n" +
+                "    \"jarName\": \"x-"+projectName+"\",\n" +
+                "    \"version\": \"0.0.1\",\n" +
+                "    \"versionNumber\": 1,\n" +
+                "    \"downloadUrl\": \"https://xwintop.gitee.io/xjavafxtool-plugin/plugin-libs/"+xmlPath+"x-"+projectName+"-0.0.1.jar\"\n" +
+                "  },";
+    }
+
     public static String getLocal_properties(String projectName) {
         return "# Dorian.properties是默认的\"Dorian\"资源束文件。  \n" +
                 "# 作为中国人,我用自己的地区作为默认  \n" +

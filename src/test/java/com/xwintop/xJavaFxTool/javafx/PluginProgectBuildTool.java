@@ -14,19 +14,20 @@ import java.io.File;
  */
 
 public class PluginProgectBuildTool {
-    private String projectPath = "E:/ideaWorkspaces/xwintop/xJavaFxTool/src/main/";
+    private String projectPath = "C:/IDEA/xwintop/xJavaFxTool/src/main/";
     //    private String projectPath = "";
     private String resources = "resources/com/xwintop/xJavaFxTool/";
-//    private String xmlPath = "assistTools/";
+//        private String xmlPath = "assistTools/";
 //    private String xmlPath = "codeTools/";
 //    private String xmlPath = "debugTools/";
 //    private String xmlPath = "developTools/";
-//    private String xmlPath = "games/";
-    private String xmlPath = "littleTools/";
-//    private String xmlPath = "webTools/";
+//    private String xmlPath = "epmsTools/";
+//        private String xmlPath = "games/";
+//    private String xmlPath = "littleTools/";
+    private String xmlPath = "webTools/";
     private String srcPath = "java/com/xwintop/xJavaFxTool/";
 
-    private String pluginPath = "E:/ideaWorkspaces/xwintop/xJavaFxTool-plugin/";
+    private String pluginPath = "C:/IDEA/xJavaFxTool-plugin/";
 
     @Test
     public void buildJava() throws Exception {
@@ -61,6 +62,26 @@ public class PluginProgectBuildTool {
             copyPluginFile(srcPath + "controller/" + xmlPath + pluginProgectName + "Controller.java", pluginProgectPath);
             copyPluginFile(srcPath + "services/" + xmlPath + pluginProgectName + "Service.java", pluginProgectPath);
             copyPluginFile(srcPath + "view/" + xmlPath + pluginProgectName + "View.java", pluginProgectPath);
+//            break;
+        }
+    }
+
+    @Test
+    public void buildJson() throws Exception {
+        File[] fxmlFileList = new File(projectPath + resources + "fxmlView/" + xmlPath).listFiles();
+        for (File file : fxmlFileList) {
+            if (file.isDirectory()) {
+                continue;
+            }
+            String pluginProgectName = FilenameUtils.getBaseName(file.getName());
+            String pluginProgectPath = pluginPath + xmlPath + "x-" + pluginProgectName;
+            System.out.println(PluginProgectPomBuildTool.getPluginList_Json(pluginProgectName,xmlPath));
+//            System.out.println("cd " + pluginProgectPath + "\n mvn package");
+            File pluginLibsJarFile = new File(pluginProgectPath + "/target/x-" + pluginProgectName + "-0.0.1.jar");
+            if (pluginLibsJarFile.exists()) {
+                File pluginLibsFile = new File(pluginPath + "plugin-libs/" + xmlPath);
+                FileUtils.copyFileToDirectory(pluginLibsJarFile, pluginLibsFile);
+            }
 //            break;
         }
     }
