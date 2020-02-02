@@ -1,5 +1,7 @@
 package com.xwintop.xJavaFxTool.javafx;
 
+import cn.hutool.core.text.UnicodeUtil;
+import cn.hutool.core.util.EscapeUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.junit.Test;
@@ -17,14 +19,14 @@ public class PluginProgectBuildTool {
     private String projectPath = "C:/IDEA/xwintop/xJavaFxTool/src/main/";
     //    private String projectPath = "";
     private String resources = "resources/com/xwintop/xJavaFxTool/";
-//        private String xmlPath = "assistTools/";
+//    private String xmlPath = "assistTools/";
 //    private String xmlPath = "codeTools/";
 //    private String xmlPath = "debugTools/";
 //    private String xmlPath = "developTools/";
 //    private String xmlPath = "epmsTools/";
-//        private String xmlPath = "games/";
-//    private String xmlPath = "littleTools/";
-    private String xmlPath = "webTools/";
+//    private String xmlPath = "games/";
+    private String xmlPath = "littleTools/";
+//    private String xmlPath = "webTools/";
     private String srcPath = "java/com/xwintop/xJavaFxTool/";
 
     private String pluginPath = "C:/IDEA/xJavaFxTool-plugin/";
@@ -68,6 +70,27 @@ public class PluginProgectBuildTool {
 
     @Test
     public void buildJson() throws Exception {
+//        System.out.println(UnicodeUtil.toUnicode("测试",true));
+        File[] fxmlFileList = new File(projectPath + resources + "fxmlView/" + xmlPath).listFiles();
+        for (File file : fxmlFileList) {
+            if (file.isDirectory() || !file.getName().endsWith(".fxml")) {
+                continue;
+            }
+            String pluginProgectName = FilenameUtils.getBaseName(file.getName());
+            String pluginProgectPath = pluginPath + xmlPath + "x-" + pluginProgectName;
+            System.out.println(PluginProgectPomBuildTool.getPluginList_Json(pluginProgectName, xmlPath));
+//            System.out.println("cd " + pluginProgectPath + "\n mvn package");
+            File pluginLibsJarFile = new File(pluginProgectPath + "/target/x-" + pluginProgectName + "-0.0.1.jar");
+            if (pluginLibsJarFile.exists()) {
+                File pluginLibsFile = new File(pluginPath + "plugin-libs/" + xmlPath);
+                FileUtils.copyFileToDirectory(pluginLibsJarFile, pluginLibsFile);
+            }
+//            break;
+        }
+    }
+
+    @Test
+    public void buildChangeFileUnicode() throws Exception {
         File[] fxmlFileList = new File(projectPath + resources + "fxmlView/" + xmlPath).listFiles();
         for (File file : fxmlFileList) {
             if (file.isDirectory()) {
@@ -75,13 +98,10 @@ public class PluginProgectBuildTool {
             }
             String pluginProgectName = FilenameUtils.getBaseName(file.getName());
             String pluginProgectPath = pluginPath + xmlPath + "x-" + pluginProgectName;
-            System.out.println(PluginProgectPomBuildTool.getPluginList_Json(pluginProgectName,xmlPath));
-//            System.out.println("cd " + pluginProgectPath + "\n mvn package");
-            File pluginLibsJarFile = new File(pluginProgectPath + "/target/x-" + pluginProgectName + "-0.0.1.jar");
-            if (pluginLibsJarFile.exists()) {
-                File pluginLibsFile = new File(pluginPath + "plugin-libs/" + xmlPath);
-                FileUtils.copyFileToDirectory(pluginLibsJarFile, pluginLibsFile);
-            }
+            pluginProgectPath = pluginProgectPath + "/src/main/";
+
+            File localeFile = new File(pluginProgectPath + "resources/locale/" + pluginProgectName + ".properties");
+            FileUtils.writeStringToFile(localeFile, UnicodeUtil.toUnicode(FileUtils.readFileToString(localeFile, "utf-8")));
 //            break;
         }
     }
