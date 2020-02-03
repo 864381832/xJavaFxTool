@@ -2,6 +2,8 @@ package com.xwintop.xJavaFxTool.utils;
 
 import com.xwintop.xJavaFxTool.model.ToolFxmlLoaderConfiguration;
 import com.xwintop.xJavaFxTool.services.index.PluginManageService;
+import com.xwintop.xcore.util.ConfigureUtil;
+import com.xwintop.xcore.util.javafx.TooltipUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.configuration.PropertiesConfiguration;

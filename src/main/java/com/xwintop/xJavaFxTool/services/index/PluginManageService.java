@@ -6,7 +6,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
-import com.xwintop.xJavaFxTool.utils.ConfigureUtil;
+import com.xwintop.xcore.util.ConfigureUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 import lombok.Getter;
 import lombok.Setter;

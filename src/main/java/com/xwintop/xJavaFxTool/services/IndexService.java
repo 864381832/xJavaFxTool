@@ -3,9 +3,9 @@ package com.xwintop.xJavaFxTool.services;
 import com.xwintop.xJavaFxTool.common.logback.ConsoleLogAppender;
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.utils.Config;
-import com.xwintop.xJavaFxTool.utils.ConfigureUtil;
-import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
+import com.xwintop.xcore.util.ConfigureUtil;
 import com.xwintop.xcore.util.javafx.AlertUtil;
+import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
@@ -26,7 +26,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.util.Locale;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 @Setter

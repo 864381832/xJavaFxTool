@@ -39,7 +39,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 - 百度云链接：[https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA](https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA)  提取码：mokl
 - 腾讯微云链接：[https://share.weiyun.com/5T6FPLW](https://share.weiyun.com/5T6FPLW) 提取码：java
 
-支持插件开发，将插件jar包放至根目录libs下即可自动加载(插件开发示例见[开源项目xJavaFxPlugIn](https://gitee.com/xwintop/xJavaFxPlugIn)，后续准备将小工具拆分至各插件中按需加载，目前插件功能暂不完善，后续将各功能拆分至各模块按需加载，减小jar包的大小);
+支持插件开发，将插件jar包放至根目录libs下即可自动加载(插件开发示例见[开源项目xJavaFxTool-plugin](https://gitee.com/xwintop/xJavaFxTool-plugin)，后续准备将小工具拆分至各插件中按需加载，目前插件功能暂不完善，后续将各功能拆分至各模块按需加载，减小jar包的大小);
 
 #### 环境搭建说明：
 - 开发环境为jdk1.8，基于maven构建

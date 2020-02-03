@@ -2,8 +2,8 @@ package com.xwintop.xJavaFxTool.controller.index;
 
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.services.index.PluginManageService;
-import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.view.index.PluginManageView;
+import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

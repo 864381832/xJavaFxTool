@@ -3,10 +3,10 @@ package com.xwintop.xJavaFxTool;
 import com.jfoenix.controls.JFXDecorator;
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.utils.Config;
-import com.xwintop.xJavaFxTool.utils.JavaFxViewUtil;
 import com.xwintop.xJavaFxTool.utils.StageUtils;
 import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import com.xwintop.xcore.util.javafx.AlertUtil;
+import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +16,6 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.ResourceBundle;
 
@@ -26,7 +25,6 @@ import java.util.ResourceBundle;
  * @author: xufeng
  * @date: 2017年11月10日 下午4:34:11
  */
-@SpringBootApplication
 @Slf4j
 public class Main extends Application {
     private static Stage stage;
