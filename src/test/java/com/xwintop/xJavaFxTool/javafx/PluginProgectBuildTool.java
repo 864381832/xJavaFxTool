@@ -25,8 +25,9 @@ public class PluginProgectBuildTool {
 //    private String xmlPath = "developTools/";
 //    private String xmlPath = "epmsTools/";
 //    private String xmlPath = "games/";
-    private String xmlPath = "littleTools/";
+//    private String xmlPath = "littleTools/";
 //    private String xmlPath = "webTools/";
+    private String xmlPath = "javaFxTools/";
     private String srcPath = "java/com/xwintop/xJavaFxTool/";
 
     private String pluginPath = "C:/IDEA/xJavaFxTool-plugin/";
