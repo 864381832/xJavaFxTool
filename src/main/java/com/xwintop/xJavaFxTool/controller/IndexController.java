@@ -140,20 +140,12 @@ public class IndexController extends IndexView {
     }
 
     private void initEvent() {
-        myTextField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                selectAction(newValue);
-            }
-        });
-        myButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent arg0) {
-                selectAction(myTextField.getText());
-                // TooltipUtil.showToast(myTextField.getText());
-                // TooltipUtil.showToast("test",Pos.BOTTOM_RIGHT);
-                // JOptionPane.showMessageDialog(null, "test");
-            }
+        myTextField.textProperty().addListener((observable, oldValue, newValue) -> selectAction(newValue));
+        myButton.setOnAction(arg0 -> {
+            selectAction(myTextField.getText());
+            // TooltipUtil.showToast(myTextField.getText());
+            // TooltipUtil.showToast("test",Pos.BOTTOM_RIGHT);
+            // JOptionPane.showMessageDialog(null, "test");
         });
     }
 
