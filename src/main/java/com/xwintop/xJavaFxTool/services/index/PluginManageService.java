@@ -89,6 +89,7 @@ public class PluginManageService {
         File file = new File("libs/", pluginJarInfo.getJarName() + "-" + pluginJarInfo.getVersion() + ".jar");
         HttpUtil.downloadFile(pluginJarInfo.getDownloadUrl(), file);
         PLUGIN_JAR_INFO_MAP.put(pluginJarInfo.getJarName(), pluginJarInfo);
+        pluginManageController.getIndexController().addToolMenu(file);
         PluginManageService.savePluginJarList();
     }
 
@@ -106,7 +107,7 @@ public class PluginManageService {
         String selectText = pluginManageController.getSelectPluginTextField().getText();
         for (Object json : jsonArray) {
             JSONObject data = (JSONObject) json;
-            if (StringUtils.containsIgnoreCase(data.toString(),selectText)) {
+            if (StringUtils.containsIgnoreCase(data.toString(), selectText)) {
                 addDataRow(data);
             }
         }

@@ -18,21 +18,4 @@
 <!--                                 menuId="assistTools" isMenu="true"/>-->
 <!--    <ToolFxmlLoaderConfiguration title="games"-->
 <!--                                 menuId="games" isMenu="true"/>-->
-<!--    <ToolFxmlLoaderConfiguration-->
-<!--            url="/com/xwintop/xJavaFxTool/fxmlView/javaFxTools/JavaFxXmlToObjectCode.fxml" resourceBundleName=""-->
-<!--            className="" title="JavaFxXmlToObjectCode" iconPath="/images/icon.jpg"-->
-<!--            menuParentId="javaFxTools" controllerType="Node"/>-->
-
-<!--    <ToolFxmlLoaderConfiguration>-->
-<!--        <url>/com/xwintop/xJavaFxTool/fxmlView/javaFxTools/ShowSystemInfo.fxml</url>-->
-<!--        <title>ShowSystemInfo</title>-->
-<!--        <menuParentId>javaFxTools</menuParentId>-->
-<!--    </ToolFxmlLoaderConfiguration>-->
-
-<!--    <ToolFxmlLoaderConfiguration url="/web/littleTools/cron/index.htm"-->
-<!--                                 title="webCronExpBuilder" menuParentId="netWorkToolsMenu"-->
-<!--                                 controllerType="WebView"/>-->
-<!--    <ToolFxmlLoaderConfiguration url="/web/littleTools/jsonEditor/index.html"-->
-<!--                                 title="jsonEditor" menuParentId="netWorkToolsMenu"-->
-<!--                                 controllerType="WebView"/>-->
 </root>

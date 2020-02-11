@@ -35,6 +35,8 @@ public class PluginManageController extends PluginManageView {
     private PluginManageService pluginManageService = new PluginManageService(this);
     private ObservableList<Map<String, String>> pluginDataTableData = FXCollections.observableArrayList();
 
+    private IndexController indexController;
+
     public static FXMLLoader getFXMLLoader() {
         FXMLLoader fXMLLoader = new FXMLLoader(IndexController.class.getResource("/com/xwintop/xJavaFxTool/fxmlView/index/PluginManage.fxml"));
         return fXMLLoader;

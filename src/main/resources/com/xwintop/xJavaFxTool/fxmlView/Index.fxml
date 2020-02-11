@@ -24,7 +24,6 @@
                       </Menu>
                       <Menu fx:id="toolsMenu" mnemonicParsing="false" text="%Tools" />
                         <Menu fx:id="moreToolsMenu" mnemonicParsing="false" text="%More_Tools" />
-                        <Menu fx:id="netWorkToolsMenu" mnemonicParsing="false" text="%NetWork_Tools" />
                       <Menu fx:id="helpMenu" mnemonicParsing="false" text="%Help">
                           <MenuItem mnemonicParsing="false" onAction="#openLogFileAction" text="%openLogFile" />
                           <MenuItem mnemonicParsing="false" onAction="#openLogFolderAction" text="%openLogFolder" />

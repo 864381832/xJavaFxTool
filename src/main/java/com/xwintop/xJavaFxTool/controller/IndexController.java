@@ -9,14 +9,13 @@ import com.xwintop.xJavaFxTool.view.IndexView;
 import com.xwintop.xcore.util.ConfigureUtil;
 import com.xwintop.xcore.util.HttpClientUtil;
 import com.xwintop.xcore.util.javafx.AlertUtil;
+import com.xwintop.xcore.util.javafx.JavaFxSystemUtil;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -25,11 +24,22 @@ import javafx.scene.image.ImageView;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.dom4j.Document;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+import org.dom4j.tree.DefaultAttribute;
+import org.dom4j.tree.DefaultElement;
 
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 /**
  * @ClassName: IndexController
@@ -66,12 +76,84 @@ public class IndexController extends IndexView {
     }
 
     private void initView() {
-        List<ToolFxmlLoaderConfiguration> toolList = XJavaFxSystemUtil.loaderToolFxmlLoaderConfiguration();
-        List<ToolFxmlLoaderConfiguration> plugInToolList = XJavaFxSystemUtil.loaderPlugInToolFxmlLoaderConfiguration();
-        toolList.addAll(plugInToolList);
         menuMap.put("toolsMenu", toolsMenu);
         menuMap.put("moreToolsMenu", moreToolsMenu);
-        menuMap.put("netWorkToolsMenu", netWorkToolsMenu);
+        File libPath = new File("libs/");
+        // 获取所有的.jar和.zip文件
+        File[] jarFiles = libPath.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return name.endsWith(".jar");
+            }
+        });
+        if (jarFiles != null) {
+            for (File jarFile : jarFiles) {
+                try {
+                    this.addToolMenu(jarFile);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void initEvent() {
+        myTextField.textProperty().addListener((observable, oldValue, newValue) -> selectAction(newValue));
+        myButton.setOnAction(arg0 -> {
+            selectAction(myTextField.getText());
+            // TooltipUtil.showToast(myTextField.getText());
+            // TooltipUtil.showToast("test",Pos.BOTTOM_RIGHT);
+            // JOptionPane.showMessageDialog(null, "test");
+        });
+    }
+
+    private void initService() {
+    }
+
+    public void addToolMenu(File file) throws Exception {
+        XJavaFxSystemUtil.addJarClass(file);
+        Map<String, ToolFxmlLoaderConfiguration> toolMap = new HashMap<>();
+        List<ToolFxmlLoaderConfiguration> toolList = new ArrayList<>();
+        JarFile jarFile = new JarFile(file);
+        try {
+            JarEntry entry = jarFile.getJarEntry("config/toolFxmlLoaderConfiguration.xml");
+            if (entry == null) {
+                return;
+            }
+            InputStream input = jarFile.getInputStream(entry);
+            SAXReader saxReader = new SAXReader();
+            Document document = saxReader.read(input);
+            Element root = document.getRootElement();
+            List<Element> elements = root.elements("ToolFxmlLoaderConfiguration");
+            for (Element configurationNode : elements) {
+                ToolFxmlLoaderConfiguration toolFxmlLoaderConfiguration = new ToolFxmlLoaderConfiguration();
+                List<DefaultAttribute> attributes = configurationNode.attributes();
+                for (DefaultAttribute configuration : attributes) {
+                    BeanUtils.copyProperty(toolFxmlLoaderConfiguration, configuration.getName(), configuration.getValue());
+                }
+                List<DefaultElement> childrenList = configurationNode.elements();
+                for (DefaultElement configuration : childrenList) {
+                    BeanUtils.copyProperty(toolFxmlLoaderConfiguration, configuration.getName(), configuration.getStringValue());
+                }
+                if (StringUtils.isEmpty(toolFxmlLoaderConfiguration.getMenuParentId())) {
+                    toolFxmlLoaderConfiguration.setMenuParentId("moreToolsMenu");
+                }
+                if (toolFxmlLoaderConfiguration.getIsMenu()) {
+                    if (menuMap.get(toolFxmlLoaderConfiguration.getMenuId()) == null) {
+                        toolMap.putIfAbsent(toolFxmlLoaderConfiguration.getMenuId(), toolFxmlLoaderConfiguration);
+                    }
+                } else {
+                    toolList.add(toolFxmlLoaderConfiguration);
+                }
+            }
+        } finally {
+            jarFile.close();
+        }
+        toolList.addAll(toolMap.values());
+        this.addMenu(toolList);
+    }
+
+    private void addMenu(List<ToolFxmlLoaderConfiguration> toolList) {
         for (ToolFxmlLoaderConfiguration toolConfig : toolList) {
             try {
                 if (StringUtils.isEmpty(toolConfig.getResourceBundleName())) {
@@ -79,8 +161,7 @@ public class IndexController extends IndexView {
                         toolConfig.setTitle(bundle.getString(toolConfig.getTitle()));
                     }
                 } else {
-                    ResourceBundle resourceBundle = ResourceBundle.getBundle(toolConfig.getResourceBundleName(),
-                            Config.defaultLocale);
+                    ResourceBundle resourceBundle = ResourceBundle.getBundle(toolConfig.getResourceBundleName(), Config.defaultLocale);
                     if (StringUtils.isNotEmpty(resourceBundle.getString(toolConfig.getTitle()))) {
                         toolConfig.setTitle(resourceBundle.getString(toolConfig.getTitle()));
                     }
@@ -119,12 +200,10 @@ public class IndexController extends IndexView {
             }
             if ("Node".equals(toolConfig.getControllerType())) {
                 menuItem.setOnAction((ActionEvent event) -> {
-                    indexService.addContent(menuItem.getText(), toolConfig.getUrl(), toolConfig.getResourceBundleName(),
-                            toolConfig.getIconPath());
+                    indexService.addContent(menuItem.getText(), toolConfig.getUrl(), toolConfig.getResourceBundleName(), toolConfig.getIconPath());
                 });
                 if (toolConfig.getIsDefaultShow()) {
-                    indexService.addContent(menuItem.getText(), toolConfig.getUrl(), toolConfig.getResourceBundleName(),
-                            toolConfig.getIconPath());
+                    indexService.addContent(menuItem.getText(), toolConfig.getUrl(), toolConfig.getResourceBundleName(), toolConfig.getIconPath());
                 }
             } else if ("WebView".equals(toolConfig.getControllerType())) {
                 menuItem.setOnAction((ActionEvent event) -> {
@@ -137,19 +216,6 @@ public class IndexController extends IndexView {
             menuMap.get(toolConfig.getMenuParentId()).getItems().add(menuItem);
             menuItemMap.put(menuItem.getText(), menuItem);
         }
-    }
-
-    private void initEvent() {
-        myTextField.textProperty().addListener((observable, oldValue, newValue) -> selectAction(newValue));
-        myButton.setOnAction(arg0 -> {
-            selectAction(myTextField.getText());
-            // TooltipUtil.showToast(myTextField.getText());
-            // TooltipUtil.showToast("test",Pos.BOTTOM_RIGHT);
-            // JOptionPane.showMessageDialog(null, "test");
-        });
-    }
-
-    private void initService() {
     }
 
     public void selectAction(String selectText) {
@@ -190,7 +256,10 @@ public class IndexController extends IndexView {
     @FXML
     private void pluginManageAction(ActionEvent event) throws Exception {
         FXMLLoader fXMLLoader = PluginManageController.getFXMLLoader();
-        JavaFxViewUtil.openNewWindow(bundle.getString("plugin_manage"), fXMLLoader.load());
+        Parent root = fXMLLoader.load();
+        PluginManageController pluginManageController = fXMLLoader.getController();
+        pluginManageController.setIndexController(this);
+        JavaFxViewUtil.openNewWindow(bundle.getString("plugin_manage"), root);
     }
 
     @FXML
@@ -207,22 +276,22 @@ public class IndexController extends IndexView {
     @FXML
     private void openLogFileAction(ActionEvent event) throws Exception {
         String filePath = "logs/logFile." + DateFormatUtils.format(new Date(), "yyyy-MM-dd") + ".log";
-        XJavaFxSystemUtil.openDirectory(filePath);
+        JavaFxSystemUtil.openDirectory(filePath);
     }
 
     @FXML
     private void openLogFolderAction(ActionEvent event) throws Exception {
-        XJavaFxSystemUtil.openDirectory("logs/");
+        JavaFxSystemUtil.openDirectory("logs/");
     }
 
     @FXML
     private void openConfigFolderAction(ActionEvent event) throws Exception {
-        XJavaFxSystemUtil.openDirectory(ConfigureUtil.getConfigurePath());
+        JavaFxSystemUtil.openDirectory(ConfigureUtil.getConfigurePath());
     }
 
     @FXML
     private void openPluginFolderAction(ActionEvent event) throws Exception {
-        XJavaFxSystemUtil.openDirectory("libs/");
+        JavaFxSystemUtil.openDirectory("libs/");
     }
 
     @FXML
