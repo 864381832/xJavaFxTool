@@ -77,9 +77,11 @@ public class PluginManageController extends PluginManageView {
                             downloadButton.setOnMouseClicked((me) -> {
                                 try {
                                     pluginManageService.downloadPluginJar(dataRow);
+                                    dataRow.put("isEnableTableColumn","true");
                                     dataRow.put("isDownloadTableColumn", "已下载");
                                     downloadButton.setText("已下载");
                                     downloadButton.setDisable(true);
+                                    pluginDataTableView.refresh();
                                     TooltipUtil.showToast("插件 " + dataRow.get("nameTableColumn") + " 下载完成");
                                 } catch (Exception e) {
                                     log.error("下载插件失败：", e);

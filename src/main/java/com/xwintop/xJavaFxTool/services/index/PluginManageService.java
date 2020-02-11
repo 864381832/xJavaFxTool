@@ -6,7 +6,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
-import com.xwintop.xcore.util.ConfigureUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 import lombok.Getter;
 import lombok.Setter;
@@ -115,7 +114,7 @@ public class PluginManageService {
 
     /*加载插件列表*/
     public static void reloadPluginJarList() {
-        File systemPluginListfile = ConfigureUtil.getConfigureFile("system_plugin_list.json");
+        File systemPluginListfile = new File("system_plugin_list.json");
         if (systemPluginListfile.exists()) {
             try {
                 List<PluginJarInfo> pluginJarInfoList = JSON.parseArray(FileUtils.readFileToString(systemPluginListfile, "utf-8"), PluginJarInfo.class);
@@ -130,7 +129,7 @@ public class PluginManageService {
 
     /*保存插件列表*/
     public static void savePluginJarList() {
-        File systemPluginListfile = ConfigureUtil.getConfigureFile("system_plugin_list.json");
+        File systemPluginListfile = new File("system_plugin_list.json");
         String systemPluginListString = JSON.toJSONString(PLUGIN_JAR_INFO_MAP.values());
         try {
             FileUtils.writeStringToFile(systemPluginListfile, systemPluginListString, "utf-8");
