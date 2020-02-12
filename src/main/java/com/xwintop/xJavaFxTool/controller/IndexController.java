@@ -3,6 +3,7 @@ package com.xwintop.xJavaFxTool.controller;
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
 import com.xwintop.xJavaFxTool.model.ToolFxmlLoaderConfiguration;
 import com.xwintop.xJavaFxTool.services.IndexService;
+import com.xwintop.xJavaFxTool.services.index.PluginManageService;
 import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import com.xwintop.xJavaFxTool.view.IndexView;
@@ -88,10 +89,13 @@ public class IndexController extends IndexView {
         });
         if (jarFiles != null) {
             for (File jarFile : jarFiles) {
+                if (!PluginManageService.getPluginJarIsEnable(jarFile.getName())) {
+                    continue;
+                }
                 try {
                     this.addToolMenu(jarFile);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    log.error("加载工具出错：", e);
                 }
             }
         }
