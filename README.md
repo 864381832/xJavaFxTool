@@ -29,12 +29,11 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 由于SpringBoot的火热，项目已经出SpringBoot-javafx版本，[xJavaFxTool-spring](https://gitee.com/xwintop/xJavaFxTool-spring) 欢迎参考，谢谢。
 
 #### 下载试用地址：
-- 可直接运行的jar包(本地需要有jdk1.8环境)[xJavaFxTool-0.1.9.jar](https://dev.tencent.com/s/a921ea8d-b27a-4166-aa27-0b5a3c87e5c4)
-- Windows x86安装包(兼容xp、windows7、8、10等系统)[xJavaFxTool-0.1.9-windows-x86.exe](https://dev.tencent.com/s/5c918250-0cb9-4e17-8f77-7167af0be772)
-- Windows x64安装包(兼容xp、windows7、8、10等系统)[xJavaFxTool-0.1.9-windows-x64.exe](https://dev.tencent.com/s/8cf9fa30-e033-4af0-beac-920c7eafce16)
-- Linux x64 [xJavaFxTool-0.1.9-linux-x64.zip](https://dev.tencent.com/s/f80f92a3-8145-4ea9-827d-62599d223f89) (Linux平台64位运行压缩包，解压即可运行)
-- Mac OS X x64 [xJavaFxTool-0.1.9-macosx-x64.dmg](https://dev.tencent.com/s/ab7e53a3-f827-46b1-825e-fae6a6bc9499)
-- Mac OS X x64 [xJavaFxTool-0.1.9-macosx-x64.pkg](https://dev.tencent.com/s/851780c6-ac34-42a6-8119-a3a0d9bf89d0)
+- 可直接运行的jar包(本地需要有jdk1.8环境)[xJavaFxTool-0.2.0.jar](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.0.jar)
+- Windows x86安装包(兼容xp、windows7、8、10等系统)[xJavaFxTool-0.2.0-windows-x86.exe](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.0-windows-x86.exe)
+- Windows x64安装包(兼容xp、windows7、8、10等系统)[xJavaFxTool-0.2.0-windows-x64.exe](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.0-windows-x64.exe)
+- Linux x64 [xJavaFxTool-0.2.0-linux-x64.zip](https://xwintop.coding.net/s/3085b815-96d2-4392-8036-77757f4553ec) (Linux平台64位运行压缩包，解压即可运行)
+- Mac OS X x64 [xJavaFxTool-0.2.0-macosx-x64.pkg](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.0-macosx-x64.pkg)
 #### 若上面下链接失效可使用下面下载链接：
 - 百度云链接：[https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA](https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA)  提取码：mokl
 - 腾讯微云链接：[https://share.weiyun.com/5T6FPLW](https://share.weiyun.com/5T6FPLW) 提取码：java
@@ -108,61 +107,6 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 55. FileCompressTool:文件解压缩工具（目前支持ar、zip、tar、jar、cpio、7z、gz、bzip2、xz、lzma、pack200、deflate、snappy-framed、lz4-block、lz4-framed、zstd等格式解压缩）
 56. IdiomDataTool:成语字典工具(使用[h2](http://www.h2database.com)数据库存储数据字典)
 57. Sudoku:数独游戏
-
-传输工具目前支持功能如下：
-
-Receiver接收器：
-
-| 标题 | 配置类名 | 说明 |
-| ------------- | ------------- | ------------- |
-| Fs            | ReceiverConfigFs      | 从磁盘文件中读取消息    |
-| Ftp           | ReceiverConfigFtp     | 使用Ftp/Ftps协议中接收消息    |
-| Http          | ReceiverConfigHttp    | 使用http/https协议接收消息(支持拉取模式和提供Restfull接口方式) |
-| Ftp           | ReceiverConfigFtp     | 使用Ftp/Ftps协议接收消息   |
-| SFtp          | ReceiverConfigSftp    | 使用SFtp协议接收消息       |
-| Email         | ReceiverConfigEmail   | 使用Email协议接收消息          |
-| Jms           | ReceiverConfigJms     | 使用Jms协议接收消息        |
-| Kafka         | ReceiverConfigKafka   | 使用Kafka协议接收消息        |
-| IbmMq         | ReceiverConfigIbmMq   | 使用IbmMq协议接收消息        |
-| RabbitMq      | ReceiverConfigRabbitMq| 使用RabbitMq协议接收消息     |
-| RocketMq      | ReceiverConfigRocketMq| 使用RocketMq协议接收消息     |
-| ActiveMq      | ReceiverConfigActiveMq| 使用ActiveMq协议接收消息     |
-| Hdfs          | ReceiverConfigHdfs    | 使用HDFS协议接收消息         |
-
-Filter处理器：
-
-| 标题          | 配置类名                   |  说明  |
-| --------      | -----                    | :----  |
-| Backup        | FilterConfigBackup        | 将消息备份到文件系统中   |
-| Compress      | FilterConfigCompress      | 将消息进行压缩操作       |
-| Decompress    | FilterConfigDecompress    | 将消息进行解压操作       |
-| EncryptDecrypt| FilterConfigEncryptDecrypt| 将消息进行加密解密操作   |
-| OracleSqlldr  | FilterConfigOracleSqlldr  | 将消息存入Oracle数据库   |
-| GroovyScript  | FilterConfigGroovyScript  | 将执行Groovy脚本   |
-| PythonScript  | FilterConfigPythonScript  | 将执行Python脚本   |
-| JavaScript    | FilterConfigJavaScript    | 将执行JavaScript脚本   |
-| LuaScript     | FilterConfigLuaScript     | 将执行Lua脚本   |
-| UnicodeTransformation     | FilterConfigUnicodeTransformation     | 将消息编码进行转换   |
-| ChangeStr     | FilterConfigChangeStr     | 将消息内容进行替换操作   |
-
-Sender发送器：
-
-| 标题          | 配置类名               |  说明  |
-| --------      | -----                | :----  |
-| Fs            | SenderConfigFs      | 从磁盘文件中读取消息    |
-| Ftp           | SenderConfigFtp     | 使用Ftp/Ftps协议中发送消息    |
-| Http          | SenderConfigHttp    | 使用http/https协议发送消息  |
-| Ftp           | SenderConfigFtp     | 使用Ftp/Ftps协议发送消息   |
-| SFtp          | SenderConfigSftp    | 使用SFtp协议发送消息       |
-| Email         | SenderConfigEmail   | 使用Email中发送消息          |
-| Jms           | SenderConfigJms     | 使用Jms协议发送消息        |
-| Kafka         | SenderConfigKafka   | 使用Kafka协议发送消息        |
-| IbmMq         | SenderConfigIbmMq   | 使用IbmMq协议发送消息        |
-| RabbitMq      | SenderConfigRabbitMq| 使用RabbitMq协议发送消息     |
-| RocketMq      | SenderConfigRocketMq| 使用RocketMq协议发送消息     |
-| ActiveMq      | SenderConfigActiveMq| 使用ActiveMq协议发送消息     |
-| Hdfs          | SenderConfigHdfs    | 使用HDFS协议发送消息     |
-
 
 项目开发中，以后会陆续添加新工具，欢迎大家参与其中，多提提意见，谢谢。
 

@@ -29,17 +29,16 @@ xJavaFxTool is a practical gadget set developed by javaFx. It uses some time to 
 Due to the hot SpringBoot, the project has been released SpringBoot-javafx version, [xJavaFxTool-spring](https://gitee.com/xwintop/xJavaFxTool-spring) welcome reference, thank you.
 
 #### Download trial address：
-- Jar package that can be run directly (local need to have jdk1.8 environment)[xJavaFxTool-0.1.7.jar](https://dev.tencent.com/s/8c2f9586-475f-4ece-9027-74c98b8c2c6c)
-- Windows x86 installation package (compatible with xp, windows7, 8, 10, etc.) [xJavaFxTool-0.1.7-windows-x86.exe](https://dev.tencent.com/s/61e19e79-9745-4746-8e46-8f39f14a0ed4)
-- Windows x64 installation package (compatible with xp, windows7, 8, 10, etc.)[xJavaFxTool-0.1.7-windows-x64.exe](https://dev.tencent.com/s/dce303db-cd17-40fa-99fd-c3be431fc384)
-- Linux x64 [xJavaFxTool-0.1.7-linux-x64.zip](https://dev.tencent.com/s/8c55b6f4-ddec-4a3e-b808-33519fea313a) (Linux platform 64-bit running compression package, decompression can run)
-- Mac OS X x64 [xJavaFxTool-0.1.7-macosx-x64.dmg](https://dev.tencent.com/s/c923e93f-6729-4748-87b6-2ffd71451a46)
-- Mac OS X x64 [xJavaFxTool-0.1.7-macosx-x64.pkg](https://dev.tencent.com/s/bb44f658-2123-4f8b-a514-7361d3bf4c89)
+- Jar package that can be run directly (local need to have jdk1.8 environment)[xJavaFxTool-0.2.0.jar](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.0.jar)
+- Windows x86 installation package (compatible with xp, windows7, 8, 10, etc.) [xJavaFxTool-0.2.0-windows-x86.exe](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.0-windows-x86.exe)
+- Windows x64 installation package (compatible with xp, windows7, 8, 10, etc.)[xJavaFxTool-0.2.0-windows-x64.exe](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.0-windows-x64.exe)
+- Linux x64 [xJavaFxTool-0.2.0-linux-x64.zip](https://xwintop.coding.net/s/3085b815-96d2-4392-8036-77757f4553ec) (Linux platform 64-bit running compression package, decompression can run)
+- Mac OS X x64 [xJavaFxTool-0.2.0-macosx-x64.pkg](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.0-macosx-x64.pkg)
 #### If the above link fails, use the download link below:
 - Baidu cloud link: [https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA](https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA)  extraction code: mokl
 - Tencent micro cloud link: [https://share.weiyun.com/5T6FPLW](https://share.weiyun.com/5T6FPLW) extraction code: java
 
-Support plug-in development, the plug-in jar package can be automatically loaded under the root directory libs (see the open source project [xJavaFxPlugIn](https://gitee.com/xwintop/xJavaFxPlugIn) for plug-in development examples , and the next step is to split the gadget into each plug-in and load it as needed. Currently, the plug-in function is not perfect, follow-up Split each function into modules and load them as needed to reduce the size of the jar package);
+Support plug-in development, the plug-in jar package can be automatically loaded under the root directory libs (see the open source project [xJavaFxTool-plugin](https://gitee.com/xwintop/xJavaFxTool-plugin) for plug-in development examples , and the next step is to split the gadget into each plug-in and load it as needed. Currently, the plug-in function is not perfect, follow-up Split each function into modules and load them as needed to reduce the size of the jar package);
 
 #### Environmental construction instructions:
 - The development environment is jdk1.8, based on maven build
@@ -108,58 +107,6 @@ Support plug-in development, the plug-in jar package can be automatically loaded
 55. FileCompressTool: File decompression tool (currently supports ar, zip, tar, jar, cpio, 7z, gz, bzip2, xz, lzma, pack200, deflate, snappy-framed, lz4-block, lz4-framed, ZSTD, etc.)
 56. IdiomDataTool:IdiomDataTool(Use the [h2](http://www.h2database.com) database to store the data dictionary)
 57. Sudoku:Sudoku Game
-
-##### The transfer tools currently support the following features:
-###### Receiver:
-
-| title | Configuration class name | Description |
-| ------------- | ------------- | ------------- |
-| Fs            | ReceiverConfigFs      | Read a message from a disk file    |
-| Ftp           | ReceiverConfigFtp     | Receive messages using the Ftp/Ftps protocol    |
-| Http          | ReceiverConfigHttp    | Receive messages using the http/https protocol (supports pull mode and provides the Restfull interface mode) |
-| Ftp           | ReceiverConfigFtp     | Receive messages using the Ftp/Ftps protocol   |
-| SFtp          | ReceiverConfigSftp    | Receive messages using the SFtp protocol       |
-| Email         | ReceiverConfigEmail   | Receive messages using the Email protocol          |
-| Jms           | ReceiverConfigJms     | Receive messages using the Jms protocol   |
-| Kafka         | ReceiverConfigKafka   | Receive messages using the Kafka protocol     |
-| IbmMq         | ReceiverConfigIbmMq   | Receive messages using the IbmMq protocol     |
-| RabbitMq      | ReceiverConfigRabbitMq| Receive messages using the RabbitMq protocol     |
-| RocketMq      | ReceiverConfigRocketMq| Receive messages using the RocketMq protocol     |
-| ActiveMq      | ReceiverConfigActiveMq| Receive messages using the ActiveMq protocol     |
-| Hdfs          | ReceiverConfigHdfs    | Receive messages using the HDFS protocol     |
-
-Filter：
-
-| title | Configuration class name | Description |
-| --------      | -----                    | :----  |
-| Backup        | FilterConfigBackup        | Back up messages to the file system   |
-| Compress      | FilterConfigCompress      | Compress the message  |
-| Decompress    | FilterConfigDecompress    | Decompress the message  |
-| EncryptDecrypt| FilterConfigEncryptDecrypt| Encrypt and decrypt the message   |
-| OracleSqlldr  | FilterConfigOracleSqlldr  | Save the message to the Oracle database   |
-| GroovyScript  | FilterConfigGroovyScript  | Will execute the Groovy script    |
-| PythonScript  | FilterConfigPythonScript  | Will execute Python script         |
-| JavaScript    | FilterConfigJavaScript    | Will execute a JavaScript script   |
-| LuaScript     | FilterConfigLuaScript     | Will execute the Lua script        |
-| UnicodeTransformation     | FilterConfigUnicodeTransformation     | Encode the message for conversion   |
-
-Sender：
-
-| title | Configuration class name | Description |
-| --------      | -----                | :----  |
-| Fs            | SenderConfigFs      | Read a message from a disk file  |
-| Ftp           | SenderConfigFtp     | Send messages using the Ftp/Ftps protocol   |
-| Http          | SenderConfigHttp    | Send a message using the http/https protocol  |
-| Ftp           | SenderConfigFtp     | Send messages using the Ftp/Ftps protocol |
-| SFtp          | SenderConfigSftp    | Send messages using the SFtp protocol |
-| Email         | SenderConfigEmail   | Send a message using Email    |
-| Jms           | SenderConfigJms     | Send messages using the Jms protocol |
-| Kafka         | SenderConfigKafka   | Send messages using the Kafka protocol   |
-| IbmMq         | SenderConfigIbmMq   | Send messages using the IbmMq protocol   |
-| RabbitMq      | SenderConfigRabbitMq| Send messages using the RabbitMq protocol   |
-| RocketMq      | SenderConfigRocketMq| Send messages using the RocketMq protocol   |
-| ActiveMq      | SenderConfigActiveMq| Send messages using the ActiveMq protocol   |
-| Hdfs          | SenderConfigHdfs    | Send messages using the HDFS protocol  |
 
 #### In the development of the project, new tools will be added in the future. Welcome everyone to participate and give more comments, thank you.
 #### Plan to add features:
