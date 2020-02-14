@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.BorderPane?>
+<BorderPane xmlns="http://javafx.com/javafx"
+    xmlns:fx="http://javafx.com/fxml"
+    fx:controller="com.xwintop.xJavaFxTool.controller.NotepadController">
+
+    <padding>
+        <Insets topRightBottomLeft="5"/>
+    </padding>
+
+    <center>
+        <TextArea fx:id="textArea"
+            style="-fx-font-family:'Fira Code',Consolas,monospace,sans-serif;-fx-font-size:13;-fx-border-color:#888888"/>
+    </center>
+</BorderPane>
