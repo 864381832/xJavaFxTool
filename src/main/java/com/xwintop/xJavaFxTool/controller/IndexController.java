@@ -70,10 +70,8 @@ public class IndexController extends IndexView {
         initView();
         initEvent();
         initService();
-//        new Thread(() -> {//启动SpringBoot
-//			SpringApplication.run(Main.class,new String[0]);
-//        }).start();
         addNodepadAction(null);
+        indexService.addWebView("欢迎吐槽", "https://support.qq.com/product/127577", null);
     }
 
     private void initView() {
