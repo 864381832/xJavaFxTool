@@ -107,22 +107,11 @@ public class XJavaFxSystemUtil {
     public static void addJarClass(File jarFile) {
         try {
             Method method = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
-//            boolean accessible = method.isAccessible(); // 获取方法的访问权限
-//            try {
-//                if (accessible == false) {
             method.setAccessible(true); // 设置方法的访问权限
-//                }
             // 获取系统类加载器
             URLClassLoader classLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
             URL url = jarFile.toURI().toURL();
-//                try {
             method.invoke(classLoader, url);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            } finally {
-//                method.setAccessible(accessible);
-//            }
         } catch (Exception e) {
             log.error("添加libs中jar包到系统中异常:", e);
         }
