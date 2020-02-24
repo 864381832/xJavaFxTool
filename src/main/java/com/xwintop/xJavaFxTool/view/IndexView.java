@@ -10,6 +10,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.web.WebView;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -39,4 +40,7 @@ public abstract class IndexView implements Initializable {
 	protected Menu moreToolsMenu;
 	@FXML
 	protected Menu helpMenu;
+
+	@FXML
+	protected WebView tongjiWebView;
 }

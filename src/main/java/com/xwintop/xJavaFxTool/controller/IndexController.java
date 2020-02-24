@@ -70,10 +70,9 @@ public class IndexController extends IndexView {
         initView();
         initEvent();
         initService();
-//        new Thread(() -> {//启动SpringBoot
-//			SpringApplication.run(Main.class,new String[0]);
-//        }).start();
         addNodepadAction(null);
+        indexService.addWebView("欢迎吐槽", "https://support.qq.com/product/127577", null);
+        tongjiWebView.getEngine().load("https://xwintop.gitee.io/maven/tongji/xJavaFxTool.html");
     }
 
     private void initView() {
@@ -301,5 +300,10 @@ public class IndexController extends IndexView {
     @FXML
     private void xwintopLinkOnAction(ActionEvent event) throws Exception {
         HttpClientUtil.openBrowseURLThrowsException("https://gitee.com/xwintop/xJavaFxTool");
+    }
+
+    @FXML
+    private void userSupportAction(ActionEvent event) throws Exception {
+        HttpClientUtil.openBrowseURLThrowsException("https://support.qq.com/product/127577");
     }
 }
