@@ -3,12 +3,17 @@ package com.xwintop.xJavaFxTool.services;
 import com.xwintop.xJavaFxTool.common.logback.ConsoleLogAppender;
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.utils.Config;
+import com.xwintop.xJavaFxTool.utils.FxmlUtils;
 import com.xwintop.xcore.util.ConfigureUtil;
 import com.xwintop.xcore.util.javafx.AlertUtil;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
+import java.io.File;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
@@ -23,10 +28,6 @@ import lombok.Setter;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-
-import java.io.File;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 @Setter
 public class IndexService {
@@ -65,13 +66,12 @@ public class IndexService {
     }
 
     public void addNodepadAction(ActionEvent event) {
-        TextArea textArea = new TextArea();
-        textArea.setFocusTraversable(true);
+        Parent notepad = FxmlUtils.load("/com/xwintop/xJavaFxTool/fxmlView/notepad.fxml");
         if (indexController.getSingleWindowBootCheckBox().isSelected()) {
-            JavaFxViewUtil.getNewStage(indexController.getBundle().getString("addNodepad"), null, textArea);
+            JavaFxViewUtil.getNewStage(indexController.getBundle().getString("addNodepad"), null, notepad);
         } else {
             Tab tab = new Tab(indexController.getBundle().getString("addNodepad"));
-            tab.setContent(textArea);
+            tab.setContent(notepad);
             indexController.getTabPaneMain().getTabs().add(tab);
             if (event != null) {
                 indexController.getTabPaneMain().getSelectionModel().select(tab);

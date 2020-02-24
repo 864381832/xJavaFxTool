@@ -5,21 +5,25 @@ import com.xwintop.xJavaFxTool.services.index.PluginManageService;
 import com.xwintop.xJavaFxTool.view.index.PluginManageView;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
+import java.net.URL;
+import java.util.Map;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
 import javafx.scene.input.MouseButton;
 import javafx.util.Callback;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-
-import java.net.URL;
-import java.util.Map;
-import java.util.ResourceBundle;
 
 /**
  * @ClassName: PluginManageController
@@ -113,6 +117,9 @@ public class PluginManageController extends PluginManageView {
                 });
                 pluginDataTableView.setContextMenu(new ContextMenu(menuSave));
             }
+        });
+        selectPluginTextField.textProperty().addListener((_ob, _old, _new) -> {
+            pluginManageService.selectPluginAction();
         });
     }
 

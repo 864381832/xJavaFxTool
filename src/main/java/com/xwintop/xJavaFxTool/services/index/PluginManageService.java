@@ -7,16 +7,15 @@ import com.alibaba.fastjson.JSONObject;
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
+import java.io.File;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @ClassName: PluginManageService
@@ -104,9 +103,10 @@ public class PluginManageService {
     public void selectPluginAction() {
         pluginManageController.getPluginDataTableData().clear();
         String selectText = pluginManageController.getSelectPluginTextField().getText();
+        boolean empty = selectText.trim().length() == 0;
         for (Object json : jsonArray) {
             JSONObject data = (JSONObject) json;
-            if (StringUtils.containsIgnoreCase(data.toString(), selectText)) {
+            if (empty || StringUtils.containsIgnoreCase(data.toString(), selectText)) {
                 addDataRow(data);
             }
         }
