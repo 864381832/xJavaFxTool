@@ -4,6 +4,7 @@ import com.xwintop.xJavaFxTool.common.logback.ConsoleLogAppender;
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xJavaFxTool.utils.FxmlUtils;
+import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import com.xwintop.xcore.util.ConfigureUtil;
 import com.xwintop.xcore.util.javafx.AlertUtil;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
@@ -38,9 +39,7 @@ public class IndexService {
     }
 
     public void setLanguageAction(String languageType) throws Exception {
-        File file = ConfigureUtil.getConfigureFile("systemConfigure.properties");
-        FileUtils.touch(file);
-        PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
+        PropertiesConfiguration xmlConfigure = XJavaFxSystemUtil.getSystemConfigure();
         if ("简体中文".equals(languageType)) {
             xmlConfigure.setProperty("Locale", Locale.SIMPLIFIED_CHINESE);
         } else if ("English".equals(languageType)) {

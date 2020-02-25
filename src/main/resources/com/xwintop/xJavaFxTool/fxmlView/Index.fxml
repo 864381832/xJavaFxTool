@@ -51,6 +51,7 @@
                               </Menu>
                             <SeparatorMenuItem />
                           <MenuItem mnemonicParsing="false" onAction="#userSupportAction" text="%userSupport" />
+                          <MenuItem mnemonicParsing="false" onAction="#SettingAction" text="%Setting" />
                           <MenuItem mnemonicParsing="false" onAction="#aboutAction" text="%About" />
                         </items>
                       </Menu>

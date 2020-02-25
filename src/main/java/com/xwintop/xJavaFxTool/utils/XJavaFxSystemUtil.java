@@ -21,6 +21,7 @@ import java.util.Locale;
  */
 @Slf4j
 public class XJavaFxSystemUtil {
+    static PropertiesConfiguration systemConfigure = null;
 
     /**
      * @Title: initSystemLocal
@@ -28,8 +29,7 @@ public class XJavaFxSystemUtil {
      */
     public static void initSystemLocal() {
         try {
-            File file = ConfigureUtil.getConfigureFile("systemConfigure.properties");
-            PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
+            PropertiesConfiguration xmlConfigure = getSystemConfigure();
             String localeString = xmlConfigure.getString("Locale");
             if (StringUtils.isNotEmpty(localeString)) {
                 String[] locale1 = localeString.split("_");
@@ -38,6 +38,21 @@ public class XJavaFxSystemUtil {
         } catch (Exception e) {
             log.error("初始化本地语言失败", e);
         }
+    }
+
+    //获取系统设置属性类
+    public static PropertiesConfiguration getSystemConfigure() {
+        try {
+            if (systemConfigure == null) {
+                File file = ConfigureUtil.getConfigureFile("systemConfigure.properties");
+                systemConfigure = new PropertiesConfiguration(file);
+            } else {
+                systemConfigure.reload();
+            }
+        } catch (Exception e) {
+            log.error("获取系统设置失败：", e);
+        }
+        return systemConfigure;
     }
 
     /**
