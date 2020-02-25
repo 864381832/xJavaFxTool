@@ -125,8 +125,6 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 ```
 xJavaFxTool
 ├─ images	项目截图
-├─ lib	外部引用jar包存放
-├─ libs	插件jar包存放
 ├─ pom.xml	maven配置文件
 ├─ README.md	说明文件
 ├─ src
@@ -136,39 +134,14 @@ xJavaFxTool
 │  │  │   └─ xwintop
 │  │  │    └─ xJavaFxTool
 │  │  │     ├─ common	第三方工具类
-│  │  │     ├─ config	springBoot配置类
 │  │  │     ├─ controller	javafx控制层
-│  │  │     │  ├─ assistTools   辅助工具控制层
-│  │  │     │  ├─ codeTools	Code工具控制层
-│  │  │     │  ├─ debugTools	调试工具控制层
-│  │  │     │  ├─ developTools	开发工具控制层
-│  │  │     │  ├─ epmsTools	epms工具控制层
-│  │  │     │  ├─ javaFxTools	javaFx工具控制层
-│  │  │     │  ├─ littleTools	小工具控制层
-│  │  │     │  └─ webTools	html工具控制层
-│  │  │     ├─ job	定时任务处理job
-│  │  │     ├─ main	主函数包
-│  │  │     ├─ manager	管理层
+│  │  │     │  └─ index	首页控制层
 │  │  │     ├─ model	基础bean类层
 │  │  │     ├─ services	工具服务层
-│  │  │     │  ├─ assistTools   辅助工具服务层
-│  │  │     │  ├─ codeTools	Code工具服务层
-│  │  │     │  ├─ debugTools	调试工具服务层
-│  │  │     │  ├─ developTools	开发工具服务层
-│  │  │     │  ├─ epmsTools	epms工具服务层
-│  │  │     │  ├─ javaFxTools	javaFx工具服务层
-│  │  │     │  ├─ littleTools	小工具服务层
-│  │  │     │  └─ webTools	html工具服务层
+│  │  │     │  └─ index	首页工具服务层
 │  │  │     ├─ utils	系统工具类
-│  │  │     ├─ view	javafx视图层
-│  │  │     │  ├─ assistTools   辅助工具视图层
-│  │  │     │  ├─ codeTools	Code工具视图层
-│  │  │     │  ├─ debugTools	调试工具视图层
-│  │  │     │  ├─ developTools	开发工具视图层
-│  │  │     │  ├─ javaFxTools	javaFx工具视图层
-│  │  │     │  ├─ littleTools	小工具视图层
-│  │  │     │  └─ webTools	html工具视图层
-│  │  │     └─ web	web控制视图层
+│  │  │     └─ view	javafx视图层
+│  │  │        └─ index	首页工具视图层
 │  │  └─ resources
 │  │   ├─ com
 │  │   │  └─ xwintop
@@ -177,17 +150,13 @@ xJavaFxTool
 │  │   ├─ config	配置文件
 │  │   │  └─ toolFxmlLoaderConfiguration.xml	系统菜单加载配置文件
 │  │   ├─ css	样式资源
-│  │   ├─ data	数据资源
 │  │   ├─ images	图片资源
 │  │   ├─ locale	国际化
-│  │   ├─ web	html工具
-│  │   ├─ application.yaml	SpringBoot配置文件
 │  │   ├─ banner.txt	启动banner图片
 │  │   └─ logback.xml	logback日志配置文件
 │  └─ test  测试类
 │   ├─ java
 │   └─ resources
-├─ xJavaFxTool.jar	直接运行程序包
 
 ```
 

@@ -60,7 +60,7 @@
         <dependency>
             <groupId>com.xwintop</groupId>
             <artifactId>xcore</artifactId>
-            <version>0.0.2-SNAPSHOT</version>
+            <version>0.0.3-SNAPSHOT</version>
         </dependency>
 
         <!-- oshi获取系统信息工具 -->

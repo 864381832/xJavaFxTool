@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="155.0" prefWidth="297.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.index.SystemSettingController">
+   <children>
+      <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <HBox alignment="CENTER" spacing="10.0">
+               <children>
+                  <CheckBox fx:id="exitShowAlertCheckBox" mnemonicParsing="false" selected="true" text="退出时是否显示确认对话框" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" spacing="10.0">
+               <children>
+                  <CheckBox fx:id="addNotepadCheckBox" mnemonicParsing="false" selected="true" text="打开时是否加载临时记事本页面" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" spacing="10.0">
+               <children>
+                  <CheckBox fx:id="saveStageBoundCheckBox" mnemonicParsing="false" selected="true" text="是否在退出时保存窗口大小及位置信息" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" spacing="10.0">
+               <children>
+                  <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveAction" text="保存" />
+                  <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelAction" text="取消" />
+               </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

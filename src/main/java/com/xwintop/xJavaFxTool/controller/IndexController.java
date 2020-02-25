@@ -1,6 +1,7 @@
 package com.xwintop.xJavaFxTool.controller;
 
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
+import com.xwintop.xJavaFxTool.controller.index.SystemSettingController;
 import com.xwintop.xJavaFxTool.model.ToolFxmlLoaderConfiguration;
 import com.xwintop.xJavaFxTool.services.IndexService;
 import com.xwintop.xJavaFxTool.services.index.PluginManageService;
@@ -70,7 +71,9 @@ public class IndexController extends IndexView {
         initView();
         initEvent();
         initService();
-        addNodepadAction(null);
+        if (XJavaFxSystemUtil.getSystemConfigure().getBoolean("addNotepadCheckBox", true)) {
+            addNodepadAction(null);
+        }
         indexService.addWebView("欢迎吐槽", "https://support.qq.com/product/127577", null);
         tongjiWebView.getEngine().load("https://xwintop.gitee.io/maven/tongji/xJavaFxTool.html");
     }
@@ -263,6 +266,11 @@ public class IndexController extends IndexView {
         PluginManageController pluginManageController = fXMLLoader.getController();
         pluginManageController.setIndexController(this);
         JavaFxViewUtil.openNewWindow(bundle.getString("plugin_manage"), root);
+    }
+
+    @FXML
+    private void SettingAction(ActionEvent event) throws Exception {
+        SystemSettingController.showSystemSetting(bundle.getString("Setting"));
     }
 
     @FXML
