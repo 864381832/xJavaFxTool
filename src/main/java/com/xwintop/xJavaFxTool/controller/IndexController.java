@@ -235,6 +235,7 @@ public class IndexController extends IndexView {
     @FXML
     private void exitAction(ActionEvent event) {
         Platform.exit();
+        System.exit(0);
     }
 
     @FXML
