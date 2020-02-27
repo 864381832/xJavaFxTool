@@ -1,34 +1,75 @@
 package com.xwintop.xJavaFxTool.utils;
 
+import com.xwintop.xcore.util.ConfigureUtil;
+import org.apache.commons.configuration.PropertiesConfiguration;
+
+import java.io.File;
 import java.util.Locale;
 
 /*
- * 配置文件
+ * 存取框架配置
  */
 public class Config {
 
-	public static Locale defaultLocale = Locale.getDefault();// 设置系统语言
+    public static final String CONFIG_FILE_NAME = "systemConfigure.properties";
 
-	public static final String xJavaFxToolVersions = "V0.2.1-beta2";// xJavaFxTool版本信息
+    public static Locale defaultLocale = Locale.getDefault();// 设置系统语言
 
-	public static final int xJavaFxToolVersionsInteger = 13;// xJavaFxTool更新信息
+    public static final String xJavaFxToolVersions = "V0.2.1-beta2";// xJavaFxTool版本信息
 
-	/**
-	 * 集中存放配置 key 的地方
-	 */
-	public static class Keys {
+    ///////////////////////////////////////////////////////////////
 
-		/**
-		 * 窗体相关配置
-		 */
-		public static class MainWindow {
+    public enum Keys {
+        MainWindowWidth, MainWindowHeight, MainWindowTop, MainWindowLeft,
+        Locale, NotepadEnabled, RememberWindowLocation, ConfirmExit
+    }
 
-			public static final String WIDTH = "main-window.width";
+    private static PropertiesConfiguration conf;
 
-			public static final String HEIGHT = "main-window.height";
+    public static PropertiesConfiguration getConfig() {
+        try {
+            if (conf == null) {
+                File file = ConfigureUtil.getConfigureFile(CONFIG_FILE_NAME);
+                conf = new PropertiesConfiguration(file);
+                conf.setAutoSave(true); // 启用自动保存
+            } else {
+                conf.reload();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
 
-			public static final String TOP = "main-window.top";
+            // 即使加载失败，也要返回一个内存中的 PropertiesConfiguration 对象，以免程序报错。
+            conf = new PropertiesConfiguration();
+        }
 
-			public static final String LEFT = "main-window.left";
-		}
-	}}
+        return conf;
+    }
+
+    /**
+     * 修改配置，修改后的值将会自动保存
+     */
+    public static void set(Keys key, Object value) {
+        getConfig().setProperty(key.name(), value);
+    }
+
+    public static String get(Keys key, String def) {
+        Object value = getConfig().getProperty(key.name());
+        return value == null ? def : value.toString();
+    }
+
+    public static int getInt(Keys key, int def) {
+        return Integer.parseInt(get(key, String.valueOf(def)));
+    }
+
+    public static double getDouble(Keys key, double def) {
+        return Double.parseDouble(get(key, String.valueOf(def)));
+    }
+
+    public static long getLong(Keys key, long def) {
+        return Long.parseLong(get(key, String.valueOf(def)));
+    }
+
+    public static boolean getBoolean(Keys key, boolean def) {
+        return Boolean.parseBoolean(get(key, String.valueOf(def)));
+    }
+}

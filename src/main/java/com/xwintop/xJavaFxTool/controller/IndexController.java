@@ -15,18 +15,6 @@ import com.xwintop.xcore.util.HttpClientUtil;
 import com.xwintop.xcore.util.javafx.AlertUtil;
 import com.xwintop.xcore.util.javafx.JavaFxSystemUtil;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -50,6 +38,15 @@ import org.dom4j.io.SAXReader;
 import org.dom4j.tree.DefaultAttribute;
 import org.dom4j.tree.DefaultElement;
 
+import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+
+import static com.xwintop.xJavaFxTool.utils.Config.Keys.NotepadEnabled;
+
 /**
  * @ClassName: IndexController
  * @Description: 主页
@@ -60,29 +57,42 @@ import org.dom4j.tree.DefaultElement;
 @Getter
 @Setter
 public class IndexController extends IndexView {
-    private Map<String, Menu> menuMap = new HashMap<String, Menu>();
-    private Map<String, MenuItem> menuItemMap = new HashMap<String, MenuItem>();
+
+    public static final String QQ_URL = "https://support.qq.com/product/127577";
+
+    public static final String STATISTICS_URL = "https://xwintop.gitee.io/maven/tongji/xJavaFxTool.html";
+
+    private Map<String, Menu> menuMap = new HashMap<>();
+
+    private Map<String, MenuItem> menuItemMap = new HashMap<>();
+
     private IndexService indexService = new IndexService(this);
+
     private ContextMenu contextMenu = new ContextMenu();
 
     public static FXMLLoader getFXMLLoader() {
         ResourceBundle resourceBundle = ResourceBundle.getBundle("locale.Menu", Config.defaultLocale);
         URL url = Object.class.getResource("/com/xwintop/xJavaFxTool/fxmlView/Index.fxml");
-        FXMLLoader fXMLLoader = new FXMLLoader(url, resourceBundle);
-        return fXMLLoader;
+        return new FXMLLoader(url, resourceBundle);
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.bundle = resources;
+
         initView();
         initEvent();
         initService();
-        if (XJavaFxSystemUtil.getSystemConfigure().getBoolean("addNotepadCheckBox", true)) {
+        initNotepad();
+
+        this.indexService.addWebView("欢迎吐槽", QQ_URL, null);
+        this.tongjiWebView.getEngine().load(STATISTICS_URL);
+    }
+
+    private void initNotepad() {
+        if (Config.getBoolean(NotepadEnabled, true)) {
             addNodepadAction(null);
         }
-        indexService.addWebView("欢迎吐槽", "https://support.qq.com/product/127577", null);
-        tongjiWebView.getEngine().load("https://xwintop.gitee.io/maven/tongji/xJavaFxTool.html");
     }
 
     private void initView() {
@@ -90,15 +100,10 @@ public class IndexController extends IndexView {
         menuMap.put("moreToolsMenu", moreToolsMenu);
         File libPath = new File("libs/");
         // 获取所有的.jar和.zip文件
-        File[] jarFiles = libPath.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.endsWith(".jar");
-            }
-        });
+        File[] jarFiles = libPath.listFiles((dir, name) -> name.endsWith(".jar"));
         if (jarFiles != null) {
             for (File jarFile : jarFiles) {
-                if (!PluginManageService.getPluginJarIsEnable(jarFile.getName())) {
+                if (!PluginManageService.isPluginEnabled(jarFile.getName())) {
                     continue;
                 }
                 try {
@@ -114,9 +119,6 @@ public class IndexController extends IndexView {
         myTextField.textProperty().addListener((observable, oldValue, newValue) -> selectAction(newValue));
         myButton.setOnAction(arg0 -> {
             selectAction(myTextField.getText());
-            // TooltipUtil.showToast(myTextField.getText());
-            // TooltipUtil.showToast("test",Pos.BOTTOM_RIGHT);
-            // JOptionPane.showMessageDialog(null, "test");
         });
     }
 
@@ -127,8 +129,8 @@ public class IndexController extends IndexView {
         XJavaFxSystemUtil.addJarClass(file);
         Map<String, ToolFxmlLoaderConfiguration> toolMap = new HashMap<>();
         List<ToolFxmlLoaderConfiguration> toolList = new ArrayList<>();
-        JarFile jarFile = new JarFile(file);
-        try {
+
+        try (JarFile jarFile = new JarFile(file)) {
             JarEntry entry = jarFile.getJarEntry("config/toolFxmlLoaderConfiguration.xml");
             if (entry == null) {
                 return;
@@ -159,8 +161,6 @@ public class IndexController extends IndexView {
                     toolList.add(toolFxmlLoaderConfiguration);
                 }
             }
-        } finally {
-            jarFile.close();
         }
         toolList.addAll(toolMap.values());
         this.addMenu(toolList);

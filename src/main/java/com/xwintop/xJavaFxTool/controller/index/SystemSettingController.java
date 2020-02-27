@@ -1,15 +1,16 @@
 package com.xwintop.xJavaFxTool.controller.index;
 
 import com.xwintop.xJavaFxTool.services.index.SystemSettingService;
-import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
+import com.xwintop.xJavaFxTool.utils.Config;
+import com.xwintop.xJavaFxTool.utils.Config.Keys;
 import com.xwintop.xJavaFxTool.view.index.SystemSettingView;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.configuration.PropertiesConfiguration;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * @ClassName: SystemSettingController
@@ -34,10 +35,9 @@ public class SystemSettingController extends SystemSettingView {
 
     private void initView() {
         try {
-            PropertiesConfiguration xmlConfigure = XJavaFxSystemUtil.getSystemConfigure();
-            exitShowAlertCheckBox.setSelected(xmlConfigure.getBoolean("exitShowAlertCheckBox", true));
-            addNotepadCheckBox.setSelected(xmlConfigure.getBoolean("addNotepadCheckBox", true));
-            saveStageBoundCheckBox.setSelected(xmlConfigure.getBoolean("saveStageBoundCheckBox", true));
+            exitShowAlertCheckBox.setSelected(Config.getBoolean(Keys.ConfirmExit, true));
+            addNotepadCheckBox.setSelected(Config.getBoolean(Keys.NotepadEnabled, true));
+            saveStageBoundCheckBox.setSelected(Config.getBoolean(Keys.RememberWindowLocation, true));
         } catch (Exception e) {
             log.error("加载配置失败：", e);
         }
@@ -45,11 +45,10 @@ public class SystemSettingController extends SystemSettingView {
 
     public void applySettings() {
         try {
-            PropertiesConfiguration xmlConfigure = XJavaFxSystemUtil.getSystemConfigure();
-            xmlConfigure.setProperty("exitShowAlertCheckBox", exitShowAlertCheckBox.isSelected());
-            xmlConfigure.setProperty("addNotepadCheckBox", addNotepadCheckBox.isSelected());
-            xmlConfigure.setProperty("saveStageBoundCheckBox", saveStageBoundCheckBox.isSelected());
-            xmlConfigure.save();
+            Config.set(Keys.ConfirmExit, exitShowAlertCheckBox.isSelected());
+            Config.set(Keys.NotepadEnabled, addNotepadCheckBox.isSelected());
+            Config.set(Keys.RememberWindowLocation, saveStageBoundCheckBox.isSelected());
+
             if (newStage != null) {
                 newStage.close();
             }

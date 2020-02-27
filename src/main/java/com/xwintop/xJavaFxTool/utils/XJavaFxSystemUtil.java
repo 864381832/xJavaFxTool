@@ -1,13 +1,10 @@
 package com.xwintop.xJavaFxTool.utils;
 
 import com.xwintop.xJavaFxTool.services.index.PluginManageService;
-import com.xwintop.xcore.util.ConfigureUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -21,7 +18,6 @@ import java.util.Locale;
  */
 @Slf4j
 public class XJavaFxSystemUtil {
-    static PropertiesConfiguration systemConfigure = null;
 
     /**
      * @Title: initSystemLocal
@@ -29,8 +25,7 @@ public class XJavaFxSystemUtil {
      */
     public static void initSystemLocal() {
         try {
-            PropertiesConfiguration xmlConfigure = getSystemConfigure();
-            String localeString = xmlConfigure.getString("Locale");
+            String localeString = Config.get(Config.Keys.Locale, "");
             if (StringUtils.isNotEmpty(localeString)) {
                 String[] locale1 = localeString.split("_");
                 Config.defaultLocale = new Locale(locale1[0], locale1[1]);
@@ -40,51 +35,6 @@ public class XJavaFxSystemUtil {
         }
     }
 
-    //获取系统设置属性类
-    public static PropertiesConfiguration getSystemConfigure() {
-        try {
-            if (systemConfigure == null) {
-                File file = ConfigureUtil.getConfigureFile("systemConfigure.properties");
-                systemConfigure = new PropertiesConfiguration(file);
-            } else {
-                systemConfigure.reload();
-            }
-        } catch (Exception e) {
-            log.error("获取系统设置失败：", e);
-        }
-        return systemConfigure;
-    }
-
-    /**
-     * @Title: loaderToolFxmlLoaderConfiguration
-     * @Description: 加载本地工具
-     */
-//    public static List<ToolFxmlLoaderConfiguration> loaderToolFxmlLoaderConfiguration() {
-//        List<ToolFxmlLoaderConfiguration> toolList = new ArrayList<ToolFxmlLoaderConfiguration>();
-//        try {
-//            XMLConfiguration xml = new XMLConfiguration("config/toolFxmlLoaderConfiguration.xml");
-//            for (ConfigurationNode configurationNode : xml.getRoot().getChildren("ToolFxmlLoaderConfiguration")) {
-//                ToolFxmlLoaderConfiguration toolFxmlLoaderConfiguration = new ToolFxmlLoaderConfiguration();
-//                List<ConfigurationNode> attributes = configurationNode.getAttributes();
-//                for (ConfigurationNode configuration : attributes) {
-//                    BeanUtils.copyProperty(toolFxmlLoaderConfiguration, configuration.getName(),
-//                            configuration.getValue());
-//                }
-//                List<ConfigurationNode> childrenList = configurationNode.getChildren();
-//                for (ConfigurationNode configuration : childrenList) {
-//                    BeanUtils.copyProperty(toolFxmlLoaderConfiguration, configuration.getName(),
-//                            configuration.getValue());
-//                }
-//                if (StringUtils.isEmpty(toolFxmlLoaderConfiguration.getMenuParentId())) {
-//                    toolFxmlLoaderConfiguration.setMenuParentId("toolsMenu");
-//                }
-//                toolList.add(toolFxmlLoaderConfiguration);
-//            }
-//        } catch (Exception e) {
-//            log.error("加载本地工具失败", e);
-//        }
-//        return toolList;
-//    }
 
     /**
      * @Title: addJarByLibs
@@ -96,15 +46,12 @@ public class XJavaFxSystemUtil {
             // 系统类库路径
             File libPath = new File("libs/");
             // 获取所有的.jar和.zip文件
-            File[] jarFiles = libPath.listFiles(new FilenameFilter() {
-                @Override
-                public boolean accept(File dir, String name) {
-                    return name.endsWith(".jar");
-                }
-            });
+            File[] jarFiles = libPath.listFiles(
+                    (dir, name) -> name.endsWith(".jar")
+            );
             if (jarFiles != null) {
                 for (File file : jarFiles) {
-                    if (!PluginManageService.getPluginJarIsEnable(file.getName())) {
+                    if (!PluginManageService.isPluginEnabled(file.getName())) {
                         continue;
                     }
                     addJarClass(file);

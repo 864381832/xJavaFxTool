@@ -7,15 +7,19 @@ import com.alibaba.fastjson.JSONObject;
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
-import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.apache.commons.lang3.StringUtils.substringBeforeLast;
 
 /**
  * @ClassName: PluginManageService
@@ -28,8 +32,15 @@ import org.apache.commons.lang3.StringUtils;
 @Setter
 @Slf4j
 public class PluginManageService {
+
+    public static final String PLUGIN_LIST_URL = "https://xwintop.gitee.io/maven/plugin-libs/plugin-list.json";
+
+    public static final String PLUGIN_LIST_PATH = "system_plugin_list.json";
+
     private PluginManageController pluginManageController;
+
     public final static Map<String, PluginJarInfo> PLUGIN_JAR_INFO_MAP = new HashMap<>();
+
     private JSONArray jsonArray = null;
 
     public PluginManageService(PluginManageController pluginManageController) {
@@ -38,8 +49,7 @@ public class PluginManageService {
 
     public void getPluginList() {
         try {
-            String jsonString = HttpUtil.get("https://xwintop.gitee.io/maven/plugin-libs/plugin-list.json");
-//            String jsonString = "[{\"name\":\"Zookeeper工具\",\"synopsis\":\"Zookeeper工具(方便对zookeeper的一系列操作，包括新增、修改、删除(包括子文件)、重命名、复制、添加变更通知)\",\"version\":\"0.0.1\",\"jarName\": \"x-ZookeeperTool\",\"versionNumber\": 1,\"downloadUrl\":\"https://xwintop.gitee.io/xjavafxtool-plugin/plugin-libs/x-ZookeeperTool-0.0.1.jar\"}]";
+            String jsonString = HttpUtil.get(PLUGIN_LIST_URL);
             jsonArray = JSON.parseArray(jsonString);
             for (Object json : jsonArray) {
                 addDataRow((JSONObject) json);
@@ -52,7 +62,7 @@ public class PluginManageService {
 
     private void addDataRow(JSONObject data) {
         PluginJarInfo pluginJarInfo = PLUGIN_JAR_INFO_MAP.get(data.getString("jarName"));
-        Map<String, String> dataRow = new HashMap<String, String>();
+        Map<String, String> dataRow = new HashMap<>();
         dataRow.put("nameTableColumn", data.getString("name"));
         dataRow.put("synopsisTableColumn", data.getString("synopsis"));
         dataRow.put("versionTableColumn", data.getString("version"));
@@ -114,25 +124,32 @@ public class PluginManageService {
 
     /*加载插件列表*/
     public static void reloadPluginJarList() {
-        File systemPluginListfile = new File("system_plugin_list.json");
-        if (systemPluginListfile.exists()) {
-            try {
-                List<PluginJarInfo> pluginJarInfoList = JSON.parseArray(FileUtils.readFileToString(systemPluginListfile, "utf-8"), PluginJarInfo.class);
-                for (PluginJarInfo pluginJarInfo : pluginJarInfoList) {
-                    PLUGIN_JAR_INFO_MAP.put(pluginJarInfo.getJarName(), pluginJarInfo);
-                }
-            } catch (Exception e) {
-                log.error("读取插件jar包配置文件失败：", e);
+
+        File filePath = new File(PLUGIN_LIST_PATH);
+        if (!filePath.exists()) {
+            return;
+        }
+
+        try {
+            String json = FileUtils.readFileToString(filePath, StandardCharsets.UTF_8);
+
+            List<PluginJarInfo> pluginJarInfoList =
+                JSON.parseArray(json, PluginJarInfo.class);
+
+            for (PluginJarInfo pluginJarInfo : pluginJarInfoList) {
+                PLUGIN_JAR_INFO_MAP.put(pluginJarInfo.getJarName(), pluginJarInfo);
             }
+        } catch (Exception e) {
+            log.error("读取插件jar包配置文件失败：", e);
         }
     }
 
     /*保存插件列表*/
     public static void savePluginJarList() {
-        File systemPluginListfile = new File("system_plugin_list.json");
-        String systemPluginListString = JSON.toJSONString(PLUGIN_JAR_INFO_MAP.values());
         try {
-            FileUtils.writeStringToFile(systemPluginListfile, systemPluginListString, "utf-8");
+            File pluginListFile = new File("system_plugin_list.json");
+            String content = JSON.toJSONString(PLUGIN_JAR_INFO_MAP.values());
+            FileUtils.writeStringToFile(pluginListFile, content, "utf-8");
         } catch (Exception e) {
             log.error("保存插件jar包配置文件失败：", e);
         }
@@ -142,12 +159,10 @@ public class PluginManageService {
     /**
      * 判断插件是否启用
      */
-    public static boolean getPluginJarIsEnable(String fileName) {
-        String jarName = StringUtils.substring(fileName, 0, StringUtils.lastIndexOf(fileName, "-"));
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    public static boolean isPluginEnabled(String fileName) {
+        String jarName = substringBeforeLast(fileName, "-");
         PluginJarInfo pluginJarInfo = PLUGIN_JAR_INFO_MAP.get(jarName);
-        if (pluginJarInfo != null && !pluginJarInfo.getIsEnable()) {
-            return false;
-        }
-        return true;
+        return pluginJarInfo == null || pluginJarInfo.getIsEnable();
     }
 }

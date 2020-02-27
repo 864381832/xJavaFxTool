@@ -4,13 +4,8 @@ import com.xwintop.xJavaFxTool.common.logback.ConsoleLogAppender;
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xJavaFxTool.utils.FxmlUtils;
-import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
-import com.xwintop.xcore.util.ConfigureUtil;
-import com.xwintop.xcore.util.javafx.AlertUtil;
+import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
-import java.io.File;
-import java.util.Locale;
-import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
@@ -26,9 +21,10 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import lombok.Setter;
-import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 @Setter
 public class IndexService {
@@ -39,14 +35,13 @@ public class IndexService {
     }
 
     public void setLanguageAction(String languageType) throws Exception {
-        PropertiesConfiguration xmlConfigure = XJavaFxSystemUtil.getSystemConfigure();
         if ("简体中文".equals(languageType)) {
-            xmlConfigure.setProperty("Locale", Locale.SIMPLIFIED_CHINESE);
+            Config.set(Config.Keys.Locale, Locale.SIMPLIFIED_CHINESE);
         } else if ("English".equals(languageType)) {
-            xmlConfigure.setProperty("Locale", Locale.US);
+            Config.set(Config.Keys.Locale, Locale.US);
         }
-        xmlConfigure.save();
-        AlertUtil.showInfoAlert(indexController.getBundle().getString("SetLanguageText"));
+
+        FxAlerts.info("", indexController.getBundle().getString("SetLanguageText"));
     }
 
     public ContextMenu getSelectContextMenu(String selectText) {

@@ -10,12 +10,10 @@ import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.platform.win32.WinUser;
 import com.sun.jna.win32.StdCallLibrary;
 import com.sun.jna.win32.W32APIOptions;
-import com.xwintop.xcore.util.ConfigureUtil;
+import com.xwintop.xJavaFxTool.utils.Config.Keys;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.configuration.PropertiesConfiguration;
 
-import java.io.File;
 import java.lang.reflect.Method;
 
 /**
@@ -29,6 +27,7 @@ import java.lang.reflect.Method;
 public class StageUtils {
 
     static interface ExtUser32 extends StdCallLibrary, User32 {
+
         ExtUser32 INSTANCE = (ExtUser32) Native.loadLibrary("user32", ExtUser32.class, W32APIOptions.DEFAULT_OPTIONS);
 
         WinDef.LRESULT CallWindowProcW(Pointer lpWndProc, Pointer hWnd, int msg, WinDef.WPARAM wParam, WinDef.LPARAM lParam);
@@ -68,14 +67,14 @@ public class StageUtils {
     //加载Stage边框位置
     public static void loadPrimaryStageBound(Stage stage) {
         try {
-            if (!XJavaFxSystemUtil.getSystemConfigure().getBoolean("saveStageBoundCheckBox", true)) {
+            if (!Config.getBoolean(Keys.RememberWindowLocation, true)) {
                 return;
             }
-            PropertiesConfiguration xmlConfigure = XJavaFxSystemUtil.getSystemConfigure();
-            double left = xmlConfigure.getDouble(Config.Keys.MainWindow.LEFT, -1);
-            double top = xmlConfigure.getDouble(Config.Keys.MainWindow.TOP, -1);
-            double width = xmlConfigure.getDouble(Config.Keys.MainWindow.WIDTH, -1);
-            double height = xmlConfigure.getDouble(Config.Keys.MainWindow.HEIGHT, -1);
+
+            double left = Config.getDouble(Keys.MainWindowLeft, -1);
+            double top = Config.getDouble(Keys.MainWindowTop, -1);
+            double width = Config.getDouble(Keys.MainWindowWidth, -1);
+            double height = Config.getDouble(Keys.MainWindowHeight, -1);
 
             if (left > 0) {
                 stage.setX(left);
@@ -96,19 +95,17 @@ public class StageUtils {
 
     //保存Stage边框位置
     public static void savePrimaryStageBound(Stage stage) {
-        if (!XJavaFxSystemUtil.getSystemConfigure().getBoolean("saveStageBoundCheckBox", true)) {
+        if (!Config.getBoolean(Keys.RememberWindowLocation, true)) {
             return;
         }
         if (stage == null || stage.isIconified()) {
             return;
         }
         try {
-            PropertiesConfiguration xmlConfigure = XJavaFxSystemUtil.getSystemConfigure();
-            xmlConfigure.setProperty(Config.Keys.MainWindow.LEFT, stage.getX());
-            xmlConfigure.setProperty(Config.Keys.MainWindow.TOP, stage.getY());
-            xmlConfigure.setProperty(Config.Keys.MainWindow.WIDTH, stage.getWidth());
-            xmlConfigure.setProperty(Config.Keys.MainWindow.HEIGHT, stage.getHeight());
-            xmlConfigure.save();
+            Config.set(Keys.MainWindowLeft, stage.getX());
+            Config.set(Keys.MainWindowTop, stage.getY());
+            Config.set(Keys.MainWindowWidth, stage.getWidth());
+            Config.set(Keys.MainWindowHeight, stage.getHeight());
         } catch (Exception e) {
             log.error("初始化界面位置失败：", e);
         }
