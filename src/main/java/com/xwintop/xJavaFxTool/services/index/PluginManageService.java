@@ -38,7 +38,7 @@ public class PluginManageService {
 
     public void getPluginList() {
         try {
-            String jsonString = HttpUtil.get("https://xwintop.gitee.io/xjavafxtool-plugin/plugin-list.json");
+            String jsonString = HttpUtil.get("https://xwintop.gitee.io/maven/plugin-libs/plugin-list.json");
 //            String jsonString = "[{\"name\":\"Zookeeper工具\",\"synopsis\":\"Zookeeper工具(方便对zookeeper的一系列操作，包括新增、修改、删除(包括子文件)、重命名、复制、添加变更通知)\",\"version\":\"0.0.1\",\"jarName\": \"x-ZookeeperTool\",\"versionNumber\": 1,\"downloadUrl\":\"https://xwintop.gitee.io/xjavafxtool-plugin/plugin-libs/x-ZookeeperTool-0.0.1.jar\"}]";
             jsonArray = JSON.parseArray(jsonString);
             for (Object json : jsonArray) {
