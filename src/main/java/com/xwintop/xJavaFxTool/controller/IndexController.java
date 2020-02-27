@@ -8,16 +8,31 @@ import com.xwintop.xJavaFxTool.services.index.PluginManageService;
 import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import com.xwintop.xJavaFxTool.view.IndexView;
+import com.xwintop.xcore.javafx.FxApp;
+import com.xwintop.xcore.javafx.dialog.FxDialog;
 import com.xwintop.xcore.util.ConfigureUtil;
 import com.xwintop.xcore.util.HttpClientUtil;
 import com.xwintop.xcore.util.javafx.AlertUtil;
 import com.xwintop.xcore.util.javafx.JavaFxSystemUtil;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -34,14 +49,6 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.dom4j.tree.DefaultAttribute;
 import org.dom4j.tree.DefaultElement;
-
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.*;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 
 /**
  * @ClassName: IndexController
@@ -271,7 +278,21 @@ public class IndexController extends IndexView {
 
     @FXML
     private void SettingAction(ActionEvent event) throws Exception {
-        SystemSettingController.showSystemSetting(bundle.getString("Setting"));
+
+        FxDialog<SystemSettingController> dialog = new FxDialog<SystemSettingController>()
+            .setTitle(bundle.getString("Setting"))
+            .setBodyFxml("/com/xwintop/xJavaFxTool/fxmlView/index/SystemSetting.fxml")
+            .setOwner(FxApp.primaryStage)
+            .setButtonTypes(ButtonType.OK, ButtonType.CANCEL);
+
+        SystemSettingController controller = dialog.show();
+
+        dialog
+            .setButtonHandler(ButtonType.OK, (actionEvent, stage) -> {
+                controller.applySettings();
+                stage.close();
+            })
+            .setButtonHandler(ButtonType.CANCEL, (actionEvent, stage) -> stage.close());
     }
 
     @FXML

@@ -6,8 +6,9 @@ import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xJavaFxTool.utils.StageUtils;
 import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import com.xwintop.xcore.javafx.FxApp;
-import com.xwintop.xcore.util.javafx.AlertUtil;
+import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
+import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -17,8 +18,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.ResourceBundle;
 
 /**
  * @ClassName: Main
@@ -81,7 +80,7 @@ public class Main extends Application {
 
     private void confirmExit(Event event) {
         if (XJavaFxSystemUtil.getSystemConfigure().getBoolean("exitShowAlertCheckBox", true)) {
-            if (AlertUtil.confirmOkCancel("退出应用", "确定要退出吗？")) {
+            if (FxAlerts.confirmYesNo("退出应用", "确定要退出吗？")) {
                 StageUtils.savePrimaryStageBound(stage);
                 Platform.exit();
                 System.exit(0);
