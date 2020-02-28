@@ -69,6 +69,8 @@ public class PluginManageController extends PluginManageView {
                 pluginManageService.setIsEnableTableColumn(index);
             });
 
+        // TODO 实现插件的启用禁用
+
         downloadTableColumn.setCellFactory(
             new Callback<TableColumn<Map<String, String>, String>, TableCell<Map<String, String>, String>>() {
                 @Override
@@ -116,7 +118,7 @@ public class PluginManageController extends PluginManageView {
         MenuItem mnuSavePluginConfig = new MenuItem("保存配置");
         mnuSavePluginConfig.setOnAction(ev -> {
             try {
-                PluginManager.getInstance().saveLocalPlugins();
+                PluginManager.getInstance().saveToFile();
                 TooltipUtil.showToast("保存配置成功");
             } catch (Exception ex) {
                 log.error("保存插件配置失败", ex);

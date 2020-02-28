@@ -39,31 +39,30 @@ public class PluginManageService {
 
     public void getPluginList() {
         pluginManager.loadServerPlugins();
-        pluginManager.getServerPluginList().forEach(this::addDataRow);
+        pluginManager.getPluginList().forEach(this::addDataRow);
     }
 
-    private void addDataRow(PluginJarInfo serverPlugin) {
-
-        PluginJarInfo localPlugin = pluginManager.getLocalPlugin(serverPlugin.getJarName());
+    private void addDataRow(PluginJarInfo plugin) {
 
         Map<String, String> dataRow = new HashMap<>();
-        dataRow.put("nameTableColumn", serverPlugin.getName());
-        dataRow.put("synopsisTableColumn", serverPlugin.getSynopsis());
-        dataRow.put("versionTableColumn", serverPlugin.getVersion());
-        dataRow.put("jarName", serverPlugin.getJarName());
-        dataRow.put("downloadUrl", serverPlugin.getDownloadUrl());
-        dataRow.put("versionNumber", String.valueOf(serverPlugin.getVersionNumber()));
+        dataRow.put("nameTableColumn", plugin.getName());
+        dataRow.put("synopsisTableColumn", plugin.getSynopsis());
+        dataRow.put("versionTableColumn", plugin.getVersion());
+        dataRow.put("jarName", plugin.getJarName());
+        dataRow.put("downloadUrl", plugin.getDownloadUrl());
+        dataRow.put("versionNumber", String.valueOf(plugin.getVersionNumber()));
 
-        if (localPlugin == null) {
+        if (plugin.getIsDownload() == null || !plugin.getIsDownload()) {
             dataRow.put("isDownloadTableColumn", "下载");
             dataRow.put("isEnableTableColumn", "false");
         } else {
-            if (serverPlugin.getVersionNumber() > localPlugin.getVersionNumber()) {
+            if (plugin.getLocalVersionNumber() != null &&
+                plugin.getVersionNumber() > plugin.getLocalVersionNumber()) {
                 dataRow.put("isDownloadTableColumn", "更新");
             } else {
                 dataRow.put("isDownloadTableColumn", "已下载");
             }
-            dataRow.put("isEnableTableColumn", localPlugin.getIsEnable().toString());
+            dataRow.put("isEnableTableColumn", plugin.getIsEnable().toString());
         }
 
         pluginManageController.getOriginPluginData().add(dataRow);
@@ -88,7 +87,7 @@ public class PluginManageService {
     public void setIsEnableTableColumn(Integer index) {
         Map<String, String> dataRow = pluginManageController.getOriginPluginData().get(index);
         String jarName = dataRow.get("jarName");
-        PluginJarInfo pluginJarInfo = this.pluginManager.getLocalPlugin(jarName);
+        PluginJarInfo pluginJarInfo = this.pluginManager.getPlugin(jarName);
         if (pluginJarInfo != null) {
             pluginJarInfo.setIsEnable(Boolean.parseBoolean(dataRow.get("isEnableTableColumn")));
         }
@@ -118,7 +117,7 @@ public class PluginManageService {
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean isPluginEnabled(String fileName) {
         String jarName = substringBeforeLast(fileName, "-");
-        PluginJarInfo pluginJarInfo = PluginManager.getInstance().getLocalPlugin(jarName);
+        PluginJarInfo pluginJarInfo = PluginManager.getInstance().getPlugin(jarName);
         return pluginJarInfo == null || pluginJarInfo.getIsEnable();
     }
 }

@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 
@@ -35,9 +36,7 @@ public class PluginManager {
 
     private final String localPluginsPath;
 
-    private final List<PluginJarInfo> serverPluginList = new ArrayList<>(); // 服务端插件列表
-
-    private final List<PluginJarInfo> localPluginList = new ArrayList<>();  // 本地插件列表
+    private final List<PluginJarInfo> pluginList = new ArrayList<>(); // 插件列表
 
     public PluginManager(String localPluginsPath) {
         this.localPluginsPath = localPluginsPath;
@@ -47,13 +46,20 @@ public class PluginManager {
         }
     }
 
-    public List<PluginJarInfo> getLocalPluginList() {
-        return Collections.unmodifiableList(this.localPluginList);
+    ////////////////////////////////////////////////////////////// 查询插件
+
+    public List<PluginJarInfo> getPluginList() {
+        return Collections.unmodifiableList(this.pluginList);
     }
 
-    public List<PluginJarInfo> getServerPluginList() {
-        return Collections.unmodifiableList(this.serverPluginList);
+
+    public PluginJarInfo getPlugin(String jarName) {
+        return this.pluginList.stream()
+            .filter(plugin -> Objects.equals(plugin.getJarName(), jarName))
+            .findFirst().orElse(null);
     }
+
+    ////////////////////////////////////////////////////////////// 更新插件
 
     public void loadLocalPlugins() {
         try {
@@ -63,7 +69,13 @@ public class PluginManager {
             }
 
             String json = new String(Files.readAllBytes(path), DEFAULT_CHARSET);
-            this.localPluginList.addAll(JSON.parseArray(json, PluginJarInfo.class));
+            JSON.parseArray(json, PluginJarInfo.class).forEach(plugin -> {
+                this.addOrUpdatePlugin(plugin, exist -> {
+                    exist.setLocalVersionNumber(plugin.getLocalVersionNumber());
+                    exist.setIsDownload(plugin.getIsDownload());
+                    exist.setIsEnable(plugin.getIsEnable());
+                });
+            });
         } catch (IOException e) {
             log.error("读取插件配置失败", e);
         }
@@ -72,7 +84,15 @@ public class PluginManager {
     public void loadServerPlugins() {
         try {
             String json = HttpUtil.get(SERVER_PLUGINS_URL);
-            this.serverPluginList.addAll(JSON.parseArray(json, PluginJarInfo.class));
+            JSON.parseArray(json, PluginJarInfo.class).forEach(plugin -> {
+                this.addOrUpdatePlugin(plugin, exist -> {
+                    exist.setName(plugin.getName());
+                    exist.setSynopsis(plugin.getSynopsis());
+                    exist.setVersion(plugin.getVersion());
+                    exist.setVersionNumber(plugin.getVersionNumber());
+                    exist.setDownloadUrl(plugin.getDownloadUrl());
+                });
+            });
         } catch (Exception e) {
             log.error("下载插件列表失败", e);
         }
@@ -83,25 +103,38 @@ public class PluginManager {
         return CompletableFuture.runAsync(this::loadServerPlugins);
     }
 
-    public PluginJarInfo getLocalPlugin(String jarName) {
-        return this.localPluginList.stream()
-            .filter(plugin -> Objects.equals(plugin.getJarName(), jarName))
-            .findFirst().orElse(null);
+    private void addOrUpdatePlugin(PluginJarInfo pluginJarInfo,  Consumer<PluginJarInfo> ifExists) {
+        PluginJarInfo exists = getPlugin(pluginJarInfo.getJarName());
+        if (exists == null) {
+            this.pluginList.add(pluginJarInfo);
+        } else {
+            ifExists.accept(exists);
+        }
     }
 
+    ////////////////////////////////////////////////////////////// 下载插件
+
     public File downloadPlugin(PluginJarInfo pluginJarInfo) throws IOException {
+        PluginJarInfo plugin = getPlugin(pluginJarInfo.getJarName());
+        if (plugin == null) {
+            throw new IllegalStateException("没有找到插件 " + pluginJarInfo.getJarName());
+        }
+
         File file = new File("libs/", pluginJarInfo.getJarName() + "-" + pluginJarInfo.getVersion() + ".jar");
         HttpUtil.downloadFile(pluginJarInfo.getDownloadUrl(), file);
 
-        pluginJarInfo.setIsDownload(true);
-        this.localPluginList.add(pluginJarInfo);
-        this.saveLocalPlugins();
+        plugin.setIsDownload(true);
+        plugin.setIsEnable(true);
+        plugin.setLocalVersionNumber(plugin.getVersionNumber());
+        this.saveToFile();
 
         return file;
     }
 
-    public void saveLocalPlugins() throws IOException {
-        String json = JSON.toJSONString(this.localPluginList, true);
+    ////////////////////////////////////////////////////////////// 保存配置
+
+    public void saveToFile() throws IOException {
+        String json = JSON.toJSONString(this.pluginList, true);
         Files.write(
             Paths.get(this.localPluginsPath),
             json.getBytes(DEFAULT_CHARSET)
