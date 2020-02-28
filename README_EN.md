@@ -193,6 +193,7 @@ When a person is still young, I feel that I should start to do something that is
 + [luming](https://gitee.com/jeeweb)
 + [Code](https://gitee.com/dazer1992)
 + Your goddess
++ [bejson](https://gitee.com/bejson)
 
 #### Follow-up plan
 From time to time, add the pain points tool that summarizes the requirements in the development process. Everyone has a pain point at work and can enter the group discussion. Later, there may be corresponding tool solutions. Thank you for your support.

@@ -166,6 +166,7 @@ xJavaFxTool
 + [luming](https://gitee.com/jeeweb)
 + [码志](https://gitee.com/dazer1992)
 + 你的女神
++ [三叔](https://gitee.com/bejson)
 
 #### 后续计划
 不定期添加汇总开发过程中需求的痛点工具，大家有工作上的痛点处可进群讨论，后期可能就会出相应的工具解决方案，谢谢大家的支持。
