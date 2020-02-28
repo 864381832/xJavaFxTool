@@ -1,14 +1,14 @@
 package com.xwintop.xJavaFxTool.utils;
 
+import com.xwintop.xJavaFxTool.plugin.PluginManager;
 import com.xwintop.xJavaFxTool.services.index.PluginManageService;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-
 import java.io.File;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Locale;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @ClassName: XJavaFxSystemUtil
@@ -41,7 +41,7 @@ public class XJavaFxSystemUtil {
      * @Description: 添加libs中jar包到系统中
      */
     public static void addJarByLibs() {
-        PluginManageService.reloadPluginJarList();
+        PluginManager.getInstance().loadLocalPlugins();
         try {
             // 系统类库路径
             File libPath = new File("libs/");

@@ -1,6 +1,7 @@
 package com.xwintop.xJavaFxTool.controller.index;
 
 import com.xwintop.xJavaFxTool.controller.IndexController;
+import com.xwintop.xJavaFxTool.plugin.PluginManager;
 import com.xwintop.xJavaFxTool.services.index.PluginManageService;
 import com.xwintop.xJavaFxTool.view.index.PluginManageView;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
@@ -10,6 +11,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +21,6 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.input.MouseButton;
 import javafx.util.Callback;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,14 +37,19 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 @Slf4j
 public class PluginManageController extends PluginManageView {
+
+    public static final String FXML = "/com/xwintop/xJavaFxTool/fxmlView/index/PluginManage.fxml";
+
     private PluginManageService pluginManageService = new PluginManageService(this);
-    private ObservableList<Map<String, String>> pluginDataTableData = FXCollections.observableArrayList();
+
+    private ObservableList<Map<String, String>> originPluginData = FXCollections.observableArrayList();
+
+    private FilteredList<Map<String, String>> pluginDataTableData = new FilteredList<>(originPluginData, m -> true);
 
     private IndexController indexController;
 
     public static FXMLLoader getFXMLLoader() {
-        FXMLLoader fXMLLoader = new FXMLLoader(IndexController.class.getResource("/com/xwintop/xJavaFxTool/fxmlView/index/PluginManage.fxml"));
-        return fXMLLoader;
+        return new FXMLLoader(IndexController.class.getResource(FXML));
     }
 
     @Override
@@ -58,68 +64,71 @@ public class PluginManageController extends PluginManageView {
         JavaFxViewUtil.setTableColumnMapValueFactory(synopsisTableColumn, "synopsisTableColumn");
         JavaFxViewUtil.setTableColumnMapValueFactory(versionTableColumn, "versionTableColumn");
         JavaFxViewUtil.setTableColumnMapValueFactory(isDownloadTableColumn, "isDownloadTableColumn");
-        JavaFxViewUtil.setTableColumnMapAsCheckBoxValueFactory(isEnableTableColumn, "isEnableTableColumn", (mouseEvent, index) -> {
-            pluginManageService.setIsEnableTableColumn(index);
-        });
+        JavaFxViewUtil.setTableColumnMapAsCheckBoxValueFactory(isEnableTableColumn, "isEnableTableColumn",
+            (mouseEvent, index) -> {
+                pluginManageService.setIsEnableTableColumn(index);
+            });
 
-        downloadTableColumn.setCellFactory(new Callback<TableColumn<Map<String, String>, String>, TableCell<Map<String, String>, String>>() {
-            @Override
-            public TableCell<Map<String, String>, String> call(TableColumn<Map<String, String>, String> param) {
-                TableCell<Map<String, String>, String> cell = new TableCell<Map<String, String>, String>() {
-                    @Override
-                    protected void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty);
-                        this.setText(null);
-                        this.setGraphic(null);
-                        if (!empty) {
-                            Map<String, String> dataRow = pluginDataTableData.get(this.getIndex());
-                            Button downloadButton = new Button(dataRow.get("isDownloadTableColumn"));
-                            if ("已下载".equals(dataRow.get("isDownloadTableColumn"))) {
-                                downloadButton.setDisable(true);
-                            }
-                            this.setContentDisplay(ContentDisplay.CENTER);
-                            downloadButton.setOnMouseClicked((me) -> {
-                                try {
-                                    pluginManageService.downloadPluginJar(dataRow);
-                                    dataRow.put("isEnableTableColumn","true");
-                                    dataRow.put("isDownloadTableColumn", "已下载");
-                                    downloadButton.setText("已下载");
+        downloadTableColumn.setCellFactory(
+            new Callback<TableColumn<Map<String, String>, String>, TableCell<Map<String, String>, String>>() {
+                @Override
+                public TableCell<Map<String, String>, String> call(TableColumn<Map<String, String>, String> param) {
+                    return new TableCell<Map<String, String>, String>() {
+                        @Override
+                        protected void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty);
+                            this.setText(null);
+                            this.setGraphic(null);
+                            if (!empty) {
+                                Map<String, String> dataRow = pluginDataTableData.get(this.getIndex());
+                                Button downloadButton = new Button(dataRow.get("isDownloadTableColumn"));
+                                if ("已下载".equals(dataRow.get("isDownloadTableColumn"))) {
                                     downloadButton.setDisable(true);
-                                    pluginDataTableView.refresh();
-                                    TooltipUtil.showToast("插件 " + dataRow.get("nameTableColumn") + " 下载完成");
-                                } catch (Exception e) {
-                                    log.error("下载插件失败：", e);
-                                    TooltipUtil.showToast("下载插件失败：" + e.getMessage());
                                 }
-                            });
-                            this.setGraphic(downloadButton);
+                                this.setContentDisplay(ContentDisplay.CENTER);
+                                downloadButton.setOnMouseClicked((me) -> {
+                                    try {
+                                        pluginManageService.downloadPluginJar(dataRow);
+                                        dataRow.put("isEnableTableColumn", "true");
+                                        dataRow.put("isDownloadTableColumn", "已下载");
+                                        downloadButton.setText("已下载");
+                                        downloadButton.setDisable(true);
+                                        pluginDataTableView.refresh();
+                                        TooltipUtil.showToast("插件 " + dataRow.get("nameTableColumn") + " 下载完成");
+                                    } catch (Exception e) {
+                                        log.error("下载插件失败：", e);
+                                        TooltipUtil.showToast("下载插件失败：" + e.getMessage());
+                                    }
+                                });
+                                this.setGraphic(downloadButton);
+                            }
                         }
-                    }
-                };
-                return cell;
-            }
-        });
+                    };
+                }
+            });
 
         pluginDataTableView.setItems(pluginDataTableData);
     }
 
     private void initEvent() {
-        pluginDataTableView.setOnMouseClicked(event -> {
-            if (event.getButton() == MouseButton.SECONDARY) {
-                MenuItem menuSave = new MenuItem("保存配置");
-                menuSave.setOnAction(event1 -> {
-                    try {
-                        pluginManageService.savePluginJarList();
-                        TooltipUtil.showToast("保存配置成功");
-                    } catch (Exception e) {
-                        log.error("保存配置失败", e);
-                    }
-                });
-                pluginDataTableView.setContextMenu(new ContextMenu(menuSave));
+
+        // 右键菜单
+        MenuItem mnuSavePluginConfig = new MenuItem("保存配置");
+        mnuSavePluginConfig.setOnAction(ev -> {
+            try {
+                PluginManager.getInstance().saveLocalPlugins();
+                TooltipUtil.showToast("保存配置成功");
+            } catch (Exception ex) {
+                log.error("保存插件配置失败", ex);
             }
         });
+
+        ContextMenu contextMenu = new ContextMenu(mnuSavePluginConfig);
+        pluginDataTableView.setContextMenu(contextMenu);
+
+        // 搜索
         selectPluginTextField.textProperty().addListener((_ob, _old, _new) -> {
-            pluginManageService.selectPluginAction();
+            pluginManageService.searchPlugin(_new);
         });
     }
 
@@ -129,6 +138,6 @@ public class PluginManageController extends PluginManageView {
 
     @FXML
     private void selectPluginAction(ActionEvent event) {
-        pluginManageService.selectPluginAction();
+        pluginManageService.searchPlugin(selectPluginTextField.getText());
     }
 }

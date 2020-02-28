@@ -1,0 +1,482 @@
+[
+    {
+        "name": "ActiveMq调试工具",
+        "synopsis": "ActiveMq调试工具",
+        "jarName": "x-ActiveMqTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/debugTools/x-ActiveMqTool-0.0.1.jar"
+    },
+    {
+        "name": "Cmd调试工具",
+        "synopsis": "Cmd调试工具",
+        "jarName": "x-CmdTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/debugTools/x-CmdTool-0.0.1.jar"
+    },
+    {
+        "name": "Ftp客户端调试工具",
+        "synopsis": "Ftp客户端调试工具",
+        "jarName": "x-FtpClientTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/debugTools/x-FtpClientTool-0.0.1.jar"
+    },
+    {
+        "name": "Ftp服务器",
+        "synopsis": "Ftp服务器(快速搭建本地Ftp服务)",
+        "jarName": "x-FtpServer",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/debugTools/x-FtpServer-0.0.1.jar"
+    },
+    {
+        "name": "Http接口测试工具",
+        "synopsis": "Http调试工具(支持自定义发送数据、header和cookie)",
+        "jarName": "x-HttpTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/debugTools/x-HttpTool-0.0.1.jar"
+    },
+    {
+        "name": "Kafka调试工具",
+        "synopsis": "",
+        "jarName": "x-KafkaTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/debugTools/x-KafkaTool-0.0.1.jar"
+    },
+    {
+        "name": "Redis连接工具",
+        "synopsis": "Redis连接工具",
+        "jarName": "x-RedisTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/debugTools/x-RedisTool-0.0.1.jar"
+    },
+    {
+        "name": "脚本引擎调试工具",
+        "synopsis": "脚本引擎调试工具(目前支持JavaScript、Groovy、Python、Lua等脚本)",
+        "jarName": "x-ScriptEngineTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/debugTools/x-ScriptEngineTool-0.0.1.jar"
+    },
+    {
+        "name": "Socket调试工具",
+        "synopsis": "Socket调试工具",
+        "jarName": "x-SocketTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/debugTools/x-SocketTool-0.0.1.jar"
+    },
+    {
+        "name": "切换Hosts工具",
+        "synopsis": "",
+        "jarName": "x-SwitchHostsTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/debugTools/x-SwitchHostsTool-0.0.1.jar"
+    },
+    {
+        "name": "Zookeeper工具",
+        "synopsis": "Zookeeper工具(方便对zookeeper的一系列操作，包括新增、修改、删除(包括子文件)、重命名、复制、添加变更通知)",
+        "jarName": "x-ZookeeperTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/debugTools/x-ZookeeperTool-0.0.1.jar"
+    },
+    {
+        "name": "传输工具",
+        "synopsis": "传输工具(集成各种传输协议，使用自定义定时任务(简单模式、cron表达式模式)，分为Receiver接收器、Filter处理器、Sender发送器)",
+        "jarName": "x-TransferTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/developTools/x-TransferTool-0.0.1.jar"
+    },
+    {
+        "name": "图片转码工具",
+        "synopsis": "图片转码工具(包括图片生成banner码、图片转Base64码、图片转Excel表)",
+        "jarName": "x-AsciiPicTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/developTools/x-AsciiPicTool-0.0.1.jar"
+    },
+    {
+        "name": "剪贴板历史工具",
+        "synopsis": "",
+        "jarName": "x-ClipboardHistoryTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/developTools/x-ClipboardHistoryTool-0.0.1.jar"
+    },
+    {
+        "name": "文件列表生成器",
+        "synopsis": "",
+        "jarName": "x-DirectoryTreeTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/developTools/x-DirectoryTreeTool-0.0.1.jar"
+    },
+    {
+        "name": "Json转换工具",
+        "synopsis": "Json转换工具(目前支持Json转Xml、Json转Java实体类、Json转C#实体类、Json转Excel、Json转Yaml、Properties转Yaml、Yaml转Properties)",
+        "jarName": "x-JsonConvertTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/developTools/x-JsonConvertTool-0.0.1.jar"
+    },
+    {
+        "name": "文件夹监控工具",
+        "synopsis": "",
+        "jarName": "x-PathWatchTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/developTools/x-PathWatchTool-0.0.1.jar"
+    },
+    {
+        "name": "端口扫描工具",
+        "synopsis": "扫描一些常用端口和自定义端口",
+        "jarName": "x-ScanPortTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/developTools/x-ScanPortTool-0.0.1.jar"
+    },
+    {
+        "name": "猜数字游戏",
+        "synopsis": "",
+        "jarName": "x-BullsAndCowsGame",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/games/x-BullsAndCowsGame-0.0.1.jar"
+    },
+    {
+        "name": "数独",
+        "synopsis": "数独游戏",
+        "jarName": "x-Sudoku",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/games/x-Sudoku-0.0.1.jar"
+    },
+    {
+        "name": "2048",
+        "synopsis": "游戏2048",
+        "jarName": "x-X2048",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/games/x-X2048-0.0.1.jar"
+    },
+    {
+        "name": "编码转换",
+        "synopsis": "",
+        "jarName": "x-CharacterConverter",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/littleTools/x-CharacterConverter-0.0.1.jar"
+    },
+    {
+        "name": "Cron表达式生成器",
+        "synopsis": "",
+        "jarName": "x-CronExpBuilder",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/littleTools/x-CronExpBuilder-0.0.1.jar"
+    },
+    {
+        "name": "邮件发送工具",
+        "synopsis": "",
+        "jarName": "x-EmailTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/littleTools/x-EmailTool-0.0.1.jar"
+    },
+    {
+        "name": "加密解密",
+        "synopsis": "加密解密(Ascii、Hex、Base64、Base32、URL、MD5、SHA、AES、DES、文件加密DM5、文件加密SHA1、摩斯密码、Druid加密)",
+        "jarName": "x-EncryptAndDecrypt",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/littleTools/x-EncryptAndDecrypt-0.0.1.jar"
+    },
+    {
+        "name": "Excel拆分工具",
+        "synopsis": "Excel拆分工具(支持对xls、xlsx、csv及文件进行拆分操作)",
+        "jarName": "x-ExcelSplitTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/littleTools/x-ExcelSplitTool-0.0.1.jar"
+    },
+    {
+        "name": "文件解压缩工具",
+        "synopsis": "文件解压缩工具（目前支持ar、zip、tar、jar、cpio、7z、gz、bzip2、xz、lzma、pack200、deflate、snappy-framed、lz4-block、lz4-framed、zstd等格式解压缩）",
+        "jarName": "x-FileCompressTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/littleTools/x-FileCompressTool-0.0.1.jar"
+    },
+    {
+        "name": "文件复制",
+        "synopsis": "文件复制(支持自动调度拷贝功能)",
+        "jarName": "x-FileCopy",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/littleTools/x-FileCopy-0.0.1.jar"
+    },
+    {
+        "name": "文件合并工具",
+        "synopsis": "文件合并工具(支持对xls、xlsx、csv及文件进行合并操作)",
+        "jarName": "x-FileMergeTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/littleTools/x-FileMergeTool-0.0.1.jar"
+    },
+    {
+        "name": "文件重命名工具",
+        "synopsis": "",
+        "jarName": "x-FileRenameTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/littleTools/x-FileRenameTool-0.0.1.jar"
+    },
+    {
+        "name": "文件搜索工具",
+        "synopsis": "",
+        "jarName": "x-FileSearchTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/littleTools/x-FileSearchTool-0.0.1.jar"
+    },
+    {
+        "name": "图标生成工具",
+        "synopsis": "",
+        "jarName": "x-IconTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/littleTools/x-IconTool-0.0.1.jar"
+    },
+    {
+        "name": "图片解析工具",
+        "synopsis": "图片解析工具(1、.atlas文件反解析2、图片快速拆分工具)",
+        "jarName": "x-ImageAnalysisTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/littleTools/x-ImageAnalysisTool-0.0.1.jar"
+    },
+    {
+        "name": "图片压缩工具",
+        "synopsis": "图片压缩工具(批量压缩、修改尺寸、转换格式)",
+        "jarName": "x-ImageTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/littleTools/x-ImageTool-0.0.1.jar"
+    },
+    {
+        "name": "路径转换",
+        "synopsis": "",
+        "jarName": "x-LinuxPathToWindowsPath",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/littleTools/x-LinuxPathToWindowsPath-0.0.1.jar"
+    },
+    {
+        "name": "Mp3转换工具",
+        "synopsis": "Mp3转换工具(目前支持网易云音乐.ncm、QQ音乐.qmc转换为mp3格式)",
+        "jarName": "x-Mp3ConvertTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/littleTools/x-Mp3ConvertTool-0.0.1.jar"
+    },
+    {
+        "name": "Pdf转换工具",
+        "synopsis": "Pdf转换工具(目前仅支持pdf转图片、pdf转text功能)",
+        "jarName": "x-PdfConvertTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/littleTools/x-PdfConvertTool-0.0.1.jar"
+    },
+    {
+        "name": "二维码生成工具",
+        "synopsis": "二维码生成工具(自动生成、加入logo、截图识别、自定义格式)",
+        "jarName": "x-QRCodeBuilder",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/littleTools/x-QRCodeBuilder-0.0.1.jar"
+    },
+    {
+        "name": "印章生成工具",
+        "synopsis": "",
+        "jarName": "x-SealBuilderTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/littleTools/x-SealBuilderTool-0.0.1.jar"
+    },
+    {
+        "name": "久坐提醒工具",
+        "synopsis": "",
+        "jarName": "x-SedentaryReminderTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/littleTools/x-SedentaryReminderTool-0.0.1.jar"
+    },
+    {
+        "name": "短信群发工具",
+        "synopsis": "短信群发工具(目前支持中国移动、中国电信、腾讯云、阿里云、梦网云通讯等平台)",
+        "jarName": "x-SmsTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/littleTools/x-SmsTool-0.0.1.jar"
+    },
+    {
+        "name": "Time转换",
+        "synopsis": "Time转换(常用格式转换(含时区)、计算时间差、时间叠加计算)",
+        "jarName": "x-TimeTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/littleTools/x-TimeTool-0.0.1.jar"
+    },
+    {
+        "name": "字符串转换",
+        "synopsis": "字符串转换(实现拼音、简体-繁体、简体-臺灣正體、简体-香港繁體、繁體-臺灣正體、繁體-香港繁體、香港繁體-臺灣正體、数字金额-大写金额等直接的转换)",
+        "jarName": "x-ZHConverter",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/littleTools/x-ZHConverter-0.0.1.jar"
+    },
+    {
+        "name": "网址缩短",
+        "synopsis": "网址缩短(目前支持百度、新浪、缩我等短网址缩短)",
+        "jarName": "x-ShortURL",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/webTools/x-ShortURL-0.0.1.jar"
+    },
+    {
+        "name": "编码转换工具",
+        "synopsis": "",
+        "jarName": "x-CharsetDetectTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/codeTools/x-CharsetDetectTool-0.0.1.jar"
+    },
+    {
+        "name": "颜色代码转换工具",
+        "synopsis": "颜色代码转换工具(包括16进制、RGB、ARGB、RGBA、HSL、HSV等代码之间转换)",
+        "jarName": "x-ColorCodeConverterTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/codeTools/x-ColorCodeConverterTool-0.0.1.jar"
+    },
+    {
+        "name": "转义字符",
+        "synopsis": "转义字符(支持Html、XML、Java、JavaScript、CSV、Sql)",
+        "jarName": "x-EscapeCharacter",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/codeTools/x-EscapeCharacter-0.0.1.jar"
+    },
+    {
+        "name": "文件编码转换工具",
+        "synopsis": "",
+        "jarName": "x-FileUnicodeTransformationTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/codeTools/x-FileUnicodeTransformationTool-0.0.1.jar"
+    },
+    {
+        "name": "身份证生成工具",
+        "synopsis": "",
+        "jarName": "x-IdCardGenerator",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/codeTools/x-IdCardGenerator-0.0.1.jar"
+    },
+    {
+        "name": "随机数生成工具",
+        "synopsis": "",
+        "jarName": "x-RandomGeneratorTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/codeTools/x-RandomGeneratorTool-0.0.1.jar"
+    },
+    {
+        "name": "正则表达式生成工具",
+        "synopsis": "",
+        "jarName": "x-RegexTester",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/codeTools/x-RegexTester-0.0.1.jar"
+    },
+    {
+        "name": "网页源码下载工具",
+        "synopsis": "网页源码下载工具",
+        "jarName": "x-WebSourcesTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/codeTools/x-WebSourcesTool-0.0.1.jar"
+    },
+    {
+        "name": "反编译微信小程序包工具",
+        "synopsis": "微信小程序反编译工具(一键反编译微信小程序包)",
+        "jarName": "x-DecompilerWxApkgTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/assistTools/x-DecompilerWxApkgTool-0.0.1.jar"
+    },
+    {
+        "name": "成语字典工具",
+        "synopsis": "",
+        "jarName": "x-IdiomDataTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/assistTools/x-IdiomDataTool-0.0.1.jar"
+    },
+    {
+        "name": "语音转换工具",
+        "synopsis": "",
+        "jarName": "x-TextToSpeechTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/assistTools/x-TextToSpeechTool-0.0.1.jar"
+    },
+    {
+        "name": "微信跳一跳助手",
+        "synopsis": "",
+        "jarName": "x-WechatJumpGameTool",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/assistTools/x-WechatJumpGameTool-0.0.1.jar"
+    },
+    {
+        "name": "javaFxFxml转换代码",
+        "synopsis": "",
+        "jarName": "x-JavaFxXmlToObjectCode",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/javaFxTools/x-JavaFxXmlToObjectCode-0.0.1.jar"
+    },
+    {
+        "name": "显示系统信息",
+        "synopsis": "",
+        "jarName": "x-ShowSystemInfo",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/javaFxTools/x-ShowSystemInfo-0.0.1.jar"
+    },
+    {
+        "name": "Cron表达式生成器Html版",
+        "synopsis": "",
+        "jarName": "x-WebCronExpBuilder",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/netWorkTools/x-WebCronExpBuilder-0.0.1.jar"
+    },
+    {
+        "name": "json编辑工具Html版",
+        "synopsis": "",
+        "jarName": "x-WebJsonEditor",
+        "version": "0.0.1",
+        "versionNumber": 1,
+        "downloadUrl": "https://xwintop.gitee.io/maven/plugin-libs/netWorkTools/x-WebJsonEditor-0.0.1.jar"
+    }
+]

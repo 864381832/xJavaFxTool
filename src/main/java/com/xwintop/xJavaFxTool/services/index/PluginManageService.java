@@ -1,25 +1,17 @@
 package com.xwintop.xJavaFxTool.services.index;
 
-import cn.hutool.http.HttpUtil;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import static org.apache.commons.lang3.StringUtils.substringBeforeLast;
+
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
-import com.xwintop.xcore.util.javafx.TooltipUtil;
+import com.xwintop.xJavaFxTool.plugin.PluginManager;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-
-import java.io.File;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.apache.commons.lang3.StringUtils.substringBeforeLast;
 
 /**
  * @ClassName: PluginManageService
@@ -39,48 +31,42 @@ public class PluginManageService {
 
     private PluginManageController pluginManageController;
 
-    public final static Map<String, PluginJarInfo> PLUGIN_JAR_INFO_MAP = new HashMap<>();
-
-    private JSONArray jsonArray = null;
+    private PluginManager pluginManager = PluginManager.getInstance();
 
     public PluginManageService(PluginManageController pluginManageController) {
         this.pluginManageController = pluginManageController;
     }
 
     public void getPluginList() {
-        try {
-            String jsonString = HttpUtil.get(PLUGIN_LIST_URL);
-            jsonArray = JSON.parseArray(jsonString);
-            for (Object json : jsonArray) {
-                addDataRow((JSONObject) json);
-            }
-        } catch (Exception e) {
-            log.error("获取列表失败：", e);
-            TooltipUtil.showToast("获取列表失败：" + e.getMessage());
-        }
+        pluginManager.loadServerPlugins();
+        pluginManager.getServerPluginList().forEach(this::addDataRow);
     }
 
-    private void addDataRow(JSONObject data) {
-        PluginJarInfo pluginJarInfo = PLUGIN_JAR_INFO_MAP.get(data.getString("jarName"));
+    private void addDataRow(PluginJarInfo serverPlugin) {
+
+        PluginJarInfo localPlugin = pluginManager.getLocalPlugin(serverPlugin.getJarName());
+
         Map<String, String> dataRow = new HashMap<>();
-        dataRow.put("nameTableColumn", data.getString("name"));
-        dataRow.put("synopsisTableColumn", data.getString("synopsis"));
-        dataRow.put("versionTableColumn", data.getString("version"));
-        if (pluginJarInfo == null) {
+        dataRow.put("nameTableColumn", serverPlugin.getName());
+        dataRow.put("synopsisTableColumn", serverPlugin.getSynopsis());
+        dataRow.put("versionTableColumn", serverPlugin.getVersion());
+        dataRow.put("jarName", serverPlugin.getJarName());
+        dataRow.put("downloadUrl", serverPlugin.getDownloadUrl());
+        dataRow.put("versionNumber", String.valueOf(serverPlugin.getVersionNumber()));
+
+        if (localPlugin == null) {
             dataRow.put("isDownloadTableColumn", "下载");
             dataRow.put("isEnableTableColumn", "false");
         } else {
-            if (Integer.parseInt(data.getString("versionNumber")) > pluginJarInfo.getVersionNumber()) {
+            if (serverPlugin.getVersionNumber() > localPlugin.getVersionNumber()) {
                 dataRow.put("isDownloadTableColumn", "更新");
             } else {
                 dataRow.put("isDownloadTableColumn", "已下载");
             }
-            dataRow.put("isEnableTableColumn", pluginJarInfo.getIsEnable().toString());
+            dataRow.put("isEnableTableColumn", localPlugin.getIsEnable().toString());
         }
-        dataRow.put("jarName", data.getString("jarName"));
-        dataRow.put("downloadUrl", data.getString("downloadUrl"));
-        dataRow.put("versionNumber", data.getString("versionNumber"));
-        pluginManageController.getPluginDataTableData().add(dataRow);
+
+        pluginManageController.getOriginPluginData().add(dataRow);
     }
 
     public void downloadPluginJar(Map<String, String> dataRow) throws Exception {
@@ -93,68 +79,38 @@ public class PluginManageService {
         pluginJarInfo.setJarName(dataRow.get("jarName"));
         pluginJarInfo.setIsDownload(true);
         pluginJarInfo.setIsEnable(true);
-//        File file = new File("libs/", StringUtils.substring(downloadUrl, 56, downloadUrl.length()));
-        File file = new File("libs/", pluginJarInfo.getJarName() + "-" + pluginJarInfo.getVersion() + ".jar");
-        HttpUtil.downloadFile(pluginJarInfo.getDownloadUrl(), file);
-        PLUGIN_JAR_INFO_MAP.put(pluginJarInfo.getJarName(), pluginJarInfo);
+
+        File file = pluginManager.downloadPlugin(pluginJarInfo);
+
         pluginManageController.getIndexController().addToolMenu(file);
-        PluginManageService.savePluginJarList();
     }
 
     public void setIsEnableTableColumn(Integer index) {
-        Map<String, String> dataRow = pluginManageController.getPluginDataTableData().get(index);
+        Map<String, String> dataRow = pluginManageController.getOriginPluginData().get(index);
         String jarName = dataRow.get("jarName");
-        PluginJarInfo pluginJarInfo = PLUGIN_JAR_INFO_MAP.get(jarName);
+        PluginJarInfo pluginJarInfo = this.pluginManager.getLocalPlugin(jarName);
         if (pluginJarInfo != null) {
             pluginJarInfo.setIsEnable(Boolean.parseBoolean(dataRow.get("isEnableTableColumn")));
         }
     }
 
-    public void selectPluginAction() {
-        pluginManageController.getPluginDataTableData().clear();
-        String selectText = pluginManageController.getSelectPluginTextField().getText();
-        boolean empty = selectText.trim().length() == 0;
-        for (Object json : jsonArray) {
-            JSONObject data = (JSONObject) json;
-            if (empty || StringUtils.containsIgnoreCase(data.toString(), selectText)) {
-                addDataRow(data);
+    public void searchPlugin(String keyword) {
+        pluginManageController.getPluginDataTableData().setPredicate(map -> {
+            if (StringUtils.isBlank(keyword)) {
+                return true;
+            } else {
+                return isPluginDataMatch(map, keyword);
             }
-        }
+        });
     }
 
-    /*加载插件列表*/
-    public static void reloadPluginJarList() {
-
-        File filePath = new File(PLUGIN_LIST_PATH);
-        if (!filePath.exists()) {
-            return;
-        }
-
-        try {
-            String json = FileUtils.readFileToString(filePath, StandardCharsets.UTF_8);
-
-            List<PluginJarInfo> pluginJarInfoList =
-                JSON.parseArray(json, PluginJarInfo.class);
-
-            for (PluginJarInfo pluginJarInfo : pluginJarInfoList) {
-                PLUGIN_JAR_INFO_MAP.put(pluginJarInfo.getJarName(), pluginJarInfo);
-            }
-        } catch (Exception e) {
-            log.error("读取插件jar包配置文件失败：", e);
-        }
+    private boolean isPluginDataMatch(Map<String, String> map, String keyword) {
+        return map.entrySet().stream().anyMatch(
+            entry ->
+                !entry.getKey().equals("downloadUrl") &&
+                    entry.getValue().toLowerCase().contains(keyword.toLowerCase())
+        );
     }
-
-    /*保存插件列表*/
-    public static void savePluginJarList() {
-        try {
-            File pluginListFile = new File("system_plugin_list.json");
-            String content = JSON.toJSONString(PLUGIN_JAR_INFO_MAP.values());
-            FileUtils.writeStringToFile(pluginListFile, content, "utf-8");
-        } catch (Exception e) {
-            log.error("保存插件jar包配置文件失败：", e);
-        }
-    }
-
 
     /**
      * 判断插件是否启用
@@ -162,7 +118,7 @@ public class PluginManageService {
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean isPluginEnabled(String fileName) {
         String jarName = substringBeforeLast(fileName, "-");
-        PluginJarInfo pluginJarInfo = PLUGIN_JAR_INFO_MAP.get(jarName);
+        PluginJarInfo pluginJarInfo = PluginManager.getInstance().getLocalPlugin(jarName);
         return pluginJarInfo == null || pluginJarInfo.getIsEnable();
     }
 }
