@@ -46,10 +46,14 @@
                                 <VBox>
                                     <Label text="临时记事本临时记事本临时记事本" styleClass="app-item-title"/>
                                 </VBox>
-                                <HBox spacing="10">
+                                <HBox spacing="10" alignment="CENTER">
                                     <Hyperlink text="打开应用" style="-fx-font-weight: bold"/>
                                     <Pane HBox.hgrow="ALWAYS"/>
-                                    <Hyperlink text="帮助"/>
+                                    <ImageView fitWidth="16" fitHeight="16" style="-fx-cursor: hand">
+                                        <image>
+                                            <Image url="/images/help.png"/>
+                                        </image>
+                                    </ImageView>
                                 </HBox>
                             </VBox>
                             <Pane styleClass="app-item,placeholder" />
