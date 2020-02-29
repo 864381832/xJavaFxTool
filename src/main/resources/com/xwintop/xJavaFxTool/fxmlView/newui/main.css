@@ -5,17 +5,29 @@
     -fx-pref-height: 100;
     -fx-min-height: -fx-pref-height;
     -fx-background-color: #f4f4f4;
-    -fx-padding: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 5 5 10 5;
+    -fx-border-color: transparent;
+    -fx-border-style: dashed;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
 }
 
-.app-layout .app-item.placeholder {
-    -fx-background-color: #AADDFF;
+.app-layout .app-item:hover {
+    -fx-border-color: #aaaaaa;
+}
+
+.app-layout .app-item .hyperlink {
+    -fx-padding: 0;
 }
 
 .app-layout .app-item .app-item-title {
     -fx-font-weight: bold;
     -fx-padding: 0 5;
     -fx-text-fill: #555555;
+}
+
+.app-layout .app-item.placeholder {
 }
 
 .app-category-title {

@@ -1,0 +1,11 @@
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
+<VBox spacing="5" styleClass="app-category"
+      fx:controller="com.xwintop.xJavaFxTool.newui.PluginCategoryController"
+      fx:id="root"
+      xmlns:fx="http://javafx.com/fxml/1">
+    <Label styleClass="app-category-title" text="最近使用" fx:id="lblCategoryName"/>
+    <FlowPane hgap="5" styleClass="app-layout" vgap="5" fx:id="items">
+    </FlowPane>
+</VBox>

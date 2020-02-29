@@ -1,0 +1,25 @@
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<VBox spacing="5" styleClass="app-item"
+      fx:id="root"
+      fx:controller="com.xwintop.xJavaFxTool.newui.PluginItemController"
+      xmlns:fx="http://javafx.com/fxml/1">
+    <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
+        <ImageView fitWidth="36" fitHeight="36">
+            <Image url="/images/icon.jpg"/>
+        </ImageView>
+    </HBox>
+    <HBox alignment="CENTER">
+        <Label fx:id="pluginName" styleClass="app-item-title"/>
+    </HBox>
+    <HBox spacing="10" alignment="CENTER" style="-fx-padding: 0 0 5 0">
+        <Hyperlink text="打开应用" style="-fx-font-weight: bold"/>
+        <Pane HBox.hgrow="ALWAYS"/>
+        <ImageView fitWidth="16" fitHeight="16" style="-fx-cursor: hand">
+            <Image url="/images/help.png"/>
+        </ImageView>
+    </HBox>
+</VBox>

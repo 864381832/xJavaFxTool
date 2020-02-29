@@ -1,22 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Hyperlink?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <VBox prefHeight="600" prefWidth="800" spacing="5"
-    stylesheets="/com/xwintop/xJavaFxTool/fxmlView/newui/main.css"
-    xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.2-internal"
-    fx:controller="com.xwintop.xJavaFxTool.newui.NewLauncherController">
+      stylesheets="/com/xwintop/xJavaFxTool/fxmlView/newui/main.css"
+      xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.2-internal"
+      fx:controller="com.xwintop.xJavaFxTool.newui.NewLauncherController">
 
     <padding>
         <Insets topRightBottomLeft="5" />
@@ -32,91 +22,7 @@
                         <Pane HBox.hgrow="ALWAYS"/>
                         <Hyperlink onAction="#openConfigDialog" text="设置" />
                     </HBox>
-                    <VBox spacing="5" styleClass="app-category">
-                        <Label styleClass="app-category-title" text="最近使用" />
-                        <FlowPane hgap="5" styleClass="app-layout" vgap="5">
-                            <VBox spacing="5" styleClass="app-item">
-                                <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
-                                    <ImageView fitWidth="40" fitHeight="40">
-                                        <image>
-                                            <Image url="/images/icon.jpg"/>
-                                        </image>
-                                    </ImageView>
-                                </HBox>
-                                <VBox>
-                                    <Label text="临时记事本临时记事本临时记事本" styleClass="app-item-title"/>
-                                </VBox>
-                                <HBox spacing="10" alignment="CENTER">
-                                    <Hyperlink text="打开应用" style="-fx-font-weight: bold"/>
-                                    <Pane HBox.hgrow="ALWAYS"/>
-                                    <ImageView fitWidth="16" fitHeight="16" style="-fx-cursor: hand">
-                                        <image>
-                                            <Image url="/images/help.png"/>
-                                        </image>
-                                    </ImageView>
-                                </HBox>
-                            </VBox>
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                        </FlowPane>
-                    </VBox>
-                    <VBox spacing="5" styleClass="app-category">
-                        <Label styleClass="app-category-title" text="文本代码" />
-                        <FlowPane hgap="5" styleClass="app-layout" vgap="5">
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                        </FlowPane>
-                    </VBox>
-                    <VBox spacing="5" styleClass="app-category">
-                        <Label styleClass="app-category-title" text="远程服务" />
-                        <FlowPane hgap="5" styleClass="app-layout" vgap="5">
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                        </FlowPane>
-                    </VBox>
-                    <VBox spacing="5" styleClass="app-category">
-                        <Label styleClass="app-category-title" text="图像影音" />
-                        <FlowPane hgap="5" styleClass="app-layout" vgap="5">
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                        </FlowPane>
-                    </VBox>
-                    <VBox spacing="5" styleClass="app-category">
-                        <Label styleClass="app-category-title" text="数据库" />
-                        <FlowPane hgap="5" styleClass="app-layout" vgap="5">
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                            <Pane styleClass="app-item,placeholder" />
-                        </FlowPane>
+                    <VBox fx:id="pluginCategories" alignment="TOP_CENTER">
                     </VBox>
                 </VBox>
             </ScrollPane>
