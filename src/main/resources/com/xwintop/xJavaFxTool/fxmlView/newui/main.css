@@ -1,0 +1,25 @@
+.app-layout .app-item {
+    -fx-pref-width: 100;
+    -fx-pref-height: 100;
+    -fx-background-color: #AADDFF;
+}
+
+.app-category-title {
+    -fx-font-weight: bold;
+}
+
+.app-category {
+    -fx-padding: 10 10 15 10;
+}
+
+.search-text {
+    -fx-background-color: none;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #AAAAAA;
+}
+
+.search-text:focused {
+    -fx-background-color: none;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}

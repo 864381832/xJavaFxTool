@@ -1,9 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns:fx="javafx" prefWidth="800" prefHeight="600"
+<VBox prefHeight="600" prefWidth="800" spacing="5"
+    stylesheets="/com/xwintop/xJavaFxTool/fxmlView/newui/main.css"
+    xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.2-internal"
     fx:controller="com.xwintop.xJavaFxTool.newui.NewLauncherController">
-    <HBox style="-fx-padding: 10">
-        <Hyperlink text="配置" onAction="#openConfigDialog"/>
+
+    <padding>
+        <Insets topRightBottomLeft="5" />
+    </padding>
+
+    <TabPane VBox.vgrow="ALWAYS">
+        <Tab closable="false" text="开始">
+            <ScrollPane fitToWidth="true" style="-fx-border-width: 0 1 1 1;-fx-border-color: #CCCCCC;-fx-background:#FFFFFF">
+                <VBox>
+                    <HBox alignment="BASELINE_LEFT" style="-fx-padding: 10">
+                        <Label text="搜索：" />
+                        <TextField prefWidth="200" styleClass="search-text" />
+                    </HBox>
+                    <VBox spacing="5" styleClass="app-category">
+                        <Label styleClass="app-category-title" text="最近使用" />
+                        <FlowPane hgap="5" styleClass="app-layout" vgap="5">
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                        </FlowPane>
+                    </VBox>
+                    <VBox spacing="5" styleClass="app-category">
+                        <Label styleClass="app-category-title" text="文本代码" />
+                        <FlowPane hgap="5" styleClass="app-layout" vgap="5">
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                        </FlowPane>
+                    </VBox>
+                    <VBox spacing="5" styleClass="app-category">
+                        <Label styleClass="app-category-title" text="远程服务" />
+                        <FlowPane hgap="5" styleClass="app-layout" vgap="5">
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                        </FlowPane>
+                    </VBox>
+                    <VBox spacing="5" styleClass="app-category">
+                        <Label styleClass="app-category-title" text="图像影音" />
+                        <FlowPane hgap="5" styleClass="app-layout" vgap="5">
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                        </FlowPane>
+                    </VBox>
+                    <VBox spacing="5" styleClass="app-category">
+                        <Label styleClass="app-category-title" text="数据库" />
+                        <FlowPane hgap="5" styleClass="app-layout" vgap="5">
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                            <Pane styleClass="app-item" />
+                        </FlowPane>
+                    </VBox>
+                </VBox>
+            </ScrollPane>
+        </Tab>
+<!--
+        <Tab text="文本编辑"/>
+        <Tab text="远程服务"/>
+        <Tab text="数据库"/>
+        <Tab text="图像影音"/>
+        <Tab text="其他"/>
+-->
+    </TabPane>
+
+    <HBox>
+        <Hyperlink onAction="#openConfigDialog" text="配置" />
     </HBox>
 </VBox>
