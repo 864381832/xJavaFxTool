@@ -36,7 +36,7 @@
                         <Label styleClass="app-category-title" text="最近使用" />
                         <FlowPane hgap="5" styleClass="app-layout" vgap="5">
                             <VBox spacing="5" styleClass="app-item">
-                                <HBox alignment="CENTER" style="-fx-pref-height: 40" VBox.vgrow="ALWAYS">
+                                <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
                                     <ImageView fitWidth="40" fitHeight="40">
                                         <image>
                                             <Image url="/images/icon.jpg"/>
