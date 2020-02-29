@@ -1,11 +1,26 @@
 .app-layout .app-item {
-    -fx-pref-width: 100;
+    -fx-pref-width: 150;
+    -fx-min-width: -fx-pref-width;
+    -fx-max-width: -fx-pref-width;
     -fx-pref-height: 100;
+    -fx-min-height: -fx-pref-height;
+    -fx-background-color: #f4f4f4;
+    -fx-padding: 5;
+}
+
+.app-layout .app-item.placeholder {
     -fx-background-color: #AADDFF;
+}
+
+.app-layout .app-item .app-item-title {
+    -fx-font-weight: bold;
+    -fx-padding: 0 5;
+    -fx-text-fill: #555555;
 }
 
 .app-category-title {
     -fx-font-weight: bold;
+    -fx-text-fill: #888888;
 }
 
 .app-category {
