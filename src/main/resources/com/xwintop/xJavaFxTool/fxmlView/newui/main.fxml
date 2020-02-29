@@ -1,0 +1,9 @@
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns:fx="javafx" prefWidth="800" prefHeight="600"
+    fx:controller="com.xwintop.xJavaFxTool.newui.NewLauncherController">
+    <HBox style="-fx-padding: 10">
+        <Hyperlink text="配置" onAction="#openConfigDialog"/>
+    </HBox>
+</VBox>

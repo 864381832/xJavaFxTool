@@ -8,18 +8,18 @@ import com.xwintop.xJavaFxTool.utils.StageUtils;
 import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import com.xwintop.xcore.javafx.FxApp;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
+import com.xwintop.xcore.javafx.helper.FxmlHelper;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
+import java.io.IOException;
+import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.ResourceBundle;
 
 /**
  * @ClassName: Main
@@ -32,68 +32,79 @@ public class Main extends Application {
 
     public static final String LOGO_PATH = "/images/icon.jpg";
 
+    public static final ResourceBundle RESOURCE_BUNDLE =
+        ResourceBundle.getBundle("locale.Menu", Config.defaultLocale);
+
     private static Stage stage;
 
     public static void main(String[] args) {
-        try {
-            log.info("xJavaFxTool项目启动");
-            launch(args);
-        } catch (Exception e) {
-            log.error("xJavaFxTool启动失败：", e);
-        }
+        launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        stage = primaryStage;
 
         // 初始化 JavaFX 全局设置
         FxApp.init(primaryStage, LOGO_PATH);
+        FxApp.setupIcon(primaryStage);
         FxApp.styleSheets.add(Main.class.getResource("/css/jfoenix-main.css").toExternalForm());
 
         XJavaFxSystemUtil.initSystemLocal();//初始化本地语言
         XJavaFxSystemUtil.addJarByLibs();//添加外部jar包
 
+        primaryStage.setResizable(true);
+        primaryStage.setTitle(RESOURCE_BUNDLE.getString("Title") + Config.xJavaFxToolVersions);
+        primaryStage.setOnCloseRequest(this::confirmExit);
+
+        if (Config.getBoolean(Keys.NewLauncher, false)) {
+            loadNewUI(primaryStage);
+        } else {
+            loadClassicUI(primaryStage);
+        }
+
+        StageUtils.loadPrimaryStageBound(primaryStage);
+        primaryStage.show();
+    }
+
+    private void loadNewUI(Stage primaryStage) {
+        FxmlHelper.loadIntoStage("/com/xwintop/xJavaFxTool/fxmlView/newui/main.fxml", primaryStage).show();
+    }
+
+    private void loadClassicUI(Stage primaryStage) throws IOException {
         FXMLLoader fXMLLoader = IndexController.getFXMLLoader();
-        ResourceBundle resourceBundle = fXMLLoader.getResources();
         Parent root = fXMLLoader.load();
 
         JFXDecorator decorator = JavaFxViewUtil.getJFXDecorator(
             primaryStage,
-            resourceBundle.getString("Title") + Config.xJavaFxToolVersions,
+            RESOURCE_BUNDLE.getString("Title") + Config.xJavaFxToolVersions,
             LOGO_PATH,
             root
         );
         decorator.setOnCloseButtonAction(() -> confirmExit(null));
 
         Scene scene = JavaFxViewUtil.getJFXDecoratorScene(decorator);
-
-        primaryStage.setResizable(true);
-        primaryStage.setTitle(resourceBundle.getString("Title"));//标题
-        primaryStage.getIcons().add(new Image(LOGO_PATH));//图标
         primaryStage.setScene(scene);
-        primaryStage.setOnCloseRequest(this::confirmExit);
-
-        StageUtils.loadPrimaryStageBound(primaryStage);
-        primaryStage.show();
 
         StageUtils.updateStageStyle(primaryStage);
-        stage = primaryStage;
     }
 
     private void confirmExit(Event event) {
         if (Config.getBoolean(Keys.ConfirmExit, true)) {
             if (FxAlerts.confirmYesNo("退出应用", "确定要退出吗？")) {
-                StageUtils.savePrimaryStageBound(stage);
-                Platform.exit();
-                System.exit(0);
+                doExit();
             } else if (event != null) {
                 event.consume();
             }
         } else {
-            StageUtils.savePrimaryStageBound(stage);
-            Platform.exit();
-            System.exit(0);
+            doExit();
         }
+    }
+
+    private void doExit() {
+        StageUtils.savePrimaryStageBound(stage);
+        Platform.exit();
+        System.exit(0);
     }
 
     public static Stage getStage() {

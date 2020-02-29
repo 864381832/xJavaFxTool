@@ -17,15 +17,22 @@ import lombok.Setter;
 @Getter
 @Setter
 public abstract class SystemSettingView implements Initializable {
+
     @FXML
     protected CheckBox exitShowAlertCheckBox;
+
     @FXML
     protected CheckBox addNotepadCheckBox;
+
     @FXML
     protected CheckBox saveStageBoundCheckBox;
+
+    @FXML
+    protected CheckBox chkNewLauncher;
+
     @FXML
     protected Button saveButton;
+
     @FXML
     protected Button cancelButton;
-
 }

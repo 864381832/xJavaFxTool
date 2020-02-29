@@ -1,26 +1,37 @@
 package com.xwintop.xJavaFxTool.controller;
 
+import static com.xwintop.xJavaFxTool.Main.RESOURCE_BUNDLE;
+import static com.xwintop.xJavaFxTool.utils.Config.Keys.NotepadEnabled;
+
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
-import com.xwintop.xJavaFxTool.controller.index.SystemSettingController;
 import com.xwintop.xJavaFxTool.model.ToolFxmlLoaderConfiguration;
 import com.xwintop.xJavaFxTool.services.IndexService;
 import com.xwintop.xJavaFxTool.services.index.PluginManageService;
+import com.xwintop.xJavaFxTool.services.index.SystemSettingService;
 import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import com.xwintop.xJavaFxTool.view.IndexView;
-import com.xwintop.xcore.javafx.FxApp;
-import com.xwintop.xcore.javafx.dialog.FxDialog;
 import com.xwintop.xcore.util.ConfigureUtil;
 import com.xwintop.xcore.util.HttpClientUtil;
 import com.xwintop.xcore.util.javafx.AlertUtil;
 import com.xwintop.xcore.util.javafx.JavaFxSystemUtil;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
+import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -37,15 +48,6 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.dom4j.tree.DefaultAttribute;
 import org.dom4j.tree.DefaultElement;
-
-import java.io.File;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.*;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-
-import static com.xwintop.xJavaFxTool.utils.Config.Keys.NotepadEnabled;
 
 /**
  * @ClassName: IndexController
@@ -71,9 +73,8 @@ public class IndexController extends IndexView {
     private ContextMenu contextMenu = new ContextMenu();
 
     public static FXMLLoader getFXMLLoader() {
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("locale.Menu", Config.defaultLocale);
         URL url = Object.class.getResource("/com/xwintop/xJavaFxTool/fxmlView/Index.fxml");
-        return new FXMLLoader(url, resourceBundle);
+        return new FXMLLoader(url, RESOURCE_BUNDLE);
     }
 
     @Override
@@ -240,18 +241,18 @@ public class IndexController extends IndexView {
     }
 
     @FXML
-    private void exitAction(ActionEvent event) {
+    private void exitAction() {
         Platform.exit();
         System.exit(0);
     }
 
     @FXML
-    private void closeAllTabAction(ActionEvent event) {
+    private void closeAllTabAction() {
         tabPaneMain.getTabs().clear();
     }
 
     @FXML
-    private void openAllTabAction(ActionEvent event) {
+    private void openAllTabAction() {
         for (MenuItem value : menuItemMap.values()) {
             value.fire();
         }
@@ -268,7 +269,7 @@ public class IndexController extends IndexView {
     }
 
     @FXML
-    private void pluginManageAction(ActionEvent event) throws Exception {
+    private void pluginManageAction() throws Exception {
         FXMLLoader fXMLLoader = PluginManageController.getFXMLLoader();
         Parent root = fXMLLoader.load();
         PluginManageController pluginManageController = fXMLLoader.getController();
@@ -277,26 +278,12 @@ public class IndexController extends IndexView {
     }
 
     @FXML
-    private void SettingAction(ActionEvent event) throws Exception {
-
-        FxDialog<SystemSettingController> dialog = new FxDialog<SystemSettingController>()
-            .setTitle(bundle.getString("Setting"))
-            .setBodyFxml("/com/xwintop/xJavaFxTool/fxmlView/index/SystemSetting.fxml")
-            .setOwner(FxApp.primaryStage)
-            .setButtonTypes(ButtonType.OK, ButtonType.CANCEL);
-
-        SystemSettingController controller = dialog.show();
-
-        dialog
-            .setButtonHandler(ButtonType.OK, (actionEvent, stage) -> {
-                controller.applySettings();
-                stage.close();
-            })
-            .setButtonHandler(ButtonType.CANCEL, (actionEvent, stage) -> stage.close());
+    private void SettingAction() {
+        SystemSettingService.openSystemSettings(bundle.getString("Setting"));
     }
 
     @FXML
-    private void aboutAction(ActionEvent event) throws Exception {
+    private void aboutAction() {
         AlertUtil.showInfoAlert(bundle.getString("aboutText") + Config.xJavaFxToolVersions);
     }
 
@@ -307,33 +294,33 @@ public class IndexController extends IndexView {
     }
 
     @FXML
-    private void openLogFileAction(ActionEvent event) throws Exception {
+    private void openLogFileAction() {
         String filePath = "logs/logFile." + DateFormatUtils.format(new Date(), "yyyy-MM-dd") + ".log";
         JavaFxSystemUtil.openDirectory(filePath);
     }
 
     @FXML
-    private void openLogFolderAction(ActionEvent event) throws Exception {
+    private void openLogFolderAction() {
         JavaFxSystemUtil.openDirectory("logs/");
     }
 
     @FXML
-    private void openConfigFolderAction(ActionEvent event) throws Exception {
+    private void openConfigFolderAction() {
         JavaFxSystemUtil.openDirectory(ConfigureUtil.getConfigurePath());
     }
 
     @FXML
-    private void openPluginFolderAction(ActionEvent event) throws Exception {
+    private void openPluginFolderAction() {
         JavaFxSystemUtil.openDirectory("libs/");
     }
 
     @FXML
-    private void xwintopLinkOnAction(ActionEvent event) throws Exception {
+    private void xwintopLinkOnAction() throws Exception {
         HttpClientUtil.openBrowseURLThrowsException("https://gitee.com/xwintop/xJavaFxTool");
     }
 
     @FXML
-    private void userSupportAction(ActionEvent event) throws Exception {
+    private void userSupportAction() throws Exception {
         HttpClientUtil.openBrowseURLThrowsException("https://support.qq.com/product/127577");
     }
 }

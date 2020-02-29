@@ -1,10 +1,9 @@
 package com.xwintop.xJavaFxTool.utils;
 
 import com.xwintop.xcore.util.ConfigureUtil;
-import org.apache.commons.configuration.PropertiesConfiguration;
-
 import java.io.File;
 import java.util.Locale;
+import org.apache.commons.configuration.PropertiesConfiguration;
 
 /*
  * 存取框架配置
@@ -21,7 +20,8 @@ public class Config {
 
     public enum Keys {
         MainWindowWidth, MainWindowHeight, MainWindowTop, MainWindowLeft,
-        Locale, NotepadEnabled, RememberWindowLocation, ConfirmExit
+        Locale, NotepadEnabled, RememberWindowLocation, ConfirmExit,
+        NewLauncher
     }
 
     private static PropertiesConfiguration conf;

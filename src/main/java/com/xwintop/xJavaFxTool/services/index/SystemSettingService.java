@@ -1,6 +1,9 @@
 package com.xwintop.xJavaFxTool.services.index;
 
 import com.xwintop.xJavaFxTool.controller.index.SystemSettingController;
+import com.xwintop.xcore.javafx.FxApp;
+import com.xwintop.xcore.javafx.dialog.FxDialog;
+import javafx.scene.control.ButtonType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -16,9 +19,22 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 @Slf4j
 public class SystemSettingService {
-    private SystemSettingController systemSettingController;
 
-    public SystemSettingService(SystemSettingController systemSettingController) {
-        this.systemSettingController = systemSettingController;
+    public static void openSystemSettings(String title) {
+
+        FxDialog<SystemSettingController> dialog = new FxDialog<SystemSettingController>()
+            .setTitle(title)
+            .setBodyFxml("/com/xwintop/xJavaFxTool/fxmlView/index/SystemSetting.fxml")
+            .setOwner(FxApp.primaryStage)
+            .setButtonTypes(ButtonType.OK, ButtonType.CANCEL);
+
+        SystemSettingController controller = dialog.show();
+
+        dialog
+            .setButtonHandler(ButtonType.OK, (actionEvent, stage) -> {
+                controller.applySettings();
+                stage.close();
+            })
+            .setButtonHandler(ButtonType.CANCEL, (actionEvent, stage) -> stage.close());
     }
 }
