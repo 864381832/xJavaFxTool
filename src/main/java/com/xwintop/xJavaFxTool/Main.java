@@ -65,6 +65,7 @@ public class Main extends Application {
 
         StageUtils.loadPrimaryStageBound(primaryStage);
         primaryStage.show();
+        StageUtils.updateStageStyle(primaryStage);
     }
 
     private void loadNewUI(Stage primaryStage) {
@@ -85,8 +86,6 @@ public class Main extends Application {
 
         Scene scene = JavaFxViewUtil.getJFXDecoratorScene(decorator);
         primaryStage.setScene(scene);
-
-        StageUtils.updateStageStyle(primaryStage);
     }
 
     private void confirmExit(Event event) {
