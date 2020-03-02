@@ -43,11 +43,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.dom4j.tree.DefaultAttribute;
-import org.dom4j.tree.DefaultElement;
 
 /**
  * @ClassName: IndexController
@@ -143,12 +142,12 @@ public class IndexController extends IndexView {
             List<Element> elements = root.elements("ToolFxmlLoaderConfiguration");
             for (Element configurationNode : elements) {
                 ToolFxmlLoaderConfiguration toolFxmlLoaderConfiguration = new ToolFxmlLoaderConfiguration();
-                List<DefaultAttribute> attributes = configurationNode.attributes();
-                for (DefaultAttribute configuration : attributes) {
+                List<Attribute> attributes = configurationNode.attributes();
+                for (Attribute configuration : attributes) {
                     BeanUtils.copyProperty(toolFxmlLoaderConfiguration, configuration.getName(), configuration.getValue());
                 }
-                List<DefaultElement> childrenList = configurationNode.elements();
-                for (DefaultElement configuration : childrenList) {
+                List<Element> childrenList = configurationNode.elements();
+                for (Element configuration : childrenList) {
                     BeanUtils.copyProperty(toolFxmlLoaderConfiguration, configuration.getName(), configuration.getStringValue());
                 }
                 if (StringUtils.isEmpty(toolFxmlLoaderConfiguration.getMenuParentId())) {

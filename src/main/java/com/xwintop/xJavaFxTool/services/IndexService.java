@@ -2,13 +2,15 @@ package com.xwintop.xJavaFxTool.services;
 
 import com.xwintop.xJavaFxTool.common.logback.ConsoleLogAppender;
 import com.xwintop.xJavaFxTool.controller.IndexController;
+import com.xwintop.xJavaFxTool.model.PluginJarInfo;
+import com.xwintop.xJavaFxTool.plugin.PluginLoader;
 import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xJavaFxTool.utils.FxmlUtils;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
+import java.util.Locale;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -22,9 +24,6 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
-
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 @Setter
 public class IndexService {
@@ -100,33 +99,17 @@ public class IndexService {
      * @Description: 添加Content内容
      */
     public void addContent(String title, String url, String resourceBundleName, String iconPath) {
-        try {
-            FXMLLoader generatingCodeFXMLLoader = new FXMLLoader(getClass().getResource(url));
-            if (StringUtils.isNotEmpty(resourceBundleName)) {
-                ResourceBundle resourceBundle = ResourceBundle.getBundle(resourceBundleName, Config.defaultLocale);
-                generatingCodeFXMLLoader.setResources(resourceBundle);
-            }
-            if (indexController.getSingleWindowBootCheckBox().isSelected()) {
-                JavaFxViewUtil.getNewStage(title, iconPath, generatingCodeFXMLLoader);
-                return;
-            }
-            Tab tab = new Tab(title);
-            if (StringUtils.isNotEmpty(iconPath)) {
-                ImageView imageView = new ImageView(new Image(iconPath));
-                imageView.setFitHeight(18);
-                imageView.setFitWidth(18);
-                tab.setGraphic(imageView);
-            }
 
-            tab.setContent(generatingCodeFXMLLoader.load());
-            indexController.getTabPaneMain().getTabs().add(tab);
-            indexController.getTabPaneMain().getSelectionModel().select(tab);
+        PluginJarInfo plugin = new PluginJarInfo();
+        plugin.setTitle(title);
+        plugin.setFxmlPath(url);
+        plugin.setBundleName(resourceBundleName);
+        plugin.setIconPath(iconPath);
 
-            tab.setOnCloseRequest((Event event) -> {
-                JavaFxViewUtil.setControllerOnCloseRequest(generatingCodeFXMLLoader.getController(), event);
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (indexController.getSingleWindowBootCheckBox().isSelected()) {
+            PluginLoader.loadPluginAsWindow(plugin);
+        } else {
+            PluginLoader.loadPluginAsTab(plugin, indexController.getTabPaneMain());
         }
     }
 

@@ -50,13 +50,6 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
-        <!-- <dependency>
-            <groupId>com.xwintop</groupId>
-            <artifactId>xcore</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/xcore-0.0.1-SNAPSHOT.jar</systemPath>
-        </dependency> -->
         <dependency>
             <groupId>com.xwintop</groupId>
             <artifactId>xcore</artifactId>
