@@ -118,6 +118,10 @@ public class PluginManageService {
     public static boolean isPluginEnabled(String fileName) {
         String jarName = substringBeforeLast(fileName, "-");
         PluginJarInfo pluginJarInfo = PluginManager.getInstance().getPlugin(jarName);
-        return pluginJarInfo == null || pluginJarInfo.getIsEnable();
+        if (pluginJarInfo == null) {
+            return false;
+        }
+        Boolean isEnable = pluginJarInfo.getIsEnable();
+        return isEnable != null && isEnable;
     }
 }
