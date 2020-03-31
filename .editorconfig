@@ -5,5 +5,5 @@ insert_final_newline = false
 indent_style = space
 indent_size = 4
 
-[*.{html, xml, yaml}]
+[*.{html, xml, yaml, fxml}]
 indent_size = 2

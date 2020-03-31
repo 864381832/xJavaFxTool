@@ -3,10 +3,9 @@ package com.xwintop.xJavaFxTool.model;
 import lombok.Data;
 
 /**
- * @ClassName: PluginJarInfo
- * @Description: 插件信息
- * @author: xufeng
- * @date: 2020/1/20 17:28
+ * 插件信息
+ *
+ * @author xufeng
  */
 
 @Data

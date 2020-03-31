@@ -8,24 +8,27 @@
       xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.2-internal"
       fx:controller="com.xwintop.xJavaFxTool.newui.NewLauncherController">
 
-    <padding>
-        <Insets topRightBottomLeft="5" />
-    </padding>
+  <padding>
+    <Insets topRightBottomLeft="5"/>
+  </padding>
 
-    <TabPane VBox.vgrow="ALWAYS">
-        <Tab closable="false" text="开始">
-            <ScrollPane fitToWidth="true" style="-fx-border-width: 0 1 1 1;-fx-border-color: #CCCCCC;-fx-background:#FFFFFF">
-                <VBox>
-                    <HBox alignment="BASELINE_LEFT" style="-fx-padding: 10">
-                        <Label text="搜索：" />
-                        <TextField prefWidth="200" styleClass="search-text" />
-                        <Pane HBox.hgrow="ALWAYS"/>
-                        <Hyperlink onAction="#openConfigDialog" text="设置" />
-                    </HBox>
-                    <VBox fx:id="pluginCategories" alignment="TOP_CENTER">
-                    </VBox>
-                </VBox>
-            </ScrollPane>
-        </Tab>
-    </TabPane>
+  <TabPane VBox.vgrow="ALWAYS" tabMinWidth="45">
+    <Tab closable="false" text="开始">
+      <ScrollPane fitToWidth="true" style="-fx-border-width: 0 1 1 1;-fx-border-color: #CCCCCC;-fx-background:#FFFFFF">
+        <VBox>
+          <padding>
+            <Insets left="15"/>
+          </padding>
+          <HBox alignment="BASELINE_LEFT" style="-fx-padding: 10">
+            <Label text="搜索："/>
+            <TextField prefWidth="200" styleClass="search-text"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Hyperlink onAction="#openConfigDialog" text="设置"/>
+          </HBox>
+          <VBox fx:id="pluginCategories" alignment="TOP_CENTER">
+          </VBox>
+        </VBox>
+      </ScrollPane>
+    </Tab>
+  </TabPane>
 </VBox>

@@ -8,13 +8,14 @@
     -fx-background-radius: 5;
     -fx-padding: 5 5 10 5;
     -fx-border-color: transparent;
-    -fx-border-style: dashed;
+    -fx-border-style: solid;
     -fx-border-width: 1;
     -fx-border-radius: 5;
+    -fx-cursor: hand;
 }
 
 .app-layout .app-item:hover {
-    -fx-border-color: #aaaaaa;
+    -fx-border-color: #a0bde3;
 }
 
 .app-layout .app-item .hyperlink {
