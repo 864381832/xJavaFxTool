@@ -4,3 +4,6 @@
 /xJavaFxTool.iml
 /logs
 /target
+
+libs/
+system_plugin_list.json

@@ -1,25 +1,25 @@
 package com.xwintop.xJavaFxTool.services.index;
 
-import static org.apache.commons.lang3.StringUtils.substringBeforeLast;
-
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.plugin.PluginManager;
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
-/**
- * @ClassName: PluginManageService
- * @Description: 插件管理
- * @author: xufeng
- * @date: 2020/1/19 17:41
- */
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
 
+import static org.apache.commons.lang3.StringUtils.substringBeforeLast;
+
+/**
+ * 插件管理
+ *
+ * @author xufeng
+ */
 @Getter
 @Setter
 @Slf4j
@@ -32,6 +32,8 @@ public class PluginManageService {
     private PluginManageController pluginManageController;
 
     private PluginManager pluginManager = PluginManager.getInstance();
+
+    private Consumer<File> onPluginDownloaded;
 
     public PluginManageService(PluginManageController pluginManageController) {
         this.pluginManageController = pluginManageController;
@@ -80,8 +82,9 @@ public class PluginManageService {
         pluginJarInfo.setIsEnable(true);
 
         File file = pluginManager.downloadPlugin(pluginJarInfo);
-
-        pluginManageController.getIndexController().addToolMenu(file);
+        if (onPluginDownloaded != null) {
+            onPluginDownloaded.accept(file);
+        }
     }
 
     public void setIsEnableTableColumn(Integer index) {

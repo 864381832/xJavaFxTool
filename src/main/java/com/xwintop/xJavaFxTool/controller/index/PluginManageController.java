@@ -6,25 +6,23 @@ import com.xwintop.xJavaFxTool.services.index.PluginManageService;
 import com.xwintop.xJavaFxTool.view.index.PluginManageView;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
-import java.net.URL;
-import java.util.Map;
-import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.*;
 import javafx.util.Callback;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.File;
+import java.net.URL;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 /**
  * @ClassName: PluginManageController
@@ -46,8 +44,6 @@ public class PluginManageController extends PluginManageView {
 
     private FilteredList<Map<String, String>> pluginDataTableData = new FilteredList<>(originPluginData, m -> true);
 
-    private IndexController indexController;
-
     public static FXMLLoader getFXMLLoader() {
         return new FXMLLoader(IndexController.class.getResource(FXML));
     }
@@ -59,15 +55,18 @@ public class PluginManageController extends PluginManageView {
         initService();
     }
 
+    public void setOnPluginDownloaded(Consumer<File> onPluginDownloaded) {
+        this.pluginManageService.setOnPluginDownloaded(onPluginDownloaded);
+    }
+
     private void initView() {
         JavaFxViewUtil.setTableColumnMapValueFactory(nameTableColumn, "nameTableColumn");
         JavaFxViewUtil.setTableColumnMapValueFactory(synopsisTableColumn, "synopsisTableColumn");
         JavaFxViewUtil.setTableColumnMapValueFactory(versionTableColumn, "versionTableColumn");
         JavaFxViewUtil.setTableColumnMapValueFactory(isDownloadTableColumn, "isDownloadTableColumn");
         JavaFxViewUtil.setTableColumnMapAsCheckBoxValueFactory(isEnableTableColumn, "isEnableTableColumn",
-            (mouseEvent, index) -> {
-                pluginManageService.setIsEnableTableColumn(index);
-            });
+            (mouseEvent, index) -> pluginManageService.setIsEnableTableColumn(index)
+        );
 
         // TODO 实现插件的启用禁用
 

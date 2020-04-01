@@ -3,6 +3,10 @@ package com.xwintop.xJavaFxTool.plugin;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
+import com.xwintop.xcore.javafx.dialog.FxAlerts;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -16,8 +20,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 
 @Slf4j
 public class PluginManager {
@@ -76,6 +78,16 @@ public class PluginManager {
                     exist.setIsEnable(plugin.getIsEnable());
                 });
             });
+
+            this.pluginList.forEach(plugin -> {
+                if (plugin.getIsDownload() != null && plugin.getIsDownload()) {
+                    try {
+                        PluginParser.parse(plugin.getFile(), plugin);
+                    } catch (Exception e) {
+                        FxAlerts.error("解析本地插件文件失败", e);
+                    }
+                }
+            });
         } catch (IOException e) {
             log.error("读取插件配置失败", e);
         }
@@ -103,7 +115,14 @@ public class PluginManager {
         return CompletableFuture.runAsync(this::loadServerPlugins);
     }
 
-    private void addOrUpdatePlugin(PluginJarInfo pluginJarInfo,  Consumer<PluginJarInfo> ifExists) {
+    /**
+     * 向插件列表添加插件信息或更改插件列表中已有的插件信息
+     *
+     * @param pluginJarInfo 需要添加的插件信息
+     * @param ifExists      如果插件已存在，则不会将 pluginJarInfo 加入，
+     *                      而是提供已有的插件信息对象供调用者更新其属性
+     */
+    private void addOrUpdatePlugin(PluginJarInfo pluginJarInfo, Consumer<PluginJarInfo> ifExists) {
         PluginJarInfo exists = getPlugin(pluginJarInfo.getJarName());
         if (exists == null) {
             this.pluginList.add(pluginJarInfo);
@@ -120,7 +139,7 @@ public class PluginManager {
             throw new IllegalStateException("没有找到插件 " + pluginJarInfo.getJarName());
         }
 
-        File file = new File("libs/", pluginJarInfo.getJarName() + "-" + pluginJarInfo.getVersion() + ".jar");
+        File file = pluginJarInfo.getFile();
         HttpUtil.downloadFile(pluginJarInfo.getDownloadUrl(), file);
 
         plugin.setIsDownload(true);

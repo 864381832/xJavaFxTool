@@ -24,6 +24,7 @@
             <TextField prefWidth="200" styleClass="search-text"/>
             <Pane HBox.hgrow="ALWAYS"/>
             <Hyperlink onAction="#openConfigDialog" text="设置"/>
+            <Hyperlink onAction="#openPluginManager" text="插件管理"/>
           </HBox>
           <VBox fx:id="pluginCategories" alignment="TOP_CENTER">
           </VBox>
