@@ -43,9 +43,11 @@ public class PluginJarInfo {
 
     private String className;               // ？
 
-    private String menuId;                  // 菜单id
+    private String menuId;                  // （当是菜单时）菜单ID
 
-    private String menuParentId;            // 菜单父id
+    private String menuParentId;            // 上级菜单ID
+
+    private String menuParentTitle;         // 上级菜单标题（资源名）
 
     private Boolean isMenu = false;         // 是否为菜单
 
