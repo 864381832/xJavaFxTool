@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.web.WebView?>
 <VBox prefHeight="600" prefWidth="800" spacing="5"
       stylesheets="/com/xwintop/xJavaFxTool/fxmlView/newui/main.css"
       xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.2-internal"
@@ -30,6 +38,9 @@
           </VBox>
         </VBox>
       </ScrollPane>
+    </Tab>
+    <Tab text="欢迎吐槽">
+      <WebView fx:id="startWebView"/>
     </Tab>
   </TabPane>
 </VBox>

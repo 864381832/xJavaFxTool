@@ -1,6 +1,7 @@
 package com.xwintop.xJavaFxTool.newui;
 
 import com.xwintop.xJavaFxTool.Main;
+import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.plugin.PluginManager;
@@ -15,12 +16,15 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebView;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class NewLauncherController {
 
     public VBox pluginCategories;
+
+    public WebView startWebView;
 
     public void openConfigDialog() {
         SystemSettingService.openSystemSettings("设置");
@@ -46,10 +50,7 @@ public class NewLauncherController {
         for (PluginJarInfo jarInfo : pluginList) {
             String menuParentTitle = jarInfo.getMenuParentTitle();
             if (menuParentTitle != null) {
-
                 String categoryName = menuResourceBundle.getString(menuParentTitle);
-                String pluginName = jarInfo.getName();
-
                 PluginCategoryController category = categoryControllers.computeIfAbsent(
                     categoryName, __ -> {
                         PluginCategoryController _category =
@@ -63,6 +64,8 @@ public class NewLauncherController {
                 category.addItem(item);
             }
         }
+
+        startWebView.getEngine().load(IndexController.QQ_URL);
     }
 
     private void addCategory(PluginCategoryController category) {
