@@ -1,9 +1,8 @@
 package com.xwintop.xJavaFxTool.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import lombok.Data;
-
 import java.io.File;
+import lombok.Data;
 
 /**
  * 插件信息
@@ -63,5 +62,11 @@ public class PluginJarInfo {
     @JSONField(serialize = false)
     public File getFile() {
         return new File("libs/", getJarName() + "-" + getVersion() + ".jar");
+    }
+
+    @JSONField(serialize = false)
+    public String getDefaultIconPath() {
+        return bundleName == null ? "" :
+            (bundleName.replace("locale.", "/logo/") + ".png");
     }
 }

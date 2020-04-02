@@ -7,16 +7,15 @@ import com.xwintop.xJavaFxTool.plugin.PluginManager;
 import com.xwintop.xJavaFxTool.services.index.SystemSettingService;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.layout.VBox;
-import lombok.extern.slf4j.Slf4j;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.layout.VBox;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class NewLauncherController {
@@ -60,7 +59,7 @@ public class NewLauncherController {
                     }
                 );
 
-                PluginItemController item = PluginItemController.newInstance(pluginName);
+                PluginItemController item = PluginItemController.newInstance(jarInfo);
                 category.addItem(item);
             }
         }

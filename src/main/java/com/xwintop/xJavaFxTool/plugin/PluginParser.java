@@ -42,10 +42,12 @@ public class PluginParser {
                 menuTitles.put(menuElement.attributeValue("menuId"), menuElement.attributeValue("title"));
             }
 
+            String resourceBundleName = pluginElement.selectSingleNode("child::resourceBundleName").getText();
             String menuId = pluginElement.selectSingleNode("child::menuParentId").getText();
             String menuTitle = menuTitles.get(menuId);
 
             pluginJarInfo.setMenuParentTitle(menuTitle);
+            pluginJarInfo.setBundleName(resourceBundleName);
         }
 
     }
