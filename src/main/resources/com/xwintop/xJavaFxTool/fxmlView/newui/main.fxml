@@ -20,7 +20,7 @@
     <Insets topRightBottomLeft="5"/>
   </padding>
 
-  <TabPane VBox.vgrow="ALWAYS" tabMinWidth="45">
+  <TabPane VBox.vgrow="ALWAYS" tabMinWidth="45" fx:id="tabPane" tabClosingPolicy="ALL_TABS">
     <Tab closable="false" text="开始">
       <ScrollPane fitToWidth="true" style="-fx-border-width: 0 1 1 1;-fx-border-color: #CCCCCC;-fx-background:#FFFFFF">
         <VBox>

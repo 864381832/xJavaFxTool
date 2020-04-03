@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,8 @@ public class NewLauncherController {
     public VBox pluginCategories;
 
     public WebView startWebView;
+
+    public TabPane tabPane;
 
     public void openConfigDialog() {
         SystemSettingService.openSystemSettings("设置");
@@ -41,7 +44,12 @@ public class NewLauncherController {
     }
 
     public void initialize() {
+        NewLauncherService.getInstance().setController(this);
+        loadPlugins();  // 加载插件列表到界面上
+        startWebView.getEngine().load(IndexController.QQ_URL); // 额外再打开一个反馈页面，可关闭
+    }
 
+    private void loadPlugins() {
         List<PluginJarInfo> pluginList = PluginManager.getInstance().getPluginList();
         ResourceBundle menuResourceBundle = Main.RESOURCE_BUNDLE;
 
@@ -64,11 +72,13 @@ public class NewLauncherController {
                 category.addItem(item);
             }
         }
-
-        startWebView.getEngine().load(IndexController.QQ_URL);
     }
 
     private void addCategory(PluginCategoryController category) {
         this.pluginCategories.getChildren().add(category.root);
+    }
+
+    public TabPane getTabPane() {
+        return tabPane;
     }
 }

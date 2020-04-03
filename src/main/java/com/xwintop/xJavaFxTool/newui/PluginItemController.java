@@ -8,6 +8,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,6 +38,21 @@ public class PluginItemController {
     public void initialize() {
         // 当元素不可见时也从布局流中去掉
         this.root.managedProperty().bind(this.root.visibleProperty());
+        this.root.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            if (event.getButton() == MouseButton.PRIMARY) {
+                onMouseLeftClicked(event);
+            } else if (event.getButton() == MouseButton.SECONDARY) {
+                onMouseRightClicked(event);
+            }
+        });
+    }
+
+    private void onMouseRightClicked(MouseEvent event) {
+
+    }
+
+    private void onMouseLeftClicked(MouseEvent event) {
+        NewLauncherService.getInstance().loadPlugin(this.pluginJarInfo);
     }
 
     private void updateIcon() {

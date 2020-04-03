@@ -42,14 +42,22 @@ public class PluginParser {
                 menuTitles.put(menuElement.attributeValue("menuId"), menuElement.attributeValue("title"));
             }
 
-            String resourceBundleName = pluginElement.selectSingleNode("child::resourceBundleName").getText();
-            String menuId = pluginElement.selectSingleNode("child::menuParentId").getText();
+            String resourceBundleName = getChildNodeText(pluginElement, "resourceBundleName");
+            String menuId = getChildNodeText(pluginElement, "menuParentId");
+            String url = getChildNodeText(pluginElement, "url");
+            String controllerType = getChildNodeText(pluginElement, "controllerType");
             String menuTitle = menuTitles.get(menuId);
 
             pluginJarInfo.setMenuParentTitle(menuTitle);
             pluginJarInfo.setBundleName(resourceBundleName);
+            pluginJarInfo.setFxmlPath(url);
+            pluginJarInfo.setControllerType(controllerType);
         }
 
+    }
+
+    private static String getChildNodeText(Element element, String childNode) {
+        return element.selectSingleNode("child::" + childNode).getText();
     }
 
     private static Element createRootElement(JarFile jarFile, JarEntry entry) throws IOException, DocumentException {

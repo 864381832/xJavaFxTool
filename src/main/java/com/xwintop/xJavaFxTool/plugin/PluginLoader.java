@@ -2,7 +2,9 @@ package com.xwintop.xJavaFxTool.plugin;
 
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.utils.Config;
+import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
+import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Tab;
@@ -30,10 +32,15 @@ public class PluginLoader {
         }
     }
 
-
-    public static void loadPluginAsTab(PluginJarInfo plugin, TabPane tabPane) {
+    public static Tab loadPluginAsTab(PluginJarInfo plugin, TabPane tabPane) {
         try {
-            FXMLLoader generatingCodeFXMLLoader = new FXMLLoader(PluginLoader.class.getResource(plugin.getFxmlPath()));
+            URL resource = PluginLoader.class.getResource(plugin.getFxmlPath());
+            if (resource == null) {
+                FxAlerts.error("加载插件失败", "无法读取资源文件 '" + plugin.getFxmlPath() + "'");
+                return null;
+            }
+
+            FXMLLoader generatingCodeFXMLLoader = new FXMLLoader(resource);
 
             if (StringUtils.isNotEmpty(plugin.getBundleName())) {
                 ResourceBundle resourceBundle = ResourceBundle.getBundle(plugin.getBundleName(), Config.defaultLocale);
@@ -49,6 +56,7 @@ public class PluginLoader {
                 tab.setGraphic(imageView);
             }
 
+            tab.setText(plugin.getName());
             tab.setContent(generatingCodeFXMLLoader.load());
             tabPane.getTabs().add(tab);
             tabPane.getSelectionModel().select(tab);
@@ -56,9 +64,13 @@ public class PluginLoader {
             tab.setOnCloseRequest(
                 event -> JavaFxViewUtil.setControllerOnCloseRequest(generatingCodeFXMLLoader.getController(), event)
             );
+
+            return tab;
         } catch (Exception e) {
             log.error("加载插件失败", e);
         }
+
+        return null;
     }
 
 }
