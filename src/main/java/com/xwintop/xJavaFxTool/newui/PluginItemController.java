@@ -38,6 +38,7 @@ public class PluginItemController {
     public void initialize() {
         // 当元素不可见时也从布局流中去掉
         this.root.managedProperty().bind(this.root.visibleProperty());
+
         this.root.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
                 onMouseLeftClicked(event);
@@ -75,5 +76,13 @@ public class PluginItemController {
         this.pluginJarInfo = pluginJarInfo;
         this.pluginName.setText(pluginJarInfo.getName());
         updateIcon();
+    }
+
+    public boolean matchKeyword(String keyword) {
+        return this.pluginJarInfo.getName().toLowerCase().contains(keyword.toLowerCase());
+    }
+
+    public void setVisible(boolean visible) {
+        this.root.setVisible(visible);
     }
 }
