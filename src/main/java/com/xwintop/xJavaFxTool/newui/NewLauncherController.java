@@ -6,7 +6,9 @@ import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.plugin.PluginManager;
 import com.xwintop.xJavaFxTool.services.index.SystemSettingService;
+import com.xwintop.xcore.javafx.FxApp;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
+import com.xwintop.xcore.javafx.dialog.FxDialog;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
 import java.awt.Desktop;
 import java.io.IOException;
@@ -19,8 +21,10 @@ import java.util.ResourceBundle;
 import javafx.beans.Observable;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -41,6 +45,8 @@ public class NewLauncherController {
 
     public TextField txtSearch;
 
+    public Hyperlink lnkCreatePlugin;
+
     private ContextMenu itemContextMenu;
 
     // 实现搜索用
@@ -52,6 +58,7 @@ public class NewLauncherController {
         initContextMenu();
         loadPlugins();  // 加载插件列表到界面上
         startWebView.getEngine().load(IndexController.QQ_URL); // 额外再打开一个反馈页面，可关闭
+        lnkCreatePlugin.setVisible(Boolean.parseBoolean(System.getProperty("create", "false")));
     }
 
     private void initContextMenu() {
@@ -157,5 +164,21 @@ public class NewLauncherController {
         } catch (Exception e) {
             log.error("打开项目地址失败", e);
         }
+    }
+
+    public void openPluginCreator() {
+
+        FxDialog<PluginCreatorController> dialog = new FxDialog<PluginCreatorController>()
+            .setTitle("创建自己的插件")
+            .setBodyFxml("/com/xwintop/xJavaFxTool/fxmlView/newui/plugin-creator.fxml")
+            .setOwner(FxApp.primaryStage)
+            .setResizable(true)
+            .setButtonTypes(ButtonType.OK, ButtonType.CANCEL);
+
+        PluginCreatorController controller = dialog.show();
+
+        dialog
+            .setButtonHandler(ButtonType.OK, (actionEvent, stage) -> stage.close())
+            .setButtonHandler(ButtonType.CANCEL, (actionEvent, stage) -> stage.close());
     }
 }

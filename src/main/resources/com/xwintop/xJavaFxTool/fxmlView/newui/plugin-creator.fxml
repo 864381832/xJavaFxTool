@@ -1,0 +1,23 @@
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<VBox spacing="5" prefWidth="500" prefHeight="300"
+  xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.2-internal"
+  fx:controller="com.xwintop.xJavaFxTool.newui.PluginCreatorController">
+  <StackPane fx:id="stackPane" VBox.vgrow="ALWAYS">
+
+    <VBox visible="true" spacing="15">
+      <padding>
+        <Insets topRightBottomLeft="35"/>
+      </padding>
+      <Label fx:id="txtWelcome"/>
+      <Hyperlink text="下一步"/>
+    </VBox>
+
+    <VBox alignment="CENTER" visible="false">
+    </VBox>
+
+  </StackPane>
+</VBox>

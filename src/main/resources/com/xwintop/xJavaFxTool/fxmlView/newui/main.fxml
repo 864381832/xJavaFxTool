@@ -35,6 +35,7 @@
               text="https://gitee.com/xwintop/xJavaFxTool"/>
             <Hyperlink onAction="#openConfigDialog" text="设置"/>
             <Hyperlink onAction="#openPluginManager" text="插件管理"/>
+            <Hyperlink onAction="#openPluginCreator" text="新建" fx:id="lnkCreatePlugin"/>
           </HBox>
           <VBox fx:id="pluginCategories" alignment="TOP_CENTER">
           </VBox>
