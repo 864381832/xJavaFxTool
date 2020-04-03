@@ -17,6 +17,8 @@ import java.util.ResourceBundle;
 import javafx.beans.Observable;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -27,6 +29,8 @@ import org.apache.commons.lang3.StringUtils;
 @Slf4j
 public class NewLauncherController {
 
+    public static final String FAVORITE_CATEGORY_NAME = "置顶";
+
     public VBox pluginCategories;
 
     public WebView startWebView;
@@ -35,14 +39,31 @@ public class NewLauncherController {
 
     public TextField txtSearch;
 
+    private ContextMenu itemContextMenu;
+
     // 实现搜索用
     private List<PluginItemController> pluginItemControllers = new ArrayList<>();
 
     public void initialize() {
         NewLauncherService.getInstance().setController(this);
         txtSearch.textProperty().addListener(this::onSearchKeywordChanged);
+        initContextMenu();
         loadPlugins();  // 加载插件列表到界面上
         startWebView.getEngine().load(IndexController.QQ_URL); // 额外再打开一个反馈页面，可关闭
+    }
+
+    private void initContextMenu() {
+        CheckMenuItem chkFavorite = new CheckMenuItem("置顶");
+        chkFavorite.setStyle("-fx-padding: 0 35 0 0");
+
+        this.itemContextMenu = new ContextMenu(chkFavorite);
+
+        chkFavorite.setOnAction(event -> {
+            CheckMenuItem _this = (CheckMenuItem) event.getSource();
+            PluginItemController pluginItemController =
+                NewLauncherService.getInstance().getCurrentPluginItem();
+            setFavorite(pluginItemController, _this.isSelected());
+        });
     }
 
     public void onSearchKeywordChanged(Observable ob, String _old, String keyword) {
@@ -52,7 +73,24 @@ public class NewLauncherController {
         });
     }
 
+    private void setFavorite(PluginItemController itemController, boolean isFavorite) {
+        if (itemController == null) {
+            return;
+        }
+
+        itemController.getPluginJarInfo().setIsFavorite(isFavorite);
+        PluginManager.getInstance().saveToFileQuietly();
+        loadPlugins();
+    }
+
+    /**
+     * 加载/刷新插件列表
+     */
     private void loadPlugins() {
+
+        this.pluginCategories.getChildren().clear();
+        this.pluginItemControllers.clear();
+
         List<PluginJarInfo> pluginList = PluginManager.getInstance().getPluginList();
         ResourceBundle menuResourceBundle = Main.RESOURCE_BUNDLE;
 
@@ -61,7 +99,10 @@ public class NewLauncherController {
         for (PluginJarInfo jarInfo : pluginList) {
             String menuParentTitle = jarInfo.getMenuParentTitle();
             if (menuParentTitle != null) {
-                String categoryName = menuResourceBundle.getString(menuParentTitle);
+
+                String categoryName = jarInfo.getIsFavorite()?
+                    FAVORITE_CATEGORY_NAME : menuResourceBundle.getString(menuParentTitle);
+
                 PluginCategoryController category = categoryControllers.computeIfAbsent(
                     categoryName, __ -> {
                         PluginCategoryController _category =
@@ -72,6 +113,7 @@ public class NewLauncherController {
                 );
 
                 PluginItemController item = PluginItemController.newInstance(jarInfo);
+                item.setContextMenu(itemContextMenu);
                 category.addItem(item);
 
                 if (!pluginItemControllers.contains(item)) {
@@ -82,7 +124,11 @@ public class NewLauncherController {
     }
 
     private void addCategory(PluginCategoryController category) {
-        this.pluginCategories.getChildren().add(category.root);
+        if (category.lblCategoryName.getText().equals(FAVORITE_CATEGORY_NAME)) {
+            this.pluginCategories.getChildren().add(0, category.root);
+        } else {
+            this.pluginCategories.getChildren().add(category.root);
+        }
     }
 
     public TabPane getTabPane() {

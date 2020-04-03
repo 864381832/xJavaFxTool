@@ -5,6 +5,8 @@ import com.xwintop.xJavaFxTool.utils.ResourceUtils;
 import com.xwintop.xcore.javafx.helper.FxmlHelper;
 import java.net.URL;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -29,6 +31,8 @@ public class PluginItemController {
 
     private PluginJarInfo pluginJarInfo;
 
+    private ContextMenu contextMenu;
+
     public Label pluginName;
 
     public VBox root;
@@ -49,7 +53,10 @@ public class PluginItemController {
     }
 
     private void onMouseRightClicked(MouseEvent event) {
-
+        NewLauncherService.getInstance().setCurrentPluginItem(this);
+        CheckMenuItem chkFavorite = (CheckMenuItem) this.contextMenu.getItems().get(0);
+        chkFavorite.setSelected(this.pluginJarInfo.getIsFavorite());
+        this.contextMenu.show(this.root, event.getScreenX(), event.getScreenY());
     }
 
     private void onMouseLeftClicked(MouseEvent event) {
@@ -72,10 +79,18 @@ public class PluginItemController {
         }
     }
 
+    public void setContextMenu(ContextMenu contextMenu) {
+        this.contextMenu = contextMenu;
+    }
+
     private void setPluginInfo(PluginJarInfo pluginJarInfo) {
         this.pluginJarInfo = pluginJarInfo;
         this.pluginName.setText(pluginJarInfo.getName());
         updateIcon();
+    }
+
+    public PluginJarInfo getPluginJarInfo() {
+        return pluginJarInfo;
     }
 
     public boolean matchKeyword(String keyword) {

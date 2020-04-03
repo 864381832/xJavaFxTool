@@ -33,6 +33,8 @@ public class PluginJarInfo {
 
     private Boolean isEnable;       // 是否启用
 
+    private Boolean isFavorite;     // 是否置顶
+
     private Integer localVersionNumber;     // 插件本地版本
 
     ///////////////////////////////////////// 下面的属性来自插件描述文件 toolFxmlLoaderConfiguration.xml
@@ -56,6 +58,12 @@ public class PluginJarInfo {
     private String title;                   // （Tab 页或窗体）标题
 
     private String controllerType = "Node"; // 内容类型（Node/WebView）
+
+    ////////////////////////////////////////////////////////////
+
+    public boolean getIsFavorite() {
+        return this.isFavorite != null && this.isFavorite;
+    }
 
     ////////////////////////////////////////////////////////////
 

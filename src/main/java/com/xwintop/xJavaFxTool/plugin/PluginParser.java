@@ -1,12 +1,16 @@
 package com.xwintop.xJavaFxTool.plugin;
 
+import static org.apache.commons.lang.StringUtils.defaultString;
+
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
+import com.xwintop.xJavaFxTool.utils.Config;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Collectors;
@@ -43,15 +47,21 @@ public class PluginParser {
             }
 
             String resourceBundleName = getChildNodeText(pluginElement, "resourceBundleName");
+            ResourceBundle pluginResourceBundle = ResourceBundle.getBundle(resourceBundleName, Config.defaultLocale);
+
             String menuId = getChildNodeText(pluginElement, "menuParentId");
             String url = getChildNodeText(pluginElement, "url");
             String controllerType = getChildNodeText(pluginElement, "controllerType");
+            String title = pluginResourceBundle.getString(
+                defaultString(getChildNodeText(pluginElement, "title"), "Title")
+            );
             String menuTitle = menuTitles.get(menuId);
 
             pluginJarInfo.setMenuParentTitle(menuTitle);
             pluginJarInfo.setBundleName(resourceBundleName);
             pluginJarInfo.setFxmlPath(url);
             pluginJarInfo.setControllerType(controllerType);
+            pluginJarInfo.setTitle(title);
         }
 
     }

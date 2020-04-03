@@ -38,6 +38,10 @@ public class Main extends Application {
     private static Stage stage;
 
     public static void main(String[] args) {
+
+        XJavaFxSystemUtil.initSystemLocal();    // 初始化本地语言
+        XJavaFxSystemUtil.addJarByLibs();       // 添加外部jar包
+
         launch(args);
     }
 
@@ -49,9 +53,6 @@ public class Main extends Application {
         FxApp.init(primaryStage, LOGO_PATH);
         FxApp.setupIcon(primaryStage);
         FxApp.styleSheets.add(Main.class.getResource("/css/jfoenix-main.css").toExternalForm());
-
-        XJavaFxSystemUtil.initSystemLocal();//初始化本地语言
-        XJavaFxSystemUtil.addJarByLibs();//添加外部jar包
 
         primaryStage.setResizable(true);
         primaryStage.setTitle(RESOURCE_BUNDLE.getString("Title") + Config.xJavaFxToolVersions);

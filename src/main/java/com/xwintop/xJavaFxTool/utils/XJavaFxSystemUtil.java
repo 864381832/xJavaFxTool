@@ -41,7 +41,6 @@ public class XJavaFxSystemUtil {
      * @Description: 添加libs中jar包到系统中
      */
     public static void addJarByLibs() {
-        PluginManager.getInstance().loadLocalPlugins();
         try {
             // 系统类库路径
             File libPath = new File("libs/");
@@ -57,6 +56,7 @@ public class XJavaFxSystemUtil {
                     addJarClass(file);
                 }
             }
+            PluginManager.getInstance().loadLocalPlugins();
         } catch (Exception e) {
             log.error("添加libs中jar包到系统中异常:", e);
         }
@@ -68,6 +68,7 @@ public class XJavaFxSystemUtil {
      */
     public static void addJarClass(File jarFile) {
         try {
+            log.info("Reading lib file: " + jarFile.getName());
             Method method = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
             method.setAccessible(true); // 设置方法的访问权限
             // 获取系统类加载器

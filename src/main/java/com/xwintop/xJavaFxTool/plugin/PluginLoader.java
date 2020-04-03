@@ -56,7 +56,6 @@ public class PluginLoader {
                 tab.setGraphic(imageView);
             }
 
-            tab.setText(plugin.getName());
             tab.setContent(generatingCodeFXMLLoader.load());
             tabPane.getTabs().add(tab);
             tabPane.getSelectionModel().select(tab);

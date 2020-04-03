@@ -3,10 +3,6 @@ package com.xwintop.xJavaFxTool.plugin;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
-import com.xwintop.xcore.javafx.dialog.FxAlerts;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -20,6 +16,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class PluginManager {
@@ -30,8 +27,13 @@ public class PluginManager {
 
     public static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
 
+    private static PluginManager instance;
+
     public static PluginManager getInstance() {
-        return new PluginManager(LOCAL_PLUGINS_PATH);
+        if (instance == null) {
+            instance = new PluginManager(LOCAL_PLUGINS_PATH);
+        }
+        return instance;
     }
 
     //////////////////////////////////////////////////////////////
@@ -42,10 +44,7 @@ public class PluginManager {
 
     public PluginManager(String localPluginsPath) {
         this.localPluginsPath = localPluginsPath;
-
-        if (StringUtils.isNotEmpty(localPluginsPath)) {
-            loadLocalPlugins();
-        }
+        this.loadLocalPluginConfiguration();
     }
 
     ////////////////////////////////////////////////////////////// 查询插件
@@ -63,7 +62,10 @@ public class PluginManager {
 
     ////////////////////////////////////////////////////////////// 插件列表
 
-    public void loadLocalPlugins() {
+    /**
+     * 从配置文件中加载本地插件信息
+     */
+    private void loadLocalPluginConfiguration() {
         try {
             Path path = Paths.get(this.localPluginsPath);
             if (!Files.exists(path)) {
@@ -78,19 +80,24 @@ public class PluginManager {
                     exist.setIsEnable(plugin.getIsEnable());
                 });
             });
-
-            this.pluginList.forEach(plugin -> {
-                if (plugin.getIsDownload() != null && plugin.getIsDownload()) {
-                    try {
-                        PluginParser.parse(plugin.getFile(), plugin);
-                    } catch (Exception e) {
-                        FxAlerts.error("解析本地插件文件失败", e);
-                    }
-                }
-            });
         } catch (IOException e) {
             log.error("读取插件配置失败", e);
         }
+    }
+
+    /**
+     * 解析本地插件文件（必须在这之前先加入 classpath）
+     */
+    public void loadLocalPlugins() {
+        this.pluginList.forEach(plugin -> {
+            if (plugin.getIsDownload() != null && plugin.getIsDownload()) {
+                try {
+                    PluginParser.parse(plugin.getFile(), plugin);
+                } catch (Exception e) {
+                    log.error("解析失败", e);
+                }
+            }
+        });
     }
 
     public void loadServerPlugins() {
@@ -158,5 +165,13 @@ public class PluginManager {
             Paths.get(this.localPluginsPath),
             json.getBytes(DEFAULT_CHARSET)
         );
+    }
+
+    public void saveToFileQuietly() {
+        try {
+            saveToFile();
+        } catch (IOException e) {
+            log.error("", e);
+        }
     }
 }

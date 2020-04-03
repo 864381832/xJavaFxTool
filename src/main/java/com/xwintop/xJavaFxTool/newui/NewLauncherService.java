@@ -19,6 +19,8 @@ public class NewLauncherService {
 
     private Map<Tab, PluginJarInfo> jarInfoMap = new HashMap<>();
 
+    private PluginItemController currentPluginItem;
+
     public static NewLauncherService getInstance() {
         return instance;
     }
@@ -29,6 +31,14 @@ public class NewLauncherService {
 
     public void setController(NewLauncherController newLauncherController) {
         this.newLauncherController = newLauncherController;
+    }
+
+    public void setCurrentPluginItem(PluginItemController currentPluginItem) {
+        this.currentPluginItem = currentPluginItem;
+    }
+
+    public PluginItemController getCurrentPluginItem() {
+        return currentPluginItem;
     }
 
     public void loadPlugin(PluginJarInfo pluginJarInfo) {
@@ -46,4 +56,6 @@ public class NewLauncherService {
             jarInfoMap.put(tab, pluginJarInfo);
         }
     }
+
+
 }
