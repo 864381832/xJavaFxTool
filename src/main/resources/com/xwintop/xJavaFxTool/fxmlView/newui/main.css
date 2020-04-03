@@ -4,7 +4,7 @@
     -fx-max-width: -fx-pref-width;
     -fx-pref-height: 100;
     -fx-min-height: -fx-pref-height;
-    -fx-background-color: #f4f4f4;
+    -fx-background-color: #494949;
     -fx-background-radius: 5;
     -fx-padding: 5 5 10 5;
     -fx-border-color: transparent;
@@ -25,7 +25,7 @@
 .app-layout .app-item .app-item-title {
     -fx-font-weight: bold;
     -fx-padding: 0 5;
-    -fx-text-fill: #555555;
+    -fx-text-fill: #FFFFFF;
 }
 
 .app-layout .app-item.placeholder {
@@ -33,7 +33,7 @@
 
 .app-category-title {
     -fx-font-weight: bold;
-    -fx-text-fill: #888888;
+    -fx-text-fill: #AAAAAA;
 }
 
 .app-category {
@@ -44,6 +44,7 @@
     -fx-background-color: none;
     -fx-border-width: 0 0 1 0;
     -fx-border-color: #AAAAAA;
+    -fx-text-fill: #FFFFFF;
 }
 
 .search-text:focused {

@@ -8,7 +8,9 @@ import com.xwintop.xJavaFxTool.plugin.PluginManager;
 import com.xwintop.xJavaFxTool.services.index.SystemSettingService;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
+import java.awt.Desktop;
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -146,6 +148,14 @@ public class NewLauncherController {
             JavaFxViewUtil.openNewWindow(Main.RESOURCE_BUNDLE.getString("plugin_manage"), root);
         } catch (IOException e) {
             FxAlerts.error("打开插件管理对话框失败", e);
+        }
+    }
+
+    public void openProjectUrl() {
+        try {
+            Desktop.getDesktop().browse(new URI("https://gitee.com/xwintop/xJavaFxTool"));
+        } catch (Exception e) {
+            log.error("打开项目地址失败", e);
         }
     }
 }
