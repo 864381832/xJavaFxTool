@@ -4,33 +4,29 @@ import com.xwintop.xJavaFxTool.Main;
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
+import com.xwintop.xJavaFxTool.newui.creator.CreatePluginProjectService;
+import com.xwintop.xJavaFxTool.newui.creator.PluginProjectInfo;
 import com.xwintop.xJavaFxTool.plugin.PluginManager;
 import com.xwintop.xJavaFxTool.services.index.SystemSettingService;
 import com.xwintop.xcore.javafx.FxApp;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import com.xwintop.xcore.javafx.dialog.FxDialog;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
-import java.awt.Desktop;
-import java.io.IOException;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
 import javafx.beans.Observable;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckMenuItem;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.util.List;
+import java.util.*;
 
 @Slf4j
 public class NewLauncherController {
@@ -109,7 +105,7 @@ public class NewLauncherController {
             String menuParentTitle = jarInfo.getMenuParentTitle();
             if (menuParentTitle != null) {
 
-                String categoryName = jarInfo.getIsFavorite()?
+                String categoryName = jarInfo.getIsFavorite() ?
                     FAVORITE_CATEGORY_NAME : menuResourceBundle.getString(menuParentTitle);
 
                 PluginCategoryController category = categoryControllers.computeIfAbsent(
@@ -178,7 +174,15 @@ public class NewLauncherController {
         PluginCreatorController controller = dialog.show();
 
         dialog
-            .setButtonHandler(ButtonType.OK, (actionEvent, stage) -> stage.close())
+            .setButtonHandler(ButtonType.OK, (actionEvent, stage) -> {
+                if (controller.isStartCreation()) {
+                    PluginProjectInfo info = controller.getPluginProjectInfo();
+                    CreatePluginProjectService.getInstance().createProject(info);
+                    FxAlerts.info("创建成功", "项目 '" + info.getArtifactId() + "' 已经创建完毕。");
+                    // todo open directory
+                }
+                stage.close();
+            })
             .setButtonHandler(ButtonType.CANCEL, (actionEvent, stage) -> stage.close());
     }
 }
