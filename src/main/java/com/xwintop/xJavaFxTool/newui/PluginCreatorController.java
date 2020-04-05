@@ -75,6 +75,13 @@ public class PluginCreatorController {
         }
     }
 
+    public void choosePluginLocation() {
+        File pluginLocation = FileChooserUtil.chooseDirectory();
+        if (pluginLocation != null) {
+            this.txtLocation.setText(pluginLocation.getAbsolutePath());
+        }
+    }
+
     public PluginProjectInfo getPluginProjectInfo() {
         PluginProjectInfo pluginProjectInfo = new PluginProjectInfo();
         pluginProjectInfo.setLocation(this.txtLocation.getText());

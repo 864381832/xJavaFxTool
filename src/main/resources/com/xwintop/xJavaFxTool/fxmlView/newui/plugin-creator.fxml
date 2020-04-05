@@ -24,7 +24,7 @@
       <HBox alignment="BASELINE_LEFT" spacing="5">
         <Label text="项目位置: " prefWidth="$labelWidth"/>
         <TextField HBox.hgrow="ALWAYS" fx:id="txtLocation"/>
-        <Button text="..."/>
+        <Button text="..." onAction="#choosePluginLocation"/>
       </HBox>
          <HBox alignment="BASELINE_LEFT" spacing="5">
         <Label text="groupId: " prefWidth="$labelWidth"/>
