@@ -1,10 +1,9 @@
 package com.xwintop.xJavaFxTool.javafx.tool;
 
 import com.xwintop.xcore.util.StrUtil;
+import java.lang.reflect.Field;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.junit.Test;
-
-import java.lang.reflect.Field;
 
 public class TableBeanTool {
 	@Test
@@ -27,7 +26,7 @@ public class TableBeanTool {
 			String typeName = field.getType().getSimpleName();
 			String typeSimpleName = typeName.substring(6, typeName.indexOf("Property"));
 			String typeClassName = typeName.substring(6);
-			String UpFieldName = StrUtil.fristToUpCase(fieldName);
+			String UpFieldName = StrUtil.firstToUpCase(fieldName);
 			
 			stringBuffer.append(typeSimpleName).append(" "+fieldName+",");
 			stringBuffer2.append("this."+fieldName+" = new "+typeName+"("+fieldName+");\n");
