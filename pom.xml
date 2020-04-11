@@ -55,6 +55,12 @@
       <artifactId>xcore</artifactId>
       <version>0.0.4-SNAPSHOT</version>
     </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.6</version>
+      <scope>provided</scope>
+    </dependency>
     <!-- dom4j 需要的依赖 -->
     <dependency>
       <groupId>jaxen</groupId>

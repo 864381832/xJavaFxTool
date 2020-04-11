@@ -1,8 +1,13 @@
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
 <?import java.lang.Integer?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <VBox spacing="5" prefWidth="500" prefHeight="300"
       xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.2-internal"
       fx:controller="com.xwintop.xJavaFxTool.newui.PluginCreatorController">
@@ -28,11 +33,11 @@
       </HBox>
          <HBox alignment="BASELINE_LEFT" spacing="5">
         <Label text="groupId: " prefWidth="$labelWidth"/>
-        <TextField HBox.hgrow="ALWAYS" fx:id="txtGroupId"/>
+        <TextField HBox.hgrow="ALWAYS" fx:id="txtGroupId" text="com.example"/>
       </HBox>
       <HBox alignment="BASELINE_LEFT" spacing="5">
         <Label text="artifactId: " prefWidth="$labelWidth"/>
-        <TextField HBox.hgrow="ALWAYS" fx:id="txtArtifactId"/>
+        <TextField HBox.hgrow="ALWAYS" fx:id="txtArtifactId" text="sample-plugin"/>
       </HBox>
       <HBox alignment="BASELINE_LEFT" spacing="5">
         <Label text="version: " prefWidth="$labelWidth"/>
@@ -40,7 +45,11 @@
       </HBox>
       <HBox alignment="BASELINE_LEFT" spacing="5">
         <Label text="插件名称: " prefWidth="$labelWidth"/>
-        <TextField HBox.hgrow="ALWAYS" fx:id="txtPluginName"/>
+        <TextField HBox.hgrow="ALWAYS" fx:id="txtPluginName" text="MyPlugin"/>
+      </HBox>
+      <HBox alignment="BASELINE_LEFT" spacing="5">
+        <Label text="插件标题: " prefWidth="$labelWidth"/>
+        <TextField HBox.hgrow="ALWAYS" fx:id="txtPluginTitle" text="我的插件"/>
       </HBox>
       <HBox spacing="5" style="-fx-padding: 5 0 0 0">
         <Label text="插件图标: " prefWidth="$labelWidth"/>

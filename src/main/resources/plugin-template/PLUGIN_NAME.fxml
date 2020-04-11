@@ -1,0 +1,5 @@
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<VBox alignment="CENTER" fx:controller="[CONTROLLER]" xmlns:fx="fxml">
+  <Label text="src/main/resources/fxml/[PLUGIN_NAME].fxml"/>
+</VBox>

@@ -2,6 +2,8 @@ package com.xwintop.xJavaFxTool.newui;
 
 import com.xwintop.xJavaFxTool.newui.creator.PluginProjectInfo;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
+import java.io.File;
+import java.net.MalformedURLException;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -9,9 +11,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
-
-import java.io.File;
-import java.net.MalformedURLException;
 
 public class PluginCreatorController {
 
@@ -38,6 +37,8 @@ public class PluginCreatorController {
     public TextField txtVersion;
 
     public TextField txtPluginName;
+
+    public TextField txtPluginTitle;
 
     private boolean startCreation;
 
@@ -89,6 +90,7 @@ public class PluginCreatorController {
         pluginProjectInfo.setArtifactId(this.txtArtifactId.getText());
         pluginProjectInfo.setVersion(this.txtVersion.getText());
         pluginProjectInfo.setPluginName(this.txtPluginName.getText());
+        pluginProjectInfo.setPluginTitle(this.txtPluginTitle.getText());
         pluginProjectInfo.setPluginLogo(this.imgPluginLogo.getImage());
         return pluginProjectInfo;
     }

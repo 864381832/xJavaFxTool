@@ -12,21 +12,28 @@ import com.xwintop.xcore.javafx.FxApp;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import com.xwintop.xcore.javafx.dialog.FxDialog;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 import javafx.beans.Observable;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
-import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-
-import java.awt.*;
-import java.io.IOException;
-import java.net.URI;
-import java.util.List;
-import java.util.*;
 
 @Slf4j
 public class NewLauncherController {
@@ -46,7 +53,7 @@ public class NewLauncherController {
     private ContextMenu itemContextMenu;
 
     // 实现搜索用
-    private List<PluginItemController> pluginItemControllers = new ArrayList<>();
+    private final List<PluginItemController> pluginItemControllers = new ArrayList<>();
 
     public void initialize() {
         NewLauncherService.getInstance().setController(this);
@@ -54,7 +61,6 @@ public class NewLauncherController {
         initContextMenu();
         loadPlugins();  // 加载插件列表到界面上
         startWebView.getEngine().load(IndexController.QQ_URL); // 额外再打开一个反馈页面，可关闭
-        lnkCreatePlugin.setVisible(Boolean.parseBoolean(System.getProperty("create", "false")));
     }
 
     private void initContextMenu() {
@@ -176,10 +182,14 @@ public class NewLauncherController {
         dialog
             .setButtonHandler(ButtonType.OK, (actionEvent, stage) -> {
                 if (controller.isStartCreation()) {
-                    PluginProjectInfo info = controller.getPluginProjectInfo();
-                    CreatePluginProjectService.getInstance().createProject(info);
-                    FxAlerts.info("创建成功", "项目 '" + info.getArtifactId() + "' 已经创建完毕。");
-                    // todo open directory
+                    try {
+                        PluginProjectInfo info = controller.getPluginProjectInfo();
+                        CreatePluginProjectService.getInstance().createProject(info);
+                        FxAlerts.info("创建成功", "项目 '" + info.getArtifactId() + "' 已经创建完毕。");
+                        Desktop.getDesktop().open(new File(info.getLocation()));
+                    } catch (IOException e) {
+                        FxAlerts.error("打开目标文件夹失败", e);
+                    }
                 }
                 stage.close();
             })
