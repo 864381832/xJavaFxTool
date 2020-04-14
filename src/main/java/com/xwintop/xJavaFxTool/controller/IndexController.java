@@ -9,6 +9,7 @@ import com.xwintop.xJavaFxTool.services.IndexService;
 import com.xwintop.xJavaFxTool.services.index.PluginManageService;
 import com.xwintop.xJavaFxTool.services.index.SystemSettingService;
 import com.xwintop.xJavaFxTool.utils.Config;
+import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import com.xwintop.xJavaFxTool.view.IndexView;
 import com.xwintop.xcore.util.ConfigureUtil;
 import com.xwintop.xcore.util.HttpClientUtil;
@@ -272,6 +273,7 @@ public class IndexController extends IndexView {
         PluginManageController pluginManageController = fXMLLoader.getController();
         pluginManageController.setOnPluginDownloaded(jarFile -> {
             try {
+                XJavaFxSystemUtil.addJarClass(jarFile);
                 this.addToolMenu(jarFile);
             } catch (Exception e) {
                 log.error("加载工具出错：", e);
