@@ -105,6 +105,7 @@ public class IndexService {
         PluginJarInfo pluginJarInfo = PluginManager.getInstance().getPluginByFxmlPath(fxmlPath);
         if (pluginJarInfo == null) {
             FxAlerts.error("打开失败", "没有找到指定的插件");
+            return;
         }
 
         if (indexController.getSingleWindowBootCheckBox().isSelected()) {

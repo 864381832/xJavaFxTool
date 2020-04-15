@@ -4,7 +4,9 @@ import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -15,8 +17,21 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.Interceptor;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request.Builder;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
+import okio.Buffer;
+import okio.BufferedSource;
+import okio.ForwardingSource;
+import okio.Okio;
+import okio.Source;
+import org.apache.commons.io.IOUtils;
 
 @Slf4j
 public class PluginManager {
@@ -39,6 +54,9 @@ public class PluginManager {
     //////////////////////////////////////////////////////////////
 
     private final String localPluginsPath;
+
+    private final OkHttpClient pluginDownloader =
+        new OkHttpClient.Builder().addInterceptor(new DownloadProgressInterceptor()).build();
 
     private final List<PluginJarInfo> pluginList = new ArrayList<>(); // 插件列表
 
@@ -163,14 +181,44 @@ public class PluginManager {
         return file;
     }
 
+    public File downloadPlugin(
+        PluginJarInfo pluginJarInfo, BiConsumer<Long, Long> onProgressUpdate
+    ) throws IOException {
+
+        PluginJarInfo plugin = getPlugin(pluginJarInfo.getJarName());
+        if (plugin == null) {
+            throw new IllegalStateException("没有找到插件 " + pluginJarInfo.getJarName());
+        }
+
+        File file = pluginJarInfo.getFile();
+        this.currentProgressListener =
+            (bytesRead, contentLength, done) -> onProgressUpdate.accept(contentLength, bytesRead);
+
+        try (
+            Response response = pluginDownloader
+                .newCall(new Builder().url(pluginJarInfo.getDownloadUrl()).build())
+                .execute();
+            InputStream inputStream = response.body().byteStream();
+            FileOutputStream outputStream = new FileOutputStream(file)
+        ) {
+            IOUtils.copy(inputStream, outputStream);
+        }
+
+        plugin.setIsDownload(true);
+        plugin.setIsEnable(true);
+        plugin.setLocalVersionNumber(plugin.getVersionNumber());
+        return file;
+    }
+
     ////////////////////////////////////////////////////////////// 保存配置
 
     public void saveToFile() throws IOException {
         String json = JSON.toJSONString(this.pluginList, true);
-        Files.write(
-            Paths.get(this.localPluginsPath),
-            json.getBytes(DEFAULT_CHARSET)
-        );
+        Path path = Paths.get(this.localPluginsPath);
+        if (!Files.exists(path)) {
+            Files.createFile(path);
+        }
+        Files.write(path, json.getBytes(DEFAULT_CHARSET));
     }
 
     public void saveToFileQuietly() {
@@ -179,5 +227,78 @@ public class PluginManager {
         } catch (IOException e) {
             log.error("", e);
         }
+    }
+
+    ////////////////////////////////////////////////////////////// 下载进度
+
+    private ProgressListener currentProgressListener;
+
+    private class DownloadProgressInterceptor implements Interceptor {
+
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            Response originalResponse = chain.proceed(chain.request());
+            return originalResponse.newBuilder()
+                .body(new ProgressResponseBody(originalResponse.body(),
+                    (bytesRead, contentLength, done) -> {
+                        if (currentProgressListener != null) {
+                            currentProgressListener.update(bytesRead, contentLength, done);
+                        }
+                    }
+                ))
+                .build();
+        }
+    }
+
+    private static class ProgressResponseBody extends ResponseBody {
+
+        private final ResponseBody responseBody;
+
+        private final ProgressListener progressListener;
+
+        private BufferedSource bufferedSource;
+
+        ProgressResponseBody(ResponseBody responseBody, ProgressListener progressListener) {
+            this.responseBody = responseBody;
+            this.progressListener = progressListener;
+        }
+
+        @Override
+        public MediaType contentType() {
+            return responseBody.contentType();
+        }
+
+        @Override
+        public long contentLength() {
+            return responseBody.contentLength();
+        }
+
+        @Override
+        public BufferedSource source() {
+            if (bufferedSource == null) {
+                bufferedSource = Okio.buffer(source(responseBody.source()));
+            }
+            return bufferedSource;
+        }
+
+        private Source source(Source source) {
+            return new ForwardingSource(source) {
+                long totalBytesRead = 0L;
+
+                @Override
+                public long read(Buffer sink, long byteCount) throws IOException {
+                    long bytesRead = super.read(sink, byteCount);
+                    // read() returns the number of bytes read, or -1 if this source is exhausted.
+                    totalBytesRead += bytesRead != -1 ? bytesRead : 0;
+                    progressListener.update(totalBytesRead, responseBody.contentLength(), bytesRead == -1);
+                    return bytesRead;
+                }
+            };
+        }
+    }
+
+    interface ProgressListener {
+
+        void update(long bytesRead, long contentLength, boolean done);
     }
 }

@@ -1,19 +1,21 @@
 package com.xwintop.xJavaFxTool.services.index;
 
+import static org.apache.commons.lang3.StringUtils.substringBeforeLast;
+
+import com.xwintop.xJavaFxTool.AppException;
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.plugin.PluginManager;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-
+import com.xwintop.xcore.javafx.dialog.FxProgressDialog;
+import com.xwintop.xcore.javafx.dialog.ProgressTask;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
-
-import static org.apache.commons.lang3.StringUtils.substringBeforeLast;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 插件管理
@@ -81,10 +83,26 @@ public class PluginManageService {
         pluginJarInfo.setIsDownload(true);
         pluginJarInfo.setIsEnable(true);
 
-        File file = pluginManager.downloadPlugin(pluginJarInfo);
-        if (onPluginDownloaded != null) {
-            onPluginDownloaded.accept(file);
-        }
+        ProgressTask progressTask = new ProgressTask() {
+            @Override
+            protected void execute() throws Exception {
+                File file = pluginManager.downloadPlugin(
+                    pluginJarInfo, (total, current) -> updateProgress(current, total)
+                );
+
+                if (onPluginDownloaded != null) {
+                    onPluginDownloaded.accept(file);
+                }
+            }
+        };
+
+        progressTask.setOnCancelled(event -> {
+            throw new AppException("下载被取消。");
+        });
+
+        FxProgressDialog
+            .create(pluginManageController.getWindow(), progressTask, "正在下载插件 " + pluginJarInfo.getName() + "...")
+            .showAndWait();
     }
 
     public void setIsEnableTableColumn(Integer index) {

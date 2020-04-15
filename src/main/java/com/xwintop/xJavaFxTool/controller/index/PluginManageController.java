@@ -6,23 +6,28 @@ import com.xwintop.xJavaFxTool.services.index.PluginManageService;
 import com.xwintop.xJavaFxTool.view.index.PluginManageView;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
+import java.io.File;
+import java.net.URL;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.function.Consumer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.stage.Window;
 import javafx.util.Callback;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-
-import java.io.File;
-import java.net.URL;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.function.Consumer;
 
 /**
  * @ClassName: PluginManageController
@@ -53,6 +58,10 @@ public class PluginManageController extends PluginManageView {
         initView();
         initEvent();
         initService();
+    }
+
+    public Window getWindow() {
+        return this.pluginDataTableView.getScene().getWindow();
     }
 
     public void setOnPluginDownloaded(Consumer<File> onPluginDownloaded) {
@@ -95,6 +104,7 @@ public class PluginManageController extends PluginManageView {
                                         downloadButton.setText("已下载");
                                         downloadButton.setDisable(true);
                                         pluginDataTableView.refresh();
+                                        PluginManager.getInstance().saveToFile();
                                         TooltipUtil.showToast("插件 " + dataRow.get("nameTableColumn") + " 下载完成");
                                     } catch (Exception e) {
                                         log.error("下载插件失败：", e);

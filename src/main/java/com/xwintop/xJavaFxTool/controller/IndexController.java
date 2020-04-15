@@ -5,6 +5,7 @@ import static com.xwintop.xJavaFxTool.utils.Config.Keys.NotepadEnabled;
 
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
 import com.xwintop.xJavaFxTool.model.ToolFxmlLoaderConfiguration;
+import com.xwintop.xJavaFxTool.plugin.PluginManager;
 import com.xwintop.xJavaFxTool.services.IndexService;
 import com.xwintop.xJavaFxTool.services.index.PluginManageService;
 import com.xwintop.xJavaFxTool.services.index.SystemSettingService;
@@ -275,6 +276,7 @@ public class IndexController extends IndexView {
             try {
                 XJavaFxSystemUtil.addJarClass(jarFile);
                 this.addToolMenu(jarFile);
+                PluginManager.getInstance().loadLocalPlugins();
             } catch (Exception e) {
                 log.error("加载工具出错：", e);
             }
