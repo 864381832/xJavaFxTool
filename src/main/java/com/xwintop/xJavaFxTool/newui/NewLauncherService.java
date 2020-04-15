@@ -51,7 +51,7 @@ public class NewLauncherService {
             }
         }
 
-        Tab tab = PluginLoader.loadPluginAsTab(pluginJarInfo, tabPane);
+        Tab tab = PluginLoader.loadIsolatedPluginAsTab(pluginJarInfo, tabPane);
         if (tab != null) {
             tab.setOnClosed(event -> this.jarInfoMap.remove(tab));
             jarInfoMap.put(tab, pluginJarInfo);

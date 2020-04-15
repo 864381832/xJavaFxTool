@@ -60,6 +60,12 @@ public class PluginManager {
             .findFirst().orElse(null);
     }
 
+    public PluginJarInfo getPluginByFxmlPath(String fxmlPath) {
+        return this.pluginList.stream()
+            .filter(plugin -> Objects.equals(plugin.getFxmlPath(), fxmlPath))
+            .findFirst().orElse(null);
+    }
+
     ////////////////////////////////////////////////////////////// 插件列表
 
     /**

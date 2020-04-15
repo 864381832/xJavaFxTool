@@ -4,6 +4,7 @@ import com.xwintop.xJavaFxTool.common.logback.ConsoleLogAppender;
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.plugin.PluginLoader;
+import com.xwintop.xJavaFxTool.plugin.PluginManager;
 import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xJavaFxTool.utils.FxmlUtils;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
@@ -27,6 +28,7 @@ import org.apache.commons.lang3.StringUtils;
 
 @Setter
 public class IndexService {
+
     private IndexController indexController;
 
     public IndexService(IndexController indexController) {
@@ -77,7 +79,8 @@ public class IndexService {
         textArea.setFocusTraversable(true);
         ConsoleLogAppender.textAreaList.add(textArea);
         if (indexController.getSingleWindowBootCheckBox().isSelected()) {
-            Stage newStage = JavaFxViewUtil.getNewStage(indexController.getBundle().getString("addLogConsole"), null, textArea);
+            Stage newStage = JavaFxViewUtil
+                .getNewStage(indexController.getBundle().getString("addLogConsole"), null, textArea);
             newStage.setOnCloseRequest(event1 -> {
                 ConsoleLogAppender.textAreaList.remove(textArea);
             });
@@ -95,21 +98,19 @@ public class IndexService {
     }
 
     /**
-     * @Title: addContent
-     * @Description: 添加Content内容
+     * 添加Content内容
      */
-    public void addContent(String title, String url, String resourceBundleName, String iconPath) {
+    public void addContent(String title, String fxmlPath, String resourceBundleName, String iconPath) {
 
-        PluginJarInfo plugin = new PluginJarInfo();
-        plugin.setTitle(title);
-        plugin.setFxmlPath(url);
-        plugin.setBundleName(resourceBundleName);
-        plugin.setIconPath(iconPath);
+        PluginJarInfo pluginJarInfo = PluginManager.getInstance().getPluginByFxmlPath(fxmlPath);
+        if (pluginJarInfo == null) {
+            FxAlerts.error("打开失败", "没有找到指定的插件");
+        }
 
         if (indexController.getSingleWindowBootCheckBox().isSelected()) {
-            PluginLoader.loadPluginAsWindow(plugin);
+            PluginLoader.loadPluginAsWindow(pluginJarInfo);
         } else {
-            PluginLoader.loadPluginAsTab(plugin, indexController.getTabPaneMain());
+            PluginLoader.loadPluginAsTab(pluginJarInfo, indexController.getTabPaneMain());
         }
     }
 
