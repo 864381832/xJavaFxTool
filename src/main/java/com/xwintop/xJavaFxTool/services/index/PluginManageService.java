@@ -1,21 +1,22 @@
 package com.xwintop.xJavaFxTool.services.index;
 
-import static org.apache.commons.lang3.StringUtils.substringBeforeLast;
-
 import com.xwintop.xJavaFxTool.AppException;
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.plugin.PluginManager;
 import com.xwintop.xcore.javafx.dialog.FxProgressDialog;
 import com.xwintop.xcore.javafx.dialog.ProgressTask;
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Consumer;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
+
+import static org.apache.commons.lang3.StringUtils.substringBeforeLast;
 
 /**
  * 插件管理
@@ -72,16 +73,10 @@ public class PluginManageService {
         pluginManageController.getOriginPluginData().add(dataRow);
     }
 
-    public void downloadPluginJar(Map<String, String> dataRow) throws Exception {
-        PluginJarInfo pluginJarInfo = new PluginJarInfo();
-        pluginJarInfo.setName(dataRow.get("nameTableColumn"));
-        pluginJarInfo.setSynopsis(dataRow.get("synopsisTableColumn"));
-        pluginJarInfo.setVersion(dataRow.get("versionTableColumn"));
-        pluginJarInfo.setVersionNumber(Integer.parseInt(dataRow.get("versionNumber")));
-        pluginJarInfo.setDownloadUrl(dataRow.get("downloadUrl"));
-        pluginJarInfo.setJarName(dataRow.get("jarName"));
-        pluginJarInfo.setIsDownload(true);
-        pluginJarInfo.setIsEnable(true);
+    public PluginJarInfo downloadPluginJar(Map<String, String> dataRow) throws Exception {
+
+        String jarName = dataRow.get("jarName");
+        PluginJarInfo pluginJarInfo = pluginManager.getPlugin(jarName);
 
         ProgressTask progressTask = new ProgressTask() {
             @Override
@@ -103,6 +98,8 @@ public class PluginManageService {
         FxProgressDialog
             .create(pluginManageController.getWindow(), progressTask, "正在下载插件 " + pluginJarInfo.getName() + "...")
             .showAndWait();
+
+        return pluginJarInfo;
     }
 
     public void setIsEnableTableColumn(Integer index) {

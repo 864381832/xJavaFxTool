@@ -1,9 +1,13 @@
 package com.xwintop.xJavaFxTool.plugin;
 
-import static org.apache.commons.lang.StringUtils.defaultString;
-
+import com.xwintop.xJavaFxTool.AppException;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.utils.Config;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,10 +18,8 @@ import java.util.ResourceBundle;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Collectors;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
+
+import static org.apache.commons.lang.StringUtils.defaultString;
 
 /**
  * 用来解析插件文件中的 toolFxmlLoaderConfiguration.xml
@@ -29,7 +31,7 @@ public class PluginParser {
     /**
      * 解析插件文件，补完 pluginJarInfo 属性
      */
-    public static void parse(File pluginFile, PluginJarInfo pluginJarInfo) throws IOException, DocumentException {
+    public static void parse(File pluginFile, PluginJarInfo pluginJarInfo) {
         try (JarFile jarFile = new JarFile(pluginFile)) {
 
             JarEntry entry = jarFile.getJarEntry(ENTRY_NAME);
@@ -62,8 +64,9 @@ public class PluginParser {
             pluginJarInfo.setFxmlPath(url);
             pluginJarInfo.setControllerType(controllerType);
             pluginJarInfo.setTitle(title);
+        } catch (IOException | DocumentException e) {
+            throw new AppException(e);
         }
-
     }
 
     private static String getChildNodeText(Element element, String childNode) {

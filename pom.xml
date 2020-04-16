@@ -59,7 +59,7 @@
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>1.18.6</version>
-      <scope>provided</scope>
+      <optional>true</optional>
     </dependency>
     <!-- dom4j 需要的依赖 -->
     <dependency>

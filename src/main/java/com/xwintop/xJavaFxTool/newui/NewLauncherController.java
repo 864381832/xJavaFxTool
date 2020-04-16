@@ -3,16 +3,29 @@ package com.xwintop.xJavaFxTool.newui;
 import com.xwintop.xJavaFxTool.Main;
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
+import com.xwintop.xJavaFxTool.event.AppEvents;
+import com.xwintop.xJavaFxTool.event.PluginEvent;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.newui.creator.CreatePluginProjectService;
 import com.xwintop.xJavaFxTool.newui.creator.PluginProjectInfo;
 import com.xwintop.xJavaFxTool.plugin.PluginManager;
+import com.xwintop.xJavaFxTool.plugin.PluginParser;
 import com.xwintop.xJavaFxTool.services.index.SystemSettingService;
 import com.xwintop.xcore.javafx.FxApp;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import com.xwintop.xcore.javafx.dialog.FxDialog;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
-import java.awt.Desktop;
+import javafx.beans.Observable;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
+import javafx.scene.web.WebView;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -20,20 +33,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
-import javafx.beans.Observable;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckMenuItem;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
-import javafx.scene.web.WebView;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 
 @Slf4j
 public class NewLauncherController {
@@ -55,12 +54,22 @@ public class NewLauncherController {
     // 实现搜索用
     private final List<PluginItemController> pluginItemControllers = new ArrayList<>();
 
+    private final Map<String, PluginCategoryController> categoryControllers = new HashMap<>();
+
     public void initialize() {
         NewLauncherService.getInstance().setController(this);
         txtSearch.textProperty().addListener(this::onSearchKeywordChanged);
+
         initContextMenu();
         loadPlugins();  // 加载插件列表到界面上
+
         startWebView.getEngine().load(IndexController.QQ_URL); // 额外再打开一个反馈页面，可关闭
+
+        AppEvents.addEventHandler(PluginEvent.PLUGIN_DOWNLOADED, pluginEvent -> {
+            PluginJarInfo pluginJarInfo = pluginEvent.getPluginJarInfo();
+            PluginParser.parse(pluginJarInfo.getFile(), pluginJarInfo);
+            loadPlugins();
+        });
     }
 
     private void initContextMenu() {
@@ -101,35 +110,34 @@ public class NewLauncherController {
 
         this.pluginCategories.getChildren().clear();
         this.pluginItemControllers.clear();
+        this.categoryControllers.clear();
 
         List<PluginJarInfo> pluginList = PluginManager.getInstance().getPluginList();
-        ResourceBundle menuResourceBundle = Main.RESOURCE_BUNDLE;
+        pluginList.forEach(this::loadPlugin);
+    }
 
-        Map<String, PluginCategoryController> categoryControllers = new HashMap<>();
+    public void loadPlugin(PluginJarInfo jarInfo) {
+        String menuParentTitle = jarInfo.getMenuParentTitle();
+        if (menuParentTitle != null) {
 
-        for (PluginJarInfo jarInfo : pluginList) {
-            String menuParentTitle = jarInfo.getMenuParentTitle();
-            if (menuParentTitle != null) {
+            String categoryName = jarInfo.getIsFavorite() ?
+                FAVORITE_CATEGORY_NAME : Main.RESOURCE_BUNDLE.getString(menuParentTitle);
 
-                String categoryName = jarInfo.getIsFavorite() ?
-                    FAVORITE_CATEGORY_NAME : menuResourceBundle.getString(menuParentTitle);
-
-                PluginCategoryController category = categoryControllers.computeIfAbsent(
-                    categoryName, __ -> {
-                        PluginCategoryController _category =
-                            PluginCategoryController.newInstance(categoryName);
-                        addCategory(_category);
-                        return _category;
-                    }
-                );
-
-                PluginItemController item = PluginItemController.newInstance(jarInfo);
-                item.setContextMenu(itemContextMenu);
-                category.addItem(item);
-
-                if (!pluginItemControllers.contains(item)) {
-                    pluginItemControllers.add(item);
+            PluginCategoryController category = categoryControllers.computeIfAbsent(
+                categoryName, __ -> {
+                    PluginCategoryController _category =
+                        PluginCategoryController.newInstance(categoryName);
+                    addCategory(_category);
+                    return _category;
                 }
+            );
+
+            PluginItemController item = PluginItemController.newInstance(jarInfo);
+            item.setContextMenu(itemContextMenu);
+            category.addItem(item);
+
+            if (!pluginItemControllers.contains(item)) {
+                pluginItemControllers.add(item);
             }
         }
     }

@@ -7,3 +7,6 @@ indent_size = 4
 
 [*.{html, xml, yaml, fxml}]
 indent_size = 2
+
+[*.java]
+ij_any_blank_lines_around_field = 1
