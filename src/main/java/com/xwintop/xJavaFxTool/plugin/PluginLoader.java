@@ -4,17 +4,20 @@ import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
-import java.lang.ref.WeakReference;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+
+import java.lang.ref.WeakReference;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 @Slf4j
 public class PluginLoader {
@@ -133,4 +136,23 @@ public class PluginLoader {
         return null;
     }
 
+    public static Tab loadWebViewAsTab(PluginJarInfo plugin, TabPane tabPane) {
+        PluginContainer pluginContainer = new PluginContainer(plugin);
+        WebView browser = pluginContainer.createInstance(WebView.class);
+        WebEngine webEngine = browser.getEngine();
+        String url = plugin.getPagePath();
+        String title = plugin.getTitle();
+
+        if (url.startsWith("http")) {
+            webEngine.load(url);
+        } else {
+            webEngine.load(pluginContainer.getResource(url).toExternalForm());
+        }
+
+        Tab tab = new Tab(title);
+        tab.setContent(browser);
+        tabPane.getTabs().add(tab);
+        tabPane.getSelectionModel().select(tab);
+        return tab;
+    }
 }

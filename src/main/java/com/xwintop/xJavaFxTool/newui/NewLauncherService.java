@@ -1,13 +1,15 @@
 package com.xwintop.xJavaFxTool.newui;
 
+import com.xwintop.xJavaFxTool.AppException;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.plugin.PluginLoader;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * 新界面中负责与插件操作相关的逻辑
@@ -55,7 +57,17 @@ public class NewLauncherService {
             }
         }
 
-        Tab tab = PluginLoader.loadIsolatedPluginAsTab(pluginJarInfo, tabPane);
+        Tab tab;
+        String controllerType = pluginJarInfo.getControllerType();
+
+        if (controllerType.equals("Node")) {
+            tab = PluginLoader.loadIsolatedPluginAsTab(pluginJarInfo, tabPane);
+        } else if (controllerType.equals("WebView")) {
+            tab = PluginLoader.loadWebViewAsTab(pluginJarInfo, tabPane);
+        } else {
+            throw new AppException("找不到 controllerType=" + controllerType + " 的加载方式");
+        }
+
         if (tab != null) {
             tab.setOnClosed(event -> this.jarInfoMap.remove(tab));
             jarInfoMap.put(tab, pluginJarInfo);

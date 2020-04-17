@@ -1,10 +1,15 @@
 package com.xwintop.xJavaFxTool.plugin;
 
-import static org.apache.commons.lang.StringUtils.defaultString;
-
 import com.xwintop.xJavaFxTool.AppException;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.utils.Config;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,12 +20,8 @@ import java.util.ResourceBundle;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Collectors;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
+
+import static org.apache.commons.lang.StringUtils.defaultString;
 
 /**
  * 用来解析插件文件中的 toolFxmlLoaderConfiguration.xml
@@ -64,23 +65,22 @@ public class PluginParser {
             }
 
             String resourceBundleName = getChildNodeText(pluginElement, "resourceBundleName");
-            ClassLoader tmpClassLoader = classLoader == null ? new PluginClassLoader(pluginFile) : classLoader;
-            ResourceBundle pluginResourceBundle =
-                ResourceBundle.getBundle(resourceBundleName, Config.defaultLocale, tmpClassLoader);
-
+            String title = getTitleFromResourceBundle(pluginFile, classLoader, pluginElement, resourceBundleName);
             String menuId = getChildNodeText(pluginElement, "menuParentId");
             String url = getChildNodeText(pluginElement, "url");
             String controllerType = getChildNodeText(pluginElement, "controllerType");
-            String title = pluginResourceBundle.getString(
-                defaultString(getChildNodeText(pluginElement, "title"), "Title")
-            );
             String menuTitle = menuTitles.get(menuId);
 
             pluginJarInfo.setMenuParentTitle(menuTitle);
             pluginJarInfo.setBundleName(resourceBundleName);
-            pluginJarInfo.setFxmlPath(url);
             pluginJarInfo.setControllerType(controllerType);
             pluginJarInfo.setTitle(title);
+
+            if (controllerType.equals("Node")) {
+                pluginJarInfo.setFxmlPath(url);
+            } else if (controllerType.equals("WebView")) {
+                pluginJarInfo.setPagePath(url);
+            }
 
             pluginJarInfo.setName(StringUtils.defaultString(pluginJarInfo.getName(), title));
 
@@ -88,6 +88,14 @@ public class PluginParser {
             throw new AppException(e);
         }
     }
+
+    private static String getTitleFromResourceBundle(
+        File pluginFile, ClassLoader classLoader, Element pluginElement, String bundleName
+    ) {
+        String titleResourceBundleKey = getChildNodeText(pluginElement, "title");
+        ClassLoader tmpClassLoader = classLoader == null ? new PluginClassLoader(pluginFile) : classLoader;
+        ResourceBundle resourceBundle = ResourceBundle.getBundle(bundleName, Config.defaultLocale, tmpClassLoader);
+        return resourceBundle.getString(defaultString(titleResourceBundleKey, "Title")); }
 
     private static String getChildNodeText(Element element, String childNode) {
         return element.selectSingleNode("child::" + childNode).getText();

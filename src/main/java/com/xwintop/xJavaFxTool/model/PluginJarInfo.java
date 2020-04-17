@@ -1,9 +1,10 @@
 package com.xwintop.xJavaFxTool.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import java.io.File;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.File;
 
 /**
  * 插件信息
@@ -44,6 +45,8 @@ public class PluginJarInfo {
     ///////////////////////////////////////// 下面的属性来自插件描述文件 toolFxmlLoaderConfiguration.xml
 
     private String fxmlPath;                // FXML 资源路径
+
+    private String pagePath;                // 网页资源路径
 
     private String iconPath;                // 图标资源路径（可选）
 
