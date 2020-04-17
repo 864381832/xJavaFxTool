@@ -103,6 +103,7 @@ public class PluginLoader {
 
             Node root = generatingCodeFXMLLoader.load();
             Object controller = generatingCodeFXMLLoader.getController();
+            WeakReference<Object> controllerRef = new WeakReference<>(controller);
 
             tab.setContent(root);
             tabPane.getTabs().add(tab);
@@ -110,7 +111,11 @@ public class PluginLoader {
 
             tab.setOnCloseRequest(
                 event -> {
-                    JavaFxViewUtil.setControllerOnCloseRequest(controller, event);
+                    Object ctrl = controllerRef.get();
+                    if (ctrl != null) {
+                        JavaFxViewUtil.setControllerOnCloseRequest(ctrl, event);
+                    }
+
                     PluginContainer container = containerRef.get();
                     if (container != null) {
                         log.info("插件关闭：" + container.getPluginJarInfo().getName());
