@@ -1,22 +1,21 @@
 package com.xwintop.xJavaFxTool.services.index;
 
+import static org.apache.commons.lang3.StringUtils.substringBeforeLast;
+
 import com.xwintop.xJavaFxTool.AppException;
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.plugin.PluginManager;
 import com.xwintop.xcore.javafx.dialog.FxProgressDialog;
 import com.xwintop.xcore.javafx.dialog.ProgressTask;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
-
-import static org.apache.commons.lang3.StringUtils.substringBeforeLast;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 插件管理
@@ -47,7 +46,7 @@ public class PluginManageService {
         pluginManager.getPluginList().forEach(this::addDataRow);
     }
 
-    private void addDataRow(PluginJarInfo plugin) {
+    public void addDataRow(PluginJarInfo plugin) {
 
         Map<String, String> dataRow = new HashMap<>();
         dataRow.put("nameTableColumn", plugin.getName());

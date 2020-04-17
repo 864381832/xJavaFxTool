@@ -3,6 +3,7 @@ package com.xwintop.xJavaFxTool.model;
 import com.alibaba.fastjson.annotation.JSONField;
 import java.io.File;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 插件信息
@@ -11,6 +12,7 @@ import lombok.Data;
  */
 
 @Data
+@NoArgsConstructor
 public class PluginJarInfo {
 
     ///////////////////////////////////////// 下面的属性在远程插件列表和本地配置中都存在
@@ -36,6 +38,8 @@ public class PluginJarInfo {
     private Boolean isFavorite;     // 是否置顶
 
     private Integer localVersionNumber;     // 插件本地版本
+
+    private String localPath;       // 插件本地文件路径（如果是本地插件）
 
     ///////////////////////////////////////// 下面的属性来自插件描述文件 toolFxmlLoaderConfiguration.xml
 
@@ -69,7 +73,7 @@ public class PluginJarInfo {
 
     @JSONField(serialize = false)
     public File getFile() {
-        return new File("libs/", getJarName() + "-" + getVersion() + ".jar");
+        return localPath == null? new File("libs/", getJarName() + "-" + getVersion() + ".jar"): new File(localPath);
     }
 
     @JSONField(serialize = false)

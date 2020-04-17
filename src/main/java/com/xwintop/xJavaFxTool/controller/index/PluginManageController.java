@@ -4,11 +4,13 @@ import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.event.AppEvents;
 import com.xwintop.xJavaFxTool.event.PluginEvent;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
+import com.xwintop.xJavaFxTool.plugin.AddPluginResult;
 import com.xwintop.xJavaFxTool.plugin.PluginClassLoader;
 import com.xwintop.xJavaFxTool.plugin.PluginManager;
 import com.xwintop.xJavaFxTool.plugin.PluginParser;
 import com.xwintop.xJavaFxTool.services.index.PluginManageService;
 import com.xwintop.xJavaFxTool.view.index.PluginManageView;
+import com.xwintop.xcore.util.javafx.FileChooserUtil;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 import java.io.File;
@@ -20,8 +22,6 @@ import java.util.function.Consumer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
@@ -29,6 +29,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Window;
 import javafx.util.Callback;
 import lombok.Getter;
@@ -36,10 +37,10 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @ClassName: PluginManageController
- * @Description: 插件管理
- * @author: xufeng
- * @date: 2020/1/19 17:41
+ * 插件管理
+ *
+ * @author xufeng
+ * @since 2020/1/19 17:41
  */
 
 @Getter
@@ -75,6 +76,8 @@ public class PluginManageController extends PluginManageView {
     }
 
     private void initView() {
+        addLocalPluginButton.setVisible(Boolean.parseBoolean(System.getProperty("localPluginEnabled", "false")));
+
         JavaFxViewUtil.setTableColumnMapValueFactory(nameTableColumn, "nameTableColumn");
         JavaFxViewUtil.setTableColumnMapValueFactory(synopsisTableColumn, "synopsisTableColumn");
         JavaFxViewUtil.setTableColumnMapValueFactory(versionTableColumn, "versionTableColumn");
@@ -169,8 +172,18 @@ public class PluginManageController extends PluginManageView {
         pluginManageService.getPluginList();
     }
 
-    @FXML
-    private void selectPluginAction(ActionEvent event) {
+    public void searchPlugin() {
         pluginManageService.searchPlugin(selectPluginTextField.getText());
+    }
+
+    public void addLocalPlugin() {
+        File jarFile = FileChooserUtil.chooseFile(new ExtensionFilter("打包插件(*.jar)", "*.jar"));
+        if (jarFile != null) {
+            AddPluginResult result = PluginManager.getInstance().addPluginJar(jarFile);
+            if (result.isNewPlugin()) {
+                pluginManageService.addDataRow(result.getPluginJarInfo());
+            }
+            AppEvents.fire(new PluginEvent(PluginEvent.PLUGIN_DOWNLOADED, result.getPluginJarInfo()));
+        }
     }
 }

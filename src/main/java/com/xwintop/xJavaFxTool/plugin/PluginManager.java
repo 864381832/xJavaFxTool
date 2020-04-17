@@ -127,6 +127,34 @@ public class PluginManager {
         });
     }
 
+    /**
+     * 添加本地插件。如果与已有插件同名，则替换已有插件信息
+     * @param jarFile 插件文件
+     */
+    public AddPluginResult addPluginJar(File jarFile) {
+        PluginClassLoader tmpClassLoader = new PluginClassLoader(jarFile);
+        PluginJarInfo newJarInfo = new PluginJarInfo();
+        newJarInfo.setLocalPath(jarFile.getAbsolutePath());
+        newJarInfo.setIsEnable(true);
+        newJarInfo.setIsDownload(true);
+        PluginParser.parse(jarFile, newJarInfo, tmpClassLoader);
+
+        for (int i = 0; i < pluginList.size(); i++) {
+            PluginJarInfo jarInfo = pluginList.get(i);
+            if (Objects.equals(jarInfo.getFxmlPath(), newJarInfo.getFxmlPath())) {
+                newJarInfo.setVersion(jarInfo.getVersion());
+                newJarInfo.setSynopsis(jarInfo.getSynopsis());
+                pluginList.set(i, newJarInfo);
+                saveToFileQuietly();
+                return new AddPluginResult(newJarInfo, false);
+            }
+        }
+
+        pluginList.add(newJarInfo);
+        saveToFileQuietly();
+        return new AddPluginResult(newJarInfo, true);
+    }
+
     public void loadServerPlugins() {
         try {
             String json = HttpUtil.get(SERVER_PLUGINS_URL);

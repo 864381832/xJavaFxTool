@@ -28,6 +28,9 @@ public abstract class PluginManageView implements Initializable {
     protected Button selectPluginButton;
 
     @FXML
+    protected Button addLocalPluginButton;
+
+    @FXML
     protected TableView<Map<String, String>> pluginDataTableView;
 
     @FXML

@@ -1,5 +1,7 @@
 package com.xwintop.xJavaFxTool.newui;
 
+import static com.xwintop.xJavaFxTool.utils.BoolUtils.isNot;
+
 import com.xwintop.xJavaFxTool.Main;
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
@@ -120,28 +122,41 @@ public class NewLauncherController {
      * @param jarInfo 插件信息
      */
     private void loadPlugin(PluginJarInfo jarInfo) {
+
+        if (!jarInfo.getFile().exists()) {
+            log.info("跳过插件 {}: 文件不存在", jarInfo.getName());
+            return;
+        }
+
+        if (isNot(jarInfo.getIsEnable())) {
+            log.info("跳过插件 {}: 插件未启用", jarInfo.getName());
+            return;
+        }
+
         String menuParentTitle = jarInfo.getMenuParentTitle();
-        if (menuParentTitle != null) {
+        if (menuParentTitle == null) {
+            log.info("跳过插件 {}: menuParentTitle 为空", jarInfo.getName());
+            return;
+        }
 
-            String categoryName = jarInfo.getIsFavorite() ?
-                FAVORITE_CATEGORY_NAME : Main.RESOURCE_BUNDLE.getString(menuParentTitle);
+        String categoryName = jarInfo.getIsFavorite() ?
+            FAVORITE_CATEGORY_NAME : Main.RESOURCE_BUNDLE.getString(menuParentTitle);
 
-            PluginCategoryController category = categoryControllers.computeIfAbsent(
-                categoryName, __ -> {
-                    PluginCategoryController _category =
-                        PluginCategoryController.newInstance(categoryName);
-                    addCategory(_category);
-                    return _category;
-                }
-            );
-
-            PluginItemController item = PluginItemController.newInstance(jarInfo);
-            item.setContextMenu(itemContextMenu);
-            category.addItem(item);
-
-            if (!pluginItemControllers.contains(item)) {
-                pluginItemControllers.add(item);
+        PluginCategoryController category = categoryControllers.computeIfAbsent(
+            categoryName, __ -> {
+                PluginCategoryController _category =
+                    PluginCategoryController.newInstance(categoryName);
+                addCategory(_category);
+                return _category;
             }
+        );
+
+        PluginItemController item = PluginItemController.newInstance(jarInfo);
+        item.setContextMenu(itemContextMenu);
+        category.addItem(item);
+
+        if (!pluginItemControllers.contains(item)) {
+            pluginItemControllers.add(item);
         }
     }
 
