@@ -1,12 +1,12 @@
 package com.xwintop.xJavaFxTool.event;
 
-import javafx.event.EventType;
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
+import javafx.event.EventType;
 
 /**
  * 应用全局事件注册和触发
@@ -22,7 +22,9 @@ public class AppEvents {
      * @param appEvent 事件对象
      */
     public static void fire(AppEvent appEvent) {
-        List<Consumer> handlers = instance.listeners.get(appEvent.getEventType());
+        List<Consumer> handlers = instance.listeners
+            .getOrDefault(appEvent.getEventType(), Collections.emptyList());
+
         for (Consumer handler : handlers) {
             handler.accept(appEvent);
         }

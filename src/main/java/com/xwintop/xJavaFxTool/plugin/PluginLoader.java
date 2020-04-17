@@ -4,9 +4,11 @@ import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
+import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
@@ -99,19 +101,27 @@ public class PluginLoader {
             }
 
             PluginContainer pluginContainer = new PluginContainer(PluginLoader.class.getClassLoader(), plugin);
+            WeakReference<PluginContainer> containerRef = new WeakReference<>(pluginContainer);
             FXMLLoader generatingCodeFXMLLoader = pluginContainer.createFXMLLoader();
             if (generatingCodeFXMLLoader == null) {
                 return null;
             }
 
-            tab.setContent(generatingCodeFXMLLoader.load());
+            Node root = generatingCodeFXMLLoader.load();
+            Object controller = generatingCodeFXMLLoader.getController();
+
+            tab.setContent(root);
             tabPane.getTabs().add(tab);
             tabPane.getSelectionModel().select(tab);
 
             tab.setOnCloseRequest(
                 event -> {
-                    JavaFxViewUtil.setControllerOnCloseRequest(generatingCodeFXMLLoader.getController(), event);
-                    pluginContainer.unload();
+                    JavaFxViewUtil.setControllerOnCloseRequest(controller, event);
+                    PluginContainer container = containerRef.get();
+                    if (container != null) {
+                        log.info("插件关闭：" + pluginContainer.getPluginJarInfo().getName());
+                        pluginContainer.unload();
+                    }
                 }
             );
 

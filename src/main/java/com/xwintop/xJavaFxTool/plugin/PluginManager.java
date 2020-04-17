@@ -3,6 +3,9 @@ package com.xwintop.xJavaFxTool.plugin;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
+import com.xwintop.xJavaFxTool.utils.Config;
+import com.xwintop.xJavaFxTool.utils.Config.Keys;
+import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -207,6 +210,11 @@ public class PluginManager {
         plugin.setIsDownload(true);
         plugin.setIsEnable(true);
         plugin.setLocalVersionNumber(plugin.getVersionNumber());
+
+        if (!Config.getBoolean(Keys.NewLauncher, false)) {
+            XJavaFxSystemUtil.addJarClass(pluginJarInfo.getFile());
+        }
+
         return file;
     }
 

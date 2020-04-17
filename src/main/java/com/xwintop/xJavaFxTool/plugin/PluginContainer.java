@@ -26,6 +26,10 @@ public class PluginContainer {
         this.pluginJarInfo = pluginJarInfo;
     }
 
+    public PluginJarInfo getPluginJarInfo() {
+        return pluginJarInfo;
+    }
+
     /**
      * 从 ClassLoader 中创建 FXMLLoader 对象
      */
