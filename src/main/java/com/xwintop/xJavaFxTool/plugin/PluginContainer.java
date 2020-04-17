@@ -39,6 +39,8 @@ public class PluginContainer {
             FXMLLoader pluginFxmlLoader = (FXMLLoader)
                 pluginClassLoader.loadClass("javafx.fxml.FXMLLoader").newInstance();
 
+            pluginFxmlLoader.setClassLoader(pluginClassLoader);
+
             // 必须去掉前缀的 "/" 才能正确读取
             String fxmlPathFixed = StringUtils.removeStart(pluginJarInfo.getFxmlPath(), "/");
 

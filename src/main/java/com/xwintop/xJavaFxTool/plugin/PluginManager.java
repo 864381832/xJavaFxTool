@@ -113,7 +113,7 @@ public class PluginManager {
     }
 
     /**
-     * 解析本地插件文件（必须在这之前先加入 classpath）
+     * 解析本地插件文件
      */
     public void loadLocalPlugins() {
         this.pluginList.forEach(plugin -> {
@@ -166,23 +166,6 @@ public class PluginManager {
     }
 
     ////////////////////////////////////////////////////////////// 下载插件
-
-    public File downloadPlugin(PluginJarInfo pluginJarInfo) throws IOException {
-        PluginJarInfo plugin = getPlugin(pluginJarInfo.getJarName());
-        if (plugin == null) {
-            throw new IllegalStateException("没有找到插件 " + pluginJarInfo.getJarName());
-        }
-
-        File file = pluginJarInfo.getFile();
-        HttpUtil.downloadFile(pluginJarInfo.getDownloadUrl(), file);
-
-        plugin.setIsDownload(true);
-        plugin.setIsEnable(true);
-        plugin.setLocalVersionNumber(plugin.getVersionNumber());
-        this.saveToFile();
-
-        return file;
-    }
 
     public File downloadPlugin(
         PluginJarInfo pluginJarInfo, BiConsumer<Long, Long> onProgressUpdate

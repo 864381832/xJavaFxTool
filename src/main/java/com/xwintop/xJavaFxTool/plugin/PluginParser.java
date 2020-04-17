@@ -1,13 +1,10 @@
 package com.xwintop.xJavaFxTool.plugin;
 
+import static org.apache.commons.lang.StringUtils.defaultString;
+
 import com.xwintop.xJavaFxTool.AppException;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.utils.Config;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,8 +15,10 @@ import java.util.ResourceBundle;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Collectors;
-
-import static org.apache.commons.lang.StringUtils.defaultString;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 
 /**
  * 用来解析插件文件中的 toolFxmlLoaderConfiguration.xml
@@ -32,6 +31,13 @@ public class PluginParser {
      * 解析插件文件，补完 pluginJarInfo 属性
      */
     public static void parse(File pluginFile, PluginJarInfo pluginJarInfo) {
+        parse(pluginFile, pluginJarInfo, ClassLoader.getSystemClassLoader());
+    }
+
+    /**
+     * 解析插件文件，补完 pluginJarInfo 属性
+     */
+    public static void parse(File pluginFile, PluginJarInfo pluginJarInfo, ClassLoader classLoader) {
         try (JarFile jarFile = new JarFile(pluginFile)) {
 
             JarEntry entry = jarFile.getJarEntry(ENTRY_NAME);
@@ -49,7 +55,8 @@ public class PluginParser {
             }
 
             String resourceBundleName = getChildNodeText(pluginElement, "resourceBundleName");
-            ResourceBundle pluginResourceBundle = ResourceBundle.getBundle(resourceBundleName, Config.defaultLocale);
+            ResourceBundle pluginResourceBundle =
+                ResourceBundle.getBundle(resourceBundleName, Config.defaultLocale, classLoader);
 
             String menuId = getChildNodeText(pluginElement, "menuParentId");
             String url = getChildNodeText(pluginElement, "url");

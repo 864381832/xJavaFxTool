@@ -85,12 +85,6 @@ public class PluginLoader {
      */
     public static Tab loadIsolatedPluginAsTab(PluginJarInfo plugin, TabPane tabPane) {
         try {
-            URL resource = PluginLoader.class.getResource(plugin.getFxmlPath());
-            if (resource == null) {
-                FxAlerts.error("加载插件失败", "无法读取资源文件 '" + plugin.getFxmlPath() + "'");
-                return null;
-            }
-
             Tab tab = new Tab(plugin.getTitle());
 
             if (StringUtils.isNotEmpty(plugin.getIconPath())) {
@@ -119,8 +113,8 @@ public class PluginLoader {
                     JavaFxViewUtil.setControllerOnCloseRequest(controller, event);
                     PluginContainer container = containerRef.get();
                     if (container != null) {
-                        log.info("插件关闭：" + pluginContainer.getPluginJarInfo().getName());
-                        pluginContainer.unload();
+                        log.info("插件关闭：" + container.getPluginJarInfo().getName());
+                        container.unload();
                     }
                 }
             );

@@ -21,4 +21,8 @@ public class PluginClassLoader extends URLClassLoader {
     public PluginClassLoader(ClassLoader parent, File appFile) {
         super(new URL[]{fromFile(appFile)}, parent);
     }
+
+    public PluginClassLoader(File appFile) {
+        this(getSystemClassLoader(), appFile);
+    }
 }

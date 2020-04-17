@@ -66,8 +66,6 @@ public class NewLauncherController {
         startWebView.getEngine().load(IndexController.QQ_URL); // 额外再打开一个反馈页面，可关闭
 
         AppEvents.addEventHandler(PluginEvent.PLUGIN_DOWNLOADED, pluginEvent -> {
-            PluginJarInfo pluginJarInfo = pluginEvent.getPluginJarInfo();
-            PluginParser.parse(pluginJarInfo.getFile(), pluginJarInfo);
             loadPlugins();
         });
     }

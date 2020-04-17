@@ -4,7 +4,9 @@ import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.event.AppEvents;
 import com.xwintop.xJavaFxTool.event.PluginEvent;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
+import com.xwintop.xJavaFxTool.plugin.PluginClassLoader;
 import com.xwintop.xJavaFxTool.plugin.PluginManager;
+import com.xwintop.xJavaFxTool.plugin.PluginParser;
 import com.xwintop.xJavaFxTool.services.index.PluginManageService;
 import com.xwintop.xJavaFxTool.view.index.PluginManageView;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
@@ -134,6 +136,9 @@ public class PluginManageController extends PluginManageView {
         pluginDataTableView.refresh();
         PluginManager.getInstance().saveToFile();
         TooltipUtil.showToast("插件 " + dataRow.get("nameTableColumn") + " 下载完成");
+
+        PluginClassLoader tempClassLoader = new PluginClassLoader(pluginJarInfo.getFile());
+        PluginParser.parse(pluginJarInfo.getFile(), pluginJarInfo, tempClassLoader);
 
         AppEvents.fire(new PluginEvent(PluginEvent.PLUGIN_DOWNLOADED, pluginJarInfo));
     }
