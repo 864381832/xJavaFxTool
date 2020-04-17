@@ -14,18 +14,7 @@ import com.xwintop.xJavaFxTool.services.index.SystemSettingService;
 import com.xwintop.xcore.javafx.FxApp;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import com.xwintop.xcore.javafx.dialog.FxDialog;
-import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
-import javafx.beans.Observable;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.control.TextField;
-import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
-import javafx.scene.web.WebView;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-
-import java.awt.*;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -33,6 +22,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javafx.beans.Observable;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.scene.web.WebView;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 @Slf4j
 public class NewLauncherController {
@@ -116,7 +116,12 @@ public class NewLauncherController {
         pluginList.forEach(this::loadPlugin);
     }
 
-    public void loadPlugin(PluginJarInfo jarInfo) {
+    /**
+     * 加载单个插件到界面，要求插件已经经过 {@link PluginParser#parse(File, PluginJarInfo)} 解析
+     *
+     * @param jarInfo 插件信息
+     */
+    private void loadPlugin(PluginJarInfo jarInfo) {
         String menuParentTitle = jarInfo.getMenuParentTitle();
         if (menuParentTitle != null) {
 
@@ -159,13 +164,13 @@ public class NewLauncherController {
     }
 
     public void openPluginManager() {
-        try {
-            FXMLLoader fXMLLoader = PluginManageController.getFXMLLoader();
-            Parent root = fXMLLoader.load();
-            JavaFxViewUtil.openNewWindow(Main.RESOURCE_BUNDLE.getString("plugin_manage"), root);
-        } catch (IOException e) {
-            FxAlerts.error("打开插件管理对话框失败", e);
-        }
+        new FxDialog<PluginManageController>()
+            .setBodyFxml(PluginManageController.FXML)
+            .setOwner(FxApp.primaryStage)
+            .setResizable(true)
+            .setTitle(Main.RESOURCE_BUNDLE.getString("plugin_manage"))
+            .setPrefWidth(800)
+            .show();
     }
 
     public void openProjectUrl() {
