@@ -34,6 +34,7 @@ import okio.BufferedSource;
 import okio.ForwardingSource;
 import okio.Okio;
 import okio.Source;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 @Slf4j
@@ -129,6 +130,7 @@ public class PluginManager {
 
     /**
      * 添加本地插件。如果与已有插件同名，则替换已有插件信息
+     *
      * @param jarFile 插件文件
      */
     public AddPluginResult addPluginJar(File jarFile) {
@@ -205,6 +207,8 @@ public class PluginManager {
         }
 
         File file = pluginJarInfo.getFile();
+        FileUtils.forceMkdirParent(file);
+
         this.currentProgressListener =
             (bytesRead, contentLength, done) -> onProgressUpdate.accept(contentLength, bytesRead);
 
