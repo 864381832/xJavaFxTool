@@ -99,6 +99,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 56. IdiomDataTool:成语字典工具,使用[h2](http://www.h2database.com)数据库存储数据字典
 57. Sudoku:数独游戏
 58. LiteappCode:小程序码生成工具
+59. RdbmsSyncTool:关系型数据库同步工具
 
 项目开发中，以后会陆续添加新工具，欢迎大家参与其中，多提提意见，谢谢。
 
