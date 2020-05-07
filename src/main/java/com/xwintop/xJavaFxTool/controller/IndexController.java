@@ -1,5 +1,8 @@
 package com.xwintop.xJavaFxTool.controller;
 
+import static com.xwintop.xJavaFxTool.Main.RESOURCE_BUNDLE;
+import static com.xwintop.xJavaFxTool.utils.Config.Keys.NotepadEnabled;
+
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
 import com.xwintop.xJavaFxTool.model.ToolFxmlLoaderConfiguration;
 import com.xwintop.xJavaFxTool.plugin.PluginManager;
@@ -13,6 +16,17 @@ import com.xwintop.xcore.util.HttpClientUtil;
 import com.xwintop.xcore.util.javafx.AlertUtil;
 import com.xwintop.xcore.util.javafx.JavaFxSystemUtil;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
+import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -33,16 +47,6 @@ import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-
-import java.io.File;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.*;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-
-import static com.xwintop.xJavaFxTool.Main.RESOURCE_BUNDLE;
-import static com.xwintop.xJavaFxTool.utils.Config.Keys.NotepadEnabled;
 
 /**
  * @ClassName: IndexController
@@ -81,7 +85,7 @@ public class IndexController extends IndexView {
         initService();
         initNotepad();
 
-        this.indexService.addWebView("欢迎吐槽", QQ_URL, null);
+        this.indexService.addWebView(RESOURCE_BUNDLE.getString("feedback"), QQ_URL, null);
         this.tongjiWebView.getEngine().load(STATISTICS_URL);
     }
 
