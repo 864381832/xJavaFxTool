@@ -1,5 +1,6 @@
 package com.xwintop.xJavaFxTool.utils;
 
+import com.xwintop.xJavaFxTool.Main;
 import com.xwintop.xJavaFxTool.plugin.PluginManager;
 import com.xwintop.xJavaFxTool.services.index.PluginManageService;
 import java.io.File;
@@ -7,6 +8,7 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Locale;
+import java.util.ResourceBundle;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -26,10 +28,13 @@ public class XJavaFxSystemUtil {
     public static void initSystemLocal() {
         try {
             String localeString = Config.get(Config.Keys.Locale, "");
+
             if (StringUtils.isNotEmpty(localeString)) {
                 String[] locale1 = localeString.split("_");
                 Config.defaultLocale = new Locale(locale1[0], locale1[1]);
             }
+
+            Main.RESOURCE_BUNDLE = ResourceBundle.getBundle("locale.Menu", Config.defaultLocale);
         } catch (Exception e) {
             log.error("初始化本地语言失败", e);
         }

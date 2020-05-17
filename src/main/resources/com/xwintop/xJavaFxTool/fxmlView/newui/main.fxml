@@ -21,28 +21,28 @@
   </padding>
 
   <TabPane VBox.vgrow="ALWAYS" tabMinWidth="45" fx:id="tabPane" tabClosingPolicy="ALL_TABS">
-    <Tab closable="false" text="开始">
+    <Tab closable="false" text="%start">
       <ScrollPane fitToWidth="true" style="-fx-border-width: 0 1 1 1;-fx-border-color: #CCCCCC;-fx-background:#2a2a2a">
         <VBox>
           <padding>
             <Insets left="15"/>
           </padding>
           <HBox alignment="BASELINE_LEFT" style="-fx-padding: 10">
-            <Label text="搜索："/>
+            <Label text="%search"/>
             <TextField prefWidth="200" styleClass="search-text" fx:id="txtSearch"/>
             <Pane HBox.hgrow="ALWAYS"/>
             <Hyperlink onAction="#openProjectUrl" style="-fx-text-fill: #868686"
               text="https://gitee.com/xwintop/xJavaFxTool"/>
-            <Hyperlink onAction="#openConfigDialog" text="设置"/>
-            <Hyperlink onAction="#openPluginManager" text="插件管理"/>
-            <Hyperlink onAction="#openPluginCreator" text="新建" fx:id="lnkCreatePlugin"/>
+            <Hyperlink onAction="#openConfigDialog" text="%Setting"/>
+            <Hyperlink onAction="#openPluginManager" text="%plugin_manage"/>
+            <Hyperlink onAction="#openPluginCreator" text="%newPlugin" fx:id="lnkCreatePlugin"/>
           </HBox>
           <VBox fx:id="pluginCategories" alignment="TOP_CENTER">
           </VBox>
         </VBox>
       </ScrollPane>
     </Tab>
-    <Tab text="欢迎吐槽">
+    <Tab text="%feedback">
       <WebView fx:id="startWebView"/>
     </Tab>
   </TabPane>
