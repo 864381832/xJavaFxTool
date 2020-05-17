@@ -10,7 +10,7 @@
 
 [英文说明/English Documentation](README_EN.md)
 
-**xJavaFxTool交流QQ群：== [387473650](https://jq.qq.com/?_wv=1027&k=59UDEAD) ==**
+**xJavaFxTool交流QQ群：== [387473650(此群已满)](https://jq.qq.com/?_wv=1027&k=59UDEAD) [1104780992](https://jq.qq.com/?_wv=1027&k=bhAdkju9) ==**
 **xJavaFxTool吐个槽：== [进来吐槽](https://support.qq.com/product/127577) ==**
 
 #### 项目简介：
