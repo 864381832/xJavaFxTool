@@ -6,8 +6,14 @@ import com.alibaba.fastjson.JSON;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xJavaFxTool.utils.Config.Keys;
-import com.xwintop.xJavaFxTool.utils.UserAgentUtils;
 import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
+import lombok.extern.slf4j.Slf4j;
+import okhttp3.*;
+import okhttp3.Request.Builder;
+import okio.*;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,20 +30,6 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import lombok.extern.slf4j.Slf4j;
-import okhttp3.Interceptor;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request.Builder;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
-import okio.Buffer;
-import okio.BufferedSource;
-import okio.ForwardingSource;
-import okio.Okio;
-import okio.Source;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 
 @Slf4j
 public class PluginManager {
@@ -47,6 +39,15 @@ public class PluginManager {
     public static final String LOCAL_PLUGINS_PATH = "./system_plugin_list.json";
 
     public static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
+
+    /**
+     * 当下载插件时，模拟数种 UA
+     */
+    public static final String[] OPTIONAL_UA_LIST = {
+        "Mozilla/5.0 (Windows NT 6.1; rv:51.0) Gecko/20100101 Firefox/51.0",
+        "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.0 Safari/537.36",
+        "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko"
+    };
 
     private static PluginManager instance;
 
@@ -214,21 +215,27 @@ public class PluginManager {
         this.currentProgressListener =
             (bytesRead, contentLength, done) -> onProgressUpdate.accept(contentLength, bytesRead);
 
-        // 插件下载
-        int retryTimes = UserAgentUtils.getUserAgentSize()-1;
-        Response response = null;
-        while (retryTimes > 0 && (response== null || response.code() != HttpStatus.HTTP_OK)){
-            response = pluginDownloader.newCall(new Builder().header("User-Agent", UserAgentUtils.getUserAgent(retryTimes)).url(pluginJarInfo.getDownloadUrl()).build()).execute();
-            retryTimes--;
+        // 使用多个 UA 尝试下载
+        Throwable downloadFailure = null;
+        for (String ua : OPTIONAL_UA_LIST) {
+            try {
+                tryDownload(pluginJarInfo.getDownloadUrl(), ua, file);
+                downloadFailure = null;
+                break;
+            } catch (Exception e) {
+                downloadFailure = e;
+            }
         }
-        // 下载仍未成功，需要抛出异常，提示下载失败
-        if(response== null || response.code() != HttpStatus.HTTP_OK){
-            throw new IOException("插件下载失败 " + pluginJarInfo.getJarName());
-        }
-        InputStream inputStream = response.body().byteStream();
-        FileOutputStream outputStream = new FileOutputStream(file);
-        IOUtils.copy(inputStream, outputStream);
 
+        if (downloadFailure != null) {
+            if (downloadFailure instanceof IOException) {
+                throw (IOException) downloadFailure;
+            } else {
+                throw new IOException("插件下载失败 " + pluginJarInfo.getJarName(), downloadFailure);
+            }
+        }
+
+        // 下载完毕
         plugin.setIsDownload(true);
         plugin.setIsEnable(true);
         plugin.setLocalVersionNumber(plugin.getVersionNumber());
@@ -240,8 +247,33 @@ public class PluginManager {
         return file;
     }
 
+    /**
+     * 尝试指定的 UA 进行下载，如果下载失败则抛出异常
+     *
+     * @param url  下载地址
+     * @param ua   UA 字符串
+     * @param file 下载到的目标文件
+     *
+     * @throws IOException 如果下载失败
+     */
+    private void tryDownload(String url, String ua, File file) throws IOException {
+        Request request = new Builder().header("User-Agent", ua).url(url).build();
+
+        try (Response response = pluginDownloader.newCall(request).execute()) {
+            if (response.code() != HttpStatus.HTTP_OK) {
+                throw new IOException("插件下载失败 : HTTP " + response.code());
+            }
+
+            InputStream inputStream = Objects.requireNonNull(response.body()).byteStream();
+            try (FileOutputStream outputStream = new FileOutputStream(file)) {
+                IOUtils.copy(inputStream, outputStream);
+            }
+        }
+    }
+
     ////////////////////////////////////////////////////////////// 保存配置
 
+    // 保存配置，如果失败则抛出异常
     public void saveToFile() throws IOException {
         String json = JSON.toJSONString(this.pluginList, true);
         Path path = Paths.get(this.localPluginsPath);
@@ -251,6 +283,7 @@ public class PluginManager {
         Files.write(path, json.getBytes(DEFAULT_CHARSET));
     }
 
+    // 保存配置，如果失败不抛出异常
     public void saveToFileQuietly() {
         try {
             saveToFile();
@@ -313,6 +346,7 @@ public class PluginManager {
 
         private Source source(Source source) {
             return new ForwardingSource(source) {
+
                 long totalBytesRead = 0L;
 
                 @Override
