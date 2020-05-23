@@ -1,10 +1,12 @@
 package com.xwintop.xJavaFxTool.plugin;
 
+import cn.hutool.http.HttpStatus;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xJavaFxTool.utils.Config.Keys;
+import com.xwintop.xJavaFxTool.utils.UserAgentUtils;
 import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -212,15 +214,20 @@ public class PluginManager {
         this.currentProgressListener =
             (bytesRead, contentLength, done) -> onProgressUpdate.accept(contentLength, bytesRead);
 
-        try (
-            Response response = pluginDownloader
-                .newCall(new Builder().url(pluginJarInfo.getDownloadUrl()).build())
-                .execute();
-            InputStream inputStream = response.body().byteStream();
-            FileOutputStream outputStream = new FileOutputStream(file)
-        ) {
-            IOUtils.copy(inputStream, outputStream);
+        // 插件下载
+        int retryTimes = UserAgentUtils.getUserAgentSize()-1;
+        Response response = null;
+        while (retryTimes > 0 && (response== null || response.code() != HttpStatus.HTTP_OK)){
+            response = pluginDownloader.newCall(new Builder().header("User-Agent", UserAgentUtils.getUserAgent(retryTimes)).url(pluginJarInfo.getDownloadUrl()).build()).execute();
+            retryTimes--;
         }
+        // 下载仍未成功，需要抛出异常，提示下载失败
+        if(response== null || response.code() != HttpStatus.HTTP_OK){
+            throw new IOException("插件下载失败 " + pluginJarInfo.getJarName());
+        }
+        InputStream inputStream = response.body().byteStream();
+        FileOutputStream outputStream = new FileOutputStream(file);
+        IOUtils.copy(inputStream, outputStream);
 
         plugin.setIsDownload(true);
         plugin.setIsEnable(true);
