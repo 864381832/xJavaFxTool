@@ -29,11 +29,9 @@ xJavaFxTool is a practical gadget set developed by javaFx. It uses some time to 
 Due to the hot SpringBoot, the project has been released SpringBoot-javafx version, [xJavaFxTool-spring](https://gitee.com/xwintop/xJavaFxTool-spring) welcome reference, thank you.
 
 #### Download trial address：
-- Jar package that can be run directly (local need to have jdk1.8 environment)[xJavaFxTool-0.2.1.jar](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.1.jar)
-- Windows x86 installation package (compatible with xp, windows7, 8, 10, etc.) [xJavaFxTool-0.2.1-windows-x86.exe](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.1-windows-x86.exe)
-- Windows x64 installation package (compatible with xp, windows7, 8, 10, etc.)[xJavaFxTool-0.2.1-windows-x64.exe](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.1-windows-x64.exe)
-- Linux x64 [xJavaFxTool-0.2.1-linux-x64.zip](https://xwintop.coding.net/s/5dc71c30-065d-4d0d-a238-3663291a18f7) (Linux platform 64-bit running compression package, decompression can run)
-- Mac OS X x64 [xJavaFxTool-0.2.1-macosx-x64.pkg](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.1-macosx-x64.pkg)
+- Jar package that can be run directly (local need to have jdk1.8 environment)[xJavaFxTool-0.2.3.jar](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.3.jar)
+- Windows x64 installation package (compatible with xp, windows7, 8, 10, etc.)[xJavaFxTool-0.2.3-windows-x64.exe](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.3-windows-x64.exe)
+- Mac OS X x64 [xJavaFxTool-0.2.3-macosx-x64.pkg](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.3-macosx-x64.pkg)
 #### If the above link fails, use the download link below:
 - Baidu cloud link: [https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA](https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA)  extraction code: mokl
 - Tencent micro cloud link: [https://share.weiyun.com/5T6FPLW](https://share.weiyun.com/5T6FPLW) extraction code: java
