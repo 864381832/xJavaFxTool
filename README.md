@@ -10,7 +10,7 @@
 
 [英文说明/English Documentation](README_EN.md)
 
-**xJavaFxTool交流QQ群：== [387473650](https://jq.qq.com/?_wv=1027&k=59UDEAD) ==**
+**xJavaFxTool交流QQ群：== [387473650(此群已满)](https://jq.qq.com/?_wv=1027&k=59UDEAD) 请加群②[1104780992](https://jq.qq.com/?_wv=1027&k=bhAdkju9) ==**
 **xJavaFxTool吐个槽：== [进来吐槽](https://support.qq.com/product/127577) ==**
 
 #### 项目简介：
@@ -19,11 +19,11 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 由于SpringBoot的火热，项目已经出SpringBoot-javafx版本，[xJavaFxTool-spring](https://gitee.com/xwintop/xJavaFxTool-spring) 欢迎参考，谢谢。
 
 #### 下载试用地址：
-- 可直接运行的jar包(本地需要有jdk1.8环境)[xJavaFxTool-0.2.2.jar](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.2.jar)
-- Windows x86安装包(兼容xp、windows7、8、10等系统)[xJavaFxTool-0.2.2-windows-x86.exe](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.2-windows-x86.exe)
-- Windows x64安装包(兼容xp、windows7、8、10等系统)[xJavaFxTool-0.2.2-windows-x64.exe](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.2-windows-x64.exe)
-- Linux x64 [xJavaFxTool-0.2.2-linux-x64.zip](https://xwintop.coding.net/s/a9ae5e67-ba0d-4421-955b-7cba0662a976) (Linux平台64位运行压缩包，解压即可运行)
-- Mac OS X x64 [xJavaFxTool-0.2.2-macosx-x64.pkg](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.2-macosx-x64.pkg)
+- 可直接运行的jar包(本地需要有jdk1.8环境)[xJavaFxTool-0.2.3.jar](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.3.jar)
+- Windows x86安装包(兼容xp、windows7、8、10等系统)(请在下面网盘中下载)
+- Windows x64安装包(兼容xp、windows7、8、10等系统)[xJavaFxTool-0.2.3-windows-x64.exe](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.3-windows-x64.exe)
+- Linux x64 (请在下面网盘中下载)
+- Mac OS X x64 [xJavaFxTool-0.2.3-macosx-x64.pkg](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.3-macosx-x64.pkg)
 #### 若上面下链接失效可使用下面下载链接：
 - 百度云链接：[https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA](https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA)  提取码：mokl
 - 腾讯微云链接：[https://share.weiyun.com/5T6FPLW](https://share.weiyun.com/5T6FPLW) 提取码：java
@@ -100,6 +100,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 57. Sudoku:数独游戏
 58. LiteappCode:小程序码生成工具
 59. RdbmsSyncTool:关系型数据库同步工具
+60. FileBuildTool:文件生成工具
 
 项目开发中，以后会陆续添加新工具，欢迎大家参与其中，多提提意见，谢谢。
 

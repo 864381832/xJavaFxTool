@@ -8,7 +8,6 @@ import com.xwintop.xJavaFxTool.utils.StageUtils;
 import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import com.xwintop.xcore.javafx.FxApp;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
-import com.xwintop.xcore.javafx.helper.FxmlHelper;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -32,8 +31,7 @@ public class Main extends Application {
 
     public static final String LOGO_PATH = "/images/icon.jpg";
 
-    public static final ResourceBundle RESOURCE_BUNDLE =
-        ResourceBundle.getBundle("locale.Menu", Config.defaultLocale);
+    public static ResourceBundle RESOURCE_BUNDLE;
 
     private static Stage stage;
 
@@ -69,8 +67,13 @@ public class Main extends Application {
         StageUtils.updateStageStyle(primaryStage);
     }
 
-    private void loadNewUI(Stage primaryStage) {
-        FxmlHelper.loadIntoStage("/com/xwintop/xJavaFxTool/fxmlView/newui/main.fxml", primaryStage).show();
+    private void loadNewUI(Stage primaryStage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(Main.class.getResource("/com/xwintop/xJavaFxTool/fxmlView/newui/main.fxml"));
+        fxmlLoader.setResources(RESOURCE_BUNDLE);
+
+        Parent root = fxmlLoader.load();
+        primaryStage.setScene(new Scene(root));
     }
 
     private void loadClassicUI(Stage primaryStage) throws IOException {
