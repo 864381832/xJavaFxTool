@@ -23,10 +23,6 @@
     </repository>
     <repository>
       <id>xwintop-maven</id>
-      <url>https://xwintop.gitee.io/maven/repository</url>
-    </repository>
-    <repository>
-      <id>xwintop-maven</id>
       <url>https://864381832.github.io/maven/repository</url>
     </repository>
     <repository>
