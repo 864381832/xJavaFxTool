@@ -38,31 +38,31 @@ public class StageUtils {
     // update default javafx stage style
     public static void updateStageStyle(Stage stage) {
         if (Platform.isWindows()) {
-            Pointer pointer = getWindowPointer(stage);
-            WinDef.HWND hwnd = new WinDef.HWND(pointer);
-
-            final User32 user32 = User32.INSTANCE;
-            int oldStyle = user32.GetWindowLong(hwnd, WinUser.GWL_STYLE);
-            int newStyle = oldStyle | 0x00020000; // WS_MINIMIZEBOX
-            user32.SetWindowLong(hwnd, WinUser.GWL_STYLE, newStyle);
+//            Pointer pointer = getWindowPointer(stage);
+//            WinDef.HWND hwnd = new WinDef.HWND(pointer);
+//
+//            final User32 user32 = User32.INSTANCE;
+//            int oldStyle = user32.GetWindowLong(hwnd, WinUser.GWL_STYLE);
+//            int newStyle = oldStyle | 0x00020000; // WS_MINIMIZEBOX
+//            user32.SetWindowLong(hwnd, WinUser.GWL_STYLE, newStyle);
         }
     }
 
-    private static Pointer getWindowPointer(Stage stage) {
-        try {
-            TKStage tkStage = stage.impl_getPeer();
-            Method getPlatformWindow = tkStage.getClass().getDeclaredMethod("getPlatformWindow");
-            getPlatformWindow.setAccessible(true);
-            Object platformWindow = getPlatformWindow.invoke(tkStage);
-            Method getNativeHandle = platformWindow.getClass().getMethod("getNativeHandle");
-            getNativeHandle.setAccessible(true);
-            Object nativeHandle = getNativeHandle.invoke(platformWindow);
-            return new Pointer((Long) nativeHandle);
-        } catch (Throwable e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+//    private static Pointer getWindowPointer(Stage stage) {
+//        try {
+//            TKStage tkStage = stage.impl_getPeer();
+//            Method getPlatformWindow = tkStage.getClass().getDeclaredMethod("getPlatformWindow");
+//            getPlatformWindow.setAccessible(true);
+//            Object platformWindow = getPlatformWindow.invoke(tkStage);
+//            Method getNativeHandle = platformWindow.getClass().getMethod("getNativeHandle");
+//            getNativeHandle.setAccessible(true);
+//            Object nativeHandle = getNativeHandle.invoke(platformWindow);
+//            return new Pointer((Long) nativeHandle);
+//        } catch (Throwable e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
 
     //加载Stage边框位置
     public static void loadPrimaryStageBound(Stage stage) {
