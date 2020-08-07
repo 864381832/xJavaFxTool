@@ -72,16 +72,16 @@ public class XJavaFxSystemUtil {
      * @Description: 添加jar包到系统中
      */
     public static void addJarClass(File jarFile) {
-        try {
-            log.info("Reading lib file: " + jarFile.getName());
-            Method method = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
-            method.setAccessible(true); // 设置方法的访问权限
-            // 获取系统类加载器
-            URLClassLoader classLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
-            URL url = jarFile.toURI().toURL();
-            method.invoke(classLoader, url);
-        } catch (Exception e) {
-            log.error("添加libs中jar包到系统中异常:", e);
-        }
+//        try {
+//            log.info("Reading lib file: " + jarFile.getName());
+//            Method method = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
+//            method.setAccessible(true); // 设置方法的访问权限
+//            // 获取系统类加载器
+//            URLClassLoader classLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
+//            URL url = jarFile.toURI().toURL();
+//            method.invoke(classLoader, url);
+//        } catch (Exception e) {
+//            log.error("添加libs中jar包到系统中异常:", e);
+//        }
     }
 }
