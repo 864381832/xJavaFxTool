@@ -4,7 +4,7 @@
 
   <groupId>com.xwintop</groupId>
   <artifactId>xJavaFxTool</artifactId>
-  <version>0.2.3</version>
+  <version>0.2.3-jdk11</version>
   <packaging>jar</packaging>
   <name>xJavaFxTool</name>
   <description>基于JavaFx搭建的实用小工具集合</description>
@@ -69,11 +69,29 @@
       <artifactId>javafx-web</artifactId>
       <version>11.0.2</version>
     </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics</artifactId>
+      <version>11.0.2</version>
+      <classifier>win</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics</artifactId>
+      <version>11.0.2</version>
+      <classifier>linux</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics</artifactId>
+      <version>11.0.2</version>
+      <classifier>mac</classifier>
+    </dependency>
 
     <dependency>
       <groupId>com.gitee.xwintop</groupId>
       <artifactId>xcore</artifactId>
-      <version>0.0.6</version>
+      <version>0.0.6-jdk11</version>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
