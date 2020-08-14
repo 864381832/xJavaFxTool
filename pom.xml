@@ -96,14 +96,14 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.5.5</version>
+        <version>3.3.0</version>
         <configuration>
           <finalName>xJavaFxTool</finalName>
           <appendAssemblyId>false</appendAssemblyId>
           <encoding>utf-8</encoding>
           <archive>
             <manifest>
-              <mainClass>com.xwintop.xJavaFxTool.Main</mainClass>
+              <mainClass>com.xwintop.xJavaFxTool.xJavaFxToolStart</mainClass>
             </manifest>
           </archive>
           <descriptorRefs>
@@ -129,27 +129,6 @@
           <vendor>xwintop</vendor>
           <appName>xJavaFxTool</appName>
         </configuration>
-      </plugin>
-      <!-- 生成javadoc文档包的插件 -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.1.1</version>
-        <configuration>
-          <show>private</show>
-          <nohelp>true</nohelp>
-          <additionalOptions>
-            <additionalOption>-Xdoclint:none</additionalOption>
-          </additionalOptions>
-        </configuration>
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>
