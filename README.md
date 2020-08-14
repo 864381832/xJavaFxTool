@@ -42,6 +42,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 - 使用[javafx-maven-plugin](https://github.com/javafx-maven-plugin/javafx-maven-plugin)插件进行打包操作(可打包windows、Linux、Mac安装包)
 - 使用[exe4j](https://www.ej-technologies.com/download/exe4j/files)将jar包转成exe执行文件(仅供参考，可使用其它程序打包)
 - 使用[InnoSetup](http://www.jrsoftware.org/)可进行制作windows安装包
+- jdk11启动需添加参数--add-opens java.base/jdk.internal.loader=ALL-UNNAMED --add-opens jdk.zipfs/jdk.nio.zipfs=ALL-UNNAMED  [参考](https://blog.csdn.net/fighting_boss/article/details/91043555)
 
 #### 目前集成的小工具有（点击中文名可进入对应小工具的开源地址）：
 | 序号  | 英文名  | 中文名  |  简介  |
