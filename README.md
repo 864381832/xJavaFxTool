@@ -19,7 +19,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 由于SpringBoot的火热，项目已经出SpringBoot-javafx版本，[xJavaFxTool-spring](https://gitee.com/xwintop/xJavaFxTool-spring) 欢迎参考，谢谢。
 
 #### 下载试用地址：
-- 可直接运行的jar包(本地需要有jdk1.8环境)[xJavaFxTool-0.2.3.jar](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.3.jar)
+- 可直接运行的jar包(本地需要有jdk11环境)[xJavaFxTool-0.2.3-jdk11.jar](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.3-jdk11.jar)
 - Windows x86安装包(兼容xp、windows7、8、10等系统)(请在下面网盘中下载)
 - Windows x64安装包(兼容xp、windows7、8、10等系统)[xJavaFxTool-0.2.3-windows-x64.exe](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.3-windows-x64.exe)
 - Linux x64 (请在下面网盘中下载)
@@ -33,7 +33,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 目前已将小工具拆分至各模块插件中按需加载，减小jar包的大小，将插件jar包放至根目录libs下即可自动加载;
 
 #### 环境搭建说明：
-- 开发环境为jdk1.8，基于maven构建
+- 开发环境为jdk11，基于maven构建
 - 使用eclipase或Intellij Idea开发,推荐使用[Intellij Idea](https://www.jetbrains.com/idea/)
 - 本项目使用了[lombok](https://projectlombok.org/),在查看本项目时如果您没有下载lombok 插件，请先安装,不然找不到get/set等方法
 - 依赖的[xcore包](https://gitee.com/xwintop/xcore)已上传至git托管的maven平台，git托管maven可参考教程(若无法下载请拉取项目自行编译)。[教程地址：点击进入](http://blog.csdn.net/u011747754/article/details/78574026)
