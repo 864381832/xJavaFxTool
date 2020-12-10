@@ -5,7 +5,7 @@
 **腾讯云开发平台地址：**[xJavaFxTool](https://dev.tencent.com/u/xwintop/p/xJavaFxTool)
 
 ::: hljs-center
-![](https://img.shields.io/:license-apache-blue.svg) ![](https://img.shields.io/badge/JDK-1.8+-green.svg) ![](https://gitee.com/xwintop/xJavaFxTool/badge/star.svg?theme=dark) ![](https://img.shields.io/github/stars/864381832/xJavaFxTool.svg?style=social)
+![](https://img.shields.io/:license-apache-blue.svg) ![](https://img.shields.io/badge/JDK-15+-green.svg) ![](https://gitee.com/xwintop/xJavaFxTool/badge/star.svg?theme=dark) ![](https://img.shields.io/github/stars/864381832/xJavaFxTool.svg?style=social)
 :::
 
 [英文说明/English Documentation](README_EN.md)
@@ -33,14 +33,13 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 目前已将小工具拆分至各模块插件中按需加载，减小jar包的大小，将插件jar包放至根目录libs下即可自动加载;
 
 #### 环境搭建说明：
-- 开发环境为jdk11，基于maven构建
+- 开发环境为jdk15，基于maven构建
 - 使用eclipase或Intellij Idea开发,推荐使用[Intellij Idea](https://www.jetbrains.com/idea/)
 - 本项目使用了[lombok](https://projectlombok.org/),在查看本项目时如果您没有下载lombok 插件，请先安装,不然找不到get/set等方法
 - 依赖的[xcore包](https://gitee.com/xwintop/xcore)已上传至git托管的maven平台，git托管maven可参考教程(若无法下载请拉取项目自行编译)。[教程地址：点击进入](http://blog.csdn.net/u011747754/article/details/78574026)
-- 使用[javafx-maven-plugin](https://github.com/javafx-maven-plugin/javafx-maven-plugin)插件进行打包操作(可打包windows、Linux、Mac安装包)
-- 使用[exe4j](https://www.ej-technologies.com/download/exe4j/files)将jar包转成exe执行文件(仅供参考，可使用其它程序打包)
-- 使用[InnoSetup](http://www.jrsoftware.org/)可进行制作windows安装包
-- jdk11启动需添加参数java --add-opens java.base/jdk.internal.loader=ALL-UNNAMED --add-opens jdk.zipfs/jdk.nio.zipfs=ALL-UNNAMED -jar xJavaFxTool.jar  [参考](https://blog.csdn.net/fighting_boss/article/details/91043555)
+- 使用[javafx-maven-plugin](https://github.com/openjfx/javafx-maven-plugin)插件进行打包操作(可打包windows、Linux、Mac安装包)
+- 使用 maven 运行命令: `mvn javafx:run`
+- 在jdk9+下运行jar文件，需添加启动参数`--add-opens java.base/jdk.internal.loader=ALL-UNNAMED --add-opens jdk.zipfs/jdk.nio.zipfs=ALL-UNNAMED -jar xJavaFxTool.jar`  [参考](https://blog.csdn.net/fighting_boss/article/details/91043555)
 
 #### 目前集成的小工具有：
 1. FileCopy：文件复制(支持自动调度拷贝功能) 使用[quartz](https://www.quartz-scheduler.org/)工具

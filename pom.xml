@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.xwintop</groupId>
   <artifactId>xJavaFxTool</artifactId>
-  <version>0.2.3-jdk11</version>
+  <version>0.2.3-jdk15</version>
   <packaging>jar</packaging>
   <name>xJavaFxTool</name>
   <description>基于JavaFx搭建的实用小工具集合</description>
@@ -13,8 +13,8 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.test.skip>true</maven.test.skip>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.source>15</maven.compiler.source>
+    <maven.compiler.target>15</maven.compiler.target>
   </properties>
   <repositories>
     <repository>
@@ -45,23 +45,11 @@
       <scope>test</scope>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
     <dependency>
       <groupId>org.openjfx</groupId>
-      <artifactId>javafx-graphics</artifactId>
-      <version>11.0.2</version>
-      <classifier>win</classifier>
-    </dependency>
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-graphics</artifactId>
-      <version>11.0.2</version>
-      <classifier>linux</classifier>
-    </dependency>
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-graphics</artifactId>
-      <version>11.0.2</version>
-      <classifier>mac</classifier>
+      <artifactId>javafx-controls</artifactId>
+      <version>15</version>
     </dependency>
 
     <dependency>
@@ -76,6 +64,7 @@
       <optional>true</optional>
       <scope>provided</scope>
     </dependency>
+
     <!-- dom4j 需要的依赖 -->
     <dependency>
       <groupId>jaxen</groupId>
@@ -91,44 +80,50 @@
     </dependency>
 
   </dependencies>
+
   <build>
     <plugins>
+      <!--
+      运行说明：因为很多开发人员电脑上多个JRE并存，默认PATH下的JRE版本不一定是15，
+      因此请先设置环境变量JDK_15_HOME指向JDK15的目录。
+       -->
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>3.3.0</version>
-        <configuration>
-          <finalName>xJavaFxTool</finalName>
-          <appendAssemblyId>false</appendAssemblyId>
-          <encoding>utf-8</encoding>
-          <archive>
-            <manifest>
-              <mainClass>com.xwintop.xJavaFxTool.xJavaFxToolStart</mainClass>
-            </manifest>
-          </archive>
-          <descriptorRefs>
-            <descriptorRef>jar-with-dependencies</descriptorRef>
-          </descriptorRefs>
-        </configuration>
-        <executions>
-          <execution>
-            <id>make-assembly</id>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>com.zenjava</groupId>
+        <groupId>org.openjfx</groupId>
         <artifactId>javafx-maven-plugin</artifactId>
-        <version>8.8.3</version>
+        <version>0.0.5</version>
         <configuration>
           <mainClass>com.xwintop.xJavaFxTool.Main</mainClass>
-          <vendor>xwintop</vendor>
-          <appName>xJavaFxTool</appName>
+          <executable>${env.JDK_15_HOME}/bin/java.exe</executable>
+          <commandlineArgs>--add-opens java.base/jdk.internal.loader=ALL-UNNAMED</commandlineArgs>
         </configuration>
+      </plugin>
+
+      <!--
+      这个插件目前无法正确构建 exe 文件。已经提了 issue:
+      https://github.com/fvarrui/JavaPackager/issues/81
+      -->
+      <plugin>
+        <groupId>io.github.fvarrui</groupId>
+        <artifactId>javapackager</artifactId>
+        <version>1.4.2</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>package</goal>
+            </goals>
+            <configuration>
+              <name>executable</name>
+              <displayName>xJavaFxTool</displayName>
+              <jrePath>${env.JDK_15_HOME}</jrePath>
+              <mainClass>com.xwintop.xJavaFxTool.Main</mainClass>
+              <bundleJre>true</bundleJre>
+              <generateInstaller>false</generateInstaller>
+              <administratorRequired>false</administratorRequired>
+              <platform>auto</platform>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
