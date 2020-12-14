@@ -31,6 +31,9 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 #### 支持插件开发：
 插件开发及示例见[开源项目xJavaFxTool-plugin](https://gitee.com/xwintop/xJavaFxTool-plugin)
 目前已将小工具拆分至各模块插件中按需加载，减小jar包的大小，将插件jar包放至根目录libs下即可自动加载;
+- [调试相关工具](https://gitee.com/xwintop/xJavaFxTool-debugTools)
+- [小工具](https://gitee.com/xwintop/xJavaFxTool-littleTools)
+- [相关小游戏](https://gitee.com/xwintop/xJavaFxTool-Games)
 
 #### 环境搭建说明：
 - 开发环境为jdk1.8，基于maven构建
@@ -96,12 +99,14 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 52. SealBuilderTool:印章生成工具
 53. BullsAndCowsGame:猜数字小游戏
 54. FileUnicodeTransformationTool:文件编码转换工具
-55. FileCompressTool:文件解压缩工具（目前支持ar、zip、tar、jar、cpio、7z、gz、bzip2、xz、lzma、pack200、deflate、snappy-framed、lz4-block、lz4-framed、zstd等格式解压缩）
+55. FileCompressTool:文件解压缩工具（目前支持ar、zip、tar、jar、cpio、7z、gz、rar、bzip2、xz、lzma、pack200、deflate、snappy-framed、lz4-block、lz4-framed、zstd等格式解压缩）
 56. IdiomDataTool:成语字典工具,使用[h2](http://www.h2database.com)数据库存储数据字典
 57. Sudoku:数独游戏
 58. LiteappCode:小程序码生成工具
-59. RdbmsSyncTool:关系型数据库同步工具
+59. RdbmsSyncTool:[关系型数据库同步工具](https://gitee.com/xwintop/x-RdbmsSyncTool)
 60. FileBuildTool:文件生成工具
+61. LuytenTool:Java反编译工具，使用开源项目[luyten](https://github.com/deathmarine/Luyten)
+62. JavaService:Java服务安装工具，使用开源项目[winsw](https://github.com/winsw/winsw)
 
 项目开发中，以后会陆续添加新工具，欢迎大家参与其中，多提提意见，谢谢。
 

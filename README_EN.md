@@ -103,11 +103,14 @@ the plug-in jar package can be automatically loaded under the root directory lib
 52. SealBuilderTool: Stamp Generation Tool
 53. BullsAndCowsGame: A number guessing game
 54. FileUnicodeTransformationTool: File encoding conversion tool
-55. FileCompressTool: File decompression tool (currently supports ar, zip, tar, jar, cpio, 7z, gz, bzip2, xz, lzma, pack200, deflate, snappy-framed, lz4-block, lz4-framed, ZSTD, etc.)
+55. FileCompressTool: File decompression tool (currently supports ar, zip, tar, jar, cpio, 7z, gz, rar, bzip2, xz, lzma, pack200, deflate, snappy-framed, lz4-block, lz4-framed, ZSTD, etc.)
 56. IdiomDataTool:IdiomDataTool(Use the [h2](http://www.h2database.com) database to store the data dictionary)
 57. Sudoku:Sudoku Game
 58. LiteappCode
 59. RdbmsSyncTool
+60. FileBuildTool
+61. LuytenTool:Java decompilation tool, use open source project[luyten](https://github.com/deathmarine/Luyten)
+62. JavaService:Java Service installation tools, use open source project[winsw](https://github.com/winsw/winsw)
 
 #### In the development of the project, new tools will be added in the future. Welcome everyone to participate and give more comments, thank you.
 #### Plan to add features:
