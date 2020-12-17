@@ -1,8 +1,6 @@
 package com.xwintop.xJavaFxTool.newui;
 
-import static com.xwintop.xJavaFxTool.utils.BoolUtils.isNot;
-
-import com.xwintop.xJavaFxTool.Main;
+import com.xwintop.xJavaFxTool.XJavaFxToolApplication;
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
 import com.xwintop.xJavaFxTool.event.AppEvents;
@@ -16,7 +14,15 @@ import com.xwintop.xJavaFxTool.services.index.SystemSettingService;
 import com.xwintop.xcore.javafx.FxApp;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import com.xwintop.xcore.javafx.dialog.FxDialog;
-import java.awt.Desktop;
+import javafx.beans.Observable;
+import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
+import javafx.scene.web.WebView;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -24,17 +30,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javafx.beans.Observable;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckMenuItem;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
-import javafx.scene.web.WebView;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+
+import static com.xwintop.xJavaFxTool.utils.BoolUtils.isNot;
 
 @Slf4j
 public class NewLauncherController {
@@ -140,7 +137,7 @@ public class NewLauncherController {
         }
 
         String categoryName = jarInfo.getIsFavorite() ?
-            FAVORITE_CATEGORY_NAME : Main.RESOURCE_BUNDLE.getString(menuParentTitle);
+            FAVORITE_CATEGORY_NAME : XJavaFxToolApplication.RESOURCE_BUNDLE.getString(menuParentTitle);
 
         PluginCategoryController category = categoryControllers.computeIfAbsent(
             categoryName, __ -> {
@@ -181,7 +178,7 @@ public class NewLauncherController {
             .setBodyFxml(PluginManageController.FXML)
             .setOwner(FxApp.primaryStage)
             .setResizable(true)
-            .setTitle(Main.RESOURCE_BUNDLE.getString("plugin_manage"))
+            .setTitle(XJavaFxToolApplication.RESOURCE_BUNDLE.getString("plugin_manage"))
             .setPrefWidth(800)
             .show();
     }

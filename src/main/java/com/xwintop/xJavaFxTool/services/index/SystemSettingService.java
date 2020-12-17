@@ -1,6 +1,6 @@
 package com.xwintop.xJavaFxTool.services.index;
 
-import com.xwintop.xJavaFxTool.Main;
+import com.xwintop.xJavaFxTool.XJavaFxToolApplication;
 import com.xwintop.xJavaFxTool.controller.index.SystemSettingController;
 import com.xwintop.xcore.javafx.FxApp;
 import com.xwintop.xcore.javafx.dialog.FxDialog;
@@ -24,7 +24,7 @@ public class SystemSettingService {
     public static void openSystemSettings(String title) {
 
         FxDialog<SystemSettingController> dialog = new FxDialog<SystemSettingController>()
-            .setResourceBundle(Main.RESOURCE_BUNDLE)
+            .setResourceBundle(XJavaFxToolApplication.RESOURCE_BUNDLE)
             .setTitle(title)
             .setBodyFxml("/com/xwintop/xJavaFxTool/fxmlView/index/SystemSetting.fxml")
             .setOwner(FxApp.primaryStage)

@@ -84,6 +84,7 @@
   <build>
     <plugins>
       <!--
+      运行方式：执行 mvn javafx:run
       运行说明：因为很多开发人员电脑上多个JRE并存，默认PATH下的JRE版本不一定是15，
       因此请先设置环境变量JDK_15_HOME指向JDK15的目录。
        -->
@@ -92,15 +93,14 @@
         <artifactId>javafx-maven-plugin</artifactId>
         <version>0.0.5</version>
         <configuration>
-          <mainClass>com.xwintop.xJavaFxTool.Main</mainClass>
+          <mainClass>com.xwintop.xJavaFxTool.XJavaFxToolMain</mainClass>
           <executable>${env.JDK_15_HOME}/bin/java.exe</executable>
           <commandlineArgs>--add-opens java.base/jdk.internal.loader=ALL-UNNAMED</commandlineArgs>
         </configuration>
       </plugin>
 
       <!--
-      这个插件目前无法正确构建 exe 文件。已经提了 issue:
-      https://github.com/fvarrui/JavaPackager/issues/81
+      在 JDK15 环境中直接执行 mvn package 即可打包成附带 JRE 的 exe 可执行文件
       -->
       <plugin>
         <groupId>io.github.fvarrui</groupId>
@@ -113,10 +113,17 @@
               <goal>package</goal>
             </goals>
             <configuration>
-              <name>executable</name>
+              <!-- 需要查看控制台输出的话再打开下面这个配置 -->
+              <!--
+              <winConfig>
+                <headerType>console</headerType>
+              </winConfig>
+              -->
+              <name>xJavaFxTool</name>
+              <vmArgs>--add-opens java.base/jdk.internal.loader=ALL-UNNAMED</vmArgs>
               <displayName>xJavaFxTool</displayName>
               <jrePath>${env.JDK_15_HOME}</jrePath>
-              <mainClass>com.xwintop.xJavaFxTool.Main</mainClass>
+              <mainClass>com.xwintop.xJavaFxTool.XJavaFxToolMain</mainClass>
               <bundleJre>true</bundleJre>
               <generateInstaller>false</generateInstaller>
               <administratorRequired>false</administratorRequired>
