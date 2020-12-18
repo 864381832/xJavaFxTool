@@ -42,6 +42,14 @@ public class PluginProjectInfo {
         return getPackageName() + "." + getMainClass();
     }
 
+    public String getApplicationClass() {
+        return toClassName(artifactId) + "Application";
+    }
+
+    public String getApplicationFullClass() {
+        return getPackageName() + "." + getApplicationClass();
+    }
+
     private String toClassName(String hyphens) {
         StringBuilder sb = new StringBuilder();
         for (String s : hyphens.split("-")) {

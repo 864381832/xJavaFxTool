@@ -95,7 +95,6 @@
         <configuration>
           <mainClass>com.xwintop.xJavaFxTool.XJavaFxToolMain</mainClass>
           <executable>${env.JDK_15_HOME}/bin/java.exe</executable>
-          <commandlineArgs>--add-opens java.base/jdk.internal.loader=ALL-UNNAMED</commandlineArgs>
         </configuration>
       </plugin>
 

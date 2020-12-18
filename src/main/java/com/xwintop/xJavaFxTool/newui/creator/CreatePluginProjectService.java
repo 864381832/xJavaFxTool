@@ -1,9 +1,9 @@
 package com.xwintop.xJavaFxTool.newui.creator;
 
-import static com.xwintop.xJavaFxTool.utils.ResourceBundleUtils.toNativeAscii;
-
 import com.xwintop.xJavaFxTool.utils.ResourceUtils;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -11,7 +11,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import org.apache.commons.io.FileUtils;
+
+import static com.xwintop.xJavaFxTool.utils.ResourceBundleUtils.toNativeAscii;
 
 public class CreatePluginProjectService {
 
@@ -32,9 +33,20 @@ public class CreatePluginProjectService {
             saveFxml(pluginProjectInfo);
             saveControllerClass(pluginProjectInfo);
             saveMainClass(pluginProjectInfo);
+            saveApplicationClass(pluginProjectInfo);
         } catch (Exception e) {
             FxAlerts.error("创建失败", e);
         }
+    }
+
+    private void saveApplicationClass(PluginProjectInfo info) throws Exception {
+        String java = ResourceUtils.readResource("/plugin-template/PLUGIN_NAMEApplication.java", CHARSET);
+        java = java
+            .replace("[PACKAGE]", info.getPackageName())
+            .replace("[PLUGIN_NAME]", info.getPluginName())
+            .replace("[CLASS_NAME]", info.getApplicationClass());
+        String javaPath = "src/main/java/" + info.getApplicationFullClass().replace(".", "/") + ".java";
+        writeFile(Paths.get(info.getLocation(), javaPath), java);
     }
 
     private void saveMainClass(PluginProjectInfo info) throws Exception {
@@ -42,6 +54,7 @@ public class CreatePluginProjectService {
         java = java
             .replace("[PACKAGE]", info.getPackageName())
             .replace("[PLUGIN_NAME]", info.getPluginName())
+            .replace("[APP_CLASS_NAME]", info.getApplicationClass())
             .replace("[CLASS_NAME]", info.getMainClass());
         String javaPath = "src/main/java/" + info.getMainFullClass().replace(".", "/") + ".java";
         writeFile(Paths.get(info.getLocation(), javaPath), java);
@@ -81,14 +94,15 @@ public class CreatePluginProjectService {
     private void savePom(PluginProjectInfo info) throws Exception {
         String pom = ResourceUtils.readResource("/plugin-template/pom.xml", CHARSET);
         pom = pom
+            .replace("[MAIN_CLASS]", info.getMainFullClass())
             .replace("[GROUPID]", info.getGroupId())
             .replace("[ARTIFACTID]", info.getArtifactId())
             .replace("[VERSION]", info.getVersion());
-        Files.write(Paths.get(info.getLocation(), "pom.xml"), pom.getBytes(CHARSET));
+        Files.writeString(Paths.get(info.getLocation(), "pom.xml"), pom, CHARSET);
     }
 
     private void writeFile(Path path, String fileContent) throws IOException {
         FileUtils.forceMkdirParent(path.toFile());
-        Files.write(path, fileContent.getBytes(CHARSET));
+        Files.writeString(path, fileContent, CHARSET);
     }
 }
