@@ -45,11 +45,11 @@ public class XJavaFxToolApplication extends Application {
         primaryStage.setTitle(RESOURCE_BUNDLE.getString("Title") + Config.xJavaFxToolVersions);
         primaryStage.setOnCloseRequest(this::confirmExit);
 
-        if (Config.getBoolean(Keys.NewLauncher, false)) {
-            loadNewUI(primaryStage);
-        } else {
-            loadClassicUI(primaryStage);
-        }
+        // 只启用新UI，因为：
+        // 1. 新UI启动时不扫描插件目录，启动更快；
+        // 2. 新UI使用独立的ClassLoader加载插件，兼容性更好；
+        // 3. 新UI本身体验较好。
+        loadNewUI(primaryStage);
 
         StageUtils.loadPrimaryStageBound(primaryStage);
         primaryStage.show();

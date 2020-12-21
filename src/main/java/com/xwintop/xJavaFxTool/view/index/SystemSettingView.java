@@ -8,10 +8,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * @ClassName: SystemSettingView
- * @Description: 设置页面
- * @author: xufeng
- * @date: 2020/2/25 0025 16:44
+ * 设置页面
+ *
+ * @author xufeng
  */
 
 @Getter
@@ -26,9 +25,6 @@ public abstract class SystemSettingView implements Initializable {
 
     @FXML
     protected CheckBox saveStageBoundCheckBox;
-
-    @FXML
-    protected CheckBox chkNewLauncher;
 
     @FXML
     protected Button saveButton;

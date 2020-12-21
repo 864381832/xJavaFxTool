@@ -14,5 +14,4 @@
     <CheckBox fx:id="exitShowAlertCheckBox" selected="true" text="退出时是否显示确认对话框"/>
     <CheckBox fx:id="addNotepadCheckBox" selected="true" text="打开时是否加载临时记事本页面"/>
     <CheckBox fx:id="saveStageBoundCheckBox" selected="true" text="是否在退出时保存窗口大小及位置信息"/>
-    <CheckBox fx:id="chkNewLauncher" selected="true" text="使用新版启动界面"/>
 </VBox>

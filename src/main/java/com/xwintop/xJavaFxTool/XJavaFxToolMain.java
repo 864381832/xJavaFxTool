@@ -12,7 +12,6 @@ public class XJavaFxToolMain {
 
     public static void main(String[] args) {
         XJavaFxSystemUtil.initSystemLocal();    // 初始化本地语言
-        XJavaFxSystemUtil.addJarByLibs();       // 添加外部jar包
         Application.launch(XJavaFxToolApplication.class, args);
     }
 }

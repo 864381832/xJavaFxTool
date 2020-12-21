@@ -44,6 +44,11 @@
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.2.3</version>
+    </dependency>
 
     <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
     <dependency>
@@ -55,7 +60,7 @@
     <dependency>
       <groupId>com.xwintop</groupId>
       <artifactId>xcore</artifactId>
-      <version>0.0.6-jdk11</version>
+      <version>0.0.6-jdk15-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>

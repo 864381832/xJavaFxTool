@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -31,8 +32,8 @@ public class PluginContainer {
 
     public <T> T createInstance(Class<T> type) {
         try {
-            return type.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
+            return type.getDeclaredConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
             throw new AppException(e);
         }
     }
@@ -52,7 +53,7 @@ public class PluginContainer {
     public FXMLLoader createFXMLLoader() {
         try {
             FXMLLoader pluginFxmlLoader = (FXMLLoader)
-                pluginClassLoader.loadClass("javafx.fxml.FXMLLoader").newInstance();
+                pluginClassLoader.loadClass("javafx.fxml.FXMLLoader").getDeclaredConstructor().newInstance();
 
             pluginFxmlLoader.setClassLoader(pluginClassLoader);
 
