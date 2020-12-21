@@ -109,8 +109,9 @@ public class NewLauncherController {
         this.pluginItemControllers.clear();
         this.categoryControllers.clear();
 
-        List<PluginJarInfo> pluginList = PluginManager.getInstance().getPluginList();
-        pluginList.forEach(this::loadPlugin);
+        PluginManager pluginManager = PluginManager.getInstance();
+        pluginManager.loadLocalPlugins();
+        pluginManager.getPluginList().forEach(this::loadPlugin);
     }
 
     /**

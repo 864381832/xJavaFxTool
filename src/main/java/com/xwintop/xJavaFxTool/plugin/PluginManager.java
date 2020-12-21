@@ -121,9 +121,10 @@ public class PluginManager {
      */
     public void loadLocalPlugins() {
         this.pluginList.forEach(plugin -> {
-            if (plugin.getIsDownload() != null && plugin.getIsDownload()) {
+            File pluginFile = plugin.getFile();
+            if (pluginFile.exists()) {
                 try {
-                    PluginParser.parse(plugin.getFile(), plugin);
+                    PluginParser.parse(pluginFile, plugin);
                 } catch (Exception e) {
                     log.error("解析失败", e);
                 }
@@ -172,6 +173,7 @@ public class PluginManager {
                     exist.setDownloadUrl(plugin.getDownloadUrl());
                 });
             });
+            log.info("下载插件列表完成。");
         } catch (Exception e) {
             log.error("下载插件列表失败", e);
         }
@@ -255,6 +257,7 @@ public class PluginManager {
      * @param url        下载地址
      * @param ua         UA 字符串
      * @param file       下载到的目标文件
+     *
      * @throws IOException 如果下载失败
      */
     private void tryDownload(String pluginName, String url, String ua, File file) throws IOException {

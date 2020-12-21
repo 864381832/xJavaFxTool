@@ -1,9 +1,10 @@
 # Default ignored files
 #/.gitignore
-/.idea
-/xJavaFxTool.iml
-/logs
-/target
+.idea/
+*.iml
 
+logs/
+target/
 libs/
+
 system_plugin_list.json
