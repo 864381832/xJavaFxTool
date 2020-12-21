@@ -103,7 +103,7 @@ public class PluginManager {
                 return;
             }
 
-            String json = new String(Files.readAllBytes(path), DEFAULT_CHARSET);
+            String json = Files.readString(path, DEFAULT_CHARSET);
             JSON.parseArray(json, PluginJarInfo.class).forEach(plugin -> {
                 this.addOrUpdatePlugin(plugin, exist -> {
                     exist.setLocalVersionNumber(plugin.getLocalVersionNumber());
@@ -219,7 +219,7 @@ public class PluginManager {
         Throwable downloadFailure = null;
         for (String ua : OPTIONAL_UA_LIST) {
             try {
-                tryDownload(pluginJarInfo.getDownloadUrl(), ua, file);
+                tryDownload(plugin.getName(), pluginJarInfo.getDownloadUrl(), ua, file);
                 downloadFailure = null;
                 break;
             } catch (Exception e) {
@@ -231,7 +231,8 @@ public class PluginManager {
             if (downloadFailure instanceof IOException) {
                 throw (IOException) downloadFailure;
             } else {
-                throw new IOException("插件下载失败 " + pluginJarInfo.getJarName(), downloadFailure);
+                throw new IOException("插件 '" + plugin.getName() +
+                    "' 下载失败 " + pluginJarInfo.getJarName(), downloadFailure);
             }
         }
 
@@ -250,18 +251,18 @@ public class PluginManager {
     /**
      * 尝试指定的 UA 进行下载，如果下载失败则抛出异常
      *
-     * @param url  下载地址
-     * @param ua   UA 字符串
-     * @param file 下载到的目标文件
-     *
+     * @param pluginName 插件名称
+     * @param url        下载地址
+     * @param ua         UA 字符串
+     * @param file       下载到的目标文件
      * @throws IOException 如果下载失败
      */
-    private void tryDownload(String url, String ua, File file) throws IOException {
+    private void tryDownload(String pluginName, String url, String ua, File file) throws IOException {
         Request request = new Builder().header("User-Agent", ua).url(url).build();
 
         try (Response response = pluginDownloader.newCall(request).execute()) {
             if (response.code() != HttpStatus.HTTP_OK) {
-                throw new IOException("插件下载失败 : HTTP " + response.code());
+                throw new IOException("插件 '" + pluginName + "' 下载失败 : HTTP " + response.code());
             }
 
             InputStream inputStream = Objects.requireNonNull(response.body()).byteStream();
@@ -280,7 +281,7 @@ public class PluginManager {
         if (!Files.exists(path)) {
             Files.createFile(path);
         }
-        Files.write(path, json.getBytes(DEFAULT_CHARSET));
+        Files.writeString(path, json, DEFAULT_CHARSET);
     }
 
     // 保存配置，如果失败不抛出异常

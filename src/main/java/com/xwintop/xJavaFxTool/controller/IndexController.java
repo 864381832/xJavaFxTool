@@ -2,7 +2,6 @@ package com.xwintop.xJavaFxTool.controller;
 
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
 import com.xwintop.xJavaFxTool.model.ToolFxmlLoaderConfiguration;
-import com.xwintop.xJavaFxTool.plugin.PluginManager;
 import com.xwintop.xJavaFxTool.services.IndexService;
 import com.xwintop.xJavaFxTool.services.index.PluginManageService;
 import com.xwintop.xJavaFxTool.services.index.SystemSettingService;
@@ -267,6 +266,7 @@ public class IndexController extends IndexView {
         FXMLLoader fXMLLoader = PluginManageController.getFXMLLoader();
         Parent root = fXMLLoader.load();
         PluginManageController pluginManageController = fXMLLoader.getController();
+/*
         pluginManageController.setOnPluginDownloaded(jarFile -> {
             try {
                 this.addToolMenu(jarFile);
@@ -275,6 +275,7 @@ public class IndexController extends IndexView {
                 log.error("加载工具出错：", e);
             }
         });
+*/
         JavaFxViewUtil.openNewWindow(bundle.getString("plugin_manage"), root);
     }
 

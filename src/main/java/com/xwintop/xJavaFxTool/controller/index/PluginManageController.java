@@ -10,31 +10,27 @@ import com.xwintop.xJavaFxTool.plugin.PluginManager;
 import com.xwintop.xJavaFxTool.plugin.PluginParser;
 import com.xwintop.xJavaFxTool.services.index.PluginManageService;
 import com.xwintop.xJavaFxTool.view.index.PluginManageView;
+import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.function.Consumer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Window;
 import javafx.util.Callback;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * 插件管理
@@ -71,10 +67,6 @@ public class PluginManageController extends PluginManageView {
         return this.pluginDataTableView.getScene().getWindow();
     }
 
-    public void setOnPluginDownloaded(Consumer<File> onPluginDownloaded) {
-        this.pluginManageService.setOnPluginDownloaded(onPluginDownloaded);
-    }
-
     private void initView() {
         addLocalPluginButton.setVisible(Boolean.parseBoolean(System.getProperty("localPluginEnabled", "false")));
 
@@ -89,10 +81,10 @@ public class PluginManageController extends PluginManageView {
         // TODO 实现插件的启用禁用
 
         downloadTableColumn.setCellFactory(
-            new Callback<TableColumn<Map<String, String>, String>, TableCell<Map<String, String>, String>>() {
+            new Callback<>() {
                 @Override
                 public TableCell<Map<String, String>, String> call(TableColumn<Map<String, String>, String> param) {
-                    return new TableCell<Map<String, String>, String>() {
+                    return new TableCell<>() {
                         @Override
                         protected void updateItem(String item, boolean empty) {
                             super.updateItem(item, empty);
@@ -118,8 +110,8 @@ public class PluginManageController extends PluginManageView {
 
     private void downloadPlugin(Map<String, String> dataRow, Button downloadButton) {
         try {
-            PluginJarInfo pluginJarInfo = pluginManageService.downloadPluginJar(dataRow);
-            afterDownload(dataRow, downloadButton, pluginJarInfo);
+            pluginManageService.downloadPluginJar(dataRow,
+                pluginJarInfo -> afterDownload(dataRow, downloadButton, pluginJarInfo));
         } catch (Exception e) {
             log.error("下载插件失败：", e);
             TooltipUtil.showToast("下载插件失败：" + e.getMessage());
@@ -128,22 +120,32 @@ public class PluginManageController extends PluginManageView {
 
     private void afterDownload(
         Map<String, String> dataRow, Button downloadButton, PluginJarInfo pluginJarInfo
-    ) throws IOException {
+    ) {
 
-        dataRow.put("isEnableTableColumn", "true");
-        dataRow.put("isDownloadTableColumn", "已下载");
+        // 没有下载成功不做处理
+        if (pluginJarInfo.getIsDownload() == null || !pluginJarInfo.getIsDownload()) {
+            return;
+        }
 
-        downloadButton.setText("已下载");
-        downloadButton.setDisable(true);
+        try {
+            PluginManager.getInstance().saveToFile();
+            TooltipUtil.showToast("插件 " + dataRow.get("nameTableColumn") + " 下载完成");
 
-        pluginDataTableView.refresh();
-        PluginManager.getInstance().saveToFile();
-        TooltipUtil.showToast("插件 " + dataRow.get("nameTableColumn") + " 下载完成");
+            PluginClassLoader tempClassLoader = new PluginClassLoader(pluginJarInfo.getFile());
+            PluginParser.parse(pluginJarInfo.getFile(), pluginJarInfo, tempClassLoader);
 
-        PluginClassLoader tempClassLoader = new PluginClassLoader(pluginJarInfo.getFile());
-        PluginParser.parse(pluginJarInfo.getFile(), pluginJarInfo, tempClassLoader);
+            dataRow.put("isEnableTableColumn", "true");
+            dataRow.put("isDownloadTableColumn", "已下载");
 
-        AppEvents.fire(new PluginEvent(PluginEvent.PLUGIN_DOWNLOADED, pluginJarInfo));
+            downloadButton.setText("已下载");
+            downloadButton.setDisable(true);
+
+            pluginDataTableView.refresh();
+            AppEvents.fire(new PluginEvent(PluginEvent.PLUGIN_DOWNLOADED, pluginJarInfo));
+        } catch (IOException e) {
+            log.error("", e);
+            FxAlerts.error("处理文件失败", e);
+        }
     }
 
     private void initEvent() {
@@ -163,9 +165,8 @@ public class PluginManageController extends PluginManageView {
         pluginDataTableView.setContextMenu(contextMenu);
 
         // 搜索
-        selectPluginTextField.textProperty().addListener((_ob, _old, _new) -> {
-            pluginManageService.searchPlugin(_new);
-        });
+        selectPluginTextField.textProperty()
+            .addListener((_ob, _old, _new) -> pluginManageService.searchPlugin(_new));
     }
 
     private void initService() {

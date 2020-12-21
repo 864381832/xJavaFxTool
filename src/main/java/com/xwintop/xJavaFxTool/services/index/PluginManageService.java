@@ -1,21 +1,23 @@
 package com.xwintop.xJavaFxTool.services.index;
 
-import static org.apache.commons.lang3.StringUtils.substringBeforeLast;
-
 import com.xwintop.xJavaFxTool.AppException;
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.plugin.PluginManager;
+import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import com.xwintop.xcore.javafx.dialog.FxProgressDialog;
 import com.xwintop.xcore.javafx.dialog.ProgressTask;
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Consumer;
+import javafx.stage.Window;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
+
+import static org.apache.commons.lang3.StringUtils.substringBeforeLast;
 
 /**
  * 插件管理
@@ -34,8 +36,6 @@ public class PluginManageService {
     private PluginManageController pluginManageController;
 
     private PluginManager pluginManager = PluginManager.getInstance();
-
-    private Consumer<File> onPluginDownloaded;
 
     public PluginManageService(PluginManageController pluginManageController) {
         this.pluginManageController = pluginManageController;
@@ -72,7 +72,7 @@ public class PluginManageService {
         pluginManageController.getOriginPluginData().add(dataRow);
     }
 
-    public PluginJarInfo downloadPluginJar(Map<String, String> dataRow) throws Exception {
+    public void downloadPluginJar(Map<String, String> dataRow, Consumer<PluginJarInfo> afterDownload) {
 
         String jarName = dataRow.get("jarName");
         PluginJarInfo pluginJarInfo = pluginManager.getPlugin(jarName);
@@ -80,25 +80,35 @@ public class PluginManageService {
         ProgressTask progressTask = new ProgressTask() {
             @Override
             protected void execute() throws Exception {
-                File file = pluginManager.downloadPlugin(
+                pluginManager.downloadPlugin(
                     pluginJarInfo, (total, current) -> updateProgress(current, total)
                 );
 
-                if (onPluginDownloaded != null) {
-                    onPluginDownloaded.accept(file);
+                if (afterDownload != null) {
+                    afterDownload.accept(pluginJarInfo);
                 }
             }
         };
+
+        Window controllerWindow = pluginManageController.getWindow();
+        FxProgressDialog dialog = FxProgressDialog
+            .create(controllerWindow, progressTask, "正在下载插件 " + pluginJarInfo.getName() + "...");
 
         progressTask.setOnCancelled(event -> {
             throw new AppException("下载被取消。");
         });
 
-        FxProgressDialog
-            .create(pluginManageController.getWindow(), progressTask, "正在下载插件 " + pluginJarInfo.getName() + "...")
-            .showAndWait();
+        progressTask.setOnFailed(event -> {
+            Throwable e = event.getSource().getException();
+            if (e != null) {
+                log.error("", e);
+                FxAlerts.error(controllerWindow, "下载插件失败", e);
+            } else {
+                FxAlerts.error(controllerWindow, "下载失败", event.getSource().getMessage());
+            }
+        });
 
-        return pluginJarInfo;
+        dialog.show();
     }
 
     public void setIsEnableTableColumn(Integer index) {
