@@ -112,6 +112,8 @@ the plug-in jar package can be automatically loaded under the root directory lib
 61. LuytenTool:Java decompilation tool, use open source project[luyten](https://github.com/deathmarine/Luyten)
 62. JavaService:Java Service installation tools, use open source project[winsw](https://github.com/winsw/winsw)
 63. ElementaryArithmeticProblemTool:Elementary Arithmetic Problem Tool
+64. CoordinateTransformTool:[CoordinateTransformTool](https://gitee.com/xwintop/x-CoordinateTransformTool),Conversion between Baidu coordinates (BD09), National Survey Bureau coordinates (Mars coordinates, GCJ02), and WGS84 coordinates is provided
+65. HdfsTool:[HdfsTool](https://gitee.com/xwintop/x-HdfsTool)，Support uploading, downloading, renaming, copying, moving and deleting functions
 
 #### In the development of the project, new tools will be added in the future. Welcome everyone to participate and give more comments, thank you.
 #### Plan to add features:
