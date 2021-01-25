@@ -61,7 +61,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 14. HttpTool：Http调试工具(支持自定义发送数据、header和cookie)(使用[okhttp](https://square.github.io/okhttp/))
 15. jsonEditor：json格式化编辑工具
 16. IconTool：图标生成工具 使用[thumbnailator](https://github.com/coobird/thumbnailator)工具
-17. RedisTool：Redis连接工具 使用[jedis](https://github.com/xetorthio/jedis)工具
+17. RedisTool：Redis连接工具 使用[jedis](https://github.com/xetorthio/jedis)工具[开源地址](https://gitee.com/xwintop/x-RedisTool)
 18. WebSourcesTool：网页源码下载工具
 19. SwitchHostsTool：切换Hosts工具使用[richtextfx](https://github.com/FXMisc/RichTextFX)工具
 20. FtpServer：Ftp服务器(快速搭建本地Ftp服务)(基于[apache.ftpserver](https://mina.apache.org/ftpserver-project))
@@ -94,7 +94,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 47. SedentaryReminderTool:久坐提醒工具
 48. RandomGeneratorTool:随机数生成工具,使用[hutool](https://hutool.cn)工具
 49. ClipboardHistoryTool:剪贴板历史工具
-50. FileSearchTool:文件搜索工具使用[lucene](https://lucene.apache.org/)搜索引擎
+50. FileSearchTool:文件搜索工具使用[lucene](https://lucene.apache.org/)搜索引擎[开源地址](https://gitee.com/xwintop/x-FileSearchTool)
 51. Mp3ConvertTool:Mp3转换工具(目前支持网易云音乐.ncm、QQ音乐.qmc转换为mp3格式)使用[jaudiotagger](http://www.jthink.net/jaudiotagger)工具
 52. SealBuilderTool:印章生成工具
 53. BullsAndCowsGame:猜数字小游戏
@@ -107,6 +107,9 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 60. FileBuildTool:文件生成工具
 61. LuytenTool:Java反编译工具，使用开源项目[luyten](https://github.com/deathmarine/Luyten)
 62. JavaService:Java服务安装工具，使用开源项目[winsw](https://github.com/winsw/winsw)
+63. ElementaryArithmeticProblemTool:小学生算数题生成工具
+64. CoordinateTransformTool:[坐标系转换工具](https://gitee.com/xwintop/x-CoordinateTransformTool),提供了百度坐标（BD09）、国测局坐标（火星坐标，GCJ02）、和WGS84坐标系之间的转换
+65. HdfsTool:[hdfs管理工具](https://gitee.com/xwintop/x-HdfsTool),hdfs可视化管理工具，支持上传、下载、重命名、复制、移动和删除等功能
 
 项目开发中，以后会陆续添加新工具，欢迎大家参与其中，多提提意见，谢谢。
 
