@@ -27,7 +27,7 @@ public class PluginContainer {
 
     public PluginContainer(ClassLoader parentClassLoader, PluginJarInfo pluginJarInfo) {
         this.pluginJarInfo = pluginJarInfo;
-        this.pluginClassLoader = new PluginClassLoader(parentClassLoader, pluginJarInfo.getFile());
+        this.pluginClassLoader = PluginClassLoader.create(parentClassLoader, pluginJarInfo.getFile());
     }
 
     public <T> T createInstance(Class<T> type) {

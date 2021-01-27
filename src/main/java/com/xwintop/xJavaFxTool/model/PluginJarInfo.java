@@ -30,10 +30,6 @@ public class PluginJarInfo {
 
     private String downloadUrl;     // 下载地址
 
-    public String getDownloadUrl() {
-        return this.downloadUrl.replace("/plugin-libs/", "/plugin-libs-java15/");
-    }
-
     ///////////////////////////////////////// 下面的属性在远程插件列表中不存在
 
     private Boolean isDownload;             // 是否下载

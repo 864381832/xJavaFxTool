@@ -14,6 +14,7 @@ import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -110,8 +111,9 @@ public class PluginManageController extends PluginManageView {
 
     private void downloadPlugin(Map<String, String> dataRow, Button downloadButton) {
         try {
-            pluginManageService.downloadPluginJar(dataRow,
-                pluginJarInfo -> afterDownload(dataRow, downloadButton, pluginJarInfo));
+            pluginManageService.downloadPluginJar(dataRow, pluginJarInfo ->
+                Platform.runLater(() -> afterDownload(dataRow, downloadButton, pluginJarInfo))
+            );
         } catch (Exception e) {
             log.error("下载插件失败：", e);
             TooltipUtil.showToast("下载插件失败：" + e.getMessage());
@@ -131,7 +133,7 @@ public class PluginManageController extends PluginManageView {
             PluginManager.getInstance().saveToFile();
             TooltipUtil.showToast("插件 " + dataRow.get("nameTableColumn") + " 下载完成");
 
-            PluginClassLoader tempClassLoader = new PluginClassLoader(pluginJarInfo.getFile());
+            PluginClassLoader tempClassLoader = PluginClassLoader.create(pluginJarInfo.getFile());
             PluginParser.parse(pluginJarInfo.getFile(), pluginJarInfo, tempClassLoader);
 
             dataRow.put("isEnableTableColumn", "true");

@@ -93,7 +93,7 @@ public class PluginParser {
         File pluginFile, ClassLoader classLoader, Element pluginElement, String bundleName
     ) {
         String titleResourceBundleKey = getChildNodeText(pluginElement, "title");
-        ClassLoader tmpClassLoader = classLoader == null ? new PluginClassLoader(pluginFile) : classLoader;
+        ClassLoader tmpClassLoader = classLoader == null ? PluginClassLoader.create(pluginFile) : classLoader;
         ResourceBundle resourceBundle = ResourceBundle.getBundle(bundleName, Config.defaultLocale, tmpClassLoader);
         return resourceBundle.getString(defaultString(titleResourceBundleKey, "Title")); }
 

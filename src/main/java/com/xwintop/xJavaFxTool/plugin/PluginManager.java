@@ -138,7 +138,7 @@ public class PluginManager {
      * @param jarFile 插件文件
      */
     public AddPluginResult addPluginJar(File jarFile) {
-        PluginClassLoader tmpClassLoader = new PluginClassLoader(jarFile);
+        PluginClassLoader tmpClassLoader = PluginClassLoader.create(jarFile);
         PluginJarInfo newJarInfo = new PluginJarInfo();
         newJarInfo.setLocalPath(jarFile.getAbsolutePath());
         newJarInfo.setIsEnable(true);
