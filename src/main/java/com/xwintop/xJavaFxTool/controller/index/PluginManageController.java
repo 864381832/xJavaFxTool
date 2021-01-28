@@ -79,8 +79,6 @@ public class PluginManageController extends PluginManageView {
             (mouseEvent, index) -> pluginManageService.setIsEnableTableColumn(index)
         );
 
-        // TODO 实现插件的启用禁用
-
         downloadTableColumn.setCellFactory(
             new Callback<>() {
                 @Override

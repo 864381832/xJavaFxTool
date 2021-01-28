@@ -181,6 +181,7 @@ public class NewLauncherController {
             .setResizable(true)
             .setTitle(XJavaFxToolApplication.RESOURCE_BUNDLE.getString("plugin_manage"))
             .setPrefWidth(800)
+            .withStage(stage -> stage.setOnCloseRequest(event -> loadPlugins()))
             .show();
     }
 
