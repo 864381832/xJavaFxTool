@@ -111,7 +111,7 @@ public class NewLauncherController {
 
         PluginManager pluginManager = PluginManager.getInstance();
         pluginManager.loadLocalPlugins();
-        pluginManager.getPluginList().forEach(this::loadPlugin);
+        pluginManager.getEnabledPluginList().forEach(this::loadPlugin);
     }
 
     /**

@@ -30,6 +30,7 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class PluginManager {
@@ -78,6 +79,9 @@ public class PluginManager {
         return Collections.unmodifiableList(this.pluginList);
     }
 
+    public List<PluginJarInfo> getEnabledPluginList() {
+        return getPluginList().stream().filter(PluginJarInfo::getIsEnable).collect(Collectors.toList());
+    }
 
     public PluginJarInfo getPlugin(String jarName) {
         return this.pluginList.stream()

@@ -46,7 +46,6 @@ public class NewLauncherService {
     }
 
     public void loadPlugin(PluginJarInfo pluginJarInfo) {
-        log.info("加载插件 {}: {}", pluginJarInfo.getName(), pluginJarInfo.getFile().getAbsolutePath());
 
         TabPane tabPane = this.newLauncherController.getTabPane();
 
@@ -57,6 +56,7 @@ public class NewLauncherService {
             }
         }
 
+        log.info("加载插件 {}: {}", pluginJarInfo.getName(), pluginJarInfo.getFile().getAbsolutePath());
         Tab tab;
         String controllerType = pluginJarInfo.getControllerType();
 
