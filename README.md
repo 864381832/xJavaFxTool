@@ -4,10 +4,8 @@
 
 **腾讯云开发平台地址：**[xJavaFxTool](https://dev.tencent.com/u/xwintop/p/xJavaFxTool)
 
-<div align = 'center'>
 ![](https://img.shields.io/:license-apache-blue.svg) ![](https://img.shields.io/badge/JDK-1.8+-green.svg) ![](https://gitee.com/xwintop/xJavaFxTool/badge/star.svg?theme=dark) ![](https://img.shields.io/github/stars/864381832/xJavaFxTool.svg?style=social)
 [![](https://img.shields.io/badge/IntelliJ%20IDEA-提供支持-blue.svg)](https://www.jetbrains.com/?from=xJavaFxTool)
-</div>
 
 [英文说明/English Documentation](README_EN.md)
 
