@@ -6,7 +6,7 @@
 
 ::: hljs-center
 ![](https://img.shields.io/:license-apache-blue.svg) ![](https://img.shields.io/badge/JDK-1.8+-green.svg) ![](https://gitee.com/xwintop/xJavaFxTool/badge/star.svg?theme=dark) ![](https://img.shields.io/github/stars/864381832/xJavaFxTool.svg?style=social)
-[![使用IntelliJ IDEA开发维护](https://img.shields.io/badge/IntelliJ%20IDEA-提供支持-blue.svg)](https://www.jetbrains.com/?from=xJavaFxTool)
+[![](https://img.shields.io/badge/IntelliJ%20IDEA-提供支持-blue.svg)](https://www.jetbrains.com/?from=xJavaFxTool)
 :::
 
 [英文说明/English Documentation](README_EN.md)
