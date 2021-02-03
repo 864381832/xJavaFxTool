@@ -36,7 +36,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 
 #### 环境搭建说明：
 - 开发环境为jdk1.8，基于maven构建
-- 使用eclipase或Intellij Idea开发,推荐使用[Intellij Idea](https://www.jetbrains.com/idea/)
+- 使用eclipase或Intellij Idea开发,推荐使用[Intellij Idea](https://www.jetbrains.com/?from=xJavaFxTool)
 - 本项目使用了[lombok](https://projectlombok.org/),在查看本项目时如果您没有下载lombok 插件，请先安装,不然找不到get/set等方法
 - 依赖的[xcore包](https://gitee.com/xwintop/xcore)已上传至git托管的maven平台，git托管maven可参考教程(若无法下载请拉取项目自行编译)。[教程地址：点击进入](http://blog.csdn.net/u011747754/article/details/78574026)
 - 使用[javafx-maven-plugin](https://github.com/javafx-maven-plugin/javafx-maven-plugin)插件进行打包操作(可打包windows、Linux、Mac安装包)
@@ -60,7 +60,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 14. HttpTool：Http调试工具(支持自定义发送数据、header和cookie)(使用[okhttp](https://square.github.io/okhttp/))
 15. jsonEditor：json格式化编辑工具
 16. IconTool：图标生成工具 使用[thumbnailator](https://github.com/coobird/thumbnailator)工具
-17. RedisTool：Redis连接工具 使用[jedis](https://github.com/xetorthio/jedis)工具[开源地址](https://gitee.com/xwintop/x-RedisTool)
+17. RedisTool：[Redis连接工具](https://gitee.com/xwintop/x-RedisTool) redis连接工具，完成redis的基本增删改查功能
 18. WebSourcesTool：网页源码下载工具
 19. SwitchHostsTool：切换Hosts工具使用[richtextfx](https://github.com/FXMisc/RichTextFX)工具
 20. FtpServer：Ftp服务器(快速搭建本地Ftp服务)(基于[apache.ftpserver](https://mina.apache.org/ftpserver-project))
@@ -83,7 +83,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 37. SocketTool：Socket调试工具,使用[Apache Mina](http://mina.apache.org)实现Tcp、Udp服务端和Client端
 38. ImageAnalysisTool:图片解析工具(1、.atlas文件反解析2、图片快速拆分工具)
 39. DecompilerWxApkgTool:微信小程序反编译工具(一键反编译微信小程序包)
-40. ZookeeperTool:Zookeeper工具(方便对zookeeper的一系列操作，包括新增、修改、删除(包括子文件)、重命名、复制、添加变更通知)使用[zkclient](https://github.com/sgroschupf/zkclient)工具
+40. ZookeeperTool:[Zookeeper工具](https://gitee.com/xwintop/x-ZookeeperTool)(方便对zookeeper的一系列操作，包括新增、修改、删除(包括子文件)、重命名、复制、添加变更通知)
 41. ExcelSplitTool:Excel拆分工具(支持对xls、xlsx、csv及文件进行拆分操作)使用[commons-csv](http://commons.apache.org/csv)工具
 42. PathWatchTool:文件夹监控工具
 43. CharsetDetectTool:文件编码检测工具(使用[juniversalchardet]https://github.com/albfernandez/juniversalchardet)工具
