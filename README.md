@@ -52,7 +52,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 6. LinuxPathToWindowsPath：路径转换(使用[oshi](https://github.com/oshi/oshi)工具)
 7. QRCodeBuilder：二维码生成工具(自动生成、加入logo、截图识别、自定义格式),使用[google.zxing](https://github.com/zxing/zxing)、[jkeymaster](https://github.com/tulskiy/jkeymaster)等工具
 8. IdCardGenerator：ID证生成器
-9. RegexTester：正则表达式生成工具
+9. RegexTester：[正则表达式生成工具](https://gitee.com/xwintop/x-RegexTester)
 10. ShortURL：网址缩短(目前支持百度、新浪、缩我等短网址缩短)
 11. EscapeCharacter：转义字符(支持Html、XML、Java、JavaScript、CSV、Sql) 使用[commons-lang3](https://commons.apache.org/lang)工具
 12. ZHConverter：字符串转换 使用[hanlp](http://hanlp.com/)开源工具，实现拼音、简体-繁体、简体-臺灣正體、简体-香港繁體、繁體-臺灣正體、繁體-香港繁體、香港繁體-臺灣正體、数字金额-大写金额等直接的转换
@@ -80,7 +80,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 34. WechatJumpGameTool：微信跳一跳助手
 35. TextToSpeechTool：语音转换工具(调用[百度语音](https://ai.baidu.com/tech/speech/tts)转换api)
 36. 2048：小游戏2048
-37. SocketTool：Socket调试工具,使用[Apache Mina](http://mina.apache.org)实现Tcp、Udp服务端和Client端
+37. SocketTool：[Socket调试工具](https://gitee.com/xwintop/x-SocketTool),使用[Apache Mina](http://mina.apache.org)实现Tcp、Udp服务端和Client端
 38. ImageAnalysisTool:图片解析工具(1、.atlas文件反解析2、图片快速拆分工具)
 39. DecompilerWxApkgTool:微信小程序反编译工具(一键反编译微信小程序包)
 40. ZookeeperTool:[Zookeeper工具](https://gitee.com/xwintop/x-ZookeeperTool)(方便对zookeeper的一系列操作，包括新增、修改、删除(包括子文件)、重命名、复制、添加变更通知)
