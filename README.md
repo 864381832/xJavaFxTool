@@ -59,7 +59,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 13. ActiveMqTool:Mq调试工具(目前仅支持[ActiveMq](http://activemq.apache.org))
 14. HttpTool：Http调试工具(支持自定义发送数据、header和cookie)(使用[okhttp](https://square.github.io/okhttp/))
 15. jsonEditor：json格式化编辑工具
-16. IconTool：图标生成工具 使用[thumbnailator](https://github.com/coobird/thumbnailator)工具
+16. IconTool：[图标生成工具](https://gitee.com/xwintop/x-IconTool) 使用[thumbnailator](https://github.com/coobird/thumbnailator)工具
 17. RedisTool：[Redis连接工具](https://gitee.com/xwintop/x-RedisTool) redis连接工具，完成redis的基本增删改查功能
 18. WebSourcesTool：网页源码下载工具
 19. SwitchHostsTool：切换Hosts工具使用[richtextfx](https://github.com/FXMisc/RichTextFX)工具
