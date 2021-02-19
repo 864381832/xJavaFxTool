@@ -62,7 +62,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 16. IconTool：[图标生成工具](https://gitee.com/xwintop/x-IconTool) 使用[thumbnailator](https://github.com/coobird/thumbnailator)工具
 17. RedisTool：[Redis连接工具](https://gitee.com/xwintop/x-RedisTool) redis连接工具，完成redis的基本增删改查功能
 18. WebSourcesTool：网页源码下载工具
-19. SwitchHostsTool：切换Hosts工具使用[richtextfx](https://github.com/FXMisc/RichTextFX)工具
+19. SwitchHostsTool：[切换Hosts工具](https://gitee.com/xwintop/x-SwitchHostsTool)使用[richtextfx](https://github.com/FXMisc/RichTextFX)工具
 20. FtpServer：Ftp服务器(快速搭建本地Ftp服务)(基于[apache.ftpserver](https://mina.apache.org/ftpserver-project))
 21. CmdTool：Cmd调试工具
 22. FtpClientTool：Ftp(s)/Sftp客户端调试工具(批量上传、下载、删除文件及文件夹)(implicit/explicit SSL/TLS),使用[jsch](http://www.jcraft.com/jsch)、[commons-io](http://commons.apache.org/io/)等工具
