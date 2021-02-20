@@ -54,7 +54,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 8. IdCardGenerator：ID证生成器
 9. RegexTester：[正则表达式生成工具](https://gitee.com/xwintop/x-RegexTester)
 10. ShortURL：网址缩短(目前支持百度、新浪、缩我等短网址缩短)
-11. EscapeCharacter：转义字符(支持Html、XML、Java、JavaScript、CSV、Sql) 使用[commons-lang3](https://commons.apache.org/lang)工具
+11. EscapeCharacter：[转义字符](https://gitee.com/xwintop/x-EscapeCharacter)(支持Html、XML、Java、JavaScript、CSV、Sql) 使用[commons-lang3](https://commons.apache.org/lang)工具
 12. ZHConverter：字符串转换 使用[hanlp](http://hanlp.com/)开源工具，实现拼音、简体-繁体、简体-臺灣正體、简体-香港繁體、繁體-臺灣正體、繁體-香港繁體、香港繁體-臺灣正體、数字金额-大写金额等直接的转换
 13. ActiveMqTool:Mq调试工具(目前仅支持[ActiveMq](http://activemq.apache.org))
 14. HttpTool：Http调试工具(支持自定义发送数据、header和cookie)(使用[okhttp](https://square.github.io/okhttp/))
