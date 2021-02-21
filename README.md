@@ -47,7 +47,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 1. FileCopy：文件复制(支持自动调度拷贝功能) 使用[quartz](https://www.quartz-scheduler.org/)工具
 2. CronExpBuilder：[Cron表达式生成器](https://gitee.com/xwintop/x-CronExpBuilder)
 3. CharacterConverter：编码转换
-4. EncryptAndDecrypt：加密解密(Ascii、Hex、Base64、Base32、URL、MD5、SHA、AES、DES、文件加密DM5、文件加密SHA1、摩斯密码、Druid加密)使用[commons-codec](http://commons.apache.org/codec/)工具
+4. EncryptAndDecrypt：[加密解密](https://gitee.com/xwintop/x-EncryptAndDecrypt)(Ascii、Hex、Base64、Base32、URL、MD5、SHA、AES、DES、文件加密DM5、文件加密SHA1、摩斯密码、Druid加密)使用[commons-codec](http://commons.apache.org/codec/)工具
 5. TimeTool：Time转换(常用格式转换(含时区)、计算时间差、时间叠加计算)
 6. LinuxPathToWindowsPath：路径转换(使用[oshi](https://github.com/oshi/oshi)工具)
 7. QRCodeBuilder：[二维码生成工具](https://gitee.com/xwintop/x-QRCodeBuilder)(自动生成、加入logo、截图识别、自定义格式),使用[google.zxing](https://github.com/zxing/zxing)、[jkeymaster](https://github.com/tulskiy/jkeymaster)等工具
