@@ -68,7 +68,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 22. FtpClientTool：Ftp(s)/Sftp客户端调试工具(批量上传、下载、删除文件及文件夹)(implicit/explicit SSL/TLS),使用[jsch](http://www.jcraft.com/jsch)、[commons-io](http://commons.apache.org/io/)等工具
 23. PdfConvertTool：Pdf转换工具(目前仅支持pdf转图片、pdf转text功能)使用[pdfbox](https://pdfbox.apache.org/)工具
 24. DirectoryTreeTool：文件列表生成器
-25. ImageTool：图片压缩工具(批量压缩、修改尺寸、转换格式)
+25. ImageTool：[图片压缩工具](https://gitee.com/xwintop/x-ImageTool)(批量压缩、修改尺寸、转换格式)
 26. AsciiPicTool：图片转码工具(包括图片生成banner码、图片转Base64码、图片转Excel表)
 27. KafkaTool：Kafka调试工具(未完善)(使用了[kafka-clients](http://kafka.apache.org/))
 28. EmailTool：[Email群发工具](https://gitee.com/xwintop/x-EmailTool)(支持自定义群发模版)使用[commons-email](https://commons.apache.org/email)工具
