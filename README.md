@@ -74,7 +74,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 28. EmailTool：[Email群发工具](https://gitee.com/xwintop/x-EmailTool)(支持自定义群发模版)使用[commons-email](https://commons.apache.org/email)工具
 29. ColorCodeConverterTool：颜色代码转换工具(包括16进制、RGB、ARGB、RGBA、HSL、HSV等代码之间转换)
 30. SmsTool：[短信群发工具](https://gitee.com/xwintop/x-SmsTool)目前支持中国移动、中国电信、腾讯云、阿里云、梦网云通讯等平台
-31. ScriptEngineTool：脚本引擎调试工具(目前支持JavaScript、Groovy、Python、Lua等脚本)使用[groovy](http://groovy-lang.org)、[jython](https://jython.org)、[luaj](http://www.luaj.org/luaj.html)等工具
+31. ScriptEngineTool：[脚本引擎调试工具](https://gitee.com/xwintop/x-ScriptEngineTool)(目前支持JavaScript、Groovy、Python、Lua等脚本)使用[groovy](http://groovy-lang.org)、[jython](https://jython.org)、[luaj](http://www.luaj.org/luaj.html)等工具
 32. FileRenameTool：[文件重命名工具](https://gitee.com/xwintop/x-FileRenameTool)
 33. JsonConvertTool：Json转换工具(目前支持Json转Xml、Json转Java实体类、Json转C#实体类、Json转Excel、Json转Yaml、Properties转Yaml、Yaml转Properties)(使用[fastjson](https://github.com/alibaba/fastjson)、[snakeyaml](https://bitbucket.org/asomov/snakeyaml)、[dom4j](https://dom4j.github.io)等工具)
 34. WechatJumpGameTool：微信跳一跳助手
