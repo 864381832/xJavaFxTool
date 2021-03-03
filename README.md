@@ -44,7 +44,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 - 使用[InnoSetup](http://www.jrsoftware.org/)可进行制作windows安装包
 
 #### 目前集成的小工具有：
-1. FileCopy：文件复制(支持自动调度拷贝功能) 使用[quartz](https://www.quartz-scheduler.org/)工具
+1. FileCopy：[文件复制](https://gitee.com/xwintop/x-FileCopy)(支持自动调度拷贝功能) 使用[quartz](https://www.quartz-scheduler.org/)工具
 2. CronExpBuilder：[Cron表达式生成器](https://gitee.com/xwintop/x-CronExpBuilder)
 3. CharacterConverter：[编码转换](https://gitee.com/xwintop/x-CharacterConverter)
 4. EncryptAndDecrypt：[加密解密](https://gitee.com/xwintop/x-EncryptAndDecrypt)(Ascii、Hex、Base64、Base32、URL、MD5、SHA、AES、DES、文件加密DM5、文件加密SHA1、摩斯密码、Druid加密)使用[commons-codec](http://commons.apache.org/codec/)工具
