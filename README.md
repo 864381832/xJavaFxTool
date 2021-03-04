@@ -103,7 +103,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 57. Sudoku:数独游戏
 58. LiteappCode:小程序码生成工具
 59. RdbmsSyncTool:[关系型数据库同步工具](https://gitee.com/xwintop/x-RdbmsSyncTool)
-60. FileBuildTool:文件生成工具
+60. FileBuildTool:[文件生成工具](https://gitee.com/xwintop/x-FileBuildTool)
 61. LuytenTool:Java反编译工具，使用开源项目[luyten](https://github.com/deathmarine/Luyten)
 62. JavaService:Java服务安装工具，使用开源项目[winsw](https://github.com/winsw/winsw)
 63. ElementaryArithmeticProblemTool:小学生算数题生成工具
