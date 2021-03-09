@@ -8,3 +8,4 @@ target/
 libs/
 
 system_plugin_list.json
+RUNNING_PID
