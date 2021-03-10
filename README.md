@@ -64,7 +64,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 18. WebSourcesTool：网页源码下载工具
 19. SwitchHostsTool：[切换Hosts工具](https://gitee.com/xwintop/x-SwitchHostsTool)使用[richtextfx](https://github.com/FXMisc/RichTextFX)工具
 20. FtpServer：[Ftp服务器](https://gitee.com/xwintop/x-FtpServer)(快速搭建本地Ftp服务)(基于[apache.ftpserver](https://mina.apache.org/ftpserver-project))
-21. CmdTool：Cmd调试工具
+21. CmdTool：[Cmd调试工具](https://gitee.com/xwintop/x-CmdTool)
 22. FtpClientTool：[ftp(s)/Sftp客户端调试工具](https://gitee.com/xwintop/x-FtpClientTool)(批量上传、下载、删除文件及文件夹)(implicit/explicit SSL/TLS),使用[jsch](http://www.jcraft.com/jsch)、[commons-io](http://commons.apache.org/io/)等工具
 23. PdfConvertTool：[Pdf转换工具](https://gitee.com/xwintop/x-PdfConvertTool)(目前仅支持pdf转图片、pdf转text功能)使用[pdfbox](https://pdfbox.apache.org/)工具
 24. DirectoryTreeTool：文件列表生成器
