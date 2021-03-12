@@ -70,7 +70,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 24. DirectoryTreeTool：文件列表生成器
 25. ImageTool：[图片压缩工具](https://gitee.com/xwintop/x-ImageTool)(批量压缩、修改尺寸、转换格式)
 26. AsciiPicTool：图片转码工具(包括图片生成banner码、图片转Base64码、图片转Excel表)
-27. KafkaTool：Kafka调试工具(未完善)(使用了[kafka-clients](http://kafka.apache.org/))
+27. KafkaTool：[Kafka调试工具](https://gitee.com/xwintop/x-KafkaTool)(未完善)(使用了[kafka-clients](http://kafka.apache.org/))
 28. EmailTool：[Email群发工具](https://gitee.com/xwintop/x-EmailTool)(支持自定义群发模版)使用[commons-email](https://commons.apache.org/email)工具
 29. ColorCodeConverterTool：颜色代码转换工具(包括16进制、RGB、ARGB、RGBA、HSL、HSV等代码之间转换)
 30. SmsTool：[短信群发工具](https://gitee.com/xwintop/x-SmsTool)目前支持中国移动、中国电信、腾讯云、阿里云、梦网云通讯等平台
