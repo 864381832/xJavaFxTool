@@ -90,7 +90,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 44. TransferTool:[传输工具](https://gitee.com/xwintop/x-TransferTool)(集成各种传输协议，使用自定义定时任务(简单模式、cron表达式模式)，分为Receiver接收器、Filter处理器、Sender发送器)
 45. ScanPortTool:[端口扫描工具](https://gitee.com/xwintop/x-ScanPortTool)
 46. FileMergeTool:[文件合并工具](https://gitee.com/xwintop/x-FileMergeTool)(支持对xls、xlsx、csv及文件进行合并操作)使用[apache.poi](http://poi.apache.org/)工具
-47. SedentaryReminderTool:久坐提醒工具
+47. SedentaryReminderTool:[久坐提醒工具](https://gitee.com/xwintop/x-SedentaryReminderTool)
 48. RandomGeneratorTool:随机数生成工具,使用[hutool](https://hutool.cn)工具
 49. ClipboardHistoryTool:剪贴板历史工具
 50. FileSearchTool:文件搜索工具使用[lucene](https://lucene.apache.org/)搜索引擎[开源地址](https://gitee.com/xwintop/x-FileSearchTool)
