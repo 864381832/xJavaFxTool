@@ -97,7 +97,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 51. Mp3ConvertTool:[Mp3转换工具](https://gitee.com/xwintop/x-Mp3ConvertTool)(目前支持网易云音乐.ncm、QQ音乐.qmc转换为mp3格式)使用[jaudiotagger](http://www.jthink.net/jaudiotagger)工具
 52. SealBuilderTool:[印章生成工具](https://gitee.com/xwintop/x-SealBuilderTool)
 53. BullsAndCowsGame:猜数字小游戏
-54. FileUnicodeTransformationTool:文件编码转换工具
+54. FileUnicodeTransformationTool:[文件编码转换工具](https://gitee.com/xwintop/x-FileUnicodeTransformationTool)
 55. FileCompressTool:[文件解压缩工具](https://gitee.com/xwintop/x-FileCompressTool)（目前支持ar、zip、tar、jar、cpio、7z、gz、rar、bzip2、xz、lzma、pack200、deflate、snappy-framed、lz4-block、lz4-framed、zstd等格式解压缩）
 56. IdiomDataTool:成语字典工具,使用[h2](http://www.h2database.com)数据库存储数据字典
 57. Sudoku:数独游戏
