@@ -78,7 +78,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 32. FileRenameTool：[文件重命名工具](https://gitee.com/xwintop/x-FileRenameTool)
 33. JsonConvertTool：[Json转换工具](https://gitee.com/xwintop/x-JsonConvertTool)(目前支持Json转Xml、Json转Java实体类、Json转C#实体类、Json转Excel、Json转Yaml、Properties转Yaml、Yaml转Properties)(使用[fastjson](https://github.com/alibaba/fastjson)、[snakeyaml](https://bitbucket.org/asomov/snakeyaml)、[dom4j](https://dom4j.github.io)等工具)
 34. WechatJumpGameTool：微信跳一跳助手
-35. TextToSpeechTool：语音转换工具(调用[百度语音](https://ai.baidu.com/tech/speech/tts)转换api)
+35. TextToSpeechTool：[语音转换工具](https://gitee.com/xwintop/x-TextToSpeechTool)(调用[百度语音](https://ai.baidu.com/tech/speech/tts)转换api)
 36. 2048：小游戏2048
 37. SocketTool：[Socket调试工具](https://gitee.com/xwintop/x-SocketTool),使用[Apache Mina](http://mina.apache.org)实现Tcp、Udp服务端和Client端
 38. ImageAnalysisTool:[图片解析工具](https://gitee.com/xwintop/x-ImageAnalysisTool)(1、.atlas文件反解析2、图片快速拆分工具)
