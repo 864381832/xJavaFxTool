@@ -69,7 +69,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 23. PdfConvertTool：[Pdf转换工具](https://gitee.com/xwintop/x-PdfConvertTool)(目前仅支持pdf转图片、pdf转text功能)使用[pdfbox](https://pdfbox.apache.org/)工具
 24. DirectoryTreeTool：文件列表生成器
 25. ImageTool：[图片压缩工具](https://gitee.com/xwintop/x-ImageTool)(批量压缩、修改尺寸、转换格式)
-26. AsciiPicTool：图片转码工具(包括图片生成banner码、图片转Base64码、图片转Excel表)
+26. AsciiPicTool：[图片转码工具](https://gitee.com/xwintop/x-AsciiPicTool)(包括图片生成banner码、图片转Base64码、图片转Excel表)
 27. KafkaTool：[Kafka调试工具](https://gitee.com/xwintop/x-KafkaTool)(未完善)(使用了[kafka-clients](http://kafka.apache.org/))
 28. EmailTool：[Email群发工具](https://gitee.com/xwintop/x-EmailTool)(支持自定义群发模版)使用[commons-email](https://commons.apache.org/email)工具
 29. ColorCodeConverterTool：[颜色代码转换工具](https://gitee.com/xwintop/x-ColorCodeConverterTool)(包括16进制、RGB、ARGB、RGBA、HSL、HSV等代码之间转换)
