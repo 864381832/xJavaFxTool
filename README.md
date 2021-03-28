@@ -53,7 +53,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 7. QRCodeBuilder：[二维码生成工具](https://gitee.com/xwintop/x-QRCodeBuilder)(自动生成、加入logo、截图识别、自定义格式),使用[google.zxing](https://github.com/zxing/zxing)、[jkeymaster](https://github.com/tulskiy/jkeymaster)等工具
 8. IdCardGenerator：ID证生成器
 9. RegexTester：[正则表达式生成工具](https://gitee.com/xwintop/x-RegexTester)
-10. ShortURL：[网址缩短工具](https://gitee.com/xwintop/x-ShortURL)(目前支持百度、新浪、缩我等短网址缩短)
+10. ShortURL：[网址缩短工具](https://gitee.com/xwintop/x-ShortURL)，目前支持百度、新浪、缩我等短网址缩短
 11. EscapeCharacter：[转义字符](https://gitee.com/xwintop/x-EscapeCharacter)(支持Html、XML、Java、JavaScript、CSV、Sql) 使用[commons-lang3](https://commons.apache.org/lang)工具
 12. ZHConverter：[字符串转换](https://gitee.com/xwintop/x-ZHConverter) 使用[hanlp](http://hanlp.com/)开源工具，实现拼音、简体-繁体、简体-臺灣正體、简体-香港繁體、繁體-臺灣正體、繁體-香港繁體、香港繁體-臺灣正體、数字金额-大写金额等直接的转换
 13. ActiveMqTool:[Mq调试工具](https://gitee.com/xwintop/x-ActiveMqTool)(目前仅支持[ActiveMq](http://activemq.apache.org))
@@ -67,7 +67,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 21. CmdTool：[Cmd调试工具](https://gitee.com/xwintop/x-CmdTool)
 22. FtpClientTool：[ftp(s)/Sftp客户端调试工具](https://gitee.com/xwintop/x-FtpClientTool)(批量上传、下载、删除文件及文件夹)(implicit/explicit SSL/TLS),使用[jsch](http://www.jcraft.com/jsch)、[commons-io](http://commons.apache.org/io/)等工具
 23. PdfConvertTool：[Pdf转换工具](https://gitee.com/xwintop/x-PdfConvertTool)(目前仅支持pdf转图片、pdf转text功能)使用[pdfbox](https://pdfbox.apache.org/)工具
-24. DirectoryTreeTool：文件列表生成器
+24. DirectoryTreeTool：[文件列表生成器](https://gitee.com/xwintop/x-DirectoryTreeTool)
 25. ImageTool：[图片压缩工具](https://gitee.com/xwintop/x-ImageTool)(批量压缩、修改尺寸、转换格式)
 26. AsciiPicTool：[图片转码工具](https://gitee.com/xwintop/x-AsciiPicTool)(包括图片生成banner码、图片转Base64码、图片转Excel表)
 27. KafkaTool：[Kafka调试工具](https://gitee.com/xwintop/x-KafkaTool)(未完善)(使用了[kafka-clients](http://kafka.apache.org/))
