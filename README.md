@@ -99,7 +99,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 53. BullsAndCowsGame:猜数字小游戏
 54. FileUnicodeTransformationTool:[文件编码转换工具](https://gitee.com/xwintop/x-FileUnicodeTransformationTool)
 55. FileCompressTool:[文件解压缩工具](https://gitee.com/xwintop/x-FileCompressTool)（目前支持ar、zip、tar、jar、cpio、7z、gz、rar、bzip2、xz、lzma、pack200、deflate、snappy-framed、lz4-block、lz4-framed、zstd等格式解压缩）
-56. IdiomDataTool:成语字典工具,使用[h2](http://www.h2database.com)数据库存储数据字典
+56. IdiomDataTool:[成语字典工具](https://gitee.com/xwintop/x-IdiomDataTool),使用[h2](http://www.h2database.com)数据库存储数据字典
 57. Sudoku:数独游戏
 58. LiteappCode:小程序码生成工具
 59. RdbmsSyncTool:[关系型数据库同步工具](https://gitee.com/xwintop/x-RdbmsSyncTool)
