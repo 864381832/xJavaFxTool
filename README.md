@@ -93,7 +93,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 47. SedentaryReminderTool:[久坐提醒工具](https://gitee.com/xwintop/x-SedentaryReminderTool)
 48. RandomGeneratorTool:[随机数生成工具](https://gitee.com/xwintop/x-RandomGeneratorTool),使用[hutool](https://hutool.cn)工具
 49. ClipboardHistoryTool:[剪贴板历史工具](https://gitee.com/xwintop/x-ClipboardHistoryTool)
-50. FileSearchTool:文件搜索工具使用[lucene](https://lucene.apache.org/)搜索引擎[开源地址](https://gitee.com/xwintop/x-FileSearchTool)
+50. FileSearchTool:[文件搜索工具](https://gitee.com/xwintop/x-FileSearchTool),使用[lucene](https://lucene.apache.org/)搜索引擎
 51. Mp3ConvertTool:[Mp3转换工具](https://gitee.com/xwintop/x-Mp3ConvertTool)(目前支持网易云音乐.ncm、QQ音乐.qmc转换为mp3格式)使用[jaudiotagger](http://www.jthink.net/jaudiotagger)工具
 52. SealBuilderTool:[印章生成工具](https://gitee.com/xwintop/x-SealBuilderTool)
 53. BullsAndCowsGame:猜数字小游戏
@@ -104,7 +104,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 58. LiteappCode:小程序码生成工具
 59. RdbmsSyncTool:[关系型数据库同步工具](https://gitee.com/xwintop/x-RdbmsSyncTool)
 60. FileBuildTool:[文件生成工具](https://gitee.com/xwintop/x-FileBuildTool)
-61. LuytenTool:Java反编译工具，使用开源项目[luyten](https://github.com/deathmarine/Luyten)
+61. LuytenTool:[Java反编译工具](https://gitee.com/xwintop/x-LuytenTool)，使用开源项目[luyten](https://github.com/deathmarine/Luyten)
 62. JavaService:[Java服务安装工具](https://gitee.com/xwintop/x-JavaService)，使用开源项目[winsw](https://github.com/winsw/winsw)
 63. ElementaryArithmeticProblemTool:[小学生算数题生成工具](https://gitee.com/xwintop/x-ElementaryArithmeticProblemTool)
 64. CoordinateTransformTool:[坐标系转换工具](https://gitee.com/xwintop/x-CoordinateTransformTool),提供了百度坐标（BD09）、国测局坐标（火星坐标，GCJ02）、和WGS84坐标系之间的转换
