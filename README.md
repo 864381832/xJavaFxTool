@@ -82,7 +82,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 36. 2048：小游戏2048
 37. SocketTool：[Socket调试工具](https://gitee.com/xwintop/x-SocketTool),使用[Apache Mina](http://mina.apache.org)实现Tcp、Udp服务端和Client端
 38. ImageAnalysisTool:[图片解析工具](https://gitee.com/xwintop/x-ImageAnalysisTool)(1、.atlas文件反解析2、图片快速拆分工具)
-39. DecompilerWxApkgTool:微信小程序反编译工具(一键反编译微信小程序包)
+39. DecompilerWxApkgTool:[微信小程序反编译工具](https://gitee.com/xwintop/x-DecompilerWxApkgTool)，一键反编译微信小程序包
 40. ZookeeperTool:[Zookeeper工具](https://gitee.com/xwintop/x-ZookeeperTool)(方便对zookeeper的一系列操作，包括新增、修改、删除(包括子文件)、重命名、复制、添加变更通知)
 41. ExcelSplitTool:[Excel拆分工具](https://gitee.com/xwintop/x-ExcelSplitTool)(支持对xls、xlsx、csv及文件进行拆分操作)使用[commons-csv](http://commons.apache.org/csv)工具
 42. PathWatchTool:[文件夹监控工具](https://gitee.com/xwintop/x-PathWatchTool)
