@@ -51,7 +51,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 5. TimeTool：[Time转换](https://gitee.com/xwintop/x-TimeTool)(常用格式转换(含时区)、计算时间差、时间叠加计算)
 6. LinuxPathToWindowsPath：[路径转换](https://gitee.com/xwintop/x-LinuxPathToWindowsPath)(使用[oshi](https://github.com/oshi/oshi)工具)
 7. QRCodeBuilder：[二维码生成工具](https://gitee.com/xwintop/x-QRCodeBuilder)(自动生成、加入logo、截图识别、自定义格式),使用[google.zxing](https://github.com/zxing/zxing)、[jkeymaster](https://github.com/tulskiy/jkeymaster)等工具
-8. IdCardGenerator：ID证生成器
+8. IdCardGenerator：[ID证生成器](https://gitee.com/xwintop/x-IdCardGenerator)
 9. RegexTester：[正则表达式生成工具](https://gitee.com/xwintop/x-RegexTester)
 10. ShortURL：[网址缩短工具](https://gitee.com/xwintop/x-ShortURL)，目前支持百度、新浪、缩我等短网址缩短
 11. EscapeCharacter：[转义字符](https://gitee.com/xwintop/x-EscapeCharacter)(支持Html、XML、Java、JavaScript、CSV、Sql) 使用[commons-lang3](https://commons.apache.org/lang)工具
