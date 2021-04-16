@@ -110,6 +110,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 64. CoordinateTransformTool:[坐标系转换工具](https://gitee.com/xwintop/x-CoordinateTransformTool),提供了百度坐标（BD09）、国测局坐标（火星坐标，GCJ02）、和WGS84坐标系之间的转换
 65. HdfsTool:[hdfs管理工具](https://gitee.com/xwintop/x-HdfsTool),hdfs可视化管理工具，支持上传、下载、重命名、复制、移动和删除等功能
 66. JavaFxXmlToObjectCode: [javaFxFxml转换代码](https://gitee.com/xwintop/x-JavaFxXmlToObjectCode),根据.fxml文件生成相应的java代码，可生成插件模版
+67. KeyTool: [KeyTool](https://gitee.com/xwintop/x-KeyTool),license生成工具
 
 项目开发中，以后会陆续添加新工具，欢迎大家参与其中，多提提意见，谢谢。
 
