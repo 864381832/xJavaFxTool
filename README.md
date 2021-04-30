@@ -49,66 +49,68 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 3. CharacterConverter：[编码转换](https://gitee.com/xwintop/x-CharacterConverter)
 4. EncryptAndDecrypt：[加密解密](https://gitee.com/xwintop/x-EncryptAndDecrypt)(Ascii、Hex、Base64、Base32、URL、MD5、SHA、AES、DES、文件加密DM5、文件加密SHA1、摩斯密码、Druid加密)使用[commons-codec](http://commons.apache.org/codec/)工具
 5. TimeTool：[Time转换](https://gitee.com/xwintop/x-TimeTool)(常用格式转换(含时区)、计算时间差、时间叠加计算)
-6. LinuxPathToWindowsPath：路径转换(使用[oshi](https://github.com/oshi/oshi)工具)
+6. LinuxPathToWindowsPath：[路径转换](https://gitee.com/xwintop/x-LinuxPathToWindowsPath)(使用[oshi](https://github.com/oshi/oshi)工具)
 7. QRCodeBuilder：[二维码生成工具](https://gitee.com/xwintop/x-QRCodeBuilder)(自动生成、加入logo、截图识别、自定义格式),使用[google.zxing](https://github.com/zxing/zxing)、[jkeymaster](https://github.com/tulskiy/jkeymaster)等工具
-8. IdCardGenerator：ID证生成器
+8. IdCardGenerator：[ID证生成器](https://gitee.com/xwintop/x-IdCardGenerator)
 9. RegexTester：[正则表达式生成工具](https://gitee.com/xwintop/x-RegexTester)
-10. ShortURL：网址缩短(目前支持百度、新浪、缩我等短网址缩短)
+10. ShortURL：[网址缩短工具](https://gitee.com/xwintop/x-ShortURL)，目前支持百度、新浪、缩我等短网址缩短
 11. EscapeCharacter：[转义字符](https://gitee.com/xwintop/x-EscapeCharacter)(支持Html、XML、Java、JavaScript、CSV、Sql) 使用[commons-lang3](https://commons.apache.org/lang)工具
 12. ZHConverter：[字符串转换](https://gitee.com/xwintop/x-ZHConverter) 使用[hanlp](http://hanlp.com/)开源工具，实现拼音、简体-繁体、简体-臺灣正體、简体-香港繁體、繁體-臺灣正體、繁體-香港繁體、香港繁體-臺灣正體、数字金额-大写金额等直接的转换
-13. ActiveMqTool:Mq调试工具(目前仅支持[ActiveMq](http://activemq.apache.org))
+13. ActiveMqTool:[Mq调试工具](https://gitee.com/xwintop/x-ActiveMqTool)(目前仅支持[ActiveMq](http://activemq.apache.org))
 14. HttpTool：[Http调试工具](https://gitee.com/xwintop/x-HttpTool)(支持自定义发送数据、header和cookie)(使用[okhttp](https://square.github.io/okhttp/))
 15. jsonEditor：json格式化编辑工具
 16. IconTool：[图标生成工具](https://gitee.com/xwintop/x-IconTool) 使用[thumbnailator](https://github.com/coobird/thumbnailator)工具
 17. RedisTool：[Redis连接工具](https://gitee.com/xwintop/x-RedisTool) redis连接工具，完成redis的基本增删改查功能
-18. WebSourcesTool：网页源码下载工具
+18. WebSourcesTool：[网页源码下载工具](https://gitee.com/xwintop/x-WebSourcesTool)
 19. SwitchHostsTool：[切换Hosts工具](https://gitee.com/xwintop/x-SwitchHostsTool)使用[richtextfx](https://github.com/FXMisc/RichTextFX)工具
-20. FtpServer：Ftp服务器(快速搭建本地Ftp服务)(基于[apache.ftpserver](https://mina.apache.org/ftpserver-project))
-21. CmdTool：Cmd调试工具
-22. FtpClientTool：Ftp(s)/Sftp客户端调试工具(批量上传、下载、删除文件及文件夹)(implicit/explicit SSL/TLS),使用[jsch](http://www.jcraft.com/jsch)、[commons-io](http://commons.apache.org/io/)等工具
+20. FtpServer：[Ftp服务器](https://gitee.com/xwintop/x-FtpServer)(快速搭建本地Ftp服务)(基于[apache.ftpserver](https://mina.apache.org/ftpserver-project))
+21. CmdTool：[Cmd调试工具](https://gitee.com/xwintop/x-CmdTool)
+22. FtpClientTool：[ftp(s)/Sftp客户端调试工具](https://gitee.com/xwintop/x-FtpClientTool)(批量上传、下载、删除文件及文件夹)(implicit/explicit SSL/TLS),使用[jsch](http://www.jcraft.com/jsch)、[commons-io](http://commons.apache.org/io/)等工具
 23. PdfConvertTool：[Pdf转换工具](https://gitee.com/xwintop/x-PdfConvertTool)(目前仅支持pdf转图片、pdf转text功能)使用[pdfbox](https://pdfbox.apache.org/)工具
-24. DirectoryTreeTool：文件列表生成器
+24. DirectoryTreeTool：[文件列表生成器](https://gitee.com/xwintop/x-DirectoryTreeTool)
 25. ImageTool：[图片压缩工具](https://gitee.com/xwintop/x-ImageTool)(批量压缩、修改尺寸、转换格式)
-26. AsciiPicTool：图片转码工具(包括图片生成banner码、图片转Base64码、图片转Excel表)
-27. KafkaTool：Kafka调试工具(未完善)(使用了[kafka-clients](http://kafka.apache.org/))
+26. AsciiPicTool：[图片转码工具](https://gitee.com/xwintop/x-AsciiPicTool)(包括图片生成banner码、图片转Base64码、图片转Excel表)
+27. KafkaTool：[Kafka调试工具](https://gitee.com/xwintop/x-KafkaTool)(未完善)(使用了[kafka-clients](http://kafka.apache.org/))
 28. EmailTool：[Email群发工具](https://gitee.com/xwintop/x-EmailTool)(支持自定义群发模版)使用[commons-email](https://commons.apache.org/email)工具
-29. ColorCodeConverterTool：颜色代码转换工具(包括16进制、RGB、ARGB、RGBA、HSL、HSV等代码之间转换)
+29. ColorCodeConverterTool：[颜色代码转换工具](https://gitee.com/xwintop/x-ColorCodeConverterTool)(包括16进制、RGB、ARGB、RGBA、HSL、HSV等代码之间转换)
 30. SmsTool：[短信群发工具](https://gitee.com/xwintop/x-SmsTool)目前支持中国移动、中国电信、腾讯云、阿里云、梦网云通讯等平台
 31. ScriptEngineTool：[脚本引擎调试工具](https://gitee.com/xwintop/x-ScriptEngineTool)(目前支持JavaScript、Groovy、Python、Lua等脚本)使用[groovy](http://groovy-lang.org)、[jython](https://jython.org)、[luaj](http://www.luaj.org/luaj.html)等工具
 32. FileRenameTool：[文件重命名工具](https://gitee.com/xwintop/x-FileRenameTool)
-33. JsonConvertTool：Json转换工具(目前支持Json转Xml、Json转Java实体类、Json转C#实体类、Json转Excel、Json转Yaml、Properties转Yaml、Yaml转Properties)(使用[fastjson](https://github.com/alibaba/fastjson)、[snakeyaml](https://bitbucket.org/asomov/snakeyaml)、[dom4j](https://dom4j.github.io)等工具)
-34. WechatJumpGameTool：微信跳一跳助手
-35. TextToSpeechTool：语音转换工具(调用[百度语音](https://ai.baidu.com/tech/speech/tts)转换api)
+33. JsonConvertTool：[Json转换工具](https://gitee.com/xwintop/x-JsonConvertTool)(目前支持Json转Xml、Json转Java实体类、Json转C#实体类、Json转Excel、Json转Yaml、Properties转Yaml、Yaml转Properties)(使用[fastjson](https://github.com/alibaba/fastjson)、[snakeyaml](https://bitbucket.org/asomov/snakeyaml)、[dom4j](https://dom4j.github.io)等工具)
+34. WechatJumpGameTool：[微信跳一跳助手](https://gitee.com/xwintop/x-WechatJumpGameTool)
+35. TextToSpeechTool：[语音转换工具](https://gitee.com/xwintop/x-TextToSpeechTool)(调用[百度语音](https://ai.baidu.com/tech/speech/tts)转换api)
 36. 2048：小游戏2048
 37. SocketTool：[Socket调试工具](https://gitee.com/xwintop/x-SocketTool),使用[Apache Mina](http://mina.apache.org)实现Tcp、Udp服务端和Client端
 38. ImageAnalysisTool:[图片解析工具](https://gitee.com/xwintop/x-ImageAnalysisTool)(1、.atlas文件反解析2、图片快速拆分工具)
-39. DecompilerWxApkgTool:微信小程序反编译工具(一键反编译微信小程序包)
+39. DecompilerWxApkgTool:[微信小程序反编译工具](https://gitee.com/xwintop/x-DecompilerWxApkgTool)，一键反编译微信小程序包
 40. ZookeeperTool:[Zookeeper工具](https://gitee.com/xwintop/x-ZookeeperTool)(方便对zookeeper的一系列操作，包括新增、修改、删除(包括子文件)、重命名、复制、添加变更通知)
 41. ExcelSplitTool:[Excel拆分工具](https://gitee.com/xwintop/x-ExcelSplitTool)(支持对xls、xlsx、csv及文件进行拆分操作)使用[commons-csv](http://commons.apache.org/csv)工具
-42. PathWatchTool:文件夹监控工具
-43. CharsetDetectTool:文件编码检测工具(使用[juniversalchardet]https://github.com/albfernandez/juniversalchardet)工具
+42. PathWatchTool:[文件夹监控工具](https://gitee.com/xwintop/x-PathWatchTool)
+43. CharsetDetectTool:[文件编码检测工具](https://gitee.com/xwintop/x-CharsetDetectTool)(使用[juniversalchardet]https://github.com/albfernandez/juniversalchardet)工具
 44. TransferTool:[传输工具](https://gitee.com/xwintop/x-TransferTool)(集成各种传输协议，使用自定义定时任务(简单模式、cron表达式模式)，分为Receiver接收器、Filter处理器、Sender发送器)
 45. ScanPortTool:[端口扫描工具](https://gitee.com/xwintop/x-ScanPortTool)
 46. FileMergeTool:[文件合并工具](https://gitee.com/xwintop/x-FileMergeTool)(支持对xls、xlsx、csv及文件进行合并操作)使用[apache.poi](http://poi.apache.org/)工具
-47. SedentaryReminderTool:久坐提醒工具
-48. RandomGeneratorTool:随机数生成工具,使用[hutool](https://hutool.cn)工具
-49. ClipboardHistoryTool:剪贴板历史工具
-50. FileSearchTool:文件搜索工具使用[lucene](https://lucene.apache.org/)搜索引擎[开源地址](https://gitee.com/xwintop/x-FileSearchTool)
-51. Mp3ConvertTool:Mp3转换工具(目前支持网易云音乐.ncm、QQ音乐.qmc转换为mp3格式)使用[jaudiotagger](http://www.jthink.net/jaudiotagger)工具
-52. SealBuilderTool:印章生成工具
+47. SedentaryReminderTool:[久坐提醒工具](https://gitee.com/xwintop/x-SedentaryReminderTool)
+48. RandomGeneratorTool:[随机数生成工具](https://gitee.com/xwintop/x-RandomGeneratorTool),使用[hutool](https://hutool.cn)工具
+49. ClipboardHistoryTool:[剪贴板历史工具](https://gitee.com/xwintop/x-ClipboardHistoryTool)
+50. FileSearchTool:[文件搜索工具](https://gitee.com/xwintop/x-FileSearchTool),使用[lucene](https://lucene.apache.org/)搜索引擎
+51. Mp3ConvertTool:[Mp3转换工具](https://gitee.com/xwintop/x-Mp3ConvertTool)(目前支持网易云音乐.ncm、QQ音乐.qmc转换为mp3格式)使用[jaudiotagger](http://www.jthink.net/jaudiotagger)工具
+52. SealBuilderTool:[印章生成工具](https://gitee.com/xwintop/x-SealBuilderTool)
 53. BullsAndCowsGame:猜数字小游戏
-54. FileUnicodeTransformationTool:文件编码转换工具
+54. FileUnicodeTransformationTool:[文件编码转换工具](https://gitee.com/xwintop/x-FileUnicodeTransformationTool)
 55. FileCompressTool:[文件解压缩工具](https://gitee.com/xwintop/x-FileCompressTool)（目前支持ar、zip、tar、jar、cpio、7z、gz、rar、bzip2、xz、lzma、pack200、deflate、snappy-framed、lz4-block、lz4-framed、zstd等格式解压缩）
-56. IdiomDataTool:成语字典工具,使用[h2](http://www.h2database.com)数据库存储数据字典
+56. IdiomDataTool:[成语字典工具](https://gitee.com/xwintop/x-IdiomDataTool),使用[h2](http://www.h2database.com)数据库存储数据字典
 57. Sudoku:数独游戏
 58. LiteappCode:小程序码生成工具
 59. RdbmsSyncTool:[关系型数据库同步工具](https://gitee.com/xwintop/x-RdbmsSyncTool)
 60. FileBuildTool:[文件生成工具](https://gitee.com/xwintop/x-FileBuildTool)
-61. LuytenTool:Java反编译工具，使用开源项目[luyten](https://github.com/deathmarine/Luyten)
-62. JavaService:Java服务安装工具，使用开源项目[winsw](https://github.com/winsw/winsw)
-63. ElementaryArithmeticProblemTool:小学生算数题生成工具
+61. LuytenTool:[Java反编译工具](https://gitee.com/xwintop/x-LuytenTool)，使用开源项目[luyten](https://github.com/deathmarine/Luyten)
+62. JavaService:[Java服务安装工具](https://gitee.com/xwintop/x-JavaService)，使用开源项目[winsw](https://github.com/winsw/winsw)
+63. ElementaryArithmeticProblemTool:[小学生算数题生成工具](https://gitee.com/xwintop/x-ElementaryArithmeticProblemTool)
 64. CoordinateTransformTool:[坐标系转换工具](https://gitee.com/xwintop/x-CoordinateTransformTool),提供了百度坐标（BD09）、国测局坐标（火星坐标，GCJ02）、和WGS84坐标系之间的转换
 65. HdfsTool:[hdfs管理工具](https://gitee.com/xwintop/x-HdfsTool),hdfs可视化管理工具，支持上传、下载、重命名、复制、移动和删除等功能
+66. JavaFxXmlToObjectCode: [javaFxFxml转换代码](https://gitee.com/xwintop/x-JavaFxXmlToObjectCode),根据.fxml文件生成相应的java代码，可生成插件模版
+67. KeyTool: [KeyTool](https://gitee.com/xwintop/x-KeyTool),license生成工具
 
 项目开发中，以后会陆续添加新工具，欢迎大家参与其中，多提提意见，谢谢。
 
