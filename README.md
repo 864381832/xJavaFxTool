@@ -154,6 +154,9 @@ xJavaFxTool
 
 ```
 
+##### 📈 趋势
+[![Giteye chart](https://chart.giteye.net/gitee/xwintop/xJavaFxTool/2ZF6FD8R.png)](https://giteye.net/chart/2ZF6FD8R)
+
 #### 特别感谢
 在一个人还年轻的时候，我觉得，就应该着手致力做一些对社会有意义的事情，一如开源。至此，感谢以下贡献者(排名不分先后)：
 + [李柱](https://gitee.com/loyalty521)
