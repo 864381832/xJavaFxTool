@@ -111,6 +111,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 65. HdfsTool:[hdfs管理工具](https://gitee.com/xwintop/x-HdfsTool),hdfs可视化管理工具，支持上传、下载、重命名、复制、移动和删除等功能
 66. JavaFxXmlToObjectCode: [javaFxFxml转换代码](https://gitee.com/xwintop/x-JavaFxXmlToObjectCode),根据.fxml文件生成相应的java代码，可生成插件模版
 67. KeyTool: [KeyTool](https://gitee.com/xwintop/x-KeyTool),license生成工具
+68. RelationshipCalculator: [RelationshipCalculator](https://gitee.com/xwintop/x-RelationshipCalculator),亲戚关系计算器
 
 项目开发中，以后会陆续添加新工具，欢迎大家参与其中，多提提意见，谢谢。
 
