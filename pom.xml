@@ -22,8 +22,8 @@
       <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
     </repository>
     <repository>
-      <id>xwintop-maven</id>
-      <url>https://864381832.github.io/maven/repository</url>
+      <id>jitpack.io</id>
+      <url>https://jitpack.io</url>
     </repository>
     <repository>
       <id>spring-snapshots</id>
@@ -45,7 +45,7 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.xwintop</groupId>
+      <groupId>com.gitee.xwintop</groupId>
       <artifactId>xcore</artifactId>
       <version>0.0.6</version>
     </dependency>
