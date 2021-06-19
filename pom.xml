@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.xwintop</groupId>
   <artifactId>xJavaFxTool</artifactId>
-  <version>0.2.3-jdk15</version>
+  <version>0.2.3</version>
   <packaging>jar</packaging>
   <name>xJavaFxTool</name>
   <description>基于JavaFx搭建的实用小工具集合</description>
@@ -13,18 +13,17 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.test.skip>true</maven.test.skip>
-    <maven.compiler.source>15</maven.compiler.source>
-    <maven.compiler.target>15</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
-
   <repositories>
     <repository>
       <id>aliyunmaven</id>
       <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
     </repository>
     <repository>
-      <id>xwintop-maven</id>
-      <url>https://864381832.github.io/maven/repository</url>
+      <id>jitpack.io</id>
+      <url>https://jitpack.io</url>
     </repository>
     <repository>
       <id>spring-snapshots</id>
@@ -38,10 +37,7 @@
       <url>http://repo.spring.io/milestone</url>
     </repository>
   </repositories>
-
   <dependencies>
-
-    <!-- /////////////////////////// 框架开发和运行所需依赖关系 //////////////////////////////////// -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -49,40 +45,17 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <version>1.2.3</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-controls</artifactId>
-      <version>15</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/io.github.classgraph/classgraph -->
-    <!-- https://github.com/classgraph/classgraph -->
-    <dependency>
-      <groupId>io.github.classgraph</groupId>
-      <artifactId>classgraph</artifactId>
-      <version>4.8.100</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.xwintop</groupId>
+      <groupId>com.gitee.xwintop</groupId>
       <artifactId>xcore</artifactId>
-      <version>0.0.6-jdk15-SNAPSHOT</version>
+      <version>0.0.6</version>
     </dependency>
-
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.12</version>
+      <version>1.18.6</version>
       <optional>true</optional>
       <scope>provided</scope>
     </dependency>
-
     <!-- dom4j 需要的依赖 -->
     <dependency>
       <groupId>jaxen</groupId>
@@ -97,63 +70,64 @@
       <version>3.9.1</version>
     </dependency>
 
-    <!-- ////// 为了兼容旧插件加上的依赖关系。当插件都已独立包含所需的类后，这部分依赖可以移除 ////////// -->
-    <!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz -->
-    <dependency>
-      <groupId>org.quartz-scheduler</groupId>
-      <artifactId>quartz</artifactId>
-      <version>2.3.2</version>
-    </dependency>
-
   </dependencies>
-
   <build>
     <plugins>
-      <!--
-      运行方式：执行 mvn javafx:run
-      运行说明：因为很多开发人员电脑上多个JRE并存，默认PATH下的JRE版本不一定是15，
-      因此请先设置环境变量JDK_15_HOME指向JDK15的目录。
-       -->
       <plugin>
-        <groupId>org.openjfx</groupId>
-        <artifactId>javafx-maven-plugin</artifactId>
-        <version>0.0.5</version>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.5.5</version>
         <configuration>
-          <mainClass>com.xwintop.xJavaFxTool.XJavaFxToolMain</mainClass>
-          <executable>${env.JDK_15_HOME}/bin/java.exe</executable>
+          <finalName>xJavaFxTool</finalName>
+          <appendAssemblyId>false</appendAssemblyId>
+          <encoding>utf-8</encoding>
+          <archive>
+            <manifest>
+              <mainClass>com.xwintop.xJavaFxTool.Main</mainClass>
+            </manifest>
+          </archive>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
         </configuration>
-      </plugin>
-
-      <!--
-      在 JDK15 环境中直接执行 mvn package 即可打包成附带 JRE 的 exe 可执行文件
-      -->
-      <plugin>
-        <groupId>io.github.fvarrui</groupId>
-        <artifactId>javapackager</artifactId>
-        <version>1.4.2</version>
         <executions>
           <execution>
+            <id>make-assembly</id>
             <phase>package</phase>
             <goals>
-              <goal>package</goal>
+              <goal>single</goal>
             </goals>
-            <configuration>
-              <!-- 需要查看控制台输出的话再打开下面这个配置 -->
-              <!--
-              <winConfig>
-                <headerType>console</headerType>
-              </winConfig>
-              -->
-              <name>xJavaFxTool</name>
-              <vmArgs>--add-opens java.base/jdk.internal.loader=ALL-UNNAMED</vmArgs>
-              <displayName>xJavaFxTool</displayName>
-              <jrePath>${env.JDK_15_HOME}</jrePath>
-              <mainClass>com.xwintop.xJavaFxTool.XJavaFxToolMain</mainClass>
-              <bundleJre>true</bundleJre>
-              <generateInstaller>false</generateInstaller>
-              <administratorRequired>false</administratorRequired>
-              <platform>auto</platform>
-            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.zenjava</groupId>
+        <artifactId>javafx-maven-plugin</artifactId>
+        <version>8.8.3</version>
+        <configuration>
+          <mainClass>com.xwintop.xJavaFxTool.Main</mainClass>
+          <vendor>xwintop</vendor>
+          <appName>xJavaFxTool</appName>
+        </configuration>
+      </plugin>
+      <!-- 生成javadoc文档包的插件 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.1.1</version>
+        <configuration>
+          <show>private</show>
+          <nohelp>true</nohelp>
+          <additionalOptions>
+            <additionalOption>-Xdoclint:none</additionalOption>
+          </additionalOptions>
+        </configuration>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
