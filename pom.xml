@@ -19,7 +19,7 @@
   <repositories>
     <repository>
       <id>aliyunmaven</id>
-      <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+      <url>https://maven.aliyun.com/repository/public</url>
     </repository>
     <repository>
       <id>jitpack.io</id>
