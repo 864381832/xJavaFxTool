@@ -104,7 +104,7 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.12</version>
+      <version>1.18.22</version>
       <optional>true</optional>
       <scope>provided</scope>
     </dependency>
@@ -135,7 +135,7 @@
           <encoding>utf-8</encoding>
           <archive>
             <manifest>
-              <mainClass>com.xwintop.xJavaFxTool.xJavaFxToolStart</mainClass>
+              <mainClass>com.xwintop.xJavaFxTool.XJavaFxToolMain</mainClass>
             </manifest>
           </archive>
           <descriptorRefs>
@@ -152,23 +152,76 @@
           </execution>
         </executions>
       </plugin>
+<!--      <plugin>-->
+<!--        <groupId>org.openjfx</groupId>-->
+<!--        <artifactId>javafx-maven-plugin</artifactId>-->
+<!--        <version>0.0.8</version>-->
+<!--        <configuration>-->
+<!--          <mainClass>com.xwintop.xJavaFxTool.XJavaFxToolMain</mainClass>-->
+<!--        </configuration>-->
+<!--      </plugin>-->
+<!--      <plugin>-->
+<!--        <groupId>org.panteleyev</groupId>-->
+<!--        <artifactId>jpackage-maven-plugin</artifactId>-->
+<!--        <version>1.4.0</version>-->
+<!--        <configuration>-->
+<!--          <name>xJavaFxTool</name>-->
+<!--          <appVersion>1.0.0</appVersion>-->
+<!--          <vendor>com.xwintop</vendor>-->
+<!--          <destination>target/dist</destination>-->
+<!--          <module>xJavaFxTool/com.xwintop.xJavaFxTool.XJavaFxToolMain</module>-->
+<!--          <runtimeImage>target</runtimeImage>-->
+<!--          <linuxShortcut>true</linuxShortcut>-->
+<!--          <linuxPackageName>xJavaFxTool</linuxPackageName>-->
+<!--          <linuxAppCategory>xwintop</linuxAppCategory>-->
+<!--          <linuxMenuGroup>xwintop</linuxMenuGroup>-->
+<!--          <javaOptions>-->
+<!--            <option>-Dfile.encoding=UTF-8</option>-->
+<!--          </javaOptions>-->
+<!--        </configuration>-->
+<!--      </plugin>-->
       <plugin>
-        <groupId>com.zenjava</groupId>
-        <artifactId>javafx-maven-plugin</artifactId>
-        <version>8.8.3</version>
+        <groupId>io.github.fvarrui</groupId>
+        <artifactId>javapackager</artifactId>
+        <version>1.6.3</version>
         <configuration>
-          <mainClass>com.xwintop.xJavaFxTool.Main</mainClass>
-          <vendor>xwintop</vendor>
-          <appName>xJavaFxTool</appName>
+          <bundleJre>true</bundleJre>
+          <mainClass>com.xwintop.xJavaFxTool.XJavaFxToolMain</mainClass>
+          <generateInstaller>true</generateInstaller>
+          <!-- 这行不能被格式化为多行，否则会出错-->
+          <vmArgs>--add-exports jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</vmArgs>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>17</source>
-          <target>17</target>
-        </configuration>
+        <executions>
+          <execution>
+            <id>bundling-for-windows</id>
+            <phase>package</phase>
+            <goals>
+              <goal>package</goal>
+            </goals>
+            <configuration>
+              <platform>windows</platform>
+              <createZipball>true</createZipball>
+              <administratorRequired>true</administratorRequired>
+              <winConfig>
+
+                <!-- general properties -->
+                <generateSetup>true</generateSetup>
+                <generateMsi>true</generateMsi>
+                <generateMsm>true</generateMsm>
+
+                <!-- setup generation properties -->
+                <setupMode>installForAllUsers</setupMode>
+                <createDesktopIconTask>true</createDesktopIconTask>
+                <disableDirPage>false</disableDirPage>
+                <disableFinishedPage>false</disableFinishedPage>
+                <setupLanguages>
+                  <english>compiler:Default.isl</english>
+                  <!--                                    <spanish>compiler:Languages\Chinese.isl</spanish>-->
+                </setupLanguages>
+              </winConfig>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
