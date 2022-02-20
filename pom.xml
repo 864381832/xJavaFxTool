@@ -108,18 +108,12 @@
       <optional>true</optional>
       <scope>provided</scope>
     </dependency>
-    <!-- dom4j 需要的依赖 -->
-    <dependency>
-      <groupId>jaxen</groupId>
-      <artifactId>jaxen</artifactId>
-      <version>1.2.0</version>
-    </dependency>
 
     <!-- oshi获取系统信息工具 -->
     <dependency>
       <groupId>com.github.oshi</groupId>
       <artifactId>oshi-core</artifactId>
-      <version>3.9.1</version>
+      <version>5.7.5</version>
     </dependency>
 
   </dependencies>
