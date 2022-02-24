@@ -26,14 +26,14 @@ import java.lang.reflect.Method;
 @Slf4j
 public class StageUtils {
 
-    static interface ExtUser32 extends StdCallLibrary, User32 {
-
-        ExtUser32 INSTANCE = (ExtUser32) Native.loadLibrary("user32", ExtUser32.class, W32APIOptions.DEFAULT_OPTIONS);
-
-        WinDef.LRESULT CallWindowProcW(Pointer lpWndProc, Pointer hWnd, int msg, WinDef.WPARAM wParam, WinDef.LPARAM lParam);
-
-        int SetWindowLong(HWND hWnd, int nIndex, com.sun.jna.Callback wndProc) throws LastErrorException;
-    }
+//    static interface ExtUser32 extends StdCallLibrary, User32 {
+//
+//        ExtUser32 INSTANCE = (ExtUser32) Native.loadLibrary("user32", ExtUser32.class, W32APIOptions.DEFAULT_OPTIONS);
+//
+//        WinDef.LRESULT CallWindowProcW(Pointer lpWndProc, Pointer hWnd, int msg, WinDef.WPARAM wParam, WinDef.LPARAM lParam);
+//
+//        int SetWindowLong(HWND hWnd, int nIndex, com.sun.jna.Callback wndProc) throws LastErrorException;
+//    }
 
     // update default javafx stage style
     public static void updateStageStyle(Stage stage) {
