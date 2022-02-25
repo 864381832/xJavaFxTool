@@ -20,6 +20,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;
@@ -30,8 +31,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.xwintop.xJavaFxTool.utils.BoolUtils.isNot;
 
 @Slf4j
 public class NewLauncherController {
@@ -126,7 +125,7 @@ public class NewLauncherController {
             return;
         }
 
-        if (isNot(jarInfo.getIsEnable())) {
+        if (BooleanUtils.isFalse(jarInfo.getIsEnable())) {
             log.info("跳过插件 {}: 插件未启用", jarInfo.getName());
             return;
         }
