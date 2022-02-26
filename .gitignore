@@ -9,3 +9,7 @@ libs/
 
 system_plugin_list.json
 RUNNING_PID
+gradle
+.gradle
+build
+out

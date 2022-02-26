@@ -1,0 +1,60 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'maven-publish'
+    id 'org.openjfx.javafxplugin' version '0.0.11'
+    id 'org.beryx.jlink' version '2.24.4'
+}
+
+apply plugin: 'org.openjfx.javafxplugin'
+
+repositories {
+    mavenLocal()
+    maven {
+        url = uri('https://maven.aliyun.com/repository/public')
+    }
+
+    maven {
+        url = uri('https://jitpack.io')
+    }
+}
+
+dependencies {
+    implementation 'org.openjfx:javafx-controls:17.0.2'
+    implementation 'org.openjfx:javafx-base:17.0.2'
+    implementation 'org.openjfx:javafx-graphics:17.0.2'
+    implementation 'org.openjfx:javafx-fxml:17.0.2'
+    implementation 'org.openjfx:javafx-swing:17.0.2'
+    implementation 'org.openjfx:javafx-media:17.0.2'
+    implementation 'org.openjfx:javafx-web:17.0.2'
+    implementation 'org.openjfx:javafx-graphics:17.0.2'
+    implementation 'org.openjfx:javafx-graphics:17.0.2'
+    implementation 'org.openjfx:javafx-graphics:17.0.2'
+    implementation 'io.github.classgraph:classgraph:4.8.100'
+    implementation 'com.gitee.xwintop:xcore:0.0.6-jdk17'
+    implementation 'com.github.oshi:oshi-core:5.7.5'
+    testImplementation 'junit:junit:4.12'
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+}
+
+group = 'com.xwintop'
+version = '0.2.3-jdk17'
+description = 'xJavaFxTool'
+sourceCompatibility = '17'
+
+javafx {
+    version = "17.0.2"
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.media', 'javafx.swing', 'javafx.web']
+}
+
+jlink {
+//    mergedModule {
+//        requires 'java.naming'
+//        requires 'java.xml'
+//    }
+    launcher{
+        name = 'xJavaFxTool'
+        mainClassName = 'com.xwintop.xJavaFxTool.XJavaFxToolMain'
+        jvmArgs = ['-Dlogback.configurationFile=./logback.xml']
+    }
+}
