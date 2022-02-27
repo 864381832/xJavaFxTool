@@ -50,6 +50,7 @@ public class XJavaFxToolApplication extends Application {
         // 2. 新UI使用独立的ClassLoader加载插件，兼容性更好；
         // 3. 新UI本身体验较好。
         loadNewUI(primaryStage);
+//        loadClassicUI(primaryStage);
 
         StageUtils.loadPrimaryStageBound(primaryStage);
         primaryStage.show();

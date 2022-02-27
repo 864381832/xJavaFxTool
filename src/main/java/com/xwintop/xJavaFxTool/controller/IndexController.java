@@ -111,6 +111,7 @@ public class IndexController extends IndexView {
     }
 
     private void initEvent() {
+        mainMenuBar.setUseSystemMenuBar(true);
         myTextField.textProperty().addListener((observable, oldValue, newValue) -> selectAction(newValue));
         myButton.setOnAction(arg0 -> {
             selectAction(myTextField.getText());
