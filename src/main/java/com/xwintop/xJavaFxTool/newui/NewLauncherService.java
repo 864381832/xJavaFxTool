@@ -5,6 +5,7 @@ import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.plugin.PluginLoader;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import java.util.Map.Entry;
  * 新界面中负责与插件操作相关的逻辑
  */
 @Slf4j
+@Data
 public class NewLauncherService {
 
     private static final NewLauncherService instance = new NewLauncherService();
@@ -35,14 +37,6 @@ public class NewLauncherService {
 
     public void setController(NewLauncherController newLauncherController) {
         this.newLauncherController = newLauncherController;
-    }
-
-    public void setCurrentPluginItem(PluginItemController currentPluginItem) {
-        this.currentPluginItem = currentPluginItem;
-    }
-
-    public PluginItemController getCurrentPluginItem() {
-        return currentPluginItem;
     }
 
     public void loadPlugin(PluginJarInfo pluginJarInfo) {

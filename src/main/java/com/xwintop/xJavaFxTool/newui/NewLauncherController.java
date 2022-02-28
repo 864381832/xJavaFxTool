@@ -76,8 +76,7 @@ public class NewLauncherController {
 
         chkFavorite.setOnAction(event -> {
             CheckMenuItem _this = (CheckMenuItem) event.getSource();
-            PluginItemController pluginItemController =
-                NewLauncherService.getInstance().getCurrentPluginItem();
+            PluginItemController pluginItemController = NewLauncherService.getInstance().getCurrentPluginItem();
             setFavorite(pluginItemController, _this.isSelected());
         });
     }
@@ -136,8 +135,7 @@ public class NewLauncherController {
             return;
         }
 
-        String categoryName = jarInfo.getIsFavorite() ?
-            FAVORITE_CATEGORY_NAME : XJavaFxToolApplication.RESOURCE_BUNDLE.getString(menuParentTitle);
+        String categoryName = jarInfo.getIsFavorite() ? FAVORITE_CATEGORY_NAME : XJavaFxToolApplication.RESOURCE_BUNDLE.getString(menuParentTitle);
 
         PluginCategoryController category = categoryControllers.computeIfAbsent(
             categoryName, __ -> {

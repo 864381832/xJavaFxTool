@@ -39,8 +39,6 @@ public class PluginManager {
 
     public static final String LOCAL_PLUGINS_PATH = "./system_plugin_list.json";
 
-    public static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
-
     /**
      * 当下载插件时，模拟数种 UA
      */
@@ -107,7 +105,7 @@ public class PluginManager {
                 return;
             }
 
-            String json = Files.readString(path, DEFAULT_CHARSET);
+            String json = Files.readString(path, StandardCharsets.UTF_8);
             JSON.parseArray(json, PluginJarInfo.class).forEach(plugin -> {
                 this.addOrUpdatePlugin(plugin, exist -> {
                     exist.setLocalVersionNumber(plugin.getLocalVersionNumber());
@@ -288,7 +286,7 @@ public class PluginManager {
         if (!Files.exists(path)) {
             Files.createFile(path);
         }
-        Files.writeString(path, json, DEFAULT_CHARSET);
+        Files.writeString(path, json, StandardCharsets.UTF_8);
     }
 
     // 保存配置，如果失败不抛出异常
