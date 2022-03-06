@@ -36,41 +36,6 @@
 
     <dependency>
       <groupId>org.openjfx</groupId>
-      <artifactId>javafx-controls</artifactId>
-      <version>17.0.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-base</artifactId>
-      <version>17.0.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-graphics</artifactId>
-      <version>17.0.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-fxml</artifactId>
-      <version>17.0.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-swing</artifactId>
-      <version>17.0.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-media</artifactId>
-      <version>17.0.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-web</artifactId>
-      <version>17.0.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.openjfx</groupId>
       <artifactId>javafx-graphics</artifactId>
       <version>17.0.2</version>
       <classifier>win</classifier>
@@ -99,7 +64,7 @@
     <dependency>
       <groupId>com.gitee.xwintop</groupId>
       <artifactId>xcore</artifactId>
-      <version>0.0.6-jdk17</version>
+      <version>0.0.7</version>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>

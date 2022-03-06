@@ -1,5 +1,6 @@
 package com.xwintop.xJavaFxTool.controller;
 
+import com.xwintop.xJavaFxTool.XJavaFxToolApplication;
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
 import com.xwintop.xJavaFxTool.model.ToolFxmlLoaderConfiguration;
 import com.xwintop.xJavaFxTool.services.IndexService;
@@ -40,9 +41,6 @@ import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import static com.xwintop.xJavaFxTool.XJavaFxToolApplication.RESOURCE_BUNDLE;
-import static com.xwintop.xJavaFxTool.utils.Config.Keys.NotepadEnabled;
-
 /**
  * @ClassName: IndexController
  * @Description: 主页
@@ -68,7 +66,7 @@ public class IndexController extends IndexView {
 
     public static FXMLLoader getFXMLLoader() {
         URL url = IndexController.class.getResource("/com/xwintop/xJavaFxTool/fxmlView/Index.fxml");
-        return new FXMLLoader(url, RESOURCE_BUNDLE);
+        return new FXMLLoader(url, XJavaFxToolApplication.RESOURCE_BUNDLE);
     }
 
     @Override
@@ -80,18 +78,17 @@ public class IndexController extends IndexView {
         initService();
         initNotepad();
 
-        this.indexService.addWebView(RESOURCE_BUNDLE.getString("feedback"), QQ_URL, null);
+        this.indexService.addWebView(XJavaFxToolApplication.RESOURCE_BUNDLE.getString("feedback"), QQ_URL, null);
         this.tongjiWebView.getEngine().load(STATISTICS_URL);
     }
 
     private void initNotepad() {
-        if (Config.getBoolean(NotepadEnabled, true)) {
+        if (Config.getBoolean(Config.Keys.NotepadEnabled, true)) {
             addNodepadAction(null);
         }
     }
 
     private void initView() {
-        menuMap.put("toolsMenu", toolsMenu);
         menuMap.put("moreToolsMenu", moreToolsMenu);
         File libPath = new File("libs/");
         // 获取所有的.jar和.zip文件

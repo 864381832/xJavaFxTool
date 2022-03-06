@@ -62,7 +62,7 @@ public class IndexService {
 
     public void addNodepadAction(ActionEvent event) {
         Parent notepad = FxmlUtils.load("/com/xwintop/xJavaFxTool/fxmlView/notepad.fxml");
-        if (indexController.getSingleWindowBootCheckBox().isSelected()) {
+        if (indexController.getSingleWindowBootCheckMenuItem().isSelected()) {
             JavaFxViewUtil.getNewStage(indexController.getBundle().getString("addNodepad"), null, notepad);
         } else {
             Tab tab = new Tab(indexController.getBundle().getString("addNodepad"));
@@ -78,7 +78,7 @@ public class IndexService {
         TextArea textArea = new TextArea();
         textArea.setFocusTraversable(true);
         ConsoleLogAppender.textAreaList.add(textArea);
-        if (indexController.getSingleWindowBootCheckBox().isSelected()) {
+        if (indexController.getSingleWindowBootCheckMenuItem().isSelected()) {
             Stage newStage = JavaFxViewUtil
                 .getNewStage(indexController.getBundle().getString("addLogConsole"), null, textArea);
             newStage.setOnCloseRequest(event1 -> {
@@ -108,7 +108,7 @@ public class IndexService {
             return;
         }
 
-        if (indexController.getSingleWindowBootCheckBox().isSelected()) {
+        if (indexController.getSingleWindowBootCheckMenuItem().isSelected()) {
             PluginLoader.loadPluginAsWindow(pluginJarInfo);
         } else {
             PluginLoader.loadPluginAsTab(pluginJarInfo, indexController.getTabPaneMain());
@@ -127,7 +127,7 @@ public class IndexService {
         } else {
             webEngine.load(IndexController.class.getResource(url).toExternalForm());
         }
-        if (indexController.getSingleWindowBootCheckBox().isSelected()) {
+        if (indexController.getSingleWindowBootCheckMenuItem().isSelected()) {
             JavaFxViewUtil.getNewStage(title, iconPath, new BorderPane(browser));
             return;
         }

@@ -2,7 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.CheckMenuItem?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.IndexController">
+<AnchorPane prefHeight="654.0" prefWidth="1044.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.IndexController">
 	<children>
       <BorderPane layoutY="2.0" prefHeight="600.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0">
          <top>
@@ -29,12 +29,12 @@
                               <MenuItem mnemonicParsing="false" onAction="#openAllTabAction" text="%openAllTab" />
                               <MenuItem mnemonicParsing="false" onAction="#pluginManageAction" text="%plugin_manage" />
                               <MenuItem mnemonicParsing="false" onAction="#addNodepadAction" text="%addNodepad" />
+                              <CheckMenuItem fx:id="singleWindowBootCheckMenuItem" mnemonicParsing="false" text="%singleWindowBootCheckBox" />
                               <MenuItem mnemonicParsing="false" onAction="#addLogConsoleAction" text="%addLogConsole" />
                             <SeparatorMenuItem />
                           <MenuItem mnemonicParsing="false" onAction="#exitAction" text="%Exit" />
                         </items>
                       </Menu>
-                      <Menu fx:id="toolsMenu" mnemonicParsing="false" text="%Tools" />
                         <Menu fx:id="moreToolsMenu" mnemonicParsing="false" text="%More_Tools" />
                       <Menu fx:id="helpMenu" mnemonicParsing="false" text="%Help">
                           <MenuItem mnemonicParsing="false" onAction="#openLogFileAction" text="%openLogFile" />
@@ -67,7 +67,6 @@
                         <Insets />
                      </HBox.margin>
                   </Button>
-                  <CheckBox fx:id="singleWindowBootCheckBox" mnemonicParsing="false" text="%singleWindowBootCheckBox" />
                   <WebView fx:id="tongjiWebView" prefHeight="1.0" prefWidth="1.0" visible="false" />
                   <Hyperlink onAction="#xwintopLinkOnAction" text="http://gitee.com/xwintop/xJavaFxTool" textFill="RED" />
                </children>
