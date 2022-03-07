@@ -1,9 +1,11 @@
 package com.xwintop.xJavaFxTool.utils;
 
 import com.xwintop.xcore.util.ConfigureUtil;
+import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.lang3.math.NumberUtils;
+
 import java.io.File;
 import java.util.Locale;
-import org.apache.commons.configuration.PropertiesConfiguration;
 
 /*
  * 存取框架配置
@@ -57,16 +59,8 @@ public class Config {
         return value == null ? def : value.toString();
     }
 
-    public static int getInt(Keys key, int def) {
-        return Integer.parseInt(get(key, String.valueOf(def)));
-    }
-
     public static double getDouble(Keys key, double def) {
-        return Double.parseDouble(get(key, String.valueOf(def)));
-    }
-
-    public static long getLong(Keys key, long def) {
-        return Long.parseLong(get(key, String.valueOf(def)));
+        return NumberUtils.toDouble(get(key, null), def);
     }
 
     public static boolean getBoolean(Keys key, boolean def) {
