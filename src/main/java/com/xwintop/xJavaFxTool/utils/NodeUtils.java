@@ -1,9 +1,9 @@
 package com.xwintop.xJavaFxTool.utils;
 
+import javafx.scene.Node;
+
 import java.util.HashMap;
 import java.util.Map;
-import javafx.scene.Node;
-import javafx.stage.Window;
 
 @SuppressWarnings("unchecked")
 public class NodeUtils {
