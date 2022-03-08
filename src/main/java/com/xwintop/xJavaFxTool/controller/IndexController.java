@@ -83,9 +83,9 @@ public class IndexController extends IndexView {
     }
 
     private void initNotepad() {
-        if (Config.getBoolean(Config.Keys.NotepadEnabled, true)) {
-            addNodepadAction(null);
-        }
+//        if (Config.getBoolean(Config.Keys.NotepadEnabled, true)) {
+//            addNodepadAction(null);
+//        }
     }
 
     private void initView() {

@@ -1,14 +1,17 @@
 <configuration>
     <jmxConfigurator/>
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
-            <maxHistory>30</maxHistory>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%-5level] [%thread] %logger{3600} - %msg%n</pattern>
-            <charset>UTF-8</charset> <!-- 此处设置字符集 -->
-        </encoder>
+      <file>logs/logFile.log</file>
+      <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+        <fileNamePattern>logs/logFile.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+        <maxFileSize>100MB</maxFileSize>
+        <maxHistory>30</maxHistory>
+        <totalSizeCap>3GB</totalSizeCap>
+      </rollingPolicy>
+      <encoder>
+        <pattern>%d{HH:mm:ss.SSS} [%-5level] [%thread] %logger{3600} - %msg%n</pattern>
+        <charset>UTF-8</charset> <!-- 此处设置字符集 -->
+      </encoder>
     </appender>
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>

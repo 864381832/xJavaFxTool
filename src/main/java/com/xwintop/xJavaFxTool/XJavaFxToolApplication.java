@@ -49,8 +49,8 @@ public class XJavaFxToolApplication extends Application {
         // 1. 新UI启动时不扫描插件目录，启动更快；
         // 2. 新UI使用独立的ClassLoader加载插件，兼容性更好；
         // 3. 新UI本身体验较好。
-        loadNewUI(primaryStage);
-//        loadClassicUI(primaryStage);
+//        loadNewUI(primaryStage);
+        loadClassicUI(primaryStage);
 
         StageUtils.loadPrimaryStageBound(primaryStage);
         primaryStage.show();
@@ -69,17 +69,17 @@ public class XJavaFxToolApplication extends Application {
     private void loadClassicUI(Stage primaryStage) throws IOException {
         FXMLLoader fXMLLoader = IndexController.getFXMLLoader();
         Parent root = fXMLLoader.load();
-
-        JFXDecorator decorator = JavaFxViewUtil.getJFXDecorator(
-            primaryStage,
-            RESOURCE_BUNDLE.getString("Title") + Config.xJavaFxToolVersions,
-            LOGO_PATH,
-            root
-        );
-        decorator.setOnCloseButtonAction(() -> confirmExit(null));
-
-        Scene scene = JavaFxViewUtil.getJFXDecoratorScene(decorator);
-        primaryStage.setScene(scene);
+        primaryStage.setScene(new Scene(root));
+//        JFXDecorator decorator = JavaFxViewUtil.getJFXDecorator(
+//            primaryStage,
+//            RESOURCE_BUNDLE.getString("Title") + Config.xJavaFxToolVersions,
+//            LOGO_PATH,
+//            root
+//        );
+//        decorator.setOnCloseButtonAction(() -> confirmExit(null));
+//
+//        Scene scene = JavaFxViewUtil.getJFXDecoratorScene(decorator);
+//        primaryStage.setScene(scene);
     }
 
     private void confirmExit(Event event) {
