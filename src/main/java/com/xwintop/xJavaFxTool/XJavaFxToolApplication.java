@@ -1,13 +1,11 @@
 package com.xwintop.xJavaFxTool;
 
-import com.jfoenix.controls.JFXDecorator;
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xJavaFxTool.utils.Config.Keys;
 import com.xwintop.xJavaFxTool.utils.StageUtils;
 import com.xwintop.xcore.javafx.FxApp;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
-import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -70,16 +68,6 @@ public class XJavaFxToolApplication extends Application {
         FXMLLoader fXMLLoader = IndexController.getFXMLLoader();
         Parent root = fXMLLoader.load();
         primaryStage.setScene(new Scene(root));
-//        JFXDecorator decorator = JavaFxViewUtil.getJFXDecorator(
-//            primaryStage,
-//            RESOURCE_BUNDLE.getString("Title") + Config.xJavaFxToolVersions,
-//            LOGO_PATH,
-//            root
-//        );
-//        decorator.setOnCloseButtonAction(() -> confirmExit(null));
-//
-//        Scene scene = JavaFxViewUtil.getJFXDecoratorScene(decorator);
-//        primaryStage.setScene(scene);
     }
 
     private void confirmExit(Event event) {
