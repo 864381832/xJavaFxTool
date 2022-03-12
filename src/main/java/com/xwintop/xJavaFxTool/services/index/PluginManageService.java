@@ -17,8 +17,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import static org.apache.commons.lang3.StringUtils.substringBeforeLast;
-
 /**
  * 插件管理
  *
@@ -47,7 +45,6 @@ public class PluginManageService {
     }
 
     public void addDataRow(PluginJarInfo plugin) {
-
         Map<String, String> dataRow = new HashMap<>();
         dataRow.put("nameTableColumn", plugin.getName());
         dataRow.put("synopsisTableColumn", plugin.getSynopsis());
@@ -91,8 +88,7 @@ public class PluginManageService {
         };
 
         Window controllerWindow = pluginManageController.getWindow();
-        FxProgressDialog dialog = FxProgressDialog
-            .create(controllerWindow, progressTask, "正在下载插件 " + pluginJarInfo.getName() + "...");
+        FxProgressDialog dialog = FxProgressDialog.create(controllerWindow, progressTask, "正在下载插件 " + pluginJarInfo.getName() + "...");
 
         progressTask.setOnCancelled(event -> {
             throw new AppException("下载被取消。");
@@ -132,18 +128,15 @@ public class PluginManageService {
 
     private boolean isPluginDataMatch(Map<String, String> map, String keyword) {
         return map.entrySet().stream().anyMatch(
-            entry ->
-                !entry.getKey().equals("downloadUrl") &&
-                    entry.getValue().toLowerCase().contains(keyword.toLowerCase())
+            entry -> !entry.getKey().equals("downloadUrl") && entry.getValue().toLowerCase().contains(keyword.toLowerCase())
         );
     }
 
     /**
      * 判断插件是否启用
      */
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean isPluginEnabled(String fileName) {
-        String jarName = substringBeforeLast(fileName, "-");
+        String jarName = StringUtils.substringBeforeLast(fileName, "-");
         PluginJarInfo pluginJarInfo = PluginManager.getInstance().getPlugin(jarName);
         if (pluginJarInfo == null) {
             return false;

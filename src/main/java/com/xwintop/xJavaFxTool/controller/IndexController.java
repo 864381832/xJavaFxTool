@@ -263,7 +263,7 @@ public class IndexController extends IndexView {
     private void pluginManageAction() throws Exception {
         FXMLLoader fXMLLoader = PluginManageController.getFXMLLoader();
         Parent root = fXMLLoader.load();
-        PluginManageController pluginManageController = fXMLLoader.getController();
+//        PluginManageController pluginManageController = fXMLLoader.getController();
 /*
         pluginManageController.setOnPluginDownloaded(jarFile -> {
             try {

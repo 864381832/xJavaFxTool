@@ -61,8 +61,7 @@ public class PluginManager {
 
     private final String localPluginsPath;
 
-    private final OkHttpClient pluginDownloader =
-        new OkHttpClient.Builder().addInterceptor(new DownloadProgressInterceptor()).build();
+    private final OkHttpClient pluginDownloader = new OkHttpClient.Builder().addInterceptor(new DownloadProgressInterceptor()).build();
 
     private final List<PluginJarInfo> pluginList = new ArrayList<>(); // 插件列表
 
