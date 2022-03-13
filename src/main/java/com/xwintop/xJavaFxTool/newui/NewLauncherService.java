@@ -18,10 +18,9 @@ import java.util.Map.Entry;
 @Slf4j
 @Data
 public class NewLauncherService {
-
     private static final NewLauncherService instance = new NewLauncherService();
 
-    private NewLauncherController newLauncherController;
+    private TabPane tabPane;
 
     private Map<Tab, PluginJarInfo> jarInfoMap = new HashMap<>();
 
@@ -35,14 +34,11 @@ public class NewLauncherService {
 
     }
 
-    public void setController(NewLauncherController newLauncherController) {
-        this.newLauncherController = newLauncherController;
+    public void setTabPane(TabPane tabPane) {
+        this.tabPane = tabPane;
     }
 
     public void loadPlugin(PluginJarInfo pluginJarInfo) {
-
-        TabPane tabPane = this.newLauncherController.getTabPane();
-
         for (Entry<Tab, PluginJarInfo> entry : jarInfoMap.entrySet()) {
             if (entry.getValue() == pluginJarInfo) {
                 tabPane.getSelectionModel().select(entry.getKey());
@@ -67,6 +63,4 @@ public class NewLauncherService {
             jarInfoMap.put(tab, pluginJarInfo);
         }
     }
-
-
 }

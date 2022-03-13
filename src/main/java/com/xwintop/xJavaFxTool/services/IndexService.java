@@ -101,13 +101,11 @@ public class IndexService {
      * 添加Content内容
      */
     public void addContent(String title, String fxmlPath, String resourceBundleName, String iconPath) {
-
         PluginJarInfo pluginJarInfo = PluginManager.getInstance().getPluginByFxmlPath(fxmlPath);
         if (pluginJarInfo == null) {
             FxAlerts.error("打开失败", "没有找到指定的插件");
             return;
         }
-
         if (indexController.getSingleWindowBootCheckMenuItem().isSelected()) {
             PluginLoader.loadPluginAsWindow(pluginJarInfo);
         } else {

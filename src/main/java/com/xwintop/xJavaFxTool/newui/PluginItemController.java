@@ -17,17 +17,13 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class PluginItemController {
-
     public static final String FXML_PATH = "/com/xwintop/xJavaFxTool/fxmlView/newui/plugin-item.fxml";
-
     public static PluginItemController newInstance(PluginJarInfo pluginJarInfo) {
         FXMLLoader fxmlLoader = FxmlHelper.loadFromResource(FXML_PATH);
         PluginItemController controller = fxmlLoader.getController();
         controller.setPluginInfo(pluginJarInfo);
         return controller;
     }
-
-    ///////////////////////////////////////////////////////////////
 
     private PluginJarInfo pluginJarInfo;
 
@@ -42,7 +38,6 @@ public class PluginItemController {
     public void initialize() {
         // 当元素不可见时也从布局流中去掉
         this.root.managedProperty().bind(this.root.visibleProperty());
-
         this.root.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
                 onMouseLeftClicked(event);
@@ -64,12 +59,7 @@ public class PluginItemController {
     }
 
     private void updateIcon() {
-        URL iconUrl = ResourceUtils.getResource(
-            this.pluginJarInfo.getIconPath(),
-            this.pluginJarInfo.getDefaultIconPath(),
-            "/logo/plugin.png"
-        );
-
+        URL iconUrl = ResourceUtils.getResource(this.pluginJarInfo.getIconPath(), this.pluginJarInfo.getDefaultIconPath(), "/logo/plugin.png");
         if (iconUrl != null) {
             String url = iconUrl.toExternalForm();
             if (url.endsWith("plugin.png")) {

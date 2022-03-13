@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckMenuItem?>
 <?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -17,13 +17,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane prefHeight="654.0" prefWidth="1044.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.IndexController">
+<AnchorPane prefHeight="654.0" prefWidth="1044.0" stylesheets="/com/xwintop/xJavaFxTool/fxmlView/newui/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.IndexController">
 	<children>
       <TabPane fx:id="tabPaneMain" tabClosingPolicy="ALL_TABS" tabMinWidth="45.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <tabs>
             <Tab closable="false" text="%start">
                <content>
-                  <ScrollPane>
+                  <ScrollPane fitToWidth="true" style="-fx-border-width: 0 1 1 1;-fx-border-color: #CCCCCC;-fx-background:#2a2a2a">
                      <content>
                         <VBox>
                            <children>
@@ -65,24 +65,19 @@
                                         </Menu>
                                       </menus>
                                     </MenuBar>
-                              		<TextField fx:id="myTextField" focusTraversable="false" promptText="%selectTextField">
-                                       <HBox.margin>
-                                          <Insets left="10.0" right="10.0" />
-                                       </HBox.margin>
-                                    </TextField>
-                              		<Button fx:id="myButton" mnemonicParsing="false" text="%selectButton">
-                                       <HBox.margin>
-                                          <Insets />
-                                       </HBox.margin>
-                                    </Button>
+                                    <Label text="%search">
+                                       <padding>
+                                          <Insets left="10.0" />
+                                       </padding></Label>
+                                    <TextField fx:id="myTextField" promptText="%selectTextField" styleClass="search-text" />
                                     <WebView fx:id="tongjiWebView" prefHeight="1.0" prefWidth="1.0" visible="false" />
-                                    <Hyperlink onAction="#xwintopLinkOnAction" text="http://gitee.com/xwintop/xJavaFxTool" textFill="RED" />
+                                    <Hyperlink onAction="#xwintopLinkOnAction" text="http://gitee.com/xwintop/xJavaFxTool" textFill="#868686" />
                                  </children>
                                  <VBox.margin>
                                     <Insets top="5.0" />
                                  </VBox.margin>
                               </HBox>
-                              <VBox fx:id="pluginCategories" alignment="TOP_CENTER"/>
+                              <VBox fx:id="pluginCategories" alignment="TOP_CENTER" />
                            </children>
                         </VBox>
                      </content>

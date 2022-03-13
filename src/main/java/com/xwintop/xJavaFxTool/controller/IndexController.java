@@ -2,9 +2,15 @@ package com.xwintop.xJavaFxTool.controller;
 
 import com.xwintop.xJavaFxTool.XJavaFxToolApplication;
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
+import com.xwintop.xJavaFxTool.event.AppEvents;
+import com.xwintop.xJavaFxTool.event.PluginEvent;
+import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.model.ToolFxmlLoaderConfiguration;
+import com.xwintop.xJavaFxTool.newui.NewLauncherService;
 import com.xwintop.xJavaFxTool.newui.PluginCategoryController;
 import com.xwintop.xJavaFxTool.newui.PluginItemController;
+import com.xwintop.xJavaFxTool.plugin.PluginManager;
+import com.xwintop.xJavaFxTool.plugin.PluginParser;
 import com.xwintop.xJavaFxTool.services.IndexService;
 import com.xwintop.xJavaFxTool.services.index.PluginManageService;
 import com.xwintop.xJavaFxTool.services.index.SystemSettingService;
@@ -20,6 +26,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -30,6 +37,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.dom4j.Attribute;
 import org.dom4j.Document;
@@ -53,10 +61,11 @@ import java.util.jar.JarFile;
 @Getter
 @Setter
 public class IndexController extends IndexView {
-
     public static final String QQ_URL = "https://support.qq.com/product/127577";
 
     public static final String STATISTICS_URL = "https://xwintop.gitee.io/maven/tongji/xJavaFxTool.html";
+
+    public static final String FAVORITE_CATEGORY_NAME = "置顶";
 
     private Map<String, Menu> menuMap = new HashMap<>();
 
@@ -65,6 +74,7 @@ public class IndexController extends IndexView {
     private IndexService indexService = new IndexService(this);
 
     private ContextMenu contextMenu = new ContextMenu();
+    private ContextMenu itemContextMenu;
 
     // 实现搜索用
     private List<PluginItemController> pluginItemControllers = new ArrayList<>();
@@ -86,6 +96,7 @@ public class IndexController extends IndexView {
 
         this.indexService.addWebView(XJavaFxToolApplication.RESOURCE_BUNDLE.getString("feedback"), QQ_URL, null);
         this.tongjiWebView.getEngine().load(STATISTICS_URL);
+        this.tabPaneMain.getSelectionModel().select(0);
     }
 
     private void initNotepad() {
@@ -95,6 +106,7 @@ public class IndexController extends IndexView {
     }
 
     private void initView() {
+        initContextMenu();
         menuMap.put("moreToolsMenu", moreToolsMenu);
         File libPath = new File("libs/");
         // 获取所有的.jar和.zip文件
@@ -116,12 +128,91 @@ public class IndexController extends IndexView {
     private void initEvent() {
         mainMenuBar.setUseSystemMenuBar(true);
         myTextField.textProperty().addListener((observable, oldValue, newValue) -> selectAction(newValue));
-        myButton.setOnAction(arg0 -> {
-            selectAction(myTextField.getText());
-        });
     }
 
     private void initService() {
+        NewLauncherService.getInstance().setTabPane(tabPaneMain);
+        loadPlugins();  // 加载插件列表到界面上
+        AppEvents.addEventHandler(PluginEvent.PLUGIN_DOWNLOADED, pluginEvent -> {
+            loadPlugins();
+        });
+    }
+
+    private void initContextMenu() {
+        CheckMenuItem chkFavorite = new CheckMenuItem("置顶");
+        chkFavorite.setStyle("-fx-padding: 0 35 0 0");
+        this.itemContextMenu = new ContextMenu(chkFavorite);
+        chkFavorite.setOnAction(event -> {
+            CheckMenuItem _this = (CheckMenuItem) event.getSource();
+            PluginItemController pluginItemController = NewLauncherService.getInstance().getCurrentPluginItem();
+            setFavorite(pluginItemController, _this.isSelected());
+        });
+    }
+    private void setFavorite(PluginItemController itemController, boolean isFavorite) {
+        if (itemController == null) {
+            return;
+        }
+        itemController.getPluginJarInfo().setIsFavorite(isFavorite);
+        PluginManager.getInstance().saveToFileQuietly();
+        loadPlugins();
+    }
+
+    /**
+     * 加载/刷新插件列表
+     */
+    private void loadPlugins() {
+        this.pluginCategories.getChildren().clear();
+        this.pluginItemControllers.clear();
+        this.categoryControllers.clear();
+
+        PluginManager pluginManager = PluginManager.getInstance();
+        pluginManager.loadLocalPlugins();
+        pluginManager.getEnabledPluginList().forEach(this::loadPlugin);
+    }
+
+    /**
+     * 加载单个插件到界面，要求插件已经经过 {@link PluginParser#parse(File, PluginJarInfo)} 解析
+     *
+     * @param jarInfo 插件信息
+     */
+    private void loadPlugin(PluginJarInfo jarInfo) {
+        if (!jarInfo.getFile().exists()) {
+            log.info("跳过插件 {}: 文件不存在", jarInfo.getName());
+            return;
+        }
+        if (BooleanUtils.isFalse(jarInfo.getIsEnable())) {
+            log.info("跳过插件 {}: 插件未启用", jarInfo.getName());
+            return;
+        }
+        String menuParentTitle = jarInfo.getMenuParentTitle();
+        if (menuParentTitle == null) {
+            log.info("跳过插件 {}: menuParentTitle 为空", jarInfo.getName());
+            return;
+        }
+        String categoryName = jarInfo.getIsFavorite() ? FAVORITE_CATEGORY_NAME : XJavaFxToolApplication.RESOURCE_BUNDLE.getString(menuParentTitle);
+        PluginCategoryController category = categoryControllers.computeIfAbsent(
+            categoryName, __ -> {
+                PluginCategoryController _category = PluginCategoryController.newInstance(categoryName);
+                addCategory(_category);
+                return _category;
+            }
+        );
+
+        PluginItemController item = PluginItemController.newInstance(jarInfo);
+        item.setContextMenu(itemContextMenu);
+        category.addItem(item);
+
+        if (!pluginItemControllers.contains(item)) {
+            pluginItemControllers.add(item);
+        }
+    }
+
+    private void addCategory(PluginCategoryController category) {
+        if (category.lblCategoryName.getText().equals(FAVORITE_CATEGORY_NAME)) {
+            this.pluginCategories.getChildren().add(0, category.root);
+        } else {
+            this.pluginCategories.getChildren().add(category.root);
+        }
     }
 
     public void addToolMenu(File file) throws Exception {
@@ -230,11 +321,15 @@ public class IndexController extends IndexView {
     }
 
     public void selectAction(String selectText) {
-        if (contextMenu.isShowing()) {
-            contextMenu.hide();
-        }
-        contextMenu = indexService.getSelectContextMenu(selectText);
-        contextMenu.show(myTextField, null, 0, myTextField.getHeight());
+//        if (contextMenu.isShowing()) {
+//            contextMenu.hide();
+//        }
+//        contextMenu = indexService.getSelectContextMenu(selectText);
+//        contextMenu.show(myTextField, null, 0, myTextField.getHeight());
+        boolean notSearching = StringUtils.isBlank(selectText);
+        pluginItemControllers.forEach(itemController -> {
+            itemController.setVisible(notSearching || itemController.matchKeyword(selectText));
+        });
     }
 
     @FXML

@@ -51,7 +51,7 @@ public class NewLauncherController {
     private final Map<String, PluginCategoryController> categoryControllers = new HashMap<>();
 
     public void initialize() {
-        NewLauncherService.getInstance().setController(this);
+        NewLauncherService.getInstance().setTabPane(tabPane);
         txtSearch.textProperty().addListener(this::onSearchKeywordChanged);
 
         initContextMenu();
