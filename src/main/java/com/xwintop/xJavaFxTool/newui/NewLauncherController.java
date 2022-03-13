@@ -6,17 +6,16 @@ import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
 import com.xwintop.xJavaFxTool.event.AppEvents;
 import com.xwintop.xJavaFxTool.event.PluginEvent;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
-import com.xwintop.xJavaFxTool.newui.creator.CreatePluginProjectService;
-import com.xwintop.xJavaFxTool.newui.creator.PluginProjectInfo;
 import com.xwintop.xJavaFxTool.plugin.PluginManager;
 import com.xwintop.xJavaFxTool.plugin.PluginParser;
 import com.xwintop.xJavaFxTool.services.index.SystemSettingService;
 import com.xwintop.xcore.javafx.FxApp;
-import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import com.xwintop.xcore.javafx.dialog.FxDialog;
 import javafx.beans.Observable;
+import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
-import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +24,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;
 import java.io.File;
-import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,8 +42,6 @@ public class NewLauncherController {
     public TabPane tabPane;
 
     public TextField txtSearch;
-
-    public Hyperlink lnkCreatePlugin;
 
     private ContextMenu itemContextMenu;
 
@@ -188,33 +184,5 @@ public class NewLauncherController {
         } catch (Exception e) {
             log.error("打开项目地址失败", e);
         }
-    }
-
-    public void openPluginCreator() {
-
-        FxDialog<PluginCreatorController> dialog = new FxDialog<PluginCreatorController>()
-            .setTitle("创建自己的插件")
-            .setBodyFxml("/com/xwintop/xJavaFxTool/fxmlView/newui/plugin-creator.fxml")
-            .setOwner(FxApp.primaryStage)
-            .setResizable(true)
-            .setButtonTypes(ButtonType.OK, ButtonType.CANCEL);
-
-        PluginCreatorController controller = dialog.show();
-
-        dialog
-            .setButtonHandler(ButtonType.OK, (actionEvent, stage) -> {
-                if (controller.isStartCreation()) {
-                    try {
-                        PluginProjectInfo info = controller.getPluginProjectInfo();
-                        CreatePluginProjectService.getInstance().createProject(info);
-                        FxAlerts.info("创建成功", "项目 '" + info.getArtifactId() + "' 已经创建完毕。");
-                        Desktop.getDesktop().open(new File(info.getLocation()));
-                    } catch (IOException e) {
-                        FxAlerts.error("打开目标文件夹失败", e);
-                    }
-                }
-                stage.close();
-            })
-            .setButtonHandler(ButtonType.CANCEL, (actionEvent, stage) -> stage.close());
     }
 }

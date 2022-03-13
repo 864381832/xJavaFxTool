@@ -3,6 +3,8 @@ package com.xwintop.xJavaFxTool.controller;
 import com.xwintop.xJavaFxTool.XJavaFxToolApplication;
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
 import com.xwintop.xJavaFxTool.model.ToolFxmlLoaderConfiguration;
+import com.xwintop.xJavaFxTool.newui.PluginCategoryController;
+import com.xwintop.xJavaFxTool.newui.PluginItemController;
 import com.xwintop.xJavaFxTool.services.IndexService;
 import com.xwintop.xJavaFxTool.services.index.PluginManageService;
 import com.xwintop.xJavaFxTool.services.index.SystemSettingService;
@@ -63,6 +65,10 @@ public class IndexController extends IndexView {
     private IndexService indexService = new IndexService(this);
 
     private ContextMenu contextMenu = new ContextMenu();
+
+    // 实现搜索用
+    private List<PluginItemController> pluginItemControllers = new ArrayList<>();
+    private Map<String, PluginCategoryController> categoryControllers = new HashMap<>();
 
     public static FXMLLoader getFXMLLoader() {
         URL url = IndexController.class.getResource("/com/xwintop/xJavaFxTool/fxmlView/Index.fxml");
