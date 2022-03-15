@@ -6,7 +6,6 @@ import com.xwintop.xJavaFxTool.event.AppEvents;
 import com.xwintop.xJavaFxTool.event.PluginEvent;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.model.ToolFxmlLoaderConfiguration;
-import com.xwintop.xJavaFxTool.newui.NewLauncherService;
 import com.xwintop.xJavaFxTool.newui.PluginCategoryController;
 import com.xwintop.xJavaFxTool.newui.PluginItemController;
 import com.xwintop.xJavaFxTool.plugin.PluginManager;
@@ -26,7 +25,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -74,7 +72,6 @@ public class IndexController extends IndexView {
     private IndexService indexService = new IndexService(this);
 
     private ContextMenu contextMenu = new ContextMenu();
-    private ContextMenu itemContextMenu;
 
     // 实现搜索用
     private List<PluginItemController> pluginItemControllers = new ArrayList<>();
@@ -131,7 +128,6 @@ public class IndexController extends IndexView {
     }
 
     private void initService() {
-        NewLauncherService.getInstance().setTabPane(tabPaneMain);
         loadPlugins();  // 加载插件列表到界面上
         AppEvents.addEventHandler(PluginEvent.PLUGIN_DOWNLOADED, pluginEvent -> {
             loadPlugins();
@@ -139,28 +135,12 @@ public class IndexController extends IndexView {
     }
 
     private void initContextMenu() {
-        CheckMenuItem chkFavorite = new CheckMenuItem("置顶");
-        chkFavorite.setStyle("-fx-padding: 0 35 0 0");
-        this.itemContextMenu = new ContextMenu(chkFavorite);
-        chkFavorite.setOnAction(event -> {
-            CheckMenuItem _this = (CheckMenuItem) event.getSource();
-            PluginItemController pluginItemController = NewLauncherService.getInstance().getCurrentPluginItem();
-            setFavorite(pluginItemController, _this.isSelected());
-        });
-    }
-    private void setFavorite(PluginItemController itemController, boolean isFavorite) {
-        if (itemController == null) {
-            return;
-        }
-        itemController.getPluginJarInfo().setIsFavorite(isFavorite);
-        PluginManager.getInstance().saveToFileQuietly();
-        loadPlugins();
     }
 
     /**
      * 加载/刷新插件列表
      */
-    private void loadPlugins() {
+    public void loadPlugins() {
         this.pluginCategories.getChildren().clear();
         this.pluginItemControllers.clear();
         this.categoryControllers.clear();
@@ -199,7 +179,7 @@ public class IndexController extends IndexView {
         );
 
         PluginItemController item = PluginItemController.newInstance(jarInfo);
-        item.setContextMenu(itemContextMenu);
+        item.setIndexController(this);
         category.addItem(item);
 
         if (!pluginItemControllers.contains(item)) {

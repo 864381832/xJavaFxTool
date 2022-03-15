@@ -1,9 +1,10 @@
 package com.xwintop.xJavaFxTool.newui;
 
+import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
+import com.xwintop.xJavaFxTool.plugin.PluginManager;
 import com.xwintop.xJavaFxTool.utils.ResourceUtils;
 import com.xwintop.xcore.javafx.helper.FxmlHelper;
-import java.net.URL;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ContextMenu;
@@ -13,8 +14,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+import java.net.URL;
+
+@Data
 @Slf4j
 public class PluginItemController {
     public static final String FXML_PATH = "/com/xwintop/xJavaFxTool/fxmlView/newui/plugin-item.fxml";
@@ -35,6 +40,8 @@ public class PluginItemController {
 
     public ImageView imgLogo;
 
+    private IndexController indexController;
+
     public void initialize() {
         // 当元素不可见时也从布局流中去掉
         this.root.managedProperty().bind(this.root.visibleProperty());
@@ -45,17 +52,24 @@ public class PluginItemController {
                 onMouseRightClicked(event);
             }
         });
+        CheckMenuItem chkFavorite = new CheckMenuItem("置顶");
+        chkFavorite.setStyle("-fx-padding: 0 35 0 0");
+        this.contextMenu = new ContextMenu(chkFavorite);
+        chkFavorite.setOnAction(event2 -> {
+            this.pluginJarInfo.setIsFavorite(chkFavorite.isSelected());
+            PluginManager.getInstance().saveToFileQuietly();
+            indexController.loadPlugins();
+        });
     }
 
     private void onMouseRightClicked(MouseEvent event) {
-        NewLauncherService.getInstance().setCurrentPluginItem(this);
         CheckMenuItem chkFavorite = (CheckMenuItem) this.contextMenu.getItems().get(0);
         chkFavorite.setSelected(this.pluginJarInfo.getIsFavorite());
         this.contextMenu.show(this.root, event.getScreenX(), event.getScreenY());
     }
 
     private void onMouseLeftClicked(MouseEvent event) {
-        NewLauncherService.getInstance().loadPlugin(this.pluginJarInfo);
+        indexController.getIndexService().loadPlugin(pluginJarInfo);
     }
 
     private void updateIcon() {
@@ -69,18 +83,10 @@ public class PluginItemController {
         }
     }
 
-    public void setContextMenu(ContextMenu contextMenu) {
-        this.contextMenu = contextMenu;
-    }
-
     private void setPluginInfo(PluginJarInfo pluginJarInfo) {
         this.pluginJarInfo = pluginJarInfo;
         this.pluginName.setText(pluginJarInfo.getName());
         updateIcon();
-    }
-
-    public PluginJarInfo getPluginJarInfo() {
-        return pluginJarInfo;
     }
 
     public boolean matchKeyword(String keyword) {

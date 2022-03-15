@@ -2,7 +2,6 @@ package com.xwintop.xJavaFxTool.view;
 
 import java.util.ResourceBundle;
 
-import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -18,7 +17,6 @@ public abstract class IndexView implements Initializable {
     protected ResourceBundle bundle;
 
     @FXML
-//    protected JFXTextField myTextField;
     protected TextField myTextField;
 
     @FXML

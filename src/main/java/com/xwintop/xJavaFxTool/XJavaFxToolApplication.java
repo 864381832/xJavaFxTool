@@ -47,21 +47,11 @@ public class XJavaFxToolApplication extends Application {
         // 1. 新UI启动时不扫描插件目录，启动更快；
         // 2. 新UI使用独立的ClassLoader加载插件，兼容性更好；
         // 3. 新UI本身体验较好。
-//        loadNewUI(primaryStage);
         loadClassicUI(primaryStage);
 
         StageUtils.loadPrimaryStageBound(primaryStage);
         primaryStage.show();
         StageUtils.updateStageStyle(primaryStage);
-    }
-
-    private void loadNewUI(Stage primaryStage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(XJavaFxToolApplication.class.getResource("/com/xwintop/xJavaFxTool/fxmlView/newui/main.fxml"));
-        fxmlLoader.setResources(RESOURCE_BUNDLE);
-
-        Parent root = fxmlLoader.load();
-        primaryStage.setScene(new Scene(root));
     }
 
     private void loadClassicUI(Stage primaryStage) throws IOException {

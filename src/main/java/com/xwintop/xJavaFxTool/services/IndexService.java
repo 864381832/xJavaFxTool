@@ -1,18 +1,16 @@
 package com.xwintop.xJavaFxTool.services;
 
+import com.xwintop.xJavaFxTool.AppException;
 import com.xwintop.xJavaFxTool.common.logback.ConsoleLogAppender;
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.plugin.PluginLoader;
 import com.xwintop.xJavaFxTool.plugin.PluginManager;
 import com.xwintop.xJavaFxTool.utils.Config;
-import com.xwintop.xJavaFxTool.utils.FxmlUtils;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
-import java.util.Locale;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.scene.Parent;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
@@ -23,13 +21,19 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-import lombok.Setter;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
-@Setter
-public class IndexService {
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
+@Data
+@Slf4j
+public class IndexService {
     private IndexController indexController;
+    private Map<Tab, PluginJarInfo> jarInfoMap = new HashMap<>();
 
     public IndexService(IndexController indexController) {
         this.indexController = indexController;
@@ -41,7 +45,6 @@ public class IndexService {
         } else if ("English".equals(languageType)) {
             Config.set(Config.Keys.Locale, Locale.US);
         }
-
         FxAlerts.info("", indexController.getBundle().getString("SetLanguageText"));
     }
 
@@ -139,5 +142,31 @@ public class IndexService {
         tab.setContent(browser);
         indexController.getTabPaneMain().getTabs().add(tab);
         indexController.getTabPaneMain().getSelectionModel().select(tab);
+    }
+
+    public void loadPlugin(PluginJarInfo pluginJarInfo) {
+        for (Map.Entry<Tab, PluginJarInfo> entry : jarInfoMap.entrySet()) {
+            if (entry.getValue() == pluginJarInfo) {
+                indexController.getTabPaneMain().getSelectionModel().select(entry.getKey());
+                return;
+            }
+        }
+
+        log.info("加载插件 {}: {}", pluginJarInfo.getName(), pluginJarInfo.getFile().getAbsolutePath());
+        Tab tab;
+        String controllerType = pluginJarInfo.getControllerType();
+
+        if (controllerType.equals("Node")) {
+            tab = PluginLoader.loadIsolatedPluginAsTab(pluginJarInfo, indexController.getTabPaneMain());
+        } else if (controllerType.equals("WebView")) {
+            tab = PluginLoader.loadWebViewAsTab(pluginJarInfo, indexController.getTabPaneMain());
+        } else {
+            throw new AppException("找不到 controllerType=" + controllerType + " 的加载方式");
+        }
+
+        if (tab != null) {
+            tab.setOnClosed(event -> this.jarInfoMap.remove(tab));
+            jarInfoMap.put(tab, pluginJarInfo);
+        }
     }
 }
