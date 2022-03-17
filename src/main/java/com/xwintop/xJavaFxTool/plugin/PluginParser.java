@@ -71,6 +71,7 @@ public class PluginParser {
             String controllerType = getChildNodeText(pluginElement, "controllerType");
             String menuTitle = menuTitles.get(menuId);
 
+            pluginJarInfo.setMenuParentId(menuId);
             pluginJarInfo.setMenuParentTitle(menuTitle);
             pluginJarInfo.setBundleName(resourceBundleName);
             pluginJarInfo.setControllerType(controllerType);
@@ -89,13 +90,12 @@ public class PluginParser {
         }
     }
 
-    private static String getTitleFromResourceBundle(
-        File pluginFile, ClassLoader classLoader, Element pluginElement, String bundleName
-    ) {
+    private static String getTitleFromResourceBundle(File pluginFile, ClassLoader classLoader, Element pluginElement, String bundleName) {
         String titleResourceBundleKey = getChildNodeText(pluginElement, "title");
         ClassLoader tmpClassLoader = classLoader == null ? PluginClassLoader.create(pluginFile) : classLoader;
         ResourceBundle resourceBundle = ResourceBundle.getBundle(bundleName, Config.defaultLocale, tmpClassLoader);
-        return resourceBundle.getString(defaultString(titleResourceBundleKey, "Title")); }
+        return resourceBundle.getString(defaultString(titleResourceBundleKey, "Title"));
+    }
 
     private static String getChildNodeText(Element element, String childNode) {
         return element.selectSingleNode("child::" + childNode).getText();

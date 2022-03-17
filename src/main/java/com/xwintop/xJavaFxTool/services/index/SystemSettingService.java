@@ -32,11 +32,9 @@ public class SystemSettingService {
 
         SystemSettingController controller = dialog.show();
 
-        dialog
-            .setButtonHandler(ButtonType.OK, (actionEvent, stage) -> {
+        dialog.setButtonHandler(ButtonType.OK, (actionEvent, stage) -> {
                 controller.applySettings();
                 stage.close();
-            })
-            .setButtonHandler(ButtonType.CANCEL, (actionEvent, stage) -> stage.close());
+            }).setButtonHandler(ButtonType.CANCEL, (actionEvent, stage) -> stage.close());
     }
 }

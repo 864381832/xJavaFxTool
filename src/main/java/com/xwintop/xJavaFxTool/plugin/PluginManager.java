@@ -18,7 +18,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -203,9 +202,7 @@ public class PluginManager {
 
     ////////////////////////////////////////////////////////////// 下载插件
 
-    public File downloadPlugin(
-        PluginJarInfo pluginJarInfo, BiConsumer<Long, Long> onProgressUpdate
-    ) throws IOException {
+    public File downloadPlugin(PluginJarInfo pluginJarInfo, BiConsumer<Long, Long> onProgressUpdate) throws IOException {
 
         PluginJarInfo plugin = getPlugin(pluginJarInfo.getJarName());
         if (plugin == null) {
@@ -215,8 +212,7 @@ public class PluginManager {
         File file = pluginJarInfo.getFile();
         FileUtils.forceMkdirParent(file);
 
-        this.currentProgressListener =
-            (bytesRead, contentLength, done) -> onProgressUpdate.accept(contentLength, bytesRead);
+        this.currentProgressListener = (bytesRead, contentLength, done) -> onProgressUpdate.accept(contentLength, bytesRead);
 
         // 使用多个 UA 尝试下载
         Throwable downloadFailure = null;
@@ -234,8 +230,7 @@ public class PluginManager {
             if (downloadFailure instanceof IOException) {
                 throw (IOException) downloadFailure;
             } else {
-                throw new IOException("插件 '" + plugin.getName() +
-                    "' 下载失败 " + pluginJarInfo.getJarName(), downloadFailure);
+                throw new IOException("插件 '" + plugin.getName() + "' 下载失败 " + pluginJarInfo.getJarName(), downloadFailure);
             }
         }
 
@@ -258,7 +253,6 @@ public class PluginManager {
      * @param url        下载地址
      * @param ua         UA 字符串
      * @param file       下载到的目标文件
-     *
      * @throws IOException 如果下载失败
      */
     private void tryDownload(String pluginName, String url, String ua, File file) throws IOException {
@@ -351,9 +345,7 @@ public class PluginManager {
 
         private Source source(Source source) {
             return new ForwardingSource(source) {
-
                 long totalBytesRead = 0L;
-
                 @Override
                 public long read(Buffer sink, long byteCount) throws IOException {
                     long bytesRead = super.read(sink, byteCount);
@@ -367,7 +359,6 @@ public class PluginManager {
     }
 
     interface ProgressListener {
-
         void update(long bytesRead, long contentLength, boolean done);
     }
 }

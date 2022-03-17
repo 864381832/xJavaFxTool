@@ -75,6 +75,7 @@ public class IndexController extends IndexView {
 
     // 实现搜索用
     private List<PluginItemController> pluginItemControllers = new ArrayList<>();
+
     private Map<String, PluginCategoryController> categoryControllers = new HashMap<>();
 
     public static FXMLLoader getFXMLLoader() {
@@ -103,23 +104,7 @@ public class IndexController extends IndexView {
     }
 
     private void initView() {
-        initContextMenu();
-        menuMap.put("moreToolsMenu", moreToolsMenu);
-        File libPath = new File("libs/");
-        // 获取所有的.jar和.zip文件
-        File[] jarFiles = libPath.listFiles((dir, name) -> name.endsWith(".jar"));
-        if (jarFiles != null) {
-            for (File jarFile : jarFiles) {
-                if (!PluginManageService.isPluginEnabled(jarFile.getName())) {
-                    continue;
-                }
-                try {
-                    this.addToolMenu(jarFile);
-                } catch (Exception e) {
-                    log.error("加载工具出错：", e);
-                }
-            }
-        }
+//        menuMap.put("moreToolsMenu", moreToolsMenu);
     }
 
     private void initEvent() {
@@ -134,9 +119,6 @@ public class IndexController extends IndexView {
         });
     }
 
-    private void initContextMenu() {
-    }
-
     /**
      * 加载/刷新插件列表
      */
@@ -144,6 +126,9 @@ public class IndexController extends IndexView {
         this.pluginCategories.getChildren().clear();
         this.pluginItemControllers.clear();
         this.categoryControllers.clear();
+        this.menuMap.clear();
+        this.menuItemMap.clear();
+        this.moreToolsMenu.getItems().clear();
 
         PluginManager pluginManager = PluginManager.getInstance();
         pluginManager.loadLocalPlugins();
@@ -185,6 +170,8 @@ public class IndexController extends IndexView {
         if (!pluginItemControllers.contains(item)) {
             pluginItemControllers.add(item);
         }
+
+        addMenu(jarInfo);
     }
 
     private void addCategory(PluginCategoryController category) {
@@ -298,6 +285,31 @@ public class IndexController extends IndexView {
             menuMap.get(toolConfig.getMenuParentId()).getItems().add(menuItem);
             menuItemMap.put(menuItem.getText(), menuItem);
         }
+    }
+
+    private void addMenu(PluginJarInfo jarInfo) {
+//            Optional<MenuItem> menu = moreToolsMenu.getItems().stream().filter(menuItem1 -> jarInfo.getMenuParentId().equals(menuItem1.getId())).findAny();
+            if (!menuMap.containsKey(jarInfo.getMenuParentId())) {
+//            if (moreToolsMenu.getItems().stream().noneMatch(menuItem -> jarInfo.getMenuParentId().equals(menuItem.getId()))) {
+//            if (menu == null) {
+                Menu menu = new Menu(XJavaFxToolApplication.RESOURCE_BUNDLE.getString(jarInfo.getMenuParentTitle()));
+                menu.setId(jarInfo.getMenuParentId());
+                menuMap.put(jarInfo.getMenuParentId(),menu);
+                moreToolsMenu.getItems().add(menu);
+            }
+
+            MenuItem menuItem = new MenuItem(jarInfo.getTitle());
+            if (StringUtils.isNotEmpty(jarInfo.getIconPath())) {
+                ImageView imageView = new ImageView(new Image(jarInfo.getIconPath()));
+                imageView.setFitHeight(18);
+                imageView.setFitWidth(18);
+                menuItem.setGraphic(imageView);
+            }
+            menuItem.setOnAction((ActionEvent event) -> {
+                indexService.loadPlugin(jarInfo);
+            });
+            menuMap.get(jarInfo.getMenuParentId()).getItems().add(menuItem);
+            menuItemMap.put(menuItem.getText(), menuItem);
     }
 
     public void selectAction(String selectText) {
