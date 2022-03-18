@@ -52,23 +52,20 @@ public class PluginContainer {
      */
     public FXMLLoader createFXMLLoader() {
         try {
-            FXMLLoader pluginFxmlLoader = (FXMLLoader)
-                pluginClassLoader.loadClass("javafx.fxml.FXMLLoader").getDeclaredConstructor().newInstance();
+            FXMLLoader pluginFxmlLoader = (FXMLLoader) pluginClassLoader.loadClass("javafx.fxml.FXMLLoader").getDeclaredConstructor().newInstance();
 
             pluginFxmlLoader.setClassLoader(pluginClassLoader);
 
             URL resource = getResource(pluginJarInfo.getFxmlPath());
             if (resource == null) {
-                FxAlerts.error("加载失败", "无法在插件 " + pluginJarInfo.getFile().getName() +
-                    " 内找到所需资源 " + pluginJarInfo.getFxmlPath());
+                FxAlerts.error("加载失败", "无法在插件 " + pluginJarInfo.getFile().getName() + " 内找到所需资源 " + pluginJarInfo.getFxmlPath());
                 return null;
             }
 
             pluginFxmlLoader.setLocation(resource);
 
             if (StringUtils.isNotEmpty(pluginJarInfo.getBundleName())) {
-                ResourceBundle resourceBundle = ResourceBundle
-                    .getBundle(pluginJarInfo.getBundleName(), Config.defaultLocale, pluginClassLoader);
+                ResourceBundle resourceBundle = ResourceBundle.getBundle(pluginJarInfo.getBundleName(), Config.defaultLocale, pluginClassLoader);
                 pluginFxmlLoader.setResources(resourceBundle);
             }
             return pluginFxmlLoader;

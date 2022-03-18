@@ -44,7 +44,6 @@ import java.util.ResourceBundle;
 @Setter
 @Slf4j
 public class PluginManageController extends PluginManageView {
-
     public static final String FXML = "/com/xwintop/xJavaFxTool/fxmlView/index/PluginManage.fxml";
 
     private PluginManageService pluginManageService = new PluginManageService(this);
@@ -118,10 +117,7 @@ public class PluginManageController extends PluginManageView {
         }
     }
 
-    private void afterDownload(
-        Map<String, String> dataRow, Button downloadButton, PluginJarInfo pluginJarInfo
-    ) {
-
+    private void afterDownload(Map<String, String> dataRow, Button downloadButton, PluginJarInfo pluginJarInfo) {
         // 没有下载成功不做处理
         if (pluginJarInfo.getIsDownload() == null || !pluginJarInfo.getIsDownload()) {
             return;
@@ -149,7 +145,6 @@ public class PluginManageController extends PluginManageView {
     }
 
     private void initEvent() {
-
         // 右键菜单
         MenuItem mnuSavePluginConfig = new MenuItem("保存配置");
         mnuSavePluginConfig.setOnAction(ev -> {
@@ -160,13 +155,10 @@ public class PluginManageController extends PluginManageView {
                 log.error("保存插件配置失败", ex);
             }
         });
-
         ContextMenu contextMenu = new ContextMenu(mnuSavePluginConfig);
         pluginDataTableView.setContextMenu(contextMenu);
-
         // 搜索
-        selectPluginTextField.textProperty()
-            .addListener((_ob, _old, _new) -> pluginManageService.searchPlugin(_new));
+        selectPluginTextField.textProperty().addListener((_ob, _old, _new) -> pluginManageService.searchPlugin(_new));
     }
 
     private void initService() {

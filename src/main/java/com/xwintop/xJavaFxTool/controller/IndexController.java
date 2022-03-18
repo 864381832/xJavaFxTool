@@ -60,8 +60,6 @@ public class IndexController extends IndexView {
 
     private IndexService indexService = new IndexService(this);
 
-    private ContextMenu contextMenu = new ContextMenu();
-
     // 实现搜索用
     private List<PluginItemController> pluginItemControllers = new ArrayList<>();
 
@@ -191,11 +189,6 @@ public class IndexController extends IndexView {
     }
 
     public void selectAction(String selectText) {
-//        if (contextMenu.isShowing()) {
-//            contextMenu.hide();
-//        }
-//        contextMenu = indexService.getSelectContextMenu(selectText);
-//        contextMenu.show(myTextField, null, 0, myTextField.getHeight());
         boolean notSearching = StringUtils.isBlank(selectText);
         pluginItemControllers.forEach(itemController -> {
             itemController.setVisible(notSearching || itemController.matchKeyword(selectText));
@@ -255,7 +248,7 @@ public class IndexController extends IndexView {
 
     @FXML
     private void openLogFileAction() {
-        String filePath = "logs/logFile." + DateFormatUtils.format(new Date(), "yyyy-MM-dd") + ".log";
+        String filePath = "logs/logFile.log";
         JavaFxSystemUtil.openDirectory(filePath);
     }
 

@@ -29,6 +29,8 @@
                           text="%addNodepad"/>
                 <CheckMenuItem fx:id="singleWindowBootCheckMenuItem" mnemonicParsing="false"
                                text="%singleWindowBootCheckBox"/>
+                <CheckMenuItem fx:id="singleInstanceBootCheckMenuItem" mnemonicParsing="false"
+                               text="%singleInstanceBoot"/>
                 <MenuItem mnemonicParsing="false" onAction="#addLogConsoleAction"
                           text="%addLogConsole"/>
                 <SeparatorMenuItem/>
@@ -68,6 +70,7 @@
             <Pane HBox.hgrow="ALWAYS"/>
             <Hyperlink onAction="#xwintopLinkOnAction" text="http://gitee.com/xwintop/xJavaFxTool"
                        textFill="#868686"/>
+            <Hyperlink onAction="#pluginManageAction" text="%plugin_manage"/>
           </HBox>
           <VBox fx:id="pluginCategories" alignment="TOP_CENTER"/>
         </VBox>

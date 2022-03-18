@@ -26,6 +26,8 @@ public abstract class IndexView implements Initializable {
     protected MenuBar mainMenuBar;
     @FXML
     protected CheckMenuItem singleWindowBootCheckMenuItem;
+    @FXML
+    protected CheckMenuItem singleInstanceBootCheckMenuItem;
 
     @FXML
     protected Menu fileMenu;
