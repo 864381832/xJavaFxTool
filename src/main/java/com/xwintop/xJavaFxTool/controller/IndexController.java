@@ -26,6 +26,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import lombok.Getter;
@@ -209,7 +210,7 @@ public class IndexController extends IndexView {
 
     @FXML
     private void closeAllTabAction() {
-        tabPaneMain.getTabs().clear();
+        tabPaneMain.getTabs().removeIf(Tab::isClosable);
     }
 
     @FXML
