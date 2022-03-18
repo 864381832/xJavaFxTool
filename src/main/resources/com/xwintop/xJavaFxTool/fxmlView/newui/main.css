@@ -52,3 +52,15 @@
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
 }
+
+.main-menu-bar {
+    -fx-background-color: transparent;
+}
+
+.main-menu-bar .menu .label {
+    -fx-text-fill: white;
+}
+
+.main-menu-bar .menu-item .label {
+    -fx-text-fill: inherit;
+}
