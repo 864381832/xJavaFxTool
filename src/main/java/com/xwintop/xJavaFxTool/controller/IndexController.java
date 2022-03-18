@@ -5,13 +5,11 @@ import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
 import com.xwintop.xJavaFxTool.event.AppEvents;
 import com.xwintop.xJavaFxTool.event.PluginEvent;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
-import com.xwintop.xJavaFxTool.model.ToolFxmlLoaderConfiguration;
 import com.xwintop.xJavaFxTool.newui.PluginCategoryController;
 import com.xwintop.xJavaFxTool.newui.PluginItemController;
 import com.xwintop.xJavaFxTool.plugin.PluginManager;
 import com.xwintop.xJavaFxTool.plugin.PluginParser;
 import com.xwintop.xJavaFxTool.services.IndexService;
-import com.xwintop.xJavaFxTool.services.index.PluginManageService;
 import com.xwintop.xJavaFxTool.services.index.SystemSettingService;
 import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xJavaFxTool.view.IndexView;
@@ -33,21 +31,13 @@ import javafx.scene.image.ImageView;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
-import org.dom4j.Attribute;
-import org.dom4j.Document;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
 
 import java.io.File;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 
 /**
  * @ClassName: IndexController
@@ -64,8 +54,6 @@ public class IndexController extends IndexView {
     public static final String STATISTICS_URL = "https://xwintop.gitee.io/maven/tongji/xJavaFxTool.html";
 
     public static final String FAVORITE_CATEGORY_NAME = "置顶";
-
-    private Map<String, Menu> menuMap = new HashMap<>();
 
     private Map<String, MenuItem> menuItemMap = new HashMap<>();
 
@@ -104,7 +92,6 @@ public class IndexController extends IndexView {
     }
 
     private void initView() {
-//        menuMap.put("moreToolsMenu", moreToolsMenu);
     }
 
     private void initEvent() {
@@ -126,7 +113,6 @@ public class IndexController extends IndexView {
         this.pluginCategories.getChildren().clear();
         this.pluginItemControllers.clear();
         this.categoryControllers.clear();
-        this.menuMap.clear();
         this.menuItemMap.clear();
         this.moreToolsMenu.getItems().clear();
 
@@ -182,122 +168,13 @@ public class IndexController extends IndexView {
         }
     }
 
-    public void addToolMenu(File file) throws Exception {
-        Map<String, ToolFxmlLoaderConfiguration> toolMap = new HashMap<>();
-        List<ToolFxmlLoaderConfiguration> toolList = new ArrayList<>();
-
-        try (JarFile jarFile = new JarFile(file)) {
-            JarEntry entry = jarFile.getJarEntry("config/toolFxmlLoaderConfiguration.xml");
-            if (entry == null) {
-                return;
-            }
-            InputStream input = jarFile.getInputStream(entry);
-            SAXReader saxReader = new SAXReader();
-            Document document = saxReader.read(input);
-            Element root = document.getRootElement();
-            List<Element> elements = root.elements("ToolFxmlLoaderConfiguration");
-            for (Element configurationNode : elements) {
-                ToolFxmlLoaderConfiguration toolFxmlLoaderConfiguration = new ToolFxmlLoaderConfiguration();
-                List<Attribute> attributes = configurationNode.attributes();
-                for (Attribute configuration : attributes) {
-                    BeanUtils.copyProperty(toolFxmlLoaderConfiguration, configuration.getName(), configuration.getValue());
-                }
-                List<Element> childrenList = configurationNode.elements();
-                for (Element configuration : childrenList) {
-                    BeanUtils.copyProperty(toolFxmlLoaderConfiguration, configuration.getName(), configuration.getStringValue());
-                }
-                if (StringUtils.isEmpty(toolFxmlLoaderConfiguration.getMenuParentId())) {
-                    toolFxmlLoaderConfiguration.setMenuParentId("moreToolsMenu");
-                }
-                if (toolFxmlLoaderConfiguration.getIsMenu()) {
-                    if (menuMap.get(toolFxmlLoaderConfiguration.getMenuId()) == null) {
-                        toolMap.putIfAbsent(toolFxmlLoaderConfiguration.getMenuId(), toolFxmlLoaderConfiguration);
-                    }
-                } else {
-                    toolList.add(toolFxmlLoaderConfiguration);
-                }
-            }
-        }
-        toolList.addAll(toolMap.values());
-        this.addMenu(toolList);
-    }
-
-    private void addMenu(List<ToolFxmlLoaderConfiguration> toolList) {
-        for (ToolFxmlLoaderConfiguration toolConfig : toolList) {
-            try {
-                if (StringUtils.isEmpty(toolConfig.getResourceBundleName())) {
-                    if (StringUtils.isNotEmpty(bundle.getString(toolConfig.getTitle()))) {
-                        toolConfig.setTitle(bundle.getString(toolConfig.getTitle()));
-                    }
-                } else {
-                    ResourceBundle resourceBundle = ResourceBundle.getBundle(toolConfig.getResourceBundleName(), Config.defaultLocale);
-                    if (StringUtils.isNotEmpty(resourceBundle.getString(toolConfig.getTitle()))) {
-                        toolConfig.setTitle(resourceBundle.getString(toolConfig.getTitle()));
-                    }
-                }
-            } catch (Exception e) {
-                log.error("加载菜单失败", e);
-            }
-            if (toolConfig.getIsMenu()) {
-                Menu menu = new Menu(toolConfig.getTitle());
-                if (StringUtils.isNotEmpty(toolConfig.getIconPath())) {
-                    ImageView imageView = new ImageView(new Image(toolConfig.getIconPath()));
-                    imageView.setFitHeight(18);
-                    imageView.setFitWidth(18);
-                    menu.setGraphic(imageView);
-                }
-                menuMap.put(toolConfig.getMenuId(), menu);
-            }
-        }
-
-        for (ToolFxmlLoaderConfiguration toolConfig : toolList) {
-            if (toolConfig.getIsMenu()) {
-                menuMap.get(toolConfig.getMenuParentId()).getItems().add(menuMap.get(toolConfig.getMenuId()));
-            }
-        }
-
-        for (ToolFxmlLoaderConfiguration toolConfig : toolList) {
-            if (toolConfig.getIsMenu()) {
-                continue;
-            }
-            MenuItem menuItem = new MenuItem(toolConfig.getTitle());
-            if (StringUtils.isNotEmpty(toolConfig.getIconPath())) {
-                ImageView imageView = new ImageView(new Image(toolConfig.getIconPath()));
-                imageView.setFitHeight(18);
-                imageView.setFitWidth(18);
-                menuItem.setGraphic(imageView);
-            }
-            if ("Node".equals(toolConfig.getControllerType())) {
-                menuItem.setOnAction((ActionEvent event) -> {
-                    indexService.addContent(menuItem.getText(), toolConfig.getUrl(), toolConfig.getResourceBundleName(), toolConfig.getIconPath());
-                });
-                if (toolConfig.getIsDefaultShow()) {
-                    indexService.addContent(menuItem.getText(), toolConfig.getUrl(), toolConfig.getResourceBundleName(), toolConfig.getIconPath());
-                }
-            } else if ("WebView".equals(toolConfig.getControllerType())) {
-                menuItem.setOnAction((ActionEvent event) -> {
-                    indexService.addWebView(menuItem.getText(), toolConfig.getUrl(), toolConfig.getIconPath());
-                });
-                if (toolConfig.getIsDefaultShow()) {
-                    indexService.addWebView(menuItem.getText(), toolConfig.getUrl(), toolConfig.getIconPath());
-                }
-            }
-            menuMap.get(toolConfig.getMenuParentId()).getItems().add(menuItem);
-            menuItemMap.put(menuItem.getText(), menuItem);
-        }
-    }
-
     private void addMenu(PluginJarInfo jarInfo) {
-//            Optional<MenuItem> menu = moreToolsMenu.getItems().stream().filter(menuItem1 -> jarInfo.getMenuParentId().equals(menuItem1.getId())).findAny();
-            if (!menuMap.containsKey(jarInfo.getMenuParentId())) {
-//            if (moreToolsMenu.getItems().stream().noneMatch(menuItem -> jarInfo.getMenuParentId().equals(menuItem.getId()))) {
-//            if (menu == null) {
-                Menu menu = new Menu(XJavaFxToolApplication.RESOURCE_BUNDLE.getString(jarInfo.getMenuParentTitle()));
+            MenuItem menu = moreToolsMenu.getItems().stream().filter(menuItem1 -> jarInfo.getMenuParentId().equals(menuItem1.getId())).findAny().orElse(null);
+            if (menu == null) {
+                menu = new Menu(XJavaFxToolApplication.RESOURCE_BUNDLE.getString(jarInfo.getMenuParentTitle()));
                 menu.setId(jarInfo.getMenuParentId());
-                menuMap.put(jarInfo.getMenuParentId(),menu);
                 moreToolsMenu.getItems().add(menu);
             }
-
             MenuItem menuItem = new MenuItem(jarInfo.getTitle());
             if (StringUtils.isNotEmpty(jarInfo.getIconPath())) {
                 ImageView imageView = new ImageView(new Image(jarInfo.getIconPath()));
@@ -308,7 +185,7 @@ public class IndexController extends IndexView {
             menuItem.setOnAction((ActionEvent event) -> {
                 indexService.loadPlugin(jarInfo);
             });
-            menuMap.get(jarInfo.getMenuParentId()).getItems().add(menuItem);
+            ((Menu)menu).getItems().add(menuItem);
             menuItemMap.put(menuItem.getText(), menuItem);
     }
 
@@ -356,17 +233,6 @@ public class IndexController extends IndexView {
     private void pluginManageAction() throws Exception {
         FXMLLoader fXMLLoader = PluginManageController.getFXMLLoader();
         Parent root = fXMLLoader.load();
-//        PluginManageController pluginManageController = fXMLLoader.getController();
-/*
-        pluginManageController.setOnPluginDownloaded(jarFile -> {
-            try {
-                this.addToolMenu(jarFile);
-                PluginManager.getInstance().loadLocalPlugins();
-            } catch (Exception e) {
-                log.error("加载工具出错：", e);
-            }
-        });
-*/
         JavaFxViewUtil.openNewWindow(bundle.getString("plugin_manage"), root);
     }
 
