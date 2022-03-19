@@ -54,7 +54,7 @@ public class IndexController extends IndexView {
 
     public static final String STATISTICS_URL = "https://xwintop.gitee.io/maven/tongji/xJavaFxTool.html";
 
-    public static final String FAVORITE_CATEGORY_NAME = "置顶";
+    public static final String FAVORITE_CATEGORY_NAME = XJavaFxToolApplication.RESOURCE_BUNDLE.getString("favoriteCategory");
 
     private Map<String, MenuItem> menuItemMap = new HashMap<>();
 

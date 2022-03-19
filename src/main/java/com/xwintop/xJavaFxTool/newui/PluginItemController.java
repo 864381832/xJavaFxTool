@@ -52,7 +52,7 @@ public class PluginItemController {
                 onMouseRightClicked(event);
             }
         });
-        CheckMenuItem chkFavorite = new CheckMenuItem("置顶");
+        CheckMenuItem chkFavorite = new CheckMenuItem(IndexController.FAVORITE_CATEGORY_NAME);
         chkFavorite.setStyle("-fx-padding: 0 35 0 0");
         this.contextMenu = new ContextMenu(chkFavorite);
         chkFavorite.setOnAction(event2 -> {
