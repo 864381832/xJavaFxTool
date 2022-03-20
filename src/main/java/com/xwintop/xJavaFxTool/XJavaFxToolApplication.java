@@ -36,7 +36,6 @@ public class XJavaFxToolApplication extends Application {
 
         // 初始化 JavaFX 全局设置
         FxApp.init(primaryStage, LOGO_PATH);
-        FxApp.setupIcon(primaryStage);
         FxApp.styleSheets.add(XJavaFxToolApplication.class.getResource("/css/jfoenix-main.css").toExternalForm());
 
         primaryStage.setResizable(true);
@@ -51,7 +50,6 @@ public class XJavaFxToolApplication extends Application {
 
         StageUtils.loadPrimaryStageBound(primaryStage);
         primaryStage.show();
-        StageUtils.updateStageStyle(primaryStage);
     }
 
     private void loadClassicUI(Stage primaryStage) throws IOException {
