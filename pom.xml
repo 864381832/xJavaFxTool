@@ -74,13 +74,6 @@
       <scope>provided</scope>
     </dependency>
 
-    <!-- oshi获取系统信息工具 -->
-    <dependency>
-      <groupId>com.github.oshi</groupId>
-      <artifactId>oshi-core</artifactId>
-      <version>5.7.5</version>
-    </dependency>
-
   </dependencies>
   <build>
     <plugins>
