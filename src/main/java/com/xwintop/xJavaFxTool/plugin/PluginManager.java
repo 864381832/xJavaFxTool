@@ -51,21 +51,17 @@ public class PluginManager {
 
     public static PluginManager getInstance() {
         if (instance == null) {
-            instance = new PluginManager(LOCAL_PLUGINS_PATH);
+            instance = new PluginManager();
         }
         return instance;
     }
 
     //////////////////////////////////////////////////////////////
-
-    private final String localPluginsPath;
-
     private final OkHttpClient pluginDownloader = new OkHttpClient.Builder().addInterceptor(new DownloadProgressInterceptor()).build();
 
     private final List<PluginJarInfo> pluginList = new ArrayList<>(); // 插件列表
 
-    public PluginManager(String localPluginsPath) {
-        this.localPluginsPath = localPluginsPath;
+    public PluginManager() {
         this.loadLocalPluginConfiguration();
     }
 
@@ -98,7 +94,7 @@ public class PluginManager {
      */
     private void loadLocalPluginConfiguration() {
         try {
-            Path path = Paths.get(this.localPluginsPath);
+            Path path = Paths.get(LOCAL_PLUGINS_PATH);
             if (!Files.exists(path)) {
                 return;
             }
@@ -275,7 +271,7 @@ public class PluginManager {
     // 保存配置，如果失败则抛出异常
     public void saveToFile() throws IOException {
         String json = JSON.toJSONString(this.pluginList, true);
-        Path path = Paths.get(this.localPluginsPath);
+        Path path = Paths.get(LOCAL_PLUGINS_PATH);
         if (!Files.exists(path)) {
             Files.createFile(path);
         }

@@ -42,19 +42,16 @@ public class PluginParser {
      * 解析插件文件，补完 pluginJarInfo 属性
      */
     public static void parse(File pluginFile, PluginJarInfo pluginJarInfo, ClassLoader classLoader) {
-
         if (!pluginFile.exists()) {
             log.error("插件 {} 文件不存在: {}", pluginJarInfo.getName(), pluginFile.getAbsolutePath());
             return;
         }
 
         try (JarFile jarFile = new JarFile(pluginFile)) {
-
             JarEntry entry = jarFile.getJarEntry(ENTRY_NAME);
             if (entry == null) {
                 return;
             }
-
             Element root = createRootElement(jarFile, entry);
             List<Element> menuElements = selectElements(root, "/root/ToolFxmlLoaderConfiguration[@isMenu='true']");
             Element pluginElement = selectSingleElement(root, "/root/ToolFxmlLoaderConfiguration[not(@isMenu)]");
@@ -84,7 +81,6 @@ public class PluginParser {
             }
 
             pluginJarInfo.setName(StringUtils.defaultString(pluginJarInfo.getName(), title));
-
         } catch (IOException | DocumentException e) {
             throw new AppException(e);
         }

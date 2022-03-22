@@ -27,7 +27,6 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
-import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -131,7 +130,6 @@ public class IndexService {
     public static Tab loadIsolatedPluginAsTab(PluginJarInfo plugin, TabPane tabPane, boolean singleWindowBoot) {
         try {
             PluginContainer pluginContainer = new PluginContainer(PluginClassLoader.class.getClassLoader(), plugin);
-            WeakReference<PluginContainer> containerRef = new WeakReference<>(pluginContainer);
             FXMLLoader generatingCodeFXMLLoader = pluginContainer.createFXMLLoader();
             if (generatingCodeFXMLLoader == null) {
                 return null;
@@ -151,8 +149,6 @@ public class IndexService {
             }
 
             Node root = generatingCodeFXMLLoader.load();
-            Object controller = generatingCodeFXMLLoader.getController();
-            WeakReference<Object> controllerRef = new WeakReference<>(controller);
 
             tab.setContent(root);
             tabPane.getTabs().add(tab);
@@ -160,16 +156,9 @@ public class IndexService {
 
             tab.setOnCloseRequest(
                 event -> {
-                    Object ctrl = controllerRef.get();
-                    if (ctrl != null) {
-                        JavaFxViewUtil.setControllerOnCloseRequest(ctrl, event);
-                    }
-
-                    PluginContainer container = containerRef.get();
-                    if (container != null) {
-                        log.info("插件关闭：" + container.getPluginJarInfo().getName());
-                        container.unload();
-                    }
+                    JavaFxViewUtil.setControllerOnCloseRequest(generatingCodeFXMLLoader.getController(), event);
+                    log.info("插件关闭：" + pluginContainer.getPluginJarInfo().getName());
+                    pluginContainer.unload();
                 }
             );
 

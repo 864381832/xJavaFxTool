@@ -73,15 +73,10 @@ public class IndexController extends IndexView {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.bundle = resources;
-
         initView();
         initEvent();
         initService();
         initNotepad();
-
-        this.indexService.addWebView(XJavaFxToolApplication.RESOURCE_BUNDLE.getString("feedback"), QQ_URL, null);
-        this.tongjiWebView.getEngine().load(STATISTICS_URL);
-        this.tabPaneMain.getSelectionModel().select(0);
     }
 
     private void initNotepad() {
@@ -91,6 +86,9 @@ public class IndexController extends IndexView {
     }
 
     private void initView() {
+        this.indexService.addWebView(XJavaFxToolApplication.RESOURCE_BUNDLE.getString("feedback"), QQ_URL, null);
+        this.tongjiWebView.getEngine().load(STATISTICS_URL);
+        this.tabPaneMain.getSelectionModel().select(0);
     }
 
     private void initEvent() {
