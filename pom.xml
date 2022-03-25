@@ -15,6 +15,7 @@
     <maven.test.skip>true</maven.test.skip>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
+    <javafx.version>17.0.2</javafx.version>
   </properties>
   <repositories>
     <repository>
@@ -30,35 +31,8 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.12</version>
+      <version>4.13.2</version>
       <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-graphics</artifactId>
-      <version>17.0.2</version>
-      <classifier>win</classifier>
-    </dependency>
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-graphics</artifactId>
-      <version>17.0.2</version>
-      <classifier>linux</classifier>
-    </dependency>
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-graphics</artifactId>
-      <version>17.0.2</version>
-      <classifier>mac</classifier>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/io.github.classgraph/classgraph -->
-    <!-- https://github.com/classgraph/classgraph -->
-    <dependency>
-      <groupId>io.github.classgraph</groupId>
-      <artifactId>classgraph</artifactId>
-      <version>4.8.100</version>
     </dependency>
 
     <dependency>
@@ -74,6 +48,32 @@
       <scope>provided</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics</artifactId>
+      <version>${javafx.version}</version>
+      <classifier>win</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics</artifactId>
+      <version>${javafx.version}</version>
+      <classifier>linux</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics</artifactId>
+      <version>${javafx.version}</version>
+      <classifier>mac</classifier>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/io.github.classgraph/classgraph -->
+    <!-- https://github.com/classgraph/classgraph -->
+    <dependency>
+      <groupId>io.github.classgraph</groupId>
+      <artifactId>classgraph</artifactId>
+      <version>4.8.100</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -104,14 +104,14 @@
           </execution>
         </executions>
       </plugin>
-<!--      <plugin>-->
-<!--        <groupId>org.openjfx</groupId>-->
-<!--        <artifactId>javafx-maven-plugin</artifactId>-->
-<!--        <version>0.0.8</version>-->
-<!--        <configuration>-->
-<!--          <mainClass>com.xwintop.xJavaFxTool.XJavaFxToolMain</mainClass>-->
-<!--        </configuration>-->
-<!--      </plugin>-->
+      <plugin>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-maven-plugin</artifactId>
+        <version>0.0.8</version>
+        <configuration>
+          <mainClass>com.xwintop.xJavaFxTool.XJavaFxToolMain</mainClass>
+        </configuration>
+      </plugin>
 <!--      <plugin>-->
 <!--        <groupId>org.panteleyev</groupId>-->
 <!--        <artifactId>jpackage-maven-plugin</artifactId>-->
