@@ -21,8 +21,6 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Collectors;
 
-import static org.apache.commons.lang.StringUtils.defaultString;
-
 /**
  * 用来解析插件文件中的 toolFxmlLoaderConfiguration.xml
  */
@@ -90,7 +88,7 @@ public class PluginParser {
         String titleResourceBundleKey = getChildNodeText(pluginElement, "title");
         ClassLoader tmpClassLoader = classLoader == null ? PluginClassLoader.create(pluginFile) : classLoader;
         ResourceBundle resourceBundle = ResourceBundle.getBundle(bundleName, Config.defaultLocale, tmpClassLoader);
-        return resourceBundle.getString(defaultString(titleResourceBundleKey, "Title"));
+        return resourceBundle.getString(StringUtils.defaultString(titleResourceBundleKey, "Title"));
     }
 
     private static String getChildNodeText(Element element, String childNode) {
