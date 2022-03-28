@@ -17,22 +17,22 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class VersionChecker {
     public static void checkNewVersion() {
-        String json = HttpUtil.get("https://gitee.com/api/v5/repos/xwintop/xJavaFxTool/releases/latest");
-        JSONObject node = JSON.parseObject(json);
-        final String latestVersion = node.getString("tag_name");
-        final String features = node.getString("body");
-        if (isLargerThanCurrent(latestVersion)) {
-            final String content = new StringBuilder()
-                .append("版本名：").append(node.getString("name")).append("\r\n")
-                .append("更新内容: \r\n").append(features)
-                .toString();
-            if (FxAlerts.confirmOkCancel("发现新版本 " + latestVersion, content)) {
-                try {
+        try {
+            String json = HttpUtil.get("https://gitee.com/api/v5/repos/xwintop/xJavaFxTool/releases/latest");
+            JSONObject node = JSON.parseObject(json);
+            final String latestVersion = node.getString("tag_name");
+            final String features = node.getString("body");
+            if (isLargerThanCurrent(latestVersion)) {
+                final String content = new StringBuilder()
+                    .append("版本名：").append(node.getString("name")).append("\r\n")
+                    .append("更新内容: \r\n").append(features)
+                    .toString();
+                if (FxAlerts.confirmOkCancel("发现新版本 " + latestVersion, content)) {
                     HttpClientUtil.openBrowseURLThrowsException("https://gitee.com/xwintop/xJavaFxTool/releases");
-                } catch (Exception e) {
-                    log.error("打开新版本地址失败！", e);
                 }
             }
+        } catch (Exception e) {
+            log.error("检查新版本失败！", e);
         }
     }
 

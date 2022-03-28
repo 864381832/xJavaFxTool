@@ -2,6 +2,8 @@ package com.xwintop.xJavaFxTool.services.index;
 
 import com.xwintop.xJavaFxTool.AppException;
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
+import com.xwintop.xJavaFxTool.event.AppEvents;
+import com.xwintop.xJavaFxTool.event.PluginEvent;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.plugin.PluginManager;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
@@ -11,8 +13,11 @@ import javafx.stage.Window;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -138,5 +143,37 @@ public class PluginManageService {
         }
         Boolean isEnable = pluginJarInfo.getIsEnable();
         return isEnable != null && isEnable;
+    }
+
+    //删除插件
+    public void deletePlugin() {
+        Integer index = pluginManageController.getPluginDataTableView().getSelectionModel().getSelectedIndex();
+        if (index == null || index == -1) {
+            return;
+        }
+        Map<String, String> dataRow = pluginManageController.getOriginPluginData().get(index);
+        String jarName = dataRow.get("jarName");
+        PluginJarInfo pluginJarInfo = this.pluginManager.getPlugin(jarName);
+        if(BooleanUtils.isNotTrue(pluginJarInfo.getIsDownload())){
+            FxAlerts.info("提示",pluginJarInfo.getName() + " 该插件未下载");
+            return;
+        }
+        if (!FxAlerts.confirmYesNo("删除插件", String.format("确定要删除插件 %s 吗？", pluginJarInfo.getName()))) {
+            return;
+        }
+        if (pluginJarInfo != null) {
+            try {
+                FileUtils.delete(pluginJarInfo.getFile());
+                dataRow.put("isEnableTableColumn", "false");
+                dataRow.put("isDownloadTableColumn", "下载");
+                pluginJarInfo.setIsEnable(false);
+                pluginJarInfo.setIsDownload(false);
+                PluginManager.getInstance().saveToFile();
+                pluginManageController.getPluginDataTableView().refresh();
+                AppEvents.fire(new PluginEvent(PluginEvent.PLUGIN_DOWNLOADED, pluginJarInfo));
+            } catch (IOException e) {
+                log.error("删除插件失败", e);
+            }
+        }
     }
 }

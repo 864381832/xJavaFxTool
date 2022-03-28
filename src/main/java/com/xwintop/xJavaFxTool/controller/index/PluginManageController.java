@@ -146,8 +146,8 @@ public class PluginManageController extends PluginManageView {
 
     private void initEvent() {
         // 右键菜单
-        MenuItem mnuSavePluginConfig = new MenuItem("保存配置");
-        mnuSavePluginConfig.setOnAction(ev -> {
+        ContextMenu contextMenu = new ContextMenu();
+        JavaFxViewUtil.addMenuItem(contextMenu,"保存配置", actionEvent -> {
             try {
                 PluginManager.getInstance().saveToFile();
                 TooltipUtil.showToast("保存配置成功");
@@ -155,7 +155,9 @@ public class PluginManageController extends PluginManageView {
                 log.error("保存插件配置失败", ex);
             }
         });
-        ContextMenu contextMenu = new ContextMenu(mnuSavePluginConfig);
+        JavaFxViewUtil.addMenuItem(contextMenu,"删除插件", actionEvent -> {
+            pluginManageService.deletePlugin();
+        });
         pluginDataTableView.setContextMenu(contextMenu);
         // 搜索
         selectPluginTextField.textProperty().addListener((_ob, _old, _new) -> pluginManageService.searchPlugin(_new));

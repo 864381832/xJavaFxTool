@@ -13,16 +13,16 @@ import com.xwintop.xJavaFxTool.services.IndexService;
 import com.xwintop.xJavaFxTool.services.index.SystemSettingService;
 import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xJavaFxTool.view.IndexView;
+import com.xwintop.xcore.javafx.FxApp;
+import com.xwintop.xcore.javafx.dialog.FxDialog;
 import com.xwintop.xcore.util.ConfigureUtil;
 import com.xwintop.xcore.util.HttpClientUtil;
 import com.xwintop.xcore.util.javafx.AlertUtil;
 import com.xwintop.xcore.util.javafx.JavaFxSystemUtil;
-import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
@@ -221,9 +221,17 @@ public class IndexController extends IndexView {
 
     @FXML
     private void pluginManageAction() throws Exception {
-        FXMLLoader fXMLLoader = PluginManageController.getFXMLLoader();
-        Parent root = fXMLLoader.load();
-        JavaFxViewUtil.openNewWindow(bundle.getString("plugin_manage"), root);
+//        FXMLLoader fXMLLoader = PluginManageController.getFXMLLoader();
+//        Parent root = fXMLLoader.load();
+//        JavaFxViewUtil.openNewWindow(bundle.getString("plugin_manage"), root);
+        new FxDialog<PluginManageController>()
+            .setBodyFxml(PluginManageController.FXML)
+            .setOwner(FxApp.primaryStage)
+            .setResizable(true)
+            .setTitle(XJavaFxToolApplication.RESOURCE_BUNDLE.getString("plugin_manage"))
+            .setPrefWidth(800)
+            .withStage(stage -> stage.setOnCloseRequest(event -> loadPlugins()))
+            .show();
     }
 
     @FXML
