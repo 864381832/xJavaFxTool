@@ -166,6 +166,8 @@ public class IndexService {
             tabPane.getTabs().add(tab);
             tabPane.getSelectionModel().select(tab);
 
+            pluginContainer.setRootNode(root);
+            pluginContainer.onPluginInitialized();
             tab.setOnCloseRequest(
                 event -> {
                     JavaFxViewUtil.setControllerOnCloseRequest(generatingCodeFXMLLoader.getController(), event);

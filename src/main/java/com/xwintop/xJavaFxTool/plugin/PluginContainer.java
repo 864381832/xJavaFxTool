@@ -4,7 +4,9 @@ import com.xwintop.xJavaFxTool.AppException;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
+import com.xwintop.xcore.plugin.PluginEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
@@ -21,6 +23,8 @@ public class PluginContainer {
 
     private final PluginJarInfo pluginJarInfo;
 
+    private Node rootNode;
+
     public PluginContainer(PluginJarInfo pluginJarInfo) {
         this(ClassLoader.getSystemClassLoader(), pluginJarInfo);
     }
@@ -28,6 +32,10 @@ public class PluginContainer {
     public PluginContainer(ClassLoader parentClassLoader, PluginJarInfo pluginJarInfo) {
         this.pluginJarInfo = pluginJarInfo;
         this.pluginClassLoader = PluginClassLoader.create(parentClassLoader, pluginJarInfo.getFile());
+    }
+
+    public void setRootNode(Node rootNode) {
+        this.rootNode = rootNode;
     }
 
     public <T> T createInstance(Class<T> type) {
@@ -79,9 +87,18 @@ public class PluginContainer {
      */
     public void unload() {
         try {
+            if (this.rootNode != null) {
+                this.rootNode.fireEvent(new PluginEvent(this.rootNode, PluginEvent.PLUGIN_UNLOADING));
+            }
             this.pluginClassLoader.close();
         } catch (IOException e) {
             throw new AppException(e);
+        }
+    }
+
+    public void onPluginInitialized() {
+        if (this.rootNode != null) {
+            this.rootNode.fireEvent(new PluginEvent(this.rootNode, PluginEvent.PLUGIN_INITIALIZED));
         }
     }
 }
