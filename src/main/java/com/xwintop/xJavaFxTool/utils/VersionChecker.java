@@ -1,5 +1,6 @@
 package com.xwintop.xJavaFxTool.utils;
 
+import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -18,7 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 public class VersionChecker {
     public static void checkNewVersion() {
         try {
-            String json = HttpUtil.get("https://gitee.com/api/v5/repos/xwintop/xJavaFxTool/releases/latest");
+            String json = HttpUtil.get("https://gitee.com/api/v5/repos/xwintop/xJavaFxTool/releases/latest?access_token=d0486279db39a5996eca48c620abeee1");
+            log.info("检查新版本:" + json);
             JSONObject node = JSON.parseObject(json);
             final String latestVersion = node.getString("tag_name");
             final String features = node.getString("body");
