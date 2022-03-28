@@ -4,6 +4,7 @@ import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xJavaFxTool.utils.Config.Keys;
 import com.xwintop.xJavaFxTool.utils.StageUtils;
+import com.xwintop.xJavaFxTool.utils.VersionChecker;
 import com.xwintop.xcore.javafx.FxApp;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import javafx.application.Application;
@@ -54,6 +55,9 @@ public class XJavaFxToolApplication extends Application {
         loadClassicUI(primaryStage);
 
         StageUtils.loadPrimaryStageBound(primaryStage);
+        primaryStage.setOnShown(windowEvent -> {
+            VersionChecker.checkNewVersion();
+        });
         primaryStage.show();
     }
 

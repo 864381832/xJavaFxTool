@@ -26,11 +26,6 @@ import java.util.function.Consumer;
 @Setter
 @Slf4j
 public class PluginManageService {
-
-    public static final String PLUGIN_LIST_URL = "https://xwintop.gitee.io/maven/plugin-libs/plugin-list.json";
-
-    public static final String PLUGIN_LIST_PATH = "system_plugin_list.json";
-
     private PluginManageController pluginManageController;
 
     private PluginManager pluginManager = PluginManager.getInstance();

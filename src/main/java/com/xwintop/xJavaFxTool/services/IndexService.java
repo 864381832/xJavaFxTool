@@ -1,15 +1,18 @@
 package com.xwintop.xJavaFxTool.services;
 
 import com.xwintop.xJavaFxTool.AppException;
+import com.xwintop.xJavaFxTool.XJavaFxToolApplication;
 import com.xwintop.xJavaFxTool.common.logback.ConsoleLogAppender;
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.plugin.PluginClassLoader;
 import com.xwintop.xJavaFxTool.plugin.PluginContainer;
 import com.xwintop.xJavaFxTool.utils.Config;
+import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import com.xwintop.xcore.util.javafx.AlertUtil;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
@@ -49,6 +52,15 @@ public class IndexService {
             Config.set(Config.Keys.Locale, Locale.US);
         }
         AlertUtil.showInfoAlert(indexController.getBundle().getString("SetLanguageText"));
+        XJavaFxToolApplication.getStage().close();
+        Platform.runLater(() -> {
+            try {
+                XJavaFxSystemUtil.initSystemLocal();    // 初始化本地语言
+                new XJavaFxToolApplication().start(new Stage());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public void addNodepadAction(ActionEvent event) {
