@@ -18,7 +18,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -30,6 +29,7 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class PluginManager {
@@ -37,8 +37,6 @@ public class PluginManager {
     public static final String SERVER_PLUGINS_URL = "https://xwintop.gitee.io/maven/plugin-libs/plugin-list.json";
 
     public static final String LOCAL_PLUGINS_PATH = "./system_plugin_list.json";
-
-    public static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
 
     /**
      * 当下载插件时，模拟数种 UA
@@ -53,22 +51,17 @@ public class PluginManager {
 
     public static PluginManager getInstance() {
         if (instance == null) {
-            instance = new PluginManager(LOCAL_PLUGINS_PATH);
+            instance = new PluginManager();
         }
         return instance;
     }
 
     //////////////////////////////////////////////////////////////
-
-    private final String localPluginsPath;
-
-    private final OkHttpClient pluginDownloader =
-        new OkHttpClient.Builder().addInterceptor(new DownloadProgressInterceptor()).build();
+    private final OkHttpClient pluginDownloader = new OkHttpClient.Builder().addInterceptor(new DownloadProgressInterceptor()).build();
 
     private final List<PluginJarInfo> pluginList = new ArrayList<>(); // 插件列表
 
-    public PluginManager(String localPluginsPath) {
-        this.localPluginsPath = localPluginsPath;
+    public PluginManager() {
         this.loadLocalPluginConfiguration();
     }
 
@@ -78,6 +71,9 @@ public class PluginManager {
         return Collections.unmodifiableList(this.pluginList);
     }
 
+    public List<PluginJarInfo> getEnabledPluginList() {
+        return getPluginList().stream().filter(PluginJarInfo::getIsEnable).collect(Collectors.toList());
+    }
 
     public PluginJarInfo getPlugin(String jarName) {
         return this.pluginList.stream()
@@ -98,12 +94,12 @@ public class PluginManager {
      */
     private void loadLocalPluginConfiguration() {
         try {
-            Path path = Paths.get(this.localPluginsPath);
+            Path path = Paths.get(LOCAL_PLUGINS_PATH);
             if (!Files.exists(path)) {
                 return;
             }
 
-            String json = new String(Files.readAllBytes(path), DEFAULT_CHARSET);
+            String json = Files.readString(path, StandardCharsets.UTF_8);
             JSON.parseArray(json, PluginJarInfo.class).forEach(plugin -> {
                 this.addOrUpdatePlugin(plugin, exist -> {
                     exist.setLocalVersionNumber(plugin.getLocalVersionNumber());
@@ -121,9 +117,10 @@ public class PluginManager {
      */
     public void loadLocalPlugins() {
         this.pluginList.forEach(plugin -> {
-            if (plugin.getIsDownload() != null && plugin.getIsDownload()) {
+            File pluginFile = plugin.getFile();
+            if (pluginFile.exists()) {
                 try {
-                    PluginParser.parse(plugin.getFile(), plugin);
+                    PluginParser.parse(pluginFile, plugin);
                 } catch (Exception e) {
                     log.error("解析失败", e);
                 }
@@ -137,7 +134,7 @@ public class PluginManager {
      * @param jarFile 插件文件
      */
     public AddPluginResult addPluginJar(File jarFile) {
-        PluginClassLoader tmpClassLoader = new PluginClassLoader(jarFile);
+        PluginClassLoader tmpClassLoader = PluginClassLoader.create(jarFile);
         PluginJarInfo newJarInfo = new PluginJarInfo();
         newJarInfo.setLocalPath(jarFile.getAbsolutePath());
         newJarInfo.setIsEnable(true);
@@ -172,6 +169,7 @@ public class PluginManager {
                     exist.setDownloadUrl(plugin.getDownloadUrl());
                 });
             });
+            log.info("下载插件列表完成。");
         } catch (Exception e) {
             log.error("下载插件列表失败", e);
         }
@@ -200,9 +198,7 @@ public class PluginManager {
 
     ////////////////////////////////////////////////////////////// 下载插件
 
-    public File downloadPlugin(
-        PluginJarInfo pluginJarInfo, BiConsumer<Long, Long> onProgressUpdate
-    ) throws IOException {
+    public File downloadPlugin(PluginJarInfo pluginJarInfo, BiConsumer<Long, Long> onProgressUpdate) throws IOException {
 
         PluginJarInfo plugin = getPlugin(pluginJarInfo.getJarName());
         if (plugin == null) {
@@ -212,14 +208,13 @@ public class PluginManager {
         File file = pluginJarInfo.getFile();
         FileUtils.forceMkdirParent(file);
 
-        this.currentProgressListener =
-            (bytesRead, contentLength, done) -> onProgressUpdate.accept(contentLength, bytesRead);
+        this.currentProgressListener = (bytesRead, contentLength, done) -> onProgressUpdate.accept(contentLength, bytesRead);
 
         // 使用多个 UA 尝试下载
         Throwable downloadFailure = null;
         for (String ua : OPTIONAL_UA_LIST) {
             try {
-                tryDownload(pluginJarInfo.getDownloadUrl(), ua, file);
+                tryDownload(plugin.getName(), pluginJarInfo.getDownloadUrl(), ua, file);
                 downloadFailure = null;
                 break;
             } catch (Exception e) {
@@ -231,7 +226,7 @@ public class PluginManager {
             if (downloadFailure instanceof IOException) {
                 throw (IOException) downloadFailure;
             } else {
-                throw new IOException("插件下载失败 " + pluginJarInfo.getJarName(), downloadFailure);
+                throw new IOException("插件 '" + plugin.getName() + "' 下载失败 " + pluginJarInfo.getJarName(), downloadFailure);
             }
         }
 
@@ -250,18 +245,18 @@ public class PluginManager {
     /**
      * 尝试指定的 UA 进行下载，如果下载失败则抛出异常
      *
-     * @param url  下载地址
-     * @param ua   UA 字符串
-     * @param file 下载到的目标文件
-     *
+     * @param pluginName 插件名称
+     * @param url        下载地址
+     * @param ua         UA 字符串
+     * @param file       下载到的目标文件
      * @throws IOException 如果下载失败
      */
-    private void tryDownload(String url, String ua, File file) throws IOException {
+    private void tryDownload(String pluginName, String url, String ua, File file) throws IOException {
         Request request = new Builder().header("User-Agent", ua).url(url).build();
 
         try (Response response = pluginDownloader.newCall(request).execute()) {
             if (response.code() != HttpStatus.HTTP_OK) {
-                throw new IOException("插件下载失败 : HTTP " + response.code());
+                throw new IOException("插件 '" + pluginName + "' 下载失败 : HTTP " + response.code());
             }
 
             InputStream inputStream = Objects.requireNonNull(response.body()).byteStream();
@@ -276,11 +271,11 @@ public class PluginManager {
     // 保存配置，如果失败则抛出异常
     public void saveToFile() throws IOException {
         String json = JSON.toJSONString(this.pluginList, true);
-        Path path = Paths.get(this.localPluginsPath);
+        Path path = Paths.get(LOCAL_PLUGINS_PATH);
         if (!Files.exists(path)) {
             Files.createFile(path);
         }
-        Files.write(path, json.getBytes(DEFAULT_CHARSET));
+        Files.writeString(path, json, StandardCharsets.UTF_8);
     }
 
     // 保存配置，如果失败不抛出异常
@@ -346,9 +341,7 @@ public class PluginManager {
 
         private Source source(Source source) {
             return new ForwardingSource(source) {
-
                 long totalBytesRead = 0L;
-
                 @Override
                 public long read(Buffer sink, long byteCount) throws IOException {
                     long bytesRead = super.read(sink, byteCount);
@@ -362,7 +355,6 @@ public class PluginManager {
     }
 
     interface ProgressListener {
-
         void update(long bytesRead, long contentLength, boolean done);
     }
 }

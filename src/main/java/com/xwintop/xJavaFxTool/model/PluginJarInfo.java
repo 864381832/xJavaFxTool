@@ -32,11 +32,11 @@ public class PluginJarInfo {
 
     ///////////////////////////////////////// 下面的属性在远程插件列表中不存在
 
-    private Boolean isDownload;     // 是否下载
+    private Boolean isDownload;             // 是否下载
 
-    private Boolean isEnable;       // 是否启用
+    private Boolean isEnable = true;        // 是否启用
 
-    private Boolean isFavorite;     // 是否置顶
+    private Boolean isFavorite;             // 是否置顶
 
     private Integer localVersionNumber;     // 插件本地版本
 
@@ -81,7 +81,6 @@ public class PluginJarInfo {
 
     @JSONField(serialize = false)
     public String getDefaultIconPath() {
-        return bundleName == null ? "" :
-            (bundleName.replace("locale.", "/logo/") + ".png");
+        return bundleName == null ? "" : (bundleName.replace("locale.", "/logo/") + ".png");
     }
 }
