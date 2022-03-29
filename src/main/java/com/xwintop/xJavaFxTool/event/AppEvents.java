@@ -11,7 +11,6 @@ import javafx.event.EventType;
 /**
  * 应用全局事件注册和触发
  */
-@SuppressWarnings({"unchecked", "rawtypes"})
 public class AppEvents {
 
     private static final AppEvents instance = new AppEvents();
@@ -22,8 +21,7 @@ public class AppEvents {
      * @param appEvent 事件对象
      */
     public static void fire(AppEvent appEvent) {
-        List<Consumer> handlers = instance.listeners
-            .getOrDefault(appEvent.getEventType(), Collections.emptyList());
+        List<Consumer> handlers = instance.listeners.getOrDefault(appEvent.getEventType(), Collections.emptyList());
 
         for (Consumer handler : handlers) {
             handler.accept(appEvent);

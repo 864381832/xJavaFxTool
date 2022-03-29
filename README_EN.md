@@ -4,20 +4,12 @@
 
 **Tencent Cloud Development Platform Address：**[xJavaFxTool](https://dev.tencent.com/u/xwintop/p/xJavaFxTool)
 
-<p align="center">
-	<a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0.html">
-		<img src="https://img.shields.io/:license-apache-blue.svg" ></img>
-	</a>
-	<a target="_blank" href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">
-		<img src="https://img.shields.io/badge/JDK-1.8+-green.svg" ></img>
-	</a>
-	<a target="_blank" href="https://gitee.com/xwintop/xJavaFxTool/stargazers">
-		<img src='https://gitee.com/xwintop/xJavaFxTool/badge/star.svg?theme=dark' alt='gitee star'></img>
-	</a>
-	<a target="_blank" href='https://github.com/864381832/xJavaFxTool'>
-		<img src="https://img.shields.io/github/stars/864381832/xJavaFxTool.svg?style=social" alt="github star"></img>
-	</a>
-</p>
+[![](https://img.shields.io/:license-apache-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+[![](https://img.shields.io/badge/JDK-17+-green.svg)](https://www.oracle.com/technetwork/java/javase/downloads/index.html)
+[![](https://img.shields.io/badge/maven-v3.6.3-blue)](https://maven.apache.org)
+[![](https://gitee.com/xwintop/xJavaFxTool/badge/star.svg?theme=dark)](https://gitee.com/xwintop/xJavaFxTool/stargazers)
+[![](https://img.shields.io/github/stars/864381832/xJavaFxTool.svg?style=social)](https://github.com/864381832/xJavaFxTool)
+[![](https://img.shields.io/badge/IntelliJ%20IDEA-提供支持-blue.svg)](https://www.jetbrains.com/?from=xJavaFxTool)
 
 [中文说明/Chinese Documentation](README.md)
 
@@ -40,7 +32,7 @@ Due to the hot SpringBoot, the project has been released SpringBoot-javafx versi
 the plug-in jar package can be automatically loaded under the root directory libs (see the open source project [xJavaFxTool-plugin](https://gitee.com/xwintop/xJavaFxTool-plugin) for plug-in development examples , and the next step is to split the gadget into each plug-in and load it as needed. Currently, the plug-in function is not perfect, follow-up Split each function into modules and load them as needed to reduce the size of the jar package);
 
 #### Environmental construction instructions:
-- The development environment is jdk1.8, based on maven build
+- The development environment is jdk17, based on maven3.6.3 build
 - Developed with eclipase or Intellij Idea (Recommended to use [Intellij Idea](https://www.jetbrains.com/idea/) )
 - This project uses [lombok](https://projectlombok.org/) . If you have not downloaded the lombok plugin when viewing this project, please install it first, otherwise you can't find the get/set method.
 - The dependent [xcore](https://gitee.com/xwintop/xcore) package has been uploaded to the git-hosted maven platform. The git hosting maven can refer to the tutorial (if you can't download it, please pull the project to compile it yourself ). Tutorial address: Click to enter

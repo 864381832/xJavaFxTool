@@ -1,21 +1,26 @@
 package com.xwintop.xJavaFxTool.services.index;
 
-import static org.apache.commons.lang3.StringUtils.substringBeforeLast;
-
 import com.xwintop.xJavaFxTool.AppException;
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
+import com.xwintop.xJavaFxTool.event.AppEvents;
+import com.xwintop.xJavaFxTool.event.PluginEvent;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.plugin.PluginManager;
+import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import com.xwintop.xcore.javafx.dialog.FxProgressDialog;
 import com.xwintop.xcore.javafx.dialog.ProgressTask;
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Consumer;
+import javafx.stage.Window;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * 插件管理
@@ -26,16 +31,9 @@ import org.apache.commons.lang3.StringUtils;
 @Setter
 @Slf4j
 public class PluginManageService {
-
-    public static final String PLUGIN_LIST_URL = "https://xwintop.gitee.io/maven/plugin-libs/plugin-list.json";
-
-    public static final String PLUGIN_LIST_PATH = "system_plugin_list.json";
-
     private PluginManageController pluginManageController;
 
     private PluginManager pluginManager = PluginManager.getInstance();
-
-    private Consumer<File> onPluginDownloaded;
 
     public PluginManageService(PluginManageController pluginManageController) {
         this.pluginManageController = pluginManageController;
@@ -47,7 +45,6 @@ public class PluginManageService {
     }
 
     public void addDataRow(PluginJarInfo plugin) {
-
         Map<String, String> dataRow = new HashMap<>();
         dataRow.put("nameTableColumn", plugin.getName());
         dataRow.put("synopsisTableColumn", plugin.getSynopsis());
@@ -72,7 +69,7 @@ public class PluginManageService {
         pluginManageController.getOriginPluginData().add(dataRow);
     }
 
-    public PluginJarInfo downloadPluginJar(Map<String, String> dataRow) throws Exception {
+    public void downloadPluginJar(Map<String, String> dataRow, Consumer<PluginJarInfo> afterDownload) {
 
         String jarName = dataRow.get("jarName");
         PluginJarInfo pluginJarInfo = pluginManager.getPlugin(jarName);
@@ -80,25 +77,34 @@ public class PluginManageService {
         ProgressTask progressTask = new ProgressTask() {
             @Override
             protected void execute() throws Exception {
-                File file = pluginManager.downloadPlugin(
+                pluginManager.downloadPlugin(
                     pluginJarInfo, (total, current) -> updateProgress(current, total)
                 );
 
-                if (onPluginDownloaded != null) {
-                    onPluginDownloaded.accept(file);
+                if (afterDownload != null) {
+                    afterDownload.accept(pluginJarInfo);
                 }
             }
         };
+
+        Window controllerWindow = pluginManageController.getWindow();
+        FxProgressDialog dialog = FxProgressDialog.create(controllerWindow, progressTask, "正在下载插件 " + pluginJarInfo.getName() + "...");
 
         progressTask.setOnCancelled(event -> {
             throw new AppException("下载被取消。");
         });
 
-        FxProgressDialog
-            .create(pluginManageController.getWindow(), progressTask, "正在下载插件 " + pluginJarInfo.getName() + "...")
-            .showAndWait();
+        progressTask.setOnFailed(event -> {
+            Throwable e = event.getSource().getException();
+            if (e != null) {
+                log.error("", e);
+                FxAlerts.error(controllerWindow, "下载插件失败", e);
+            } else {
+                FxAlerts.error(controllerWindow, "下载失败", event.getSource().getMessage());
+            }
+        });
 
-        return pluginJarInfo;
+        dialog.show();
     }
 
     public void setIsEnableTableColumn(Integer index) {
@@ -122,23 +128,52 @@ public class PluginManageService {
 
     private boolean isPluginDataMatch(Map<String, String> map, String keyword) {
         return map.entrySet().stream().anyMatch(
-            entry ->
-                !entry.getKey().equals("downloadUrl") &&
-                    entry.getValue().toLowerCase().contains(keyword.toLowerCase())
+            entry -> !entry.getKey().equals("downloadUrl") && entry.getValue().toLowerCase().contains(keyword.toLowerCase())
         );
     }
 
     /**
      * 判断插件是否启用
      */
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean isPluginEnabled(String fileName) {
-        String jarName = substringBeforeLast(fileName, "-");
+        String jarName = StringUtils.substringBeforeLast(fileName, "-");
         PluginJarInfo pluginJarInfo = PluginManager.getInstance().getPlugin(jarName);
         if (pluginJarInfo == null) {
             return false;
         }
         Boolean isEnable = pluginJarInfo.getIsEnable();
         return isEnable != null && isEnable;
+    }
+
+    //删除插件
+    public void deletePlugin() {
+        Integer index = pluginManageController.getPluginDataTableView().getSelectionModel().getSelectedIndex();
+        if (index == null || index == -1) {
+            return;
+        }
+        Map<String, String> dataRow = pluginManageController.getOriginPluginData().get(index);
+        String jarName = dataRow.get("jarName");
+        PluginJarInfo pluginJarInfo = this.pluginManager.getPlugin(jarName);
+        if(BooleanUtils.isNotTrue(pluginJarInfo.getIsDownload())){
+            FxAlerts.info("提示",pluginJarInfo.getName() + " 该插件未下载");
+            return;
+        }
+        if (!FxAlerts.confirmYesNo("删除插件", String.format("确定要删除插件 %s 吗？", pluginJarInfo.getName()))) {
+            return;
+        }
+        if (pluginJarInfo != null) {
+            try {
+                FileUtils.delete(pluginJarInfo.getFile());
+                dataRow.put("isEnableTableColumn", "false");
+                dataRow.put("isDownloadTableColumn", "下载");
+                pluginJarInfo.setIsEnable(false);
+                pluginJarInfo.setIsDownload(false);
+                PluginManager.getInstance().saveToFile();
+                pluginManageController.getPluginDataTableView().refresh();
+                AppEvents.fire(new PluginEvent(PluginEvent.PLUGIN_DOWNLOADED, pluginJarInfo));
+            } catch (IOException e) {
+                log.error("删除插件失败", e);
+            }
+        }
     }
 }

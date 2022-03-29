@@ -1,10 +1,15 @@
 # Default ignored files
 #/.gitignore
-/.idea
-/xJavaFxTool.iml
-/logs
-/target
+.idea/
+*.iml
 
+logs/
+target/
 libs/
+
 system_plugin_list.json
 RUNNING_PID
+gradle
+.gradle
+build
+out

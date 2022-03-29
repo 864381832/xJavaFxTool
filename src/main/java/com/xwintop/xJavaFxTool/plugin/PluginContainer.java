@@ -4,10 +4,13 @@ import com.xwintop.xJavaFxTool.AppException;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
+import com.xwintop.xcore.plugin.PluginEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -20,19 +23,25 @@ public class PluginContainer {
 
     private final PluginJarInfo pluginJarInfo;
 
+    private Node rootNode;
+
     public PluginContainer(PluginJarInfo pluginJarInfo) {
         this(ClassLoader.getSystemClassLoader(), pluginJarInfo);
     }
 
     public PluginContainer(ClassLoader parentClassLoader, PluginJarInfo pluginJarInfo) {
         this.pluginJarInfo = pluginJarInfo;
-        this.pluginClassLoader = new PluginClassLoader(parentClassLoader, pluginJarInfo.getFile());
+        this.pluginClassLoader = PluginClassLoader.create(parentClassLoader, pluginJarInfo.getFile());
+    }
+
+    public void setRootNode(Node rootNode) {
+        this.rootNode = rootNode;
     }
 
     public <T> T createInstance(Class<T> type) {
         try {
-            return type.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
+            return type.getDeclaredConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
             throw new AppException(e);
         }
     }
@@ -51,23 +60,20 @@ public class PluginContainer {
      */
     public FXMLLoader createFXMLLoader() {
         try {
-            FXMLLoader pluginFxmlLoader = (FXMLLoader)
-                pluginClassLoader.loadClass("javafx.fxml.FXMLLoader").newInstance();
+            FXMLLoader pluginFxmlLoader = (FXMLLoader) pluginClassLoader.loadClass("javafx.fxml.FXMLLoader").getDeclaredConstructor().newInstance();
 
             pluginFxmlLoader.setClassLoader(pluginClassLoader);
 
             URL resource = getResource(pluginJarInfo.getFxmlPath());
             if (resource == null) {
-                FxAlerts.error("加载失败", "无法在插件 " + pluginJarInfo.getFile().getName() +
-                    " 内找到所需资源 " + pluginJarInfo.getFxmlPath());
+                FxAlerts.error("加载失败", "无法在插件 " + pluginJarInfo.getFile().getName() + " 内找到所需资源 " + pluginJarInfo.getFxmlPath());
                 return null;
             }
 
             pluginFxmlLoader.setLocation(resource);
 
             if (StringUtils.isNotEmpty(pluginJarInfo.getBundleName())) {
-                ResourceBundle resourceBundle = ResourceBundle
-                    .getBundle(pluginJarInfo.getBundleName(), Config.defaultLocale, pluginClassLoader);
+                ResourceBundle resourceBundle = ResourceBundle.getBundle(pluginJarInfo.getBundleName(), Config.defaultLocale, pluginClassLoader);
                 pluginFxmlLoader.setResources(resourceBundle);
             }
             return pluginFxmlLoader;
@@ -81,9 +87,18 @@ public class PluginContainer {
      */
     public void unload() {
         try {
+            if (this.rootNode != null) {
+                this.rootNode.fireEvent(new PluginEvent(this.rootNode, PluginEvent.PLUGIN_UNLOADING));
+            }
             this.pluginClassLoader.close();
         } catch (IOException e) {
             throw new AppException(e);
+        }
+    }
+
+    public void onPluginInitialized() {
+        if (this.rootNode != null) {
+            this.rootNode.fireEvent(new PluginEvent(this.rootNode, PluginEvent.PLUGIN_INITIALIZED));
         }
     }
 }
