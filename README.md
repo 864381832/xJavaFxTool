@@ -22,12 +22,12 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 
 由于SpringBoot的火热，项目已经出SpringBoot-javafx版本，[xJavaFxTool-spring](https://gitee.com/xwintop/xJavaFxTool-spring) 欢迎参考，谢谢。
 
-#### 下载试用地址：
-- 可直接运行的jar包(本地需要有jdk17环境)[xJavaFxTool-0.2.3-jdk11.jar](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.3-jdk11.jar)
-- Windows x86安装包(兼容xp、windows7、8、10等系统)(请在下面网盘中下载)
-- Windows x64安装包(兼容xp、windows7、8、10等系统)[xJavaFxTool-0.2.3-windows-x64.exe](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.3-windows-x64.exe)
-- Linux x64 (请在下面网盘中下载)
-- Mac OS X x64 [xJavaFxTool-0.2.3-macosx-x64.pkg](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.3-macosx-x64.pkg)
+#### 下载地址：
+- 可直接运行的jar包(本地需要有jdk17环境)[xJavaFxTool-0.3.1.jar](https://gitee.com/xwintop/xJavaFxTool/attach_files/1011054/download/xJavaFxTool-0.3.1.jar)
+- Windows x64安装包(兼容windows7、8、10、11等系统)[xJavaFxTool-0.3.1-windows-x64.exe](https://gitee.com/xwintop/xJavaFxTool/attach_files/1011059/download/xJavaFxTool-0.3.1-windows-x64.exe)
+- Linux x64 [xJavaFxTool-0.3.1-linux-x64.zip](https://gitee.com/xwintop/xJavaFxTool/attach_files/1011058/download/xJavaFxTool-0.3.1-linux-x64.zip)
+- Mac OS x64 [xJavaFxTool-0.3.1-macos.dmg](https://gitee.com/xwintop/xJavaFxTool/attach_files/1011060/download/xJavaFxTool-0.3.1-macos.dmg)
+- 更多下载地址见[发布页面](https://gitee.com/xwintop/xJavaFxTool/releases)
 #### 若上面下链接失效可使用下面下载链接：
 - 百度云链接：[https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA](https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA)  提取码：mokl
 - 腾讯微云链接：[https://share.weiyun.com/5T6FPLW](https://share.weiyun.com/5T6FPLW) 提取码：java

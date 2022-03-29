@@ -107,7 +107,8 @@
           <generateInstaller>true</generateInstaller>
           <platform>auto</platform>
           <createZipball>true</createZipball>
-          <administratorRequired>true</administratorRequired>
+          <administratorRequired>false</administratorRequired>
+          <customizedJre>true</customizedJre>
           <winConfig>
             <!-- general properties -->
             <generateSetup>true</generateSetup>
