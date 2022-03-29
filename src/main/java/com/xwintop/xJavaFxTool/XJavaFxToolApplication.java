@@ -1,6 +1,5 @@
 package com.xwintop.xJavaFxTool;
 
-import cn.hutool.system.SystemUtil;
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xJavaFxTool.utils.Config.Keys;
@@ -17,8 +16,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
@@ -42,10 +39,10 @@ public class XJavaFxToolApplication extends Application {
         FxApp.init(primaryStage, LOGO_PATH);
         FxApp.styleSheets.add(XJavaFxToolApplication.class.getResource("/css/jfoenix-main.css").toExternalForm());
 
-        if (SystemUtil.getOsInfo().isMac()) {
+//        if (SystemUtil.getOsInfo().isMac()) {
             //Mac下设置dock栏图标
-            Taskbar.getTaskbar().setIconImage(ImageIO.read(XJavaFxToolApplication.class.getResourceAsStream(LOGO_PATH)));
-        }
+//            Taskbar.getTaskbar().setIconImage(ImageIO.read(XJavaFxToolApplication.class.getResourceAsStream(LOGO_PATH)));
+//        }
 
         primaryStage.setResizable(true);
         primaryStage.setTitle(RESOURCE_BUNDLE.getString("Title") + Config.xJavaFxToolVersions);

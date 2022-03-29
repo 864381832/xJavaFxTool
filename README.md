@@ -4,8 +4,13 @@
 
 **腾讯云开发平台地址：**[xJavaFxTool](https://dev.tencent.com/u/xwintop/p/xJavaFxTool)
 
-![](https://img.shields.io/:license-apache-blue.svg) ![](https://img.shields.io/badge/JDK-1.8+-green.svg) ![](https://gitee.com/xwintop/xJavaFxTool/badge/star.svg?theme=dark) ![](https://img.shields.io/github/stars/864381832/xJavaFxTool.svg?style=social)
+[![](https://img.shields.io/:license-apache-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+[![](https://img.shields.io/badge/JDK-17+-green.svg)](https://www.oracle.com/technetwork/java/javase/downloads/index.html) 
+[![](https://img.shields.io/badge/maven-v3.6.3-blue)](https://maven.apache.org) 
+[![](https://gitee.com/xwintop/xJavaFxTool/badge/star.svg?theme=dark)](https://gitee.com/xwintop/xJavaFxTool/stargazers) 
+[![](https://img.shields.io/github/stars/864381832/xJavaFxTool.svg?style=social)](https://github.com/864381832/xJavaFxTool)
 [![](https://img.shields.io/badge/IntelliJ%20IDEA-提供支持-blue.svg)](https://www.jetbrains.com/?from=xJavaFxTool)
+![系统](https://img.shields.io/badge/系统-win%20%7C%20mac%20%7C%20linux-007EC6)
 
 [英文说明/English Documentation](README_EN.md)
 
@@ -18,7 +23,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 由于SpringBoot的火热，项目已经出SpringBoot-javafx版本，[xJavaFxTool-spring](https://gitee.com/xwintop/xJavaFxTool-spring) 欢迎参考，谢谢。
 
 #### 下载试用地址：
-- 可直接运行的jar包(本地需要有jdk11环境)[xJavaFxTool-0.2.3-jdk11.jar](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.3-jdk11.jar)
+- 可直接运行的jar包(本地需要有jdk17环境)[xJavaFxTool-0.2.3-jdk11.jar](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.3-jdk11.jar)
 - Windows x86安装包(兼容xp、windows7、8、10等系统)(请在下面网盘中下载)
 - Windows x64安装包(兼容xp、windows7、8、10等系统)[xJavaFxTool-0.2.3-windows-x64.exe](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.3-windows-x64.exe)
 - Linux x64 (请在下面网盘中下载)
@@ -35,12 +40,11 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 - [相关小游戏](https://gitee.com/xwintop/xJavaFxTool-Games)
 
 #### 环境搭建说明：
-- 开发环境为jdk11，基于maven构建
-- 使用eclipase或Intellij Idea开发,推荐使用[Intellij Idea](https://www.jetbrains.com/idea/)
+- 开发环境为jdk17，基于maven3.6.3构建
+- 使用eclipase或Intellij Idea开发,推荐使用[Intellij Idea](https://www.jetbrains.com/idea/?from=xJavaFxTool)
 - 本项目使用了[lombok](https://projectlombok.org/),在查看本项目时如果您没有下载lombok 插件，请先安装,不然找不到get/set等方法
 - 依赖的[xcore包](https://gitee.com/xwintop/xcore)已上传至git托管的maven平台，git托管maven可参考教程(若无法下载请拉取项目自行编译)。[教程地址：点击进入](http://blog.csdn.net/u011747754/article/details/78574026)
-- 使用[javafx-maven-plugin](https://github.com/javafx-maven-plugin/javafx-maven-plugin)插件进行打包操作(可打包windows、Linux、Mac安装包)
-- 使用[exe4j](https://www.ej-technologies.com/download/exe4j/files)将jar包转成exe执行文件(仅供参考，可使用其它程序打包)
+- 使用[javapackager](https://github.com/fvarrui/JavaPackager)插件进行打包操作(可打包windows、Linux、Mac安装包)
 - 使用[InnoSetup](http://www.jrsoftware.org/)可进行制作windows安装包
 - jdk11启动需添加参数java --add-opens java.base/jdk.internal.loader=ALL-UNNAMED --add-opens jdk.zipfs/jdk.nio.zipfs=ALL-UNNAMED -jar xJavaFxTool.jar  [参考](https://blog.csdn.net/fighting_boss/article/details/91043555)
 

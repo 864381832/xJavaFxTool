@@ -1,13 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.xwintop</groupId>
   <artifactId>xJavaFxTool</artifactId>
-  <version>0.2.3-jdk17</version>
+  <version>0.3.1</version>
   <packaging>jar</packaging>
   <name>xJavaFxTool</name>
   <description>基于JavaFx搭建的实用小工具集合</description>
+  <organization>
+    <name>xwintop</name>
+    <url>https://gitee.com/xwintop</url>
+  </organization>
   <url>https://gitee.com/xwintop/xJavaFxTool</url>
 
   <properties>
@@ -85,34 +89,14 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.openjfx</groupId>
-        <artifactId>javafx-maven-plugin</artifactId>
-        <version>0.0.8</version>
-        <configuration>
-          <mainClass>com.xwintop.xJavaFxTool.XJavaFxToolMain</mainClass>
-        </configuration>
-      </plugin>
-<!--      <plugin>-->
-<!--        <groupId>org.panteleyev</groupId>-->
-<!--        <artifactId>jpackage-maven-plugin</artifactId>-->
-<!--        <version>1.4.0</version>-->
-<!--        <configuration>-->
-<!--          <name>xJavaFxTool</name>-->
-<!--          <appVersion>1.0.0</appVersion>-->
-<!--          <vendor>com.xwintop</vendor>-->
-<!--          <destination>target/dist</destination>-->
-<!--          <module>xJavaFxTool/com.xwintop.xJavaFxTool.XJavaFxToolMain</module>-->
-<!--          <runtimeImage>target</runtimeImage>-->
-<!--          <linuxShortcut>true</linuxShortcut>-->
-<!--          <linuxPackageName>xJavaFxTool</linuxPackageName>-->
-<!--          <linuxAppCategory>xwintop</linuxAppCategory>-->
-<!--          <linuxMenuGroup>xwintop</linuxMenuGroup>-->
-<!--          <javaOptions>-->
-<!--            <option>-Dfile.encoding=UTF-8</option>-->
-<!--          </javaOptions>-->
-<!--        </configuration>-->
-<!--      </plugin>-->
+      <!--      <plugin>-->
+      <!--        <groupId>org.openjfx</groupId>-->
+      <!--        <artifactId>javafx-maven-plugin</artifactId>-->
+      <!--        <version>0.0.8</version>-->
+      <!--        <configuration>-->
+      <!--          <mainClass>com.xwintop.xJavaFxTool.XJavaFxToolMain</mainClass>-->
+      <!--        </configuration>-->
+      <!--      </plugin>-->
       <plugin>
         <groupId>io.github.fvarrui</groupId>
         <artifactId>javapackager</artifactId>
@@ -121,37 +105,29 @@
           <bundleJre>true</bundleJre>
           <mainClass>com.xwintop.xJavaFxTool.XJavaFxToolMain</mainClass>
           <generateInstaller>true</generateInstaller>
+          <platform>auto</platform>
+          <createZipball>true</createZipball>
+          <administratorRequired>true</administratorRequired>
+          <winConfig>
+            <!-- general properties -->
+            <generateSetup>true</generateSetup>
+            <generateMsi>false</generateMsi>
+            <!-- setup generation properties -->
+            <setupMode>installForAllUsers</setupMode>
+            <createDesktopIconTask>true</createDesktopIconTask>
+            <disableDirPage>false</disableDirPage>
+            <disableFinishedPage>false</disableFinishedPage>
+            <disableRunAfterInstall>false</disableRunAfterInstall>
+            <disableWelcomePage>false</disableWelcomePage>
+            <createDesktopIconTask>false</createDesktopIconTask>
+            <setupLanguages>
+              <chinesesimp>compiler:Default.isl</chinesesimp>
+              <english>compiler:Languages\English.isl</english>
+            </setupLanguages>
+          </winConfig>
           <!-- 这行不能被格式化为多行，否则会出错-->
-          <vmArgs>--add-exports jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</vmArgs>
+          <!--          <vmArgs>&#45;&#45;add-exports jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED &#45;&#45;add-exports jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED &#45;&#45;add-exports jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED &#45;&#45;add-exports jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED &#45;&#45;add-exports jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</vmArgs>-->
         </configuration>
-        <executions>
-          <execution>
-            <id>bundling-for-windows</id>
-            <phase>package</phase>
-            <goals>
-              <goal>package</goal>
-            </goals>
-            <configuration>
-              <platform>windows</platform>
-              <createZipball>true</createZipball>
-              <administratorRequired>true</administratorRequired>
-              <winConfig>
-                <!-- general properties -->
-                <generateSetup>true</generateSetup>
-                <generateMsi>true</generateMsi>
-                <generateMsm>true</generateMsm>
-                <!-- setup generation properties -->
-                <setupMode>installForAllUsers</setupMode>
-                <createDesktopIconTask>true</createDesktopIconTask>
-                <disableDirPage>false</disableDirPage>
-                <disableFinishedPage>false</disableFinishedPage>
-                <setupLanguages>
-                  <english>compiler:Default.isl</english>
-                </setupLanguages>
-              </winConfig>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>
