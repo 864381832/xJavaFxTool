@@ -116,7 +116,7 @@
       <plugin>
         <groupId>io.github.fvarrui</groupId>
         <artifactId>javapackager</artifactId>
-        <version>1.6.3</version>
+        <version>1.6.5</version>
         <configuration>
           <bundleJre>true</bundleJre>
           <mainClass>com.xwintop.xJavaFxTool.XJavaFxToolMain</mainClass>
@@ -136,12 +136,10 @@
               <createZipball>true</createZipball>
               <administratorRequired>true</administratorRequired>
               <winConfig>
-
                 <!-- general properties -->
                 <generateSetup>true</generateSetup>
                 <generateMsi>true</generateMsi>
                 <generateMsm>true</generateMsm>
-
                 <!-- setup generation properties -->
                 <setupMode>installForAllUsers</setupMode>
                 <createDesktopIconTask>true</createDesktopIconTask>
@@ -149,7 +147,6 @@
                 <disableFinishedPage>false</disableFinishedPage>
                 <setupLanguages>
                   <english>compiler:Default.isl</english>
-                  <!--                                    <spanish>compiler:Languages\Chinese.isl</spanish>-->
                 </setupLanguages>
               </winConfig>
             </configuration>
