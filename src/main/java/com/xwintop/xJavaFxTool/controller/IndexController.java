@@ -12,8 +12,10 @@ import com.xwintop.xJavaFxTool.plugin.PluginParser;
 import com.xwintop.xJavaFxTool.services.IndexService;
 import com.xwintop.xJavaFxTool.services.index.SystemSettingService;
 import com.xwintop.xJavaFxTool.utils.Config;
+import com.xwintop.xJavaFxTool.utils.VersionChecker;
 import com.xwintop.xJavaFxTool.view.IndexView;
 import com.xwintop.xcore.javafx.FxApp;
+import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import com.xwintop.xcore.javafx.dialog.FxDialog;
 import com.xwintop.xcore.util.ConfigureUtil;
 import com.xwintop.xcore.util.HttpClientUtil;
@@ -164,24 +166,24 @@ public class IndexController extends IndexView {
     }
 
     private void addMenu(PluginJarInfo jarInfo) {
-            MenuItem menu = moreToolsMenu.getItems().stream().filter(menuItem1 -> jarInfo.getMenuParentId().equals(menuItem1.getId())).findAny().orElse(null);
-            if (menu == null) {
-                menu = new Menu(XJavaFxToolApplication.RESOURCE_BUNDLE.getString(jarInfo.getMenuParentTitle()));
-                menu.setId(jarInfo.getMenuParentId());
-                moreToolsMenu.getItems().add(menu);
-            }
-            MenuItem menuItem = new MenuItem(jarInfo.getTitle());
-            if (StringUtils.isNotEmpty(jarInfo.getIconPath())) {
-                ImageView imageView = new ImageView(new Image(jarInfo.getIconPath()));
-                imageView.setFitHeight(18);
-                imageView.setFitWidth(18);
-                menuItem.setGraphic(imageView);
-            }
-            menuItem.setOnAction((ActionEvent event) -> {
-                indexService.loadPlugin(jarInfo);
-            });
-            ((Menu)menu).getItems().add(menuItem);
-            menuItemMap.put(menuItem.getText(), menuItem);
+        MenuItem menu = moreToolsMenu.getItems().stream().filter(menuItem1 -> jarInfo.getMenuParentId().equals(menuItem1.getId())).findAny().orElse(null);
+        if (menu == null) {
+            menu = new Menu(XJavaFxToolApplication.RESOURCE_BUNDLE.getString(jarInfo.getMenuParentTitle()));
+            menu.setId(jarInfo.getMenuParentId());
+            moreToolsMenu.getItems().add(menu);
+        }
+        MenuItem menuItem = new MenuItem(jarInfo.getTitle());
+        if (StringUtils.isNotEmpty(jarInfo.getIconPath())) {
+            ImageView imageView = new ImageView(new Image(jarInfo.getIconPath()));
+            imageView.setFitHeight(18);
+            imageView.setFitWidth(18);
+            menuItem.setGraphic(imageView);
+        }
+        menuItem.setOnAction((ActionEvent event) -> {
+            indexService.loadPlugin(jarInfo);
+        });
+        ((Menu) menu).getItems().add(menuItem);
+        menuItemMap.put(menuItem.getText(), menuItem);
     }
 
     public void selectAction(String selectText) {
@@ -237,6 +239,13 @@ public class IndexController extends IndexView {
     @FXML
     private void SettingAction() {
         SystemSettingService.openSystemSettings(bundle.getString("Setting"));
+    }
+
+    @FXML
+    private void checkerVersionAction() {
+        if (!VersionChecker.checkNewVersion()) {
+            FxAlerts.info("提示", "已经是新版本");
+        }
     }
 
     @FXML
