@@ -23,6 +23,12 @@ public class VersionChecker {
             JSONObject node = JSON.parseObject(json);
             final String latestVersion = node.getString("tag_name");
             final String features = node.getString("body");
+
+            if (latestVersion == null) {
+                log.info("检查新版本失败");
+                return;
+            }
+
             if (isLargerThanCurrent(latestVersion)) {
                 final String content = new StringBuilder()
                     .append("版本名：").append(node.getString("name")).append("\r\n")
