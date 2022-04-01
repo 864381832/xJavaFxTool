@@ -26,7 +26,7 @@ public class VersionChecker {
 
             if (latestVersion == null) {
                 log.info("检查新版本失败");
-                return;
+                return false;
             }
 
             if (isLargerThanCurrent(latestVersion)) {
