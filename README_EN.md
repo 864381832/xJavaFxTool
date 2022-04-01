@@ -21,9 +21,10 @@ xJavaFxTool is a practical gadget set developed by javaFx. It uses some time to 
 Due to the hot SpringBoot, the project has been released SpringBoot-javafx version, [xJavaFxTool-spring](https://gitee.com/xwintop/xJavaFxTool-spring) welcome reference, thank you.
 
 #### Download trial address：
-- Jar package that can be run directly (local need to have jdk1.8 environment)[xJavaFxTool-0.2.3.jar](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.3.jar)
-- Windows x64 installation package (compatible with xp, windows7, 8, 10, etc.)[xJavaFxTool-0.2.3-windows-x64.exe](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.3-windows-x64.exe)
-- Mac OS X x64 [xJavaFxTool-0.2.3-macosx-x64.pkg](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.3-macosx-x64.pkg)
+- Jar package that can be run directly (local need to have jdk1.8 environment)[xJavaFxTool-0.3.1.jar](https://github.com/864381832/xJavaFxTool/releases/download/0.3.1/xJavaFxTool-0.3.1.jar)
+- Windows x64 installation package (compatible with xp, windows7, 8, 10, etc.)[xJavaFxTool-0.3.1-windows-x64.exe](https://github.com/864381832/xJavaFxTool/releases/download/0.3.1/xJavaFxTool-0.3.1-windows-x64.exe)
+- Mac OS x64 [xJavaFxTool-0.3.1-macos.pkg](https://github.com/864381832/xJavaFxTool/releases/download/0.3.1/xJavaFxTool-0.3.1-macos.pkg)
+- Linux x64 [xJavaFxTool-0.3.1-linux-x64.zip](https://github.com/864381832/xJavaFxTool/releases/download/0.3.1/xJavaFxTool-0.3.1-linux-x64.zip)
 #### If the above link fails, use the download link below:
 - Baidu cloud link: [https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA](https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA)  extraction code: mokl
 - Tencent micro cloud link: [https://share.weiyun.com/5T6FPLW](https://share.weiyun.com/5T6FPLW) extraction code: java
@@ -36,8 +37,7 @@ the plug-in jar package can be automatically loaded under the root directory lib
 - Developed with eclipase or Intellij Idea (Recommended to use [Intellij Idea](https://www.jetbrains.com/idea/) )
 - This project uses [lombok](https://projectlombok.org/) . If you have not downloaded the lombok plugin when viewing this project, please install it first, otherwise you can't find the get/set method.
 - The dependent [xcore](https://gitee.com/xwintop/xcore) package has been uploaded to the git-hosted maven platform. The git hosting maven can refer to the tutorial (if you can't download it, please pull the project to compile it yourself ). Tutorial address: Click to enter
-- Package using the [javafx-maven-plugin](https://github.com/javafx-maven-plugin/javafx-maven-plugin) (can be packaged for windows, Linux, Mac installation packages)
-- Use [exe4j](https://www.ej-technologies.com/download/exe4j/files) to convert the jar package into an exe executable file (for reference only, you can use other programs to package)
+- Package using the [javapackager](https://github.com/fvarrui/JavaPackager) (can be packaged for windows, Linux, Mac installation packages)
 - Use [InnoSetup](http://www.jrsoftware.org/) to make windows installation packages
 
 #### The currently integrated gadgets are:

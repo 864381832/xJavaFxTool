@@ -4,7 +4,7 @@
 
   <groupId>com.xwintop</groupId>
   <artifactId>xJavaFxTool</artifactId>
-  <version>0.3.1</version>
+  <version>0.3.2</version>
   <packaging>jar</packaging>
   <name>xJavaFxTool</name>
   <description>基于JavaFx搭建的实用小工具集合</description>

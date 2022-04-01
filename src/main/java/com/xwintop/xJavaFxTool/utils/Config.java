@@ -16,7 +16,7 @@ public class Config {
 
     public static Locale defaultLocale = Locale.getDefault();// 设置系统语言
 
-    public static final String xJavaFxToolVersions = "V0.3.1";// xJavaFxTool版本信息
+    public static final String xJavaFxToolVersions = "V0.3.2";// xJavaFxTool版本信息
 
     ///////////////////////////////////////////////////////////////
 

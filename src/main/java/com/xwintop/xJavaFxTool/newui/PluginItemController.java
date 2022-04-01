@@ -23,6 +23,7 @@ import java.net.URL;
 @Slf4j
 public class PluginItemController {
     public static final String FXML_PATH = "/com/xwintop/xJavaFxTool/fxmlView/newui/plugin-item.fxml";
+
     public static PluginItemController newInstance(PluginJarInfo pluginJarInfo) {
         FXMLLoader fxmlLoader = FxmlHelper.loadFromResource(FXML_PATH);
         PluginItemController controller = fxmlLoader.getController();
@@ -73,13 +74,17 @@ public class PluginItemController {
     }
 
     private void updateIcon() {
-        URL iconUrl = ResourceUtils.getResource(this.pluginJarInfo.getIconPath(), this.pluginJarInfo.getDefaultIconPath(), "/logo/plugin.png");
-        if (iconUrl != null) {
-            String url = iconUrl.toExternalForm();
-            if (url.endsWith("plugin.png")) {
-                log.info("please add logo to " + this.pluginJarInfo.getDefaultIconPath());
+        if (this.pluginJarInfo.getIconImage() != null) {
+            imgLogo.setImage(this.pluginJarInfo.getIconImage());
+        } else {
+            URL iconUrl = ResourceUtils.getResource(this.pluginJarInfo.getIconPath(), this.pluginJarInfo.getDefaultIconPath(), "/logo/plugin.png");
+            if (iconUrl != null) {
+                String url = iconUrl.toExternalForm();
+                if (url.endsWith("plugin.png")) {
+                    log.info("please add logo to " + this.pluginJarInfo.getDefaultIconPath());
+                }
+                imgLogo.setImage(new Image(url));
             }
-            imgLogo.setImage(new Image(url));
         }
     }
 

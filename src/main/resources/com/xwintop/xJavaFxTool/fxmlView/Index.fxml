@@ -57,6 +57,7 @@
                 <MenuItem mnemonicParsing="false" onAction="#userSupportAction"
                           text="%userSupport"/>
                 <MenuItem mnemonicParsing="false" onAction="#SettingAction" text="%Setting"/>
+                <MenuItem mnemonicParsing="false" onAction="#checkerVersionAction" text="%checkerVersion"/>
                 <MenuItem mnemonicParsing="false" onAction="#aboutAction" text="%About"/>
               </Menu>
             </MenuBar>
