@@ -153,8 +153,15 @@ public class IndexService {
             }
 
             Tab tab = new Tab(plugin.getTitle());
-            if (StringUtils.isNotEmpty(plugin.getIconPath())) {
-                ImageView imageView = new ImageView(new Image(plugin.getIconPath()));
+            if (plugin.getIconImage() == null) {
+                if (StringUtils.isNotEmpty(plugin.getIconPath())) {
+                    ImageView imageView = new ImageView(new Image(plugin.getIconPath()));
+                    imageView.setFitHeight(18);
+                    imageView.setFitWidth(18);
+                    tab.setGraphic(imageView);
+                }
+            } else {
+                ImageView imageView = new ImageView(plugin.getIconImage());
                 imageView.setFitHeight(18);
                 imageView.setFitWidth(18);
                 tab.setGraphic(imageView);
@@ -203,8 +210,15 @@ public class IndexService {
             return null;
         }
         Tab tab = new Tab(title);
-        if (StringUtils.isNotEmpty(plugin.getIconPath())) {
-            ImageView imageView = new ImageView(new Image(plugin.getIconPath()));
+        if (plugin.getIconImage() == null) {
+            if (StringUtils.isNotEmpty(plugin.getIconPath())) {
+                ImageView imageView = new ImageView(new Image(plugin.getIconPath()));
+                imageView.setFitHeight(18);
+                imageView.setFitWidth(18);
+                tab.setGraphic(imageView);
+            }
+        } else {
+            ImageView imageView = new ImageView(plugin.getIconImage());
             imageView.setFitHeight(18);
             imageView.setFitWidth(18);
             tab.setGraphic(imageView);

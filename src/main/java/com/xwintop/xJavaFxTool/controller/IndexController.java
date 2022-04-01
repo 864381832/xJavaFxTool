@@ -76,16 +76,12 @@ public class IndexController extends IndexView {
         initView();
         initEvent();
         initService();
-        initNotepad();
-    }
-
-    private void initNotepad() {
-//        if (Config.getBoolean(Config.Keys.NotepadEnabled, true)) {
-//            addNodepadAction(null);
-//        }
     }
 
     private void initView() {
+        if (Config.getBoolean(Config.Keys.NotepadEnabled, true)) {
+            addNodepadAction(null);
+        }
         this.indexService.addWebView(XJavaFxToolApplication.RESOURCE_BUNDLE.getString("feedback"), QQ_URL, null);
         this.tongjiWebView.getEngine().load(STATISTICS_URL);
         this.tabPaneMain.getSelectionModel().select(0);
@@ -173,8 +169,15 @@ public class IndexController extends IndexView {
             moreToolsMenu.getItems().add(menu);
         }
         MenuItem menuItem = new MenuItem(jarInfo.getTitle());
-        if (StringUtils.isNotEmpty(jarInfo.getIconPath())) {
-            ImageView imageView = new ImageView(new Image(jarInfo.getIconPath()));
+        if (jarInfo.getIconImage() == null) {
+            if (StringUtils.isNotEmpty(jarInfo.getIconPath())) {
+                ImageView imageView = new ImageView(new Image(jarInfo.getIconPath()));
+                imageView.setFitHeight(18);
+                imageView.setFitWidth(18);
+                menuItem.setGraphic(imageView);
+            }
+        } else {
+            ImageView imageView = new ImageView(jarInfo.getIconImage());
             imageView.setFitHeight(18);
             imageView.setFitWidth(18);
             menuItem.setGraphic(imageView);
