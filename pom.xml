@@ -19,7 +19,6 @@
     <maven.test.skip>true</maven.test.skip>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
-    <javafx.version>17.0.2</javafx.version>
   </properties>
   <repositories>
     <repository>
@@ -48,7 +47,6 @@
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>1.18.22</version>
-      <optional>true</optional>
       <scope>provided</scope>
     </dependency>
 
