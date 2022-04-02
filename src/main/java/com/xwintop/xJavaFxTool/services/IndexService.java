@@ -5,7 +5,6 @@ import com.xwintop.xJavaFxTool.XJavaFxToolApplication;
 import com.xwintop.xJavaFxTool.common.logback.ConsoleLogAppender;
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
-import com.xwintop.xJavaFxTool.plugin.PluginClassLoader;
 import com.xwintop.xJavaFxTool.plugin.PluginContainer;
 import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
@@ -141,7 +140,7 @@ public class IndexService {
      */
     public static Tab loadIsolatedPluginAsTab(PluginJarInfo plugin, TabPane tabPane, boolean singleWindowBoot) {
         try {
-            PluginContainer pluginContainer = new PluginContainer(PluginClassLoader.class.getClassLoader(), plugin);
+            PluginContainer pluginContainer = new PluginContainer(plugin);
             FXMLLoader generatingCodeFXMLLoader = pluginContainer.createFXMLLoader();
             if (generatingCodeFXMLLoader == null) {
                 return null;

@@ -54,11 +54,11 @@
 
     <!-- https://mvnrepository.com/artifact/io.github.classgraph/classgraph -->
     <!-- https://github.com/classgraph/classgraph -->
-    <dependency>
-      <groupId>io.github.classgraph</groupId>
-      <artifactId>classgraph</artifactId>
-      <version>4.8.100</version>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>io.github.classgraph</groupId>-->
+<!--      <artifactId>classgraph</artifactId>-->
+<!--      <version>4.8.100</version>-->
+<!--    </dependency>-->
   </dependencies>
   <build>
     <plugins>
