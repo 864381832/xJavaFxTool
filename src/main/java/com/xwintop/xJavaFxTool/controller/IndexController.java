@@ -169,15 +169,8 @@ public class IndexController extends IndexView {
             moreToolsMenu.getItems().add(menu);
         }
         MenuItem menuItem = new MenuItem(jarInfo.getTitle());
-        if (jarInfo.getIconImage() == null) {
-            if (StringUtils.isNotEmpty(jarInfo.getIconPath())) {
-                ImageView imageView = new ImageView(new Image(jarInfo.getIconPath()));
-                imageView.setFitHeight(18);
-                imageView.setFitWidth(18);
-                menuItem.setGraphic(imageView);
-            }
-        } else {
-            ImageView imageView = new ImageView(jarInfo.getIconImage());
+        if (jarInfo.getIconImage() != null || StringUtils.isNotEmpty(jarInfo.getIconPath())) {
+            ImageView imageView = new ImageView(jarInfo.getIconImage() == null ? new Image(jarInfo.getIconPath()) : jarInfo.getIconImage());
             imageView.setFitHeight(18);
             imageView.setFitWidth(18);
             menuItem.setGraphic(imageView);

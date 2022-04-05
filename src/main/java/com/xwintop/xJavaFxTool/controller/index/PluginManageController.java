@@ -21,11 +21,11 @@ import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Window;
 import javafx.util.Callback;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -63,10 +63,6 @@ public class PluginManageController extends PluginManageView {
         initService();
     }
 
-    public Window getWindow() {
-        return this.pluginDataTableView.getScene().getWindow();
-    }
-
     private void initView() {
         addLocalPluginButton.setVisible(Boolean.parseBoolean(System.getProperty("localPluginEnabled", "false")));
 
@@ -95,7 +91,7 @@ public class PluginManageController extends PluginManageView {
                                     downloadButton.setDisable(true);
                                 }
                                 this.setContentDisplay(ContentDisplay.CENTER);
-                                downloadButton.setOnMouseClicked(event -> downloadPlugin(dataRow, downloadButton));
+                                downloadButton.setOnMouseClicked(event -> downloadPlugin(dataRow));
                                 this.setGraphic(downloadButton);
                             }
                         }
@@ -106,10 +102,10 @@ public class PluginManageController extends PluginManageView {
         pluginDataTableView.setItems(pluginDataTableData);
     }
 
-    private void downloadPlugin(Map<String, String> dataRow, Button downloadButton) {
+    private void downloadPlugin(Map<String, String> dataRow) {
         try {
             pluginManageService.downloadPluginJar(dataRow, pluginJarInfo ->
-                Platform.runLater(() -> afterDownload(dataRow, downloadButton, pluginJarInfo))
+                Platform.runLater(() -> afterDownload(dataRow, pluginJarInfo))
             );
         } catch (Exception e) {
             log.error("下载插件失败：", e);
@@ -117,24 +113,25 @@ public class PluginManageController extends PluginManageView {
         }
     }
 
-    private void afterDownload(Map<String, String> dataRow, Button downloadButton, PluginJarInfo pluginJarInfo) {
+    private void afterDownload(Map<String, String> dataRow, PluginJarInfo pluginJarInfo) {
         // 没有下载成功不做处理
         if (pluginJarInfo.getIsDownload() == null || !pluginJarInfo.getIsDownload()) {
             return;
         }
-
         try {
+            PluginJarInfo pluginJarInfoOld = PluginManager.getInstance().getPlugin(pluginJarInfo.getJarName());
+            if (pluginJarInfoOld != null) {
+                FileUtils.delete(pluginJarInfoOld.getFile());
+            }
+            PluginManager.getInstance().getPluginList().remove(pluginJarInfoOld);
+            PluginManager.getInstance().getPluginList().add(pluginJarInfo);
             PluginManager.getInstance().saveToFile();
             TooltipUtil.showToast("插件 " + dataRow.get("nameTableColumn") + " 下载完成");
-
             PluginClassLoader tempClassLoader = PluginClassLoader.create(pluginJarInfo.getFile());
             PluginParser.parse(pluginJarInfo.getFile(), pluginJarInfo, tempClassLoader);
 
             dataRow.put("isEnableTableColumn", "true");
             dataRow.put("isDownloadTableColumn", "已下载");
-
-            downloadButton.setText("已下载");
-            downloadButton.setDisable(true);
 
             pluginDataTableView.refresh();
             AppEvents.fire(new PluginEvent(PluginEvent.PLUGIN_DOWNLOADED, pluginJarInfo));
@@ -147,7 +144,7 @@ public class PluginManageController extends PluginManageView {
     private void initEvent() {
         // 右键菜单
         ContextMenu contextMenu = new ContextMenu();
-        JavaFxViewUtil.addMenuItem(contextMenu,"保存配置", actionEvent -> {
+        JavaFxViewUtil.addMenuItem(contextMenu, "保存配置", actionEvent -> {
             try {
                 PluginManager.getInstance().saveToFile();
                 TooltipUtil.showToast("保存配置成功");
@@ -155,7 +152,7 @@ public class PluginManageController extends PluginManageView {
                 log.error("保存插件配置失败", ex);
             }
         });
-        JavaFxViewUtil.addMenuItem(contextMenu,"删除插件", actionEvent -> {
+        JavaFxViewUtil.addMenuItem(contextMenu, "删除插件", actionEvent -> {
             pluginManageService.deletePlugin();
         });
         pluginDataTableView.setContextMenu(contextMenu);
