@@ -16,7 +16,6 @@
         <Label text="插件名：" />
         <TextField fx:id="selectPluginTextField" promptText="输入插件相关内容" />
         <Button fx:id="selectPluginButton" onAction="#searchPlugin" text="查找" />
-        <Button fx:id="addLocalPluginButton" onAction="#addLocalPlugin" text="打开本地插件..." />
         <padding>
           <Insets bottom="10.0" />
         </padding>

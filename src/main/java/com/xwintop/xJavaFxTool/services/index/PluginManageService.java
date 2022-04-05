@@ -149,19 +149,6 @@ public class PluginManageService {
         );
     }
 
-    /**
-     * 判断插件是否启用
-     */
-    public static boolean isPluginEnabled(String fileName) {
-        String jarName = StringUtils.substringBeforeLast(fileName, "-");
-        PluginJarInfo pluginJarInfo = PluginManager.getInstance().getPlugin(jarName);
-        if (pluginJarInfo == null) {
-            return false;
-        }
-        Boolean isEnable = pluginJarInfo.getIsEnable();
-        return isEnable != null && isEnable;
-    }
-
     public void loadServerPlugins() {
         try {
             String json = HttpUtil.get(SERVER_PLUGINS_URL);

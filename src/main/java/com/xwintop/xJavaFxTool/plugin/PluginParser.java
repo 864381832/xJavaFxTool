@@ -90,6 +90,27 @@ public class PluginParser {
         }
     }
 
+    //简单解析插件信息
+    public static void initParse(File pluginFile, PluginJarInfo pluginJarInfo) {
+        try (JarFile jarFile = new JarFile(pluginFile)) {
+            JarEntry entry = jarFile.getJarEntry(ENTRY_NAME);
+            if (entry == null) {
+                return;
+            }
+            Element root = createRootElement(jarFile, entry);
+            Element pluginElement = selectSingleElement(root, "/root/ToolFxmlLoaderConfiguration[not(@isMenu)]");
+            String title = getTitleFromResourceBundle(pluginFile, null, pluginElement, pluginJarInfo.getBundleName());
+            pluginJarInfo.setTitle(title);
+            if (StringUtils.isNotBlank(pluginJarInfo.getIconPath())) {
+                Image iconImage = new Image(jarFile.getInputStream(jarFile.getJarEntry(StringUtils.removeStart(pluginJarInfo.getIconPath(),"/"))));
+                pluginJarInfo.setIconImage(iconImage);
+            }
+            pluginJarInfo.setName(StringUtils.defaultString(pluginJarInfo.getName(), title));
+        } catch (IOException | DocumentException e) {
+            throw new AppException(e);
+        }
+    }
+
     private static String getTitleFromResourceBundle(File pluginFile, ClassLoader classLoader, Element pluginElement, String bundleName) {
         String titleResourceBundleKey = getChildNodeText(pluginElement, "title");
         ClassLoader tmpClassLoader = classLoader == null ? PluginClassLoader.create(pluginFile) : classLoader;

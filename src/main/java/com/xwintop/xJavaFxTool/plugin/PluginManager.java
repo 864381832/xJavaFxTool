@@ -100,7 +100,7 @@ public class PluginManager {
             File pluginFile = plugin.getFile();
             if (pluginFile.exists()) {
                 try {
-                    PluginParser.parse(pluginFile, plugin);
+                    PluginParser.initParse(pluginFile, plugin);
                 } catch (Exception e) {
                     log.error("解析失败", e);
                 }

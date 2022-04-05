@@ -4,7 +4,6 @@ import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.event.AppEvents;
 import com.xwintop.xJavaFxTool.event.PluginEvent;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
-import com.xwintop.xJavaFxTool.plugin.PluginClassLoader;
 import com.xwintop.xJavaFxTool.plugin.PluginManager;
 import com.xwintop.xJavaFxTool.plugin.PluginParser;
 import com.xwintop.xJavaFxTool.services.index.PluginManageService;
@@ -60,8 +59,6 @@ public class PluginManageController extends PluginManageView {
     }
 
     private void initView() {
-        addLocalPluginButton.setVisible(Boolean.parseBoolean(System.getProperty("localPluginEnabled", "false")));
-
         JavaFxViewUtil.setTableColumnMapValueFactory(nameTableColumn, "nameTableColumn");
         JavaFxViewUtil.setTableColumnMapValueFactory(synopsisTableColumn, "synopsisTableColumn");
         JavaFxViewUtil.setTableColumnMapValueFactory(versionTableColumn, "versionTableColumn");
@@ -121,14 +118,11 @@ public class PluginManageController extends PluginManageView {
             }
             PluginManager.getInstance().getPluginList().remove(pluginJarInfoOld);
             PluginManager.getInstance().getPluginList().add(pluginJarInfo);
-            PluginManager.getInstance().saveToFile();
             TooltipUtil.showToast("插件 " + dataRow.get("nameTableColumn") + " 下载完成");
-            PluginClassLoader tempClassLoader = PluginClassLoader.create(pluginJarInfo.getFile());
-            PluginParser.parse(pluginJarInfo.getFile(), pluginJarInfo, tempClassLoader);
-
+            PluginParser.parse(pluginJarInfo.getFile(), pluginJarInfo);
+            PluginManager.getInstance().saveToFile();
             dataRow.put("isEnableTableColumn", "true");
             dataRow.put("isDownloadTableColumn", "已下载");
-
             pluginDataTableView.refresh();
             AppEvents.fire(new PluginEvent(PluginEvent.PLUGIN_DOWNLOADED, pluginJarInfo));
         } catch (IOException e) {
@@ -162,16 +156,5 @@ public class PluginManageController extends PluginManageView {
 
     public void searchPlugin() {
         pluginManageService.searchPlugin(selectPluginTextField.getText());
-    }
-
-    public void addLocalPlugin() {
-//        File jarFile = FileChooserUtil.chooseFile(new ExtensionFilter("打包插件(*.jar)", "*.jar"));
-//        if (jarFile != null) {
-//            AddPluginResult result = PluginManager.getInstance().addPluginJar(jarFile);
-//            if (result.isNewPlugin()) {
-//                pluginManageService.addDataRow(result.getPluginJarInfo());
-//            }
-//            AppEvents.fire(new PluginEvent(PluginEvent.PLUGIN_DOWNLOADED, result.getPluginJarInfo()));
-//        }
     }
 }
