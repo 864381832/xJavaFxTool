@@ -4,14 +4,12 @@ import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.event.AppEvents;
 import com.xwintop.xJavaFxTool.event.PluginEvent;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
-import com.xwintop.xJavaFxTool.plugin.AddPluginResult;
 import com.xwintop.xJavaFxTool.plugin.PluginClassLoader;
 import com.xwintop.xJavaFxTool.plugin.PluginManager;
 import com.xwintop.xJavaFxTool.plugin.PluginParser;
 import com.xwintop.xJavaFxTool.services.index.PluginManageService;
 import com.xwintop.xJavaFxTool.view.index.PluginManageView;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
-import com.xwintop.xcore.util.javafx.FileChooserUtil;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 import javafx.application.Platform;
@@ -20,14 +18,12 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.Callback;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
@@ -169,13 +165,13 @@ public class PluginManageController extends PluginManageView {
     }
 
     public void addLocalPlugin() {
-        File jarFile = FileChooserUtil.chooseFile(new ExtensionFilter("打包插件(*.jar)", "*.jar"));
-        if (jarFile != null) {
-            AddPluginResult result = PluginManager.getInstance().addPluginJar(jarFile);
-            if (result.isNewPlugin()) {
-                pluginManageService.addDataRow(result.getPluginJarInfo());
-            }
-            AppEvents.fire(new PluginEvent(PluginEvent.PLUGIN_DOWNLOADED, result.getPluginJarInfo()));
-        }
+//        File jarFile = FileChooserUtil.chooseFile(new ExtensionFilter("打包插件(*.jar)", "*.jar"));
+//        if (jarFile != null) {
+//            AddPluginResult result = PluginManager.getInstance().addPluginJar(jarFile);
+//            if (result.isNewPlugin()) {
+//                pluginManageService.addDataRow(result.getPluginJarInfo());
+//            }
+//            AppEvents.fire(new PluginEvent(PluginEvent.PLUGIN_DOWNLOADED, result.getPluginJarInfo()));
+//        }
     }
 }

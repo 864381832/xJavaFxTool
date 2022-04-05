@@ -46,6 +46,8 @@
                           text="%openConfigFolder"/>
                 <MenuItem mnemonicParsing="false" onAction="#openPluginFolderAction"
                           text="%openPluginFolder"/>
+                <MenuItem mnemonicParsing="false" onAction="#openDevPluginFolderAction"
+                          text="%openDevPluginFolder"/>
                 <SeparatorMenuItem/>
                 <Menu mnemonicParsing="false" text="%SetLanguage">
                   <MenuItem mnemonicParsing="false" onAction="#setLanguageAction"

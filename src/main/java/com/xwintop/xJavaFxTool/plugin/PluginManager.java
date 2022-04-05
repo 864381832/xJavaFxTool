@@ -2,6 +2,7 @@ package com.xwintop.xJavaFxTool.plugin;
 
 import com.alibaba.fastjson.JSON;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
@@ -13,10 +14,10 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @Slf4j
+@Data
 public class PluginManager {
     public static final String LOCAL_PLUGINS_PATH = "./system_plugin_list.json";
 
@@ -30,17 +31,13 @@ public class PluginManager {
     }
 
     private final List<PluginJarInfo> pluginList = new ArrayList<>(); // 插件列表
+    private final List<PluginJarInfo> devPluginList = new ArrayList<>(); // dev插件列表
 
     public PluginManager() {
         this.loadLocalPluginConfiguration();
     }
 
     ////////////////////////////////////////////////////////////// 查询插件
-
-    public List<PluginJarInfo> getPluginList() {
-        return this.pluginList;
-    }
-
     public List<PluginJarInfo> getEnabledPluginList() {
         return this.pluginList.stream().filter(PluginJarInfo::getIsEnable).collect(Collectors.toList());
     }
@@ -62,17 +59,35 @@ public class PluginManager {
             if (!Files.exists(path)) {
                 return;
             }
-
             String json = Files.readString(path, StandardCharsets.UTF_8);
-            JSON.parseArray(json, PluginJarInfo.class).forEach(plugin -> {
-                this.addOrUpdatePlugin(plugin, exist -> {
-                    exist.setLocalVersionNumber(plugin.getLocalVersionNumber());
-                    exist.setIsDownload(plugin.getIsDownload());
-                    exist.setIsEnable(plugin.getIsEnable());
-                });
-            });
+            this.pluginList.addAll(JSON.parseArray(json, PluginJarInfo.class));
         } catch (IOException e) {
             log.error("读取插件配置失败", e);
+        }
+    }
+
+    public void loadLocalDevPluginConfiguration() {
+        try {
+            // 系统类库路径
+            File libPath = new File("devLibs/");
+            // 获取所有的.jar文件
+            File[] jarFiles = libPath.listFiles((dir, name) -> name.endsWith(".jar"));
+            if (jarFiles != null) {
+                for (File file : jarFiles) {
+                    try {
+                        PluginJarInfo plugin = new PluginJarInfo();
+                        plugin.setLocalPath(file.getAbsolutePath());
+                        plugin.setIsEnable(true);
+                        plugin.setIsDownload(true);
+                        PluginParser.parse(file, plugin);
+                        devPluginList.add(plugin);
+                    } catch (Exception e) {
+                        log.error("解析失败", e);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            log.error("添加libs中jar包到系统中异常:", e);
         }
     }
 
@@ -98,48 +113,30 @@ public class PluginManager {
 
     /**
      * 添加本地插件。如果与已有插件同名，则替换已有插件信息
-     *
-     * @param jarFile 插件文件
      */
-    public AddPluginResult addPluginJar(File jarFile) {
-        PluginClassLoader tmpClassLoader = PluginClassLoader.create(jarFile);
-        PluginJarInfo newJarInfo = new PluginJarInfo();
-        newJarInfo.setLocalPath(jarFile.getAbsolutePath());
-        newJarInfo.setIsEnable(true);
-        newJarInfo.setIsDownload(true);
-        PluginParser.parse(jarFile, newJarInfo, tmpClassLoader);
-
-        for (int i = 0; i < pluginList.size(); i++) {
-            PluginJarInfo jarInfo = pluginList.get(i);
-            if (Objects.equals(jarInfo.getFxmlPath(), newJarInfo.getFxmlPath())) {
-                newJarInfo.setVersion(jarInfo.getVersion());
-                newJarInfo.setSynopsis(jarInfo.getSynopsis());
-                pluginList.set(i, newJarInfo);
-                saveToFileQuietly();
-                return new AddPluginResult(newJarInfo, false);
-            }
-        }
-
-        pluginList.add(newJarInfo);
-        saveToFileQuietly();
-        return new AddPluginResult(newJarInfo, true);
-    }
-
-    /**
-     * 向插件列表添加插件信息或更改插件列表中已有的插件信息
-     *
-     * @param pluginJarInfo 需要添加的插件信息
-     * @param ifExists      如果插件已存在，则不会将 pluginJarInfo 加入，
-     *                      而是提供已有的插件信息对象供调用者更新其属性
-     */
-    public void addOrUpdatePlugin(PluginJarInfo pluginJarInfo, Consumer<PluginJarInfo> ifExists) {
-        PluginJarInfo exists = getPlugin(pluginJarInfo.getJarName());
-        if (exists == null) {
-            this.pluginList.add(pluginJarInfo);
-        } else {
-            ifExists.accept(exists);
-        }
-    }
+//    public AddPluginResult addPluginJar(File jarFile) {
+//        PluginClassLoader tmpClassLoader = PluginClassLoader.create(jarFile);
+//        PluginJarInfo newJarInfo = new PluginJarInfo();
+//        newJarInfo.setLocalPath(jarFile.getAbsolutePath());
+//        newJarInfo.setIsEnable(true);
+//        newJarInfo.setIsDownload(true);
+//        PluginParser.parse(jarFile, newJarInfo, tmpClassLoader);
+//
+//        for (int i = 0; i < pluginList.size(); i++) {
+//            PluginJarInfo jarInfo = pluginList.get(i);
+//            if (Objects.equals(jarInfo.getFxmlPath(), newJarInfo.getFxmlPath())) {
+//                newJarInfo.setVersion(jarInfo.getVersion());
+//                newJarInfo.setSynopsis(jarInfo.getSynopsis());
+//                pluginList.set(i, newJarInfo);
+//                saveToFileQuietly();
+//                return new AddPluginResult(newJarInfo, false);
+//            }
+//        }
+//
+//        pluginList.add(newJarInfo);
+//        saveToFileQuietly();
+//        return new AddPluginResult(newJarInfo, true);
+//    }
 
     // 保存配置，如果失败则抛出异常
     public void saveToFile() throws IOException {

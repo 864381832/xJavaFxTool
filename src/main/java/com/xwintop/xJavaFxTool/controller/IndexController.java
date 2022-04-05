@@ -93,6 +93,8 @@ public class IndexController extends IndexView {
     }
 
     private void initService() {
+        PluginManager pluginManager = PluginManager.getInstance();
+        pluginManager.loadLocalDevPluginConfiguration();
         loadPlugins();  // 加载插件列表到界面上
         AppEvents.addEventHandler(PluginEvent.PLUGIN_DOWNLOADED, pluginEvent -> {
             loadPlugins();
@@ -112,6 +114,7 @@ public class IndexController extends IndexView {
         PluginManager pluginManager = PluginManager.getInstance();
         pluginManager.loadLocalPlugins();
         pluginManager.getEnabledPluginList().forEach(this::loadPlugin);
+        pluginManager.getDevPluginList().forEach(this::loadPlugin);
     }
 
     /**
@@ -274,6 +277,11 @@ public class IndexController extends IndexView {
     @FXML
     private void openPluginFolderAction() {
         JavaFxSystemUtil.openDirectory("libs/");
+    }
+    
+    @FXML
+    private void openDevPluginFolderAction() {
+        JavaFxSystemUtil.openDirectory("devLibs/");
     }
 
     @FXML

@@ -192,7 +192,7 @@ public class PluginManageService {
         Map<String, String> dataRow = pluginManageController.getOriginPluginData().get(index);
         String jarName = dataRow.get("jarName");
         PluginJarInfo pluginJarInfo = this.pluginManager.getPlugin(jarName);
-        if (BooleanUtils.isNotTrue(pluginJarInfo.getIsDownload())) {
+        if (pluginJarInfo == null || BooleanUtils.isNotTrue(pluginJarInfo.getIsDownload())) {
             FxAlerts.info("提示", pluginJarInfo.getName() + " 该插件未下载");
             return;
         }
@@ -204,8 +204,10 @@ public class PluginManageService {
                 FileUtils.delete(pluginJarInfo.getFile());
                 dataRow.put("isEnableTableColumn", "false");
                 dataRow.put("isDownloadTableColumn", "下载");
-                pluginJarInfo.setIsEnable(false);
-                pluginJarInfo.setIsDownload(false);
+                PluginJarInfo pluginJarInfo1 = this.pluginJarInfoMap.get(jarName);
+                pluginJarInfo1.setIsEnable(false);
+                pluginJarInfo1.setIsDownload(false);
+                this.pluginManager.getPluginList().remove(pluginJarInfo);
                 PluginManager.getInstance().saveToFile();
                 pluginManageController.getPluginDataTableView().refresh();
                 AppEvents.fire(new PluginEvent(PluginEvent.PLUGIN_DOWNLOADED, pluginJarInfo));
