@@ -81,10 +81,5 @@ public class PluginJarInfo {
     }
 
     @JSONField(serialize = false)
-    public String getDefaultIconPath() {
-        return bundleName == null ? "" : (bundleName.replace("locale.", "/logo/") + ".png");
-    }
-
-    @JSONField(serialize = false)
     private Image iconImage;
 }

@@ -3,7 +3,6 @@ package com.xwintop.xJavaFxTool.newui;
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.plugin.PluginManager;
-import com.xwintop.xJavaFxTool.utils.ResourceUtils;
 import com.xwintop.xcore.javafx.helper.FxmlHelper;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.CheckMenuItem;
@@ -16,8 +15,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-
-import java.net.URL;
 
 @Data
 @Slf4j
@@ -77,14 +74,7 @@ public class PluginItemController {
         if (this.pluginJarInfo.getIconImage() != null) {
             imgLogo.setImage(this.pluginJarInfo.getIconImage());
         } else {
-            URL iconUrl = ResourceUtils.getResource(this.pluginJarInfo.getIconPath(), this.pluginJarInfo.getDefaultIconPath(), "/logo/plugin.png");
-            if (iconUrl != null) {
-                String url = iconUrl.toExternalForm();
-                if (url.endsWith("plugin.png")) {
-                    log.info("please add logo to " + this.pluginJarInfo.getDefaultIconPath());
-                }
-                imgLogo.setImage(new Image(url));
-            }
+            imgLogo.setImage(new Image("/images/plugin.png"));
         }
     }
 
