@@ -115,8 +115,8 @@ public class PluginManageController extends PluginManageView {
             PluginJarInfo pluginJarInfoOld = PluginManager.getInstance().getPlugin(pluginJarInfo.getJarName());
             if (pluginJarInfoOld != null) {
                 FileUtils.delete(pluginJarInfoOld.getFile());
+                PluginManager.getInstance().getPluginList().remove(pluginJarInfoOld);
             }
-            PluginManager.getInstance().getPluginList().remove(pluginJarInfoOld);
             PluginManager.getInstance().getPluginList().add(pluginJarInfo);
             TooltipUtil.showToast("插件 " + dataRow.get("nameTableColumn") + " 下载完成");
             PluginParser.parse(pluginJarInfo.getFile(), pluginJarInfo);
