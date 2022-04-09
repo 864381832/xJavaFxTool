@@ -1,6 +1,7 @@
 package com.xwintop.xJavaFxTool.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import javafx.scene.image.Image;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -80,7 +81,5 @@ public class PluginJarInfo {
     }
 
     @JSONField(serialize = false)
-    public String getDefaultIconPath() {
-        return bundleName == null ? "" : (bundleName.replace("locale.", "/logo/") + ".png");
-    }
+    private Image iconImage;
 }

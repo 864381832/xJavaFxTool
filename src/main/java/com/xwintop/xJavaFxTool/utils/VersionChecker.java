@@ -16,13 +16,19 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class VersionChecker {
-    public static void checkNewVersion() {
+    public static boolean checkNewVersion() {
         try {
-            String json = HttpUtil.get("https://gitee.com/api/v5/repos/xwintop/xJavaFxTool/releases/latest?access_token=d0486279db39a5996eca48c620abeee1");
+            String json = HttpUtil.get("https://gitee.com/api/v5/repos/xwintop/xJavaFxTool/releases/latest");
             log.info("检查新版本:" + json);
             JSONObject node = JSON.parseObject(json);
             final String latestVersion = node.getString("tag_name");
             final String features = node.getString("body");
+
+            if (latestVersion == null) {
+                log.info("检查新版本失败");
+                return false;
+            }
+
             if (isLargerThanCurrent(latestVersion)) {
                 final String content = new StringBuilder()
                     .append("版本名：").append(node.getString("name")).append("\r\n")
@@ -31,10 +37,13 @@ public class VersionChecker {
                 if (FxAlerts.confirmOkCancel("发现新版本 " + latestVersion, content)) {
                     HttpClientUtil.openBrowseURLThrowsException("https://gitee.com/xwintop/xJavaFxTool/releases");
                 }
+            } else {
+                return false;
             }
         } catch (Exception e) {
             log.error("检查新版本失败！", e);
         }
+        return true;
     }
 
     private static Boolean isLargerThanCurrent(String remoteVersion) {

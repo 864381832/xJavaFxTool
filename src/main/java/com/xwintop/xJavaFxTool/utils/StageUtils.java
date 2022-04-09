@@ -1,8 +1,12 @@
 package com.xwintop.xJavaFxTool.utils;
 
 import com.xwintop.xJavaFxTool.utils.Config.Keys;
+import javafx.geometry.Rectangle2D;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
 
 /**
  * @ClassName: StageUtils
@@ -20,12 +24,21 @@ public class StageUtils {
                 return;
             }
 
-            double left = Config.getDouble(Keys.MainWindowLeft, -1);
+            double left = Config.getDouble(Keys.MainWindowLeft, stage.getX());
             double top = Config.getDouble(Keys.MainWindowTop, -1);
             double width = Config.getDouble(Keys.MainWindowWidth, -1);
             double height = Config.getDouble(Keys.MainWindowHeight, -1);
 
-            if (left > 0) {
+            List<Screen> list = Screen.getScreens();
+            double minX = 0;
+            for (Screen screen : list) {
+                Rectangle2D screenRectangle2 = screen.getBounds();
+                if (screenRectangle2.getMinX() < minX) {
+                    minX = screenRectangle2.getMinX();
+                }
+            }
+
+            if (left > minX) {
                 stage.setX(left);
             }
             if (top > 0) {

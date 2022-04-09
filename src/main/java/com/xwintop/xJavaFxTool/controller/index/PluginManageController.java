@@ -4,14 +4,11 @@ import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.event.AppEvents;
 import com.xwintop.xJavaFxTool.event.PluginEvent;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
-import com.xwintop.xJavaFxTool.plugin.AddPluginResult;
-import com.xwintop.xJavaFxTool.plugin.PluginClassLoader;
 import com.xwintop.xJavaFxTool.plugin.PluginManager;
 import com.xwintop.xJavaFxTool.plugin.PluginParser;
 import com.xwintop.xJavaFxTool.services.index.PluginManageService;
 import com.xwintop.xJavaFxTool.view.index.PluginManageView;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
-import com.xwintop.xcore.util.javafx.FileChooserUtil;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 import javafx.application.Platform;
@@ -20,14 +17,12 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Window;
 import javafx.util.Callback;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
@@ -63,13 +58,7 @@ public class PluginManageController extends PluginManageView {
         initService();
     }
 
-    public Window getWindow() {
-        return this.pluginDataTableView.getScene().getWindow();
-    }
-
     private void initView() {
-        addLocalPluginButton.setVisible(Boolean.parseBoolean(System.getProperty("localPluginEnabled", "false")));
-
         JavaFxViewUtil.setTableColumnMapValueFactory(nameTableColumn, "nameTableColumn");
         JavaFxViewUtil.setTableColumnMapValueFactory(synopsisTableColumn, "synopsisTableColumn");
         JavaFxViewUtil.setTableColumnMapValueFactory(versionTableColumn, "versionTableColumn");
@@ -95,7 +84,7 @@ public class PluginManageController extends PluginManageView {
                                     downloadButton.setDisable(true);
                                 }
                                 this.setContentDisplay(ContentDisplay.CENTER);
-                                downloadButton.setOnMouseClicked(event -> downloadPlugin(dataRow, downloadButton));
+                                downloadButton.setOnMouseClicked(event -> downloadPlugin(dataRow));
                                 this.setGraphic(downloadButton);
                             }
                         }
@@ -106,10 +95,10 @@ public class PluginManageController extends PluginManageView {
         pluginDataTableView.setItems(pluginDataTableData);
     }
 
-    private void downloadPlugin(Map<String, String> dataRow, Button downloadButton) {
+    private void downloadPlugin(Map<String, String> dataRow) {
         try {
             pluginManageService.downloadPluginJar(dataRow, pluginJarInfo ->
-                Platform.runLater(() -> afterDownload(dataRow, downloadButton, pluginJarInfo))
+                Platform.runLater(() -> afterDownload(dataRow, pluginJarInfo))
             );
         } catch (Exception e) {
             log.error("下载插件失败：", e);
@@ -117,25 +106,23 @@ public class PluginManageController extends PluginManageView {
         }
     }
 
-    private void afterDownload(Map<String, String> dataRow, Button downloadButton, PluginJarInfo pluginJarInfo) {
+    private void afterDownload(Map<String, String> dataRow, PluginJarInfo pluginJarInfo) {
         // 没有下载成功不做处理
         if (pluginJarInfo.getIsDownload() == null || !pluginJarInfo.getIsDownload()) {
             return;
         }
-
         try {
-            PluginManager.getInstance().saveToFile();
+            PluginJarInfo pluginJarInfoOld = PluginManager.getInstance().getPlugin(pluginJarInfo.getJarName());
+            if (pluginJarInfoOld != null) {
+                FileUtils.delete(pluginJarInfoOld.getFile());
+                PluginManager.getInstance().getPluginList().remove(pluginJarInfoOld);
+            }
+            PluginManager.getInstance().getPluginList().add(pluginJarInfo);
             TooltipUtil.showToast("插件 " + dataRow.get("nameTableColumn") + " 下载完成");
-
-            PluginClassLoader tempClassLoader = PluginClassLoader.create(pluginJarInfo.getFile());
-            PluginParser.parse(pluginJarInfo.getFile(), pluginJarInfo, tempClassLoader);
-
+            PluginParser.parse(pluginJarInfo.getFile(), pluginJarInfo);
+            PluginManager.getInstance().saveToFile();
             dataRow.put("isEnableTableColumn", "true");
             dataRow.put("isDownloadTableColumn", "已下载");
-
-            downloadButton.setText("已下载");
-            downloadButton.setDisable(true);
-
             pluginDataTableView.refresh();
             AppEvents.fire(new PluginEvent(PluginEvent.PLUGIN_DOWNLOADED, pluginJarInfo));
         } catch (IOException e) {
@@ -147,7 +134,7 @@ public class PluginManageController extends PluginManageView {
     private void initEvent() {
         // 右键菜单
         ContextMenu contextMenu = new ContextMenu();
-        JavaFxViewUtil.addMenuItem(contextMenu,"保存配置", actionEvent -> {
+        JavaFxViewUtil.addMenuItem(contextMenu, "保存配置", actionEvent -> {
             try {
                 PluginManager.getInstance().saveToFile();
                 TooltipUtil.showToast("保存配置成功");
@@ -155,7 +142,7 @@ public class PluginManageController extends PluginManageView {
                 log.error("保存插件配置失败", ex);
             }
         });
-        JavaFxViewUtil.addMenuItem(contextMenu,"删除插件", actionEvent -> {
+        JavaFxViewUtil.addMenuItem(contextMenu, "删除插件", actionEvent -> {
             pluginManageService.deletePlugin();
         });
         pluginDataTableView.setContextMenu(contextMenu);
@@ -169,16 +156,5 @@ public class PluginManageController extends PluginManageView {
 
     public void searchPlugin() {
         pluginManageService.searchPlugin(selectPluginTextField.getText());
-    }
-
-    public void addLocalPlugin() {
-        File jarFile = FileChooserUtil.chooseFile(new ExtensionFilter("打包插件(*.jar)", "*.jar"));
-        if (jarFile != null) {
-            AddPluginResult result = PluginManager.getInstance().addPluginJar(jarFile);
-            if (result.isNewPlugin()) {
-                pluginManageService.addDataRow(result.getPluginJarInfo());
-            }
-            AppEvents.fire(new PluginEvent(PluginEvent.PLUGIN_DOWNLOADED, result.getPluginJarInfo()));
-        }
     }
 }

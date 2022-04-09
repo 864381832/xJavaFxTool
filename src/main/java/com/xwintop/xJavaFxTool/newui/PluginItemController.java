@@ -3,7 +3,6 @@ package com.xwintop.xJavaFxTool.newui;
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.plugin.PluginManager;
-import com.xwintop.xJavaFxTool.utils.ResourceUtils;
 import com.xwintop.xcore.javafx.helper.FxmlHelper;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.CheckMenuItem;
@@ -17,12 +16,11 @@ import javafx.scene.layout.VBox;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
-import java.net.URL;
-
 @Data
 @Slf4j
 public class PluginItemController {
     public static final String FXML_PATH = "/com/xwintop/xJavaFxTool/fxmlView/newui/plugin-item.fxml";
+
     public static PluginItemController newInstance(PluginJarInfo pluginJarInfo) {
         FXMLLoader fxmlLoader = FxmlHelper.loadFromResource(FXML_PATH);
         PluginItemController controller = fxmlLoader.getController();
@@ -73,13 +71,10 @@ public class PluginItemController {
     }
 
     private void updateIcon() {
-        URL iconUrl = ResourceUtils.getResource(this.pluginJarInfo.getIconPath(), this.pluginJarInfo.getDefaultIconPath(), "/logo/plugin.png");
-        if (iconUrl != null) {
-            String url = iconUrl.toExternalForm();
-            if (url.endsWith("plugin.png")) {
-                log.info("please add logo to " + this.pluginJarInfo.getDefaultIconPath());
-            }
-            imgLogo.setImage(new Image(url));
+        if (this.pluginJarInfo.getIconImage() != null) {
+            imgLogo.setImage(this.pluginJarInfo.getIconImage());
+        } else {
+            imgLogo.setImage(new Image("/images/plugin.png"));
         }
     }
 
