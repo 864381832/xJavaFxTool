@@ -4,7 +4,7 @@
 
   <groupId>com.xwintop</groupId>
   <artifactId>xJavaFxTool</artifactId>
-  <version>0.3.1</version>
+  <version>0.3.2</version>
   <packaging>jar</packaging>
   <name>xJavaFxTool</name>
   <description>基于JavaFx搭建的实用小工具集合</description>
@@ -19,7 +19,6 @@
     <maven.test.skip>true</maven.test.skip>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
-    <javafx.version>17.0.2</javafx.version>
   </properties>
   <repositories>
     <repository>
@@ -48,17 +47,16 @@
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>1.18.22</version>
-      <optional>true</optional>
       <scope>provided</scope>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/io.github.classgraph/classgraph -->
     <!-- https://github.com/classgraph/classgraph -->
-    <dependency>
-      <groupId>io.github.classgraph</groupId>
-      <artifactId>classgraph</artifactId>
-      <version>4.8.100</version>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>io.github.classgraph</groupId>-->
+<!--      <artifactId>classgraph</artifactId>-->
+<!--      <version>4.8.100</version>-->
+<!--    </dependency>-->
   </dependencies>
   <build>
     <plugins>

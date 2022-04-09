@@ -3,6 +3,7 @@ package com.xwintop.xJavaFxTool.plugin;
 import com.xwintop.xJavaFxTool.AppException;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.utils.Config;
+import javafx.scene.image.Image;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
@@ -71,6 +72,11 @@ public class PluginParser {
             pluginJarInfo.setBundleName(resourceBundleName);
             pluginJarInfo.setControllerType(controllerType);
             pluginJarInfo.setTitle(title);
+            pluginJarInfo.setIconPath(pluginElement.elementTextTrim("iconPath"));
+            if (StringUtils.isNotBlank(pluginJarInfo.getIconPath())) {
+                Image iconImage = new Image(jarFile.getInputStream(jarFile.getJarEntry(StringUtils.removeStart(pluginJarInfo.getIconPath(),"/"))));
+                pluginJarInfo.setIconImage(iconImage);
+            }
 
             if (controllerType.equals("Node")) {
                 pluginJarInfo.setFxmlPath(url);
@@ -78,6 +84,27 @@ public class PluginParser {
                 pluginJarInfo.setPagePath(url);
             }
 
+            pluginJarInfo.setName(StringUtils.defaultString(pluginJarInfo.getName(), title));
+        } catch (IOException | DocumentException e) {
+            throw new AppException(e);
+        }
+    }
+
+    //简单解析插件信息
+    public static void initParse(File pluginFile, PluginJarInfo pluginJarInfo) {
+        try (JarFile jarFile = new JarFile(pluginFile)) {
+            JarEntry entry = jarFile.getJarEntry(ENTRY_NAME);
+            if (entry == null) {
+                return;
+            }
+            Element root = createRootElement(jarFile, entry);
+            Element pluginElement = selectSingleElement(root, "/root/ToolFxmlLoaderConfiguration[not(@isMenu)]");
+            String title = getTitleFromResourceBundle(pluginFile, null, pluginElement, pluginJarInfo.getBundleName());
+            pluginJarInfo.setTitle(title);
+            if (StringUtils.isNotBlank(pluginJarInfo.getIconPath())) {
+                Image iconImage = new Image(jarFile.getInputStream(jarFile.getJarEntry(StringUtils.removeStart(pluginJarInfo.getIconPath(),"/"))));
+                pluginJarInfo.setIconImage(iconImage);
+            }
             pluginJarInfo.setName(StringUtils.defaultString(pluginJarInfo.getName(), title));
         } catch (IOException | DocumentException e) {
             throw new AppException(e);
