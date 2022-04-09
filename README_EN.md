@@ -21,10 +21,10 @@ xJavaFxTool is a practical gadget set developed by javaFx. It uses some time to 
 Due to the hot SpringBoot, the project has been released SpringBoot-javafx version, [xJavaFxTool-spring](https://gitee.com/xwintop/xJavaFxTool-spring) welcome reference, thank you.
 
 #### Download trial address：
-- Jar package that can be run directly (local need to have jdk1.8 environment)[xJavaFxTool-0.3.1.jar](https://github.com/864381832/xJavaFxTool/releases/download/0.3.1/xJavaFxTool-0.3.1.jar)
-- Windows x64 installation package (compatible with xp, windows7, 8, 10, etc.)[xJavaFxTool-0.3.1-windows-x64.exe](https://github.com/864381832/xJavaFxTool/releases/download/0.3.1/xJavaFxTool-0.3.1-windows-x64.exe)
-- Mac OS x64 [xJavaFxTool-0.3.1-macos.pkg](https://github.com/864381832/xJavaFxTool/releases/download/0.3.1/xJavaFxTool-0.3.1-macos.pkg)
-- Linux x64 [xJavaFxTool-0.3.1-linux-x64.zip](https://github.com/864381832/xJavaFxTool/releases/download/0.3.1/xJavaFxTool-0.3.1-linux-x64.zip)
+- Jar package that can be run directly (local need to have jdk1.8 environment)[xJavaFxTool-0.3.2.jar](https://github.com/864381832/xJavaFxTool/releases/download/0.3.2/xJavaFxTool-0.3.2.jar)
+- Windows x64 installation package (compatible with xp, windows7, 8, 10, etc.)[xJavaFxTool-0.3.2-windows-x64.exe](https://github.com/864381832/xJavaFxTool/releases/download/0.3.2/xJavaFxTool-0.3.2-windows-x64.exe)
+- Mac OS x64 [xJavaFxTool-0.3.2-macos.pkg](https://github.com/864381832/xJavaFxTool/releases/download/0.3.2/xJavaFxTool-0.3.2-macos.pkg)
+- Linux x64 [xJavaFxTool-0.3.2-linux-x64.zip](https://github.com/864381832/xJavaFxTool/releases/download/0.3.2/xJavaFxTool-0.3.2-linux-x64.zip)
 #### If the above link fails, use the download link below:
 - Baidu cloud link: [https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA](https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA)  extraction code: mokl
 - Tencent micro cloud link: [https://share.weiyun.com/5T6FPLW](https://share.weiyun.com/5T6FPLW) extraction code: java
