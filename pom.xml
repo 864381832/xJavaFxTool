@@ -48,6 +48,11 @@
       <version>1.18.22</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>org.fxmisc.richtext</groupId>
+      <artifactId>richtextfx</artifactId>
+      <version>0.10.9</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>

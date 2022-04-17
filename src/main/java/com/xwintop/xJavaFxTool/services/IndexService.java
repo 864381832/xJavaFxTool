@@ -14,6 +14,7 @@ import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
@@ -22,12 +23,16 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.LineNumberFactory;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -63,38 +68,38 @@ public class IndexService {
     }
 
     public void addNodepadAction(ActionEvent event) {
-        TextArea notepad = new TextArea();
-        if (indexController.getSingleWindowBootCheckMenuItem().isSelected()) {
-            JavaFxViewUtil.getNewStage(indexController.getBundle().getString("addNodepad"), null, notepad);
-        } else {
-            Tab tab = new Tab(indexController.getBundle().getString("addNodepad"));
-            tab.setContent(notepad);
-            indexController.getTabPaneMain().getTabs().add(tab);
-            if (event != null) {
-                indexController.getTabPaneMain().getSelectionModel().select(tab);
-            }
-        }
+//        TextArea notepad = new TextArea();
+        CodeArea codeArea = new CodeArea();
+        codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
+        Region notepad = new StackPane(codeArea);
+        addTabAction(event, notepad, indexController.getBundle().getString("addNodepad"), null);
     }
 
     public void addLogConsoleAction(ActionEvent event) {
         TextArea textArea = new TextArea();
         textArea.setFocusTraversable(true);
         ConsoleLogAppender.textAreaList.add(textArea);
+        addTabAction(event, textArea, indexController.getBundle().getString("addLogConsole"), (Event event1) -> {
+            ConsoleLogAppender.textAreaList.remove(textArea);
+        });
+    }
+
+    public void addTabAction(ActionEvent event, Region content, String title, EventHandler closeRequest) {
         if (indexController.getSingleWindowBootCheckMenuItem().isSelected()) {
-            Stage newStage = JavaFxViewUtil.getNewStage(indexController.getBundle().getString("addLogConsole"), null, textArea);
-            newStage.setOnCloseRequest(event1 -> {
-                ConsoleLogAppender.textAreaList.remove(textArea);
-            });
+            Stage newStage = JavaFxViewUtil.getNewStage(title, null, content);
+            if (closeRequest != null) {
+                newStage.setOnCloseRequest(closeRequest);
+            }
         } else {
-            Tab tab = new Tab(indexController.getBundle().getString("addLogConsole"));
-            tab.setContent(textArea);
+            Tab tab = new Tab(title);
+            tab.setContent(content);
             indexController.getTabPaneMain().getTabs().add(tab);
             if (event != null) {
                 indexController.getTabPaneMain().getSelectionModel().select(tab);
             }
-            tab.setOnCloseRequest((Event event1) -> {
-                ConsoleLogAppender.textAreaList.remove(textArea);
-            });
+            if (closeRequest != null) {
+                tab.setOnCloseRequest(closeRequest);
+            }
         }
     }
 
