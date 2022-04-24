@@ -31,8 +31,6 @@ import javafx.stage.Stage;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.fxmisc.richtext.CodeArea;
-import org.fxmisc.richtext.LineNumberFactory;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -69,9 +67,10 @@ public class IndexService {
 
     public void addNodepadAction(ActionEvent event) {
 //        TextArea notepad = new TextArea();
-        CodeArea codeArea = new CodeArea();
-        codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
-        Region notepad = new StackPane(codeArea);
+        WebView view = new WebView();
+        String url = IndexService.class.getResource("/web/monaco-editor-0.33.0/index.html").toExternalForm();
+        view.getEngine().load(url);
+        Region notepad = new StackPane(view);
         addTabAction(event, notepad, indexController.getBundle().getString("addNodepad"), null);
     }
 
