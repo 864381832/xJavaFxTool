@@ -24,7 +24,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
@@ -67,11 +66,8 @@ public class IndexService {
 
     public void addNodepadAction(ActionEvent event) {
 //        TextArea notepad = new TextArea();
-        WebView view = new WebView();
-        String url = IndexService.class.getResource("/web/monaco-editor-0.33.0/index.html").toExternalForm();
-        view.getEngine().load(url);
-        Region notepad = new StackPane(view);
-        addTabAction(event, notepad, indexController.getBundle().getString("addNodepad"), null);
+//        addTabAction(event, notepad, indexController.getBundle().getString("addNodepad"), null);
+        addWebView(indexController.getBundle().getString("addNodepad"),"/web/monaco-editor-0.33.0/index.html",null);
     }
 
     public void addLogConsoleAction(ActionEvent event) {
