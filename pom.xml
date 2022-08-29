@@ -40,7 +40,7 @@
     <dependency>
       <groupId>com.gitee.xwintop</groupId>
       <artifactId>xcore</artifactId>
-      <version>0.0.7</version>
+      <version>0.0.8-jdk17</version>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>

@@ -194,14 +194,13 @@ public class PluginManageService {
         File file = pluginJarInfo.getFile();
         FileUtils.forceMkdirParent(file);
         HttpResponse response = HttpUtil.createGet(pluginJarInfo.getDownloadUrl(), true).executeAsync();
-        long contentLength = response.contentLength();
         response.writeBodyForFile(file, new StreamProgress() {
             @Override
             public void start() {
             }
 
             @Override
-            public void progress(long progressSize) {
+            public void progress(long progressSize, long contentLength) {
                 onProgressUpdate.accept(contentLength, progressSize);
             }
 
