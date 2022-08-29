@@ -3,6 +3,7 @@ package com.xwintop.xJavaFxTool.plugin;
 import com.xwintop.xJavaFxTool.AppException;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import com.xwintop.xJavaFxTool.utils.Config;
+import javafx.scene.image.Image;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
@@ -20,8 +21,6 @@ import java.util.ResourceBundle;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Collectors;
-
-import static org.apache.commons.lang.StringUtils.defaultString;
 
 /**
  * 用来解析插件文件中的 toolFxmlLoaderConfiguration.xml
@@ -42,19 +41,16 @@ public class PluginParser {
      * 解析插件文件，补完 pluginJarInfo 属性
      */
     public static void parse(File pluginFile, PluginJarInfo pluginJarInfo, ClassLoader classLoader) {
-
         if (!pluginFile.exists()) {
             log.error("插件 {} 文件不存在: {}", pluginJarInfo.getName(), pluginFile.getAbsolutePath());
             return;
         }
 
         try (JarFile jarFile = new JarFile(pluginFile)) {
-
             JarEntry entry = jarFile.getJarEntry(ENTRY_NAME);
             if (entry == null) {
                 return;
             }
-
             Element root = createRootElement(jarFile, entry);
             List<Element> menuElements = selectElements(root, "/root/ToolFxmlLoaderConfiguration[@isMenu='true']");
             Element pluginElement = selectSingleElement(root, "/root/ToolFxmlLoaderConfiguration[not(@isMenu)]");
@@ -71,10 +67,16 @@ public class PluginParser {
             String controllerType = getChildNodeText(pluginElement, "controllerType");
             String menuTitle = menuTitles.get(menuId);
 
+            pluginJarInfo.setMenuParentId(menuId);
             pluginJarInfo.setMenuParentTitle(menuTitle);
             pluginJarInfo.setBundleName(resourceBundleName);
             pluginJarInfo.setControllerType(controllerType);
             pluginJarInfo.setTitle(title);
+            pluginJarInfo.setIconPath(pluginElement.elementTextTrim("iconPath"));
+            if (StringUtils.isNotBlank(pluginJarInfo.getIconPath())) {
+                Image iconImage = new Image(jarFile.getInputStream(jarFile.getJarEntry(StringUtils.removeStart(pluginJarInfo.getIconPath(),"/"))));
+                pluginJarInfo.setIconImage(iconImage);
+            }
 
             if (controllerType.equals("Node")) {
                 pluginJarInfo.setFxmlPath(url);
@@ -83,19 +85,38 @@ public class PluginParser {
             }
 
             pluginJarInfo.setName(StringUtils.defaultString(pluginJarInfo.getName(), title));
-
         } catch (IOException | DocumentException e) {
             throw new AppException(e);
         }
     }
 
-    private static String getTitleFromResourceBundle(
-        File pluginFile, ClassLoader classLoader, Element pluginElement, String bundleName
-    ) {
+    //简单解析插件信息
+    public static void initParse(File pluginFile, PluginJarInfo pluginJarInfo) {
+        try (JarFile jarFile = new JarFile(pluginFile)) {
+            JarEntry entry = jarFile.getJarEntry(ENTRY_NAME);
+            if (entry == null) {
+                return;
+            }
+            Element root = createRootElement(jarFile, entry);
+            Element pluginElement = selectSingleElement(root, "/root/ToolFxmlLoaderConfiguration[not(@isMenu)]");
+            String title = getTitleFromResourceBundle(pluginFile, null, pluginElement, pluginJarInfo.getBundleName());
+            pluginJarInfo.setTitle(title);
+            if (StringUtils.isNotBlank(pluginJarInfo.getIconPath())) {
+                Image iconImage = new Image(jarFile.getInputStream(jarFile.getJarEntry(StringUtils.removeStart(pluginJarInfo.getIconPath(),"/"))));
+                pluginJarInfo.setIconImage(iconImage);
+            }
+            pluginJarInfo.setName(StringUtils.defaultString(pluginJarInfo.getName(), title));
+        } catch (IOException | DocumentException e) {
+            throw new AppException(e);
+        }
+    }
+
+    private static String getTitleFromResourceBundle(File pluginFile, ClassLoader classLoader, Element pluginElement, String bundleName) {
         String titleResourceBundleKey = getChildNodeText(pluginElement, "title");
-        ClassLoader tmpClassLoader = classLoader == null ? new PluginClassLoader(pluginFile) : classLoader;
+        ClassLoader tmpClassLoader = classLoader == null ? PluginClassLoader.create(pluginFile) : classLoader;
         ResourceBundle resourceBundle = ResourceBundle.getBundle(bundleName, Config.defaultLocale, tmpClassLoader);
-        return resourceBundle.getString(defaultString(titleResourceBundleKey, "Title")); }
+        return resourceBundle.getString(StringUtils.defaultString(titleResourceBundleKey, "Title"));
+    }
 
     private static String getChildNodeText(Element element, String childNode) {
         return element.selectSingleNode("child::" + childNode).getText();

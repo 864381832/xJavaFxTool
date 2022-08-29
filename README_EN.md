@@ -4,20 +4,12 @@
 
 **Tencent Cloud Development Platform Address：**[xJavaFxTool](https://dev.tencent.com/u/xwintop/p/xJavaFxTool)
 
-<p align="center">
-	<a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0.html">
-		<img src="https://img.shields.io/:license-apache-blue.svg" ></img>
-	</a>
-	<a target="_blank" href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">
-		<img src="https://img.shields.io/badge/JDK-1.8+-green.svg" ></img>
-	</a>
-	<a target="_blank" href="https://gitee.com/xwintop/xJavaFxTool/stargazers">
-		<img src='https://gitee.com/xwintop/xJavaFxTool/badge/star.svg?theme=dark' alt='gitee star'></img>
-	</a>
-	<a target="_blank" href='https://github.com/864381832/xJavaFxTool'>
-		<img src="https://img.shields.io/github/stars/864381832/xJavaFxTool.svg?style=social" alt="github star"></img>
-	</a>
-</p>
+[![](https://img.shields.io/:license-apache-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+[![](https://img.shields.io/badge/JDK-17+-green.svg)](https://www.oracle.com/technetwork/java/javase/downloads/index.html)
+[![](https://img.shields.io/badge/maven-v3.6.3-blue)](https://maven.apache.org)
+[![](https://gitee.com/xwintop/xJavaFxTool/badge/star.svg?theme=dark)](https://gitee.com/xwintop/xJavaFxTool/stargazers)
+[![](https://img.shields.io/github/stars/864381832/xJavaFxTool.svg?style=social)](https://github.com/864381832/xJavaFxTool)
+[![](https://img.shields.io/badge/IntelliJ%20IDEA-提供支持-blue.svg)](https://www.jetbrains.com/?from=xJavaFxTool)
 
 [中文说明/Chinese Documentation](README.md)
 
@@ -29,9 +21,10 @@ xJavaFxTool is a practical gadget set developed by javaFx. It uses some time to 
 Due to the hot SpringBoot, the project has been released SpringBoot-javafx version, [xJavaFxTool-spring](https://gitee.com/xwintop/xJavaFxTool-spring) welcome reference, thank you.
 
 #### Download trial address：
-- Jar package that can be run directly (local need to have jdk1.8 environment)[xJavaFxTool-0.2.3.jar](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.3.jar)
-- Windows x64 installation package (compatible with xp, windows7, 8, 10, etc.)[xJavaFxTool-0.2.3-windows-x64.exe](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.3-windows-x64.exe)
-- Mac OS X x64 [xJavaFxTool-0.2.3-macosx-x64.pkg](https://xwintop.gitee.io/maven/package/xJavaFxTool/xJavaFxTool-0.2.3-macosx-x64.pkg)
+- Jar package that can be run directly (local need to have jdk1.8 environment)[xJavaFxTool-0.3.2.jar](https://github.com/864381832/xJavaFxTool/releases/download/0.3.2/xJavaFxTool-0.3.2.jar)
+- Windows x64 installation package (compatible with xp, windows7, 8, 10, etc.)[xJavaFxTool-0.3.2-windows-x64.exe](https://github.com/864381832/xJavaFxTool/releases/download/0.3.2/xJavaFxTool-0.3.2-windows-x64.exe)
+- Mac OS x64 [xJavaFxTool-0.3.2-macos.pkg](https://github.com/864381832/xJavaFxTool/releases/download/0.3.2/xJavaFxTool-0.3.2-macos.pkg)
+- Linux x64 [xJavaFxTool-0.3.2-linux-x64.zip](https://github.com/864381832/xJavaFxTool/releases/download/0.3.2/xJavaFxTool-0.3.2-linux-x64.zip)
 #### If the above link fails, use the download link below:
 - Baidu cloud link: [https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA](https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA)  extraction code: mokl
 - Tencent micro cloud link: [https://share.weiyun.com/5T6FPLW](https://share.weiyun.com/5T6FPLW) extraction code: java
@@ -40,12 +33,11 @@ Due to the hot SpringBoot, the project has been released SpringBoot-javafx versi
 the plug-in jar package can be automatically loaded under the root directory libs (see the open source project [xJavaFxTool-plugin](https://gitee.com/xwintop/xJavaFxTool-plugin) for plug-in development examples , and the next step is to split the gadget into each plug-in and load it as needed. Currently, the plug-in function is not perfect, follow-up Split each function into modules and load them as needed to reduce the size of the jar package);
 
 #### Environmental construction instructions:
-- The development environment is jdk1.8, based on maven build
+- The development environment is jdk17, based on maven3.6.3 build
 - Developed with eclipase or Intellij Idea (Recommended to use [Intellij Idea](https://www.jetbrains.com/idea/) )
 - This project uses [lombok](https://projectlombok.org/) . If you have not downloaded the lombok plugin when viewing this project, please install it first, otherwise you can't find the get/set method.
 - The dependent [xcore](https://gitee.com/xwintop/xcore) package has been uploaded to the git-hosted maven platform. The git hosting maven can refer to the tutorial (if you can't download it, please pull the project to compile it yourself ). Tutorial address: Click to enter
-- Package using the [javafx-maven-plugin](https://github.com/javafx-maven-plugin/javafx-maven-plugin) (can be packaged for windows, Linux, Mac installation packages)
-- Use [exe4j](https://www.ej-technologies.com/download/exe4j/files) to convert the jar package into an exe executable file (for reference only, you can use other programs to package)
+- Package using the [javapackager](https://github.com/fvarrui/JavaPackager) (can be packaged for windows, Linux, Mac installation packages)
 - Use [InnoSetup](http://www.jrsoftware.org/) to make windows installation packages
 
 #### The currently integrated gadgets are:

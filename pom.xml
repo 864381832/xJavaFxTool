@@ -1,20 +1,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.xwintop</groupId>
   <artifactId>xJavaFxTool</artifactId>
-  <version>0.2.3</version>
+  <version>0.3.3</version>
   <packaging>jar</packaging>
   <name>xJavaFxTool</name>
   <description>基于JavaFx搭建的实用小工具集合</description>
+  <organization>
+    <name>xwintop</name>
+    <url>https://gitee.com/xwintop</url>
+  </organization>
   <url>https://gitee.com/xwintop/xJavaFxTool</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.test.skip>true</maven.test.skip>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
   </properties>
   <repositories>
     <repository>
@@ -30,49 +34,34 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.12</version>
+      <version>4.13.2</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.gitee.xwintop</groupId>
       <artifactId>xcore</artifactId>
-      <version>0.0.6</version>
+      <version>0.0.8-jdk17</version>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.6</version>
-      <optional>true</optional>
+      <version>1.18.22</version>
       <scope>provided</scope>
     </dependency>
-    <!-- dom4j 需要的依赖 -->
-    <dependency>
-      <groupId>jaxen</groupId>
-      <artifactId>jaxen</artifactId>
-      <version>1.2.0</version>
-    </dependency>
-
-    <!-- oshi获取系统信息工具 -->
-    <dependency>
-      <groupId>com.github.oshi</groupId>
-      <artifactId>oshi-core</artifactId>
-      <version>3.9.1</version>
-    </dependency>
-
   </dependencies>
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.5.5</version>
+        <version>3.3.0</version>
         <configuration>
           <finalName>xJavaFxTool</finalName>
           <appendAssemblyId>false</appendAssemblyId>
           <encoding>utf-8</encoding>
           <archive>
             <manifest>
-              <mainClass>com.xwintop.xJavaFxTool.Main</mainClass>
+              <mainClass>com.xwintop.xJavaFxTool.XJavaFxToolMain</mainClass>
             </manifest>
           </archive>
           <descriptorRefs>
@@ -89,36 +78,44 @@
           </execution>
         </executions>
       </plugin>
+      <!--      <plugin>-->
+      <!--        <groupId>org.openjfx</groupId>-->
+      <!--        <artifactId>javafx-maven-plugin</artifactId>-->
+      <!--        <version>0.0.8</version>-->
+      <!--        <configuration>-->
+      <!--          <mainClass>com.xwintop.xJavaFxTool.XJavaFxToolMain</mainClass>-->
+      <!--        </configuration>-->
+      <!--      </plugin>-->
       <plugin>
-        <groupId>com.zenjava</groupId>
-        <artifactId>javafx-maven-plugin</artifactId>
-        <version>8.8.3</version>
+        <groupId>io.github.fvarrui</groupId>
+        <artifactId>javapackager</artifactId>
+        <version>1.6.5</version>
         <configuration>
-          <mainClass>com.xwintop.xJavaFxTool.Main</mainClass>
-          <vendor>xwintop</vendor>
-          <appName>xJavaFxTool</appName>
+          <bundleJre>true</bundleJre>
+          <mainClass>com.xwintop.xJavaFxTool.XJavaFxToolMain</mainClass>
+          <generateInstaller>true</generateInstaller>
+          <platform>auto</platform>
+          <createZipball>true</createZipball>
+          <administratorRequired>false</administratorRequired>
+          <customizedJre>true</customizedJre>
+          <winConfig>
+            <!-- general properties -->
+            <generateSetup>true</generateSetup>
+            <generateMsi>false</generateMsi>
+            <!-- setup generation properties -->
+            <setupMode>installForAllUsers</setupMode>
+            <createDesktopIconTask>true</createDesktopIconTask>
+            <disableDirPage>false</disableDirPage>
+            <disableFinishedPage>false</disableFinishedPage>
+            <disableRunAfterInstall>false</disableRunAfterInstall>
+            <disableWelcomePage>false</disableWelcomePage>
+            <createDesktopIconTask>false</createDesktopIconTask>
+            <setupLanguages>
+              <chinesesimp>compiler:Default.isl</chinesesimp>
+              <english>compiler:Languages\English.isl</english>
+            </setupLanguages>
+          </winConfig>
         </configuration>
-      </plugin>
-      <!-- 生成javadoc文档包的插件 -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.1.1</version>
-        <configuration>
-          <show>private</show>
-          <nohelp>true</nohelp>
-          <additionalOptions>
-            <additionalOption>-Xdoclint:none</additionalOption>
-          </additionalOptions>
-        </configuration>
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>

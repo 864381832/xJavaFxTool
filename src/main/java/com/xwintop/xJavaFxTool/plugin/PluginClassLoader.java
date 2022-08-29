@@ -10,19 +10,31 @@ import java.net.URLClassLoader;
  */
 public class PluginClassLoader extends URLClassLoader {
 
-    private static URL fromFile(File file) {
+    public static PluginClassLoader create(File jarFile) {
+        return create(getSystemClassLoader(), jarFile);
+    }
+
+    public static PluginClassLoader create(ClassLoader parent, File jarFile) {
+//        List<URI> uris = new ArrayList<>(new ClassGraph().getClasspathURIs());
+//        uris.add(jarFile.toURI());
+//        URL[] urls = uris.stream().map(uri -> {
+//            try {
+//                return uri.toURL();
+//            } catch (MalformedURLException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }).toArray(URL[]::new);
+
+        URL[] urls = null;
         try {
-            return file.toURI().toURL();
+            urls = new URL[]{jarFile.toURI().toURL()};
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
+        return new PluginClassLoader(urls, parent);
     }
 
-    public PluginClassLoader(ClassLoader parent, File appFile) {
-        super(new URL[]{fromFile(appFile)}, parent);
-    }
-
-    public PluginClassLoader(File appFile) {
-        this(getSystemClassLoader(), appFile);
+    private PluginClassLoader(URL[] urls, ClassLoader parent) {
+        super(urls, parent);
     }
 }
