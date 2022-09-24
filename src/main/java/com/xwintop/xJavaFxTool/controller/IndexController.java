@@ -83,7 +83,7 @@ public class IndexController extends IndexView {
             addNodepadAction(null);
         }
         this.indexService.addWebView(XJavaFxToolApplication.RESOURCE_BUNDLE.getString("feedback"), QQ_URL, null);
-        this.tongjiWebView.getEngine().load(STATISTICS_URL);
+//        this.tongjiWebView.getEngine().load(STATISTICS_URL);
         this.tabPaneMain.getSelectionModel().select(0);
     }
 

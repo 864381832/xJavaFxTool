@@ -1,5 +1,6 @@
 package com.xwintop.xJavaFxTool.services;
 
+import com.jpro.webapi.HTMLView;
 import com.xwintop.xJavaFxTool.AppException;
 import com.xwintop.xJavaFxTool.XJavaFxToolApplication;
 import com.xwintop.xJavaFxTool.common.logback.ConsoleLogAppender;
@@ -10,6 +11,7 @@ import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import com.xwintop.xcore.util.javafx.AlertUtil;
+import com.xwintop.xcore.util.javafx.JavaFxSystemUtil;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -17,6 +19,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
@@ -26,11 +29,15 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -192,16 +199,24 @@ public class IndexService {
     }
 
     public static Tab loadWebViewAsTab(PluginJarInfo plugin, TabPane tabPane, boolean singleWindowBoot) {
-        WebView browser = new WebView();
-        WebEngine webEngine = browser.getEngine();
+//        WebView browser = new WebView();
+//        WebEngine webEngine = browser.getEngine();
         String url = plugin.getPagePath();
         String title = plugin.getTitle();
 
+        HTMLView browser = null;
         if (url.startsWith("http")) {
-            webEngine.load(url);
+//            webEngine.load(url);
+            String contentIframe2 = "<iframe frameborder=\"0\" style=\"width: 100%; height: 100%;\" src=\""+url+"\"> </iframe>";
+            browser = new HTMLView(contentIframe2);
         } else {
             PluginContainer pluginContainer = new PluginContainer(plugin);
-            webEngine.load(pluginContainer.getResource(url).toExternalForm());
+//            webEngine.load(pluginContainer.getResource(url).toExternalForm());
+            try {
+                browser = new HTMLView(IOUtils.toString(pluginContainer.getResource(url).openStream(),"utf-8"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         if (singleWindowBoot) {

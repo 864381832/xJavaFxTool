@@ -19,15 +19,20 @@
     <maven.test.skip>true</maven.test.skip>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
+    <jpro.version>2022.1.3</jpro.version>
   </properties>
   <repositories>
+    <!--    <repository>-->
+    <!--      <id>aliyunmaven</id>-->
+    <!--      <url>https://maven.aliyun.com/repository/public</url>-->
+    <!--    </repository>-->
+    <!--    <repository>-->
+    <!--      <id>jitpack.io</id>-->
+    <!--      <url>https://jitpack.io</url>-->
+    <!--    </repository>-->
     <repository>
-      <id>aliyunmaven</id>
-      <url>https://maven.aliyun.com/repository/public</url>
-    </repository>
-    <repository>
-      <id>jitpack.io</id>
-      <url>https://jitpack.io</url>
+      <id>jpro - sandec repository</id>
+      <url>https://sandec.jfrog.io/ui/native/repo</url>
     </repository>
   </repositories>
   <dependencies>
@@ -48,9 +53,34 @@
       <version>1.18.24</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>com.sandec.jpro</groupId>
+      <artifactId>jpro-webapi</artifactId>
+      <version>${jpro.version}</version>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>jpro - sandec repository</id>
+      <url>https://sandec.jfrog.io/ui/native/repo</url>
+    </pluginRepository>
+  </pluginRepositories>
   <build>
     <plugins>
+      <plugin>
+        <groupId>com.sandec.jpro</groupId>
+        <artifactId>jpro-maven-plugin</artifactId>
+        <version>${jpro.version}</version>
+        <configuration>
+          <visible>false</visible>
+          <JVMArgs>
+            <!-- <JVMArg>your-args</JVMArg> -->
+          </JVMArgs>
+          <mainClassName>com.xwintop.xJavaFxTool.XJavaFxToolApplication</mainClassName>
+          <openingPath>/</openingPath>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>

@@ -69,7 +69,7 @@
               </padding>
             </Label>
             <TextField fx:id="myTextField" promptText="%selectTextField" styleClass="search-text"/>
-            <WebView fx:id="tongjiWebView" prefHeight="1.0" prefWidth="1.0" visible="false"/>
+<!--            <WebView fx:id="tongjiWebView" prefHeight="1.0" prefWidth="1.0" visible="false"/>-->
             <Pane HBox.hgrow="ALWAYS"/>
             <Hyperlink onAction="#xwintopLinkOnAction" text="http://gitee.com/xwintop/xJavaFxTool"
                        textFill="#868686"/>
