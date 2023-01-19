@@ -134,35 +134,35 @@ xJavaFxTool
 ├─ pom.xml	maven配置文件
 ├─ README.md	说明文件
 ├─ src
-│  ├─ main
-│  │  ├─ java
-│  │  │  └─ com
-│  │  │   └─ xwintop
-│  │  │    └─ xJavaFxTool
-│  │  │     ├─ common	第三方工具类
-│  │  │     ├─ controller	javafx控制层
-│  │  │     │  └─ index	首页控制层
-│  │  │     ├─ model	基础bean类层
-│  │  │     ├─ services	工具服务层
-│  │  │     │  └─ index	首页工具服务层
-│  │  │     ├─ utils	系统工具类
-│  │  │     └─ view	javafx视图层
-│  │  │        └─ index	首页工具视图层
-│  │  └─ resources
-│  │   ├─ com
-│  │   │  └─ xwintop
-│  │   │   └─ xJavaFxTool
-│  │   │    └─ fxmlView     .fxml文件
-│  │   ├─ config	配置文件
-│  │   │  └─ toolFxmlLoaderConfiguration.xml	系统菜单加载配置文件
-│  │   ├─ css	样式资源
-│  │   ├─ images	图片资源
-│  │   ├─ locale	国际化
-│  │   ├─ banner.txt	启动banner图片
-│  │   └─ logback.xml	logback日志配置文件
-│  └─ test  测试类
-│   ├─ java
-│   └─ resources
+│ ├─ main
+│ │ ├─ java
+│ │ │ └─ com
+│ │ │  └─ xwintop
+│ │ │   └─ xJavaFxTool
+│ │ │    ├─ common	第三方工具类
+│ │ │    ├─ controller	javafx控制层
+│ │ │    │ └─ index	首页控制层
+│ │ │    ├─ model	基础bean类层
+│ │ │    ├─ services	工具服务层
+│ │ │    │ └─ index	首页工具服务层
+│ │ │    ├─ utils	系统工具类
+│ │ │    └─ view	javafx视图层
+│ │ │       └─ index	首页工具视图层
+│ │ └─ resources
+│ │  ├─ com
+│ │  │ └─ xwintop
+│ │  │  └─ xJavaFxTool
+│ │  │   └─ fxmlView     .fxml文件
+│ │  ├─ config	配置文件
+│ │  │ └─ toolFxmlLoaderConfiguration.xml	系统菜单加载配置文件
+│ │  ├─ css	样式资源
+│ │  ├─ images	图片资源
+│ │  ├─ locale	国际化
+│ │  ├─ banner.txt	启动banner图片
+│ │  └─ logback.xml	logback日志配置文件
+│ └─ test  测试类
+│  ├─ java
+│  └─ resources
 
 ```
 
