@@ -68,10 +68,10 @@ public class PluginManageController extends PluginManageView {
         );
 
         downloadTableColumn.setCellFactory(
-            new Callback<>() {
+            new Callback<TableColumn<Map<String, String>, String>, TableCell<Map<String, String>, String>>() {
                 @Override
                 public TableCell<Map<String, String>, String> call(TableColumn<Map<String, String>, String> param) {
-                    return new TableCell<>() {
+                    return new TableCell<Map<String, String>, String>() {
                         @Override
                         protected void updateItem(String item, boolean empty) {
                             super.updateItem(item, empty);
