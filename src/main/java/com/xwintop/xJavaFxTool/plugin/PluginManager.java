@@ -39,7 +39,7 @@ public class PluginManager {
         this.loadLocalPluginConfiguration();
     }
 
-    ////////////////////////////////////////////////////////////// 查询插件
+    // 查询插件
     public List<PluginJarInfo> getEnabledPluginList() {
         return this.pluginList.stream().filter(PluginJarInfo::getIsEnable).collect(Collectors.toList());
     }

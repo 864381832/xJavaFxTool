@@ -17,8 +17,6 @@ public class PluginCategoryController {
         return controller;
     }
 
-    ///////////////////////////////////////////////////////////////
-
     public Label lblCategoryName;
 
     public FlowPane items;

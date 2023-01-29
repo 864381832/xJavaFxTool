@@ -15,16 +15,6 @@ public class PluginClassLoader extends URLClassLoader {
     }
 
     public static PluginClassLoader create(ClassLoader parent, File jarFile) {
-//        List<URI> uris = new ArrayList<>(new ClassGraph().getClasspathURIs());
-//        uris.add(jarFile.toURI());
-//        URL[] urls = uris.stream().map(uri -> {
-//            try {
-//                return uri.toURL();
-//            } catch (MalformedURLException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }).toArray(URL[]::new);
-
         URL[] urls = null;
         try {
             urls = new URL[]{jarFile.toURI().toURL()};
