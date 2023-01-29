@@ -59,13 +59,13 @@ public class IndexService {
                 XJavaFxSystemUtil.initSystemLocal();    // 初始化本地语言
                 new XJavaFxToolApplication().start(new Stage());
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("设置本地语言失败！", e);
             }
         });
     }
 
     public void addNodepadAction(ActionEvent event) {
-        addWebView(indexController.getBundle().getString("addNodepad"),"/web/monaco-editor-0.33.0/index.html",null);
+        addWebView(indexController.getBundle().getString("addNodepad"), "/web/monaco-editor-0.33.0/index.html", null);
     }
 
     public void addLogConsoleAction(ActionEvent event) {
