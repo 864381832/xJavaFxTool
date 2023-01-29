@@ -72,8 +72,6 @@ public class IndexService {
     }
 
     public void addNodepadAction(ActionEvent event) {
-//        TextArea notepad = new TextArea();
-//        addTabAction(event, notepad, indexController.getBundle().getString("addNodepad"), null);
         addWebView(indexController.getBundle().getString("addNodepad"),"/web/monaco-editor-0.33.0/index.html",null);
     }
 

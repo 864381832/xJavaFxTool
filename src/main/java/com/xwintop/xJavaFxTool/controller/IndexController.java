@@ -79,7 +79,7 @@ public class IndexController extends IndexView {
     }
 
     private void initView() {
-        if (Config.getBoolean(Config.Keys.NotepadEnabled, true)) {
+        if (Config.getBoolean(Config.Keys.NotepadEnabled, false)) {
             addNodepadAction(null);
         }
         this.indexService.addWebView(XJavaFxToolApplication.RESOURCE_BUNDLE.getString("feedback"), QQ_URL, null);
@@ -222,9 +222,6 @@ public class IndexController extends IndexView {
 
     @FXML
     private void pluginManageAction() throws Exception {
-//        FXMLLoader fXMLLoader = PluginManageController.getFXMLLoader();
-//        Parent root = fXMLLoader.load();
-//        JavaFxViewUtil.openNewWindow(bundle.getString("plugin_manage"), root);
         new FxDialog<PluginManageController>()
             .setBodyFxml(PluginManageController.FXML)
             .setOwner(FxApp.primaryStage)
