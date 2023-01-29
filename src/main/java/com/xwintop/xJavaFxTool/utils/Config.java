@@ -18,8 +18,6 @@ public class Config {
 
     public static final String xJavaFxToolVersions = "V0.3.2";// xJavaFxTool版本信息
 
-    ///////////////////////////////////////////////////////////////
-
     public enum Keys {
         MainWindowWidth, MainWindowHeight, MainWindowTop, MainWindowLeft,
         Locale, NotepadEnabled, RememberWindowLocation, ConfirmExit,
