@@ -8,7 +8,6 @@ import org.junit.Test;
 public class TableBeanTool {
 	@Test
 	public void buildTableBean(){
-//		Class<?> beanClass = EmailToolTableBean.class;
 		Class<?> beanClass = this.getClass();
 		Field[] fields = FieldUtils.getAllFields(beanClass);
 		StringBuffer soutStringBuffer = new StringBuffer();//输出字符串
