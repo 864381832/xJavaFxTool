@@ -11,7 +11,6 @@ import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import com.xwintop.xcore.util.javafx.AlertUtil;
-import com.xwintop.xcore.util.javafx.JavaFxSystemUtil;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -19,7 +18,6 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
@@ -27,13 +25,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -98,7 +92,10 @@ public class IndexService {
                 indexController.getTabPaneMain().getSelectionModel().select(tab);
             }
             if (closeRequest != null) {
-                tab.setOnCloseRequest(closeRequest);
+                tab.setOnCloseRequest(event1 -> {
+                    closeRequest.handle(event1);
+                    indexController.getTabPaneMain().getSelectionModel().select(0);
+                });
             }
         }
     }
@@ -135,7 +132,10 @@ public class IndexService {
         }
 
         if (tab != null) {
-            tab.setOnClosed(event -> this.jarInfoMap.remove(pluginJarInfo));
+            tab.setOnClosed(event -> {
+                this.jarInfoMap.remove(pluginJarInfo);
+                indexController.getTabPaneMain().getSelectionModel().select(0);
+            });
             jarInfoMap.put(pluginJarInfo, tab);
         }
     }
@@ -205,13 +205,13 @@ public class IndexService {
         HTMLView browser = null;
         if (url.startsWith("http")) {
 //            webEngine.load(url);
-            String contentIframe2 = "<iframe frameborder=\"0\" style=\"width: 100%; height: 100%;\" src=\""+url+"\"> </iframe>";
+            String contentIframe2 = "<iframe frameborder=\"0\" style=\"width: 100%; height: 100%;\" src=\"" + url + "\"> </iframe>";
             browser = new HTMLView(contentIframe2);
         } else {
             PluginContainer pluginContainer = new PluginContainer(plugin);
 //            webEngine.load(pluginContainer.getResource(url).toExternalForm());
             try {
-                browser = new HTMLView(IOUtils.toString(pluginContainer.getResource(url).openStream(),"utf-8"));
+                browser = new HTMLView(IOUtils.toString(pluginContainer.getResource(url).openStream(), "utf-8"));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

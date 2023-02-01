@@ -1,4 +1,4 @@
-package com.xwintop.xJavaFxTool.newui;
+package com.xwintop.xJavaFxTool.controller.plugin;
 
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 @Slf4j
 public class PluginItemController {
-    public static final String FXML_PATH = "/com/xwintop/xJavaFxTool/fxmlView/newui/plugin-item.fxml";
+    public static final String FXML_PATH = "/com/xwintop/xJavaFxTool/fxmlView/plugin/plugin-item.fxml";
 
     public static PluginItemController newInstance(PluginJarInfo pluginJarInfo) {
         FXMLLoader fxmlLoader = FxmlHelper.loadFromResource(FXML_PATH);

@@ -17,8 +17,8 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.test.skip>true</maven.test.skip>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
+    <maven.compiler.source>8</maven.compiler.source>
+    <maven.compiler.target>8</maven.compiler.target>
     <jpro.version>2022.1.3</jpro.version>
   </properties>
   <repositories>
@@ -45,7 +45,7 @@
     <dependency>
       <groupId>com.gitee.xwintop</groupId>
       <artifactId>xcore</artifactId>
-      <version>0.0.8-jdk17</version>
+      <version>0.0.8</version>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>

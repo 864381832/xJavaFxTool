@@ -1,4 +1,4 @@
-package com.xwintop.xJavaFxTool.newui;
+package com.xwintop.xJavaFxTool.controller.plugin;
 
 import com.xwintop.xcore.javafx.helper.FxmlHelper;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +10,7 @@ public class PluginCategoryController {
 
     public static PluginCategoryController newInstance(String categoryName) {
         FXMLLoader fxmlLoader = FxmlHelper.loadFromResource(
-            "/com/xwintop/xJavaFxTool/fxmlView/newui/plugin-category.fxml"
+            "/com/xwintop/xJavaFxTool/fxmlView/plugin/plugin-category.fxml"
         );
         PluginCategoryController controller = fxmlLoader.getController();
         controller.lblCategoryName.setText(categoryName);
