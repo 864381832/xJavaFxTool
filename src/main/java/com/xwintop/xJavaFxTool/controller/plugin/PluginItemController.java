@@ -21,13 +21,6 @@ import lombok.extern.slf4j.Slf4j;
 public class PluginItemController {
     public static final String FXML_PATH = "/com/xwintop/xJavaFxTool/fxmlView/plugin/plugin-item.fxml";
 
-    public static PluginItemController newInstance(PluginJarInfo pluginJarInfo) {
-        FXMLLoader fxmlLoader = FxmlHelper.loadFromResource(FXML_PATH);
-        PluginItemController controller = fxmlLoader.getController();
-        controller.setPluginInfo(pluginJarInfo);
-        return controller;
-    }
-
     private PluginJarInfo pluginJarInfo;
 
     private ContextMenu contextMenu;
@@ -39,6 +32,13 @@ public class PluginItemController {
     public ImageView imgLogo;
 
     private IndexController indexController;
+
+    public static PluginItemController newInstance(PluginJarInfo pluginJarInfo) {
+        FXMLLoader fxmlLoader = FxmlHelper.loadFromResource(FXML_PATH);
+        PluginItemController controller = fxmlLoader.getController();
+        controller.setPluginInfo(pluginJarInfo);
+        return controller;
+    }
 
     public void initialize() {
         // 当元素不可见时也从布局流中去掉
