@@ -96,9 +96,7 @@ public class IndexController extends IndexView {
         PluginManager pluginManager = PluginManager.getInstance();
         pluginManager.loadLocalDevPluginConfiguration();
         loadPlugins();  // 加载插件列表到界面上
-        AppEvents.addEventHandler(PluginEvent.PLUGIN_DOWNLOADED, pluginEvent -> {
-            loadPlugins();
-        });
+        AppEvents.addEventHandler(PluginEvent.PLUGIN_DOWNLOADED, pluginEvent -> loadPlugins());
     }
 
     /**
@@ -178,18 +176,14 @@ public class IndexController extends IndexView {
             imageView.setFitWidth(18);
             menuItem.setGraphic(imageView);
         }
-        menuItem.setOnAction((ActionEvent event) -> {
-            indexService.loadPlugin(jarInfo);
-        });
+        menuItem.setOnAction((ActionEvent event) -> indexService.loadPlugin(jarInfo));
         ((Menu) menu).getItems().add(menuItem);
         menuItemMap.put(menuItem.getText(), menuItem);
     }
 
     public void selectAction(String selectText) {
         boolean notSearching = StringUtils.isBlank(selectText);
-        pluginItemControllers.forEach(itemController -> {
-            itemController.setVisible(notSearching || itemController.matchKeyword(selectText));
-        });
+        pluginItemControllers.forEach(itemController -> itemController.setVisible(notSearching || itemController.matchKeyword(selectText)));
     }
 
     @FXML

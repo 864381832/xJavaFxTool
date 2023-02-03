@@ -11,11 +11,11 @@ public class TableBeanTool {
 		Class<?> beanClass = this.getClass();
 		Field[] fields = FieldUtils.getAllFields(beanClass);
 		StringBuffer soutStringBuffer = new StringBuffer();//输出字符串
-		StringBuffer stringBuffer = new StringBuffer();//构造函数头
-		StringBuffer stringBuffer2 = new StringBuffer();//构造函数结构
-		StringBuffer stringBuffer3 = new StringBuffer();//构造函数2头
-		StringBuffer stringBuffer4 = new StringBuffer();//获取构造函数
-		StringBuffer stringBuffer5 = new StringBuffer();//获取getSet方法
+		StringBuilder stringBuffer = new StringBuilder();//构造函数头
+		StringBuilder stringBuffer2 = new StringBuilder();//构造函数结构
+		StringBuilder stringBuffer3 = new StringBuilder();//构造函数2头
+		StringBuilder stringBuffer4 = new StringBuilder();//获取构造函数
+		StringBuilder stringBuffer5 = new StringBuilder();//获取getSet方法
 		stringBuffer.append("public ").append(beanClass.getSimpleName()).append("(");
 		stringBuffer3.append("public ").append(beanClass.getSimpleName()).append("(String propertys) {\nString[] strings = propertys.split(\"__\","+fields.length+");\n");
 		stringBuffer4.append("public String getPropertys() {\nreturn ");

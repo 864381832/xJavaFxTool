@@ -73,9 +73,7 @@ public class IndexService {
         TextArea textArea = new TextArea();
         textArea.setFocusTraversable(true);
         ConsoleLogAppender.textAreaList.add(textArea);
-        addTabAction(event, textArea, indexController.getBundle().getString("addLogConsole"), (Event event1) -> {
-            ConsoleLogAppender.textAreaList.remove(textArea);
-        });
+        addTabAction(event, textArea, indexController.getBundle().getString("addLogConsole"), (Event event1) -> ConsoleLogAppender.textAreaList.remove(textArea));
     }
 
     public void addTabAction(ActionEvent event, Region content, String title, EventHandler closeRequest) {
