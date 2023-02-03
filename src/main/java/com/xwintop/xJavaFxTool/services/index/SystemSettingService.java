@@ -20,9 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 @Slf4j
 public class SystemSettingService {
-
     public static void openSystemSettings(String title) {
-
         FxDialog<SystemSettingController> dialog = new FxDialog<SystemSettingController>()
             .setResourceBundle(XJavaFxToolApplication.RESOURCE_BUNDLE)
             .setTitle(title)
