@@ -15,6 +15,7 @@ import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xJavaFxTool.utils.Config.Keys;
 import com.xwintop.xJavaFxTool.utils.StageUtils;
 import com.xwintop.xJavaFxTool.utils.VersionChecker;
+import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import com.xwintop.xcore.javafx.FxApp;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import javafx.application.Application;
@@ -43,6 +44,7 @@ public class XJavaFxToolApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        XJavaFxSystemUtil.initSystemLocal();    // 初始化本地语言
         stage = primaryStage;
 
         // 初始化 JavaFX 全局设置
@@ -65,9 +67,7 @@ public class XJavaFxToolApplication extends Application {
         loadClassicUI(primaryStage);
 
         StageUtils.loadPrimaryStageBound(primaryStage);
-        primaryStage.setOnShown(windowEvent -> {
-            VersionChecker.checkNewVersion();
-        });
+        primaryStage.setOnShown(windowEvent -> VersionChecker.checkNewVersion());
         primaryStage.show();
     }
 

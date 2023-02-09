@@ -4,7 +4,7 @@
 
   <groupId>com.xwintop</groupId>
   <artifactId>xJavaFxTool</artifactId>
-  <version>0.3.2</version>
+  <version>0.3.3</version>
   <packaging>jar</packaging>
   <name>xJavaFxTool</name>
   <description>基于JavaFx搭建的实用小工具集合</description>
@@ -17,17 +17,22 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.test.skip>true</maven.test.skip>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
+    <maven.compiler.source>8</maven.compiler.source>
+    <maven.compiler.target>8</maven.compiler.target>
+    <jpro.version>2022.1.3</jpro.version>
   </properties>
   <repositories>
+    <!--    <repository>-->
+    <!--      <id>aliyunmaven</id>-->
+    <!--      <url>https://maven.aliyun.com/repository/public</url>-->
+    <!--    </repository>-->
+    <!--    <repository>-->
+    <!--      <id>jitpack.io</id>-->
+    <!--      <url>https://jitpack.io</url>-->
+    <!--    </repository>-->
     <repository>
-      <id>aliyunmaven</id>
-      <url>https://maven.aliyun.com/repository/public</url>
-    </repository>
-    <repository>
-      <id>jitpack.io</id>
-      <url>https://jitpack.io</url>
+      <id>jpro - sandec repository</id>
+      <url>https://sandec.jfrog.io/ui/native/repo</url>
     </repository>
   </repositories>
   <dependencies>
@@ -37,29 +42,45 @@
       <version>4.13.2</version>
       <scope>test</scope>
     </dependency>
-
     <dependency>
       <groupId>com.gitee.xwintop</groupId>
       <artifactId>xcore</artifactId>
-      <version>0.0.7</version>
+      <version>0.0.8</version>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.22</version>
+      <version>1.18.24</version>
       <scope>provided</scope>
     </dependency>
-
-    <!-- https://mvnrepository.com/artifact/io.github.classgraph/classgraph -->
-    <!-- https://github.com/classgraph/classgraph -->
-<!--    <dependency>-->
-<!--      <groupId>io.github.classgraph</groupId>-->
-<!--      <artifactId>classgraph</artifactId>-->
-<!--      <version>4.8.100</version>-->
-<!--    </dependency>-->
+    <dependency>
+      <groupId>com.sandec.jpro</groupId>
+      <artifactId>jpro-webapi</artifactId>
+      <version>${jpro.version}</version>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>jpro - sandec repository</id>
+      <url>https://sandec.jfrog.io/ui/native/repo</url>
+    </pluginRepository>
+  </pluginRepositories>
   <build>
     <plugins>
+      <plugin>
+        <groupId>com.sandec.jpro</groupId>
+        <artifactId>jpro-maven-plugin</artifactId>
+        <version>${jpro.version}</version>
+        <configuration>
+          <visible>false</visible>
+          <JVMArgs>
+            <!-- <JVMArg>your-args</JVMArg> -->
+          </JVMArgs>
+          <mainClassName>com.xwintop.xJavaFxTool.XJavaFxToolApplication</mainClassName>
+          <openingPath>/</openingPath>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
@@ -124,8 +145,6 @@
               <english>compiler:Languages\English.isl</english>
             </setupLanguages>
           </winConfig>
-          <!-- 这行不能被格式化为多行，否则会出错-->
-          <!--          <vmArgs>&#45;&#45;add-exports jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED &#45;&#45;add-exports jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED &#45;&#45;add-exports jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED &#45;&#45;add-exports jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED &#45;&#45;add-exports jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</vmArgs>-->
         </configuration>
       </plugin>
     </plugins>

@@ -2,6 +2,7 @@ package com.xwintop.xJavaFxTool.javafx;
 
 import cn.hutool.core.text.UnicodeUtil;
 import cn.hutool.core.util.EscapeUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.junit.Test;
@@ -15,11 +16,14 @@ import java.io.File;
  * @date: 2020/1/21 13:28
  */
 
+@Slf4j
 public class PluginProgectBuildTool {
-    private String projectPath = "C:/IDEA/xwintop/xJavaFxTool/src/main/";
+    private final String projectPath = "C:/IDEA/xwintop/xJavaFxTool/src/main/";
+
     //    private String projectPath = "";
-    private String resources = "resources/com/xwintop/xJavaFxTool/";
-//    private String xmlPath = "assistTools/";
+    private final String resources = "resources/com/xwintop/xJavaFxTool/";
+
+    //    private String xmlPath = "assistTools/";
 //    private String xmlPath = "codeTools/";
 //    private String xmlPath = "debugTools/";
 //    private String xmlPath = "developTools/";
@@ -27,10 +31,11 @@ public class PluginProgectBuildTool {
 //    private String xmlPath = "games/";
 //    private String xmlPath = "littleTools/";
 //    private String xmlPath = "webTools/";
-    private String xmlPath = "javaFxTools/";
-    private String srcPath = "java/com/xwintop/xJavaFxTool/";
+    private final String xmlPath = "javaFxTools/";
 
-    private String pluginPath = "C:/IDEA/xJavaFxTool-plugin/";
+    private final String srcPath = "java/com/xwintop/xJavaFxTool/";
+
+    private final String pluginPath = "C:/IDEA/xJavaFxTool-plugin/";
 
     @Test
     public void buildJava() throws Exception {
@@ -116,7 +121,7 @@ public class PluginProgectBuildTool {
                 FileUtils.copyFile(fromFile, toFile);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
     }
 }

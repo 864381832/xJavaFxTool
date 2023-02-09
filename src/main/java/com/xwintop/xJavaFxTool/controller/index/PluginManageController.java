@@ -68,10 +68,10 @@ public class PluginManageController extends PluginManageView {
         );
 
         downloadTableColumn.setCellFactory(
-            new Callback<>() {
+            new Callback<TableColumn<Map<String, String>, String>, TableCell<Map<String, String>, String>>() {
                 @Override
                 public TableCell<Map<String, String>, String> call(TableColumn<Map<String, String>, String> param) {
-                    return new TableCell<>() {
+                    return new TableCell<Map<String, String>, String>() {
                         @Override
                         protected void updateItem(String item, boolean empty) {
                             super.updateItem(item, empty);
@@ -142,9 +142,7 @@ public class PluginManageController extends PluginManageView {
                 log.error("保存插件配置失败", ex);
             }
         });
-        JavaFxViewUtil.addMenuItem(contextMenu, "删除插件", actionEvent -> {
-            pluginManageService.deletePlugin();
-        });
+        JavaFxViewUtil.addMenuItem(contextMenu, "删除插件", actionEvent -> pluginManageService.deletePlugin());
         pluginDataTableView.setContextMenu(contextMenu);
         // 搜索
         selectPluginTextField.textProperty().addListener((_ob, _old, _new) -> pluginManageService.searchPlugin(_new));

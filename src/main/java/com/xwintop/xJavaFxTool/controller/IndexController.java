@@ -5,8 +5,8 @@ import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
 import com.xwintop.xJavaFxTool.event.AppEvents;
 import com.xwintop.xJavaFxTool.event.PluginEvent;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
-import com.xwintop.xJavaFxTool.newui.PluginCategoryController;
-import com.xwintop.xJavaFxTool.newui.PluginItemController;
+import com.xwintop.xJavaFxTool.controller.plugin.PluginCategoryController;
+import com.xwintop.xJavaFxTool.controller.plugin.PluginItemController;
 import com.xwintop.xJavaFxTool.plugin.PluginManager;
 import com.xwintop.xJavaFxTool.plugin.PluginParser;
 import com.xwintop.xJavaFxTool.services.IndexService;
@@ -79,11 +79,11 @@ public class IndexController extends IndexView {
     }
 
     private void initView() {
-        if (Config.getBoolean(Config.Keys.NotepadEnabled, true)) {
+        if (Config.getBoolean(Config.Keys.NotepadEnabled, false)) {
             addNodepadAction(null);
         }
         this.indexService.addWebView(XJavaFxToolApplication.RESOURCE_BUNDLE.getString("feedback"), QQ_URL, null);
-        this.tongjiWebView.getEngine().load(STATISTICS_URL);
+//        this.tongjiWebView.getEngine().load(STATISTICS_URL);
         this.tabPaneMain.getSelectionModel().select(0);
     }
 
@@ -96,9 +96,7 @@ public class IndexController extends IndexView {
         PluginManager pluginManager = PluginManager.getInstance();
         pluginManager.loadLocalDevPluginConfiguration();
         loadPlugins();  // 加载插件列表到界面上
-        AppEvents.addEventHandler(PluginEvent.PLUGIN_DOWNLOADED, pluginEvent -> {
-            loadPlugins();
-        });
+        AppEvents.addEventHandler(PluginEvent.PLUGIN_DOWNLOADED, pluginEvent -> loadPlugins());
     }
 
     /**
@@ -178,18 +176,14 @@ public class IndexController extends IndexView {
             imageView.setFitWidth(18);
             menuItem.setGraphic(imageView);
         }
-        menuItem.setOnAction((ActionEvent event) -> {
-            indexService.loadPlugin(jarInfo);
-        });
+        menuItem.setOnAction((ActionEvent event) -> indexService.loadPlugin(jarInfo));
         ((Menu) menu).getItems().add(menuItem);
         menuItemMap.put(menuItem.getText(), menuItem);
     }
 
     public void selectAction(String selectText) {
         boolean notSearching = StringUtils.isBlank(selectText);
-        pluginItemControllers.forEach(itemController -> {
-            itemController.setVisible(notSearching || itemController.matchKeyword(selectText));
-        });
+        pluginItemControllers.forEach(itemController -> itemController.setVisible(notSearching || itemController.matchKeyword(selectText)));
     }
 
     @FXML
@@ -222,9 +216,6 @@ public class IndexController extends IndexView {
 
     @FXML
     private void pluginManageAction() throws Exception {
-//        FXMLLoader fXMLLoader = PluginManageController.getFXMLLoader();
-//        Parent root = fXMLLoader.load();
-//        JavaFxViewUtil.openNewWindow(bundle.getString("plugin_manage"), root);
         new FxDialog<PluginManageController>()
             .setBodyFxml(PluginManageController.FXML)
             .setOwner(FxApp.primaryStage)

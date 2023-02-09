@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,13 +32,14 @@ public class PluginManager {
     }
 
     private final List<PluginJarInfo> pluginList = new ArrayList<>(); // 插件列表
+
     private final List<PluginJarInfo> devPluginList = new ArrayList<>(); // dev插件列表
 
     public PluginManager() {
         this.loadLocalPluginConfiguration();
     }
 
-    ////////////////////////////////////////////////////////////// 查询插件
+    // 查询插件
     public List<PluginJarInfo> getEnabledPluginList() {
         return this.pluginList.stream().filter(PluginJarInfo::getIsEnable).collect(Collectors.toList());
     }
@@ -59,7 +61,7 @@ public class PluginManager {
             if (!Files.exists(path)) {
                 return;
             }
-            String json = Files.readString(path, StandardCharsets.UTF_8);
+            String json = FileUtils.readFileToString(path.toFile(), StandardCharsets.UTF_8);
             this.pluginList.addAll(JSON.parseArray(json, PluginJarInfo.class));
         } catch (IOException e) {
             log.error("读取插件配置失败", e);
@@ -145,7 +147,7 @@ public class PluginManager {
         if (!Files.exists(path)) {
             Files.createFile(path);
         }
-        Files.writeString(path, json, StandardCharsets.UTF_8);
+        FileUtils.writeStringToFile(path.toFile(), json, StandardCharsets.UTF_8);
     }
 
     // 保存配置，如果失败不抛出异常

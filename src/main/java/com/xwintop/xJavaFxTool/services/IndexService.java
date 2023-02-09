@@ -1,5 +1,6 @@
 package com.xwintop.xJavaFxTool.services;
 
+import com.jpro.webapi.HTMLView;
 import com.xwintop.xJavaFxTool.AppException;
 import com.xwintop.xJavaFxTool.XJavaFxToolApplication;
 import com.xwintop.xJavaFxTool.common.logback.ConsoleLogAppender;
@@ -14,6 +15,7 @@ import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
@@ -22,13 +24,15 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -57,44 +61,41 @@ public class IndexService {
                 XJavaFxSystemUtil.initSystemLocal();    // 初始化本地语言
                 new XJavaFxToolApplication().start(new Stage());
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("设置本地语言失败！", e);
             }
         });
     }
 
     public void addNodepadAction(ActionEvent event) {
-        TextArea notepad = new TextArea();
-        if (indexController.getSingleWindowBootCheckMenuItem().isSelected()) {
-            JavaFxViewUtil.getNewStage(indexController.getBundle().getString("addNodepad"), null, notepad);
-        } else {
-            Tab tab = new Tab(indexController.getBundle().getString("addNodepad"));
-            tab.setContent(notepad);
-            indexController.getTabPaneMain().getTabs().add(tab);
-            if (event != null) {
-                indexController.getTabPaneMain().getSelectionModel().select(tab);
-            }
-        }
+        addWebView(indexController.getBundle().getString("addNodepad"), "/web/monaco-editor-0.33.0/index.html", null);
     }
 
     public void addLogConsoleAction(ActionEvent event) {
         TextArea textArea = new TextArea();
         textArea.setFocusTraversable(true);
         ConsoleLogAppender.textAreaList.add(textArea);
+        addTabAction(event, textArea, indexController.getBundle().getString("addLogConsole"), (Event event1) -> ConsoleLogAppender.textAreaList.remove(textArea));
+    }
+
+    public void addTabAction(ActionEvent event, Region content, String title, EventHandler closeRequest) {
         if (indexController.getSingleWindowBootCheckMenuItem().isSelected()) {
-            Stage newStage = JavaFxViewUtil.getNewStage(indexController.getBundle().getString("addLogConsole"), null, textArea);
-            newStage.setOnCloseRequest(event1 -> {
-                ConsoleLogAppender.textAreaList.remove(textArea);
-            });
+            Stage newStage = JavaFxViewUtil.getNewStage(title, null, content);
+            if (closeRequest != null) {
+                newStage.setOnCloseRequest(closeRequest);
+            }
         } else {
-            Tab tab = new Tab(indexController.getBundle().getString("addLogConsole"));
-            tab.setContent(textArea);
+            Tab tab = new Tab(title);
+            tab.setContent(content);
             indexController.getTabPaneMain().getTabs().add(tab);
             if (event != null) {
                 indexController.getTabPaneMain().getSelectionModel().select(tab);
             }
-            tab.setOnCloseRequest((Event event1) -> {
-                ConsoleLogAppender.textAreaList.remove(textArea);
-            });
+            if (closeRequest != null) {
+                tab.setOnCloseRequest(event1 -> {
+                    closeRequest.handle(event1);
+                    indexController.getTabPaneMain().getSelectionModel().select(0);
+                });
+            }
         }
     }
 
@@ -130,7 +131,10 @@ public class IndexService {
         }
 
         if (tab != null) {
-            tab.setOnClosed(event -> this.jarInfoMap.remove(pluginJarInfo));
+            tab.setOnClosed(event -> {
+                this.jarInfoMap.remove(pluginJarInfo);
+                indexController.getTabPaneMain().getSelectionModel().select(0);
+            });
             jarInfoMap.put(pluginJarInfo, tab);
         }
     }
@@ -192,16 +196,24 @@ public class IndexService {
     }
 
     public static Tab loadWebViewAsTab(PluginJarInfo plugin, TabPane tabPane, boolean singleWindowBoot) {
-        WebView browser = new WebView();
-        WebEngine webEngine = browser.getEngine();
+//        WebView browser = new WebView();
+//        WebEngine webEngine = browser.getEngine();
         String url = plugin.getPagePath();
         String title = plugin.getTitle();
 
+        HTMLView browser = null;
         if (url.startsWith("http")) {
-            webEngine.load(url);
+//            webEngine.load(url);
+            String contentIframe2 = "<iframe frameborder=\"0\" style=\"width: 100%; height: 100%;\" src=\"" + url + "\"> </iframe>";
+            browser = new HTMLView(contentIframe2);
         } else {
             PluginContainer pluginContainer = new PluginContainer(plugin);
-            webEngine.load(pluginContainer.getResource(url).toExternalForm());
+//            webEngine.load(pluginContainer.getResource(url).toExternalForm());
+            try {
+                browser = new HTMLView(IOUtils.toString(pluginContainer.getResource(url).openStream(), StandardCharsets.UTF_8));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         if (singleWindowBoot) {

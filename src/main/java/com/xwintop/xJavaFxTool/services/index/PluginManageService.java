@@ -42,15 +42,6 @@ import java.util.function.Consumer;
 public class PluginManageService {
     public static final String SERVER_PLUGINS_URL = "https://xwintop.gitee.io/maven/plugin-libs/plugin-list.json";
 
-    /**
-     * 当下载插件时，模拟数种 UA
-     */
-//    public static final String[] OPTIONAL_UA_LIST = {
-//        "Mozilla/5.0 (Windows NT 6.1; rv:51.0) Gecko/20100101 Firefox/51.0",
-//        "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.0 Safari/537.36",
-//        "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko"
-//    };
-
     private PluginManageController pluginManageController;
 
     private PluginManager pluginManager = PluginManager.getInstance();
@@ -203,14 +194,13 @@ public class PluginManageService {
         File file = pluginJarInfo.getFile();
         FileUtils.forceMkdirParent(file);
         HttpResponse response = HttpUtil.createGet(pluginJarInfo.getDownloadUrl(), true).executeAsync();
-        long contentLength = response.contentLength();
         response.writeBodyForFile(file, new StreamProgress() {
             @Override
             public void start() {
             }
 
             @Override
-            public void progress(long progressSize) {
+            public void progress(long progressSize, long contentLength) {
                 onProgressUpdate.accept(contentLength, progressSize);
             }
 
@@ -223,117 +213,4 @@ public class PluginManageService {
         pluginJarInfo.setIsEnable(true);
         pluginJarInfo.setLocalVersionNumber(pluginJarInfo.getVersionNumber());
     }
-
-//    public File downloadPlugin(PluginJarInfo pluginJarInfo, BiConsumer<Long, Long> onProgressUpdate) throws IOException {
-//        File file = pluginJarInfo.getFile();
-//        FileUtils.forceMkdirParent(file);
-//        OkHttpClient pluginDownloader = new OkHttpClient.Builder().addInterceptor(new PluginManageService.DownloadProgressInterceptor(onProgressUpdate)).build();
-//        // 使用多个 UA 尝试下载
-//        Throwable downloadFailure = null;
-//        for (String ua : OPTIONAL_UA_LIST) {
-//            try {
-//                tryDownload(pluginJarInfo.getName(), pluginJarInfo.getDownloadUrl(), ua, file, pluginDownloader);
-//                downloadFailure = null;
-//                break;
-//            } catch (Exception e) {
-//                downloadFailure = e;
-//            }
-//        }
-//        if (downloadFailure != null) {
-//            if (downloadFailure instanceof IOException) {
-//                throw (IOException) downloadFailure;
-//            } else {
-//                throw new IOException("插件 '" + pluginJarInfo.getName() + "' 下载失败 " + pluginJarInfo.getJarName(), downloadFailure);
-//            }
-//        }
-//        // 下载完毕
-//        pluginJarInfo.setIsDownload(true);
-//        pluginJarInfo.setIsEnable(true);
-//        pluginJarInfo.setLocalVersionNumber(pluginJarInfo.getVersionNumber());
-//        return file;
-//    }
-//
-//    /**
-//     * 尝试指定的 UA 进行下载，如果下载失败则抛出异常
-//     *
-//     * @param pluginName 插件名称
-//     * @param url        下载地址
-//     * @param ua         UA 字符串
-//     * @param file       下载到的目标文件
-//     * @throws IOException 如果下载失败
-//     */
-//    private void tryDownload(String pluginName, String url, String ua, File file, OkHttpClient pluginDownloader) throws IOException {
-//        Request request = new Request.Builder().header("User-Agent", ua).url(url).build();
-//        try (Response response = pluginDownloader.newCall(request).execute()) {
-//            if (response.code() != HttpStatus.HTTP_OK) {
-//                throw new IOException("插件 '" + pluginName + "' 下载失败 : HTTP " + response.code());
-//            }
-//
-//            InputStream inputStream = Objects.requireNonNull(response.body()).byteStream();
-//            try (FileOutputStream outputStream = new FileOutputStream(file)) {
-//                IOUtils.copy(inputStream, outputStream);
-//            }
-//        }
-//    }
-
-//    private class DownloadProgressInterceptor implements Interceptor {
-//        private BiConsumer<Long, Long> onProgressUpdate;
-//
-//        DownloadProgressInterceptor(BiConsumer<Long, Long> onProgressUpdate) {
-//            this.onProgressUpdate = onProgressUpdate;
-//        }
-//
-//        @Override
-//        public Response intercept(Chain chain) throws IOException {
-//            Response originalResponse = chain.proceed(chain.request());
-//            return originalResponse.newBuilder()
-//                .body(new PluginManageService.ProgressResponseBody(originalResponse.body(), onProgressUpdate)).build();
-//        }
-//    }
-//
-//    private static class ProgressResponseBody extends ResponseBody {
-//        private final ResponseBody responseBody;
-//
-//        private BiConsumer<Long, Long> onProgressUpdate;
-//
-//        private BufferedSource bufferedSource;
-//
-//        ProgressResponseBody(ResponseBody responseBody, BiConsumer<Long, Long> onProgressUpdate) {
-//            this.responseBody = responseBody;
-//            this.onProgressUpdate = onProgressUpdate;
-//        }
-//
-//        @Override
-//        public MediaType contentType() {
-//            return responseBody.contentType();
-//        }
-//
-//        @Override
-//        public long contentLength() {
-//            return responseBody.contentLength();
-//        }
-//
-//        @Override
-//        public BufferedSource source() {
-//            if (bufferedSource == null) {
-//                bufferedSource = Okio.buffer(source(responseBody.source()));
-//            }
-//            return bufferedSource;
-//        }
-//
-//        private Source source(Source source) {
-//            return new ForwardingSource(source) {
-//                long totalBytesRead = 0L;
-//
-//                @Override
-//                public long read(Buffer sink, long byteCount) throws IOException {
-//                    long bytesRead = super.read(sink, byteCount);
-//                    // read() returns the number of bytes read, or -1 if this source is exhausted.
-//                    totalBytesRead += bytesRead != -1 ? bytesRead : 0;
-//                    onProgressUpdate.accept(responseBody.contentLength(), totalBytesRead);
-//                    return bytesRead;
-//                }
-//            };
-//        }
-//    }
 }

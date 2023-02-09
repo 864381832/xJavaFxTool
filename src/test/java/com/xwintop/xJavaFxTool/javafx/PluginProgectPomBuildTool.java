@@ -116,7 +116,7 @@ public class PluginProgectPomBuildTool {
                 "        try {\n" +
                 "            launch(args);\n" +
                 "        } catch (Exception e) {\n" +
-                "            e.printStackTrace();\n" +
+                "            log.error(e.getMessage(), e);\n" +
                 "        }\n" +
                 "    }\n" +
                 "\n" +

@@ -14,3 +14,6 @@ gradle
 .gradle
 build
 out
+.murphy.yml
+./config
+
