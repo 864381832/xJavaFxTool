@@ -47,4 +47,4 @@
 //   ;              iEEEL    ,EEEEEL,         EEEE                  //
 //////////////////////////////////////////////////////////////////////
 ${AnsiColor.BRIGHT_BLUE}
-::: Project (version:0.2.3) :::    http://www.xwintop.com＼(^O^)／    Spring-Boot ${spring-boot.version}
+::: Project (version:0.3.3) :::    http://www.xwintop.com＼(^O^)／    Spring-Boot ${spring-boot.version}

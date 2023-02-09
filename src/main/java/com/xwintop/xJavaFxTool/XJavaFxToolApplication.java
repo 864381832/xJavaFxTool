@@ -67,9 +67,7 @@ public class XJavaFxToolApplication extends Application {
         loadClassicUI(primaryStage);
 
         StageUtils.loadPrimaryStageBound(primaryStage);
-        primaryStage.setOnShown(windowEvent -> {
-            VersionChecker.checkNewVersion();
-        });
+        primaryStage.setOnShown(windowEvent -> VersionChecker.checkNewVersion());
         primaryStage.show();
     }
 

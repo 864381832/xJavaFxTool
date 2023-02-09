@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.VBox?>
 <VBox spacing="5" styleClass="app-item"
       fx:id="root" alignment="CENTER"
-      fx:controller="com.xwintop.xJavaFxTool.newui.PluginItemController"
+      fx:controller="com.xwintop.xJavaFxTool.controller.plugin.PluginItemController"
       xmlns:fx="http://javafx.com/fxml/1">
   <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
     <ImageView fitWidth="48" fitHeight="48" fx:id="imgLogo">

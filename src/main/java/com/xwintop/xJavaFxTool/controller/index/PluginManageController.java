@@ -142,9 +142,7 @@ public class PluginManageController extends PluginManageView {
                 log.error("保存插件配置失败", ex);
             }
         });
-        JavaFxViewUtil.addMenuItem(contextMenu, "删除插件", actionEvent -> {
-            pluginManageService.deletePlugin();
-        });
+        JavaFxViewUtil.addMenuItem(contextMenu, "删除插件", actionEvent -> pluginManageService.deletePlugin());
         pluginDataTableView.setContextMenu(contextMenu);
         // 搜索
         selectPluginTextField.textProperty().addListener((_ob, _old, _new) -> pluginManageService.searchPlugin(_new));
