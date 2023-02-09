@@ -55,9 +55,9 @@ public class TableBeanTool {
 		stringBuffer4.delete(stringBuffer4.length()-10, stringBuffer4.length()).append(";\n");
 		
 		soutStringBuffer.append(stringBuffer.toString()+stringBuffer2+"}\n\n");
-		soutStringBuffer.append(stringBuffer3.toString()+"}\n\n");
-		soutStringBuffer.append(stringBuffer4.toString()+"}\n\n");
-		soutStringBuffer.append(stringBuffer5.toString()+"\n\n");
+		soutStringBuffer.append(stringBuffer3 +"}\n\n");
+		soutStringBuffer.append(stringBuffer4 +"}\n\n");
+		soutStringBuffer.append(stringBuffer5 +"\n\n");
 		System.out.println(soutStringBuffer);
 	}
 }

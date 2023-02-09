@@ -32,6 +32,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -209,7 +210,7 @@ public class IndexService {
             PluginContainer pluginContainer = new PluginContainer(plugin);
 //            webEngine.load(pluginContainer.getResource(url).toExternalForm());
             try {
-                browser = new HTMLView(IOUtils.toString(pluginContainer.getResource(url).openStream(), "utf-8"));
+                browser = new HTMLView(IOUtils.toString(pluginContainer.getResource(url).openStream(), StandardCharsets.UTF_8));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

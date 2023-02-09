@@ -18,10 +18,10 @@ import java.io.File;
 
 @Slf4j
 public class PluginProgectBuildTool {
-    private String projectPath = "C:/IDEA/xwintop/xJavaFxTool/src/main/";
+    private final String projectPath = "C:/IDEA/xwintop/xJavaFxTool/src/main/";
 
     //    private String projectPath = "";
-    private String resources = "resources/com/xwintop/xJavaFxTool/";
+    private final String resources = "resources/com/xwintop/xJavaFxTool/";
 
     //    private String xmlPath = "assistTools/";
 //    private String xmlPath = "codeTools/";
@@ -31,11 +31,11 @@ public class PluginProgectBuildTool {
 //    private String xmlPath = "games/";
 //    private String xmlPath = "littleTools/";
 //    private String xmlPath = "webTools/";
-    private String xmlPath = "javaFxTools/";
+    private final String xmlPath = "javaFxTools/";
 
-    private String srcPath = "java/com/xwintop/xJavaFxTool/";
+    private final String srcPath = "java/com/xwintop/xJavaFxTool/";
 
-    private String pluginPath = "C:/IDEA/xJavaFxTool-plugin/";
+    private final String pluginPath = "C:/IDEA/xJavaFxTool-plugin/";
 
     @Test
     public void buildJava() throws Exception {

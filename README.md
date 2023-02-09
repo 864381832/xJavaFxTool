@@ -14,7 +14,7 @@
 
 [英文说明/English Documentation](README_EN.md)
 
-**xJavaFxTool交流QQ群: [![](https://img.shields.io/badge/QQ-387473650-green.svg?logo=tencent%20qq)](https://jq.qq.com/?_wv=1027&k=59UDEAD) 或加群②[![](https://img.shields.io/badge/QQ-1104780992-green.svg?logo=tencent%20qq)](https://jq.qq.com/?_wv=1027&k=bhAdkju9)**
+**xJavaFxTool交流QQ群: [![](https://img.shields.io/badge/QQ-387473650-green.svg?logo=tencent%20qq)](https://jq.qq.com/?_wv=1027&k=59UDEAD) 或加群②（已满）[![](https://img.shields.io/badge/QQ-1104780992-green.svg?logo=tencent%20qq)](https://jq.qq.com/?_wv=1027&k=bhAdkju9) 或加群③[![](https://img.shields.io/badge/QQ-235011461-green.svg?logo=tencent%20qq)](https://jq.qq.com/?_wv=1027&k=zXUFDNuE)**
 
 **xJavaFxTool吐个槽：== [进来吐槽](https://support.qq.com/product/127577) ==**
 
