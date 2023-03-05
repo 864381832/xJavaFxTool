@@ -1,0 +1,189 @@
+.root {
+    -fx-background-color: rgba(60, 63, 65, 1);
+    -fx-text-fill: rgba(131, 142, 149, 1);
+}
+Pane,AnchorPane,BorderPane {
+    -fx-background-color: rgba(60, 63, 65, 1);
+}
+.text {
+    -fx-fill: rgba(131, 142, 149, 1);
+}
+.button {
+    -fx-background-color: rgba(76, 80, 82, 1);
+    -fx-background-radius: 3px 3px 3px 3px;
+    -fx-text-fill: rgba(187, 187, 187, 1);
+    -fx-border-color: rgba(131, 142, 149, 1) rgba(131, 142, 149, 1) rgba(131, 142, 149, 1) rgba(131, 142, 149, 1);
+    -fx-border-radius: 3px 3px 3px 3px;
+}
+.button:focused {
+    -fx-border-color: rgba(75, 110, 175, 1) rgba(75, 110, 175, 1) rgba(75, 110, 175, 1) rgba(75, 110, 175, 1);
+}
+.text-input {
+    -fx-border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+    -fx-background-color: rgba(69, 73, 74, 1);
+    -fx-text-fill: rgba(131, 142, 149, 1);
+}
+.text-input:focused {
+    -fx-border-color: rgba(75, 110, 175, 1) rgba(75, 110, 175, 1) rgba(75, 110, 175, 1) rgba(75, 110, 175, 1);
+}
+.text-area {
+    -fx-border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+    -fx-background-color: rgba(60, 63, 65, 1);
+}
+.text-area .content {
+    -fx-background-color: rgba(43, 43, 43, 1);
+}
+.text-area .viewport {
+    -fx-background-color: rgba(43, 43, 43, 1);
+}
+.check-box .box {
+    -fx-background-color: rgba(60, 63, 65, 1);
+    -fx-border-color: rgba(131, 142, 149, 1) rgba(131, 142, 149, 1) rgba(131, 142, 149, 1) rgba(131, 142, 149, 1);
+}
+.check-box .box .mark {
+    -fx-text-fill: rgba(131, 142, 149, 1);
+}
+.toggle-button {
+    -fx-background-color: rgba(60, 63, 65, 1);
+}
+.toggle-button:hover {
+    -fx-background-color: rgba(53, 55, 57, 1);
+}
+.toggle-button:selected {
+    -fx-background-color: rgba(45, 47, 48, 1);
+}
+.radio-button .radio {
+    -fx-background-color: rgba(131, 142, 149, 1), rgba(60, 63, 65, 1);
+}
+.choice-box {
+    -fx-border-color: rgba(131, 142, 149, 1) rgba(131, 142, 149, 1) rgba(131, 142, 149, 1) rgba(131, 142, 149, 1);
+    -fx-background-color: rgba(69, 73, 74, 1);
+    -fx-text-fill: rgba(131, 142, 149, 1);
+}
+.choice-box:focused {
+    -fx-border-color: rgba(75, 110, 175, 1) rgba(75, 110, 175, 1) rgba(75, 110, 175, 1) rgba(75, 110, 175, 1);
+}
+.slider .track {
+    -fx-background-color: rgba(78, 82, 84, 1);
+}
+.slider .thumb {
+    -fx-background-color: rgba(131, 142, 149, 1);
+}
+.progress-bar .track {
+    -fx-background-color: rgba(78, 82, 84, 1);
+}
+.progress-bar .bar {
+    -fx-background-color: rgba(131, 142, 149, 1);
+}
+.menu-bar {
+    -fx-background-color: rgba(60, 63, 65, 1);
+}
+.menu-bar .menu {
+    -fx-background-color: rgba(60, 63, 65, 1);
+}
+.menu-bar .menu:hover {
+    -fx-background-color: rgba(70, 74, 77, 1);
+}
+.menu-bar .menu:showing {
+    -fx-background-color: rgba(75, 110, 175, 1);
+}
+.menu-bar .menu .context-menu {
+    -fx-background-color: rgba(60, 63, 65, 1);
+}
+.menu-bar .menu .menu-item {
+    -fx-background-color: rgba(60, 63, 65, 1);
+}
+.menu-bar .menu .menu-item:hover {
+    -fx-background-color: rgba(75, 110, 175, 1);
+}
+.scroll-bar {
+    -fx-background-color: rgba(0, 0, 0, 0);
+}
+.scroll-bar .thumb {
+    -fx-background-color: rgba(78, 78, 78, 1);
+}
+.scroll-bar .thumb:hover {
+    -fx-background-color: rgba(86, 86, 86, 1);
+}
+.list-view {
+    -fx-background-color: rgba(60, 63, 65, 1);
+}
+.list-view .list-cell {
+    -fx-background-color: rgba(60, 63, 65, 1);
+}
+.list-view .list-cell:hover {
+    -fx-background-color: rgba(70, 74, 77, 1);
+}
+.list-view .list-cell:selected {
+    -fx-background-color: rgba(75, 110, 175, 1);
+}
+.table-view {
+    -fx-background-color: rgba(60, 63, 65, 1);
+}
+.table-view .filler {
+    -fx-background-color: rgba(60, 63, 65, 1);
+}
+.table-view .column-header {
+    -fx-background-color: rgba(60, 63, 65, 1);
+}
+.table-view .table-row-cell {
+    -fx-background-insets: 0px 0px 0px 0px;
+    -fx-background-color: rgba(0, 0, 0, 0);
+    -fx-border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+}
+.table-view .table-row-cell:hover {
+    -fx-background-color: rgba(70, 74, 77, 1);
+}
+.table-view .table-row-cell:selected {
+    -fx-background-color: rgba(75, 110, 175, 1);
+}
+.table-view .table-column {
+    -fx-border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+}
+.table-view .placeholder .label {
+    -fx-font-size: 32px;
+}
+.table-view .placeholder .label .text {
+    -fx-text-fill: rgba(255, 0, 0, 1);
+}
+.tab-pane {
+    -fx-background-insets: 0px 0px 0px 0px;
+}
+.tab-pane .tab-label {
+    -fx-pref-width: 100px;
+    -fx-alignment: center;
+}
+.tab-pane .tab {
+    -fx-pref-height: 50px;
+    -fx-pref-width: 100px;
+    -fx-alignment: center;
+    -fx-padding: 0px 0px 0px 0px;
+    -fx-background-insets: 0px 0px 0px 0px;
+    -fx-background-color: rgba(60, 63, 65, 1);
+    -fx-background-radius: 0px 0px 0px 0px;
+    -fx-text-fill: rgba(255, 255, 255, 1);
+    -fx-border-width: 0px 0px 0px 0px;
+}
+.tab-pane .tab:hover {
+    -fx-background-color: rgba(39, 41, 42, 1);
+    -fx-cursor: HAND;
+}
+.tab-pane .tab:selected {
+    -fx-background-color: rgba(78, 82, 84, 1);
+}
+.tab-pane .tree-table-row-cell {
+    -fx-background-insets: 0px 0px 0px 0px;
+}
+.tab-pane .tab-header-background {
+    -fx-background-color: rgba(60, 63, 65, 1);
+    -fx-padding: 0px 0px 0px 0px;
+    -fx-background-insets: 0px 0px 0px 0px;
+    -fx-pref-height: 50px;
+    -fx-max-height: 50px;
+    -fx-min-height: 50px;
+}
+.tab-pane .tab-header-area {
+    -fx-padding: 0px 0px 0px 0px;
+    -fx-background-insets: 0px 0px 0px 0px;
+    -fx-background-color: rgba(60, 63, 65, 1);
+}
