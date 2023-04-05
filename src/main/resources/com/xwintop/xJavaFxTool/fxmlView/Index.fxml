@@ -4,9 +4,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.web.WebView?>
-<AnchorPane prefHeight="654.0" prefWidth="1044.0" stylesheets="/com/xwintop/xJavaFxTool/fxmlView/plugin/main.css"
+<?import java.net.URL?>
+<AnchorPane prefHeight="654.0" prefWidth="1044.0"
             xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.xwintop.xJavaFxTool.controller.IndexController">
+  <stylesheets>
+    <URL value="@/css/ideaStyle.css"/>
+    <URL value="@/com/xwintop/xJavaFxTool/fxmlView/plugin/main.css"/>
+  </stylesheets>
   <TabPane fx:id="tabPaneMain" tabClosingPolicy="ALL_TABS" tabMinWidth="45.0" AnchorPane.bottomAnchor="0.0"
            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
     <Tab closable="false" text="%start">
