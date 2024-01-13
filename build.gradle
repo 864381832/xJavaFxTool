@@ -44,8 +44,8 @@ dependencies {
     implementation 'io.github.classgraph:classgraph:4.8.100'
     implementation 'com.gitee.xwintop:xcore:0.0.6-jdk17'
     implementation 'com.github.oshi:oshi-core:5.7.5'
-    testImplementation 'junit:junit:4.12'
-    compileOnly 'org.projectlombok:lombok:1.18.22'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
+    compileOnly 'org.projectlombok:lombok:1.18.30'
 }
 
 group = 'com.xwintop'
