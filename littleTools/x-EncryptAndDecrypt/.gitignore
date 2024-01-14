@@ -1,0 +1,6 @@
+# Default ignored files
+#/.gitignore
+/x-EncryptAndDecrypt.iml
+/log/
+/target/
+.idea
