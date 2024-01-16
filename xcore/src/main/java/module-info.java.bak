@@ -1,0 +1,26 @@
+open module com.xwintop.xcore {
+    exports com.xwintop.xcore;
+    requires java.base;
+    requires java.desktop;
+    requires javafx.base;
+    requires javafx.controls;
+    requires javafx.fxml;
+    requires javafx.graphics;
+    requires javafx.web;
+    requires org.apache.commons.lang3;
+    requires org.apache.commons.io;
+    requires hutool.all;
+    requires com.jfoenix;
+    requires lombok;
+    requires org.slf4j;
+    requires logback.classic;
+    requires logback.core;
+    requires okhttp3;
+    requires dom4j;
+    requires org.yaml.snakeyaml;
+    requires quartz;
+    requires org.apache.commons.collections4;
+    requires javafx.swing;
+    requires org.apache.commons.imaging;
+    requires org.controlsfx.controls;
+}
