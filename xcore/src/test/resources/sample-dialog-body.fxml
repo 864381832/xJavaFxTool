@@ -1,0 +1,21 @@
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns:fx="javafx" fx:controller="com.xwintop.xcore.javafx.dialog.FxDialogTestController" spacing="5">
+    <padding>
+        <Insets topRightBottomLeft="10"/>
+    </padding>
+    <HBox alignment="BASELINE_LEFT" spacing="5">
+        <Label text="名称："/>
+        <TextField prefWidth="300" fx:id="nameField"/>
+    </HBox>
+    <HBox alignment="BASELINE_LEFT" spacing="5">
+        <Label text="名称："/>
+        <TextField prefWidth="300"/>
+    </HBox>
+    <HBox alignment="BASELINE_LEFT" spacing="5">
+        <Label text="名称："/>
+        <TextField prefWidth="300"/>
+    </HBox>
+</VBox>

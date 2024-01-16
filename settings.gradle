@@ -3,3 +3,5 @@
  */
 
 rootProject.name = 'xJavaFxTool'
+include("xcore")
+include("x-EncryptAndDecrypt")

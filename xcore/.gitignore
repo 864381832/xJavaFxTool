@@ -1,0 +1,10 @@
+# Default ignored files
+#/.gitignore
+data
+log/
+target/
+.idea/
+.mvnd/
+*.iml
+
+C:
