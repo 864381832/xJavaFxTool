@@ -15,11 +15,11 @@ allprojects {
     ext {
         springBootVersion = "2.7.18"
     }
-    description 'DLINK-CONSOLE'
+    description 'xJavaFxTool'
     apply plugin: 'java'
     apply plugin: 'java-library'
     apply plugin: 'maven-publish' // 引入maven插件
-    sourceCompatibility = 1.8
+    sourceCompatibility = 17
     test {//跳过测试
         enabled = false
     }
@@ -34,7 +34,7 @@ allprojects {
         }
         mavenCentral()
     }
-    group = 'com.easipass'
+    group = 'com.xwintop'
 //    version = '0.0.0.1'
     [compileJava, compileTestJava, javadoc]*.options*.encoding = "UTF-8"
     dependencies {
@@ -50,10 +50,6 @@ allprojects {
         implementation 'org.openjfx:javafx-swing:17.0.9'
         implementation 'org.openjfx:javafx-media:17.0.9'
         implementation 'org.openjfx:javafx-web:17.0.9'
-    }
-    configurations.all {
-        exclude group: 'org.apache.logging.log4j', module: 'log4j-api'
-        exclude group: 'log4j', module: 'log4j'
     }
 }
 
