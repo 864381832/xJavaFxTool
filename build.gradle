@@ -43,6 +43,13 @@ allprojects {
         annotationProcessor 'org.projectlombok:lombok:1.18.30'
         testCompileOnly 'org.projectlombok:lombok:1.18.30'
         testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+        implementation 'org.openjfx:javafx-controls:17.0.9'
+        implementation 'org.openjfx:javafx-base:17.0.9'
+        implementation 'org.openjfx:javafx-graphics:17.0.9'
+        implementation 'org.openjfx:javafx-fxml:17.0.9'
+        implementation 'org.openjfx:javafx-swing:17.0.9'
+        implementation 'org.openjfx:javafx-media:17.0.9'
+        implementation 'org.openjfx:javafx-web:17.0.9'
     }
     configurations.all {
         exclude group: 'org.apache.logging.log4j', module: 'log4j-api'

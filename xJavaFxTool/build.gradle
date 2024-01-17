@@ -15,22 +15,10 @@ project(':xJavaFxTool') {
     apply plugin: 'org.openjfx.javafxplugin'
 
     dependencies {
-        project(':xcore')
-        implementation 'org.openjfx:javafx-controls:17.0.9'
-        implementation 'org.openjfx:javafx-base:17.0.9'
-        implementation 'org.openjfx:javafx-graphics:17.0.9'
-        implementation 'org.openjfx:javafx-fxml:17.0.9'
-        implementation 'org.openjfx:javafx-swing:17.0.9'
-        implementation 'org.openjfx:javafx-media:17.0.9'
-        implementation 'org.openjfx:javafx-web:17.0.9'
-        implementation 'org.openjfx:javafx-graphics:17.0.9'
-        implementation 'org.openjfx:javafx-graphics:17.0.9'
-        implementation 'org.openjfx:javafx-graphics:17.0.9'
+        api project(':xcore')
         implementation 'io.github.classgraph:classgraph:4.8.100'
 //        implementation 'com.gitee.xwintop:xcore:0.0.6-jdk17'
         implementation 'com.github.oshi:oshi-core:5.7.5'
-        testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
-        compileOnly 'org.projectlombok:lombok:1.18.30'
     }
 
     group = 'com.xwintop'
