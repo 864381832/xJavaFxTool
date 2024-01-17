@@ -1,0 +1,37 @@
+.btn-success:hover {
+    -fx-text-fill: #fff;
+    -fx-background-color: #449d44;
+    -fx-border-color: #398439;
+}
+
+.btn-success {
+    -fx-text-fill: #fff;
+    -fx-background-color: #5cb85c;
+    -fx-border-color: #4cae4c;
+}
+.btn {
+    -fx-border-width: 1px;
+    -fx-border-color: transparent;
+    -fx-border-radius: 4px;
+}
+.btn-executable {
+    -fx-text-fill: #333;
+    -fx-background-color: #fff;
+    -fx-border-color: #5CB85C;
+}
+
+.btn-executable:hover {
+    -fx-background-color: #F4F4F4;
+    -fx-border-color: #5CB85C;
+}
+
+.btn-default {
+    -fx-text-fill: #333;
+    -fx-background-color: #fff;
+    -fx-border-color: #ccc;
+}
+
+.btn-default:hover {
+    -fx-background-color: #e6e6e6;
+    -fx-border-color: #adadad;
+}
