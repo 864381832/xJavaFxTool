@@ -1,12 +1,5 @@
 project(':xcore') {
     dependencies {
-        implementation 'org.openjfx:javafx-controls:17.0.2'
-        implementation 'org.openjfx:javafx-base:17.0.2'
-        implementation 'org.openjfx:javafx-graphics:17.0.2'
-        implementation 'org.openjfx:javafx-fxml:17.0.2'
-        implementation 'org.openjfx:javafx-swing:17.0.2'
-        implementation 'org.openjfx:javafx-media:17.0.2'
-        implementation 'org.openjfx:javafx-web:17.0.2'
         implementation 'ch.qos.logback:logback-classic:1.2.11'
         implementation 'org.dom4j:dom4j:2.1.3'
         implementation 'jaxen:jaxen:1.2.0'
@@ -25,14 +18,12 @@ project(':xcore') {
         implementation 'cn.hutool:hutool-all:5.8.5'
         implementation 'com.alibaba:fastjson:2.0.12'
         implementation 'org.yaml:snakeyaml:1.30'
-        testImplementation 'junit:junit:4.13.2'
-        compileOnly 'org.projectlombok:lombok:1.18.24'
     }
 
     group = 'com.gitee.xwintop'
     version = '0.0.8-jdk17'
     description = 'xcore'
-    sourceCompatibility = '1.8'
+    sourceCompatibility = '17'
 
     publishing {
         publications {
