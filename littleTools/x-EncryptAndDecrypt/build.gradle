@@ -23,14 +23,15 @@ project(':littleTools:x-EncryptAndDecrypt') {
 //    }
 
     dependencies {
-        implementation 'com.xwintop:xcore:0.0.6'
+//        implementation 'com.xwintop:xcore:0.0.6'
+        api project(':xcore')
         implementation 'org.bouncycastle:bcprov-jdk15to18:1.68'
     }
 
     group = 'com.xwintop'
     version = '0.0.1'
     description = 'x-EncryptAndDecrypt'
-    sourceCompatibility = '1.8'
+    sourceCompatibility = '17'
 
     publishing {
         publications {
