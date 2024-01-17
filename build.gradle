@@ -1,6 +1,8 @@
 buildscript {
     repositories {
+        mavenCentral()
         maven {
+            allowInsecureProtocol = true
             url "https://plugins.gradle.org/m2/"
         }
     }
@@ -9,64 +11,49 @@ buildscript {
     }
 }
 
-plugins {
-    id 'java'
-    id 'application'
-    id 'maven-publish'
-    id 'org.openjfx.javafxplugin' version '0.0.12'
-    id 'org.beryx.jlink' version '2.24.4'
-}
-
-apply plugin: 'org.openjfx.javafxplugin'
-
-repositories {
-    mavenLocal()
-    maven {
-        url = uri('https://maven.aliyun.com/repository/public')
+allprojects {
+    ext {
+        springBootVersion = "2.7.18"
     }
-
-    maven {
-        url = uri('https://jitpack.io')
+    description 'DLINK-CONSOLE'
+    apply plugin: 'java'
+    apply plugin: 'java-library'
+    apply plugin: 'maven-publish' // 引入maven插件
+    sourceCompatibility = 1.8
+    test {//跳过测试
+        enabled = false
     }
-}
-
-dependencies {
-    implementation 'org.openjfx:javafx-controls:17.0.9'
-    implementation 'org.openjfx:javafx-base:17.0.9'
-    implementation 'org.openjfx:javafx-graphics:17.0.9'
-    implementation 'org.openjfx:javafx-fxml:17.0.9'
-    implementation 'org.openjfx:javafx-swing:17.0.9'
-    implementation 'org.openjfx:javafx-media:17.0.9'
-    implementation 'org.openjfx:javafx-web:17.0.9'
-    implementation 'org.openjfx:javafx-graphics:17.0.9'
-    implementation 'org.openjfx:javafx-graphics:17.0.9'
-    implementation 'org.openjfx:javafx-graphics:17.0.9'
-    implementation 'io.github.classgraph:classgraph:4.8.100'
-    implementation 'com.gitee.xwintop:xcore:0.0.6-jdk17'
-    implementation 'com.github.oshi:oshi-core:5.7.5'
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
-    compileOnly 'org.projectlombok:lombok:1.18.30'
-}
-
-group = 'com.xwintop'
-version = '0.2.3-jdk17'
-description = 'xJavaFxTool'
-sourceCompatibility = '17'
-
-javafx {
-    version = "17.0.9"
-    modules = ['javafx.controls', 'javafx.fxml', 'javafx.media', 'javafx.swing', 'javafx.web']
-    configuration = 'compileOnly'
-}
-
-jlink {
-//    mergedModule {
-//        requires 'java.naming'
-//        requires 'java.xml'
-//    }
-    launcher{
-        name = 'xJavaFxTool'
-        mainClassName = 'com.xwintop.xJavaFxTool.XJavaFxToolMain'
-        jvmArgs = ['-Dlogback.configurationFile=./logback.xml']
+    repositories {
+        maven {
+            allowInsecureProtocol = true
+            url 'https://maven.aliyun.com/repository/public'
+        }
+        maven {
+            allowInsecureProtocol = true
+            url 'https://jitpack.io'
+        }
+        mavenCentral()
+    }
+    group = 'com.easipass'
+//    version = '0.0.0.1'
+    [compileJava, compileTestJava, javadoc]*.options*.encoding = "UTF-8"
+    dependencies {
+        testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
+        compileOnly('org.projectlombok:lombok:1.18.30')
+        annotationProcessor 'org.projectlombok:lombok:1.18.30'
+        testCompileOnly 'org.projectlombok:lombok:1.18.30'
+        testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+    }
+    configurations.all {
+        exclude group: 'org.apache.logging.log4j', module: 'log4j-api'
+        exclude group: 'log4j', module: 'log4j'
     }
 }
+
+//plugins {
+//    id 'java'
+//    id 'application'
+//    id 'maven-publish'
+//    id 'org.openjfx.javafxplugin' version '0.0.12'
+//    id 'org.beryx.jlink' version '2.24.4'
+//}
