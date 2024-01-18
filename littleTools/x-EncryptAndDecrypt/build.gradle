@@ -1,4 +1,3 @@
-project(':littleTools:x-EncryptAndDecrypt') {
 //    repositories {
 //        mavenLocal()
 //        maven {
@@ -31,7 +30,6 @@ project(':littleTools:x-EncryptAndDecrypt') {
     group = 'com.xwintop'
     version = '0.0.1'
     description = 'x-EncryptAndDecrypt'
-    sourceCompatibility = '17'
 
     publishing {
         publications {
@@ -44,4 +42,3 @@ project(':littleTools:x-EncryptAndDecrypt') {
     tasks.withType(JavaCompile) {
         options.encoding = 'UTF-8'
     }
-}

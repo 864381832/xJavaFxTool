@@ -1,36 +1,13 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        maven {
-            allowInsecureProtocol = true
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-    dependencies {
-        classpath 'org.openjfx:javafx-plugin:0.0.12'
-    }
+dependencies {
+    api project(':xcore')
+    implementation 'io.github.classgraph:classgraph:4.8.100'
+//        implementation 'com.gitee.xwintop:xcore:0.0.6-jdk17'
+    implementation 'com.github.oshi:oshi-core:5.7.5'
 }
 
-project(':xJavaFxTool') {
-    apply plugin: 'org.openjfx.javafxplugin'
-
-    dependencies {
-        api project(':xcore')
-        implementation 'io.github.classgraph:classgraph:4.8.100'
-//        implementation 'com.gitee.xwintop:xcore:0.0.6-jdk17'
-        implementation 'com.github.oshi:oshi-core:5.7.5'
-    }
-
-    group = 'com.xwintop'
-    version = '0.2.3-jdk17'
-    description = 'xJavaFxTool'
-    sourceCompatibility = '17'
-
-    javafx {
-        version = "17.0.9"
-        modules = ['javafx.controls', 'javafx.fxml', 'javafx.media', 'javafx.swing', 'javafx.web']
-//        configuration = 'compileOnly'
-    }
+group = 'com.xwintop'
+version = '0.2.3-jdk17'
+description = 'xJavaFxTool'
 
 //jlink {
 ////    mergedModule {
@@ -43,4 +20,3 @@ project(':xJavaFxTool') {
 //        jvmArgs = ['-Dlogback.configurationFile=./logback.xml']
 //    }
 //}
-}
