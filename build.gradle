@@ -19,6 +19,7 @@ allprojects {
     apply plugin: 'java'
     apply plugin: 'java-library'
     apply plugin: 'maven-publish' // 引入maven插件
+    apply plugin: 'org.openjfx.javafxplugin'
     sourceCompatibility = 17
     test {//跳过测试
         enabled = false
@@ -50,6 +51,11 @@ allprojects {
         api 'org.openjfx:javafx-swing:17.0.9'
         api 'org.openjfx:javafx-media:17.0.9'
         api 'org.openjfx:javafx-web:17.0.9'
+    }
+    javafx {
+        version = "17.0.9"
+        modules = ['javafx.controls', 'javafx.fxml', 'javafx.media', 'javafx.swing', 'javafx.web']
+//        configuration = 'compileOnly'
     }
 }
 
