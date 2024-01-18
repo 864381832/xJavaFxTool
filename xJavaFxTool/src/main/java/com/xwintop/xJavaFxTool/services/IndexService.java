@@ -1,6 +1,5 @@
 package com.xwintop.xJavaFxTool.services;
 
-import com.jpro.webapi.HTMLView;
 import com.xwintop.xJavaFxTool.AppException;
 import com.xwintop.xJavaFxTool.XJavaFxToolApplication;
 import com.xwintop.xJavaFxTool.common.logback.ConsoleLogAppender;
@@ -202,25 +201,25 @@ public class IndexService {
         String url = plugin.getPagePath();
         String title = plugin.getTitle();
 
-        HTMLView browser = null;
-        if (url.startsWith("http")) {
-//            webEngine.load(url);
-            String contentIframe2 = "<iframe frameborder=\"0\" style=\"width: 100%; height: 100%;\" src=\"" + url + "\"> </iframe>";
-            browser = new HTMLView(contentIframe2);
-        } else {
-            PluginContainer pluginContainer = new PluginContainer(plugin);
-//            webEngine.load(pluginContainer.getResource(url).toExternalForm());
-            try {
-                browser = new HTMLView(IOUtils.toString(pluginContainer.getResource(url).openStream(), "utf-8"));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
+//        HTMLView browser = null;
+//        if (url.startsWith("http")) {
+////            webEngine.load(url);
+//            String contentIframe2 = "<iframe frameborder=\"0\" style=\"width: 100%; height: 100%;\" src=\"" + url + "\"> </iframe>";
+//            browser = new HTMLView(contentIframe2);
+//        } else {
+//            PluginContainer pluginContainer = new PluginContainer(plugin);
+////            webEngine.load(pluginContainer.getResource(url).toExternalForm());
+//            try {
+//                browser = new HTMLView(IOUtils.toString(pluginContainer.getResource(url).openStream(), "utf-8"));
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
 
-        if (singleWindowBoot) {
-            JavaFxViewUtil.getNewStage(title, plugin.getIconPath(), new BorderPane(browser));
-            return null;
-        }
+//        if (singleWindowBoot) {
+//            JavaFxViewUtil.getNewStage(title, plugin.getIconPath(), new BorderPane(browser));
+//            return null;
+//        }
         Tab tab = new Tab(title);
         if (plugin.getIconImage() == null) {
             if (StringUtils.isNotEmpty(plugin.getIconPath())) {
@@ -235,7 +234,7 @@ public class IndexService {
             imageView.setFitWidth(18);
             tab.setGraphic(imageView);
         }
-        tab.setContent(browser);
+//        tab.setContent(browser);
         tabPane.getTabs().add(tab);
         tabPane.getSelectionModel().select(tab);
         return tab;
