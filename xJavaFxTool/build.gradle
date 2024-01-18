@@ -29,7 +29,7 @@ project(':xJavaFxTool') {
     javafx {
         version = "17.0.9"
         modules = ['javafx.controls', 'javafx.fxml', 'javafx.media', 'javafx.swing', 'javafx.web']
-        configuration = 'compileOnly'
+//        configuration = 'compileOnly'
     }
 
 //jlink {
