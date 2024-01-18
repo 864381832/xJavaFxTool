@@ -3,7 +3,7 @@ package com.xwintop.xJavaFxTool.javafx.tool;
 import com.xwintop.xcore.util.StrUtil;
 import java.lang.reflect.Field;
 import org.apache.commons.lang3.reflect.FieldUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class TableBeanTool {
 	@Test

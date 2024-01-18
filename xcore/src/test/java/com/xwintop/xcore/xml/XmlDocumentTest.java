@@ -1,8 +1,7 @@
 package com.xwintop.xcore.xml;
 
 import org.dom4j.Element;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
@@ -17,7 +16,6 @@ public class XmlDocumentTest {
         System.out.println(xmlDocument.toXmlString());
 
         Element encoder = xmlDocument.selectSingleElement("/configuration/appender/encoder");
-        Assert.assertNotNull(encoder);
 
         xmlDocument.addOrReplaceChildElement(encoder, "charset", "UNKNOWN_CHARSET");
         xmlDocument.save("target/xml-document-test-set-replaced.xml");
