@@ -1,5 +1,6 @@
 dependencies {
     api project(':xcore')
+//    api project(':littleTools:x-EncryptAndDecrypt')
     implementation 'io.github.classgraph:classgraph:4.8.100'
 //        implementation 'com.gitee.xwintop:xcore:0.0.6-jdk17'
     implementation 'com.github.oshi:oshi-core:5.7.5'

@@ -7,7 +7,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'org.openjfx:javafx-plugin:0.0.12'
+        classpath 'org.openjfx:javafx-plugin:0.1.0'
     }
 }
 

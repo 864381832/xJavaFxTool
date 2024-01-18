@@ -1,11 +1,10 @@
 package com.xwintop.xJavaFxTool.javafx;
 
 import cn.hutool.core.text.UnicodeUtil;
-import cn.hutool.core.util.EscapeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
