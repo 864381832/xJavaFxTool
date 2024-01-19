@@ -36,7 +36,7 @@ import java.util.ResourceBundle;
 @Slf4j
 public class XJavaFxToolApplication extends Application {
 
-    public static final String LOGO_PATH = "/images/icon.jpg";
+    public static final String LOGO_PATH = "images/icon.jpg";
 
     public static ResourceBundle RESOURCE_BUNDLE;
 
@@ -49,7 +49,7 @@ public class XJavaFxToolApplication extends Application {
 
         // 初始化 JavaFX 全局设置
         FxApp.init(primaryStage, LOGO_PATH);
-        FxApp.styleSheets.add(XJavaFxToolApplication.class.getResource("/css/jfoenix-main.css").toExternalForm());
+        FxApp.styleSheets.add(XJavaFxToolApplication.class.getClassLoader().getResource("css/jfoenix-main.css").toExternalForm());
 
 //        if (SystemUtil.getOsInfo().isMac()) {
         //Mac下设置dock栏图标

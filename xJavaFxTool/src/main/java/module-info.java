@@ -1,12 +1,13 @@
 module com.xwintop.xJavaFxTool {
     exports com.xwintop.xJavaFxTool;
-    requires java.base;
-    requires javafx.base;
-    requires javafx.controls;
-    requires javafx.fxml;
-    requires javafx.graphics;
+    opens com.xwintop.xJavaFxTool.controller;
+    opens com.xwintop.xJavaFxTool.view;
+    opens com.xwintop.xJavaFxTool.model;
+    opens com.xwintop.xJavaFxTool.plugin;
+    opens com.xwintop.xJavaFxTool.controller.plugin;
+
     requires com.xwintop.xcore;
-    requires lombok;
+    requires static lombok;
     requires org.slf4j;
     requires fastjson;
     requires org.apache.commons.lang3;

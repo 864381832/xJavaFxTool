@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 @Slf4j
 public class PluginItemController {
-    public static final String FXML_PATH = "/com/xwintop/xJavaFxTool/fxmlView/plugin/plugin-item.fxml";
+    public static final String FXML_PATH = "com/xwintop/xJavaFxTool/fxmlView/plugin/plugin-item.fxml";
 
     private PluginJarInfo pluginJarInfo;
 
