@@ -24,7 +24,7 @@ public class SystemSettingService {
         FxDialog<SystemSettingController> dialog = new FxDialog<SystemSettingController>()
             .setResourceBundle(XJavaFxToolApplication.RESOURCE_BUNDLE)
             .setTitle(title)
-            .setBodyFxml("/com/xwintop/xJavaFxTool/fxmlView/index/SystemSetting.fxml")
+            .setBodyFxml(ClassLoader.getSystemClassLoader(),"/com/xwintop/xJavaFxTool/fxmlView/index/SystemSetting.fxml")
             .setOwner(FxApp.primaryStage)
             .setButtonTypes(ButtonType.OK, ButtonType.CANCEL);
 

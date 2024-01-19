@@ -1,5 +1,11 @@
 open module com.xwintop.xcore {
     exports com.xwintop.xcore;
+    exports com.xwintop.xcore.javafx.dialog;
+    exports com.xwintop.xcore.plugin;
+    exports com.xwintop.xcore.util;
+    exports com.xwintop.xcore.javafx;
+    exports com.xwintop.xcore.javafx.helper;
+    exports com.xwintop.xcore.util.javafx;
     requires java.base;
     requires java.desktop;
     requires javafx.base;
@@ -9,18 +15,18 @@ open module com.xwintop.xcore {
     requires javafx.web;
     requires org.apache.commons.lang3;
     requires org.apache.commons.io;
-    requires hutool.all;
     requires com.jfoenix;
     requires lombok;
     requires org.slf4j;
-    requires logback.classic;
-    requires logback.core;
+//    requires logback.classic;
+//    requires logback.core;
     requires okhttp3;
-    requires dom4j;
     requires org.yaml.snakeyaml;
     requires quartz;
     requires org.apache.commons.collections4;
     requires javafx.swing;
     requires org.apache.commons.imaging;
     requires org.controlsfx.controls;
+    requires cn.hutool;
+    requires dom4j;
 }

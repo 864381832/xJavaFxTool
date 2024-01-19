@@ -112,9 +112,6 @@ public class FxDialog<T> {
         return this;
     }
 
-    /**
-     * @deprecated Use {@link #setBodyFxml(ClassLoader, String)} )} instead
-     */
     public FxDialog<T> setBodyFxml(String bodyFxmlPath) {
         this.bodyFxmlPath = bodyFxmlPath;
         return this;
