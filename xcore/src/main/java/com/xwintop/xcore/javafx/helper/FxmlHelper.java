@@ -17,7 +17,7 @@ public class FxmlHelper {
 
     public static FXMLLoader loadFromResource(String resourcePath, String bundleName) {
         try {
-            URL resource = FxmlHelper.class.getResource(resourcePath);
+            URL resource = FxmlHelper.class.getClassLoader().getSystemResource(resourcePath);
             if (resource == null) {
                 throw new IllegalArgumentException("invalid fxml path " + resourcePath);
             }

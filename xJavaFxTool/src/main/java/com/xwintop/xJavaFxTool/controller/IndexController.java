@@ -66,7 +66,7 @@ public class IndexController extends IndexView {
     private Map<String, PluginCategoryController> categoryControllers = new HashMap<>();
 
     public static FXMLLoader getFXMLLoader() {
-        URL url = IndexController.class.getResource("/com/xwintop/xJavaFxTool/fxmlView/Index.fxml");
+        URL url = IndexController.class.getClassLoader().getResource("com/xwintop/xJavaFxTool/fxmlView/Index.fxml");
         return new FXMLLoader(url, XJavaFxToolApplication.RESOURCE_BUNDLE);
     }
 

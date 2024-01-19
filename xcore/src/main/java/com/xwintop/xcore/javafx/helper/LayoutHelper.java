@@ -80,11 +80,12 @@ public class LayoutHelper {
     }
 
     public static Image icon(String resourcePath) {
-        URL resource = LayoutHelper.class.getResource(resourcePath);
+        URL resource = Object.class.getClassLoader().getSystemResource(resourcePath);
         if (resource == null) {
             throw new XCoreException("Resource '" + resourcePath + "' not found.");
         }
         return new Image(resource.toExternalForm());
+//        return new Image(Object.class.getClassLoader().getSystemResourceAsStream(resourcePath));
     }
 
     public static ImageView iconView(Image icon) {

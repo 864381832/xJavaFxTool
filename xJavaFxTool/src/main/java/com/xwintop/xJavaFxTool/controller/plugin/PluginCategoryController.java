@@ -10,7 +10,7 @@ public class PluginCategoryController {
 
     public static PluginCategoryController newInstance(String categoryName) {
         FXMLLoader fxmlLoader = FxmlHelper.loadFromResource(
-            "/com/xwintop/xJavaFxTool/fxmlView/plugin/plugin-category.fxml"
+            "com/xwintop/xJavaFxTool/fxmlView/plugin/plugin-category.fxml"
         );
         PluginCategoryController controller = fxmlLoader.getController();
         controller.lblCategoryName.setText(categoryName);
