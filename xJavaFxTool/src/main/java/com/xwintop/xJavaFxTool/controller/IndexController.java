@@ -223,7 +223,7 @@ public class IndexController extends IndexView {
     @FXML
     private void pluginManageAction() throws Exception {
         new FxDialog<PluginManageController>()
-            .setBodyFxml(PluginManageController.FXML)
+            .setBodyFxml(getClass().getClassLoader(), PluginManageController.FXML)
             .setOwner(FxApp.primaryStage)
             .setResizable(true)
             .setTitle(XJavaFxToolApplication.RESOURCE_BUNDLE.getString("plugin_manage"))
@@ -275,7 +275,7 @@ public class IndexController extends IndexView {
     private void openPluginFolderAction() {
         JavaFxSystemUtil.openDirectory("libs/");
     }
-    
+
     @FXML
     private void openDevPluginFolderAction() {
         JavaFxSystemUtil.openDirectory("devLibs/");

@@ -1,3 +1,7 @@
+plugins {
+    id "org.beryx.jlink" version "3.0.1"
+}
+
 dependencies {
     api project(':xcore')
 //    api project(':littleTools:x-EncryptAndDecrypt')
@@ -10,14 +14,15 @@ group = 'com.xwintop'
 version = '0.2.3-jdk17'
 description = 'xJavaFxTool'
 
-//jlink {
-////    mergedModule {
-////        requires 'java.naming'
-////        requires 'java.xml'
-////    }
-//    launcher{
-//        name = 'xJavaFxTool'
-//        mainClassName = 'com.xwintop.xJavaFxTool.XJavaFxToolMain'
-//        jvmArgs = ['-Dlogback.configurationFile=./logback.xml']
+jlink {
+//    mergedModule {
+//        requires 'java.naming'
+//        requires 'java.xml'
 //    }
-//}
+    addExtraDependencies("javax.servlet")
+    launcher{
+        name = 'xJavaFxTool'
+        mainClassName = 'com.xwintop.xJavaFxTool.XJavaFxToolMain'
+        jvmArgs = ['-Dlogback.configurationFile=./logback.xml']
+    }
+}
