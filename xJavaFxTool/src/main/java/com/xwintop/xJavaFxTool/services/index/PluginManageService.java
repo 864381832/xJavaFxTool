@@ -3,7 +3,7 @@ package com.xwintop.xJavaFxTool.services.index;
 import cn.hutool.core.io.StreamProgress;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.xwintop.xJavaFxTool.AppException;
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
 import com.xwintop.xJavaFxTool.event.AppEvents;

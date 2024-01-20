@@ -1,6 +1,6 @@
 package com.xwintop.xJavaFxTool.plugin;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -142,7 +142,7 @@ public class PluginManager {
 
     // 保存配置，如果失败则抛出异常
     public void saveToFile() throws IOException {
-        String json = JSON.toJSONString(this.pluginList, true);
+        String json = JSON.toJSONString(this.pluginList);
         Path path = Paths.get(LOCAL_PLUGINS_PATH);
         if (!Files.exists(path)) {
             Files.createFile(path);

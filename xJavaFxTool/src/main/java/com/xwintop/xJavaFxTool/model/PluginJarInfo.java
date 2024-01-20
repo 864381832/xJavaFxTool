@@ -1,6 +1,6 @@
 package com.xwintop.xJavaFxTool.model;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import javafx.scene.image.Image;
 import lombok.Data;
 import lombok.NoArgsConstructor;

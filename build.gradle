@@ -11,6 +11,9 @@ buildscript {
     }
 }
 
+plugins {
+    id "org.gradlex.extra-java-module-info" version "1.7"
+}
 allprojects {
     ext {
         springBootVersion = "2.7.18"
@@ -56,6 +59,9 @@ allprojects {
         version = "17.0.9"
         modules = ['javafx.controls', 'javafx.fxml', 'javafx.media', 'javafx.swing', 'javafx.web']
 //        configuration = 'compileOnly'
+    }
+    java {
+        modularity.inferModulePath = true
     }
 }
 

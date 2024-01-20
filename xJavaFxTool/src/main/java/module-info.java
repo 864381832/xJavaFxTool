@@ -9,9 +9,9 @@ module com.xwintop.xJavaFxTool {
     requires com.xwintop.xcore;
     requires static lombok;
     requires org.slf4j;
-    requires fastjson;
     requires org.apache.commons.lang3;
     requires javafx.web;
+    requires java.sql;
     requires io.github.classgraph;
     requires dom4j;
     requires okhttp3;
@@ -20,4 +20,5 @@ module com.xwintop.xJavaFxTool {
     requires commons.configuration;
     requires ch.qos.logback.classic;
     requires ch.qos.logback.core;
+    requires com.alibaba.fastjson2;
 }
