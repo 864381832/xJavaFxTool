@@ -14,6 +14,10 @@ group = 'com.xwintop'
 version = '0.2.3-jdk17'
 description = 'xJavaFxTool'
 
+compileJava {
+    options.compilerArgs += ['--module-path', classpath.asPath]
+}
+
 jlink {
 //    mergedModule {
 //        requires 'java.naming'

@@ -6,6 +6,7 @@ import ch.qos.logback.core.OutputStreamAppender;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 import javafx.scene.control.TextArea;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -20,6 +21,7 @@ import java.util.List;
  */
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 public class ConsoleLogAppender extends OutputStreamAppender<ILoggingEvent> {
     public final static List<TextArea> textAreaList = new ArrayList<>();
 

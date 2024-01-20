@@ -1,6 +1,6 @@
 dependencies {
     api 'ch.qos.logback:logback-classic:1.4.13'
-    api 'org.dom4j:dom4j:2.1.3'
+    api 'org.dom4j:dom4j:2.1.4'
     api 'jaxen:jaxen:1.2.0'
     api 'org.quartz-scheduler:quartz:2.3.2'
     api 'org.controlsfx:controlsfx:11.2.0'
@@ -22,6 +22,10 @@ dependencies {
 group = 'com.gitee.xwintop'
 version = '0.0.8-jdk17'
 description = 'xcore'
+
+compileJava {
+    options.compilerArgs += ['--module-path', classpath.asPath]
+}
 
 extraJavaModuleInfo {
 //    module('quartz-2.3.2.jar','quartz','2.3.2')
