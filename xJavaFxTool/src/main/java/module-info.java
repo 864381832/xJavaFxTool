@@ -13,7 +13,6 @@ module com.xwintop.xJavaFxTool {
     requires javafx.web;
     requires java.sql;
     requires io.github.classgraph;
-    requires dom4j;
     requires okhttp3;
     requires org.apache.commons.io;
 //    requires okio;

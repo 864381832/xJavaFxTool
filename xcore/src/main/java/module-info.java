@@ -27,5 +27,5 @@ open module com.xwintop.xcore {
     requires org.apache.commons.imaging;
     requires org.controlsfx.controls;
     requires transitive cn.hutool;
-    requires dom4j;
+    requires org.dom4j;
 }

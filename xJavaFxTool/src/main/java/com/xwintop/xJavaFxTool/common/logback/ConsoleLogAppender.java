@@ -7,7 +7,6 @@ import com.xwintop.xcore.util.javafx.TooltipUtil;
 import javafx.scene.control.TextArea;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -21,8 +20,8 @@ import java.util.List;
  * @date: 2019/4/25 0025 23:18
  */
 
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper=false)
 public class ConsoleLogAppender extends OutputStreamAppender<ILoggingEvent> {
     public final static List<TextArea> textAreaList = new ArrayList<>();
 
@@ -37,7 +36,7 @@ public class ConsoleLogAppender extends OutputStreamAppender<ILoggingEvent> {
             }
 
             @Override
-            public void write(@NotNull byte[] b) throws IOException {
+            public void write(byte[] b) throws IOException {
                 for (TextArea textArea : textAreaList) {
                     textArea.appendText(new String(b) + "\n");
                 }
