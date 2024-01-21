@@ -1,14 +1,10 @@
 package com.xwintop.xcore.util;
 
-import okhttp3.*;
-
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.charset.Charset;
 import java.time.Duration;
-import java.util.function.Consumer;
 
 /**
  * 使用方法参见单元测试
@@ -22,61 +18,6 @@ public class HttpClientUtil {
     public static final Duration DEFAULT_READ_TIMEOUT = Duration.ofMinutes(2);
 
     public static final Duration DEFAULT_WRITE_TIMEOUT = Duration.ofMinutes(2);
-
-    /**
-     * 一个应用当中只需要创建一个 OkHttpClient 对象
-     */
-    private static OkHttpClient okHttpClient = null;
-
-    static {
-        reinitialize(
-            DEFAULT_CONNECT_TIMEOUT,
-            DEFAULT_READ_TIMEOUT,
-            DEFAULT_WRITE_TIMEOUT,
-            DEFAULT_CALL_TIMEOUT
-        );
-    }
-
-    /**
-     * 重新初始化 OkHttpClient
-     */
-    public static void reinitialize(
-        Duration connectTimeout, Duration readTimeout,
-        Duration writeTimeout, Duration callTimeout
-    ) {
-        HttpClientUtil.okHttpClient = new OkHttpClient.Builder()
-            .connectTimeout(connectTimeout)
-            .readTimeout(readTimeout)
-            .writeTimeout(writeTimeout)
-            .callTimeout(callTimeout)
-            .build();
-    }
-
-    public static String executeGet(
-        HttpUrl url, Headers headers, Charset charset) throws IOException {
-        return execute(url, headers, charset, Request.Builder::get);
-    }
-
-    public static String executePost(
-        HttpUrl url, Headers headers, Charset charset, RequestBody body) throws IOException {
-        return execute(url, headers, charset, builder -> builder.post(body));
-    }
-
-    public static String execute(
-        HttpUrl url, Headers headers, Charset charset, Consumer<Request.Builder> builderConsumer
-    ) throws IOException {
-        Request.Builder requestBuilder = new Request.Builder().url(url).headers(headers);
-        builderConsumer.accept(requestBuilder);
-        Request request = requestBuilder.build();
-
-        try (Response response = okHttpClient.newCall(request).execute()) {
-            if (response.body() != null) {
-                return new String(response.body().bytes(), charset);
-            } else {
-                return null;
-            }
-        }
-    }
 
     public static void openBrowseURL(String url) {
         Desktop desktop = Desktop.getDesktop();
