@@ -9,7 +9,7 @@ module com.xwintop.xJavaFxTool {
     requires com.xwintop.xcore;
     requires java.sql;
     requires java.xml;
-    requires io.github.classgraph;
+//    requires io.github.classgraph;
 //    requires okio;
     requires commons.configuration;
     requires ch.qos.logback.classic;
