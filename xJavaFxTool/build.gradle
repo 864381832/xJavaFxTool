@@ -1,13 +1,13 @@
 plugins {
-    id "org.beryx.jlink" version "3.0.1"
+    id "org.beryx.jlink" version "2.26.0"
 }
 
 dependencies {
     api project(':xcore')
 //    api project(':littleTools:x-EncryptAndDecrypt')
-    implementation 'io.github.classgraph:classgraph:4.8.100'
+//    implementation 'io.github.classgraph:classgraph:4.8.100'
 //        implementation 'com.gitee.xwintop:xcore:0.0.6-jdk17'
-    implementation 'com.github.oshi:oshi-core:5.7.5'
+//    implementation 'com.github.oshi:oshi-core:5.7.5'
 }
 
 group = 'com.xwintop'
@@ -19,10 +19,10 @@ compileJava {
 }
 
 jlink {
-//    mergedModule {
-//        requires 'java.naming'
-//        requires 'java.xml'
-//    }
+    mergedModule {
+        requires 'java.naming'
+        requires 'java.xml'
+    }
     addExtraDependencies("javax.servlet")
     launcher{
         name = 'xJavaFxTool'

@@ -20,7 +20,7 @@ open module com.xwintop.xcore {
     requires org.yaml.snakeyaml;
     requires quartz;
     requires transitive javafx.swing;
-    requires org.apache.commons.imaging;
+//    requires org.apache.commons.imaging;
     requires org.controlsfx.controls;
     requires transitive cn.hutool;
     requires org.dom4j;
