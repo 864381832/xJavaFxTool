@@ -11,7 +11,6 @@ module com.xwintop.xJavaFxTool {
     requires java.xml;
 //    requires io.github.classgraph;
 //    requires okio;
-    requires commons.configuration;
     requires ch.qos.logback.classic;
     requires ch.qos.logback.core;
     requires com.alibaba.fastjson2;

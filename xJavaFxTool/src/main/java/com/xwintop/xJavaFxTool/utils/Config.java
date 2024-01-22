@@ -2,11 +2,13 @@ package com.xwintop.xJavaFxTool.utils;
 
 import com.xwintop.xcore.util.ConfigureUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.Locale;
+import java.util.Properties;
 
 /*
  * 存取框架配置
@@ -26,31 +28,43 @@ public class Config {
         NewLauncher
     }
 
-    private static PropertiesConfiguration conf;
+    private static Properties conf;
 
-    public static PropertiesConfiguration getConfig() {
+    public static Properties getConfig() {
         try {
             if (conf == null) {
                 File file = ConfigureUtil.getConfigureFile(CONFIG_FILE_NAME);
-                conf = new PropertiesConfiguration(file);
-                conf.setAutoSave(true); // 启用自动保存
+                conf = new Properties();
+                conf.load(new FileInputStream(file));
+//                conf = new PropertiesConfiguration(file);
+//                conf.setAutoSave(true); // 启用自动保存
             } else {
-                conf.reload();
+//                conf.reload();
             }
         } catch (Exception e) {
             log.error("加载本地配置失败：", e);
             // 即使加载失败，也要返回一个内存中的 PropertiesConfiguration 对象，以免程序报错。
-            conf = new PropertiesConfiguration();
+            conf = new Properties();
         }
 
         return conf;
+    }
+
+    public static void saveConfig() {
+        File file = ConfigureUtil.getConfigureFile(CONFIG_FILE_NAME);
+        try {
+            conf.store(new FileOutputStream(file), "save config");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
      * 修改配置，修改后的值将会自动保存
      */
     public static void set(Keys key, Object value) {
-        getConfig().setProperty(key.name(), value);
+        getConfig().put(key.name(), value);
+        saveConfig();
     }
 
     public static String get(Keys key, String def) {

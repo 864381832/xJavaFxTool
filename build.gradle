@@ -6,13 +6,16 @@ buildscript {
             url "https://plugins.gradle.org/m2/"
         }
     }
-    dependencies {
-        classpath 'org.openjfx:javafx-plugin:0.1.0'
-    }
+//    dependencies {
+//        classpath 'org.openjfx:javafx-plugin:0.1.0'
+//    }
 }
 
 plugins {
+//    id 'application'
     id "org.gradlex.extra-java-module-info" version "1.7"
+    id "org.beryx.jlink" version "2.26.0"
+    id "org.openjfx.javafxplugin" version "0.1.0"
 }
 allprojects {
     ext {
@@ -21,9 +24,10 @@ allprojects {
     description 'xJavaFxTool'
     apply plugin: 'java'
     apply plugin: 'java-library'
+    apply plugin: 'application'
     apply plugin: 'maven-publish' // 引入maven插件
     apply plugin: 'org.openjfx.javafxplugin'
-    sourceCompatibility = 17
+//    sourceCompatibility = 17
     test {//跳过测试
         enabled = false
     }
@@ -47,17 +51,17 @@ allprojects {
         annotationProcessor 'org.projectlombok:lombok:1.18.30'
         testCompileOnly 'org.projectlombok:lombok:1.18.30'
         testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
-        api 'org.openjfx:javafx-controls:17.0.9'
-        api 'org.openjfx:javafx-base:17.0.9'
-        api 'org.openjfx:javafx-graphics:17.0.9'
-        api 'org.openjfx:javafx-fxml:17.0.9'
-        api 'org.openjfx:javafx-swing:17.0.9'
-        api 'org.openjfx:javafx-media:17.0.9'
-        api 'org.openjfx:javafx-web:17.0.9'
+//        api 'org.openjfx:javafx-controls:17.0.9'
+//        api 'org.openjfx:javafx-base:17.0.9'
+//        api 'org.openjfx:javafx-graphics:17.0.9'
+//        api 'org.openjfx:javafx-fxml:17.0.9'
+//        api 'org.openjfx:javafx-swing:17.0.9'
+//        api 'org.openjfx:javafx-media:17.0.9'
+//        api 'org.openjfx:javafx-web:17.0.9'
     }
     javafx {
         version = "17.0.9"
-        modules = ['javafx.controls', 'javafx.fxml', 'javafx.media', 'javafx.swing', 'javafx.web']
+        modules = ['javafx.controls', "javafx.graphics", 'javafx.fxml', 'javafx.media', 'javafx.swing', 'javafx.web']
 //        configuration = 'compileOnly'
     }
     java {

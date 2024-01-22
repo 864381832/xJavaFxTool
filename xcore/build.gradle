@@ -6,7 +6,7 @@ dependencies {
     api 'org.controlsfx:controlsfx:11.2.0'
     api 'com.jfoenix:jfoenix:9.0.10'
 //    api 'commons-codec:commons-codec:1.16.0'
-    api 'commons-configuration:commons-configuration:1.10'
+//    api 'commons-configuration:commons-configuration:1.10'
     api 'commons-io:commons-io:2.15.1'
     api 'org.apache.commons:commons-lang3:3.14.0'
 //    api 'org.apache.commons:commons-text:1.9'

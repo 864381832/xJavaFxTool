@@ -1,5 +1,6 @@
 plugins {
     id "org.beryx.jlink" version "2.26.0"
+    id "org.openjfx.javafxplugin" version "0.1.0"
 }
 
 dependencies {
@@ -18,6 +19,21 @@ compileJava {
     options.compilerArgs += ['--module-path', classpath.asPath]
 }
 
+application {
+    applicationName = "xJavaFxTool"
+    mainModule.set("com.xwintop.xJavaFxTool")
+    mainClass.set("com.xwintop.xJavaFxTool.XJavaFxToolMain")
+    applicationDefaultJvmArgs = [
+        // ZGC
+        "-XX:+UseZGC",
+        // 当遇到空指针异常时显示更详细的信息
+        "-XX:+ShowCodeDetailsInExceptionMessages",
+        "-Dsun.java2d.opengl=true",
+        // 不添加此参数，打包成exe后，https协议的网络图片资源无法加载
+        "-Dhttps.protocols=TLSv1.1,TLSv1.2"
+    ]
+}
+
 jlink {
     mergedModule {
         requires 'java.naming'
@@ -26,7 +42,7 @@ jlink {
     addExtraDependencies("javax.servlet")
     launcher{
         name = 'xJavaFxTool'
-        mainClassName = 'com.xwintop.xJavaFxTool.XJavaFxToolMain'
+//        mainClassName = 'com.xwintop.xJavaFxTool.XJavaFxToolMain'
         jvmArgs = ['-Dlogback.configurationFile=./logback.xml']
     }
 }
