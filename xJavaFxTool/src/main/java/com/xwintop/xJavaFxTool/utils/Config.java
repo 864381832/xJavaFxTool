@@ -6,7 +6,6 @@ import org.apache.commons.lang3.math.NumberUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -20,7 +19,7 @@ public class Config {
 
     public static Locale defaultLocale = Locale.getDefault();// 设置系统语言
 
-    public static final String xJavaFxToolVersions = "V0.3.3";// xJavaFxTool版本信息
+    public static final String xJavaFxToolVersions = "V0.4.0";// xJavaFxTool版本信息
 
     public enum Keys {
         MainWindowWidth, MainWindowHeight, MainWindowTop, MainWindowLeft,
@@ -51,12 +50,12 @@ public class Config {
     }
 
     public static void saveConfig() {
-        File file = ConfigureUtil.getConfigureFile(CONFIG_FILE_NAME);
-        try {
-            conf.store(new FileOutputStream(file), "save config");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+//        File file = ConfigureUtil.getConfigureFile(CONFIG_FILE_NAME);
+//        try {
+//            conf.store(new FileOutputStream(file), "save config");
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
     /**
