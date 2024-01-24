@@ -1,0 +1,8 @@
+dependencies {
+    api project(':xcore')
+    implementation 'com.hankc:shanlp:portable-1.8.3'
+}
+
+group = 'com.xwintop'
+version = '0.0.1'
+description = 'x-ZHConverter'

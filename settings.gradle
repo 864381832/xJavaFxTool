@@ -2,3 +2,4 @@ rootProject.name = 'xJavaFxTool'
 include("xJavaFxTool")
 include("xcore")
 include("littleTools:x-EncryptAndDecrypt")
+include("littleTools:x-ZHConverter")
