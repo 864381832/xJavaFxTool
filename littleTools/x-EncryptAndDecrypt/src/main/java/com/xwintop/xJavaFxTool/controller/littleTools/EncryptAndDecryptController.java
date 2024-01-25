@@ -1,5 +1,6 @@
 package com.xwintop.xJavaFxTool.controller.littleTools;
 
+import cn.hutool.core.codec.Morse;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.SmUtil;
 import cn.hutool.crypto.symmetric.AES;
@@ -7,7 +8,6 @@ import cn.hutool.crypto.symmetric.DES;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
 import com.xwintop.xJavaFxTool.utils.DruidConfigTools;
 import com.xwintop.xJavaFxTool.utils.GuiUtils;
-import com.xwintop.xJavaFxTool.utils.MorseConventer;
 import com.xwintop.xJavaFxTool.view.littleTools.EncryptAndDecryptView;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
 import javafx.event.ActionEvent;
@@ -20,7 +20,7 @@ import org.apache.commons.codec.binary.BinaryCodec;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.codec.net.URLCodec;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import java.io.File;
@@ -142,7 +142,7 @@ public class EncryptAndDecryptController extends EncryptAndDecryptView {
             } else if ("文件加密SHA1".equals(curCrypto)) {
                 decrptyTextArea.setText(DigestUtils.sha1Hex(new FileInputStream(new File(string))));
             } else if ("摩斯密码".equals(curCrypto)) {
-                decrptyTextArea.setText(MorseConventer.encryption(string));
+                decrptyTextArea.setText(new Morse('●','-',' ').encode(string));
             } else if ("Druid加密".equals(curCrypto)) {
                 String[] arr = DruidConfigTools.genKeyPair(512);
                 StringBuilder decrptyStr = new StringBuilder();
@@ -202,7 +202,7 @@ public class EncryptAndDecryptController extends EncryptAndDecryptView {
                 SymmetricCrypto sm4 = SmUtil.sm4(org.bouncycastle.util.encoders.Hex.decode(key));
                 encrptyTextArea.setText(sm4.decryptStr(string, Charset.forName(charSet)));
             } else if ("摩斯密码".equals(curCrypto)) {
-                encrptyTextArea.setText(MorseConventer.decryption(string));
+                encrptyTextArea.setText(new Morse('●','-',' ').decode(string));
             } else if ("Druid加密".equals(curCrypto)) {
                 encrptyTextArea.setText(DruidConfigTools.decrypt(keyTextField.getText(), string));
             } else {

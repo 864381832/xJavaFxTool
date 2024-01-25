@@ -1,44 +1,10 @@
-//    repositories {
-//        mavenLocal()
-//        maven {
-//            url = uri('http://maven.aliyun.com/nexus/content/groups/public/')
-//        }
-//
-//        maven {
-//            url = uri('https://864381832.github.io/maven/repository')
-//        }
-//
-//        maven {
-//            url = uri('http://repo.spring.io/snapshot')
-//        }
-//
-//        maven {
-//            url = uri('http://repo.spring.io/milestone')
-//        }
-//
-//        maven {
-//            url = uri('http://repo.maven.apache.org/maven2')
-//        }
-//    }
-
-    dependencies {
+dependencies {
 //        implementation 'com.xwintop:xcore:0.0.6'
-        api project(':xcore')
-        implementation 'org.bouncycastle:bcprov-jdk15to18:1.68'
-    }
+    api project(':xcore')
+    implementation 'org.bouncycastle:bcprov-jdk15to18:1.68'
+    api 'commons-codec:commons-codec:1.16.0'
+}
 
-    group = 'com.xwintop'
-    version = '0.0.1'
-    description = 'x-EncryptAndDecrypt'
-
-    publishing {
-        publications {
-            maven(MavenPublication) {
-                from(components.java)
-            }
-        }
-    }
-
-    tasks.withType(JavaCompile) {
-        options.encoding = 'UTF-8'
-    }
+group = 'com.xwintop'
+version = '0.0.1'
+description = 'x-EncryptAndDecrypt'
