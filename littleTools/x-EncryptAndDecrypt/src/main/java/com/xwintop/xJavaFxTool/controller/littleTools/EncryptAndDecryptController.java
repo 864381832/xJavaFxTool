@@ -3,6 +3,8 @@ package com.xwintop.xJavaFxTool.controller.littleTools;
 import cn.hutool.core.codec.Morse;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.SmUtil;
+import cn.hutool.crypto.asymmetric.KeyType;
+import cn.hutool.crypto.asymmetric.SM2;
 import cn.hutool.crypto.symmetric.AES;
 import cn.hutool.crypto.symmetric.DES;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
@@ -43,12 +45,13 @@ public class EncryptAndDecryptController extends EncryptAndDecryptView {
     }
 
     private ToggleGroup toggleGroup = new ToggleGroup();
+
     /**
      * 加密算法. 空""用于填充一个空位.
      */
     private String[] cryptos = new String[]{GuiUtils.CRYPTO_ASCII, GuiUtils.CRYPTO_HEX, GuiUtils.CRYPTO_BASE64,
-            GuiUtils.CRYPTO_BASE32, GuiUtils.CRYPTO_URL, "", "", "", "", GuiUtils.CRYPTO_MD5, GuiUtils.CRYPTO_SHA,
-            GuiUtils.CRYPTO_SHA256, GuiUtils.CRYPTO_SHA384, GuiUtils.CRYPTO_SHA512, "", "", "", "", "Aes", "Des", "Sm4", "", "", "", "文件加密MD5", "文件加密SHA1", "摩斯密码", "Druid加密"};
+        GuiUtils.CRYPTO_BASE32, GuiUtils.CRYPTO_URL, "", "", "", "", GuiUtils.CRYPTO_MD5, GuiUtils.CRYPTO_SHA,
+        GuiUtils.CRYPTO_SHA256, GuiUtils.CRYPTO_SHA384, GuiUtils.CRYPTO_SHA512, "", "", "", "", "Aes", "Des", "Sm2", "Sm3", "Sm4", "", "文件加密MD5", "文件加密SHA1", "摩斯密码", "Druid加密"};
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -115,23 +118,18 @@ public class EncryptAndDecryptController extends EncryptAndDecryptView {
                 decrptyTextArea.setText(DigestUtils.sha512Hex(string.getBytes(charSet)));
             } else if ("Aes".equals(curCrypto)) {
                 String key = keyTextField.getText();
-//                KeyGenerator kgen = KeyGenerator.getInstance("AES");
-//                kgen.init(128, new SecureRandom(key.getBytes()));
-//                Cipher cipher = Cipher.getInstance("AES");
-//                cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(kgen.generateKey().getEncoded(), "AES"));
-//                decrptyTextArea.setText(Base64.encodeBase64String(cipher.doFinal(string.getBytes(charSet))));
-//                byte[] keyByte = kgen.generateKey().getEncoded();
-//                AES aes = SecureUtil.aes(keyByte);
                 AES aes = SecureUtil.aes(key.getBytes(charSet));
                 decrptyTextArea.setText(aes.encryptHex(string, charSet));
             } else if ("Des".equals(curCrypto)) {
                 String key = keyTextField.getText();
-//                KeyGenerator kgen = KeyGenerator.getInstance("DES");
-//                kgen.init(56, new SecureRandom(key.getBytes()));
-//                byte[] keyByte = kgen.generateKey().getEncoded();
-//                DES des = SecureUtil.des(keyByte);
                 DES des = SecureUtil.des(key.getBytes());
                 decrptyTextArea.setText(des.encryptHex(string, charSet));
+            } else if ("Sm2".equals(curCrypto)) {
+                String key = keyTextField.getText();
+                SM2 sm2 = SmUtil.sm2(key, null);
+                decrptyTextArea.setText(sm2.encryptHex(string, Charset.forName(charSet), KeyType.PrivateKey));
+            } else if ("Sm3".equals(curCrypto)) {
+                decrptyTextArea.setText(SmUtil.sm3(string));
             } else if ("Sm4".equals(curCrypto)) {
                 String key = keyTextField.getText();
                 SymmetricCrypto sm4 = SmUtil.sm4(org.bouncycastle.util.encoders.Hex.decode(key));
@@ -142,7 +140,7 @@ public class EncryptAndDecryptController extends EncryptAndDecryptView {
             } else if ("文件加密SHA1".equals(curCrypto)) {
                 decrptyTextArea.setText(DigestUtils.sha1Hex(new FileInputStream(new File(string))));
             } else if ("摩斯密码".equals(curCrypto)) {
-                decrptyTextArea.setText(new Morse('●','-',' ').encode(string));
+                decrptyTextArea.setText(new Morse('●', '-', ' ').encode(string));
             } else if ("Druid加密".equals(curCrypto)) {
                 String[] arr = DruidConfigTools.genKeyPair(512);
                 StringBuilder decrptyStr = new StringBuilder();
@@ -179,30 +177,22 @@ public class EncryptAndDecryptController extends EncryptAndDecryptView {
                 encrptyTextArea.setText(new String(URLCodec.decodeUrl(string.getBytes(charSet)), charSet));
             } else if ("Aes".equals(curCrypto)) {
                 String key = keyTextField.getText();
-//                KeyGenerator kgen = KeyGenerator.getInstance("AES");
-//                kgen.init(128, new SecureRandom(key.getBytes()));
-//                Cipher cipher = Cipher.getInstance("AES");
-//                cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(kgen.generateKey().getEncoded(), "AES"));
-//                byte[] decryptBytes = cipher.doFinal(Base64.decodeBase64(string));
-//                encrptyTextArea.setText(new String(decryptBytes));
-//                byte[] keyByte = kgen.generateKey().getEncoded();
-//                AES aes = SecureUtil.aes(keyByte);
                 AES aes = SecureUtil.aes(key.getBytes(charSet));
                 encrptyTextArea.setText(aes.decryptStr(string, Charset.forName(charSet)));
             } else if ("Des".equals(curCrypto)) {
                 String key = keyTextField.getText();
-//                KeyGenerator kgen = KeyGenerator.getInstance("DES");
-//                kgen.init(56, new SecureRandom(key.getBytes()));
-//                byte[] keyByte = kgen.generateKey().getEncoded();
-//                DES des = SecureUtil.des(keyByte);
                 DES des = SecureUtil.des(key.getBytes());
                 encrptyTextArea.setText(des.decryptStr(string, Charset.forName(charSet)));
+            } else if ("Sm2".equals(curCrypto)) {
+                String key = keyTextField.getText();
+                SM2 sm2 = SmUtil.sm2(null, key);
+                decrptyTextArea.setText(sm2.decryptStr(string, KeyType.PublicKey));
             } else if ("Sm4".equals(curCrypto)) {
                 String key = keyTextField.getText();
                 SymmetricCrypto sm4 = SmUtil.sm4(org.bouncycastle.util.encoders.Hex.decode(key));
                 encrptyTextArea.setText(sm4.decryptStr(string, Charset.forName(charSet)));
             } else if ("摩斯密码".equals(curCrypto)) {
-                encrptyTextArea.setText(new Morse('●','-',' ').decode(string));
+                encrptyTextArea.setText(new Morse('●', '-', ' ').decode(string));
             } else if ("Druid加密".equals(curCrypto)) {
                 encrptyTextArea.setText(DruidConfigTools.decrypt(keyTextField.getText(), string));
             } else {
