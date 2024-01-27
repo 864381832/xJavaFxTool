@@ -1,0 +1,10 @@
+dependencies {
+//        implementation 'com.xwintop:xcore:0.0.6'
+    api project(':xcore')
+    implementation 'org.bouncycastle:bcprov-jdk15to18:1.68'
+    api 'net.coobird:thumbnailator:0.4.20'
+}
+
+group = 'com.xwintop'
+version = '0.0.1'
+description = 'x-EncryptAndDecrypt'
