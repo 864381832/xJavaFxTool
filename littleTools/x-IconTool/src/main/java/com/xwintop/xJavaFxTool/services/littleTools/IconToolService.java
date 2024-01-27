@@ -2,15 +2,14 @@ package com.xwintop.xJavaFxTool.services.littleTools;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.BiConsumer;
 
 import javax.imageio.ImageIO;
 
+import com.xwintop.xJavaFxTool.utils.ImageUtil;
 import com.xwintop.xcore.util.ConfigureUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -60,31 +59,30 @@ public class IconToolService {
 	 */
 	public void saveConfigure(File file) throws Exception {
 		FileUtils.touch(file);
-		PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
+		Properties xmlConfigure = new Properties();
+        xmlConfigure.load(new FileInputStream(file));
 		xmlConfigure.clear();
-		xmlConfigure.setProperty("iconFilePathTextField", iconToolController.getIconFilePathTextField().getText());
-		xmlConfigure.setProperty("iconTargetPathTextField", iconToolController.getIconTargetPathTextField().getText());
-		xmlConfigure.setProperty("isCornerCheckBox", iconToolController.getIsCornerCheckBox().isSelected());
-		xmlConfigure.setProperty("cornerSizeSlider", iconToolController.getCornerSizeSlider().getValue());
-		xmlConfigure.setProperty("isKeepAspectRatioCheckBox",
-				iconToolController.getIsKeepAspectRatioCheckBox().isSelected());
-		xmlConfigure.setProperty("isWatermarkCheckBox", iconToolController.getIsWatermarkCheckBox().isSelected());
-		xmlConfigure.setProperty("watermarkPathTextField", iconToolController.getWatermarkPathTextField().getText());
-		xmlConfigure.setProperty("iconFormatChoiceBox", iconToolController.getIconFormatChoiceBox().getValue());
-		xmlConfigure.setProperty("iconNameTextField", iconToolController.getIconNameTextField().getText());
-		xmlConfigure.setProperty("iosIconCheckBox", iconToolController.getIosIconCheckBox().isSelected());
-		xmlConfigure.setProperty("androidCheckBox", iconToolController.getAndroidCheckBox().isSelected());
-		xmlConfigure.setProperty("watermarkPositionChoiceBox",
-				iconToolController.getWatermarkPositionChoiceBox().getValue());
-		xmlConfigure.setProperty("watermarkOpacitySlider", iconToolController.getWatermarkOpacitySlider().getValue());
-		xmlConfigure.setProperty("outputQualitySlider", iconToolController.getOutputQualitySlider().getValue());
+		xmlConfigure.put("iconFilePathTextField", iconToolController.getIconFilePathTextField().getText());
+		xmlConfigure.put("iconTargetPathTextField", iconToolController.getIconTargetPathTextField().getText());
+		xmlConfigure.put("isCornerCheckBox", iconToolController.getIsCornerCheckBox().isSelected());
+		xmlConfigure.put("cornerSizeSlider", iconToolController.getCornerSizeSlider().getValue());
+		xmlConfigure.put("isKeepAspectRatioCheckBox", iconToolController.getIsKeepAspectRatioCheckBox().isSelected());
+		xmlConfigure.put("isWatermarkCheckBox", iconToolController.getIsWatermarkCheckBox().isSelected());
+		xmlConfigure.put("watermarkPathTextField", iconToolController.getWatermarkPathTextField().getText());
+		xmlConfigure.put("iconFormatChoiceBox", iconToolController.getIconFormatChoiceBox().getValue());
+		xmlConfigure.put("iconNameTextField", iconToolController.getIconNameTextField().getText());
+		xmlConfigure.put("iosIconCheckBox", iconToolController.getIosIconCheckBox().isSelected());
+		xmlConfigure.put("androidCheckBox", iconToolController.getAndroidCheckBox().isSelected());
+		xmlConfigure.put("watermarkPositionChoiceBox", iconToolController.getWatermarkPositionChoiceBox().getValue());
+		xmlConfigure.put("watermarkOpacitySlider", iconToolController.getWatermarkOpacitySlider().getValue());
+		xmlConfigure.put("outputQualitySlider", iconToolController.getOutputQualitySlider().getValue());
 		List<String> iconSizeFlowPaneList = new ArrayList<String>();
 		for (Node node : iconToolController.getIconSizeFlowPane().getChildren()) {
 			CheckBox checkBox = ((CheckBox) node);
 			iconSizeFlowPaneList.add(checkBox.getText() + "_" + checkBox.isSelected());
 		}
-		xmlConfigure.setProperty("iconSizeFlowPaneList", iconSizeFlowPaneList);
-		xmlConfigure.save();
+		xmlConfigure.put("iconSizeFlowPaneList", iconSizeFlowPaneList);
+//		xmlConfigure.save();
 		TooltipUtil.showToast("保存配置成功,保存在：" + file.getPath());
 	}
 
@@ -108,29 +106,28 @@ public class IconToolService {
 	 */
 	public void loadingConfigure(File file) {
 		try {
-			PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
-			iconToolController.getIconFilePathTextField().setText(xmlConfigure.getString("iconFilePathTextField"));
-			iconToolController.getIconTargetPathTextField().setText(xmlConfigure.getString("iconTargetPathTextField"));
-			iconToolController.getIsCornerCheckBox().setSelected(xmlConfigure.getBoolean("isCornerCheckBox"));
-			iconToolController.getCornerSizeSlider().setValue(xmlConfigure.getDouble("cornerSizeSlider"));
-			iconToolController.getIsKeepAspectRatioCheckBox()
-					.setSelected(xmlConfigure.getBoolean("isKeepAspectRatioCheckBox"));
-			iconToolController.getIsWatermarkCheckBox().setSelected(xmlConfigure.getBoolean("isWatermarkCheckBox"));
-			iconToolController.getWatermarkPathTextField().setText(xmlConfigure.getString("watermarkPathTextField"));
-			iconToolController.getIconFormatChoiceBox().setValue(xmlConfigure.getString("iconFormatChoiceBox"));
-			iconToolController.getIconNameTextField().setText(xmlConfigure.getString("iconNameTextField"));
-			iconToolController.getIosIconCheckBox().setSelected(xmlConfigure.getBoolean("iosIconCheckBox"));
-			iconToolController.getAndroidCheckBox().setSelected(xmlConfigure.getBoolean("androidCheckBox"));
-			iconToolController.getWatermarkPositionChoiceBox()
-					.setValue(Positions.valueOf(xmlConfigure.getString("watermarkPositionChoiceBox")));
-			iconToolController.getWatermarkOpacitySlider().setValue(xmlConfigure.getDouble("watermarkOpacitySlider"));
-			iconToolController.getOutputQualitySlider().setValue(xmlConfigure.getDouble("outputQualitySlider"));
-			List<Object> iconSizeFlowPaneList = xmlConfigure.getList("iconSizeFlowPaneList");
-			iconToolController.getIconSizeFlowPane().getChildren().clear();
-			for (Object iconSize : iconSizeFlowPaneList) {
-				String[] checkBox = iconSize.toString().split("_");
-				addSizeAction(checkBox[0], Boolean.parseBoolean(checkBox[1]));
-			}
+            Properties xmlConfigure = new Properties();
+            xmlConfigure.load(new FileInputStream(file));
+//			iconToolController.getIconFilePathTextField().setText(xmlConfigure.getString("iconFilePathTextField"));
+//			iconToolController.getIconTargetPathTextField().setText(xmlConfigure.getString("iconTargetPathTextField"));
+//			iconToolController.getIsCornerCheckBox().setSelected(xmlConfigure.getBoolean("isCornerCheckBox"));
+//			iconToolController.getCornerSizeSlider().setValue(xmlConfigure.getDouble("cornerSizeSlider"));
+//			iconToolController.getIsKeepAspectRatioCheckBox().setSelected(xmlConfigure.getBoolean("isKeepAspectRatioCheckBox"));
+//			iconToolController.getIsWatermarkCheckBox().setSelected(xmlConfigure.getBoolean("isWatermarkCheckBox"));
+//			iconToolController.getWatermarkPathTextField().setText(xmlConfigure.getString("watermarkPathTextField"));
+//			iconToolController.getIconFormatChoiceBox().setValue(xmlConfigure.getString("iconFormatChoiceBox"));
+//			iconToolController.getIconNameTextField().setText(xmlConfigure.getString("iconNameTextField"));
+//			iconToolController.getIosIconCheckBox().setSelected(xmlConfigure.getBoolean("iosIconCheckBox"));
+//			iconToolController.getAndroidCheckBox().setSelected(xmlConfigure.getBoolean("androidCheckBox"));
+//			iconToolController.getWatermarkPositionChoiceBox().setValue(Positions.valueOf(xmlConfigure.getString("watermarkPositionChoiceBox")));
+//			iconToolController.getWatermarkOpacitySlider().setValue(xmlConfigure.getDouble("watermarkOpacitySlider"));
+//			iconToolController.getOutputQualitySlider().setValue(xmlConfigure.getDouble("outputQualitySlider"));
+//			List<Object> iconSizeFlowPaneList = xmlConfigure.getList("iconSizeFlowPaneList");
+//			iconToolController.getIconSizeFlowPane().getChildren().clear();
+//			for (Object iconSize : iconSizeFlowPaneList) {
+//				String[] checkBox = iconSize.toString().split("_");
+//				addSizeAction(checkBox[0], Boolean.parseBoolean(checkBox[1]));
+//			}
 		} catch (Exception e) {
 			try {
 				TooltipUtil.showToast("加载配置失败：" + e.getMessage());

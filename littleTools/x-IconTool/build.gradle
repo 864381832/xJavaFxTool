@@ -3,6 +3,7 @@ dependencies {
     api project(':xcore')
     implementation 'org.bouncycastle:bcprov-jdk15to18:1.68'
     api 'net.coobird:thumbnailator:0.4.20'
+    implementation 'org.apache.commons:commons-imaging:1.0-alpha3'
 }
 
 group = 'com.xwintop'
