@@ -1,0 +1,12 @@
+.keyword {
+  -fx-fill: #0080ff;
+  -fx-font-weight: bold;
+}
+
+.comment {
+  -fx-fill: #008040;
+}
+
+.code-area {
+  -fx-font-family: "Fira Code", Consolas, monospace;
+}
