@@ -1,0 +1,5 @@
+# Default ignored files
+#/.gitignore
+/x-X2048.iml
+/log/
+/target/
