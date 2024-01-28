@@ -60,7 +60,7 @@ allprojects {
 //        api 'org.openjfx:javafx-web:17.0.9'
     }
     javafx {
-        version = "17.0.9"
+        version = "21.0.1"
         modules = ['javafx.controls', "javafx.graphics", 'javafx.fxml', 'javafx.media', 'javafx.swing', 'javafx.web']
 //        configuration = 'compileOnly'
     }
