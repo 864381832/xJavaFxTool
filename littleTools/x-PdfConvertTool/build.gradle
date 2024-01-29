@@ -1,0 +1,16 @@
+dependencies {
+    api project(':xcore')
+    implementation 'org.apache.pdfbox:pdfbox:2.0.30'
+}
+
+group = 'com.xwintop'
+version = '0.0.4'
+description = 'x-PdfConvertTool'
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from(components.java)
+        }
+    }
+}
