@@ -1,0 +1,7 @@
+dependencies {
+    api project(':xcore')
+}
+
+group = 'com.xwintop'
+version = '0.0.1'
+description = 'x-TimeTool'
