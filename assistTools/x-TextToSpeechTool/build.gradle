@@ -1,0 +1,9 @@
+dependencies {
+//        implementation 'com.xwintop:xcore:0.0.6'
+    api project(':xcore')
+    implementation 'com.baidu.aip:java-sdk:4.16.17'
+}
+
+group = 'com.xwintop'
+version = '0.0.1'
+description = 'x-TextToSpeechTool'

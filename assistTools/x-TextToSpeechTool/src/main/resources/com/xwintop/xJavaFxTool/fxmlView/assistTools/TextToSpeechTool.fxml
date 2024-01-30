@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXSlider?>
+<?import java.lang.Integer?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<BorderPane xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="com.xwintop.xJavaFxTool.controller.assistTools.TextToSpeechToolController">
+   <fx:define>
+      <ToggleGroup fx:id="perToggleGroup"/>
+      <java.lang.Integer fx:id="padding" fx:value="10"/>
+   </fx:define>
+   <padding>
+      <Insets topRightBottomLeft="$padding"/>
+   </padding>
+   <center>
+      <VBox spacing="$padding">
+         <Label text="要播放的文字："/>
+         <TextArea wrapText="true" VBox.vgrow="ALWAYS" fx:id="textTextArea" promptText="请输入需要播放的文字。" text="欢迎使用xJavaFxTool语音转换工具。"/>
+      </VBox>
+   </center>
+   <bottom>
+      <VBox spacing="$padding">
+         <padding>
+            <Insets top="$padding"/>
+         </padding>
+         <HBox alignment="BASELINE_LEFT" spacing="$padding">
+            <Label text="标准合成："/>
+            <JFXRadioButton fx:id="per0RadioButton" text="女声" toggleGroup="$perToggleGroup" selected="true"/>
+            <JFXRadioButton fx:id="per1RadioButton" text="男声" toggleGroup="$perToggleGroup" />
+            <Pane prefWidth="15"/>
+            <Label text="情感合成："/>
+            <JFXRadioButton fx:id="per3RadioButton" text="度逍遥" toggleGroup="$perToggleGroup" />
+            <JFXRadioButton fx:id="per4RadioButton" text="度丫丫" toggleGroup="$perToggleGroup" />
+         </HBox>
+         <HBox alignment="CENTER_LEFT" spacing="$padding">
+            <Label text="语音速度："/>
+            <JFXSlider fx:id="spdSlider" blockIncrement="1.0" majorTickUnit="1.0" max="9.0" minorTickCount="1" snapToTicks="true" value="5.0" />
+            <Label text="音量大小："/>
+            <JFXSlider fx:id="volSlider" blockIncrement="1.0" majorTickUnit="1.0" max="15.0" minorTickCount="1" snapToTicks="true" value="5.0" />
+            <Button fx:id="playButton" mnemonicParsing="false" onAction="#playAction" text="播放" />
+            <Button mnemonicParsing="false" onAction="#saveAudioAction" text="另存为" />
+         </HBox>
+      </VBox>
+   </bottom>
+</BorderPane>
