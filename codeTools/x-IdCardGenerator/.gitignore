@@ -1,0 +1,6 @@
+# Default ignored files
+#/.gitignore
+/x-IdCardGenerator.iml
+/log/
+/target/
+.idea
