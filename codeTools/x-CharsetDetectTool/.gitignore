@@ -1,0 +1,6 @@
+# Default ignored files
+#/.gitignore
+/x-CharsetDetectTool.iml
+/log/
+/target/
+.idea
