@@ -1,0 +1,11 @@
+dependencies {
+//        implementation 'com.xwintop:xcore:0.0.6'
+    api project(':xcore')
+    implementation 'net.coobird:thumbnailator:0.4.20'
+    implementation 'org.apache.poi:poi-ooxml:5.2.5'
+    implementation 'org.apache.commons:commons-imaging:1.0-alpha3'
+}
+
+group = 'com.xwintop'
+version = '0.0.1'
+description = 'x-AsciiPicTool'
