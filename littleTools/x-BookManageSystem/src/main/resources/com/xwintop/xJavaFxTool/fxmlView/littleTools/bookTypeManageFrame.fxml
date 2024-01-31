@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.BookTypeManageFrameController">
+    <children>
+        <VBox alignment="CENTER" prefHeight="700.0" prefWidth="800.0">
+            <children>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <Label text="图书类别维护功能">
+                            <font>
+                                <Font name="System Bold" size="40.0"/>
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="111.0" prefWidth="600.0" spacing="30.0">
+                    <children>
+                        <Label text="图书类别名称："/>
+                        <TextField fx:id="bookTypeNameTextField"/>
+                        <Button fx:id="checkButton" mnemonicParsing="false" onAction="#do_checkButton_event" text="查询"/>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="296.0" prefWidth="600.0">
+                    <children>
+                        <TableView fx:id="bookTypeManageTableView" prefHeight="399.0" prefWidth="605.0"
+                                   tableMenuButtonVisible="true">
+                            <columns>
+                                <TableColumn fx:id="idTableColumn" prefWidth="197.0" text="编号"/>
+                                <TableColumn fx:id="bookTypeNameColumn" minWidth="0.0" prefWidth="201.0" text="图书类别名称"/>
+                                <TableColumn fx:id="bookTypeDescriptionTableColumn" prefWidth="201.0" text="图书类别描述"/>
+                            </columns>
+                        </TableView>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="263.0" prefWidth="600.0">
+                    <children>
+                        <VBox fx:id="formVBox" prefHeight="240.0" prefWidth="602.0">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                                    <children>
+                                        <Label text="编号："/>
+                                        <TextField fx:id="idTextField" prefHeight="30.0" prefWidth="165.0"/>
+                                        <Label text="图书类别名称："/>
+                                        <TextField fx:id="bookTypeNameTextField2" prefHeight="30.0" prefWidth="174.0"/>
+                                    </children>
+                                    <padding>
+                                        <Insets left="40.0"/>
+                                    </padding>
+                                </HBox>
+                                <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                                    <children>
+                                        <Label text="描述："/>
+                                        <TextArea fx:id="descriptionTextArea" prefHeight="80.0" prefWidth="463.0"/>
+                                    </children>
+                                    <padding>
+                                        <Insets left="40.0"/>
+                                    </padding>
+                                </HBox>
+                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="100.0">
+                                    <children>
+                                        <Button fx:id="alterButton" mnemonicParsing="false"
+                                                onAction="#do_alterButton_event" text="修改"/>
+                                        <Button fx:id="deleteButton" mnemonicParsing="false"
+                                                onAction="#do_deleteButton_event" text="删除"/>
+                                    </children>
+                                    <padding>
+                                        <Insets left="40.0"/>
+                                    </padding>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

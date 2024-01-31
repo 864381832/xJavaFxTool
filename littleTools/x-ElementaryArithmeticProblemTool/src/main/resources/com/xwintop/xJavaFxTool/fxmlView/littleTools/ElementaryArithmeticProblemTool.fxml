@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="457.0" prefWidth="767.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.ElementaryArithmeticProblemToolController">
+   <children>
+      <VBox AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <TitledPane animated="false" collapsible="false" text="最大数">
+               <content>
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <RadioButton fx:id="maxNumber1RadioButton" mnemonicParsing="false" selected="true" text="10以内">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="maxNumberToggleGroup" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="maxNumber2RadioButton" mnemonicParsing="false" text="100以内" toggleGroup="$maxNumberToggleGroup" />
+                        <RadioButton fx:id="maxNumber3RadioButton" mnemonicParsing="false" text="自定义" toggleGroup="$maxNumberToggleGroup">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </RadioButton>
+                        <Spinner fx:id="maxNumberSpinner" />
+                        <CheckBox fx:id="fushuCheckBox" mnemonicParsing="false" text="值有负数" />
+                     </children>
+                  </HBox>
+               </content>
+            </TitledPane>
+            <TitledPane animated="false" collapsible="false" text="运算符号">
+               <content>
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <CheckBox fx:id="fuHao1CheckBox" mnemonicParsing="false" selected="true" text="加" />
+                        <CheckBox fx:id="fuHao2CheckBox" mnemonicParsing="false" selected="true" text="减" />
+                        <CheckBox fx:id="fuHao3CheckBox" mnemonicParsing="false" selected="true" text="乘" />
+                        <CheckBox fx:id="fuHao4CheckBox" mnemonicParsing="false" selected="true" text="除" />
+                        <CheckBox fx:id="fuHao5CheckBox" mnemonicParsing="false" text="有括号" />
+                     </children>
+                  </HBox>
+               </content>
+            </TitledPane>
+            <TitledPane animated="false" collapsible="false" text="生成选项">
+               <content>
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label text="生成个数" />
+                        <Spinner fx:id="buildNumberSpinner1" />
+                        <Label text="每项最多数字数" />
+                        <Spinner fx:id="buildNumberSpinner2" />
+                     </children>
+                  </HBox>
+               </content>
+            </TitledPane>
+            <TitledPane animated="false" collapsible="false" text="导出选项">
+               <content>
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <RadioButton fx:id="buildTypeRadioButton1" mnemonicParsing="false" text="无答案">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="daAnToggleGroup" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="buildTypeRadioButton2" mnemonicParsing="false" selected="true" text="题目答案一起" toggleGroup="$daAnToggleGroup" />
+                        <RadioButton fx:id="buildTypeRadioButton3" mnemonicParsing="false" text="题目答案分离" toggleGroup="$daAnToggleGroup" />
+                        <Button mnemonicParsing="false" onAction="#startBuildAction" text="开始生成" />
+                     </children>
+                  </HBox>
+               </content>
+            </TitledPane>
+            <TextArea fx:id="jieguoTextArea" VBox.vgrow="ALWAYS" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
