@@ -1,0 +1,10 @@
+dependencies {
+//        implementation 'com.xwintop:xcore:0.0.6'
+    api project(':xcore')
+    implementation 'org.springframework:spring-jdbc:5.1.5.RELEASE'
+    implementation 'com.h2database:h2:1.4.200'
+}
+
+group = 'com.xwintop'
+version = '0.0.1'
+description = 'x-IdiomDataTool'
