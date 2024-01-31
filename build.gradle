@@ -51,13 +51,13 @@ allprojects {
         annotationProcessor 'org.projectlombok:lombok:1.18.30'
         testCompileOnly 'org.projectlombok:lombok:1.18.30'
         testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
-//        api 'org.openjfx:javafx-controls:17.0.9'
-//        api 'org.openjfx:javafx-base:17.0.9'
-//        api 'org.openjfx:javafx-graphics:17.0.9'
-//        api 'org.openjfx:javafx-fxml:17.0.9'
-//        api 'org.openjfx:javafx-swing:17.0.9'
-//        api 'org.openjfx:javafx-media:17.0.9'
-//        api 'org.openjfx:javafx-web:17.0.9'
+//        api 'org.openjfx:javafx-controls:21.0.1'
+//        api 'org.openjfx:javafx-base:21.0.1'
+//        api 'org.openjfx:javafx-graphics:21.0.1'
+//        api 'org.openjfx:javafx-fxml:21.0.1'
+//        api 'org.openjfx:javafx-swing:21.0.1'
+//        api 'org.openjfx:javafx-media:21.0.1'
+//        api 'org.openjfx:javafx-web:21.0.1'
     }
     javafx {
         version = "21.0.1"
