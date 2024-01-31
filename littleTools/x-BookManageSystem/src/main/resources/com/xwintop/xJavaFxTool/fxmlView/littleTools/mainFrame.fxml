@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<AnchorPane prefHeight="750.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.MainFrameController">
+    <children>
+        <MenuBar prefHeight="37.0" prefWidth="800.0">
+            <menus>
+                <Menu mnemonicParsing="false" text="图书类别管理">
+                    <items>
+                        <MenuItem fx:id="bookTypeAddMenuItem" mnemonicParsing="false"
+                                  onAction="#do_bookTypeAddMenuItem_event" text="图书类别添加"/>
+                        <MenuItem fx:id="bookTypeManageMenuItem" mnemonicParsing="false"
+                                  onAction="#do_bookTypeManageMenuItem_event" text="图书类别维护"/>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="图书管理">
+                    <items>
+                        <MenuItem fx:id="bookAddMenuItem" mnemonicParsing="false" onAction="#do_bookAddMenuItem_event"
+                                  text="图书添加"/>
+                        <MenuItem fx:id="bookManageMenuItem" mnemonicParsing="false"
+                                  onAction="#do_bookManageMenuItem_event" text="图书维护"/>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="其他">
+                    <items>
+                        <MenuItem fx:id="exitMenuItem" mnemonicParsing="false" onAction="#do_exitMenuItem_vent"
+                                  text="退出"/>
+                        <MenuItem fx:id="aboutSoftMenuItem" mnemonicParsing="false"
+                                  onAction="#do_aboutSoftMenuItem_event" text="关于软件"/>
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <AnchorPane fx:id="mainFrameAnchorPane" layoutY="37.0" prefHeight="663.0" prefWidth="800.0">
+            <children>
+                <HBox alignment="CENTER" prefHeight="663.0" prefWidth="800.0">
+                    <children>
+                    </children>
+                </HBox>
+            </children>
+        </AnchorPane>
+    </children>
+</AnchorPane>

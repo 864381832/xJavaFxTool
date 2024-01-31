@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.BookAddFrameController">
+    <children>
+        <VBox alignment="CENTER" prefHeight="700.0" prefWidth="800.0">
+            <children>
+                <HBox alignment="CENTER" prefHeight="93.0" prefWidth="800.0">
+                    <children>
+                        <Label text="图书添加功能">
+                            <font>
+                                <Font name="System Bold" size="40.0"/>
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="32.0">
+                    <children>
+                        <Label text="图书名称："/>
+                        <TextField fx:id="bookNameTextField" prefHeight="30.0" prefWidth="185.0"/>
+                        <Label text="图书作者："/>
+                        <TextField fx:id="bookAuthorTextField" prefHeight="30.0" prefWidth="120.0"/>
+                    </children>
+                    <padding>
+                        <Insets left="80.0"/>
+                    </padding>
+                    <opaqueInsets>
+                        <Insets/>
+                    </opaqueInsets>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                    <children>
+                        <Label text="作者性别："/>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="208.0" spacing="60.0">
+                            <children>
+                                <RadioButton fx:id="maleRadioButton" mnemonicParsing="false" text="男">
+                                    <toggleGroup>
+                                        <ToggleGroup fx:id="sex"/>
+                                    </toggleGroup>
+                                </RadioButton>
+                                <RadioButton fx:id="femaleRadioButton" mnemonicParsing="false" text="女"
+                                             toggleGroup="$sex"/>
+                            </children>
+                        </HBox>
+                        <Label text="图书价格："/>
+                        <TextField fx:id="bookPriceTextField" prefHeight="30.0" prefWidth="122.0">
+                            <HBox.margin>
+                                <Insets left="10.0"/>
+                            </HBox.margin>
+                        </TextField>
+                    </children>
+                    <padding>
+                        <Insets left="80.0"/>
+                    </padding>
+                    <opaqueInsets>
+                        <Insets/>
+                    </opaqueInsets>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="40.0">
+                    <children>
+                        <Label text="图书类别："/>
+                        <ComboBox fx:id="bookTypeComboBox" prefHeight="30.0" prefWidth="174.0"/>
+                    </children>
+                    <padding>
+                        <Insets left="80.0"/>
+                    </padding>
+                    <opaqueInsets>
+                        <Insets/>
+                    </opaqueInsets>
+                </HBox>
+                <HBox prefHeight="100.0" prefWidth="200.0" spacing="40.0">
+                    <children>
+                        <Label text="图书描述："/>
+                        <TextArea fx:id="bookDescriptionTextArea" prefHeight="100.0" prefWidth="436.0"/>
+                    </children>
+                    <padding>
+                        <Insets left="80.0"/>
+                    </padding>
+                    <opaqueInsets>
+                        <Insets/>
+                    </opaqueInsets>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="100.0">
+                    <children>
+                        <Button fx:id="addButton" mnemonicParsing="false" onAction="#do_addButton_event" text="添加"/>
+                        <Button fx:id="resetButton" mnemonicParsing="false" onAction="#do_resetButton_event" text="重置"/>
+                    </children>
+                    <padding>
+                        <Insets left="20.0"/>
+                    </padding>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

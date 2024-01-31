@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.BookManageFrameController">
+    <children>
+        <VBox alignment="CENTER" prefHeight="700.0" prefWidth="800.0">
+            <children>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <Label text="图书维护功能">
+                            <font>
+                                <Font name="System Bold" size="40.0"/>
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="90.0" prefWidth="600.0" spacing="10.0">
+                    <children>
+                        <Label text="图书名称："/>
+                        <TextField fx:id="bookNameTextField" prefHeight="30.0" prefWidth="104.0"/>
+                        <Label text="图书作者："/>
+                        <TextField fx:id="bookAuthorTextField" prefHeight="30.0" prefWidth="94.0"/>
+                        <Label text="图书类别："/>
+                        <ComboBox fx:id="bookTypeComboBox" prefHeight="30.0" prefWidth="107.0" promptText="请选择"/>
+                        <Button fx:id="checkButton" mnemonicParsing="false" onAction="#do_checkButton_event" text="查询"/>
+                        <Button fx:id="resetButton" mnemonicParsing="false" onAction="#do_resetButton_event" text="重置"/>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="347.0" prefWidth="600.0">
+                    <children>
+                        <TableView fx:id="bookManageTableView" prefHeight="200.0" prefWidth="605.0"
+                                   tableMenuButtonVisible="true">
+                            <columns>
+                                <TableColumn fx:id="idTableColumn" prefWidth="75.0" text="编号"/>
+                                <TableColumn fx:id="bookNameTableColumn" prefWidth="97.0" text="图书名称"/>
+                                <TableColumn fx:id="bookAuthorTableColumn" prefWidth="77.0" text="图书作者"/>
+                                <TableColumn fx:id="authorSexTableColumn" prefWidth="71.0" text="作者性别"/>
+                                <TableColumn fx:id="bookPriceTableColumn" prefWidth="75.0" text="图书价格"/>
+                                <TableColumn fx:id="bookDescriptionTableColumn" prefWidth="114.0" text="图书描述"/>
+                                <TableColumn fx:id="bookTypeTableColumn" prefWidth="90.0" text="图书类别"/>
+                            </columns>
+                        </TableView>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="268.0" prefWidth="600.0">
+                    <children>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="601.0">
+                            <children>
+                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                    <children>
+                                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15.0">
+                                            <children>
+                                                <Label text="编号："/>
+                                                <Label text="价格："/>
+                                            </children>
+                                        </VBox>
+                                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                                            <children>
+                                                <TextField fx:id="idTextField"/>
+                                                <TextField fx:id="priceTextField"/>
+                                            </children>
+                                        </VBox>
+                                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15.0">
+                                            <children>
+                                                <Label text="图书名称："/>
+                                                <Label text="图书作者："/>
+                                            </children>
+                                        </VBox>
+                                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                                            <children>
+                                                <TextField fx:id="bookNameTextField2" prefHeight="10.0"
+                                                           prefWidth="100.0"/>
+                                                <TextField fx:id="bookAuthorTextField2"/>
+                                            </children>
+                                        </VBox>
+                                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15.0">
+                                            <children>
+                                                <Label text="作者性别："/>
+                                                <Label text="图书类别："/>
+                                            </children>
+                                        </VBox>
+                                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                                            <children>
+                                                <HBox alignment="CENTER" prefHeight="29.0" prefWidth="100.0">
+                                                    <children>
+                                                        <RadioButton fx:id="maleRadioButton" mnemonicParsing="false"
+                                                                     text="男">
+                                                            <toggleGroup>
+                                                                <ToggleGroup fx:id="sex"/>
+                                                            </toggleGroup>
+                                                        </RadioButton>
+                                                        <RadioButton fx:id="femaleRadioButton" mnemonicParsing="false"
+                                                                     text="女" toggleGroup="$sex"/>
+                                                    </children>
+                                                </HBox>
+                                                <HBox alignment="CENTER" prefHeight="28.0" prefWidth="100.0">
+                                                    <children>
+                                                        <ComboBox fx:id="bookTypeComboBox2" prefHeight="30.0"
+                                                                  prefWidth="125.0" promptText="请选择"/>
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="TOP_CENTER" prefHeight="68.0" prefWidth="601.0" spacing="40.0">
+                                    <children>
+                                        <Label text="图书描述："/>
+                                        <TextArea fx:id="bookDescriptionTextArea" prefHeight="78.0" prefWidth="449.0"/>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER" prefHeight="66.0" prefWidth="601.0" spacing="100.0">
+                                    <children>
+                                        <Button fx:id="alterButton" mnemonicParsing="false"
+                                                onAction="#do_alterButton_event" text="修改"/>
+                                        <Button fx:id="delteButton" mnemonicParsing="false"
+                                                onAction="#do_delteButton_event" text="删除"/>
+                                        <Button fx:id="resetButton2" mnemonicParsing="false"
+                                                onAction="#do_resetButton2_event" text="重置"/>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

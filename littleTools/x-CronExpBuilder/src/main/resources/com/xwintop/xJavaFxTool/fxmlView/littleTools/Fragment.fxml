@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.xwintop.xcore.javafx.control.IntegerSpinner?>
+<?import com.xwintop.xcore.javafx.control.ToggleGrid?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+  spacing="15"
+  fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.FragmentController">
+
+  <padding>
+    <Insets topRightBottomLeft="20"></Insets>
+  </padding>
+
+  <fx:define>
+    <ToggleGroup fx:id="toggleGroup"/>
+  </fx:define>
+
+  <ToggleGrid cellWidth="35" cellHeight="35" fx:id="tgValues" HBox.hgrow="ALWAYS"/>
+
+  <RadioButton toggleGroup="$toggleGroup" fx:id="rdSelectByRule">
+    <graphic>
+      <HBox spacing="3" alignment="BASELINE_LEFT">
+        <Label text="从第"/>
+        <IntegerSpinner prefWidth="65" fx:id="spnStartValue"/>
+        <Label text="{{unit}}开始，每"/>
+        <IntegerSpinner prefWidth="65" min="1" max="100" fx:id="spnInterval"/>
+        <Label text="{{unit}}执行一次"/>
+      </HBox>
+    </graphic>
+  </RadioButton>
+  <RadioButton toggleGroup="$toggleGroup" selected="true" fx:id="rdSelectFreely">
+    <graphic>
+      <HBox spacing="3" alignment="BASELINE_LEFT">
+        <Label text="自由选择"/>
+        <Hyperlink text="全选" onAction="#selectAll"/>
+        <Hyperlink text="清空" onAction="#selectNone"/>
+      </HBox>
+    </graphic>
+  </RadioButton>
+</VBox>

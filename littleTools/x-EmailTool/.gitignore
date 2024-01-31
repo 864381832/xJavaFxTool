@@ -1,0 +1,6 @@
+# Default ignored files
+#/.gitignore
+/x-EmailTool.iml
+/log/
+/target/
+.idea

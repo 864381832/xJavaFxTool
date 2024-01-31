@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<SplitPane xmlns="http://javafx.com/javafx/8.0.111"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.CronExpBuilderController">
+
+  <TabPane fx:id="mainTabPane" tabMinWidth="40" HBox.hgrow="ALWAYS">
+    <Tab fx:id="tabSecond" text="秒" closable="false">
+      <ScrollPane fitToWidth="true">
+        <fx:include source="Fragment.fxml" fx:id="second"/>
+      </ScrollPane>
+    </Tab>
+    <Tab fx:id="tabMinute" text="分钟" closable="false">
+      <ScrollPane fitToWidth="true">
+        <fx:include source="Fragment.fxml" fx:id="minute"/>
+      </ScrollPane>
+    </Tab>
+    <Tab fx:id="tabHour" text="小时" closable="false">
+      <ScrollPane fitToWidth="true">
+        <fx:include source="Fragment.fxml" fx:id="hour"/>
+      </ScrollPane>
+    </Tab>
+    <Tab fx:id="tabDay" text="日" closable="false">
+      <ScrollPane fitToWidth="true">
+        <fx:include source="Fragment.fxml" fx:id="day"/>
+      </ScrollPane>
+    </Tab>
+    <Tab fx:id="tabMonth" text="月" closable="false">
+      <ScrollPane fitToWidth="true">
+        <fx:include source="Fragment.fxml" fx:id="month"/>
+      </ScrollPane>
+    </Tab>
+    <Tab fx:id="tabWeek" text="周" closable="false">
+      <ScrollPane fitToWidth="true">
+        <fx:include source="Fragment.fxml" fx:id="weekday"/>
+      </ScrollPane>
+    </Tab>
+    <Tab fx:id="tabYear" text="年" closable="false">
+      <ScrollPane fitToWidth="true">
+        <VBox spacing="10">
+          <padding>
+            <Insets topRightBottomLeft="15"/>
+          </padding>
+          <HBox alignment="BASELINE_LEFT" spacing="5">
+            <RadioButton fx:id="radioButtonYear1" selected="true" text="不指定 允许的通配符[, - * /] 非必填">
+              <toggleGroup>
+                <ToggleGroup fx:id="toggleGroupYear"/>
+              </toggleGroup>
+            </RadioButton>
+          </HBox>
+          <HBox alignment="BASELINE_LEFT" spacing="5">
+            <RadioButton fx:id="radioButtonYear3" text="周期从" toggleGroup="$toggleGroupYear"/>
+            <Spinner fx:id="yearStart_0" editable="true" prefWidth="80.0"/>
+            <Label text="--"/>
+            <Spinner fx:id="yearEnd_0" editable="true" prefWidth="80.0"/>
+          </HBox>
+          <HBox alignment="BASELINE_LEFT" spacing="5">
+            <RadioButton fx:id="radioButtonYear2" text="每年" toggleGroup="$toggleGroupYear"/>
+          </HBox>
+        </VBox>
+      </ScrollPane>
+    </Tab>
+  </TabPane>
+
+  <VBox spacing="10" prefWidth="450" SplitPane.resizableWithParent="true">
+    <padding>
+      <Insets top="10" left="10" right="10" bottom="10"/>
+    </padding>
+    <GridPane hgap="5" vgap="5">
+      <Label text="秒" GridPane.halignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+      <Label text="分" GridPane.halignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+      <Label text="时" GridPane.halignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+      <Label text="天" GridPane.halignment="CENTER" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+      <Label text="月" GridPane.halignment="CENTER" GridPane.columnIndex="4" GridPane.rowIndex="0"/>
+      <Label text="周" GridPane.halignment="CENTER" GridPane.columnIndex="5" GridPane.rowIndex="0"/>
+      <Label text="年" GridPane.halignment="CENTER" GridPane.columnIndex="6" GridPane.rowIndex="0"/>
+      <TextField fx:id="jTF_Cron_Second"
+        GridPane.columnIndex="0" GridPane.rowIndex="1" editable="false" prefWidth="70.0" text="*"/>
+      <TextField fx:id="jTF_Cron_Minute"
+        GridPane.columnIndex="1" GridPane.rowIndex="1" editable="false" prefWidth="70.0" text="*"/>
+      <TextField fx:id="jTF_Cron_Hour"
+        GridPane.columnIndex="2" GridPane.rowIndex="1" editable="false" prefWidth="70.0" text="*"/>
+      <TextField fx:id="jTF_Cron_Day"
+        GridPane.columnIndex="3" GridPane.rowIndex="1" editable="false" prefWidth="70.0" text="*"/>
+      <TextField fx:id="jTF_Cron_Month"
+        GridPane.columnIndex="4" GridPane.rowIndex="1" editable="false" prefWidth="70.0" text="*"/>
+      <TextField fx:id="jTF_Cron_Week"
+        GridPane.columnIndex="5" GridPane.rowIndex="1" editable="false" prefWidth="70.0" text="?"/>
+      <TextField fx:id="jTF_Cron_Year"
+        GridPane.columnIndex="6" GridPane.rowIndex="1" editable="false" prefWidth="70.0"/>
+    </GridPane>
+    <Label text="完整表达式："/>
+    <TextArea fx:id="jTF_Cron_Exp" prefHeight="100" wrapText="true" text="* * * * * ?"/>
+    <HBox spacing="5" alignment="BASELINE_LEFT">
+      <Button fx:id="copyExpButton" onAction="#copyExpAction" text="复制" minWidth="-Infinity"/>
+      <Label fx:id="lblParseError" style="-fx-text-fill: red"/>
+    </HBox>
+    <HBox alignment="BASELINE_LEFT" spacing="5">
+      <Label text="从"/>
+      <TextField editable="false" prefWidth="170" fx:id="jTF_Schedule_Start"/>
+      <Label text="开始的后面20次运行时间："/>
+    </HBox>
+    <ListView fx:id="lvNextExecutionTimes" VBox.vgrow="ALWAYS">
+      <contextMenu>
+        <ContextMenu>
+          <items>
+            <MenuItem text="复制全部" onAction="#copyAllNextExecutionTimes"/>
+          </items>
+        </ContextMenu>
+      </contextMenu>
+    </ListView>
+  </VBox>
+</SplitPane>

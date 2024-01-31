@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.*?>
+
+<GridPane gridLinesVisible="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="493.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.games.ChineseChessController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="575.0" minHeight="10.0" prefHeight="535.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="192.0" minHeight="0.0" prefHeight="72.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Pane fx:id="checkerBoard" onMousePressed="#checkerBoardOnPressed" prefHeight="200.0" prefWidth="200.0" />
+      <HBox alignment="CENTER" prefHeight="85.0" prefWidth="600.0" spacing="40.0" GridPane.rowIndex="1">
+         <children>
+            <Button fx:id="startButton" mnemonicParsing="false" onAction="#StartButtonOnAction" prefHeight="30.0" prefWidth="84.0" text="开始游戏">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="reStartButton" mnemonicParsing="false" onAction="#restartButtonOnAction" prefHeight="30.0" prefWidth="84.0" text="重新开始" textAlignment="CENTER" textOverrun="WORD_ELLIPSIS" />
+            <Button fx:id="showRecordButton" mnemonicParsing="false" onAction="#showRecordButtonOnAction" prefHeight="30.0" prefWidth="84.0" text="显示棋谱" textAlignment="CENTER" textOverrun="WORD_ELLIPSIS" />
+            <Button fx:id="saveRecordButton" mnemonicParsing="false" onAction="#saveRecordButtonOnAction" prefHeight="30.0" prefWidth="84.0" text="保存棋谱" textAlignment="CENTER" textOverrun="WORD_ELLIPSIS" />
+         </children>
+         <GridPane.margin>
+            <Insets />
+         </GridPane.margin>
+      </HBox>
+   </children>
+</GridPane>
