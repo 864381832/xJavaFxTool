@@ -1,0 +1,10 @@
+dependencies {
+//        implementation 'com.xwintop:xcore:0.0.6'
+    api project(':xcore')
+    implementation 'commons-net:commons-net:3.8.0'
+    implementation 'com.jcraft:jsch:0.1.55'
+}
+
+group = 'com.xwintop'
+version = '0.0.1'
+description = 'x-FtpClientTool'
