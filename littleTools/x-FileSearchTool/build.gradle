@@ -1,0 +1,10 @@
+dependencies {
+//        implementation 'com.xwintop:xcore:0.0.6'
+    api project(':xcore')
+    implementation 'org.apache.lucene:lucene-core:8.11.2'
+    implementation 'org.apache.lucene:lucene-backward-codecs:8.11.2'
+}
+
+group = 'com.xwintop'
+version = '0.0.1'
+description = 'x-FileSearchTool'

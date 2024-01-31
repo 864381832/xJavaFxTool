@@ -1,0 +1,11 @@
+dependencies {
+//        implementation 'com.xwintop:xcore:0.0.6'
+    api project(':xcore')
+    implementation 'org.apache.commons:commons-compress:1.19'
+    implementation 'org.tukaani:xz:1.8'
+    implementation 'com.github.junrar:junrar:7.3.0'
+}
+
+group = 'com.xwintop'
+version = '0.0.1'
+description = 'x-EncryptAndDecrypt'
