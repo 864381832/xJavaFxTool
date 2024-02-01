@@ -10,9 +10,9 @@ buildscript {
 dependencies {
 //        implementation 'com.xwintop:xcore:0.0.6'
     api project(':xcore')
-    implementation 'org.geotools:gt-main:29.1'
-    implementation 'org.geotools:gt-epsg-hsql:29.1'
-    implementation 'org.jaitools:jt-utils:1.6.0'
+//    implementation 'org.geotools:gt-main:29.1'
+//    implementation 'org.geotools:gt-epsg-hsql:29.1'
+//    implementation 'org.jaitools:jt-utils:1.6.0'
 }
 
 group = 'com.xwintop'

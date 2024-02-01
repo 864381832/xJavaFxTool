@@ -1,19 +1,17 @@
 package com.xwintop.xJavaFxTool.controller.littleTools;
 
-import com.xwintop.xJavaFxTool.services.littleTools.geo.EPSGCoordinateTransform;
-import com.xwintop.xJavaFxTool.utils.ThreadPoolUtil;
-import com.xwintop.xJavaFxTool.view.littleTools.CoordinateTransformToolView;
 import com.xwintop.xJavaFxTool.services.littleTools.CoordinateTransformToolService;
-import javafx.scene.control.*;
+import com.xwintop.xJavaFxTool.view.littleTools.CoordinateTransformToolView;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import javafx.fxml.FXML;
-import org.opengis.referencing.FactoryException;
 
 /**
  * @ClassName: CoordinateTransformToolController
@@ -116,13 +114,13 @@ public class CoordinateTransformToolController extends CoordinateTransformToolVi
 
     private void initService() {
         // 刚开始初始化坐标转换时需要1s作用，所以这里先后台初始化
-        ThreadPoolUtil.run(() -> {
-            try {
-                new EPSGCoordinateTransform("4326");
-            } catch (FactoryException e) {
-                e.printStackTrace();
-            }
-        });
+//        ThreadPoolUtil.run(() -> {
+//            try {
+//                new EPSGCoordinateTransform("4326");
+//            } catch (FactoryException e) {
+//                e.printStackTrace();
+//            }
+//        });
     }
 
     @FXML
@@ -147,7 +145,6 @@ public class CoordinateTransformToolController extends CoordinateTransformToolVi
      * 检查参数是否正常
      */
     private boolean checkParams() {
-
         return true;
     }
 
