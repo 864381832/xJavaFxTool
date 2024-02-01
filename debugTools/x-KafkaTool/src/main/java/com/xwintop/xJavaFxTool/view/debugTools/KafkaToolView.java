@@ -2,7 +2,6 @@ package com.xwintop.xJavaFxTool.view.debugTools;
 
 import com.xwintop.xJavaFxTool.model.KafkaToolReceiverTableBean;
 import com.xwintop.xJavaFxTool.model.KafkaToolTableBean;
-import com.xwintop.xcore.base.XProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;

@@ -1,19 +1,8 @@
 package com.xwintop.xJavaFxTool.controller.webTools;
 
-import java.awt.Toolkit;
-import java.awt.datatransfer.StringSelection;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
-
 import cn.hutool.core.swing.clipboard.ClipboardUtil;
-import com.xwintop.xcore.util.javafx.JavaFxSystemUtil;
-import org.apache.commons.lang.StringUtils;
-
 import com.xwintop.xJavaFxTool.services.webTools.ShortURLService;
 import com.xwintop.xJavaFxTool.view.webTools.ShortURLView;
-
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -21,6 +10,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import org.apache.commons.lang3.StringUtils;
+
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * @ClassName: ShortURLController

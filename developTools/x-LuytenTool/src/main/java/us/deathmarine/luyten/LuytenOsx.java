@@ -12,17 +12,17 @@ public class LuytenOsx extends Luyten {
 	public static void main(String[] args) {
 		// Add an adapter as the handler to a new instance of the application
 		// class
-		@SuppressWarnings("deprecation")
-		Application app = new Application();
-		app.addApplicationListener(new ApplicationAdapter() {
-			public void handleOpenFile(ApplicationEvent e) {
-				Luyten.openFileInInstance(new File(e.getFilename()));
-			}
-
-			public void handleQuit(ApplicationEvent e) {
-				Luyten.quitInstance();
-			}
-		});
+//		@SuppressWarnings("deprecation")
+//		Application app = new Application();
+//		app.addApplicationListener(new ApplicationAdapter() {
+//			public void handleOpenFile(ApplicationEvent e) {
+//				Luyten.openFileInInstance(new File(e.getFilename()));
+//			}
+//
+//			public void handleQuit(ApplicationEvent e) {
+//				Luyten.quitInstance();
+//			}
+//		});
 
 		// Call the superclass's main function
 		Luyten.main(args);

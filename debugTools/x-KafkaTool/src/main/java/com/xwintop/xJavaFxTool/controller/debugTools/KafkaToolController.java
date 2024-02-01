@@ -4,8 +4,6 @@ import com.xwintop.xJavaFxTool.model.KafkaToolReceiverTableBean;
 import com.xwintop.xJavaFxTool.model.KafkaToolTableBean;
 import com.xwintop.xJavaFxTool.services.debugTools.KafkaToolService;
 import com.xwintop.xJavaFxTool.view.debugTools.KafkaToolView;
-import com.xwintop.xcore.base.XProperty;
-import com.xwintop.xcore.util.javafx.AlertUtil;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -25,10 +23,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseButton;
 import lombok.Getter;
-import org.apache.activemq.ActiveMQSession;
 
 import javax.jms.JMSException;
-import javax.jms.Session;
 import java.net.URL;
 import java.util.ResourceBundle;
 

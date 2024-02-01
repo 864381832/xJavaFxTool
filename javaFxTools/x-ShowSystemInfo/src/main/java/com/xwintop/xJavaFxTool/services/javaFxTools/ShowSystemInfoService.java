@@ -1,6 +1,6 @@
 package com.xwintop.xJavaFxTool.services.javaFxTools;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.xwintop.xJavaFxTool.controller.javaFxTools.ShowSystemInfoController;
 import com.xwintop.xcore.util.FileUtil;
 import javafx.application.Platform;

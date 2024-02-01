@@ -14,9 +14,8 @@ import javafx.stage.FileChooser;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -37,7 +36,6 @@ import javax.jms.Message;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.function.Consumer;
 
 /**
  * @ClassName: KafkaToolService
@@ -63,12 +61,12 @@ public class KafkaToolService {
 
     public void saveConfigure(File file) throws Exception {
         FileUtils.touch(file);
-        PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
-        xmlConfigure.clear();
-        for (int i = 0; i < kafkaToolController.getTableData().size(); i++) {
-            xmlConfigure.setProperty("tableBean" + i, kafkaToolController.getTableData().get(i).getPropertys());
-        }
-        xmlConfigure.save();
+//        PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
+//        xmlConfigure.clear();
+//        for (int i = 0; i < kafkaToolController.getTableData().size(); i++) {
+//            xmlConfigure.setProperty("tableBean" + i, kafkaToolController.getTableData().get(i).getPropertys());
+//        }
+//        xmlConfigure.save();
         Platform.runLater(() -> {
             TooltipUtil.showToast("保存配置成功,保存在：" + file.getPath());
         });
@@ -90,13 +88,13 @@ public class KafkaToolService {
     public void loadingConfigure(File file) {
         try {
             kafkaToolController.getTableData().clear();
-            PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
-            xmlConfigure.getKeys().forEachRemaining(new Consumer<String>() {
-                @Override
-                public void accept(String t) {
-                    kafkaToolController.getTableData().add(new KafkaToolTableBean(xmlConfigure.getString(t)));
-                }
-            });
+//            PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
+//            xmlConfigure.getKeys().forEachRemaining(new Consumer<String>() {
+//                @Override
+//                public void accept(String t) {
+//                    kafkaToolController.getTableData().add(new KafkaToolTableBean(xmlConfigure.getString(t)));
+//                }
+//            });
         } catch (Exception e) {
             try {
                 TooltipUtil.showToast("加载配置失败：" + e.getMessage());

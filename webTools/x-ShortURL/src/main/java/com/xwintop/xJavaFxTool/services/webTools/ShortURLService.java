@@ -1,15 +1,14 @@
 package com.xwintop.xJavaFxTool.services.webTools;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import cn.hutool.core.codec.Base64;
+import cn.hutool.http.HttpUtil;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.xwintop.xJavaFxTool.controller.webTools.ShortURLController;
-import com.xwintop.xcore.util.HttpClientUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.*;
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @ClassName: ShortURLService
@@ -37,18 +36,18 @@ public class ShortURLService {
             String params = "{\"url\":\"" + longURL + "\"}";
             String url = "https://dwz.cn/admin/v2/create";
             String Token = "517cfcf7869ce43dec7b8e076f870652";
-            OkHttpClient client = new OkHttpClient();
-            RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=UTF-8"), params);
-            Request request = new Request.Builder().url(url).post(body).addHeader("Token", Token).build();
-            Response response = client.newCall(request).execute();
-            String data = response.body().string();
-            log.info("返回值：" + data);
-            JSONObject jsonObject = JSON.parseObject(data);
-            if (jsonObject.getIntValue("Code") == 0) {
-                shortURL = jsonObject.getString("ShortUrl");
-            } else {
-                shortURL = jsonObject.getString("ErrMsg");
-            }
+//            OkHttpClient client = new OkHttpClient();
+//            RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=UTF-8"), params);
+//            Request request = new Request.Builder().url(url).post(body).addHeader("Token", Token).build();
+//            Response response = client.newCall(request).execute();
+//            String data = response.body().string();
+//            log.info("返回值：" + data);
+//            JSONObject jsonObject = JSON.parseObject(data);
+//            if (jsonObject.getIntValue("Code") == 0) {
+//                shortURL = jsonObject.getString("ShortUrl");
+//            } else {
+//                shortURL = jsonObject.getString("ErrMsg");
+//            }
         } catch (Exception e) {
             log.error("转换出错：", e);
         }
@@ -64,18 +63,18 @@ public class ShortURLService {
             String params = "{\"shortUrl\":\"" + shortURL + "\"}";
             String url = "https://dwz.cn/admin/v2/query";
             String Token = "517cfcf7869ce43dec7b8e076f870652";
-            OkHttpClient client = new OkHttpClient();
-            RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=UTF-8"), params);
-            Request request = new Request.Builder().url(url).post(body).addHeader("Token", Token).build();
-            Response response = client.newCall(request).execute();
-            String data = response.body().string();
-            log.info("返回值：" + data);
-            JSONObject jsonObject = JSON.parseObject(data);
-            if (jsonObject.getIntValue("Code") == 0) {
-                longURL = jsonObject.getString("LongUrl");
-            } else {
-                longURL = jsonObject.getString("ErrMsg");
-            }
+//            OkHttpClient client = new OkHttpClient();
+//            RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=UTF-8"), params);
+//            Request request = new Request.Builder().url(url).post(body).addHeader("Token", Token).build();
+//            Response response = client.newCall(request).execute();
+//            String data = response.body().string();
+//            log.info("返回值：" + data);
+//            JSONObject jsonObject = JSON.parseObject(data);
+//            if (jsonObject.getIntValue("Code") == 0) {
+//                longURL = jsonObject.getString("LongUrl");
+//            } else {
+//                longURL = jsonObject.getString("ErrMsg");
+//            }
         } catch (Exception e) {
             log.error("转换出错：", e);
         }
@@ -89,11 +88,12 @@ public class ShortURLService {
         String shortURL = "转换错误";
         try {
             StringBuffer url = new StringBuffer("http://dwz.wailian.work/api.php?");
-            url.append("url=").append(Base64.encodeBase64String(longURL.getBytes()));
+            url.append("url=").append(Base64.encode(longURL.getBytes()));
             url.append("&site=").append(site);
             System.out.println(url.toString());
             String refererUrl = "http://dwz.wailian.work/";
-            String data = HttpClientUtil.getHttpDataAsUTF_8(url.toString(), refererUrl);
+//            String data = HttpClientUtil.getHttpDataAsUTF_8(url.toString(), refererUrl);
+            String data = HttpUtil.get(url.toString());
             JSONObject jsonObject = JSON.parseObject(data);
             if ("ok".equals(jsonObject.getString("result"))) {
                 shortURL = jsonObject.getJSONObject("data").getString("short_url");
@@ -114,11 +114,12 @@ public class ShortURLService {
         String shortURL = "转换错误";
         try {
             StringBuffer url = new StringBuffer("http://dwz.wailian.work/api.php?");
-            url.append("url=").append(Base64.encodeBase64String(longURL.getBytes()));
+            url.append("url=").append(Base64.encode(longURL.getBytes()));
             url.append("&action=restore");
             System.out.println(url.toString());
             String refererUrl = "http://dwz.wailian.work/restore.php";
-            String data = HttpClientUtil.getHttpDataAsUTF_8(url.toString(), refererUrl);
+//            String data = HttpClientUtil.getHttpDataAsUTF_8(url.toString(), refererUrl);
+            String data = HttpUtil.get(url.toString());
             JSONObject jsonObject = JSON.parseObject(data);
             if ("ok".equals(jsonObject.getString("result"))) {
                 shortURL = jsonObject.getJSONObject("data").getString("short_url");
@@ -140,7 +141,8 @@ public class ShortURLService {
         try {
             String url = "http://suo.im/api.php?format=json&url=" + longURL;
             String refererUrl = "http://www.suo.im/";
-            String data = HttpClientUtil.getHttpDataAsUTF_8(url, refererUrl);
+//            String data = HttpClientUtil.getHttpDataAsUTF_8(url, refererUrl);
+            String data = HttpUtil.get(url);
             JSONObject jsonObject = JSON.parseObject(data);
             if (StringUtils.isEmpty(jsonObject.getString("err"))) {
                 shortURL = jsonObject.getString("url");
