@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0"
+            prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.RelationshipCalculatorController">
+    <children>
+        <VBox layoutX="32.0" layoutY="28.0" prefHeight="593.0" prefWidth="736.0">
+            <children>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <VBox alignment="CENTER" prefHeight="81.0" prefWidth="767.0" spacing="10.0">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                    <children>
+                                        <Label text="计算类型：">
+                                            <font>
+                                                <Font size="18.0"/>
+                                            </font>
+                                        </Label>
+                                        <RadioButton mnemonicParsing="false" selected="true" text="找称呼">
+                                            <toggleGroup>
+                                                <ToggleGroup fx:id="type"/>
+                                            </toggleGroup>
+                                            <font>
+                                                <Font size="18.0"/>
+                                            </font>
+                                        </RadioButton>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                    <children>
+                                        <Label text="我的性别：">
+                                            <font>
+                                                <Font size="18.0"/>
+                                            </font>
+                                        </Label>
+                                        <RadioButton mnemonicParsing="false" selected="true" text="男">
+                                            <toggleGroup>
+                                                <ToggleGroup fx:id="sex"/>
+                                            </toggleGroup>
+                                            <font>
+                                                <Font size="18.0"/>
+                                            </font>
+                                        </RadioButton>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                    <children>
+                                        <Label text="称呼方式：">
+                                            <font>
+                                                <Font size="18.0"/>
+                                            </font>
+                                        </Label>
+                                        <RadioButton mnemonicParsing="false" selected="true" text="我称呼对方">
+                                            <toggleGroup>
+                                                <ToggleGroup fx:id="methods"/>
+                                            </toggleGroup>
+                                            <font>
+                                                <Font size="18.0"/>
+                                            </font>
+                                        </RadioButton>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="600.0">
+                    <children>
+                        <Separator prefHeight="13.0" prefWidth="787.0"/>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" prefHeight="65.0" prefWidth="600.0">
+                    <children>
+                        <Label text="关系：">
+                            <font>
+                                <Font size="24.0"/>
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
+                <HBox prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <TextArea fx:id="inputTextArea" prefHeight="81.0" prefWidth="752.0"
+                                  promptText="关系之间用“的”分隔开....." text="我的"/>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                    <children>
+                        <Button fx:id="fatherButton" mnemonicParsing="false" onAction="#do_fatherButton_event"
+                                prefHeight="30.0" prefWidth="60.0" text="爸爸"/>
+                        <Button fx:id="montherButton" mnemonicParsing="false" onAction="#do_montherButton_event"
+                                prefHeight="30.0" prefWidth="60.0" text="妈妈"/>
+                        <Button fx:id="sonButton" mnemonicParsing="false" onAction="#do_sonButton_event"
+                                prefHeight="30.0" prefWidth="60.0" text="儿子"/>
+                        <Button fx:id="daughterButton" mnemonicParsing="false" onAction="#do_daughterButton_event"
+                                prefHeight="30.0" prefWidth="60.0" text="女儿"/>
+                        <Button fx:id="bigBrotherButton" mnemonicParsing="false" onAction="#do_bigBrotherButton_event"
+                                prefHeight="30.0" prefWidth="60.0" text="哥哥"/>
+                        <Button fx:id="smallBrotherButton" mnemonicParsing="false"
+                                onAction="#do_smallBrotherButton_event" prefHeight="30.0" prefWidth="60.0" text="弟弟"/>
+                        <Button fx:id="bigSisterButton" mnemonicParsing="false" onAction="#do_bigSisterButton_event"
+                                prefHeight="30.0" prefWidth="60.0" text="姐姐"/>
+                        <Button fx:id="smallSisterButton" mnemonicParsing="false" onAction="#do_smallSisterButton_event"
+                                prefHeight="30.0" prefWidth="60.0" text="妹妹"/>
+                        <Button fx:id="husbandButton" mnemonicParsing="false" onAction="#do_husbandButton_event"
+                                prefHeight="30.0" prefWidth="60.0" text="丈夫"/>
+                        <Button fx:id="wifeButton" mnemonicParsing="false" onAction="#do_wifeButton_event"
+                                prefHeight="30.0" prefWidth="60.0" text="妻子"/>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="600.0">
+                    <children>
+                        <Separator prefHeight="13.0" prefWidth="768.0"/>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
+                    <children>
+                        <Button id="count" fx:id="countButton" mnemonicParsing="false" onAction="#do_countButton_event"
+                                prefHeight="50.0" prefWidth="100.0" text="计算"/>
+                        <Button id="reback" fx:id="rebackButton" mnemonicParsing="false"
+                                onAction="#do_rebackButton_event" prefHeight="50.0" prefWidth="100.0" text="回退"/>
+                        <Button id="clear" fx:id="clearButton" mnemonicParsing="false" onAction="#do_clearButton_event"
+                                prefHeight="50.0" prefWidth="100.0" text="清空"/>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="600.0">
+                    <children>
+                        <Separator prefHeight="13.0" prefWidth="786.0"/>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" prefHeight="66.0" prefWidth="600.0">
+                    <children>
+                        <Label text="计算结果：">
+                            <font>
+                                <Font size="24.0"/>
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
+                <HBox prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <TextArea fx:id="outputTextArea" prefHeight="82.0" prefWidth="780.0"/>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+    <stylesheets>
+
+    </stylesheets>
+</AnchorPane>

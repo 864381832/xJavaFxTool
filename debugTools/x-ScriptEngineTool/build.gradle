@@ -1,0 +1,11 @@
+dependencies {
+//        implementation 'com.xwintop:xcore:0.0.6'
+    api project(':xcore')
+    implementation 'org.codehaus.groovy:groovy-all:2.4.16'
+    implementation 'org.python:jython:2.5.3'
+    implementation 'org.luaj:luaj-jse:3.0.1'
+}
+
+group = 'com.xwintop'
+version = '0.0.1'
+description = 'x-ScriptEngineTool'
