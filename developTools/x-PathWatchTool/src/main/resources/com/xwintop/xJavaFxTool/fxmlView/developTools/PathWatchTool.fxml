@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="508.0" prefWidth="791.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.developTools.PathWatchToolController">
+   <children>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <center>
+            <TextArea fx:id="watchLogTextArea" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets top="10.0" />
+               </BorderPane.margin>
+            </TextArea>
+         </center>
+         <top>
+            <VBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER" spacing="10.0">
+                     <children>
+                        <Label text="监控路径：" />
+                        <TextField fx:id="watchPathTextField" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="watchPathButton" mnemonicParsing="false" onAction="#watchPathAction" text="选择" />
+                        <CheckBox fx:id="isShowNotificationCheckBox" mnemonicParsing="false" selected="true" text="显示桌面通知" />
+                        <Button fx:id="watchButton" mnemonicParsing="false" onAction="#watchAction" text="监控" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label text="文件名包含字符: " />
+                        <TextField fx:id="fileNameContainsTextField" />
+                        <Label text="文件名不包含字符:" />
+                        <TextField fx:id="fileNameNotContainsTextField" />
+                        <CheckBox fx:id="fileNameSupportRegexCheckBox" mnemonicParsing="false" text="支持正则" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label text="文件夹路径包含: " />
+                        <TextField fx:id="folderPathContainsTextField" />
+                        <Label text="文件夹路径不包含: " />
+                        <TextField fx:id="folderPathNotContainsTextField" />
+                        <CheckBox fx:id="folderPathSupportRegexCheckBox" mnemonicParsing="false" text="支持正则" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>
