@@ -1,0 +1,6 @@
+# Default ignored files
+#/.gitignore
+/x-JavaFxXmlToObjectCode.iml
+/log/
+/target/
+.idea

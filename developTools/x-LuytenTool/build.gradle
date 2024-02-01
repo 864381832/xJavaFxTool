@@ -1,0 +1,14 @@
+dependencies {
+//        implementation 'com.xwintop:xcore:0.0.6'
+    api project(':xcore')
+    implementation 'com.fifesoft:rsyntaxtextarea:3.0.2'
+    implementation 'com.apple:AppleJavaExtensions:1.4'
+    implementation 'org.bitbucket.mstrobel:procyon-core:0.5.36'
+    implementation 'org.bitbucket.mstrobel:procyon-expressions:0.5.36'
+    implementation 'org.bitbucket.mstrobel:procyon-reflection:0.5.36'
+    implementation 'org.bitbucket.mstrobel:procyon-compilertools:0.5.36'
+}
+
+group = 'com.xwintop'
+version = '0.0.1'
+description = 'x-LuytenTool'
