@@ -1,0 +1,6 @@
+# Default ignored files
+#/.gitignore
+/x-ScriptEngineTool.iml
+/log/
+/target/
+.idea

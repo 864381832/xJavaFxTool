@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<ToolFxmlLoaderConfiguration title="webTools" menuId="p-webTools" menuParentId="moreToolsMenu" isMenu="true" />
+	<ToolFxmlLoaderConfiguration>
+		<url>/com/xwintop/xJavaFxTool/fxmlView/webTools/ShortURL.fxml</url>
+		<resourceBundleName>locale.ShortURL</resourceBundleName>
+		<className></className>
+		<title>Title</title>
+		<isDefaultShow></isDefaultShow>
+		<menuId></menuId>
+		<menuParentId>p-webTools</menuParentId>
+		<controllerType>Node</controllerType>
+	</ToolFxmlLoaderConfiguration>
+</root>
