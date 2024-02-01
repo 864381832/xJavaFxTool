@@ -4,8 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-import org.apache.commons.collections.MapUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.xwintop.xJavaFxTool.controller.debugTools.HttpToolController;
 import com.xwintop.xcore.util.HttpClientUtil;

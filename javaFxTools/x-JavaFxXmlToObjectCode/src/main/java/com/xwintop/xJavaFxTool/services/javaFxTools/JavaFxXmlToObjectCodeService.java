@@ -1,8 +1,8 @@
 package com.xwintop.xJavaFxTool.services.javaFxTools;
 
+import cn.hutool.core.util.StrUtil;
 import com.xwintop.xJavaFxTool.controller.javaFxTools.JavaFxXmlToObjectCodeController;
 import com.xwintop.xJavaFxTool.utils.PluginProgectPomBuildTool;
-import com.xwintop.xcore.util.StrUtil;
 import com.xwintop.xcore.util.javafx.AlertUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 import lombok.Getter;
@@ -119,7 +119,7 @@ public class JavaFxXmlToObjectCodeService {
 
         String[] packageStringSplit = packageString[1].split("\\.");
         String classNameString = packageStringSplit[packageStringSplit.length - 1].split("Controller")[0];
-        String classNameStringLoCase = StrUtil.firstToLoCase(classNameString);
+        String classNameStringLoCase = StrUtil.upperFirst(classNameString);
         String viewPackage = packageString[1].substring(0, packageString[1].lastIndexOf("."));
 
         StringBuilder controllerClassStrBuilder = new StringBuilder();//控制层类字符串
