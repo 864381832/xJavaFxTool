@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXSlider?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="422.0" prefWidth="701.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.assistTools.WechatJumpGameToolController">
+   <children>
+      <BorderPane layoutX="37.0" layoutY="6.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <bottom>
+            <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER" spacing="10.0">
+                     <children>
+                        <Label text="连接状态：" />
+                        <Label fx:id="adbConnectHintLabel" text="未连接" textFill="#ff2f00">
+                           <HBox.margin>
+                              <Insets left="-10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label text="适当调节时间系数：" />
+                        <JFXSlider fx:id="waitTimeSlider" blockIncrement="300.0" indicatorPosition="RIGHT" majorTickUnit="10.0" max="3.0" min="1.0" minorTickCount="300" showTickLabels="true" showTickMarks="true" value="1.35" />
+                        <JFXCheckBox fx:id="autoRestartCheckBox" selected="true" text="自动重新开始游戏" />
+                     </children>
+                  </HBox>
+                  <Label fx:id="errorInfoLabel" text="请避免手机被360或QQ连接" textFill="RED">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <Button fx:id="adbConnectButton" mnemonicParsing="false" onAction="#adbConnectAction" prefHeight="60.0" prefWidth="120.0" text="连接">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="adbRunButton" mnemonicParsing="false" onAction="#adbRunAction" prefHeight="60.0" prefWidth="160.0" text="跳一跳">
+                           <font>
+                              <Font name="System Bold" size="24.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </bottom>
+         <center>
+            <JFXTextArea editable="false" text="软件使用方法：&#10;&#9;1、用数据线连接手机与电脑；&#10;&#9;2、手机启动开发者选项，选择USB调试，弹出允许USB调试对话框选择确定按钮；&#10;&#9;3、打开软件，点击连接按钮；&#10;&#9;4、如果显示已连接，可以打开跳一跳游戏界面，之后点击右面的跳一跳按钮，程序会自动执行后续操作&#10;&#9;5、自行调节时间系数以保证准确性。&#10;&#10;说明：&#10;&#9;仅供学习交流使用，请勿用于非法用途，否则后果作者概不负责，谢谢。" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+               <padding>
+                  <Insets top="30.0" />
+               </padding>
+            </JFXTextArea>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

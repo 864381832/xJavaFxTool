@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<ToolFxmlLoaderConfiguration title="NetWork_Tools" menuId="p-netWorkToolsMenu" menuParentId="moreToolsMenu" isMenu="true" />
+	<ToolFxmlLoaderConfiguration>
+		<url>/web/littleTools/cron/index.htm</url>
+		<resourceBundleName>locale.WebCronExpBuilder</resourceBundleName>
+		<className></className>
+		<title>Title</title>
+		<isDefaultShow></isDefaultShow>
+		<menuId></menuId>
+		<menuParentId>p-netWorkToolsMenu</menuParentId>
+		<controllerType>WebView</controllerType>
+	</ToolFxmlLoaderConfiguration>
+</root>

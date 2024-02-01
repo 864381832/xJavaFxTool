@@ -1,0 +1,9 @@
+dependencies {
+    api project(':xcore')
+    implementation 'com.google.zxing:javase:3.5.2'
+    implementation 'com.github.tulskiy:jkeymaster:1.3'
+}
+
+group = 'com.xwintop'
+version = '0.0.1'
+description = 'x-WebJsonEditor'
