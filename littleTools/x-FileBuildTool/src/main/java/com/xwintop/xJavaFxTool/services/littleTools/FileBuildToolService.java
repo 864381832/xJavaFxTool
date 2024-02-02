@@ -1,10 +1,11 @@
 package com.xwintop.xJavaFxTool.services.littleTools;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
+import cn.hutool.core.lang.UUID;
+import cn.hutool.core.util.IdUtil;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.TypeReference;
 import com.xwintop.xJavaFxTool.controller.littleTools.FileBuildToolController;
-import com.xwintop.xcore.util.UuidUtil;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
@@ -70,7 +71,7 @@ public class FileBuildToolService {
 
     public void showFileContent(String fileName, String content) {
         if (StringUtils.isEmpty(fileName)) {
-            fileName = UuidUtil.get32UUID();
+            fileName = IdUtil.fastSimpleUUID();
         }
         if (fileBuildToolController.getIsShowCheckBox().isSelected()) {
             TextArea textArea = new TextArea(content);
@@ -103,7 +104,7 @@ public class FileBuildToolService {
                 columns.add(column.getText());
             }
             jsonObject.put("columns", columns);
-            FileUtils.writeStringToFile(saveFile, JSON.toJSONString(jsonObject, true), "utf-8");
+            FileUtils.writeStringToFile(saveFile, JSON.toJSONString(jsonObject), "utf-8");
             TooltipUtil.showToast("保存配置成功：" + saveFile.getCanonicalPath());
         }
     }

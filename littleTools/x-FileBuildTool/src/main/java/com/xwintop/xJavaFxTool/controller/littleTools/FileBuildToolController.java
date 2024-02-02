@@ -1,8 +1,8 @@
 package com.xwintop.xJavaFxTool.controller.littleTools;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import com.xwintop.xJavaFxTool.services.littleTools.FileBuildToolService;
 import com.xwintop.xJavaFxTool.view.littleTools.FileBuildToolView;
 import com.xwintop.xcore.util.javafx.AlertUtil;

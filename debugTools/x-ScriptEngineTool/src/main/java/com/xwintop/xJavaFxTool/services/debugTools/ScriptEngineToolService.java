@@ -1,6 +1,6 @@
 package com.xwintop.xJavaFxTool.services.debugTools;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.xwintop.xJavaFxTool.controller.debugTools.ScriptEngineToolController;
 import com.xwintop.xJavaFxTool.job.ScriptEngineToolJob;
 import com.xwintop.xJavaFxTool.manager.ScheduleManager;
@@ -14,7 +14,6 @@ import javafx.stage.FileChooser;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -161,12 +160,12 @@ public class ScriptEngineToolService {
 
     public void saveConfigure(File file) throws Exception {
         FileUtils.touch(file);
-        PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
-        xmlConfigure.clear();
-        for (int i = 0; i < scriptEngineToolController.getTableData().size(); i++) {
-            xmlConfigure.setProperty("tableBean" + i, scriptEngineToolController.getTableData().get(i).getPropertys());
-        }
-        xmlConfigure.save();
+//        PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
+//        xmlConfigure.clear();
+//        for (int i = 0; i < scriptEngineToolController.getTableData().size(); i++) {
+//            xmlConfigure.setProperty("tableBean" + i, scriptEngineToolController.getTableData().get(i).getPropertys());
+//        }
+//        xmlConfigure.save();
         TooltipUtil.showToast("保存配置成功,保存在：" + file.getPath());
     }
 
@@ -186,13 +185,13 @@ public class ScriptEngineToolService {
     public void loadingConfigure(File file) {
         try {
             scriptEngineToolController.getTableData().clear();
-            PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
-            xmlConfigure.getKeys().forEachRemaining(new Consumer<String>() {
-                @Override
-                public void accept(String t) {
-                    scriptEngineToolController.getTableData().add(new ScriptEngineToolTableBean(xmlConfigure.getString(t)));
-                }
-            });
+//            PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
+//            xmlConfigure.getKeys().forEachRemaining(new Consumer<String>() {
+//                @Override
+//                public void accept(String t) {
+//                    scriptEngineToolController.getTableData().add(new ScriptEngineToolTableBean(xmlConfigure.getString(t)));
+//                }
+//            });
         } catch (Exception e) {
             try {
                 log.error("加载配置失败：" + e.getMessage());

@@ -1,17 +1,15 @@
 package com.xwintop.xJavaFxTool.controller.codeTools;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
-import org.apache.commons.lang.StringEscapeUtils;
-
 import com.xwintop.xJavaFxTool.view.codeTools.EscapeCharacterView;
-
+import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import org.apache.commons.lang3.StringEscapeUtils;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /** 
  * @ClassName: EscapeCharacterController 
@@ -97,17 +95,17 @@ public class EscapeCharacterController extends EscapeCharacterView {
 		String characterTypesString = characterTypesChoiceBox.getValue();
 		String unescape = null;
 		if (characterTypes[0].equals(characterTypesString)) {
-			unescape = StringEscapeUtils.escapeHtml(string);
+			unescape = StringEscapeUtils.escapeHtml4(string);
 		} else if (characterTypes[1].equals(characterTypesString)) {
 			unescape = StringEscapeUtils.escapeXml(string);
 		} else if (characterTypes[2].equals(characterTypesString)) {
 			unescape = StringEscapeUtils.escapeJava(string);
 		} else if (characterTypes[3].equals(characterTypesString)) {
-			unescape = StringEscapeUtils.escapeJavaScript(string);
+//			unescape = StringEscapeUtils.escapeJavaScript(string);
 		} else if (characterTypes[4].equals(characterTypesString)) {
 			unescape = StringEscapeUtils.escapeCsv(string);
 		} else if (characterTypes[5].equals(characterTypesString)) {
-			unescape = StringEscapeUtils.escapeSql(string);
+//			unescape = StringEscapeUtils.escapeSql(string);
 		}
 		escapeTextArea.setText(unescape);
 	}
@@ -118,13 +116,13 @@ public class EscapeCharacterController extends EscapeCharacterView {
 		String characterTypesString = characterTypesChoiceBox.getValue();
 		String unescape = null;
 		if (characterTypes[0].equals(characterTypesString)) {
-			unescape = StringEscapeUtils.unescapeHtml(string);
+			unescape = StringEscapeUtils.unescapeHtml4(string);
 		} else if (characterTypes[1].equals(characterTypesString)) {
 			unescape = StringEscapeUtils.unescapeXml(string);
 		} else if (characterTypes[2].equals(characterTypesString)) {
 			unescape = StringEscapeUtils.unescapeJava(string);
 		} else if (characterTypes[3].equals(characterTypesString)) {
-			unescape = StringEscapeUtils.unescapeJavaScript(string);
+//			unescape = StringEscapeUtils.unescapeJavaScript(string);
 		} else if (characterTypes[4].equals(characterTypesString)) {
 			unescape = StringEscapeUtils.unescapeCsv(string);
 		} else if (characterTypes[5].equals(characterTypesString)) {

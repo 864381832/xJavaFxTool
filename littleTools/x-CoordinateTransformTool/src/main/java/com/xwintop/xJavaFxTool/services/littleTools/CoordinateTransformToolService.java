@@ -96,9 +96,9 @@ public class CoordinateTransformToolService {
 //                    Point toWgs84 = sourceTransform.transformToWgs84(x, y, offsetX, offsetY);
 //                    Point point = targetTransform.transform(toWgs84, targetOffsetX, targetOffsetY);
 //                    result.add(point);
-                    CoordinateUtil.Coordinate  coordinate = null;
+                    CoordinateUtil.Coordinate coordinate = null;
                     if ("BD09".equals(sourceType) && "GCJ02".equals(targetType)) {
-                       coordinate =  CoordinateUtil.bd09ToGcj02(x, y);
+                        coordinate = CoordinateUtil.bd09ToGcj02(x, y);
                     } else if ("BD09".equals(sourceType) && "WGS84".equals(targetType)) {
                         coordinate = CoordinateUtil.bd09toWgs84(x, y);
                     } else if ("WGS84".equals(sourceType) && "GCJ02".equals(targetType)) {
@@ -108,7 +108,11 @@ public class CoordinateTransformToolService {
                     } else if ("GCJ02".equals(sourceType) && "WGS84".equals(targetType)) {
                         coordinate = CoordinateUtil.gcj02ToWgs84(x, y);
                     } else if ("GCJ02".equals(sourceType) && "BD09".equals(targetType)) {
-                        coordinate =  CoordinateUtil.gcj02ToBd09(x, y);
+                        coordinate = CoordinateUtil.gcj02ToBd09(x, y);
+                    } else {
+                        future.setMessage("暂不支持该类型转换");
+                        future.setSuccess(false);
+                        return;
                     }
                     result.add(coordinate);
                 }

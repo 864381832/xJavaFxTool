@@ -2,6 +2,7 @@ dependencies {
 //        implementation 'com.xwintop:xcore:0.0.6'
     api project(':xcore')
     implementation 'commons-betwixt:commons-betwixt:0.8'
+    implementation("commons-codec:commons-codec:1.16.0")
 }
 
 group = 'com.xwintop'

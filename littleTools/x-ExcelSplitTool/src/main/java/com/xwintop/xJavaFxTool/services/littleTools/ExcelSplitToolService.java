@@ -1,11 +1,11 @@
 package com.xwintop.xJavaFxTool.services.littleTools;
 
+import cn.hutool.core.collection.ListUtil;
 import com.xwintop.xJavaFxTool.controller.littleTools.ExcelSplitToolController;
 import com.xwintop.xJavaFxTool.utils.DirectoryTreeUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.IteratorUtils;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
@@ -271,11 +271,11 @@ public class ExcelSplitToolService {
             if (printer == null) {
                 printer = CSVFormat.DEFAULT.print(new PrintWriter(newFilePath + "-" + (saveFileIndex++) + ".csv"));
                 if (isAddHead && saveFileIndex != 1) {
-                    printer.printRecord(IteratorUtils.toList(firstRecord.iterator()).toArray());
+                    printer.printRecord(ListUtil.toList(firstRecord.iterator()).toArray());
                     addRowIndex++;
                 }
             }
-            printer.printRecord(IteratorUtils.toList(record.iterator()).toArray());
+            printer.printRecord(ListUtil.toList(record.iterator()).toArray());
             addRowIndex++;
             if ((addRowIndex - splitNumber) == (isAddHead ? 1 : 0)) {
                 printer.flush();
@@ -319,11 +319,11 @@ public class ExcelSplitToolService {
             CSVPrinter printer = CSVFormat.DEFAULT.print(new PrintWriter(newFilePath + "-" + key + ".csv"));
             if (excelSplitToolController.getIncludeHandCheckBox().isSelected()) {
                 if (firstRecord != null) {
-                    printer.printRecord(IteratorUtils.toList(firstRecord.iterator()).toArray());
+                    printer.printRecord(ListUtil.toList(firstRecord.iterator()).toArray());
                 }
             }
             for (CSVRecord row : rows) {
-                printer.printRecord(IteratorUtils.toList(row.iterator()).toArray());
+                printer.printRecord(ListUtil.toList(row.iterator()).toArray());
             }
             printer.flush();
             printer.close();

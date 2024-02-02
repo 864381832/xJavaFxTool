@@ -1,8 +1,6 @@
 package com.xwintop.xJavaFxTool.services.littleTools;
 
-import com.github.junrar.Archive;
 import com.github.junrar.Junrar;
-import com.github.junrar.rarfile.FileHeader;
 import com.xwintop.xJavaFxTool.controller.littleTools.FileCompressToolController;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,7 +25,9 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
