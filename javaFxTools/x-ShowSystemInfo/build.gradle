@@ -1,7 +1,7 @@
 dependencies {
 //        implementation 'com.xwintop:xcore:0.0.6'
     api project(':xcore')
-    implementation 'com.github.oshi:oshi-core:5.7.0'
+    implementation 'com.github.oshi:oshi-core:6.4.11'
 }
 
 group = 'com.xwintop'

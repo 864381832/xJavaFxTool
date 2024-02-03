@@ -419,7 +419,8 @@ public class ShowSystemInfoService {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("\nProcesses: " + os.getProcessCount() + ", Threads: " + os.getThreadCount());
         // Sort by highest CPU
-        List<OSProcess> procs = os.getProcesses(5, OperatingSystem.ProcessSort.CPU);
+//        List<OSProcess> procs = os.getProcesses(5, OperatingSystem.ProcessSort.CPU);
+        List<OSProcess> procs = os.getProcesses(OperatingSystem.ProcessFiltering.NO_PARENT,OperatingSystem.ProcessSorting.CPU_DESC,5);
 
         stringBuffer.append("\n   PID  %CPU %MEM       VSZ       RSS Name");
         for (int i = 0; i < procs.size() && i < 5; i++) {
