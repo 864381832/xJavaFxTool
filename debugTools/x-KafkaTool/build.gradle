@@ -1,8 +1,8 @@
 dependencies {
 //        implementation 'com.xwintop:xcore:0.0.6'
     api project(':xcore')
-    implementation 'org.springframework.boot:spring-boot-starter-activemq:2.1.3.RELEASE'
-    implementation 'org.springframework.kafka:spring-kafka:2.2.4.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-activemq:2.7.18'
+    implementation 'org.springframework.kafka:spring-kafka:2.7.18'
 }
 
 group = 'com.xwintop'
