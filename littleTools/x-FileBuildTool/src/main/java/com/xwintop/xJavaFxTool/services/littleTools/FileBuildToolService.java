@@ -1,6 +1,5 @@
 package com.xwintop.xJavaFxTool.services.littleTools;
 
-import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
