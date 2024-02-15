@@ -5,6 +5,7 @@ import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.SmUtil;
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.SM2;
+import cn.hutool.crypto.digest.DigestAlgorithm;
 import cn.hutool.crypto.symmetric.AES;
 import cn.hutool.crypto.symmetric.DES;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
@@ -50,7 +51,7 @@ public class EncryptAndDecryptController extends EncryptAndDecryptView {
      * 加密算法. 空""用于填充一个空位.
      */
     private String[] cryptos = new String[]{GuiUtils.CRYPTO_ASCII, GuiUtils.CRYPTO_HEX, GuiUtils.CRYPTO_BASE64,
-        GuiUtils.CRYPTO_BASE32, GuiUtils.CRYPTO_URL, "", "", "", "", GuiUtils.CRYPTO_MD5, GuiUtils.CRYPTO_SHA,
+        GuiUtils.CRYPTO_BASE32, GuiUtils.CRYPTO_URL, "", "", "", "", DigestAlgorithm.MD5.name(), GuiUtils.CRYPTO_SHA,
         GuiUtils.CRYPTO_SHA256, GuiUtils.CRYPTO_SHA384, GuiUtils.CRYPTO_SHA512, "", "", "", "", "Aes", "Des", "Sm2", "Sm3", "Sm4", "", "文件加密MD5", "文件加密SHA1", "摩斯密码", "Druid加密"};
 
     @Override
@@ -105,7 +106,7 @@ public class EncryptAndDecryptController extends EncryptAndDecryptView {
                 decrptyTextArea.setText(new String(base32.encode(string.getBytes(charSet))));
             } else if (GuiUtils.CRYPTO_URL.equals(curCrypto)) {
                 decrptyTextArea.setText(new String(URLCodec.encodeUrl(null, string.getBytes(charSet)), charSet));
-            } else if (GuiUtils.CRYPTO_MD5.equals(curCrypto)) {
+            } else if (DigestAlgorithm.MD5.name().equals(curCrypto)) {
                 String md5Val = DigestUtils.md5Hex(string.getBytes(charSet));
                 decrptyTextArea.setText("16Bit：" + md5Val.substring(8, 24) + "\n32Bit：" + md5Val);
             } else if (GuiUtils.CRYPTO_SHA.equals(curCrypto)) {

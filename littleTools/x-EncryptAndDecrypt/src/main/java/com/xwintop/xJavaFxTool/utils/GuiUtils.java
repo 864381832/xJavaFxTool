@@ -14,8 +14,6 @@ public class GuiUtils {
     public static String CRYPTO_URL = "URL";
 
     // 不可解密算法
-    public static String CRYPTO_MD5 = "MD5";
-
     public static String CRYPTO_SHA = "SHA";
 
     public static String CRYPTO_SHA256 = "SHA256";
