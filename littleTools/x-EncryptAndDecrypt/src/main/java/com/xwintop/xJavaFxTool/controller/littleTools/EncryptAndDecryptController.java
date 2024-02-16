@@ -8,6 +8,7 @@ import cn.hutool.crypto.asymmetric.SM2;
 import cn.hutool.crypto.digest.DigestAlgorithm;
 import cn.hutool.crypto.symmetric.AES;
 import cn.hutool.crypto.symmetric.DES;
+import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
 import com.xwintop.xJavaFxTool.utils.DruidConfigTools;
 import com.xwintop.xJavaFxTool.utils.GuiUtils;
@@ -51,8 +52,9 @@ public class EncryptAndDecryptController extends EncryptAndDecryptView {
      * 加密算法. 空""用于填充一个空位.
      */
     private String[] cryptos = new String[]{GuiUtils.CRYPTO_ASCII, GuiUtils.CRYPTO_HEX, GuiUtils.CRYPTO_BASE64,
-        GuiUtils.CRYPTO_BASE32, GuiUtils.CRYPTO_URL, "", "", "", "", DigestAlgorithm.MD5.name(), GuiUtils.CRYPTO_SHA,
-        GuiUtils.CRYPTO_SHA256, GuiUtils.CRYPTO_SHA384, GuiUtils.CRYPTO_SHA512, "", "", "", "", "Aes", "Des", "Sm2", "Sm3", "Sm4", "", "文件加密MD5", "文件加密SHA1", "摩斯密码", "Druid加密"};
+        GuiUtils.CRYPTO_BASE32, GuiUtils.CRYPTO_URL, DigestAlgorithm.MD5.name(), DigestAlgorithm.SHA1.name(),
+        DigestAlgorithm.SHA256.name(), DigestAlgorithm.SHA384.name(), DigestAlgorithm.SHA512.name(),
+        SymmetricAlgorithm.AES.name(), SymmetricAlgorithm.DES.name(), "Sm2", "Sm3", "Sm4", "文件加密MD5", "文件加密SHA1", "摩斯密码", "Druid加密"};
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -109,19 +111,19 @@ public class EncryptAndDecryptController extends EncryptAndDecryptView {
             } else if (DigestAlgorithm.MD5.name().equals(curCrypto)) {
                 String md5Val = DigestUtils.md5Hex(string.getBytes(charSet));
                 decrptyTextArea.setText("16Bit：" + md5Val.substring(8, 24) + "\n32Bit：" + md5Val);
-            } else if (GuiUtils.CRYPTO_SHA.equals(curCrypto)) {
+            } else if (DigestAlgorithm.SHA1.name().equals(curCrypto)) {
                 decrptyTextArea.setText(DigestUtils.sha1Hex(string.getBytes(charSet)));
-            } else if (GuiUtils.CRYPTO_SHA256.equals(curCrypto)) {
+            } else if (DigestAlgorithm.SHA256.name().equals(curCrypto)) {
                 decrptyTextArea.setText(DigestUtils.sha256Hex(string.getBytes(charSet)));
-            } else if (GuiUtils.CRYPTO_SHA384.equals(curCrypto)) {
+            } else if (DigestAlgorithm.SHA384.name().equals(curCrypto)) {
                 decrptyTextArea.setText(DigestUtils.sha384Hex(string.getBytes(charSet)));
-            } else if (GuiUtils.CRYPTO_SHA512.equals(curCrypto)) {
+            } else if (DigestAlgorithm.SHA512.name().equals(curCrypto)) {
                 decrptyTextArea.setText(DigestUtils.sha512Hex(string.getBytes(charSet)));
-            } else if ("Aes".equals(curCrypto)) {
+            } else if (SymmetricAlgorithm.AES.name().equals(curCrypto)) {
                 String key = keyTextField.getText();
                 AES aes = SecureUtil.aes(key.getBytes(charSet));
                 decrptyTextArea.setText(aes.encryptHex(string, charSet));
-            } else if ("Des".equals(curCrypto)) {
+            } else if (SymmetricAlgorithm.DES.name().equals(curCrypto)) {
                 String key = keyTextField.getText();
                 DES des = SecureUtil.des(key.getBytes());
                 decrptyTextArea.setText(des.encryptHex(string, charSet));
@@ -176,11 +178,11 @@ public class EncryptAndDecryptController extends EncryptAndDecryptView {
                 encrptyTextArea.setText(new String(base32.decode(string.getBytes(charSet)), charSet));
             } else if (GuiUtils.CRYPTO_URL.equals(curCrypto)) {
                 encrptyTextArea.setText(new String(URLCodec.decodeUrl(string.getBytes(charSet)), charSet));
-            } else if ("Aes".equals(curCrypto)) {
+            } else if (SymmetricAlgorithm.AES.name().equals(curCrypto)) {
                 String key = keyTextField.getText();
                 AES aes = SecureUtil.aes(key.getBytes(charSet));
                 encrptyTextArea.setText(aes.decryptStr(string, Charset.forName(charSet)));
-            } else if ("Des".equals(curCrypto)) {
+            } else if (SymmetricAlgorithm.DES.name().equals(curCrypto)) {
                 String key = keyTextField.getText();
                 DES des = SecureUtil.des(key.getBytes());
                 encrptyTextArea.setText(des.decryptStr(string, Charset.forName(charSet)));

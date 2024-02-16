@@ -13,15 +13,6 @@ public class GuiUtils {
 
     public static String CRYPTO_URL = "URL";
 
-    // 不可解密算法
-    public static String CRYPTO_SHA = "SHA";
-
-    public static String CRYPTO_SHA256 = "SHA256";
-
-    public static String CRYPTO_SHA384 = "SHA384";
-
-    public static String CRYPTO_SHA512 = "SHA512";
-
     /**************************** 文件大小单位 ****************************/
     public static String FileSize_PB = "PB";
 
