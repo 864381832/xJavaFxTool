@@ -45,7 +45,7 @@ public class CharacterConverterController extends CharacterConverterView {
      */
     private String[] charsets = new String[]{GuiUtils.CHARSET_UTF_16BE, GuiUtils.CHARSET_UTF_16LE,
             GuiUtils.CHARSET_UTF_8, GuiUtils.CHARSET_UTF_16, GuiUtils.CHARSET_GB2312, GuiUtils.CHARSET_GBK,
-            GuiUtils.CHARSET_GB18030, GuiUtils.CHARSET_Big5, GuiUtils.CHARSET_ISO_8859_1, ""};
+            GuiUtils.CHARSET_GB18030, GuiUtils.CHARSET_Big5, GuiUtils.CHARSET_ISO_8859_1};
 
     private TextField customCharsetField;
     private TextField[] fields = new TextField[charsets.length];
