@@ -282,6 +282,6 @@ public class IndexController extends IndexView {
 
     @FXML
     private void userSupportAction() throws Exception {
-        HttpClientUtil.openBrowseURLThrowsException("https://support.qq.com/product/127577");
+        HttpClientUtil.openBrowseURLThrowsException(QQ_URL);
     }
 }
