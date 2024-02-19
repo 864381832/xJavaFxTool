@@ -12,8 +12,8 @@ dependencies {
     api 'org.apache.commons:commons-text:1.11.0'
 //    api 'commons-beanutils:commons-beanutils:1.9.4'
 //    api 'org.apache.commons:commons-imaging:1.0-alpha3'
-    api 'cn.hutool:hutool-all:5.8.24'
-    api 'com.alibaba.fastjson2:fastjson2:2.0.45'
+    api 'cn.hutool:hutool-all:5.8.26'
+    api 'com.alibaba.fastjson2:fastjson2:2.0.46'
     api 'org.yaml:snakeyaml:1.30'
 }
 
