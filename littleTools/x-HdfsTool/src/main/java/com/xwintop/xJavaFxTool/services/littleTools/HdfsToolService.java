@@ -1,5 +1,6 @@
 package com.xwintop.xJavaFxTool.services.littleTools;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.xwintop.xJavaFxTool.controller.littleTools.HdfsToolController;
 import com.xwintop.xJavaFxTool.utils.HdfsUtil;
 import com.xwintop.xcore.util.javafx.AlertUtil;
@@ -16,7 +17,6 @@ import javafx.scene.input.TransferMode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileStatus;
@@ -32,6 +32,7 @@ import java.util.*;
 @Slf4j
 public class HdfsToolService {
     private HdfsToolController hdfsToolController;
+
     private HdfsUtil hdfsUtil;
 
     public HdfsToolService(HdfsToolController hdfsToolController) {
@@ -104,9 +105,9 @@ public class HdfsToolService {
                 String fileName = f.getPath().getName();
                 TreeItem<Map<String, Object>> treeItem2 = new TreeItem<>(getTreeItemMap(fileName));
                 if (f.isDirectory()) {
-                    treeItem2.setGraphic((Node) BeanUtils.cloneBean(hdfsToolController.getDirectorySvgGlyph()));
+                    treeItem2.setGraphic(BeanUtil.toBean(hdfsToolController.getDirectorySvgGlyph(), Node.class));
                 } else {
-                    treeItem2.setGraphic((Node) BeanUtils.cloneBean(hdfsToolController.getFileSvgGlyph()));
+                    treeItem2.setGraphic(BeanUtil.toBean(hdfsToolController.getFileSvgGlyph(), Node.class));
                 }
                 treeItem2.getValue().put("fileSize", f.getLen());
                 treeItem.getChildren().add(treeItem2);
@@ -350,9 +351,9 @@ public class HdfsToolService {
     public static ImageView getFileIconImage(File file) {
         Icon icon = FileSystemView.getFileSystemView().getSystemIcon(file);
         BufferedImage bufferedImage = new BufferedImage(
-                icon.getIconWidth(),
-                icon.getIconHeight(),
-                BufferedImage.TYPE_INT_ARGB
+            icon.getIconWidth(),
+            icon.getIconHeight(),
+            BufferedImage.TYPE_INT_ARGB
         );
         icon.paintIcon(null, bufferedImage.getGraphics(), 0, 0);
         Image fxImage = SwingFXUtils.toFXImage(bufferedImage, null);

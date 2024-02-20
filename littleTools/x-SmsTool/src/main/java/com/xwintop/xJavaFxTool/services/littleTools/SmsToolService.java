@@ -1,7 +1,9 @@
 package com.xwintop.xJavaFxTool.services.littleTools;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import cn.hutool.crypto.SecureUtil;
+import cn.hutool.http.HttpUtil;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.xwintop.xJavaFxTool.controller.littleTools.SmsToolController;
 import com.xwintop.xJavaFxTool.model.SmsToolTableBean;
 import com.xwintop.xcore.util.HttpClientUtil;
@@ -11,8 +13,6 @@ import javafx.collections.ObservableList;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.codec.digest.HmacUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -84,7 +84,7 @@ public class SmsToolService {
         for (SmsToolTableBean smsToolTableBean : smsToolTableBeans) {
 //            String destAddr = "18356971618";//目标地址
             String destAddr = smsToolTableBean.getToPhone();//目标地址
-            Map<String, String> map = new HashMap<>();
+            Map<String, Object> map = new HashMap<>();
             map.put("destAddr", destAddr);
             map.put("apiKey", apiKey);
             map.put("secretKey", secretKey);
@@ -93,7 +93,8 @@ public class SmsToolService {
             if ("1".equals(needReceipt)) {
                 map.put("receiptNotificationURL", receiptNotificationURL);
             }
-            String resJson = HttpClientUtil.getHttpDataByPost(url, "http://www.openservice.com.cn", JSON.toJSONString(map));
+            String resJson = HttpUtil.post(url, map);
+//            String resJson = HttpClientUtil.getHttpDataByPost(url, "http://www.openservice.com.cn", JSON.toJSONString(map));
             log.info("中国移动短信发送返回：" + resJson);
             if ("200".equals(JSON.parseObject(resJson).getString("resultCode"))) {
                 TooltipUtil.showToast("中国移动发送短信成功！！！");
@@ -117,16 +118,16 @@ public class SmsToolService {
 //            String acceptor_tel = "18356971618";//接收方号码
             String acceptor_tel = smsToolTableBean.getToPhone();//接收方号码
             String access_token = "";
-            Map<String, String> map = new HashMap<>();
+            Map<String, Object> map = new HashMap<>();
             map.put("app_id", app_id);
             map.put("app_secret", app_secret);
             map.put("grant_type", "client_credentials");
-            String resJson = HttpClientUtil.getHttpDataByPost("https://oauth.api.189.cn/emp/oauth2/v3/access_token", "https://oauth.api.189.cn", map);
+//            String resJson = HttpClientUtil.getHttpDataByPost("https://oauth.api.189.cn/emp/oauth2/v3/access_token", "https://oauth.api.189.cn", map);
+            String resJson = HttpUtil.post("https://oauth.api.189.cn/emp/oauth2/v3/access_token", map);
             log.info("中国电信短信获取Token返回：" + resJson);
             access_token = JSON.parseObject(resJson).getString("access_token");
-
             String timestamp = DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss");//时间戳
-            TreeMap<String, String> map2 = new TreeMap<>();
+            TreeMap<String, Object> map2 = new TreeMap<>();
             map2.put("app_id", app_id);
             map2.put("access_token", access_token);
             map2.put("acceptor_tel", acceptor_tel);
@@ -134,7 +135,8 @@ public class SmsToolService {
             map2.put("template_param", template_param);
             map2.put("timestamp", timestamp);
             try {
-                resJson = HttpClientUtil.getHttpDataByPost(url, "http://api.189.cn", map2);
+//                resJson = HttpClientUtil.getHttpDataByPost(url, "http://api.189.cn", map2);
+                resJson = HttpUtil.post(url, map2);
                 log.info("中国电信短信发送返回：" + resJson);
                 String res_message = JSON.parseObject(resJson).getString("res_message");
                 if ("Success".equals(res_message)) {
@@ -186,15 +188,16 @@ public class SmsToolService {
                 data.put("msg", msg);
             }
             String sigStr = String.format(
-                    "appkey=%s&random=%d&time=%d&mobile=%s",
-                    appkey, random, curTime, StringUtils.join(phoneNumbers, ","));
-            data.put("sig", DigestUtils.sha256Hex(sigStr));
+                "appkey=%s&random=%d&time=%d&mobile=%s",
+                appkey, random, curTime, StringUtils.join(phoneNumbers, ","));
+            data.put("sig", SecureUtil.sha256(sigStr));
             data.put("time", curTime);
             data.put("extend", "");
             data.put("ext", "");
 
             String wholeUrl = String.format("%s?sdkappid=%d&random=%d", url, appid, random);
-            String resultStr = HttpClientUtil.getHttpDataByPost(wholeUrl, url, JSON.toJSONString(data));
+//            String resultStr = HttpClientUtil.getHttpDataByPost(wholeUrl, url, JSON.toJSONString(data));
+            String resultStr = HttpUtil.post(wholeUrl, data);
             log.info("腾讯云短信发送返回：" + resultStr);
             JSONObject jsonObject = JSON.parseObject(resultStr);
             if (jsonObject.getInteger("result") == 0) {
@@ -259,10 +262,11 @@ public class SmsToolService {
             stringToSign.append("GET").append("&");
             stringToSign.append(specialUrlEncode("/")).append("&");
             stringToSign.append(specialUrlEncode(sortedQueryString));
-            String sign = org.apache.commons.codec.binary.Base64.encodeBase64String(HmacUtils.hmacSha1(accessKeySecret + "&", stringToSign.toString()));
+            String sign = SecureUtil.hmacSha1(accessKeySecret + "&").digestBase64(stringToSign.toString(), false);
             String signature = specialUrlEncode(sign);
             String url = "http://dysmsapi.aliyuncs.com/?Signature=" + signature + sortQueryStringTmp;
-            String resJson = HttpClientUtil.getHttpDataAsUTF_8(url, url);
+//            String resJson = HttpClientUtil.getHttpDataAsUTF_8(url, url);
+            String resJson = HttpUtil.get(url);
             log.info("阿里云短信发送返回：" + resJson);
             if ("OK".equals(JSON.parseObject(resJson).getString("Code"))) {
                 TooltipUtil.showToast("阿里云发送短信成功！！！");
@@ -295,7 +299,7 @@ public class SmsToolService {
             }
             Map params = new HashMap<>();
             if (StringUtils.isBlank(apikey)) {
-                pwd = DigestUtils.md5Hex(userid.toUpperCase() + "00000000" + pwd + timestamp);
+                pwd = SecureUtil.md5(userid.toUpperCase() + "00000000" + pwd + timestamp);
                 params.put("userid", userid.toUpperCase());
                 params.put("pwd", pwd);
             } else {
@@ -306,7 +310,8 @@ public class SmsToolService {
             params.put("content", java.net.URLEncoder.encode(content, "GBK"));
             params.put("svrtype", svrtype);
             params.put("exno", exno);
-            String resultStr = HttpClientUtil.getHttpDataByPost(url + "batch_send", url, JSON.toJSONString(params), "text/json; charset=utf-8");
+//            String resultStr = HttpClientUtil.getHttpDataByPost(url + "batch_send", url, JSON.toJSONString(params), "text/json; charset=utf-8");
+            String resultStr = HttpUtil.post(url, params);
             log.info("梦网云通讯短信发送返回：" + resultStr);
             if (JSON.parseObject(resultStr).getInteger("result") == 0) {
                 TooltipUtil.showToast("梦网云通讯发送短信成功！！！");

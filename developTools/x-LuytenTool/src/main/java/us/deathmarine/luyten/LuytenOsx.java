@@ -1,10 +1,5 @@
 package us.deathmarine.luyten;
 
-import java.io.File;
-import com.apple.eawt.Application;
-import com.apple.eawt.ApplicationAdapter;
-import com.apple.eawt.ApplicationEvent;
-
 /**
  * An OS X-specific initialization method for dragging/dropping
  */

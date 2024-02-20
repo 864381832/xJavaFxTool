@@ -1,5 +1,6 @@
 package com.xwintop.xJavaFxTool.controller.littleTools;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.xwintop.xJavaFxTool.services.littleTools.HdfsToolService;
 import com.xwintop.xJavaFxTool.view.littleTools.HdfsToolView;
 import com.xwintop.xcore.javafx.helper.DropContentHelper;
@@ -16,7 +17,6 @@ import javafx.util.Callback;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.beanutils.BeanUtils;
 
 import javax.swing.filechooser.FileSystemView;
 import java.io.File;
@@ -29,10 +29,15 @@ import java.util.ResourceBundle;
 @Slf4j
 public class HdfsToolController extends HdfsToolView {
     private HdfsToolService hdfsToolService = new HdfsToolService(this);
+
     private ObservableList<Map<String, String>> searchResultTableData = FXCollections.observableArrayList();
+
     private ObservableList<Map<String, String>> hadoopConfTableData = FXCollections.observableArrayList();
+
     private ObservableList<Map<String, String>> systemConfTableData = FXCollections.observableArrayList();
+
     Node directorySvgGlyph = null;
+
     Node fileSvgGlyph = null;
 
     @Override
@@ -63,7 +68,7 @@ public class HdfsToolController extends HdfsToolView {
         JavaFxViewUtil.setSpinnerValueFactory(fileSizeFromSpinner, 0, Integer.MAX_VALUE, 0);
         JavaFxViewUtil.setSpinnerValueFactory(fileSizeToSpinner, 0, Integer.MAX_VALUE, 0);
         try {
-            hdfsListTreeView.setRoot(new TreeItem<>(HdfsToolService.getTreeItemMap("/"), (Node) BeanUtils.cloneBean(directorySvgGlyph)));
+            hdfsListTreeView.setRoot(new TreeItem<>(HdfsToolService.getTreeItemMap("/"), BeanUtil.toBean(directorySvgGlyph, Node.class)));
         } catch (Exception e) {
             log.error("设置图标失败", e);
         }
@@ -81,9 +86,9 @@ public class HdfsToolController extends HdfsToolView {
                         if (item != null) {
                             try {
                                 if ("true".equals(searchResultTableData.get(this.getIndex()).get("isDirectory"))) {
-                                    this.setGraphic((Node) BeanUtils.cloneBean(directorySvgGlyph));
+                                    this.setGraphic(BeanUtil.toBean(directorySvgGlyph, Node.class));
                                 } else {
-                                    this.setGraphic((Node) BeanUtils.cloneBean(fileSvgGlyph));
+                                    this.setGraphic(BeanUtil.toBean(fileSvgGlyph, Node.class));
                                 }
                             } catch (Exception e) {
                                 log.warn("设置图标失败：" + item, e);
@@ -153,17 +158,17 @@ public class HdfsToolController extends HdfsToolView {
         });
         JavaFxViewUtil.addTableViewOnMouseRightClickMenu(searchResultTableView);
         DropContentHelper.accept(hdfsListTreeView,
-                dragboard -> dragboard.hasFiles(),
-                (__, dragboard) -> {
-                    TreeItem<Map<String, Object>> selectedItem = hdfsListTreeView.getSelectionModel().getSelectedItem();
-                    hdfsToolService.addFileOnAction(dragboard.getFiles(), selectedItem);
-                }
+            dragboard -> dragboard.hasFiles(),
+            (__, dragboard) -> {
+                TreeItem<Map<String, Object>> selectedItem = hdfsListTreeView.getSelectionModel().getSelectedItem();
+                hdfsToolService.addFileOnAction(dragboard.getFiles(), selectedItem);
+            }
         );
         DropContentHelper.accept(searchResultTableView,
-                dragboard -> dragboard.hasFiles(),
-                (__, dragboard) -> {
-                    hdfsToolService.addFileOnAction(dragboard.getFiles());
-                }
+            dragboard -> dragboard.hasFiles(),
+            (__, dragboard) -> {
+                hdfsToolService.addFileOnAction(dragboard.getFiles());
+            }
         );
         searchResultTableView.setOnDragDetected(event -> {
             hdfsToolService.dragDownloadFile();

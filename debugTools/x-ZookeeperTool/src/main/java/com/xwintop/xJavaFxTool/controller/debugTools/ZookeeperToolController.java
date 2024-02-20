@@ -1,5 +1,6 @@
 package com.xwintop.xJavaFxTool.controller.debugTools;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.xwintop.xJavaFxTool.services.debugTools.ZookeeperToolService;
 import com.xwintop.xJavaFxTool.view.debugTools.ZookeeperToolView;
 import com.xwintop.xcore.util.ConfigureUtil;
@@ -14,7 +15,6 @@ import javafx.scene.input.MouseButton;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.CollectionUtils;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -41,7 +41,7 @@ public class ZookeeperToolController extends ZookeeperToolView {
     }
 
     private void initView() {
-        if (CollectionUtils.isNotEmpty(textFieldInputHistoryDialog.getTableData())) {
+        if (CollectionUtil.isNotEmpty(textFieldInputHistoryDialog.getTableData())) {
             zkServersTextField.setText(textFieldInputHistoryDialog.getTableData().get(0).get("zkServers"));
         }
         JavaFxViewUtil.setSpinnerValueFactory(connectionTimeoutSpinner, 0, Integer.MAX_VALUE, 5000);
