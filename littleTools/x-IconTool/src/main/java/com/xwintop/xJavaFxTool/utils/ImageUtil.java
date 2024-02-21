@@ -1,6 +1,5 @@
 package com.xwintop.xJavaFxTool.utils;
 
-import com.xwintop.xcore.util.FileUtil;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.*;
@@ -8,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.imaging.ImageFormats;
 import org.apache.commons.imaging.Imaging;
+import org.apache.commons.io.FilenameUtils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -93,10 +93,10 @@ public class ImageUtil {
 
     public static void writeImage(BufferedImage bufferedImage, File file) throws Exception {
         try {
-            Imaging.writeImage(bufferedImage, file, ImageFormats.valueOf(FileUtil.getFileSuffixName(file).toUpperCase()));
+            Imaging.writeImage(bufferedImage, file, ImageFormats.valueOf(FilenameUtils.getExtension(file.getName()).toUpperCase()));
         } catch (Exception e) {
             e.printStackTrace();
-            ImageIO.write(bufferedImage, FileUtil.getFileSuffixName(file), file);
+            ImageIO.write(bufferedImage, FilenameUtils.getExtension(file.getName()), file);
         }
     }
 

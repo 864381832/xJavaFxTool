@@ -2,13 +2,13 @@ package com.xwintop.xJavaFxTool.services.javaFxTools;
 
 import com.alibaba.fastjson2.JSON;
 import com.xwintop.xJavaFxTool.controller.javaFxTools.ShowSystemInfoController;
-import com.xwintop.xcore.util.FileUtil;
 import javafx.application.Platform;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import oshi.SystemInfo;
 import oshi.hardware.*;
 import oshi.hardware.CentralProcessor.TickType;
@@ -177,21 +177,21 @@ public class ShowSystemInfoService {
                 map.put("name", fs.getName());
                 map.put("parent", "");
                 map.put("value", fs.getTotalSpace());
-                map.put("showValue", FileUtil.formatFileSize(fs.getTotalSpace()));
+                map.put("showValue", FileUtils.byteCountToDisplaySize(fs.getTotalSpace()));
 
                 Map map1 = new HashMap();
                 map1.put("id", "" + i + '1');
                 map1.put("name", "已用");
                 map1.put("parent", "" + i);
                 map1.put("value", fs.getTotalSpace() - fs.getUsableSpace());
-                map1.put("showValue", FileUtil.formatFileSize((fs.getTotalSpace() - fs.getUsableSpace())));
+                map1.put("showValue", FileUtils.byteCountToDisplaySize((fs.getTotalSpace() - fs.getUsableSpace())));
 
                 Map map2 = new HashMap();
                 map2.put("id", "" + i + '2');
                 map2.put("name", "剩余");
                 map2.put("parent", "" + i);
                 map2.put("value", fs.getUsableSpace());
-                map2.put("showValue", FileUtil.formatFileSize(fs.getUsableSpace()));
+                map2.put("showValue", FileUtils.byteCountToDisplaySize(fs.getUsableSpace()));
                 dataList.add(map);
                 dataList.add(map1);
                 dataList.add(map2);

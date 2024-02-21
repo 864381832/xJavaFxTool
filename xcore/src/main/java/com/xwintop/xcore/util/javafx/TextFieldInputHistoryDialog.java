@@ -9,7 +9,6 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
@@ -29,9 +28,8 @@ import java.util.function.Function;
 
 @Getter
 @Setter
-//@Slf4j
+@Slf4j
 public class TextFieldInputHistoryDialog {
-    private static Logger log = org.slf4j.LoggerFactory.getLogger(TextFieldInputHistoryDialog.class);
     private ObservableList<Map<String, String>> tableData = FXCollections.observableArrayList();
     private String saveFilePath = null;
     private String[] tableColumns = null;

@@ -2,11 +2,11 @@ package com.xwintop.xJavaFxTool.services.littleTools;
 
 import com.xwintop.xJavaFxTool.controller.littleTools.PdfConvertToolController;
 import com.xwintop.xJavaFxTool.utils.ImgToolUtil;
-import com.xwintop.xcore.util.FileUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.ImageType;
@@ -75,7 +75,7 @@ public class PdfConvertToolService {
 //				BufferedImage bim = pdfRenderer.Image(pageCounter, dpi, ImageType.RGB);
                 ImgToolUtil imgToolUtil = new ImgToolUtil(bim);
                 imgToolUtil.resize(dpi, dpi * bim.getHeight() / bim.getWidth());
-                ImageIO.write(imgToolUtil.getImage(), imageType, new File(fileTargetPath, FileUtil.getFileName(pdfFile) + pageCounter + "." + imageType));
+                ImageIO.write(imgToolUtil.getImage(), imageType, new File(fileTargetPath, FilenameUtils.getBaseName(pdfFile.getName()) + pageCounter + "." + imageType));
             }
 //			int pageCounter = 0;
 //			for (PDPage page : document.getPages()) {
@@ -107,7 +107,7 @@ public class PdfConvertToolService {
             int startPage = (int) pdfConvertToolController.getChoosePageRangeSlider().getLowValue() + 1;
             int endPage = (int) pdfConvertToolController.getChoosePageRangeSlider().getHighValue() + 1;
 
-            File textFile = new File(fileTargetPath, FileUtil.getFileName(pdfFile) + ".txt");
+            File textFile = new File(fileTargetPath, FilenameUtils.getBaseName(pdfFile.getName()) + ".txt");
             // 文件输入流，写入文件倒textFile
             output = new OutputStreamWriter(new FileOutputStream(textFile), "UTF-8");
             // PDFTextStrippe来提取文本  

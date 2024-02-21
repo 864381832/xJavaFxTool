@@ -3,7 +3,6 @@ package com.xwintop.xJavaFxTool.services.littleTools;
 import com.xwintop.xJavaFxTool.controller.littleTools.FileCopyController;
 import com.xwintop.xJavaFxTool.model.FileCopyTableBean;
 import com.xwintop.xcore.util.ConfigureUtil;
-import com.xwintop.xcore.util.FileUtil;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 import javafx.collections.ObservableList;
@@ -12,6 +11,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.nio.file.DirectoryStream;
@@ -32,6 +33,7 @@ import java.util.Iterator;
 @Slf4j
 public class FileCopyService {
     private FileCopyController fileCopyController;
+
     private ObservableList<FileCopyTableBean> tableData;
 
     public FileCopyService(FileCopyController fileCopyController) {
@@ -56,7 +58,7 @@ public class FileCopyService {
     public void otherSaveConfigureAction() throws Exception {
         String fileName = "fileCopyConfigure.properties";
         File file = FileChooserUtil.chooseSaveFile(fileName, new FileChooser.ExtensionFilter("All File", "*.*"),
-                new FileChooser.ExtensionFilter("Properties", "*.properties"));
+            new FileChooser.ExtensionFilter("Properties", "*.properties"));
         if (file != null) {
             saveConfigure(file);
             TooltipUtil.showToast("保存配置成功,保存在：" + file.getPath());
@@ -82,7 +84,7 @@ public class FileCopyService {
 
     public void loadingConfigureAction() {
         File file = FileChooserUtil.chooseFile(new FileChooser.ExtensionFilter("All File", "*.*"),
-                new FileChooser.ExtensionFilter("Properties", "*.properties"));
+            new FileChooser.ExtensionFilter("Properties", "*.properties"));
         if (file != null) {
             loadingConfigure(file);
         }
@@ -109,7 +111,8 @@ public class FileCopyService {
                     while (pathIterator.hasNext()) {
                         Path curPath = pathIterator.next();
                         File file = curPath.toFile();
-                        String fileName = FileUtil.getRandomFileName(file);
+                        String fileName = FilenameUtils.getBaseName(file.getName()) + ("" + System.currentTimeMillis()).substring(9);
+                        fileName = fileName + StringUtils.prependIfMissing(FilenameUtils.getExtension(file.getName()), ".");
                         if (i != 0) {
                             fileName = i + fileName;
                         }
@@ -130,7 +133,8 @@ public class FileCopyService {
                 }
             } else {
                 if (tableBean.getIsRename()) {
-                    String fileName = FileUtil.getRandomFileName(fileOriginal);
+                    String fileName = FilenameUtils.getBaseName(fileOriginal.getName()) + ("" + System.currentTimeMillis()).substring(9);
+                    fileName = fileName + StringUtils.prependIfMissing(FilenameUtils.getExtension(fileOriginal.getName()), ".");
                     if (i != 0) {
                         fileName = i + fileName;
                     }

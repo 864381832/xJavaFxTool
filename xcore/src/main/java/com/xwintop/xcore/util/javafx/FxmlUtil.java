@@ -12,27 +12,7 @@ import java.util.ResourceBundle;
  * 否则使用 xcore 的 ClassLoader 加载可能会由于安全原因而失败
  */
 public class FxmlUtil {
-
-    /**
-     * @deprecated Use {@link #loadFxmlFromResource(ClassLoader, String)} )} instead.
-     */
-    public static FXMLLoader loadFxmlFromResource(String resourcePath) {
-        return loadFxmlFromResource(FxmlUtil.class.getClassLoader(), resourcePath, null);
-    }
-
-    /**
-     * @deprecated Use {@link #loadFxmlFromResource(ClassLoader, String, ResourceBundle)} instead.
-     */
-    public static FXMLLoader loadFxmlFromResource(String resourcePath, ResourceBundle resourceBundle) {
-        return loadFxmlFromResource(FxmlUtil.class.getClassLoader(), resourcePath, resourceBundle);
-    }
-
-    public static FXMLLoader loadFxmlFromResource(ClassLoader classLoader, String resourcePath) {
-        return loadFxmlFromResource(classLoader, resourcePath, null);
-    }
-
-    public static FXMLLoader loadFxmlFromResource(
-        ClassLoader classLoader, String resourcePath, ResourceBundle resourceBundle) {
+    public static FXMLLoader loadFxmlFromResource(ClassLoader classLoader, String resourcePath, ResourceBundle resourceBundle) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(classLoader.getResource(StringUtils.removeStart(resourcePath, "/")));

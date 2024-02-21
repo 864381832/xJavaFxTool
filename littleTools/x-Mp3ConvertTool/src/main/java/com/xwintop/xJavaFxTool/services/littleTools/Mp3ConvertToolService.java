@@ -2,7 +2,6 @@ package com.xwintop.xJavaFxTool.services.littleTools;
 
 import com.xwintop.xJavaFxTool.controller.littleTools.Mp3ConvertToolController;
 import com.xwintop.xJavaFxTool.utils.NcmDump;
-import com.xwintop.xcore.util.FileUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +33,7 @@ public class Mp3ConvertToolService {
         Map<String, String> rowValue = new HashMap<>();
         rowValue.put("fileName", file.getName());
         rowValue.put("absolutePath", file.getAbsolutePath());
-        rowValue.put("fileSize", FileUtil.formatFileSize(file.length()));
+        rowValue.put("fileSize", FileUtils.byteCountToDisplaySize(file.length()));
         rowValue.put("convertStatus", "待转换");
         mp3ConvertToolController.getTableData().add(rowValue);
     }
