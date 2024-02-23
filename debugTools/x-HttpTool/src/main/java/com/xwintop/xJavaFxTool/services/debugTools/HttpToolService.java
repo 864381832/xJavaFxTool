@@ -1,27 +1,19 @@
 package com.xwintop.xJavaFxTool.services.debugTools;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.BiConsumer;
-
 import cn.hutool.core.map.MapUtil;
-import org.apache.commons.lang3.StringUtils;
-
 import com.xwintop.xJavaFxTool.controller.debugTools.HttpToolController;
-import com.xwintop.xcore.util.HttpClientUtil;
+import com.xwintop.xcore.util.javafx.JavaFxSystemUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.FormBody;
+import okhttp3.*;
 import okhttp3.FormBody.Builder;
-import okhttp3.Headers;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.BiConsumer;
 
 /**
  * @ClassName: HttpToolService
@@ -145,7 +137,7 @@ public class HttpToolService {
             return;
         }
         try {
-            HttpClientUtil.openBrowseURLThrowsException(httpToolController.getUrlTextField().getText());
+            JavaFxSystemUtil.openBrowseURLThrowsException(httpToolController.getUrlTextField().getText());
         } catch (Exception e1) {
             TooltipUtil.showToast("输入Url有误！" + e1.getMessage());
             log.error(e1.getMessage());

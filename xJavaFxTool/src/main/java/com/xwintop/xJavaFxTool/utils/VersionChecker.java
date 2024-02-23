@@ -4,7 +4,7 @@ import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
-import com.xwintop.xcore.util.HttpClientUtil;
+import com.xwintop.xcore.util.javafx.JavaFxSystemUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -35,7 +35,7 @@ public class VersionChecker {
                     .append("更新内容: \r\n").append(features)
                     .toString();
                 if (FxAlerts.confirmOkCancel("发现新版本 " + latestVersion, content)) {
-                    HttpClientUtil.openBrowseURLThrowsException("https://gitee.com/xwintop/xJavaFxTool/releases");
+                    JavaFxSystemUtil.openBrowseURLThrowsException("https://gitee.com/xwintop/xJavaFxTool/releases");
                 }
             } else {
                 return false;

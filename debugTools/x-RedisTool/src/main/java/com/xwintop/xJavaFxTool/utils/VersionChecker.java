@@ -3,8 +3,8 @@ package com.xwintop.xJavaFxTool.utils;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
-import com.xwintop.xcore.util.HttpClientUtil;
 import com.xwintop.xcore.util.javafx.AlertUtil;
+import com.xwintop.xcore.util.javafx.JavaFxSystemUtil;
 import javafx.application.Platform;
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,7 +32,7 @@ public class VersionChecker {
                     .toString();
             if (AlertUtil.showConfirmAlert(content)) {
                 try {
-                    HttpClientUtil.openBrowseURLThrowsException(downloadUrl);
+                    JavaFxSystemUtil.openBrowseURLThrowsException(downloadUrl);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (URISyntaxException e) {

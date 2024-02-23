@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 @Slf4j
 public class JavaFxSystemUtil {
@@ -50,5 +52,19 @@ public class JavaFxSystemUtil {
             screenHeight = bounds.getHeight();
         }
         return new double[]{screenWidth, screenHeight};
+    }
+
+    public static void openBrowseURL(String url) {
+        Desktop desktop = Desktop.getDesktop();
+        try {
+            desktop.browse(new URI(url));
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    public static void openBrowseURLThrowsException(String url) throws IOException, URISyntaxException {
+        Desktop desktop = Desktop.getDesktop();
+        desktop.browse(new URI(url));
     }
 }

@@ -2,11 +2,11 @@ package com.xwintop.xJavaFxTool.controller;
 
 import com.xwintop.xJavaFxTool.XJavaFxToolApplication;
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
+import com.xwintop.xJavaFxTool.controller.plugin.PluginCategoryController;
+import com.xwintop.xJavaFxTool.controller.plugin.PluginItemController;
 import com.xwintop.xJavaFxTool.event.AppEvents;
 import com.xwintop.xJavaFxTool.event.PluginEvent;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
-import com.xwintop.xJavaFxTool.controller.plugin.PluginCategoryController;
-import com.xwintop.xJavaFxTool.controller.plugin.PluginItemController;
 import com.xwintop.xJavaFxTool.plugin.PluginManager;
 import com.xwintop.xJavaFxTool.plugin.PluginParser;
 import com.xwintop.xJavaFxTool.services.IndexService;
@@ -18,7 +18,6 @@ import com.xwintop.xcore.javafx.FxApp;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import com.xwintop.xcore.javafx.dialog.FxDialog;
 import com.xwintop.xcore.util.ConfigureUtil;
-import com.xwintop.xcore.util.HttpClientUtil;
 import com.xwintop.xcore.util.javafx.AlertUtil;
 import com.xwintop.xcore.util.javafx.JavaFxSystemUtil;
 import javafx.application.Platform;
@@ -277,11 +276,11 @@ public class IndexController extends IndexView {
 
     @FXML
     private void xwintopLinkOnAction() throws Exception {
-        HttpClientUtil.openBrowseURLThrowsException("https://gitee.com/xwintop/xJavaFxTool");
+        JavaFxSystemUtil.openBrowseURLThrowsException("https://gitee.com/xwintop/xJavaFxTool");
     }
 
     @FXML
     private void userSupportAction() throws Exception {
-        HttpClientUtil.openBrowseURLThrowsException(QQ_URL);
+        JavaFxSystemUtil.openBrowseURLThrowsException(QQ_URL);
     }
 }

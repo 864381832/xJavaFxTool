@@ -3,16 +3,15 @@ package com.xwintop.xJavaFxTool.controller.littleTools;
 import com.xwintop.xJavaFxTool.model.SmsToolTableBean;
 import com.xwintop.xJavaFxTool.services.littleTools.SmsToolService;
 import com.xwintop.xJavaFxTool.view.littleTools.SmsToolView;
-import com.xwintop.xcore.util.HttpClientUtil;
+import com.xwintop.xcore.util.javafx.JavaFxSystemUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -139,26 +138,26 @@ public class SmsToolController extends SmsToolView {
 
     @FXML
     private void registerAliyunAction(ActionEvent event) {
-        HttpClientUtil.openBrowseURL("https://promotion.aliyun.com/ntms/act/ambassador/sharetouser.html?userCode=vt7aiwvr&utm_source=vt7aiwvr");
+        JavaFxSystemUtil.openBrowseURL("https://promotion.aliyun.com/ntms/act/ambassador/sharetouser.html?userCode=vt7aiwvr&utm_source=vt7aiwvr");
     }
 
     @FXML
     private void registerCmccAction(ActionEvent event) {
-        HttpClientUtil.openBrowseURL("http://www.openservice.com.cn");
+        JavaFxSystemUtil.openBrowseURL("http://www.openservice.com.cn");
     }
 
     @FXML
     private void registerOpen189Action(ActionEvent event) {
-        HttpClientUtil.openBrowseURL("http://open.189.cn");
+        JavaFxSystemUtil.openBrowseURL("http://open.189.cn");
     }
 
     @FXML
     private void registerTencentAction(ActionEvent event) {
-        HttpClientUtil.openBrowseURL("https://cloud.tencent.com/redirect.php?redirect=1005&cps_key=f312970b0318dd604cd33405d2c6d697");
+        JavaFxSystemUtil.openBrowseURL("https://cloud.tencent.com/redirect.php?redirect=1005&cps_key=f312970b0318dd604cd33405d2c6d697");
     }
 
     @FXML
     private void registerMonyunAction(ActionEvent event) {
-        HttpClientUtil.openBrowseURL("http://www.monyun.cn/?rsdlx7ba");
+        JavaFxSystemUtil.openBrowseURL("http://www.monyun.cn/?rsdlx7ba");
     }
 }
