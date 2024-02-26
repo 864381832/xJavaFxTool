@@ -1,6 +1,5 @@
 package com.xwintop.xcore.javafx;
 
-import com.xwintop.xcore.util.javafx.JavaFxSystemUtil;
 import javafx.application.Platform;
 import javafx.scene.control.Dialog;
 import javafx.scene.image.Image;
@@ -30,7 +29,6 @@ public class FxApp {
     // 初始化全局属性
     public static void init(Stage primaryStage, String iconPath) {
         FxApp.primaryStage = primaryStage;
-        JavaFxSystemUtil.mainStage = primaryStage;  // 为兼容性保留
 
         if (StringUtils.isNotBlank(iconPath)) {
             FxApp.appIcon = icon(iconPath);

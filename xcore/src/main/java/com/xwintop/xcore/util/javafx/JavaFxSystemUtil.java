@@ -2,7 +2,6 @@ package com.xwintop.xcore.util.javafx;
 
 import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
-import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
@@ -13,13 +12,6 @@ import java.net.URISyntaxException;
 
 @Slf4j
 public class JavaFxSystemUtil {
-
-    /**
-     * @deprecated 使用 {@link com.xwintop.xcore.javafx.FxApp#primaryStage}
-     */
-    @Deprecated
-    public static Stage mainStage = null;
-
     /**
      * 打开目录
      *
