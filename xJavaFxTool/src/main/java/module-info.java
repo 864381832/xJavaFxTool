@@ -17,4 +17,5 @@ module com.xwintop.xJavaFxTool {
     requires ch.qos.logback.core;
     requires com.alibaba.fastjson2;
     requires org.dom4j;
+    requires cn.hutool;
 }

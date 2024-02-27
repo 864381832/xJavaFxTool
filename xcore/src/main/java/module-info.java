@@ -21,6 +21,6 @@ open module com.xwintop.xcore {
     requires quartz;
     requires transitive javafx.swing;
     requires org.controlsfx.controls;
-    requires transitive cn.hutool;
+    requires cn.hutool;
     requires org.dom4j;
 }

@@ -1,13 +1,15 @@
 package com.xwintop.xJavaFxTool.utils;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.JSONWriter;
 import com.xwintop.xcore.util.ConfigureUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.io.FileInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
-import java.util.Properties;
 
 /*
  * 存取框架配置
@@ -15,7 +17,7 @@ import java.util.Properties;
 @Slf4j
 public class Config {
 
-    public static final String CONFIG_FILE_NAME = "systemConfigure.properties";
+    public static final String CONFIG_FILE_NAME = "systemConfigure.json";
 
     public static Locale defaultLocale = Locale.getDefault();// 设置系统语言
 
@@ -27,35 +29,33 @@ public class Config {
         NewLauncher
     }
 
-    private static Properties conf;
+    private static JSONObject conf;
 
-    public static Properties getConfig() {
+    public static JSONObject getConfig() {
         try {
             if (conf == null) {
+                conf = new JSONObject();
                 File file = ConfigureUtil.getConfigureFile(CONFIG_FILE_NAME);
-                conf = new Properties();
-                conf.load(new FileInputStream(file));
-//                conf = new PropertiesConfiguration(file);
-//                conf.setAutoSave(true); // 启用自动保存
-            } else {
-//                conf.reload();
+                if (file.exists()) {
+                    conf = JSON.parseObject(FileUtils.readFileToString(file, StandardCharsets.UTF_8));
+                }
             }
         } catch (Exception e) {
             log.error("加载本地配置失败：", e);
             // 即使加载失败，也要返回一个内存中的 PropertiesConfiguration 对象，以免程序报错。
-            conf = new Properties();
+            conf = new JSONObject();
         }
 
         return conf;
     }
 
     public static void saveConfig() {
-//        File file = ConfigureUtil.getConfigureFile(CONFIG_FILE_NAME);
-//        try {
-//            conf.store(new FileOutputStream(file), "save config");
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
+        File file = ConfigureUtil.getConfigureFile(CONFIG_FILE_NAME);
+        try {
+            FileUtils.writeStringToFile(file, conf.toJSONString(JSONWriter.Feature.WriteMapNullValue));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -67,15 +67,14 @@ public class Config {
     }
 
     public static String get(Keys key, String def) {
-        Object value = getConfig().getProperty(key.name());
-        return value == null ? def : value.toString();
+        return (String) getConfig().getOrDefault(key.name(), def);
     }
 
     public static double getDouble(Keys key, double def) {
-        return NumberUtils.toDouble(get(key, null), def);
+        return (double) getConfig().getOrDefault(key.name(), def);
     }
 
     public static boolean getBoolean(Keys key, boolean def) {
-        return Boolean.parseBoolean(get(key, String.valueOf(def)));
+        return (boolean) getConfig().getOrDefault(key.name(), def);
     }
 }
