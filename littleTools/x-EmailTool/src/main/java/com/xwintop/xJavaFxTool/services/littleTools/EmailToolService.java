@@ -11,7 +11,8 @@ import javafx.stage.FileChooser;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.EmailAttachment;
@@ -21,6 +22,7 @@ import org.quartz.impl.StdSchedulerFactory;
 
 import javax.mail.internet.InternetAddress;
 import java.io.File;
+import java.io.FileWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -185,12 +187,12 @@ public class EmailToolService {
 
     public void saveConfigure(File file) throws Exception {
         FileUtils.touch(file);
-        PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
+        PropertiesConfiguration xmlConfigure = new Configurations().properties(file);
         xmlConfigure.clear();
         for (int i = 0; i < emailToolController.getTableData().size(); i++) {
             xmlConfigure.setProperty("tableBean" + i, emailToolController.getTableData().get(i).getPropertys());
         }
-        xmlConfigure.save();
+        xmlConfigure.write(new FileWriter(file));
         TooltipUtil.showToast("保存配置成功,保存在：" + file.getPath());
     }
 
@@ -210,7 +212,7 @@ public class EmailToolService {
     public void loadingConfigure(File file) {
         try {
             emailToolController.getTableData().clear();
-            PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
+            PropertiesConfiguration xmlConfigure = new Configurations().properties(file);
             xmlConfigure.getKeys().forEachRemaining(new Consumer<String>() {
                 @Override
                 public void accept(String t) {

@@ -6,6 +6,8 @@ import com.xwintop.xcore.util.ConfigureUtil;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 
+import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.io.FileUtils;
 import org.apache.ftpserver.ConnectionConfig;
 import org.apache.ftpserver.FtpServer;
@@ -18,6 +20,7 @@ import org.apache.ftpserver.usermanager.impl.TransferRatePermission;
 import org.apache.ftpserver.usermanager.impl.WritePermission;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -104,12 +107,12 @@ public class FtpServerService {
 
 	public void saveConfigure(File file) throws Exception {
 		FileUtils.touch(file);
-//		PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
-//		xmlConfigure.clear();
-//		for (int i = 0; i < ftpServerController.getTableData().size(); i++) {
-//			xmlConfigure.setProperty("tableBean" + i, ftpServerController.getTableData().get(i).getPropertys());
-//		}
-//		xmlConfigure.save();
+        PropertiesConfiguration xmlConfigure = new Configurations().properties(file);
+		xmlConfigure.clear();
+		for (int i = 0; i < ftpServerController.getTableData().size(); i++) {
+			xmlConfigure.setProperty("tableBean" + i, ftpServerController.getTableData().get(i).getPropertys());
+		}
+		xmlConfigure.write(new FileWriter(file));
 		TooltipUtil.showToast("保存配置成功,保存在：" + file.getPath());
 	}
 
@@ -130,13 +133,13 @@ public class FtpServerService {
 	public void loadingConfigure(File file) {
 		try {
 			ftpServerController.getTableData().clear();
-//			PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
-//			xmlConfigure.getKeys().forEachRemaining(new Consumer<String>() {
-//				@Override
-//				public void accept(String t) {
-//					ftpServerController.getTableData().add(new FtpServerTableBean(xmlConfigure.getString(t)));
-//				}
-//			});
+            PropertiesConfiguration xmlConfigure = new Configurations().properties(file);
+            xmlConfigure.getKeys().forEachRemaining(new Consumer<String>() {
+				@Override
+				public void accept(String t) {
+					ftpServerController.getTableData().add(new FtpServerTableBean(xmlConfigure.getString(t)));
+				}
+			});
 		} catch (Exception e) {
 			try {
 				log.error("加载配置失败：" + e.getMessage());

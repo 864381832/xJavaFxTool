@@ -1,6 +1,7 @@
 package com.xwintop.xJavaFxTool.services.games;
 
 import com.xwintop.xJavaFxTool.controller.games.BullsAndCowsGameController;
+import com.xwintop.xcore.util.ConfigureUtil;
 import com.xwintop.xcore.util.javafx.AlertUtil;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
@@ -9,8 +10,13 @@ import javafx.scene.layout.HBox;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.builder.fluent.Configurations;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -27,12 +33,17 @@ import java.util.TimerTask;
 @Slf4j
 public class BullsAndCowsGameService {
     private BullsAndCowsGameController bullsAndCowsGameController;
+
     private int daojishiTime = 0;
+
     private int[] answerNumbers = new int[4];
+
     private int enterAnswerNumber = 0;
+
     private Timer timer;
 
     private int recordNumber = 0;
+
     private int recordTime = 0;
 
     public BullsAndCowsGameService(BullsAndCowsGameController bullsAndCowsGameController) {
@@ -41,9 +52,9 @@ public class BullsAndCowsGameService {
 
     public void initRecordData() {
         try {
-//            PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(ConfigureUtil.getConfigureFile("BullsAndCowsGameConfigure.properties"));
-//            recordNumber = xmlConfigure.getInt("recordNumber", 0);
-//            recordTime = xmlConfigure.getInt("recordTime", 0);
+            PropertiesConfiguration xmlConfigure = new Configurations().properties(ConfigureUtil.getConfigureFile("BullsAndCowsGameConfigure.properties"));
+            recordNumber = xmlConfigure.getInt("recordNumber", 0);
+            recordTime = xmlConfigure.getInt("recordTime", 0);
             this.setRecordData();
         } catch (Exception e) {
             log.error("加载配置失败！");
@@ -159,15 +170,15 @@ public class BullsAndCowsGameService {
             bullsAndCowsGameController.getRecordNumberLabel().setText("最少次数：第  " + recordNumber + " 次完成");
             bullsAndCowsGameController.getRecordTimeLabel().setText("最短时间:  " + hours + "  小时  " + minutes + "  分  " + seconds + "  秒");
         });
-//        try {
-//            File file = ConfigureUtil.getConfigureFile("BullsAndCowsGameConfigure.properties");
-//            FileUtils.touch(file);
-//            PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(ConfigureUtil.getConfigureFile("BullsAndCowsGameConfigure.properties"));
-//            xmlConfigure.setProperty("recordNumber", recordNumber);
-//            xmlConfigure.setProperty("recordTime", recordTime);
-//            xmlConfigure.save();
-//        } catch (Exception e) {
-//            log.error("保存配置失败！", e);
-//        }
+        try {
+            File file = ConfigureUtil.getConfigureFile("BullsAndCowsGameConfigure.properties");
+            FileUtils.touch(file);
+            PropertiesConfiguration xmlConfigure = new Configurations().properties(file);
+            xmlConfigure.setProperty("recordNumber", recordNumber);
+            xmlConfigure.setProperty("recordTime", recordTime);
+            xmlConfigure.write(new FileWriter(file));
+        } catch (Exception e) {
+            log.error("保存配置失败！", e);
+        }
     }
 }

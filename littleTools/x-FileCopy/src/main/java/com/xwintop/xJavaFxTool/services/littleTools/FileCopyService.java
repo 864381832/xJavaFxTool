@@ -10,11 +10,14 @@ import javafx.stage.FileChooser;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -45,13 +48,13 @@ public class FileCopyService {
     }
 
     public void saveConfigure(File file) throws Exception {
-//        FileUtils.touch(file);
-//        PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
-//        xmlConfigure.clear();
-//        for (int i = 0; i < tableData.size(); i++) {
-//            xmlConfigure.setProperty("tableBean" + i, tableData.get(i).getPropertys());
-//        }
-//        xmlConfigure.save();
+        FileUtils.touch(file);
+        PropertiesConfiguration xmlConfigure = new Configurations().properties(file);
+        xmlConfigure.clear();
+        for (int i = 0; i < tableData.size(); i++) {
+            xmlConfigure.setProperty("tableBean" + i, tableData.get(i).getPropertys());
+        }
+        xmlConfigure.write(new FileWriter(file));
         TooltipUtil.showToast("保存配置成功,保存在：" + file.getPath());
     }
 
@@ -72,8 +75,8 @@ public class FileCopyService {
     public void loadingConfigure(File file) {
         try {
             tableData.clear();
-//            PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
-//            xmlConfigure.getKeys().forEachRemaining(t -> tableData.add(new FileCopyTableBean(xmlConfigure.getString(t))));
+            PropertiesConfiguration xmlConfigure = new Configurations().properties(file);
+            xmlConfigure.getKeys().forEachRemaining(t -> tableData.add(new FileCopyTableBean(xmlConfigure.getString(t))));
         } catch (Exception e) {
             try {
                 TooltipUtil.showToast("加载配置失败：" + e.getMessage());

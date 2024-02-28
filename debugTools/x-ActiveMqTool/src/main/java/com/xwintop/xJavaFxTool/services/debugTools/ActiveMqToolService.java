@@ -18,15 +18,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.command.ActiveMQBytesMessage;
 import org.apache.activemq.command.ActiveMQMapMessage;
+import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.jms.*;
 import java.io.File;
+import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * @ClassName: ActiveMqToolService
@@ -53,12 +57,12 @@ public class ActiveMqToolService {
 
     public void saveConfigure(File file) throws Exception {
         FileUtils.touch(file);
-//        PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
-//        xmlConfigure.clear();
-//        for (int i = 0; i < activeMqToolController.getTableData().size(); i++) {
-//            xmlConfigure.setProperty("tableBean" + i, activeMqToolController.getTableData().get(i).getPropertys());
-//        }
-//        xmlConfigure.save();
+        PropertiesConfiguration xmlConfigure = new Configurations().properties(file);
+        xmlConfigure.clear();
+        for (int i = 0; i < activeMqToolController.getTableData().size(); i++) {
+            xmlConfigure.setProperty("tableBean" + i, activeMqToolController.getTableData().get(i).getPropertys());
+        }
+        xmlConfigure.write(new FileWriter(file));
         Platform.runLater(() -> {
             TooltipUtil.showToast("保存配置成功,保存在：" + file.getPath());
         });
@@ -81,13 +85,13 @@ public class ActiveMqToolService {
     public void loadingConfigure(File file) {
         try {
             activeMqToolController.getTableData().clear();
-//            PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
-//            xmlConfigure.getKeys().forEachRemaining(new Consumer<String>() {
-//                @Override
-//                public void accept(String t) {
-//                    activeMqToolController.getTableData().add(new ActiveMqToolTableBean(xmlConfigure.getString(t)));
-//                }
-//            });
+            PropertiesConfiguration xmlConfigure = new Configurations().properties(file);
+            xmlConfigure.getKeys().forEachRemaining(new Consumer<String>() {
+                @Override
+                public void accept(String t) {
+                    activeMqToolController.getTableData().add(new ActiveMqToolTableBean(xmlConfigure.getString(t)));
+                }
+            });
         } catch (Exception e) {
             try {
                 TooltipUtil.showToast("加载配置失败：" + e.getMessage());

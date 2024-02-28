@@ -14,6 +14,8 @@ import javafx.stage.FileChooser;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.*;
@@ -22,6 +24,7 @@ import org.quartz.impl.StdSchedulerFactory;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.util.Properties;
 import java.util.function.Consumer;
 
@@ -239,12 +242,12 @@ public class FtpClientToolService {
 
     public void saveConfigure(File file) throws Exception {
         FileUtils.touch(file);
-//        PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
-//        xmlConfigure.clear();
-//        for (int i = 0; i < ftpClientToolController.getTableData().size(); i++) {
-//            xmlConfigure.setProperty("tableBean" + i, ftpClientToolController.getTableData().get(i).getPropertys());
-//        }
-//        xmlConfigure.save();
+        PropertiesConfiguration xmlConfigure = new Configurations().properties(file);
+        xmlConfigure.clear();
+        for (int i = 0; i < ftpClientToolController.getTableData().size(); i++) {
+            xmlConfigure.setProperty("tableBean" + i, ftpClientToolController.getTableData().get(i).getPropertys());
+        }
+        xmlConfigure.write(new FileWriter(file));
         TooltipUtil.showToast("保存配置成功,保存在：" + file.getPath());
     }
 
@@ -264,13 +267,13 @@ public class FtpClientToolService {
     public void loadingConfigure(File file) {
         try {
             ftpClientToolController.getTableData().clear();
-//            PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
-//            xmlConfigure.getKeys().forEachRemaining(new Consumer<String>() {
-//                @Override
-//                public void accept(String t) {
-//                    ftpClientToolController.getTableData().add(new FtpClientToolTableBean(xmlConfigure.getString(t)));
-//                }
-//            });
+            PropertiesConfiguration xmlConfigure = new Configurations().properties(file);
+            xmlConfigure.getKeys().forEachRemaining(new Consumer<String>() {
+                @Override
+                public void accept(String t) {
+                    ftpClientToolController.getTableData().add(new FtpClientToolTableBean(xmlConfigure.getString(t)));
+                }
+            });
         } catch (Exception e) {
             try {
                 log.error("加载配置失败：", e);

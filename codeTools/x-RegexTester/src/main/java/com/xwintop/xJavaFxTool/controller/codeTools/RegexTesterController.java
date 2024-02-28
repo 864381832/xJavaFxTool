@@ -27,6 +27,9 @@ import javafx.scene.web.WebView;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.builder.fluent.Configurations;
+
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,13 +60,13 @@ public class RegexTesterController extends RegexTesterView {
     private void initView() throws Exception {
         examplesTableColumn0.setCellValueFactory(new MapValueFactory("column0"));
         examplesTableColumn1.setCellValueFactory(new MapValueFactory("column1"));
-//        PropertiesConfiguration pcfg = new PropertiesConfiguration(RegexTesterController.class.getResource("/data/regexData.properties"));
-//        pcfg.getKeys().forEachRemaining((String key) -> {
-//            Map<String, String> map = new HashMap<String, String>();
-//            map.put("column0", key);
-//            map.put("column1", pcfg.getString(key));
-//            examplesTableView.getItems().add(map);
-//        });
+        PropertiesConfiguration pcfg = new Configurations().properties(RegexTesterController.class.getResource("/data/regexData.properties"));
+        pcfg.getKeys().forEachRemaining((String key) -> {
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("column0", key);
+            map.put("column1", pcfg.getString(key));
+            examplesTableView.getItems().add(map);
+        });
         matchTableColumn0.setCellValueFactory(new MapValueFactory("column0"));
         matchTableColumn1.setCellValueFactory(new MapValueFactory("column1"));
         matchTableColumn2.setCellValueFactory(new MapValueFactory("column2"));
