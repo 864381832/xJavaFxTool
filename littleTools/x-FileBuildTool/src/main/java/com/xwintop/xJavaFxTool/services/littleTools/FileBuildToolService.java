@@ -15,8 +15,8 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.StrSubstitutor;
 import org.apache.commons.lang3.time.DateFormatUtils;
-import org.apache.commons.text.StringSubstitutor;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,7 +48,7 @@ public class FileBuildToolService {
         String fileName = fileBuildToolController.getFileNameTextField().getText();
         int index = -1;
         for (Map<String, String> fieldTableDatum : fileBuildToolController.getFieldTableData()) {
-            StringSubstitutor contentStringSubstitutor = new StringSubstitutor(fieldTableDatum, "${", "}");
+            StrSubstitutor contentStringSubstitutor = new StrSubstitutor(fieldTableDatum, "${", "}");
             contentStringSubstitutor.setEnableSubstitutionInVariables(true);
             String fileName1 = contentStringSubstitutor.replace(fileName);
             String content = contentStringSubstitutor.replace(fileTemplateText);
