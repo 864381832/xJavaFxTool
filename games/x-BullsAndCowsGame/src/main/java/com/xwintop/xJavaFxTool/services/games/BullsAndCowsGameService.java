@@ -10,13 +10,8 @@ import javafx.scene.layout.HBox;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.configuration2.PropertiesConfiguration;
-import org.apache.commons.configuration2.builder.fluent.Configurations;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -33,6 +28,8 @@ import java.util.TimerTask;
 @Slf4j
 public class BullsAndCowsGameService {
     private BullsAndCowsGameController bullsAndCowsGameController;
+
+    private final String CONFIG_FILE_NAME = "BullsAndCowsGameConfigure.json";
 
     private int daojishiTime = 0;
 
@@ -52,9 +49,11 @@ public class BullsAndCowsGameService {
 
     public void initRecordData() {
         try {
-            PropertiesConfiguration xmlConfigure = new Configurations().properties(ConfigureUtil.getConfigureFile("BullsAndCowsGameConfigure.properties"));
-            recordNumber = xmlConfigure.getInt("recordNumber", 0);
-            recordTime = xmlConfigure.getInt("recordTime", 0);
+            recordNumber = (int) ConfigureUtil.getOrDefault(CONFIG_FILE_NAME,"recordNumber", 0);
+            recordTime = (int) ConfigureUtil.getOrDefault(CONFIG_FILE_NAME,"recordTime", 0);
+//            PropertiesConfiguration xmlConfigure = new Configurations().properties(ConfigureUtil.getConfigureFile("BullsAndCowsGameConfigure.properties"));
+//            recordNumber = xmlConfigure.getInt("recordNumber", 0);
+//            recordTime = xmlConfigure.getInt("recordTime", 0);
             this.setRecordData();
         } catch (Exception e) {
             log.error("加载配置失败！");
@@ -171,12 +170,8 @@ public class BullsAndCowsGameService {
             bullsAndCowsGameController.getRecordTimeLabel().setText("最短时间:  " + hours + "  小时  " + minutes + "  分  " + seconds + "  秒");
         });
         try {
-            File file = ConfigureUtil.getConfigureFile("BullsAndCowsGameConfigure.properties");
-            FileUtils.touch(file);
-            PropertiesConfiguration xmlConfigure = new Configurations().properties(file);
-            xmlConfigure.setProperty("recordNumber", recordNumber);
-            xmlConfigure.setProperty("recordTime", recordTime);
-            xmlConfigure.write(new FileWriter(file));
+            ConfigureUtil.set(CONFIG_FILE_NAME,"recordNumber", recordNumber);
+            ConfigureUtil.set(CONFIG_FILE_NAME,"recordTime", recordTime);
         } catch (Exception e) {
             log.error("保存配置失败！", e);
         }

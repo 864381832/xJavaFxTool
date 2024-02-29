@@ -14,9 +14,6 @@ import javafx.stage.FileChooser;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.configuration2.PropertiesConfiguration;
-import org.apache.commons.configuration2.builder.fluent.Configurations;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -36,10 +33,8 @@ import org.springframework.kafka.listener.ContainerProperties;
 
 import javax.jms.Message;
 import java.io.File;
-import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.function.Consumer;
 
 /**
  * @ClassName: KafkaToolService
@@ -53,8 +48,11 @@ import java.util.function.Consumer;
 @Slf4j
 public class KafkaToolService {
     private KafkaToolController kafkaToolController;
-    private String fileName = "KafkaToolConfigure.properties";
+
+    private final String fileName = "KafkaToolConfigure.json";
+
     private ScheduleManager scheduleManager = new ScheduleManager();
+
     private Map<String, Message> receiverMessageMap = new HashMap<String, Message>();
 
     private ConcurrentMessageListenerContainer<String, String> concurrentMessageListenerContainer = null;
@@ -64,13 +62,10 @@ public class KafkaToolService {
     }
 
     public void saveConfigure(File file) throws Exception {
-        FileUtils.touch(file);
-        PropertiesConfiguration xmlConfigure = new Configurations().properties(file);
-        xmlConfigure.clear();
+        ConfigureUtil.getConfig(file).clear();
         for (int i = 0; i < kafkaToolController.getTableData().size(); i++) {
-            xmlConfigure.setProperty("tableBean" + i, kafkaToolController.getTableData().get(i).getPropertys());
+            ConfigureUtil.set(file, "tableBean" + i, kafkaToolController.getTableData().get(i).getPropertys());
         }
-        xmlConfigure.write(new FileWriter(file));
         Platform.runLater(() -> {
             TooltipUtil.showToast("保存配置成功,保存在：" + file.getPath());
         });
@@ -78,7 +73,7 @@ public class KafkaToolService {
 
     public void otherSaveConfigureAction() throws Exception {
         File file = FileChooserUtil.chooseSaveFile(fileName, new FileChooser.ExtensionFilter("All File", "*.*"),
-                new FileChooser.ExtensionFilter("Properties", "*.properties"));
+            new FileChooser.ExtensionFilter("Properties", "*.json"));
         if (file != null) {
             saveConfigure(file);
             TooltipUtil.showToast("保存配置成功,保存在：" + file.getPath());
@@ -92,13 +87,10 @@ public class KafkaToolService {
     public void loadingConfigure(File file) {
         try {
             kafkaToolController.getTableData().clear();
-            PropertiesConfiguration xmlConfigure = new Configurations().properties(file);
-            xmlConfigure.getKeys().forEachRemaining(new Consumer<String>() {
-                @Override
-                public void accept(String t) {
-                    kafkaToolController.getTableData().add(new KafkaToolTableBean(xmlConfigure.getString(t)));
-                }
-            });
+            Map xmlConfigure = ConfigureUtil.getConfig(file);
+            for (Object key : xmlConfigure.keySet()) {
+                kafkaToolController.getTableData().add(new KafkaToolTableBean((String) xmlConfigure.get(key)));
+            }
         } catch (Exception e) {
             try {
                 TooltipUtil.showToast("加载配置失败：" + e.getMessage());
@@ -109,7 +101,7 @@ public class KafkaToolService {
 
     public void loadingConfigureAction() {
         File file = FileChooserUtil.chooseFile(new FileChooser.ExtensionFilter("All File", "*.*"),
-                new FileChooser.ExtensionFilter("Properties", "*.properties"));
+            new FileChooser.ExtensionFilter("Properties", "*.json"));
         if (file != null) {
             loadingConfigure(file);
         }
@@ -236,7 +228,7 @@ public class KafkaToolService {
                 log.info("msgValue" + record.value());
                 String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(record.timestamp()));
                 KafkaToolReceiverTableBean kafkaToolReceiverTableBean = new KafkaToolReceiverTableBean(
-                        record.key(), record.topic(), record.value(), "String", timestamp, false);
+                    record.key(), record.topic(), record.value(), "String", timestamp, false);
                 kafkaToolController.getReceiverTableData().add(kafkaToolReceiverTableBean);
             }
             consumer.commitAsync();

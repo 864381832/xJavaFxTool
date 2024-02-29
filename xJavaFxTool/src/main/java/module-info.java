@@ -15,7 +15,4 @@ module com.xwintop.xJavaFxTool {
 //    requires okio;
     requires ch.qos.logback.classic;
     requires ch.qos.logback.core;
-    requires com.alibaba.fastjson2;
-    requires org.dom4j;
-    requires cn.hutool;
 }

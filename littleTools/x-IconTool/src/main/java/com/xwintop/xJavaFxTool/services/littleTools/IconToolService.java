@@ -49,7 +49,7 @@ public class IconToolService {
 	private IconToolController iconToolController;
 
 	public void saveConfigure() throws Exception {
-		saveConfigure(ConfigureUtil.getConfigureFile("iconToolConfigure.properties"));
+		saveConfigure(ConfigureUtil.getConfigureFile("iconToolConfigure.json"));
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class IconToolService {
 	public void otherSaveConfigureAction() throws Exception {
 		String fileName = "iconToolConfigure.properties";
 		File file = FileChooserUtil.chooseSaveFile(fileName, new FileChooser.ExtensionFilter("All File", "*.*"),
-				new FileChooser.ExtensionFilter("Properties", "*.properties"));
+				new FileChooser.ExtensionFilter("Properties", "*.json"));
 		if (file != null) {
 			saveConfigure(file);
 			TooltipUtil.showToast("保存配置成功,保存在：" + file.getPath());
@@ -137,7 +137,7 @@ public class IconToolService {
 
 	public void loadingConfigureAction() {
 		File file = FileChooserUtil.chooseFile(new FileChooser.ExtensionFilter("All File", "*.*"),
-				new FileChooser.ExtensionFilter("Properties", "*.properties"));
+				new FileChooser.ExtensionFilter("Properties", "*.json"));
 		if (file != null) {
 			loadingConfigure(file);
 		}

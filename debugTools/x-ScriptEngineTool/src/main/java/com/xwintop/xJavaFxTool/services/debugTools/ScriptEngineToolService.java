@@ -14,15 +14,10 @@ import javafx.stage.FileChooser;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.configuration2.PropertiesConfiguration;
-import org.apache.commons.configuration2.builder.fluent.Configurations;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.util.Map;
-import java.util.function.Consumer;
 
 /**
  * @ClassName: ScriptEngineToolService
@@ -37,7 +32,7 @@ import java.util.function.Consumer;
 public class ScriptEngineToolService {
     private ScriptEngineToolController scriptEngineToolController;
 
-    private String fileName = "scriptEngineToolConfigure.properties";
+    private String fileName = "scriptEngineToolConfigure.json";
 
     private ScheduleManager scheduleManager = new ScheduleManager();
 
@@ -164,19 +159,16 @@ public class ScriptEngineToolService {
     }
 
     public void saveConfigure(File file) throws Exception {
-        FileUtils.touch(file);
-        PropertiesConfiguration xmlConfigure = new Configurations().properties(file);
-        xmlConfigure.clear();
+        ConfigureUtil.getConfig(file).clear();
         for (int i = 0; i < scriptEngineToolController.getTableData().size(); i++) {
-            xmlConfigure.setProperty("tableBean" + i, scriptEngineToolController.getTableData().get(i).getPropertys());
+            ConfigureUtil.set(file, "tableBean" + i, scriptEngineToolController.getTableData().get(i).getPropertys());
         }
-        xmlConfigure.write(new FileWriter(file));
         TooltipUtil.showToast("保存配置成功,保存在：" + file.getPath());
     }
 
     public void otherSaveConfigureAction() throws Exception {
         File file = FileChooserUtil.chooseSaveFile(fileName, new FileChooser.ExtensionFilter("All File", "*.*"),
-            new FileChooser.ExtensionFilter("Properties", "*.properties"));
+            new FileChooser.ExtensionFilter("Properties", "*.json"));
         if (file != null) {
             saveConfigure(file);
             TooltipUtil.showToast("保存配置成功,保存在：" + file.getPath());
@@ -190,13 +182,10 @@ public class ScriptEngineToolService {
     public void loadingConfigure(File file) {
         try {
             scriptEngineToolController.getTableData().clear();
-            PropertiesConfiguration xmlConfigure = new Configurations().properties(file);
-            xmlConfigure.getKeys().forEachRemaining(new Consumer<String>() {
-                @Override
-                public void accept(String t) {
-                    scriptEngineToolController.getTableData().add(new ScriptEngineToolTableBean(xmlConfigure.getString(t)));
-                }
-            });
+            Map xmlConfigure = ConfigureUtil.getConfig(file);
+            for (Object key : xmlConfigure.keySet()) {
+                scriptEngineToolController.getTableData().add(new ScriptEngineToolTableBean((String) xmlConfigure.get(key)));
+            }
         } catch (Exception e) {
             try {
                 log.error("加载配置失败：" + e.getMessage());
@@ -208,7 +197,7 @@ public class ScriptEngineToolService {
 
     public void loadingConfigureAction() {
         File file = FileChooserUtil.chooseFile(new FileChooser.ExtensionFilter("All File", "*.*"),
-            new FileChooser.ExtensionFilter("Properties", "*.properties"));
+            new FileChooser.ExtensionFilter("Properties", "*.json"));
         if (file != null) {
             loadingConfigure(file);
         }

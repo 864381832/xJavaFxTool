@@ -18,19 +18,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.command.ActiveMQBytesMessage;
 import org.apache.activemq.command.ActiveMQMapMessage;
-import org.apache.commons.configuration2.PropertiesConfiguration;
-import org.apache.commons.configuration2.builder.fluent.Configurations;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.jms.*;
 import java.io.File;
-import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
 
 /**
  * @ClassName: ActiveMqToolService
@@ -51,18 +46,15 @@ public class ActiveMqToolService {
     // Connection ：JMS 客户端到JMS Provider 的连接
     private Connection connection = null;
 
-    public void saveConfigure() throws Exception {
-        saveConfigure(ConfigureUtil.getConfigureFile("ActiveMqToolConfigure.properties"));
+    public void saveConfigure() {
+        saveConfigure(ConfigureUtil.getConfigureFile("ActiveMqToolConfigure.json"));
     }
 
-    public void saveConfigure(File file) throws Exception {
-        FileUtils.touch(file);
-        PropertiesConfiguration xmlConfigure = new Configurations().properties(file);
-        xmlConfigure.clear();
+    public void saveConfigure(File file) {
+        ConfigureUtil.getConfig(file).clear();
         for (int i = 0; i < activeMqToolController.getTableData().size(); i++) {
-            xmlConfigure.setProperty("tableBean" + i, activeMqToolController.getTableData().get(i).getPropertys());
+            ConfigureUtil.set(file, "tableBean" + i, activeMqToolController.getTableData().get(i).getPropertys());
         }
-        xmlConfigure.write(new FileWriter(file));
         Platform.runLater(() -> {
             TooltipUtil.showToast("保存配置成功,保存在：" + file.getPath());
         });
@@ -71,7 +63,7 @@ public class ActiveMqToolService {
     public void otherSaveConfigureAction() throws Exception {
         String fileName = "ActiveMqToolConfigure.properties";
         File file = FileChooserUtil.chooseSaveFile(fileName, new FileChooser.ExtensionFilter("All File", "*.*"),
-                new FileChooser.ExtensionFilter("Properties", "*.properties"));
+                new FileChooser.ExtensionFilter("Properties", "*.json"));
         if (file != null) {
             saveConfigure(file);
             TooltipUtil.showToast("保存配置成功,保存在：" + file.getPath());
@@ -79,19 +71,16 @@ public class ActiveMqToolService {
     }
 
     public void loadingConfigure() {
-        loadingConfigure(ConfigureUtil.getConfigureFile("ActiveMqToolConfigure.properties"));
+        loadingConfigure(ConfigureUtil.getConfigureFile("ActiveMqToolConfigure.json"));
     }
 
     public void loadingConfigure(File file) {
         try {
             activeMqToolController.getTableData().clear();
-            PropertiesConfiguration xmlConfigure = new Configurations().properties(file);
-            xmlConfigure.getKeys().forEachRemaining(new Consumer<String>() {
-                @Override
-                public void accept(String t) {
-                    activeMqToolController.getTableData().add(new ActiveMqToolTableBean(xmlConfigure.getString(t)));
-                }
-            });
+            Map xmlConfigure = ConfigureUtil.getConfig(file);
+            for (Object key : xmlConfigure.keySet()) {
+                activeMqToolController.getTableData().add(new ActiveMqToolTableBean((String) xmlConfigure.get(key)));
+            }
         } catch (Exception e) {
             try {
                 TooltipUtil.showToast("加载配置失败：" + e.getMessage());
@@ -102,7 +91,7 @@ public class ActiveMqToolService {
 
     public void loadingConfigureAction() {
         File file = FileChooserUtil.chooseFile(new FileChooser.ExtensionFilter("All File", "*.*"),
-                new FileChooser.ExtensionFilter("Properties", "*.properties"));
+                new FileChooser.ExtensionFilter("Properties", "*.json"));
         if (file != null) {
             loadingConfigure(file);
         }
