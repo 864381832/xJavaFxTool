@@ -4,7 +4,7 @@ dependencies {
 //    api 'jaxen:jaxen:1.2.0'
     api 'org.quartz-scheduler:quartz:2.3.2'
     api 'org.controlsfx:controlsfx:11.2.0'
-    api 'com.jfoenix:jfoenix:9.0.10'
+    api 'org.rationalityfrontline.workaround:jfoenix:21.0.0'
 //    api 'commons-codec:commons-codec:1.16.0'
 //    api 'org.apache.commons:commons-configuration2:2.9.0'
     api 'commons-io:commons-io:2.15.1'
@@ -14,7 +14,6 @@ dependencies {
 //    api 'org.apache.commons:commons-imaging:1.0-alpha3'
     api 'cn.hutool:hutool-all:5.8.26'
     api 'com.alibaba.fastjson2:fastjson2:2.0.47'
-    api 'org.yaml:snakeyaml:1.30'
 }
 
 group = 'com.gitee.xwintop'

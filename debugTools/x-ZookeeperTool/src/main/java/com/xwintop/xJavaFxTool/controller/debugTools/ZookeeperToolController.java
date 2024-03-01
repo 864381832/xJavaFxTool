@@ -31,7 +31,7 @@ import java.util.ResourceBundle;
 @Slf4j
 public class ZookeeperToolController extends ZookeeperToolView {
     private ZookeeperToolService zookeeperToolService = new ZookeeperToolService(this);
-    TextFieldInputHistoryDialog textFieldInputHistoryDialog = new TextFieldInputHistoryDialog(ConfigureUtil.getConfigurePath("zookeeperToolConfigure.properties"), "zkServers", "connectionTimeout");
+    TextFieldInputHistoryDialog textFieldInputHistoryDialog = new TextFieldInputHistoryDialog(ConfigureUtil.getConfigurePath("zookeeperToolConfigure.json"), "zkServers", "connectionTimeout");
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

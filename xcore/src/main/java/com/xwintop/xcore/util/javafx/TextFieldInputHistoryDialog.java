@@ -1,5 +1,7 @@
 package com.xwintop.xcore.util.javafx;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONWriter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
@@ -9,7 +11,6 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
 import java.util.HashMap;
@@ -31,8 +32,11 @@ import java.util.function.Function;
 @Slf4j
 public class TextFieldInputHistoryDialog {
     private ObservableList<Map<String, String>> tableData = FXCollections.observableArrayList();
+
     private String saveFilePath = null;
+
     private String[] tableColumns = null;
+
     private ContextMenu contextMenu = new ContextMenu();
 
     public TextFieldInputHistoryDialog(String saveFilePath, String... tableColumns) {
@@ -70,8 +74,7 @@ public class TextFieldInputHistoryDialog {
                 if (!CONFIG_FILE.exists()) {
                     FileUtils.touch(CONFIG_FILE);
                 }
-                Yaml yaml = new Yaml();
-                List<Map<String, String>> list = yaml.load(FileUtils.readFileToString(CONFIG_FILE, "UTF-8"));
+                List<Map<String, String>> list = JSON.parseObject(FileUtils.readFileToString(CONFIG_FILE, "UTF-8"), List.class);
                 if (list != null) {
                     this.tableData.addAll(list);
                 }
@@ -85,8 +88,7 @@ public class TextFieldInputHistoryDialog {
         if (StringUtils.isNotEmpty(saveFilePath)) {
             try {
                 File CONFIG_FILE = new File(saveFilePath);
-                Yaml yaml = new Yaml();
-                FileUtils.writeStringToFile(CONFIG_FILE, yaml.dump(this.tableData), "UTF-8");
+                FileUtils.writeStringToFile(CONFIG_FILE, JSON.toJSONString(this.tableData, JSONWriter.Feature.PrettyFormat, JSONWriter.Feature.WriteMapNullValue), "UTF-8");
                 TooltipUtil.showToast("保存配置成功,保存在：" + CONFIG_FILE.getPath());
             } catch (Exception e) {
                 log.error("保存配置失败", e);
