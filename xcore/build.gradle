@@ -17,12 +17,12 @@ dependencies {
 }
 
 group = 'com.gitee.xwintop'
-version = '0.0.8-jdk17'
+version = '0.0.8'
 description = 'xcore'
 
-compileJava {
-    options.compilerArgs += ['--module-path', classpath.asPath]
-}
+//compileJava {
+//    options.compilerArgs += ['--module-path', classpath.asPath]
+//}
 
 //extraJavaModuleInfo {
 //    module('quartz-2.3.2.jar','quartz','2.3.2')
@@ -37,14 +37,14 @@ compileJava {
 //    deriveAutomaticModuleNamesFromFileNames.set(true)
 //}
 
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from(components.java)
-        }
-    }
-}
+//publishing {
+//    publications {
+//        maven(MavenPublication) {
+//            from(components.java)
+//        }
+//    }
+//}
 
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-}
+//tasks.withType(JavaCompile) {
+//    options.encoding = 'UTF-8'
+//}

@@ -17,7 +17,7 @@ open module com.xwintop.xcore {
     requires com.jfoenix;
     requires transitive static lombok;
     requires transitive org.slf4j;
-    requires quartz;
+    requires transitive quartz;
     requires transitive javafx.swing;
     requires org.controlsfx.controls;
     requires transitive cn.hutool;

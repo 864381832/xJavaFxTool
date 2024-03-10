@@ -110,8 +110,15 @@ jlink {
     }
     addExtraDependencies("javafx")
     launcher {
-        name = 'xJavaFxTool'
-        mainClassName = 'com.xwintop.xJavaFxTool.XJavaFxToolMain'
-        jvmArgs = ['-Dlogback.configurationFile=./logback.xml']
+        name = application.applicationName
+        mainClassName = application.mainClass
+//        jvmArgs = ['-Dlogback.configurationFile=./logback.xml']
+    }
+    jpackage {
+        outputDir = "build-package"
+        imageName = application.applicationName
+        skipInstaller = false
+        installerName = application.applicationName
+        appVersion = version.toString()
     }
 }
