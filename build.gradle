@@ -13,7 +13,7 @@ buildscript {
 
 plugins {
     id "org.gradlex.extra-java-module-info" version "1.7"
-    id "org.beryx.jlink" version "2.26.0"
+//    id "org.beryx.jlink" version "2.26.0"
     id "org.openjfx.javafxplugin" version "0.1.0"
     id "com.gluonhq.gluonfx-gradle-plugin" version "1.0.22"
     id 'idea'

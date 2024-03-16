@@ -1,87 +1,88 @@
 plugins {
-    id "org.beryx.jlink" version "2.26.0"
+//    id "org.beryx.jlink" version "2.26.0"
+    id 'org.beryx.runtime' version '1.12.7'
     id "org.openjfx.javafxplugin" version "0.1.0"
 }
 
 dependencies {
     api project(':xcore')
-//    api project(":littleTools:x-EncryptAndDecrypt")
-//    api project(":littleTools:x-ZHConverter")
-//    api project(":littleTools:x-ImageTool")
-//    api project(":littleTools:x-IconTool")
-//    api project(":littleTools:x-PdfConvertTool")
-//    api project(":littleTools:x-QRCodeBuilder")
-//    api project(":littleTools:x-FileCopy")
-//    api project(":littleTools:x-FileMergeTool")
-//    api project(":littleTools:x-TimeTool")
-//    api project(":littleTools:x-CharacterConverter")
-//    api project(":littleTools:x-BookManageSystem")
-//    api project(":littleTools:x-CoordinateTransformTool")
-//    api project(":littleTools:x-ElementaryArithmeticProblemTool")
-//    api project(":littleTools:x-CronExpBuilder")
-//    api project(":littleTools:x-EmailTool")
-//    api project(":littleTools:x-ExcelSplitTool")
-//    api project(":littleTools:x-FileBuildTool")
-//    api project(":littleTools:x-FileCompressTool")
-//    api project(":littleTools:x-FileRenameTool")
-//    api project(":littleTools:x-FileSearchTool")
-//    api project(":littleTools:x-HdfsTool")
-//    api project(":littleTools:x-ImageAnalysisTool")
-//    api project(":littleTools:x-JavaService")
-//    api project(":littleTools:x-LinuxPathToWindowsPath")
-//    api project(":littleTools:x-Mp3ConvertTool")
-//    api project(":littleTools:x-RelationshipCalculator")
-//    api project(":littleTools:x-SealBuilderTool")
-//    api project(":littleTools:x-SedentaryReminderTool")
-//    api project(":littleTools:x-SmsTool")
-//    api project(":debugTools:x-CmdTool")
-//    api project(":debugTools:x-ScanPortTool")
-//    api project(":debugTools:x-SwitchHostsTool")
-//    api project(":debugTools:x-SocketTool")
-//    api project(":debugTools:x-ActiveMqTool")
-//    api project(":debugTools:x-ExpressionParserTool")
-//    api project(":debugTools:x-FtpClientTool")
-//    api project(":debugTools:x-FtpServer")
-//    api project(":debugTools:x-HbaseTool")
-//    api project(":debugTools:x-HttpTool")
-//    api project(":debugTools:x-KafkaTool")
-////    api project(":debugTools:x-KeyTool")
-//    api project(":debugTools:x-RedisTool")
-//    api project(":debugTools:x-ScriptEngineTool")
-//    api project(":debugTools:x-ZookeeperTool")
-//    api project(":codeTools:x-RegexTester")
-//    api project(":codeTools:x-RandomGeneratorTool")
-//    api project(":codeTools:x-IdCardGenerator")
-//    api project(":codeTools:x-CharsetDetectTool")
-//    api project(":codeTools:x-ColorCodeConverterTool")
-//    api project(":codeTools:x-EscapeCharacter")
-//    api project(":codeTools:x-FileUnicodeTransformationTool")
-//    api project(":codeTools:x-WebSourcesTool")
-//    api project(":developTools:x-AsciiPicTool")
-//    api project(":developTools:x-JsonConvertTool")
-//    api project(":developTools:x-ClipboardHistoryTool")
-//    api project(":developTools:x-DirectoryTreeTool")
-//    api project(":developTools:x-LuytenTool")
-//    api project(":developTools:x-PathWatchTool")
-//    api project(":assistTools:x-TextToSpeechTool")
-//    api project(":assistTools:x-DecompilerWxApkgTool")
-//    api project(":assistTools:x-IdiomDataTool")
-//    api project(":assistTools:x-WechatJumpGameTool")
-//    api project(":games:x-X2048")
-//    api project(":games:x-BullsAndCowsGame")
-//    api project(":games:x-Sudoku")
-//    api project(":games:x-ChineseChess")
-//    api project(":games:x-SnakeJavaFx")
-//    api project(":games:x-pet")
-//    api project(":javaFxTools:x-JavaFxXmlToObjectCode")
-//    api project(":javaFxTools:x-ShowSystemInfo")
-//    api project(":webTools:x-ShortURL")
-//    api project(":netWorkTools:x-WebCronExpBuilder")
-//    api project(":netWorkTools:x-WebJsonEditor")
+    api project(":littleTools:x-EncryptAndDecrypt")
+    api project(":littleTools:x-ZHConverter")
+    api project(":littleTools:x-ImageTool")
+    api project(":littleTools:x-IconTool")
+    api project(":littleTools:x-PdfConvertTool")
+    api project(":littleTools:x-QRCodeBuilder")
+    api project(":littleTools:x-FileCopy")
+    api project(":littleTools:x-FileMergeTool")
+    api project(":littleTools:x-TimeTool")
+    api project(":littleTools:x-CharacterConverter")
+    api project(":littleTools:x-BookManageSystem")
+    api project(":littleTools:x-CoordinateTransformTool")
+    api project(":littleTools:x-ElementaryArithmeticProblemTool")
+    api project(":littleTools:x-CronExpBuilder")
+    api project(":littleTools:x-EmailTool")
+    api project(":littleTools:x-ExcelSplitTool")
+    api project(":littleTools:x-FileBuildTool")
+    api project(":littleTools:x-FileCompressTool")
+    api project(":littleTools:x-FileRenameTool")
+    api project(":littleTools:x-FileSearchTool")
+    api project(":littleTools:x-HdfsTool")
+    api project(":littleTools:x-ImageAnalysisTool")
+    api project(":littleTools:x-JavaService")
+    api project(":littleTools:x-LinuxPathToWindowsPath")
+    api project(":littleTools:x-Mp3ConvertTool")
+    api project(":littleTools:x-RelationshipCalculator")
+    api project(":littleTools:x-SealBuilderTool")
+    api project(":littleTools:x-SedentaryReminderTool")
+    api project(":littleTools:x-SmsTool")
+    api project(":debugTools:x-CmdTool")
+    api project(":debugTools:x-ScanPortTool")
+    api project(":debugTools:x-SwitchHostsTool")
+    api project(":debugTools:x-SocketTool")
+    api project(":debugTools:x-ActiveMqTool")
+    api project(":debugTools:x-ExpressionParserTool")
+    api project(":debugTools:x-FtpClientTool")
+    api project(":debugTools:x-FtpServer")
+    api project(":debugTools:x-HbaseTool")
+    api project(":debugTools:x-HttpTool")
+    api project(":debugTools:x-KafkaTool")
+//    api project(":debugTools:x-KeyTool")
+    api project(":debugTools:x-RedisTool")
+    api project(":debugTools:x-ScriptEngineTool")
+    api project(":debugTools:x-ZookeeperTool")
+    api project(":codeTools:x-RegexTester")
+    api project(":codeTools:x-RandomGeneratorTool")
+    api project(":codeTools:x-IdCardGenerator")
+    api project(":codeTools:x-CharsetDetectTool")
+    api project(":codeTools:x-ColorCodeConverterTool")
+    api project(":codeTools:x-EscapeCharacter")
+    api project(":codeTools:x-FileUnicodeTransformationTool")
+    api project(":codeTools:x-WebSourcesTool")
+    api project(":developTools:x-AsciiPicTool")
+    api project(":developTools:x-JsonConvertTool")
+    api project(":developTools:x-ClipboardHistoryTool")
+    api project(":developTools:x-DirectoryTreeTool")
+    api project(":developTools:x-LuytenTool")
+    api project(":developTools:x-PathWatchTool")
+    api project(":assistTools:x-TextToSpeechTool")
+    api project(":assistTools:x-DecompilerWxApkgTool")
+    api project(":assistTools:x-IdiomDataTool")
+    api project(":assistTools:x-WechatJumpGameTool")
+    api project(":games:x-X2048")
+    api project(":games:x-BullsAndCowsGame")
+    api project(":games:x-Sudoku")
+    api project(":games:x-ChineseChess")
+    api project(":games:x-SnakeJavaFx")
+    api project(":games:x-pet")
+    api project(":javaFxTools:x-JavaFxXmlToObjectCode")
+    api project(":javaFxTools:x-ShowSystemInfo")
+    api project(":webTools:x-ShortURL")
+    api project(":netWorkTools:x-WebCronExpBuilder")
+    api project(":netWorkTools:x-WebJsonEditor")
 }
 
 group = 'com.xwintop'
-version = '0.2.3-jdk17'
+version = '1.2.3'
 description = 'xJavaFxTool'
 
 compileJava {
@@ -99,26 +100,62 @@ application {
         "-XX:+ShowCodeDetailsInExceptionMessages",
         "-Dsun.java2d.opengl=true",
         // 不添加此参数，打包成exe后，https协议的网络图片资源无法加载
-        "-Dhttps.protocols=TLSv1.1,TLSv1.2"
+        "-Dhttps.protocols=TLSv1.1,TLSv1.2",
+        '--add-exports=javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED',
+        '--add-exports=javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED',
+        '--add-exports=javafx.graphics/com.sun.javafx.util=ALL-UNNAMED',
+        '--add-exports=javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED',
+        '--add-exports=javafx.graphics/com.sun.javafx.scene=ALL-UNNAMED',
+        '--add-exports=javafx.base/com.sun.javafx.event=ALL-UNNAMED',
+        '--add-opens=java.base/java.lang.reflect=ALL-UNNAMED'
     ]
 }
 
-jlink {
-    mergedModule {
-        requires 'java.naming'
-//        requires 'java.xml'
-    }
-    addExtraDependencies("javafx")
+// 使用 https://badass-runtime-plugin.beryx.org/releases/latest/
+// 插件 Badass-Runtime plugin 需要将主类单独抽离出来，这里使用Launcher作为启动类，不然的话，会提示没有加载Java FX组件
+runtime {
+    options.set(['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages'])
+    modules.set([
+        'java.desktop',
+        'java.xml',
+        'jdk.unsupported',
+        'jdk.jfr',
+        'jdk.unsupported.desktop',
+        'java.datatransfer',
+        'java.scripting',
+        'java.rmi',
+        'java.sql',
+        'java.naming',
+        'java.compiler',
+        'java.logging',
+        'java.management'])
     launcher {
-        name = application.applicationName
-        mainClassName = application.mainClass
-//        jvmArgs = ['-Dlogback.configurationFile=./logback.xml']
+        // 如果构建后无法启动并且无法知晓异常时，可以将此参数配置为false，
+        // 然后执行 gradle runtime，会得到bat方式的可执行程序，在cmd中运行对应bat，可以看到对应异常
+        noConsole = true
     }
     jpackage {
-        outputDir = "build-package"
         imageName = application.applicationName
-        skipInstaller = false
-        installerName = application.applicationName
-        appVersion = version.toString()
+        imageOptions.addAll(['--icon', 'src/main/resources/images/icon.jpg'])
     }
 }
+
+//jlink {
+//    mergedModule {
+//        requires 'java.naming'
+////        requires 'java.xml'
+//    }
+//    addExtraDependencies("javafx")
+//    launcher {
+//        name = application.applicationName
+//        mainClassName = application.mainClass
+////        jvmArgs = ['-Dlogback.configurationFile=./logback.xml']
+//    }
+//    jpackage {
+//        outputDir = "build-package"
+//        imageName = application.applicationName
+//        skipInstaller = false
+//        installerName = application.applicationName
+//        appVersion = version.toString()
+//    }
+//}
