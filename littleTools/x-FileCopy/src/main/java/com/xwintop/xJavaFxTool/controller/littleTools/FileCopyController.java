@@ -22,6 +22,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseButton;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
@@ -36,6 +37,7 @@ import java.util.ResourceBundle;
  */
 @Slf4j
 @Data
+@EqualsAndHashCode(callSuper=false)
 public class FileCopyController extends FileCopyView {
     private FileCopyService fileCopyService = new FileCopyService(this);
     private ObservableList<FileCopyTableBean> tableData = FXCollections.observableArrayList();

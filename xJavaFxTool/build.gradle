@@ -2,6 +2,7 @@ plugins {
 //    id "org.beryx.jlink" version "2.26.0"
     id 'org.beryx.runtime' version '1.12.7'
     id "org.openjfx.javafxplugin" version "0.1.0"
+    id "com.gluonhq.gluonfx-gradle-plugin" version "1.0.22"
 }
 
 dependencies {

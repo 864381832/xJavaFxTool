@@ -26,16 +26,18 @@ public class AlertUtil {
 
     /**
      * 信息提示框
-     * @deprecated 使用 {@link com.xwintop.xcore.javafx.dialog.FxAlerts}
+     * 使用 {@link com.xwintop.xcore.javafx.dialog.FxAlerts}
      */
+    @Deprecated
     public static void showInfoAlert(String message) {
         showInfoAlert("提示", message);
     }
 
     /**
      * 信息提示框
-     * @deprecated 使用 {@link com.xwintop.xcore.javafx.dialog.FxAlerts}
+     * 使用 {@link com.xwintop.xcore.javafx.dialog.FxAlerts}
      */
+    @Deprecated
     public static void showInfoAlert(String title, String message) {
         new FxDialog<>()
             .setOwner(FxApp.primaryStage)
@@ -48,32 +50,36 @@ public class AlertUtil {
 
     /**
      * 确定提示框
-     * @deprecated 使用 {@link com.xwintop.xcore.javafx.dialog.FxAlerts}
+     * 使用 {@link com.xwintop.xcore.javafx.dialog.FxAlerts}
      */
+    @Deprecated
     public static boolean confirmYesNo(String title, String message) {
         return confirm(title, message, ButtonType.YES, ButtonType.NO) == ButtonType.YES;
     }
 
     /**
      * 确定提示框
-     * @deprecated 使用 {@link com.xwintop.xcore.javafx.dialog.FxAlerts}
+     * 使用 {@link com.xwintop.xcore.javafx.dialog.FxAlerts}
      */
+    @Deprecated
     public static boolean confirmOkCancel(String title, String message) {
         return confirm(title, message, ButtonType.OK, ButtonType.CANCEL) == ButtonType.OK;
     }
 
     /**
      * 确定提示框
-     * @deprecated 使用 {@link com.xwintop.xcore.javafx.dialog.FxAlerts}
+     * 使用 {@link com.xwintop.xcore.javafx.dialog.FxAlerts}
      */
+    @Deprecated
     public static ButtonType confirmYesNoCancel(String title, String message) {
         return confirm(title, message, ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
     }
 
     /**
      * 确定提示框
-     * @deprecated 使用 {@link com.xwintop.xcore.javafx.dialog.FxAlerts}
+     * 使用 {@link com.xwintop.xcore.javafx.dialog.FxAlerts}
      */
+    @Deprecated
     public static ButtonType confirm(
         String title, String message, ButtonType positiveButtonType, ButtonType... negativeButtonTypes
     ) {
@@ -143,8 +149,9 @@ public class AlertUtil {
     //////////////////////////////////////////////////////////////
 
     /**
-     * @deprecated 使用 {@link com.xwintop.xcore.javafx.dialog.FxAlerts}
+     * 使用 {@link com.xwintop.xcore.javafx.dialog.FxAlerts}
      */
+    @Deprecated
     public static boolean showConfirmAlert(String message) {
         VBox vBox = new VBox(15);
         vBox.setAlignment(Pos.CENTER);

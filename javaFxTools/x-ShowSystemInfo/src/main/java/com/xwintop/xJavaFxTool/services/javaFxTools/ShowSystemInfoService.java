@@ -44,7 +44,7 @@ public class ShowSystemInfoService {
                 series[i] = new XYChart.Series();
                 series[i].setName("第" + (i + 1) + "块CPU信息");
             }
-            showSystemInfoController.getOverviewCpuLineChart().getData().addAll(series);
+            showSystemInfoController.getOverviewCpuLineChart().getData().addAll(new Object[]{series});
             showSystemInfoController.getOverviewCpuLineChart().getXAxis().setTickLabelsVisible(false);
             showSystemInfoController.getOverviewCpuLineChart().getYAxis().setMaxHeight(1);
             Timer timer = new Timer();
@@ -116,7 +116,7 @@ public class ShowSystemInfoService {
                 series[i * 2 + 1] = new XYChart.Series();
                 series[i * 2 + 1].setName("磁盘：" + i + "writes");
             }
-            showSystemInfoController.getOverviewDiskLineChart().getData().addAll(series);
+            showSystemInfoController.getOverviewDiskLineChart().getData().addAll(new Object[]{series});
             showSystemInfoController.getOverviewDiskLineChart().getXAxis().setTickLabelsVisible(false);
             Timer timer = new Timer();
             timerList.add(timer);
