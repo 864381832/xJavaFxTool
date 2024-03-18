@@ -1,15 +1,9 @@
 package com.xwintop.xJavaFxTool.controller.codeTools;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.xwintop.xJavaFxTool.services.codeTools.WebSourcesToolService;
 import com.xwintop.xJavaFxTool.view.codeTools.WebSourcesToolView;
-import com.xwintop.xcore.util.HttpClientUtil;
+import com.xwintop.xcore.util.javafx.JavaFxSystemUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
-
 import javafx.concurrent.Worker.State;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -20,6 +14,10 @@ import javafx.scene.web.WebEngine;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * @ClassName: WebSourcesToolController
@@ -84,7 +82,7 @@ public class WebSourcesToolController extends WebSourcesToolView {
 			return;
 		}
 		try {
-			HttpClientUtil.openBrowseURLThrowsException(urlTextField.getText());
+            JavaFxSystemUtil.openBrowseURLThrowsException(urlTextField.getText());
 		} catch (Exception e1) {
 			TooltipUtil.showToast("输入Url有误！" + e1.getMessage());
 			log.error(e1.getMessage());

@@ -11,7 +11,6 @@ import javafx.stage.FileChooser;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.EmailAttachment;
@@ -25,7 +24,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 
 /**
  * @ClassName: EmailToolService
@@ -39,9 +37,12 @@ import java.util.function.Consumer;
 public class EmailToolService {
     private EmailToolController emailToolController;
 
-    private String fileName = "emailToolConfigure.properties";
+    private String fileName = "emailToolConfigure.json";
+
     private SchedulerFactory sf = new StdSchedulerFactory();
+
     private String schedulerKeyGroup = "emailTool";
+
     private String schedulerKeyName = "emailTool" + System.currentTimeMillis();
 
     public void runAllAction() {
@@ -67,8 +68,8 @@ public class EmailToolService {
                     toList.add(new InternetAddress(emailToolTableBean.getToEmail(), emailToolTableBean.getToEmailName()));
                     email.setTo(toList);
                     String htmlMsg = emailToolController.getMsgHtmlEditor().getHtmlText()
-                            .replace("${1}", emailToolTableBean.getToEmail())
-                            .replace("${2}", emailToolTableBean.getToEmailName());
+                        .replace("${1}", emailToolTableBean.getToEmail())
+                        .replace("${2}", emailToolTableBean.getToEmailName());
                     email.setHtmlMsg(htmlMsg);
                     email.send();
                 }
@@ -143,12 +144,12 @@ public class EmailToolService {
 
     public boolean runQuartzAction(String quartzType, String cronText, int interval, int repeatCount) throws Exception {
         JobDetail jobDetail = JobBuilder.newJob(EmailToolJob.class)
-                .withIdentity(schedulerKeyName, schedulerKeyGroup).build();
+            .withIdentity(schedulerKeyName, schedulerKeyGroup).build();
         jobDetail.getJobDataMap().put("emailToolService", this);
         ScheduleBuilder scheduleBuilder = null;
         if ("简单表达式".equals(quartzType)) {
             scheduleBuilder = SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(interval)// 时间间隔
-                    .withRepeatCount(repeatCount);// 重复次数（将执行6次）
+                .withRepeatCount(repeatCount);// 重复次数（将执行6次）
         } else if ("Cron表达式".equals(quartzType)) {
             if (StringUtils.isEmpty(cronText)) {
                 TooltipUtil.showToast("cron表达式不能为空。");
@@ -158,9 +159,9 @@ public class EmailToolService {
         }
         // 描叙触发Job执行的时间触发规则,Trigger实例化一个触发器
         Trigger trigger = TriggerBuilder.newTrigger()// 创建一个新的TriggerBuilder来规范一个触发器
-                .withIdentity(schedulerKeyName, schedulerKeyGroup)// 给触发器一个名字和组名
-                .startNow()// 立即执行
-                .withSchedule(scheduleBuilder).build();// 产生触发器
+            .withIdentity(schedulerKeyName, schedulerKeyGroup)// 给触发器一个名字和组名
+            .startNow()// 立即执行
+            .withSchedule(scheduleBuilder).build();// 产生触发器
 
         // 运行容器，使用SchedulerFactory创建Scheduler实例
         Scheduler scheduler = sf.getScheduler();
@@ -184,19 +185,16 @@ public class EmailToolService {
     }
 
     public void saveConfigure(File file) throws Exception {
-        FileUtils.touch(file);
-        PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
-        xmlConfigure.clear();
+        ConfigureUtil.getConfig(file).clear();
         for (int i = 0; i < emailToolController.getTableData().size(); i++) {
-            xmlConfigure.setProperty("tableBean" + i, emailToolController.getTableData().get(i).getPropertys());
+            ConfigureUtil.set(file, "tableBean" + i, emailToolController.getTableData().get(i).getPropertys());
         }
-        xmlConfigure.save();
         TooltipUtil.showToast("保存配置成功,保存在：" + file.getPath());
     }
 
     public void otherSaveConfigureAction() throws Exception {
         File file = FileChooserUtil.chooseSaveFile(fileName, new FileChooser.ExtensionFilter("All File", "*.*"),
-                new FileChooser.ExtensionFilter("Properties", "*.properties"));
+            new FileChooser.ExtensionFilter("Properties", "*.json"));
         if (file != null) {
             saveConfigure(file);
             TooltipUtil.showToast("保存配置成功,保存在：" + file.getPath());
@@ -210,13 +208,10 @@ public class EmailToolService {
     public void loadingConfigure(File file) {
         try {
             emailToolController.getTableData().clear();
-            PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(file);
-            xmlConfigure.getKeys().forEachRemaining(new Consumer<String>() {
-                @Override
-                public void accept(String t) {
-                    emailToolController.getTableData().add(new EmailToolTableBean(xmlConfigure.getString(t)));
-                }
-            });
+            Map xmlConfigure = ConfigureUtil.getConfig(file);
+            for (Object key : xmlConfigure.keySet()) {
+                emailToolController.getTableData().add(new EmailToolTableBean((String) xmlConfigure.get(key)));
+            }
         } catch (Exception e) {
             try {
                 log.error("加载配置失败：" + e.getMessage());
@@ -228,7 +223,7 @@ public class EmailToolService {
 
     public void loadingConfigureAction() {
         File file = FileChooserUtil.chooseFile(new FileChooser.ExtensionFilter("All File", "*.*"),
-                new FileChooser.ExtensionFilter("Properties", "*.properties"));
+            new FileChooser.ExtensionFilter("Properties", "*.json"));
         if (file != null) {
             loadingConfigure(file);
         }

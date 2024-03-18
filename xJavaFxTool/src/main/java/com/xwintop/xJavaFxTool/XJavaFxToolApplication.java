@@ -1,15 +1,16 @@
 /**
- *    Copyright (c) [2019] [xufeng]
- *    [xJavaFxTool] is licensed under Mulan PSL v2.
- *    You can use this software according to the terms and conditions of the Mulan PSL v2.
- *    You may obtain a copy of Mulan PSL v2 at:
- *             http://license.coscl.org.cn/MulanPSL2
- *    THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
- *    See the Mulan PSL v2 for more details.
+ * Copyright (c) [2019] [xufeng]
+ * [xJavaFxTool] is licensed under Mulan PSL v2.
+ * You can use this software according to the terms and conditions of the Mulan PSL v2.
+ * You may obtain a copy of Mulan PSL v2 at:
+ * http://license.coscl.org.cn/MulanPSL2
+ * THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+ * See the Mulan PSL v2 for more details.
  */
 
 package com.xwintop.xJavaFxTool;
 
+import cn.hutool.system.SystemUtil;
 import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xJavaFxTool.utils.Config.Keys;
@@ -27,6 +28,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
@@ -51,10 +54,10 @@ public class XJavaFxToolApplication extends Application {
         FxApp.init(primaryStage, LOGO_PATH);
         FxApp.styleSheets.add(XJavaFxToolApplication.class.getClassLoader().getResource("css/jfoenix-main.css").toExternalForm());
 
-//        if (SystemUtil.getOsInfo().isMac()) {
-        //Mac下设置dock栏图标
-//            Taskbar.getTaskbar().setIconImage(ImageIO.read(XJavaFxToolApplication.class.getResourceAsStream(LOGO_PATH)));
-//        }
+        if (SystemUtil.getOsInfo().isMac()) {
+            // Mac下设置dock栏图标
+            Taskbar.getTaskbar().setIconImage(ImageIO.read(XJavaFxToolApplication.class.getClassLoader().getResourceAsStream(LOGO_PATH)));
+        }
 
         primaryStage.setResizable(true);
         primaryStage.setTitle(RESOURCE_BUNDLE.getString("Title") + Config.xJavaFxToolVersions);

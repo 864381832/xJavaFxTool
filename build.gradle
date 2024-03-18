@@ -12,10 +12,13 @@ buildscript {
 }
 
 plugins {
-//    id 'application'
     id "org.gradlex.extra-java-module-info" version "1.7"
-    id "org.beryx.jlink" version "2.26.0"
+//    id "org.beryx.jlink" version "2.26.0"
     id "org.openjfx.javafxplugin" version "0.1.0"
+    id "com.gluonhq.gluonfx-gradle-plugin" version "1.0.22"
+    id 'idea'
+    id 'application'
+    id 'maven-publish'
 }
 allprojects {
     ext {
@@ -27,11 +30,15 @@ allprojects {
     apply plugin: 'application'
     apply plugin: 'maven-publish' // 引入maven插件
     apply plugin: 'org.openjfx.javafxplugin'
-//    sourceCompatibility = 17
+    sourceCompatibility = 17
     test {//跳过测试
         enabled = false
     }
     repositories {
+        maven {
+            allowInsecureProtocol = true
+            url 'https://repo1.maven.org/maven2/'
+        }
         maven {
             allowInsecureProtocol = true
             url 'https://maven.aliyun.com/repository/public'
@@ -42,11 +49,11 @@ allprojects {
         }
         mavenCentral()
     }
-    group = 'com.xwintop'
+//    group = 'com.xwintop'
 //    version = '0.0.0.1'
     [compileJava, compileTestJava, javadoc]*.options*.encoding = "UTF-8"
     dependencies {
-        testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
+        testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
         compileOnly('org.projectlombok:lombok:1.18.30')
         annotationProcessor 'org.projectlombok:lombok:1.18.30'
         testCompileOnly 'org.projectlombok:lombok:1.18.30'
@@ -68,11 +75,3 @@ allprojects {
         modularity.inferModulePath = true
     }
 }
-
-//plugins {
-//    id 'java'
-//    id 'application'
-//    id 'maven-publish'
-//    id 'org.openjfx.javafxplugin' version '0.0.12'
-//    id 'org.beryx.jlink' version '2.24.4'
-//}

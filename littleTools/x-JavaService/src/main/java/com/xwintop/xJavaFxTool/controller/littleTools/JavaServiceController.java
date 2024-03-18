@@ -2,8 +2,8 @@ package com.xwintop.xJavaFxTool.controller.littleTools;
 
 import com.xwintop.xJavaFxTool.services.littleTools.JavaServiceService;
 import com.xwintop.xJavaFxTool.view.littleTools.JavaServiceView;
-import com.xwintop.xcore.util.HttpClientUtil;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
+import com.xwintop.xcore.util.javafx.JavaFxSystemUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import lombok.Getter;
@@ -85,6 +85,6 @@ public class JavaServiceController extends JavaServiceView {
 
     @FXML
     private void winswLinkOnAction() throws Exception {
-        HttpClientUtil.openBrowseURLThrowsException("https://github.com/winsw/winsw");
+        JavaFxSystemUtil.openBrowseURLThrowsException("https://github.com/winsw/winsw");
     }
 }

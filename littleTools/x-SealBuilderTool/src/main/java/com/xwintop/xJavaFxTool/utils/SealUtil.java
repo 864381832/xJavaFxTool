@@ -4,13 +4,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
 
 /**
  * @ClassName: SealUtil
@@ -322,7 +320,7 @@ public class SealUtil {
             String c = font.getFontText().substring(subIndex, subIndex + 1);
 
             //获取文字高宽
-            FontMetrics fm = sun.font.FontDesignMetrics.getMetrics(f);
+            FontMetrics fm = Toolkit.getDefaultToolkit().getFontMetrics(f);
             int w = fm.stringWidth(c), h = fm.getHeight();
 
             if (isTop) {

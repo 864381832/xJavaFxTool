@@ -1,15 +1,17 @@
 package com.xwintop.xcore.util.javafx;
 
 import com.xwintop.xcore.javafx.helper.DropContentHelper;
-import com.xwintop.xcore.util.FileUtil;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import org.apache.commons.io.FileUtils;
 
 import javax.swing.filechooser.FileSystemView;
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.List;
 
 /**
@@ -134,14 +136,19 @@ public class FileChooserUtil {
 
     public static void setOnDragByOpenFile(TextInputControl textField) {
         DropContentHelper.accept(textField,
-
             dragboard -> dragboard.hasFiles() &&
                 dragboard.getFiles().stream().anyMatch(File::isFile),
 
             (__, dragboard) -> textField.setText(
                 dragboard.getFiles().stream()
                     .filter(File::isFile)
-                    .map(FileUtil::readText)
+                    .map(s -> {
+                        try {
+                            return FileUtils.readFileToString(s, Charset.defaultCharset());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    })
                     .findFirst().orElse("")
             )
         );

@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 import com.xwintop.xJavaFxTool.utils.ImageUtil;
 import com.xwintop.xcore.util.ConfigureUtil;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.fastjson2.JSON;
@@ -19,7 +20,6 @@ import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.xwintop.xJavaFxTool.controller.littleTools.IconToolController;
 import com.xwintop.xJavaFxTool.utils.ImgToolUtil;
-import com.xwintop.xcore.util.FileUtil;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 
@@ -36,7 +36,6 @@ import javafx.stage.FileChooser;
 import lombok.Setter;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.Thumbnails.Builder;
-import net.coobird.thumbnailator.geometry.Positions;
 
 /**
  * @ClassName: IconToolService
@@ -50,7 +49,7 @@ public class IconToolService {
 	private IconToolController iconToolController;
 
 	public void saveConfigure() throws Exception {
-		saveConfigure(ConfigureUtil.getConfigureFile("iconToolConfigure.properties"));
+		saveConfigure(ConfigureUtil.getConfigureFile("iconToolConfigure.json"));
 	}
 
 	/**
@@ -89,7 +88,7 @@ public class IconToolService {
 	public void otherSaveConfigureAction() throws Exception {
 		String fileName = "iconToolConfigure.properties";
 		File file = FileChooserUtil.chooseSaveFile(fileName, new FileChooser.ExtensionFilter("All File", "*.*"),
-				new FileChooser.ExtensionFilter("Properties", "*.properties"));
+				new FileChooser.ExtensionFilter("Properties", "*.json"));
 		if (file != null) {
 			saveConfigure(file);
 			TooltipUtil.showToast("保存配置成功,保存在：" + file.getPath());
@@ -138,7 +137,7 @@ public class IconToolService {
 
 	public void loadingConfigureAction() {
 		File file = FileChooserUtil.chooseFile(new FileChooser.ExtensionFilter("All File", "*.*"),
-				new FileChooser.ExtensionFilter("Properties", "*.properties"));
+				new FileChooser.ExtensionFilter("Properties", "*.json"));
 		if (file != null) {
 			loadingConfigure(file);
 		}
@@ -205,7 +204,7 @@ public class IconToolService {
 		} else {
 			iconTargetPathFile = new File(iconTargetPathText);
 		}
-		String iconFileName = FileUtil.getFileName(iconFilePathFile);
+		String iconFileName = FilenameUtils.getBaseName(iconFilePathFile.getName());
 		if (StringUtils.isNotEmpty(iconToolController.getIconNameTextField().getText())) {
 			iconFileName = iconToolController.getIconNameTextField().getText();
 		}

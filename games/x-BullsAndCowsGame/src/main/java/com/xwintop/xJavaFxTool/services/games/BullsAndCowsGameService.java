@@ -1,6 +1,7 @@
 package com.xwintop.xJavaFxTool.services.games;
 
 import com.xwintop.xJavaFxTool.controller.games.BullsAndCowsGameController;
+import com.xwintop.xcore.util.ConfigureUtil;
 import com.xwintop.xcore.util.javafx.AlertUtil;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
@@ -27,12 +28,19 @@ import java.util.TimerTask;
 @Slf4j
 public class BullsAndCowsGameService {
     private BullsAndCowsGameController bullsAndCowsGameController;
+
+    private final String CONFIG_FILE_NAME = "BullsAndCowsGameConfigure.json";
+
     private int daojishiTime = 0;
+
     private int[] answerNumbers = new int[4];
+
     private int enterAnswerNumber = 0;
+
     private Timer timer;
 
     private int recordNumber = 0;
+
     private int recordTime = 0;
 
     public BullsAndCowsGameService(BullsAndCowsGameController bullsAndCowsGameController) {
@@ -41,7 +49,9 @@ public class BullsAndCowsGameService {
 
     public void initRecordData() {
         try {
-//            PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(ConfigureUtil.getConfigureFile("BullsAndCowsGameConfigure.properties"));
+            recordNumber = (int) ConfigureUtil.getOrDefault(CONFIG_FILE_NAME,"recordNumber", 0);
+            recordTime = (int) ConfigureUtil.getOrDefault(CONFIG_FILE_NAME,"recordTime", 0);
+//            PropertiesConfiguration xmlConfigure = new Configurations().properties(ConfigureUtil.getConfigureFile("BullsAndCowsGameConfigure.properties"));
 //            recordNumber = xmlConfigure.getInt("recordNumber", 0);
 //            recordTime = xmlConfigure.getInt("recordTime", 0);
             this.setRecordData();
@@ -159,15 +169,11 @@ public class BullsAndCowsGameService {
             bullsAndCowsGameController.getRecordNumberLabel().setText("最少次数：第  " + recordNumber + " 次完成");
             bullsAndCowsGameController.getRecordTimeLabel().setText("最短时间:  " + hours + "  小时  " + minutes + "  分  " + seconds + "  秒");
         });
-//        try {
-//            File file = ConfigureUtil.getConfigureFile("BullsAndCowsGameConfigure.properties");
-//            FileUtils.touch(file);
-//            PropertiesConfiguration xmlConfigure = new PropertiesConfiguration(ConfigureUtil.getConfigureFile("BullsAndCowsGameConfigure.properties"));
-//            xmlConfigure.setProperty("recordNumber", recordNumber);
-//            xmlConfigure.setProperty("recordTime", recordTime);
-//            xmlConfigure.save();
-//        } catch (Exception e) {
-//            log.error("保存配置失败！", e);
-//        }
+        try {
+            ConfigureUtil.set(CONFIG_FILE_NAME,"recordNumber", recordNumber);
+            ConfigureUtil.set(CONFIG_FILE_NAME,"recordTime", recordTime);
+        } catch (Exception e) {
+            log.error("保存配置失败！", e);
+        }
     }
 }

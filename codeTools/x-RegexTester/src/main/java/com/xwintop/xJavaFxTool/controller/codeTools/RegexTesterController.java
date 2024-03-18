@@ -10,6 +10,8 @@
 package com.xwintop.xJavaFxTool.controller.codeTools;
 
 import cn.hutool.core.swing.clipboard.ClipboardUtil;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.xwintop.xJavaFxTool.view.codeTools.RegexTesterView;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
 import javafx.event.ActionEvent;
@@ -27,6 +29,7 @@ import javafx.scene.web.WebView;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,13 +60,13 @@ public class RegexTesterController extends RegexTesterView {
     private void initView() throws Exception {
         examplesTableColumn0.setCellValueFactory(new MapValueFactory("column0"));
         examplesTableColumn1.setCellValueFactory(new MapValueFactory("column1"));
-//        PropertiesConfiguration pcfg = new PropertiesConfiguration(RegexTesterController.class.getResource("/data/regexData.properties"));
-//        pcfg.getKeys().forEachRemaining((String key) -> {
-//            Map<String, String> map = new HashMap<String, String>();
-//            map.put("column0", key);
-//            map.put("column1", pcfg.getString(key));
-//            examplesTableView.getItems().add(map);
-//        });
+        JSONObject pcfg = JSON.parseObject(RegexTesterController.class.getResourceAsStream("/data/regexData.json"));
+        for (String key : pcfg.keySet()) {
+            Map<String, String> map = new HashMap<>();
+            map.put("column0", key);
+            map.put("column1", pcfg.getString(key));
+            examplesTableView.getItems().add(map);
+        }
         matchTableColumn0.setCellValueFactory(new MapValueFactory("column0"));
         matchTableColumn1.setCellValueFactory(new MapValueFactory("column1"));
         matchTableColumn2.setCellValueFactory(new MapValueFactory("column2"));

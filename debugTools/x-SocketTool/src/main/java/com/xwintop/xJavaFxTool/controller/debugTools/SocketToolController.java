@@ -57,7 +57,7 @@ public class SocketToolController extends SocketToolView {
         clientUrlComboBox.getItems().add("127.0.0.1");
         SystemInfo si = new SystemInfo();
         HardwareAbstractionLayer hal = si.getHardware();
-        NetworkIF[] networkIFs = hal.getNetworkIFs();
+        NetworkIF[] networkIFs = hal.getNetworkIFs().toArray(new NetworkIF[0]);
         for (NetworkIF networkIF : networkIFs) {
             if (ArrayUtils.getLength(networkIF.getIPv4addr()) > 0) {
                 String address = networkIF.getIPv4addr()[0];

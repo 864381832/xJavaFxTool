@@ -1,10 +1,10 @@
 package com.xwintop.xJavaFxTool.controller.debugTools.redisTool;
 
 import com.xwintop.xJavaFxTool.services.debugTools.redisTool.RedisToolDataViewService;
-import com.xwintop.xJavaFxTool.utils.AlertUtil;
 import com.xwintop.xJavaFxTool.utils.RedisUtil;
 import com.xwintop.xJavaFxTool.view.debugTools.redisTool.RedisToolDataViewView;
 
+import com.xwintop.xcore.util.javafx.AlertUtil;
 import com.xwintop.xcore.util.javafx.JavaFxViewUtil;
 import org.apache.commons.lang3.StringUtils;
 

@@ -121,11 +121,11 @@ public class ConfigSaver {
 				field.set(newLuytenPrefs, prefs.get(prefId, defaultStr));
 
 			} else if (field.getType() == Boolean.class || field.getType() == boolean.class) {
-				Boolean defaultBool = (Boolean) (defaultVal == null ? new Boolean(false) : defaultVal);
+				Boolean defaultBool = (Boolean) (defaultVal == null ? Boolean.valueOf(false) : defaultVal);
 				field.setBoolean(newLuytenPrefs, prefs.getBoolean(prefId, defaultBool));
 
 			} else if (field.getType() == Integer.class || field.getType() == int.class) {
-				Integer defaultInt = (Integer) (defaultVal == null ? new Integer(0) : defaultVal);
+				Integer defaultInt = (Integer) (defaultVal == null ? Integer.valueOf(0) : defaultVal);
 				field.setInt(newLuytenPrefs, prefs.getInt(prefId, defaultInt));
 			}
 		}
@@ -177,10 +177,10 @@ public class ConfigSaver {
 				prefs.put(prefId, (String) (value == null ? "" : value));
 
 			} else if (field.getType() == Boolean.class || field.getType() == boolean.class) {
-				prefs.putBoolean(prefId, (Boolean) (value == null ? new Boolean(false) : value));
+				prefs.putBoolean(prefId, (Boolean) (value == null ? Boolean.valueOf(false) : value));
 
 			} else if (field.getType() == Integer.class || field.getType() == int.class) {
-				prefs.putInt(prefId, (Integer) (value == null ? new Integer(0) : value));
+				prefs.putInt(prefId, (Integer) (value == null ? Integer.valueOf(0) : value));
 			}
 		}
 	}

@@ -33,20 +33,6 @@ public class GuiUtils {
 
 	public static String CHARSET_Big5 = "Big5";
 
-	/**************************** 算法 ****************************/
-	// 可解密/解码算法
-	public static String CRYPTO_ASCII = "Ascii";
-	public static String CRYPTO_HEX = "Hex";
-	public static String CRYPTO_BASE32 = "Base32";
-	public static String CRYPTO_BASE64 = "Base64";
-	public static String CRYPTO_URL = "URL";
-	// 不可解密算法
-	public static String CRYPTO_MD5 = "MD5";
-	public static String CRYPTO_SHA = "SHA";
-	public static String CRYPTO_SHA256 = "SHA256";
-	public static String CRYPTO_SHA384 = "SHA384";
-	public static String CRYPTO_SHA512 = "SHA512";
-
 	/**************************** 字体 ****************************/
 
 	/**

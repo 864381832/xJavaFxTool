@@ -1,7 +1,7 @@
 dependencies {
 //        implementation 'com.xwintop:xcore:0.0.6'
     api project(':xcore')
-    implementation 'net.jthink:jaudiotagger:2.2.6-PATHRIK'
+    implementation 'net.jthink:jaudiotagger:3.0.1'
 }
 
 group = 'com.xwintop'

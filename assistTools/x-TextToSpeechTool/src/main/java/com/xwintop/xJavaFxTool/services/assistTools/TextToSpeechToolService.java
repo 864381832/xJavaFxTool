@@ -1,10 +1,10 @@
 package com.xwintop.xJavaFxTool.services.assistTools;
 
+import cn.hutool.cache.Cache;
 import com.baidu.aip.speech.AipSpeech;
 import com.baidu.aip.speech.TtsResponse;
 import com.baidu.aip.util.Util;
 import com.xwintop.xJavaFxTool.controller.assistTools.TextToSpeechToolController;
-import com.xwintop.xcore.commons.CacheUtil;
 import com.xwintop.xcore.util.ConfigureUtil;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
@@ -32,14 +32,21 @@ import java.util.HashMap;
 @Slf4j
 public class TextToSpeechToolService {
     private TextToSpeechToolController textToSpeechToolController;
+
     //设置APPID/AK/SK
     public static final String APP_ID = "10690878";
+
     public static final String API_KEY = "y5VI7DG4YNb1G600X8FpxsN2";
+
     public static final String SECRET_KEY = "4RoIZEBGePYU4R4capF4OEYZ3HL3nCSU";
+
     private AipSpeech client = new AipSpeech(APP_ID, API_KEY, SECRET_KEY);
+
     private MediaPlayer mediaPlayer = null;
 
     private String mp3Cache = ConfigureUtil.getConfigurePath("output.mp3");
+
+    private Cache<String, TtsResponse> resCache = cn.hutool.cache.CacheUtil.newNoCache();
 
     public void playAction() throws Exception {
         TtsResponse res = getTtsResponse();
@@ -52,7 +59,7 @@ public class TextToSpeechToolService {
             //AudioPlayer.player.stop(as);//关闭音乐播放
             Media media = new Media(new File(mp3Cache).toURI().toString());
             mediaPlayer = new MediaPlayer(media);
-            mediaPlayer.setOnEndOfMedia(()->{
+            mediaPlayer.setOnEndOfMedia(() -> {
                 textToSpeechToolController.getPlayButton().setText("播放");
             });
             mediaPlayer.play();
@@ -90,11 +97,12 @@ public class TextToSpeechToolService {
         String per = textToSpeechToolController.getPerToggleGroup().getSelectedToggle().getUserData().toString();
         options.put("per", per);
 //        System.out.println(options.toString());
-        log.info("转换参数："+options.toString());
+        log.info("转换参数：" + options.toString());
         String textString = textToSpeechToolController.getTextTextArea().getText();
-        TtsResponse res = CacheUtil.getInstance().get(options.toString() + textString, TtsResponse.class, s -> {
-            return client.synthesis(textString, "zh", 1, options);
-        });
+        if (!resCache.containsKey(options.toString() + textString)) {
+            resCache.put(options.toString() + textString, client.synthesis(textString, "zh", 1, options));
+        }
+        TtsResponse res = resCache.get(options.toString() + textString);
         return res;
     }
 
