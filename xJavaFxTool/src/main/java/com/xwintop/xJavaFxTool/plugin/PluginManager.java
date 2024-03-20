@@ -5,14 +5,17 @@ import com.xwintop.xJavaFxTool.model.PluginJarInfo;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -34,6 +37,8 @@ public class PluginManager {
     private final List<PluginJarInfo> pluginList = new ArrayList<>(); // 插件列表
 
     private final List<PluginJarInfo> devPluginList = new ArrayList<>(); // dev插件列表
+
+    private final List<PluginJarInfo> localDevPluginList = new ArrayList<>(); // 本地开发插件列表
 
     public PluginManager() {
         this.loadLocalPluginConfiguration();
@@ -68,7 +73,8 @@ public class PluginManager {
         }
     }
 
-    public void loadLocalDevPluginConfiguration() {
+    //加载开发libs包中插件
+    public void loadDevPluginConfiguration() {
         try {
             // 系统类库路径
             File libPath = new File("devLibs/");
@@ -93,6 +99,33 @@ public class PluginManager {
         }
     }
 
+    //加载本地开发插件
+    public void loadLocalDevPluginConfiguration() {
+        try {
+            ClassLoader classLoader = getClass().getClassLoader();
+            Enumeration<URL> urlEnumeration = classLoader.getResources("config/toolFxmlLoaderConfiguration.xml");
+            while (urlEnumeration.hasMoreElements()) {
+                URL url = urlEnumeration.nextElement();
+                System.out.println(url.getPath());
+                if(url.getPath().endsWith("x-ImageTool/out/production/resources/config/toolFxmlLoaderConfiguration.xml")) {
+                System.out.println(FileUtils.readFileToString(new File(url.getFile())));
+                    try {
+                        PluginJarInfo plugin = new PluginJarInfo();
+                        plugin.setLocalPath(StringUtils.removeEnd(url.getPath(),"/config/toolFxmlLoaderConfiguration.xml"));
+                        plugin.setIsEnable(true);
+                        plugin.setIsDownload(true);
+                        PluginParser.parse(url, plugin);
+                        localDevPluginList.add(plugin);
+                    } catch (Exception e) {
+                        log.error("解析失败", e);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            log.error("添加libs中jar包到系统中异常:", e);
+        }
+    }
+
     /**
      * 解析本地插件文件
      */
@@ -105,6 +138,7 @@ public class PluginManager {
                     PluginParser.initParse(pluginFile, plugin);
                 } catch (Exception e) {
                     log.error("解析失败", e);
+                    removeList.add(plugin);
                 }
             } else {
                 removeList.add(plugin);

@@ -14,6 +14,7 @@ import org.dom4j.io.SAXReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,6 +87,53 @@ public class PluginParser {
 
             pluginJarInfo.setName(StringUtils.defaultString(pluginJarInfo.getName(), title));
         } catch (IOException | DocumentException e) {
+            throw new AppException(e);
+        }
+    }
+
+    public static void parse(URL pluginConfigUrl, PluginJarInfo pluginJarInfo) {
+        try {
+            File pluginConfigFile = new File(pluginConfigUrl.getFile());
+            ClassLoader classLoader = PluginClassLoader.create(pluginConfigFile);
+//            FileUtils.readFileToString(new File(url.getFile()));
+            SAXReader saxReader = new SAXReader();
+            Document document = saxReader.read(new File(pluginConfigUrl.getFile()));
+            Element root = document.getRootElement();
+            List<Element> menuElements = selectElements(root, "/root/ToolFxmlLoaderConfiguration[@isMenu='true']");
+            Element pluginElement = selectSingleElement(root, "/root/ToolFxmlLoaderConfiguration[not(@isMenu)]");
+
+            Map<String, String> menuTitles = new HashMap<>();
+            for (Element menuElement : menuElements) {
+                menuTitles.put(menuElement.attributeValue("menuId"), menuElement.attributeValue("title"));
+            }
+
+            String resourceBundleName = getChildNodeText(pluginElement, "resourceBundleName");
+            String title = getTitleFromResourceBundle(new File(pluginJarInfo.getLocalPath()), classLoader, pluginElement, resourceBundleName);
+            String menuId = getChildNodeText(pluginElement, "menuParentId");
+            String url = getChildNodeText(pluginElement, "url");
+            String controllerType = getChildNodeText(pluginElement, "controllerType");
+            String menuTitle = menuTitles.get(menuId);
+
+            pluginJarInfo.setMenuParentId(menuId);
+            pluginJarInfo.setMenuParentTitle(menuTitle);
+            pluginJarInfo.setBundleName(resourceBundleName);
+            pluginJarInfo.setControllerType(controllerType);
+            pluginJarInfo.setTitle(title);
+            pluginJarInfo.setIconPath(pluginElement.elementTextTrim("iconPath"));
+            if (StringUtils.isNotBlank(pluginJarInfo.getIconPath())) {
+//                Image iconImage = new Image(new FileInputStream(pluginJarInfo.getLocalPath() + pluginJarInfo.getIconPath()));
+                Image iconImage = new Image(classLoader.getResourceAsStream(StringUtils.removeStart(pluginJarInfo.getIconPath(),"/")));
+                pluginJarInfo.setIconImage(iconImage);
+            }
+
+            if (controllerType.equals("Node")) {
+                pluginJarInfo.setFxmlPath(url);
+            } else if (controllerType.equals("WebView")) {
+                pluginJarInfo.setPagePath(url);
+            }
+
+            pluginJarInfo.setName(StringUtils.defaultString(pluginJarInfo.getName(), title));
+        } catch (Exception e) {
             throw new AppException(e);
         }
     }

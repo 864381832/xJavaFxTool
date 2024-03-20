@@ -6,7 +6,7 @@
 		<resourceBundleName>locale.ImageTool</resourceBundleName>
 		<className></className>
 		<title>Title</title>
-    <iconPath>/images/ImageToolIcon.png</iconPath>
+        <iconPath>/images/ImageToolIcon.png</iconPath>
 		<isDefaultShow></isDefaultShow>
 		<menuId></menuId>
 		<menuParentId>p-littleTools</menuParentId>

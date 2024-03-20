@@ -93,6 +93,7 @@ public class IndexController extends IndexView {
 
     private void initService() {
         PluginManager pluginManager = PluginManager.getInstance();
+        pluginManager.loadDevPluginConfiguration();
         pluginManager.loadLocalDevPluginConfiguration();
         loadPlugins();  // 加载插件列表到界面上
         AppEvents.addEventHandler(PluginEvent.PLUGIN_DOWNLOADED, pluginEvent -> loadPlugins());
@@ -112,6 +113,7 @@ public class IndexController extends IndexView {
         pluginManager.loadLocalPlugins();
         pluginManager.getEnabledPluginList().forEach(this::loadPlugin);
         pluginManager.getDevPluginList().forEach(this::loadPlugin);
+        pluginManager.getLocalDevPluginList().forEach(this::loadPlugin);
     }
 
     /**
@@ -135,8 +137,8 @@ public class IndexController extends IndexView {
         }
         String categoryName = jarInfo.getIsFavorite() ? FAVORITE_CATEGORY_NAME : XJavaFxToolApplication.RESOURCE_BUNDLE.getString(menuParentTitle);
         PluginCategoryController category = categoryControllers.computeIfAbsent(
-            categoryName, __ -> {
-                PluginCategoryController _category = PluginCategoryController.newInstance(categoryName);
+            categoryName, key -> {
+                PluginCategoryController _category = PluginCategoryController.newInstance(key);
                 addCategory(_category);
                 return _category;
             }
