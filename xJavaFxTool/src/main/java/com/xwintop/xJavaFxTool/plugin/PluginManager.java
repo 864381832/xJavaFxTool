@@ -95,34 +95,34 @@ public class PluginManager {
                 }
             }
         } catch (Exception e) {
-            log.error("添加libs中jar包到系统中异常:", e);
+            log.error("添加devLibs中jar包到系统中异常:", e);
         }
     }
 
     //加载本地开发插件
     public void loadLocalDevPluginConfiguration() {
         try {
-            ClassLoader classLoader = getClass().getClassLoader();
-            Enumeration<URL> urlEnumeration = classLoader.getResources("config/toolFxmlLoaderConfiguration.xml");
+            Enumeration<URL> urlEnumeration = getClass().getClassLoader().getResources("config/toolFxmlLoaderConfiguration.xml");
             while (urlEnumeration.hasMoreElements()) {
                 URL url = urlEnumeration.nextElement();
                 System.out.println(url.getPath());
-                if(url.getPath().endsWith("x-ImageTool/out/production/resources/config/toolFxmlLoaderConfiguration.xml")) {
-                System.out.println(FileUtils.readFileToString(new File(url.getFile())));
-                    try {
-                        PluginJarInfo plugin = new PluginJarInfo();
-                        plugin.setLocalPath(StringUtils.removeEnd(url.getPath(),"/config/toolFxmlLoaderConfiguration.xml"));
-                        plugin.setIsEnable(true);
-                        plugin.setIsDownload(true);
-                        PluginParser.parse(url, plugin);
-                        localDevPluginList.add(plugin);
-                    } catch (Exception e) {
-                        log.error("解析失败", e);
-                    }
+//                if (!url.getPath().endsWith("x-FileUnicodeTransformationTool/out/production/resources/config/toolFxmlLoaderConfiguration.xml")) {
+//                    continue;
+//                }
+//                System.out.println(FileUtils.readFileToString(new File(url.getFile())));
+                try {
+                    PluginJarInfo plugin = new PluginJarInfo();
+                    plugin.setLocalPath(StringUtils.removeEnd(url.getPath(), "/config/toolFxmlLoaderConfiguration.xml"));
+                    plugin.setIsEnable(true);
+                    plugin.setIsDownload(true);
+                    PluginParser.parse(url, plugin);
+                    localDevPluginList.add(plugin);
+                } catch (Exception e) {
+                    log.error("解析失败", e);
                 }
             }
         } catch (Exception e) {
-            log.error("添加libs中jar包到系统中异常:", e);
+            log.error("添加子模块到系统中异常:", e);
         }
     }
 
@@ -189,7 +189,7 @@ public class PluginManager {
         try {
             saveToFile();
         } catch (IOException e) {
-            log.error("", e);
+            log.error("saveToFile error", e);
         }
     }
 }
