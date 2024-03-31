@@ -1,26 +1,24 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        maven {
-            allowInsecureProtocol = true
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
+//buildscript {
+//    repositories {
+//        mavenCentral()
+//        maven {
+//            allowInsecureProtocol = true
+//            url "https://plugins.gradle.org/m2/"
+//        }
+//    }
 //    dependencies {
 //        classpath 'org.openjfx:javafx-plugin:0.1.0'
 //    }
-}
+//}
 
 plugins {
     id "org.gradlex.extra-java-module-info" version "1.7"
-//    id "org.beryx.jlink" version "2.26.0"
     id "org.openjfx.javafxplugin" version "0.1.0"
-    id "com.gluonhq.gluonfx-gradle-plugin" version "1.0.22"
     id 'idea'
     id 'application'
     id 'maven-publish'
 }
-allprojects {
+subprojects {
     ext {
         springBootVersion = "2.7.18"
     }
@@ -30,7 +28,7 @@ allprojects {
     apply plugin: 'application'
     apply plugin: 'maven-publish' // 引入maven插件
     apply plugin: 'org.openjfx.javafxplugin'
-    sourceCompatibility = 17
+//    sourceCompatibility = 17
     test {//跳过测试
         enabled = false
     }
@@ -58,16 +56,16 @@ allprojects {
         annotationProcessor 'org.projectlombok:lombok:1.18.30'
         testCompileOnly 'org.projectlombok:lombok:1.18.30'
         testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
-//        api 'org.openjfx:javafx-controls:21.0.1'
-//        api 'org.openjfx:javafx-base:21.0.1'
-//        api 'org.openjfx:javafx-graphics:21.0.1'
-//        api 'org.openjfx:javafx-fxml:21.0.1'
-//        api 'org.openjfx:javafx-swing:21.0.1'
-//        api 'org.openjfx:javafx-media:21.0.1'
-//        api 'org.openjfx:javafx-web:21.0.1'
+//        api 'org.openjfx:javafx-controls:21.0.2'
+//        api 'org.openjfx:javafx-base:21.0.2'
+//        api 'org.openjfx:javafx-graphics:21.0.2'
+//        api 'org.openjfx:javafx-fxml:21.0.2'
+//        api 'org.openjfx:javafx-swing:21.0.2'
+//        api 'org.openjfx:javafx-media:21.0.2'
+//        api 'org.openjfx:javafx-web:21.0.2'
     }
     javafx {
-        version = "21.0.1"
+        version = "21.0.2"
         modules = ['javafx.controls', "javafx.graphics", 'javafx.fxml', 'javafx.media', 'javafx.swing', 'javafx.web']
 //        configuration = 'compileOnly'
     }

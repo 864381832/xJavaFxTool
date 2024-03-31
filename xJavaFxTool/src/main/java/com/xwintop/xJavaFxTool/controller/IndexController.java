@@ -1,5 +1,7 @@
 package com.xwintop.xJavaFxTool.controller;
 
+import com.jpro.webapi.HTMLView;
+import com.jpro.webapi.WebAPI;
 import com.xwintop.xJavaFxTool.XJavaFxToolApplication;
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
 import com.xwintop.xJavaFxTool.controller.plugin.PluginCategoryController;
@@ -29,6 +31,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -82,7 +86,15 @@ public class IndexController extends IndexView {
             addNodepadAction(null);
         }
         this.indexService.addWebView(XJavaFxToolApplication.RESOURCE_BUNDLE.getString("feedback"), QQ_URL, null);
-        this.tongjiWebView.getEngine().load(STATISTICS_URL);
+        if (WebAPI.isBrowser()) {
+            String contentIframe2 = "<iframe frameborder=\"0\" style=\"width: 100%; height: 100%;\" src=\"" + STATISTICS_URL + "\"> </iframe>";
+            HTMLView browser = new HTMLView(contentIframe2);
+            pluginCategories.getChildren().add(browser);
+        } else {
+            WebView browser = new WebView();
+            WebEngine webEngine = browser.getEngine();
+            webEngine.load(STATISTICS_URL);
+        }
         this.tabPaneMain.getSelectionModel().select(0);
     }
 

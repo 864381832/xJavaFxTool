@@ -1,5 +1,7 @@
 package com.xwintop.xJavaFxTool.services;
 
+import com.jpro.webapi.HTMLView;
+import com.jpro.webapi.WebAPI;
 import com.xwintop.xJavaFxTool.AppException;
 import com.xwintop.xJavaFxTool.XJavaFxToolApplication;
 import com.xwintop.xJavaFxTool.common.logback.ConsoleLogAppender;
@@ -17,6 +19,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
@@ -29,8 +32,10 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -196,24 +201,32 @@ public class IndexService {
     }
 
     public static Tab loadWebViewAsTab(PluginJarInfo plugin, TabPane tabPane, boolean singleWindowBoot) {
-        WebView browser = new WebView();
-        WebEngine webEngine = browser.getEngine();
         String url = plugin.getPagePath();
         String title = plugin.getTitle();
-
-//        HTMLView browser = null;
+        Parent browser = null;
         if (url.startsWith("http")) {
-            webEngine.load(url);
-//            String contentIframe2 = "<iframe frameborder=\"0\" style=\"width: 100%; height: 100%;\" src=\"" + url + "\"> </iframe>";
-//            browser = new HTMLView(contentIframe2);
+            if (WebAPI.isBrowser()) {
+                String contentIframe2 = "<iframe frameborder=\"0\" style=\"width: 100%; height: 100%;\" src=\"" + url + "\"> </iframe>";
+                browser = new HTMLView(contentIframe2);
+            } else {
+                browser = new WebView();
+                WebEngine webEngine = ((WebView)browser).getEngine();
+                webEngine.load(url);
+            }
         } else {
             PluginContainer pluginContainer = new PluginContainer(plugin);
-            webEngine.load(pluginContainer.getResource(url).toExternalForm());
-//            try {
-//                browser = new HTMLView(IOUtils.toString(pluginContainer.getResource(url).openStream(), "utf-8"));
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
+            if (WebAPI.isBrowser()) {
+                try {
+                    browser = new HTMLView(IOUtils.toString(pluginContainer.getResource(url).openStream(), "utf-8"));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                browser = new WebView();
+                WebEngine webEngine = ((WebView)browser).getEngine();
+                webEngine.load(pluginContainer.getResource(url).toExternalForm());
+            }
+
         }
 
         if (singleWindowBoot) {
