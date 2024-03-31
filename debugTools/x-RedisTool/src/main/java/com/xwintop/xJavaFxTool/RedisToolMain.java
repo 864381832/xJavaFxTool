@@ -1,6 +1,6 @@
 package com.xwintop.xJavaFxTool;
 
-import com.xwintop.xJavaFxTool.utils.VersionChecker;
+import com.xwintop.xcore.util.VersionChecker;
 import com.xwintop.xcore.util.javafx.JavaFxSystemUtil;
 import javafx.application.Application;
 import javafx.event.EventHandler;

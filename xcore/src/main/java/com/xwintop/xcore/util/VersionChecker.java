@@ -1,9 +1,9 @@
-package com.xwintop.xJavaFxTool.utils;
+package com.xwintop.xcore.util;
 
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
-import com.xwintop.xcore.util.javafx.AlertUtil;
+import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import com.xwintop.xcore.util.javafx.JavaFxSystemUtil;
 import javafx.application.Platform;
 import lombok.extern.slf4j.Slf4j;
@@ -14,23 +14,22 @@ import java.util.function.BiConsumer;
 
 /**
  * @ClassName: VersionChecker
- * @Description: 版本检查工具类
+ * @Description: 新版本检查
  * @author: xufeng
- * @date: 2021/1/31 22:25
+ * @date: 2022/3/28 14:59
  */
 
 @Slf4j
 public class VersionChecker {
-
     public static void checkerVersion(String checkUrl, String downloadUrl, String version) {
         VersionChecker.hasNewVersion(checkUrl, version, (latestVersion, features) -> {
             String title = "发现新版本";
             final String content = new StringBuilder()
-                    .append("最新版本: ").append(latestVersion).append("\r\n")
-                    .append("当前版本: v").append(version).append("\r\n")
-                    .append("新特性: \r\n").append(features)
-                    .toString();
-            if (AlertUtil.showConfirmAlert(content)) {
+                .append("最新版本: ").append(latestVersion).append("\r\n")
+                .append("当前版本: v").append(version).append("\r\n")
+                .append("新特性: \r\n").append(features)
+                .toString();
+            if (FxAlerts.confirmOkCancel(title + latestVersion, content)) {
                 try {
                     JavaFxSystemUtil.openBrowseURLThrowsException(downloadUrl);
                 } catch (IOException e) {

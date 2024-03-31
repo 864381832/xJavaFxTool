@@ -14,12 +14,12 @@ import com.xwintop.xJavaFxTool.plugin.PluginParser;
 import com.xwintop.xJavaFxTool.services.IndexService;
 import com.xwintop.xJavaFxTool.services.index.SystemSettingService;
 import com.xwintop.xJavaFxTool.utils.Config;
-import com.xwintop.xJavaFxTool.utils.VersionChecker;
 import com.xwintop.xJavaFxTool.view.IndexView;
 import com.xwintop.xcore.javafx.FxApp;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import com.xwintop.xcore.javafx.dialog.FxDialog;
 import com.xwintop.xcore.util.ConfigureUtil;
+import com.xwintop.xcore.util.VersionChecker;
 import com.xwintop.xcore.util.javafx.AlertUtil;
 import com.xwintop.xcore.util.javafx.JavaFxSystemUtil;
 import javafx.application.Platform;
@@ -246,9 +246,7 @@ public class IndexController extends IndexView {
 
     @FXML
     private void checkerVersionAction() {
-        if (!VersionChecker.checkNewVersion()) {
-            FxAlerts.info("提示", "已经是新版本");
-        }
+        VersionChecker.checkerVersion("https://gitee.com/api/v5/repos/xwintop/xJavaFxTool/releases/latest","https://gitee.com/xwintop/xJavaFxTool/releases",Config.xJavaFxToolVersions.substring(1));
     }
 
     @FXML
