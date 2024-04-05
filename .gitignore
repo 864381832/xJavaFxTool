@@ -10,7 +10,7 @@ devLibs
 
 system_plugin_list.json
 RUNNING_PID
-gradle
+#gradle
 .gradle
 build
 out
