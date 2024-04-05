@@ -15,10 +15,10 @@ import com.xwintop.xJavaFxTool.controller.IndexController;
 import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xJavaFxTool.utils.Config.Keys;
 import com.xwintop.xJavaFxTool.utils.StageUtils;
-import com.xwintop.xJavaFxTool.utils.VersionChecker;
 import com.xwintop.xJavaFxTool.utils.XJavaFxSystemUtil;
 import com.xwintop.xcore.javafx.FxApp;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
+import com.xwintop.xcore.util.VersionChecker;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -70,7 +70,7 @@ public class XJavaFxToolApplication extends Application {
         loadClassicUI(primaryStage);
 
         StageUtils.loadPrimaryStageBound(primaryStage);
-        primaryStage.setOnShown(windowEvent -> VersionChecker.checkNewVersion());
+        primaryStage.setOnShown(windowEvent -> VersionChecker.checkerVersion("https://gitee.com/api/v5/repos/xwintop/xJavaFxTool/releases/latest", "https://gitee.com/xwintop/xJavaFxTool/releases", Config.xJavaFxToolVersions.substring(1)));
         primaryStage.show();
     }
 

@@ -47,7 +47,7 @@ public class PathWatchToolService {
             return;
         }
         if (thread != null) {
-            thread.stop();
+            thread.interrupt();
         }
         boolean fileNameSRegex = pathWatchToolController.getFileNameSupportRegexCheckBox().isSelected();
         String fileNameContains = pathWatchToolController.getFileNameContainsTextField().getText();
@@ -138,7 +138,7 @@ public class PathWatchToolService {
 
     public void stopWatchAction() {
         if (thread != null) {
-            thread.stop();
+            thread.interrupt();
             thread = null;
         }
     }

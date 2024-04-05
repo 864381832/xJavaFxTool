@@ -23,11 +23,6 @@ public class FileChooserUtil {
 
     public static final File HOME_DIRECTORY = FileSystemView.getFileSystemView().getHomeDirectory();
 
-    //选择多个文件
-    public static List<File> chooseFiles() {
-        return chooseFiles(null);
-    }
-
     public static List<File> chooseFiles(ExtensionFilter... extensionFilter) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("请选择文件");
@@ -37,10 +32,6 @@ public class FileChooserUtil {
             fileChooser.getExtensionFilters().addAll(extensionFilter);
         }
         return fileChooser.showOpenMultipleDialog(null);
-    }
-
-    public static File chooseFile() {
-        return chooseFile(null);
     }
 
     public static File chooseFile(ExtensionFilter... extensionFilter) {
@@ -53,16 +44,6 @@ public class FileChooserUtil {
         }
 
         return fileChooser.showOpenDialog(null);
-    }
-
-    ///////////////////////////////////////////////////////////////
-
-    public static File chooseSaveFile(ExtensionFilter... extensionFilter) {
-        return chooseSaveFile(null, extensionFilter);
-    }
-
-    public static File chooseSaveFile(String fileName) {
-        return chooseSaveFile(fileName, null);
     }
 
     public static File chooseSaveFile(String fileName, ExtensionFilter... extensionFilter) {

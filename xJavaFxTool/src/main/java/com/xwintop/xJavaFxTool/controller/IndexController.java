@@ -1,5 +1,7 @@
 package com.xwintop.xJavaFxTool.controller;
 
+import com.jpro.webapi.HTMLView;
+import com.jpro.webapi.WebAPI;
 import com.xwintop.xJavaFxTool.XJavaFxToolApplication;
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
 import com.xwintop.xJavaFxTool.controller.plugin.PluginCategoryController;
@@ -12,12 +14,12 @@ import com.xwintop.xJavaFxTool.plugin.PluginParser;
 import com.xwintop.xJavaFxTool.services.IndexService;
 import com.xwintop.xJavaFxTool.services.index.SystemSettingService;
 import com.xwintop.xJavaFxTool.utils.Config;
-import com.xwintop.xJavaFxTool.utils.VersionChecker;
 import com.xwintop.xJavaFxTool.view.IndexView;
 import com.xwintop.xcore.javafx.FxApp;
 import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import com.xwintop.xcore.javafx.dialog.FxDialog;
 import com.xwintop.xcore.util.ConfigureUtil;
+import com.xwintop.xcore.util.VersionChecker;
 import com.xwintop.xcore.util.javafx.AlertUtil;
 import com.xwintop.xcore.util.javafx.JavaFxSystemUtil;
 import javafx.application.Platform;
@@ -29,6 +31,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -82,7 +86,15 @@ public class IndexController extends IndexView {
             addNodepadAction(null);
         }
         this.indexService.addWebView(XJavaFxToolApplication.RESOURCE_BUNDLE.getString("feedback"), QQ_URL, null);
-        this.tongjiWebView.getEngine().load(STATISTICS_URL);
+        if (WebAPI.isBrowser()) {
+            String contentIframe2 = "<iframe frameborder=\"0\" style=\"width: 100%; height: 100%;\" src=\"" + STATISTICS_URL + "\"> </iframe>";
+            HTMLView browser = new HTMLView(contentIframe2);
+            pluginCategories.getChildren().add(browser);
+        } else {
+            WebView browser = new WebView();
+            WebEngine webEngine = browser.getEngine();
+            webEngine.load(STATISTICS_URL);
+        }
         this.tabPaneMain.getSelectionModel().select(0);
     }
 
@@ -93,6 +105,7 @@ public class IndexController extends IndexView {
 
     private void initService() {
         PluginManager pluginManager = PluginManager.getInstance();
+        pluginManager.loadDevPluginConfiguration();
         pluginManager.loadLocalDevPluginConfiguration();
         loadPlugins();  // 加载插件列表到界面上
         AppEvents.addEventHandler(PluginEvent.PLUGIN_DOWNLOADED, pluginEvent -> loadPlugins());
@@ -112,6 +125,7 @@ public class IndexController extends IndexView {
         pluginManager.loadLocalPlugins();
         pluginManager.getEnabledPluginList().forEach(this::loadPlugin);
         pluginManager.getDevPluginList().forEach(this::loadPlugin);
+        pluginManager.getLocalDevPluginList().forEach(this::loadPlugin);
     }
 
     /**
@@ -135,8 +149,8 @@ public class IndexController extends IndexView {
         }
         String categoryName = jarInfo.getIsFavorite() ? FAVORITE_CATEGORY_NAME : XJavaFxToolApplication.RESOURCE_BUNDLE.getString(menuParentTitle);
         PluginCategoryController category = categoryControllers.computeIfAbsent(
-            categoryName, __ -> {
-                PluginCategoryController _category = PluginCategoryController.newInstance(categoryName);
+            categoryName, key -> {
+                PluginCategoryController _category = PluginCategoryController.newInstance(key);
                 addCategory(_category);
                 return _category;
             }
@@ -232,9 +246,7 @@ public class IndexController extends IndexView {
 
     @FXML
     private void checkerVersionAction() {
-        if (!VersionChecker.checkNewVersion()) {
-            FxAlerts.info("提示", "已经是新版本");
-        }
+        VersionChecker.checkerVersion("https://gitee.com/api/v5/repos/xwintop/xJavaFxTool/releases/latest","https://gitee.com/xwintop/xJavaFxTool/releases",Config.xJavaFxToolVersions.substring(1));
     }
 
     @FXML
