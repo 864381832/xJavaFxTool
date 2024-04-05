@@ -35,11 +35,11 @@ subprojects {
     repositories {
         maven {
             allowInsecureProtocol = true
-            url 'https://repo1.maven.org/maven2/'
+            url 'https://maven.aliyun.com/repository/public'
         }
         maven {
             allowInsecureProtocol = true
-            url 'https://maven.aliyun.com/repository/public'
+            url 'https://repo1.maven.org/maven2/'
         }
         maven {
             allowInsecureProtocol = true

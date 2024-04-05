@@ -105,8 +105,12 @@ public class IndexController extends IndexView {
 
     private void initService() {
         PluginManager pluginManager = PluginManager.getInstance();
+        pluginManager.getDevPluginList().clear();
+        pluginManager.getLocalDevPluginList().clear();
+        pluginManager.getPluginList().clear();
         pluginManager.loadDevPluginConfiguration();
         pluginManager.loadLocalDevPluginConfiguration();
+        pluginManager.loadLocalPlugins();
         loadPlugins();  // 加载插件列表到界面上
         AppEvents.addEventHandler(PluginEvent.PLUGIN_DOWNLOADED, pluginEvent -> loadPlugins());
     }
@@ -120,9 +124,7 @@ public class IndexController extends IndexView {
         this.categoryControllers.clear();
         this.menuItemMap.clear();
         this.moreToolsMenu.getItems().clear();
-
         PluginManager pluginManager = PluginManager.getInstance();
-        pluginManager.loadLocalPlugins();
         pluginManager.getEnabledPluginList().forEach(this::loadPlugin);
         pluginManager.getDevPluginList().forEach(this::loadPlugin);
         pluginManager.getLocalDevPluginList().forEach(this::loadPlugin);
