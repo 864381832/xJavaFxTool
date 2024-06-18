@@ -8,7 +8,7 @@ buildscript {
     }
 
     dependencies {
-        classpath "one.jpro:jpro-gradle-plugin:2024.1.0"
+        classpath "one.jpro:jpro-gradle-plugin:2024.2.1"
     }
 }
 plugins {
@@ -21,7 +21,7 @@ apply plugin: 'jpro-gradle-plugin'
 
 dependencies {
     api project(':xcore')
-    implementation "com.sandec.jpro:jpro-webapi:2024.1.0"
+    implementation "com.sandec.jpro:jpro-webapi:2024.2.1"
     api project(":littleTools:x-EncryptAndDecrypt")
 //    api project(":littleTools:x-ZHConverter")
 //    api project(":littleTools:x-ImageTool")

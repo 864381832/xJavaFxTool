@@ -1,8 +1,8 @@
 dependencies {
 //        implementation 'com.xwintop:xcore:0.0.6'
     api project(':xcore')
-    implementation 'org.bouncycastle:bcprov-jdk15to18:1.68'
-    api 'commons-codec:commons-codec:1.16.0'
+    implementation 'org.bouncycastle:bcprov-jdk18on:1.78.1'
+    api 'commons-codec:commons-codec:1.17.0'
 }
 
 group = 'com.xwintop'

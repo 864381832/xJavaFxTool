@@ -21,6 +21,7 @@ plugins {
 subprojects {
     ext {
         springBootVersion = "2.7.18"
+        lombokVersion = "1.18.32"
     }
     description 'xJavaFxTool'
     apply plugin: 'java'
@@ -52,10 +53,10 @@ subprojects {
     [compileJava, compileTestJava, javadoc]*.options*.encoding = "UTF-8"
     dependencies {
         testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
-        compileOnly('org.projectlombok:lombok:1.18.30')
-        annotationProcessor 'org.projectlombok:lombok:1.18.30'
-        testCompileOnly 'org.projectlombok:lombok:1.18.30'
-        testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+        compileOnly("org.projectlombok:lombok:$lombokVersion")
+        annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+        testCompileOnly "org.projectlombok:lombok:$lombokVersion"
+        testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
 //        api 'org.openjfx:javafx-controls:21.0.2'
 //        api 'org.openjfx:javafx-base:21.0.2'
 //        api 'org.openjfx:javafx-graphics:21.0.2'
@@ -65,7 +66,7 @@ subprojects {
 //        api 'org.openjfx:javafx-web:21.0.2'
     }
     javafx {
-        version = "21.0.2"
+        version = "22.0.1"
         modules = ['javafx.controls', "javafx.graphics", 'javafx.fxml', 'javafx.media', 'javafx.swing', 'javafx.web']
 //        configuration = 'compileOnly'
     }

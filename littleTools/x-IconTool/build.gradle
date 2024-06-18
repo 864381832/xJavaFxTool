@@ -1,7 +1,7 @@
 dependencies {
 //        implementation 'com.xwintop:xcore:0.0.6'
     api project(':xcore')
-    implementation 'org.bouncycastle:bcprov-jdk15to18:1.68'
+    implementation 'org.bouncycastle:bcprov-jdk18on:1.78.1'
     api 'net.coobird:thumbnailator:0.4.20'
     implementation 'org.apache.commons:commons-imaging:1.0-alpha3'
 }
