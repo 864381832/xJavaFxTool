@@ -1,7 +1,5 @@
 package com.xwintop.xJavaFxTool.controller;
 
-import com.jpro.webapi.HTMLView;
-import com.jpro.webapi.WebAPI;
 import com.xwintop.xJavaFxTool.XJavaFxToolApplication;
 import com.xwintop.xJavaFxTool.controller.index.PluginManageController;
 import com.xwintop.xJavaFxTool.controller.plugin.PluginCategoryController;
@@ -16,7 +14,6 @@ import com.xwintop.xJavaFxTool.services.index.SystemSettingService;
 import com.xwintop.xJavaFxTool.utils.Config;
 import com.xwintop.xJavaFxTool.view.IndexView;
 import com.xwintop.xcore.javafx.FxApp;
-import com.xwintop.xcore.javafx.dialog.FxAlerts;
 import com.xwintop.xcore.javafx.dialog.FxDialog;
 import com.xwintop.xcore.util.ConfigureUtil;
 import com.xwintop.xcore.util.VersionChecker;
@@ -86,15 +83,15 @@ public class IndexController extends IndexView {
             addNodepadAction(null);
         }
         this.indexService.addWebView(XJavaFxToolApplication.RESOURCE_BUNDLE.getString("feedback"), QQ_URL, null);
-        if (WebAPI.isBrowser()) {
-            String contentIframe2 = "<iframe frameborder=\"0\" style=\"width: 100%; height: 100%;\" src=\"" + STATISTICS_URL + "\"> </iframe>";
-            HTMLView browser = new HTMLView(contentIframe2);
-            pluginCategories.getChildren().add(browser);
-        } else {
+//        if (WebAPI.isBrowser()) {
+//            String contentIframe2 = "<iframe frameborder=\"0\" style=\"width: 100%; height: 100%;\" src=\"" + STATISTICS_URL + "\"> </iframe>";
+//            HTMLView browser = new HTMLView(contentIframe2);
+//            pluginCategories.getChildren().add(browser);
+//        } else {
             WebView browser = new WebView();
             WebEngine webEngine = browser.getEngine();
             webEngine.load(STATISTICS_URL);
-        }
+//        }
         this.tabPaneMain.getSelectionModel().select(0);
     }
 

@@ -1,7 +1,5 @@
 package com.xwintop.xJavaFxTool.services;
 
-import com.jpro.webapi.HTMLView;
-import com.jpro.webapi.WebAPI;
 import com.xwintop.xJavaFxTool.AppException;
 import com.xwintop.xJavaFxTool.XJavaFxToolApplication;
 import com.xwintop.xJavaFxTool.common.logback.ConsoleLogAppender;
@@ -205,28 +203,27 @@ public class IndexService {
         String title = plugin.getTitle();
         Parent browser = null;
         if (url.startsWith("http")) {
-            if (WebAPI.isBrowser()) {
-                String contentIframe2 = "<iframe frameborder=\"0\" style=\"width: 100%; height: 100%;\" src=\"" + url + "\"> </iframe>";
-                browser = new HTMLView(contentIframe2);
-            } else {
+//            if (WebAPI.isBrowser()) {
+//                String contentIframe2 = "<iframe frameborder=\"0\" style=\"width: 100%; height: 100%;\" src=\"" + url + "\"> </iframe>";
+//                browser = new HTMLView(contentIframe2);
+//            } else {
                 browser = new WebView();
                 WebEngine webEngine = ((WebView)browser).getEngine();
                 webEngine.load(url);
-            }
+//            }
         } else {
             PluginContainer pluginContainer = new PluginContainer(plugin);
-            if (WebAPI.isBrowser()) {
-                try {
-                    browser = new HTMLView(IOUtils.toString(pluginContainer.getResource(url).openStream(), "utf-8"));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            } else {
+//            if (WebAPI.isBrowser()) {
+//                try {
+//                    browser = new HTMLView(IOUtils.toString(pluginContainer.getResource(url).openStream(), "utf-8"));
+//                } catch (IOException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            } else {
                 browser = new WebView();
                 WebEngine webEngine = ((WebView)browser).getEngine();
                 webEngine.load(pluginContainer.getResource(url).toExternalForm());
-            }
-
+//            }
         }
 
         if (singleWindowBoot) {

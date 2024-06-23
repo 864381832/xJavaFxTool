@@ -12,7 +12,7 @@
 //}
 
 plugins {
-    id "org.gradlex.extra-java-module-info" version "1.7"
+//    id "org.gradlex.extra-java-module-info" version "1.7"
     id "org.openjfx.javafxplugin" version "0.1.0"
     id 'idea'
     id 'application'
@@ -22,6 +22,7 @@ subprojects {
     ext {
         springBootVersion = "2.7.18"
         lombokVersion = "1.18.32"
+        javafxVersion = "21.0.3"
     }
     description 'xJavaFxTool'
     apply plugin: 'java'
@@ -57,20 +58,20 @@ subprojects {
         annotationProcessor "org.projectlombok:lombok:$lombokVersion"
         testCompileOnly "org.projectlombok:lombok:$lombokVersion"
         testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
-//        api 'org.openjfx:javafx-controls:21.0.2'
-//        api 'org.openjfx:javafx-base:21.0.2'
-//        api 'org.openjfx:javafx-graphics:21.0.2'
-//        api 'org.openjfx:javafx-fxml:21.0.2'
-//        api 'org.openjfx:javafx-swing:21.0.2'
-//        api 'org.openjfx:javafx-media:21.0.2'
-//        api 'org.openjfx:javafx-web:21.0.2'
+//        api "org.openjfx:javafx-controls:$javafxVersion"
+//        api "org.openjfx:javafx-base:$javafxVersion"
+//        api "org.openjfx:javafx-graphics:$javafxVersion"
+//        api "org.openjfx:javafx-fxml:$javafxVersion"
+//        api "org.openjfx:javafx-swing:$javafxVersion"
+//        api "org.openjfx:javafx-media:$javafxVersion"
+//        api "org.openjfx:javafx-web:$javafxVersion"
     }
     javafx {
-        version = "22.0.1"
+        version = "21.0.3"
         modules = ['javafx.controls', "javafx.graphics", 'javafx.fxml', 'javafx.media', 'javafx.swing', 'javafx.web']
 //        configuration = 'compileOnly'
     }
-    java {
-        modularity.inferModulePath = true
-    }
+//    java {
+//        modularity.inferModulePath = true
+//    }
 }

@@ -1,27 +1,27 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        maven {
-            allowInsecureProtocol = true
-            url "https://sandec.jfrog.io/artifactory/repo"
-        }
-    }
-
-    dependencies {
-        classpath "one.jpro:jpro-gradle-plugin:2024.2.1"
-    }
-}
+//buildscript {
+//    repositories {
+//        mavenCentral()
+//        maven {
+//            allowInsecureProtocol = true
+//            url "https://sandec.jfrog.io/artifactory/repo"
+//        }
+//    }
+//
+//    dependencies {
+//        classpath "one.jpro:jpro-gradle-plugin:2024.2.1"
+//    }
+//}
 plugins {
 //    id "org.beryx.jlink" version "2.26.0"
-    id 'org.beryx.runtime' version '1.12.7'
+    id 'org.beryx.runtime' version '1.13.1'
     id "com.gluonhq.gluonfx-gradle-plugin" version "1.0.22"
 }
 
-apply plugin: 'jpro-gradle-plugin'
+//apply plugin: 'jpro-gradle-plugin'
 
 dependencies {
     api project(':xcore')
-    implementation "com.sandec.jpro:jpro-webapi:2024.2.1"
+//    implementation "com.sandec.jpro:jpro-webapi:2024.2.1"
     api project(":littleTools:x-EncryptAndDecrypt")
 //    api project(":littleTools:x-ZHConverter")
 //    api project(":littleTools:x-ImageTool")
@@ -107,24 +107,24 @@ compileJava {
 
 application {
     applicationName = "xJavaFxTool"
-    mainModule.set("com.xwintop.xJavaFxTool")
-    mainClass.set("com.xwintop.xJavaFxTool.XJavaFxToolApplication")
-    applicationDefaultJvmArgs = [
-        // ZGC
-        "-XX:+UseZGC",
-        // 当遇到空指针异常时显示更详细的信息
-        "-XX:+ShowCodeDetailsInExceptionMessages",
-        "-Dsun.java2d.opengl=true",
-        // 不添加此参数，打包成exe后，https协议的网络图片资源无法加载
-        "-Dhttps.protocols=TLSv1.1,TLSv1.2",
-        '--add-exports=javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED',
-        '--add-exports=javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED',
-        '--add-exports=javafx.graphics/com.sun.javafx.util=ALL-UNNAMED',
-        '--add-exports=javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED',
-        '--add-exports=javafx.graphics/com.sun.javafx.scene=ALL-UNNAMED',
-        '--add-exports=javafx.base/com.sun.javafx.event=ALL-UNNAMED',
-        '--add-opens=java.base/java.lang.reflect=ALL-UNNAMED'
-    ]
+    mainClass = "com.xwintop.xJavaFxTool.XJavaFxToolMain"
+//    mainModule.set("com.xwintop.xJavaFxTool")
+//    applicationDefaultJvmArgs = [
+//        // ZGC
+//        "-XX:+UseZGC",
+//        // 当遇到空指针异常时显示更详细的信息
+//        "-XX:+ShowCodeDetailsInExceptionMessages",
+//        "-Dsun.java2d.opengl=true",
+//        // 不添加此参数，打包成exe后，https协议的网络图片资源无法加载
+//        "-Dhttps.protocols=TLSv1.1,TLSv1.2",
+//        '--add-exports=javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED',
+//        '--add-exports=javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED',
+//        '--add-exports=javafx.graphics/com.sun.javafx.util=ALL-UNNAMED',
+//        '--add-exports=javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED',
+//        '--add-exports=javafx.graphics/com.sun.javafx.scene=ALL-UNNAMED',
+//        '--add-exports=javafx.base/com.sun.javafx.event=ALL-UNNAMED',
+//        '--add-opens=java.base/java.lang.reflect=ALL-UNNAMED'
+//    ]
 }
 
 // 使用 https://badass-runtime-plugin.beryx.org/releases/latest/
@@ -151,8 +151,14 @@ runtime {
         noConsole = true
     }
     jpackage {
-        imageName = application.applicationName
-        imageOptions.addAll(['--icon', 'src/main/resources/images/icon.jpg'])
+        if (org.gradle.internal.os.OperatingSystem.current().isWindows()) {
+            imageOptions = ['--icon', 'src/main/resources/images/icon.ico']
+        } else if (org.gradle.internal.os.OperatingSystem.current().isMacOsX()) {
+            imageOptions = ['--icon', 'src/main/resources/images/icon.icns']
+        } else if (org.gradle.internal.os.OperatingSystem.current().isLinux()) {
+            imageOptions = ['--icon', 'src/main/resources/images/icon.png']
+        }
+//        imageOptions.addAll(['--icon', 'src/main/resources/images/icon.png'])
     }
 }
 
@@ -180,6 +186,6 @@ gluonfx {
     mainClassName = "com.xwintop.xJavaFxTool.XJavaFxToolMain"
 }
 
-jpro {
-    port = 8080
-}
+//jpro {
+//    port = 8080
+//}
