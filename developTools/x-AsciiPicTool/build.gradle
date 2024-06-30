@@ -11,7 +11,9 @@ description = 'x-AsciiPicTool'
 
 //打jar包需要包含依赖的配置
 jar {
-    from { configurations.compileClasspath.findAll { it.name.contains("thumbnailator")
+    duplicatesStrategy = 'exclude'
+    from { configurations.compileClasspath.findAll {
+        it.name.contains("thumbnailator")
     || it.name.contains("poi")
     || it.name.contains("commons-imaging")
     }.collect { zipTree(it) } }

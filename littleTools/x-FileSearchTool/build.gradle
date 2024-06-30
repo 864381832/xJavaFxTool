@@ -10,5 +10,6 @@ description = 'x-FileSearchTool'
 
 //打jar包需要包含依赖的配置
 jar {
+    duplicatesStrategy = 'exclude'
     from { configurations.compileClasspath.findAll { it.name.contains("lucene")}.collect { zipTree(it) } }
 }

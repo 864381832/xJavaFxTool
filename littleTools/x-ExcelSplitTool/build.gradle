@@ -10,6 +10,7 @@ description = 'x-ExcelSplitTool'
 
 //打jar包需要包含依赖的配置
 jar {
+    duplicatesStrategy = 'exclude'
     from { configurations.compileClasspath.findAll { it.name.contains("poi")
     || it.name.contains("commons-csv")}.collect { zipTree(it) } }
 }
