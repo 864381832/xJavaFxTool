@@ -19,10 +19,8 @@ group = 'com.xwintop'
 version = '0.0.4'
 description = 'x-ImageTool'
 
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from(components.java)
-        }
-    }
+//打jar包需要包含依赖的配置
+jar {
+    from { configurations.compileClasspath.findAll { it.name.contains("thumbnailator")
+        || it.name.contains("imageio")}.collect { zipTree(it) } }
 }

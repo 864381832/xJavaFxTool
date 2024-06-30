@@ -1,10 +1,15 @@
 dependencies {
-//        implementation 'com.xwintop:xcore:0.0.6'
     api project(':xcore')
-    implementation 'org.bouncycastle:bcprov-jdk18on:1.78.1'
     api 'commons-codec:commons-codec:1.17.0'
 }
 
 group = 'com.xwintop'
 version = '0.0.1'
 description = 'x-EncryptAndDecrypt'
+
+//打jar包需要包含依赖的配置
+jar {
+    from { configurations.compileClasspath.findAll {
+      it.name.contains("commons-codec")
+    }.collect { zipTree(it) } }
+}

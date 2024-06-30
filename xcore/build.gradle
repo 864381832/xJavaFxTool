@@ -14,6 +14,7 @@ dependencies {
 //    api 'org.apache.commons:commons-imaging:1.0-alpha3'
     api 'cn.hutool:hutool-all:5.8.28'
     api 'com.alibaba.fastjson2:fastjson2:2.0.51'
+    api 'org.bouncycastle:bcprov-jdk18on:1.78.1'
 }
 
 group = 'com.gitee.xwintop'

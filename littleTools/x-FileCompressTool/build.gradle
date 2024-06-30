@@ -1,5 +1,4 @@
 dependencies {
-//        implementation 'com.xwintop:xcore:0.0.6'
     api project(':xcore')
     implementation 'org.apache.commons:commons-compress:1.19'
     implementation 'org.tukaani:xz:1.8'
@@ -9,3 +8,12 @@ dependencies {
 group = 'com.xwintop'
 version = '0.0.1'
 description = 'x-EncryptAndDecrypt'
+
+//打jar包需要包含依赖的配置
+jar {
+    from { configurations.compileClasspath.findAll {
+        it.name.contains("commons-compress")
+        || it.name.contains("xz")
+        || it.name.contains("junrar")
+    }.collect { zipTree(it) } }
+}

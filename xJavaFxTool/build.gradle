@@ -144,7 +144,8 @@ runtime {
         'java.naming',
         'java.compiler',
         'java.logging',
-        'java.management'])
+        'java.management',
+        'java.net.http'])
     launcher {
         // 如果构建后无法启动并且无法知晓异常时，可以将此参数配置为false，
         // 然后执行 gradle runtime，会得到bat方式的可执行程序，在cmd中运行对应bat，可以看到对应异常

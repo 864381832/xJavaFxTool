@@ -1,5 +1,4 @@
 dependencies {
-//        implementation 'com.xwintop:xcore:0.0.6'
     api project(':xcore')
     implementation 'de.schlichtherle.truelicense:truelicense-core:1.33'
 }

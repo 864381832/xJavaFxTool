@@ -31,7 +31,6 @@ import org.springframework.kafka.listener.AcknowledgingMessageListener;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.listener.ContainerProperties;
 
-import javax.jms.Message;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -52,8 +51,6 @@ public class KafkaToolService {
     private final String fileName = "KafkaToolConfigure.json";
 
     private ScheduleManager scheduleManager = new ScheduleManager();
-
-    private Map<String, Message> receiverMessageMap = new HashMap<String, Message>();
 
     private ConcurrentMessageListenerContainer<String, String> concurrentMessageListenerContainer = null;
 

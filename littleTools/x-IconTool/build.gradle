@@ -1,7 +1,5 @@
 dependencies {
-//        implementation 'com.xwintop:xcore:0.0.6'
     api project(':xcore')
-    implementation 'org.bouncycastle:bcprov-jdk18on:1.78.1'
     api 'net.coobird:thumbnailator:0.4.20'
     implementation 'org.apache.commons:commons-imaging:1.0-alpha3'
 }
@@ -9,3 +7,9 @@ dependencies {
 group = 'com.xwintop'
 version = '0.0.1'
 description = 'x-IconTool'
+
+//打jar包需要包含依赖的配置
+jar {
+    from { configurations.compileClasspath.findAll { it.name.contains("thumbnailator")
+        || it.name.contains("commons-imaging")}.collect { zipTree(it) } }
+}

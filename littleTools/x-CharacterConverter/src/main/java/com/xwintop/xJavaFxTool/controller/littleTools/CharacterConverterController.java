@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.lang3.StringUtils;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -45,7 +46,7 @@ public class CharacterConverterController extends CharacterConverterView {
      */
     private String[] charsets = new String[]{GuiUtils.CHARSET_UTF_16BE, GuiUtils.CHARSET_UTF_16LE,
             GuiUtils.CHARSET_UTF_8, GuiUtils.CHARSET_UTF_16, GuiUtils.CHARSET_GB2312, GuiUtils.CHARSET_GBK,
-            GuiUtils.CHARSET_GB18030, GuiUtils.CHARSET_Big5, GuiUtils.CHARSET_ISO_8859_1};
+            GuiUtils.CHARSET_GB18030, GuiUtils.CHARSET_Big5, GuiUtils.CHARSET_ISO_8859_1, StringUtils.EMPTY};
 
     private TextField customCharsetField;
     private TextField[] fields = new TextField[charsets.length];

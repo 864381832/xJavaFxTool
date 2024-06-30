@@ -6,3 +6,7 @@ dependencies {
 group = 'com.xwintop'
 version = '0.0.1'
 description = 'x-ZHConverter'
+//打jar包需要包含依赖的配置
+jar {
+    from { configurations.compileClasspath.findAll { it.name.contains("portable")}.collect { zipTree(it) } }
+}

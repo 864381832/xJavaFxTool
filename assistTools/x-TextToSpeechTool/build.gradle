@@ -1,5 +1,4 @@
 dependencies {
-//        implementation 'com.xwintop:xcore:0.0.6'
     api project(':xcore')
     implementation 'com.baidu.aip:java-sdk:4.16.17'
 }
@@ -7,3 +6,8 @@ dependencies {
 group = 'com.xwintop'
 version = '0.0.1'
 description = 'x-TextToSpeechTool'
+
+//打jar包需要包含依赖的配置
+jar {
+    from { configurations.compileClasspath.findAll { it.name.contains("java-sdk") }.collect { zipTree(it) } }
+}

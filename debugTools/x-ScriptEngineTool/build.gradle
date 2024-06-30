@@ -1,5 +1,4 @@
 dependencies {
-//        implementation 'com.xwintop:xcore:0.0.6'
     api project(':xcore')
     implementation 'org.apache.groovy:groovy-all:4.0.18'
 
@@ -10,3 +9,10 @@ dependencies {
 group = 'com.xwintop'
 version = '0.0.1'
 description = 'x-ScriptEngineTool'
+
+//打jar包需要包含依赖的配置
+jar {
+    from { configurations.compileClasspath.findAll { it.name.contains("groovy")
+    ||it.name.contains("luaj-jse")
+    }.collect { zipTree(it) } }
+}

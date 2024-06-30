@@ -1,10 +1,15 @@
 dependencies {
-//        implementation 'com.xwintop:xcore:0.0.6'
     api project(':xcore')
-    implementation 'org.apache.poi:poi-ooxml:4.1.0'
-    implementation 'org.apache.commons:commons-csv:1.6'
+    implementation 'org.apache.poi:poi-ooxml:5.2.5'
+    implementation 'org.apache.commons:commons-csv:1.10.0'
 }
 
 group = 'com.xwintop'
 version = '0.0.1'
 description = 'x-ExcelSplitTool'
+
+//打jar包需要包含依赖的配置
+jar {
+    from { configurations.compileClasspath.findAll { it.name.contains("poi")
+    || it.name.contains("commons-csv")}.collect { zipTree(it) } }
+}
