@@ -98,7 +98,7 @@ dependencies {
 }
 
 group = 'com.xwintop'
-version = '1.2.3'
+version = '1.0.0'
 description = 'xJavaFxTool'
 
 compileJava {
@@ -152,14 +152,34 @@ runtime {
         noConsole = true
     }
     jpackage {
-        if (org.gradle.internal.os.OperatingSystem.current().isWindows()) {
+        def os = org.gradle.internal.os.OperatingSystem.current()
+        installerOptions = [
+            '--name', 'xJavaFxTool',
+//            '--app-version', "${project.version}",
+            '--description', 'xJavaFxTool',
+//            '--copyright', 'Mulan PSL v2',
+            '--vendor', 'vran'
+        ]
+        if (os.isWindows()) {
             imageOptions = ['--icon', 'src/main/resources/images/icon.ico']
-        } else if (org.gradle.internal.os.OperatingSystem.current().isMacOsX()) {
-            imageOptions = ['--icon', 'src/main/resources/images/icon.icns']
-        } else if (org.gradle.internal.os.OperatingSystem.current().isLinux()) {
-            imageOptions = ['--icon', 'src/main/resources/images/icon.png']
+            installerOptions += [
+                '--win-per-user-install', '--win-dir-chooser',
+                '--win-shortcut'
+            ]
         }
-//        imageOptions.addAll(['--icon', 'src/main/resources/images/icon.png'])
+
+        if (os.isMacOsX()) {
+            imageOptions = ['--icon', 'src/main/resources/images/icon.icns']
+        }
+
+        if (os.isLinux()) {
+            imageOptions = ['--icon', 'src/main/resources/images/icon.png']
+            installerOptions += [
+                '--linux-deb-maintainer', 'vran_dev@foxmail.com',
+                '--linux-rpm-license-type', 'GPLv3',
+                '--linux-shortcut'
+            ]
+        }
     }
 }
 

@@ -15,7 +15,7 @@ public class Config {
 
     public static Locale defaultLocale = Locale.getDefault();// 设置系统语言
 
-    public static final String xJavaFxToolVersions = "V0.4.0";// xJavaFxTool版本信息
+    public static final String xJavaFxToolVersions = "V1.0.0";// xJavaFxTool版本信息
 
     public enum Keys {
         MainWindowWidth, MainWindowHeight, MainWindowTop, MainWindowLeft,
