@@ -24,7 +24,6 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseButton;
 import lombok.Getter;
 
-import javax.jms.JMSException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -156,23 +155,23 @@ public class KafkaToolController extends KafkaToolView {
 				menu_acknowledge1.setOnAction(event1 -> {
 					KafkaToolReceiverTableBean tableBean = receiverTableView.getSelectionModel().getSelectedItem();
 					tableBean.setIsAcknowledge(true);
-					try {
-						kafkaToolService.getReceiverMessageMap().get(tableBean.getMessageID()).acknowledge();
-						kafkaToolService.getReceiverMessageMap().remove(tableBean.getMessageID());
-					} catch (JMSException e) {
-						e.printStackTrace();
-					}
+//					try {
+//						kafkaToolService.getReceiverMessageMap().get(tableBean.getMessageID()).acknowledge();
+//						kafkaToolService.getReceiverMessageMap().remove(tableBean.getMessageID());
+//					} catch (JMSException e) {
+//						e.printStackTrace();
+//					}
 				});
 				MenuItem menu_acknowledge = new MenuItem("消费全部消息");
 				menu_acknowledge.setOnAction(event1 -> {
 					for (KafkaToolReceiverTableBean tableBean : receiverTableData) {
 						tableBean.setIsAcknowledge(true);
-						try {
-							kafkaToolService.getReceiverMessageMap().get(tableBean.getMessageID()).acknowledge();
-							kafkaToolService.getReceiverMessageMap().remove(tableBean.getMessageID());
-						} catch (JMSException e) {
-							e.printStackTrace();
-						}
+//						try {
+//							kafkaToolService.getReceiverMessageMap().get(tableBean.getMessageID()).acknowledge();
+//							kafkaToolService.getReceiverMessageMap().remove(tableBean.getMessageID());
+//						} catch (JMSException e) {
+//							e.printStackTrace();
+//						}
 					}
 				});
 				MenuItem menu_Remove = new MenuItem("删除选中行");

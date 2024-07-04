@@ -1,9 +1,13 @@
 dependencies {
-//        implementation 'com.xwintop:xcore:0.0.6'
     api project(':xcore')
     implementation 'org.apache.activemq:activemq-broker:5.18.3'
 }
 
 group = 'com.xwintop'
-version = '0.0.1'
+version = '0.0.2'
 description = 'x-ActiveMqTool'
+
+//打jar包需要包含依赖的配置
+jar {
+    from { configurations.compileClasspath.findAll { it.name.contains("activemq-broker") }.collect { zipTree(it) } }
+}

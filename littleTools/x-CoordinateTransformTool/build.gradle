@@ -1,14 +1,13 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        maven {
-            allowInsecureProtocol = true
-            url "https://nexus.terrestris.de/repository/public/"
-        }
-    }
-}
+//buildscript {
+//    repositories {
+//        mavenCentral()
+//        maven {
+//            allowInsecureProtocol = true
+//            url "https://nexus.terrestris.de/repository/public/"
+//        }
+//    }
+//}
 dependencies {
-//        implementation 'com.xwintop:xcore:0.0.6'
     api project(':xcore')
 //    implementation 'org.geotools:gt-main:29.1'
 //    implementation 'org.geotools:gt-epsg-hsql:29.1'

@@ -1,9 +1,13 @@
 dependencies {
-//        implementation 'com.xwintop:xcore:0.0.6'
     api project(':xcore')
     implementation 'org.fxmisc.richtext:richtextfx:0.11.2'
 }
 
 group = 'com.xwintop'
-version = '0.0.1'
+version = '0.0.3'
 description = 'x-RegexTester'
+
+//打jar包需要包含依赖的配置
+jar {
+    from { configurations.compileClasspath.findAll { it.name.contains("richtextfx") }.collect { zipTree(it) } }
+}

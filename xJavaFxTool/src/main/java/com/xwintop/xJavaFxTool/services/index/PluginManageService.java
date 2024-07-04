@@ -40,7 +40,7 @@ import java.util.function.Consumer;
 @Setter
 @Slf4j
 public class PluginManageService {
-    public static final String SERVER_PLUGINS_URL = "https://xwintop.gitee.io/maven/plugin-libs/plugin-list.json";
+    public static final String SERVER_PLUGINS_URL = "http://qiniu.xwintop.com/xJavaFxTool/plugin-list.json";
 
     private PluginManageController pluginManageController;
 

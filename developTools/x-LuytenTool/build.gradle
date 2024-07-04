@@ -1,5 +1,4 @@
 dependencies {
-//        implementation 'com.xwintop:xcore:0.0.6'
     api project(':xcore')
     implementation 'com.fifesoft:rsyntaxtextarea:3.0.2'
     implementation 'com.apple:AppleJavaExtensions:1.4'

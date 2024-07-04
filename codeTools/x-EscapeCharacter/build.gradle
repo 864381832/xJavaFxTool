@@ -1,5 +1,4 @@
 dependencies {
-//        implementation 'com.xwintop:xcore:0.0.6'
     api project(':xcore')
 //    implementation 'org.apache.commons:commons-text:1.11.0'
 }

@@ -1,9 +1,13 @@
 dependencies {
-//        implementation 'com.xwintop:xcore:0.0.6'
     api project(':xcore')
     implementation 'com.101tec:zkclient:0.11'
 }
 
 group = 'com.xwintop'
-version = '0.0.1'
+version = '0.0.3'
 description = 'x-ZookeeperTool'
+
+//打jar包需要包含依赖的配置
+jar {
+    from { configurations.compileClasspath.findAll { it.name.contains("zkclient") }.collect { zipTree(it) } }
+}

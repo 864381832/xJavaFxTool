@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<ToolFxmlLoaderConfiguration title="debugTools" menuId="p-debugTools" menuParentId="moreToolsMenu" isMenu="true" />
+	<ToolFxmlLoaderConfiguration>
+		<url>/com/xwintop/xJavaFxTool/fxmlView/debugTools/ExpressionParserTool.fxml</url>
+		<resourceBundleName>locale.ExpressionParserTool</resourceBundleName>
+		<className></className>
+		<title>Title</title>
+		<isDefaultShow></isDefaultShow>
+		<menuId></menuId>
+		<menuParentId>p-debugTools</menuParentId>
+		<controllerType>Node</controllerType>
+	</ToolFxmlLoaderConfiguration>
+</root>

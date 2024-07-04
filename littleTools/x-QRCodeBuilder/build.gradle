@@ -5,5 +5,11 @@ dependencies {
 }
 
 group = 'com.xwintop'
-version = '0.0.1'
+version = '0.0.3'
 description = 'x-QRCodeBuilder'
+
+//打jar包需要包含依赖的配置
+jar {
+    from { configurations.compileClasspath.findAll { it.name.contains("javase")
+        || it.name.contains("jkeymaster")}.collect { zipTree(it) } }
+}
