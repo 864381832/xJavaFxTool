@@ -22,7 +22,7 @@ plugins {
 dependencies {
     api project(':xcore')
 //    implementation "com.sandec.jpro:jpro-webapi:2024.2.1"
-    api project(":littleTools:x-EncryptAndDecrypt")
+//    api project(":littleTools:x-EncryptAndDecrypt")
 //    api project(":littleTools:x-ZHConverter")
 //    api project(":littleTools:x-ImageTool")
 //    api project(":littleTools:x-IconTool")

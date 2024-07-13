@@ -31,8 +31,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 - Mac OS x64 [xJavaFxTool-0.3.2-macos.dmg](https://gitee.com/xwintop/xJavaFxTool/attach_files/1022635/download/xJavaFxTool_0.3.2-macos.dmg)
 - 更多下载地址见[发布页面](https://gitee.com/xwintop/xJavaFxTool/releases)
 #### 若上面下链接失效可使用下面下载链接：
-- 百度云链接：[https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA](https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA)  提取码：mokl
-- 腾讯微云链接：[https://share.weiyun.com/5T6FPLW](https://share.weiyun.com/5T6FPLW) 提取码：java
+- 123云盘链接：[https://www.123pan.com/s/L5LA-LQ17A.html](https://www.123pan.com/s/L5LA-LQ17A.html) 提取码：java
 
 #### 支持插件开发：
 插件开发及示例见[开源项目xJavaFxTool-plugin](https://gitee.com/xwintop/xJavaFxTool-plugin)
@@ -45,9 +44,7 @@ xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工
 - 开发环境为jdk17，基于gradle8.5构建
 - 使用eclipase或Intellij Idea开发,推荐使用[Intellij Idea](https://www.jetbrains.com/idea/?from=xJavaFxTool)
 - 本项目使用了[lombok](https://projectlombok.org/),在查看本项目时如果您没有下载lombok 插件，请先安装,不然找不到get/set等方法
-- 依赖的[xcore包](https://gitee.com/xwintop/xcore)已上传至git托管的maven平台，git托管maven可参考教程(若无法下载请拉取项目自行编译)。[教程地址：点击进入](http://blog.csdn.net/u011747754/article/details/78574026)
-- 使用[javapackager](https://github.com/fvarrui/JavaPackager)插件进行打包操作(可打包windows、Linux、Mac安装包)
-- 使用[InnoSetup](http://www.jrsoftware.org/)可进行制作windows安装包
+- 使用jpackager插件进行打包操作,可打包windows(需安装WiX)、Linux(需安装rpm-build)、Mac安装包.
 - jdk11启动需添加参数java --add-opens java.base/jdk.internal.loader=ALL-UNNAMED --add-opens jdk.zipfs/jdk.nio.zipfs=ALL-UNNAMED -jar xJavaFxTool.jar  [参考](https://blog.csdn.net/fighting_boss/article/details/91043555)
 
 #### 目前集成的小工具有（点击中文名可进入对应小工具的开源地址）：
