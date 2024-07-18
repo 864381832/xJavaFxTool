@@ -21,22 +21,16 @@ xJavaFxTool is a practical gadget set developed by javaFx. It uses some time to 
 Due to the hot SpringBoot, the project has been released SpringBoot-javafx version, [xJavaFxTool-spring](https://gitee.com/xwintop/xJavaFxTool-spring) welcome reference, thank you.
 
 #### Download trial address：
-- Jar package that can be run directly (local need to have jdk1.8 environment)[xJavaFxTool-0.3.2.jar](https://github.com/864381832/xJavaFxTool/releases/download/0.3.2/xJavaFxTool-0.3.2.jar)
-- Windows x64 installation package (compatible with xp, windows7, 8, 10, etc.)[xJavaFxTool-0.3.2-windows-x64.exe](https://github.com/864381832/xJavaFxTool/releases/download/0.3.2/xJavaFxTool-0.3.2-windows-x64.exe)
-- Mac OS x64 [xJavaFxTool-0.3.2-macos.pkg](https://github.com/864381832/xJavaFxTool/releases/download/0.3.2/xJavaFxTool-0.3.2-macos.pkg)
-- Linux x64 [xJavaFxTool-0.3.2-linux-x64.zip](https://github.com/864381832/xJavaFxTool/releases/download/0.3.2/xJavaFxTool-0.3.2-linux-x64.zip)
-#### If the above link fails, use the download link below:
-- Baidu cloud link: [https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA](https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA)  extraction code: mokl
-- Tencent micro cloud link: [https://share.weiyun.com/5T6FPLW](https://share.weiyun.com/5T6FPLW) extraction code: java
+- Mac OS aarch64 [xJavaFxTool-1.0.0-macos-aarch64.dmg](https://gitee.com/xwintop/xJavaFxTool/releases/download/v1.0.0/xJavaFxTool-1.0.0-macos-aarch64.dmg)
+- 123cloud link:[https://www.123pan.com/s/L5LA-LQ17A.html](https://www.123pan.com/s/L5LA-LQ17A.html) extraction code:java
 
 #### Support plug-in development:
 the plug-in jar package can be automatically loaded under the root directory libs (see the open source project [xJavaFxTool-plugin](https://gitee.com/xwintop/xJavaFxTool-plugin) for plug-in development examples , and the next step is to split the gadget into each plug-in and load it as needed. Currently, the plug-in function is not perfect, follow-up Split each function into modules and load them as needed to reduce the size of the jar package);
 
 #### Environmental construction instructions:
-- The development environment is jdk17, based on maven3.6.3 build
+- The development environment is jdk17, based on gradle8.5 build
 - Developed with eclipase or Intellij Idea (Recommended to use [Intellij Idea](https://www.jetbrains.com/idea/) )
 - This project uses [lombok](https://projectlombok.org/) . If you have not downloaded the lombok plugin when viewing this project, please install it first, otherwise you can't find the get/set method.
-- The dependent [xcore](https://gitee.com/xwintop/xcore) package has been uploaded to the git-hosted maven platform. The git hosting maven can refer to the tutorial (if you can't download it, please pull the project to compile it yourself ). Tutorial address: Click to enter
 - Package using the [javapackager](https://github.com/fvarrui/JavaPackager) (can be packaged for windows, Linux, Mac installation packages)
 - Use [InnoSetup](http://www.jrsoftware.org/) to make windows installation packages
 
