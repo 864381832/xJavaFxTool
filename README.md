@@ -19,12 +19,19 @@
 **xJavaFxTool吐个槽：== [进来吐槽](https://support.qq.com/product/127577) ==**
 
 #### 项目简介：
-xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工作中遇到的一些问题总结起来，打包进小工具集中，供大家参考和使用，里面包含了javaFx的一些功能的示例，如布局、国际化、第三方UI库[controlsfx](http://fxexperience.com/controlsfx/)、[JFoenix](http://www.jfoenix.com/)等、外部jar包加载(插件机制)等一些常用功能，想学习javaFx的同学可以参考参考，学习javaFx的资料参考[www.javafxchina.net](http://www.javafxchina.net/main/)
+xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工作中遇到的一些问题总结起来，打包进小工具集中，供大家参考和使用，里面包含了javaFx的一些功能的示例，如布局、国际化、第三方UI库[controlsfx](https://github.com/controlsfx/controlsfx)、[JFoenix](https://github.com/sshahine/JFoenix)等、外部jar包加载(插件机制)等一些常用功能，想学习javaFx的同学可以参考参考，学习javaFx的资料参考[www.javafxchina.net](http://www.javafxchina.net/main/)
 
 由于SpringBoot的火热，项目已经出SpringBoot-javafx版本，[xJavaFxTool-spring](https://gitee.com/xwintop/xJavaFxTool-spring) 欢迎参考，谢谢。
 
 #### 下载地址：
+- Linux x64 [xJavaFxTool-1.0.0-linux-x64.deb](https://github.com/864381832/xJavaFxTool/releases/download/1.0.0/xJavaFxTool-1.0.0-linux-x64.deb)
+- Linux x64 [xJavaFxTool-1.0.0-linux-x64.rpm](https://github.com/864381832/xJavaFxTool/releases/download/1.0.0/xJavaFxTool-1.0.0-linux-x64.rpm)
 - Mac OS aarch64 [xJavaFxTool-1.0.0-macos-aarch64.dmg](https://gitee.com/xwintop/xJavaFxTool/releases/download/v1.0.0/xJavaFxTool-1.0.0-macos-aarch64.dmg)
+- Mac OS aarch64 [xJavaFxTool-1.0.0-macos-aarch64.pkg](https://gitee.com/xwintop/xJavaFxTool/releases/download/v1.0.0/xJavaFxTool-1.0.0-macos-aarch64.pkg)
+- Mac OS x64 [xJavaFxTool-1.0.0-macos-x64.dmg](https://github.com/864381832/xJavaFxTool/releases/download/1.0.0/xJavaFxTool-1.0.0-macos-x64.dmg)
+- Mac OS x64 [xJavaFxTool-1.0.0-macos-x64.pkg](https://github.com/864381832/xJavaFxTool/releases/download/1.0.0/xJavaFxTool-1.0.0-macos-x64.pkg)
+- Windows x64 [xJavaFxTool-1.0.0-windows-x64.exe](https://github.com/864381832/xJavaFxTool/releases/download/1.0.0/xJavaFxTool-1.0.0-windows-x64.exe)
+- Windows x64 [xJavaFxTool-1.0.0-windows-x64.msi](https://github.com/864381832/xJavaFxTool/releases/download/1.0.0/xJavaFxTool-1.0.0-windows-x64.msi)
 - 更多下载地址见123云盘链接：[https://www.123pan.com/s/L5LA-LQ17A.html](https://www.123pan.com/s/L5LA-LQ17A.html) 提取码：java
 
 #### 支持插件开发：

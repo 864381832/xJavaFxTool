@@ -16,12 +16,19 @@
 **xJavaFxTool exchange QQ group：== [387473650](https://jq.qq.com/?_wv=1027&k=59UDEAD) ==**
 
 #### Project Description:
-xJavaFxTool is a practical gadget set developed by javaFx. It uses some time to summarize some problems encountered in the work, packaged into a small tool set for your reference and use. It contains some examples of javaFx functions, such as layout, Internationalization, third-party UI library ( [controlsfx](http://fxexperience.com/controlsfx/) , [JFoenix](http://www.jfoenix.com/), etc.), external jar package loading (plug-in mechanism) and other common functions, students who want to learn javaFx can refer to the reference, learn javaFx data reference [www.javafxchina.net](http://www.javafxchina.net/main/)
+xJavaFxTool is a practical gadget set developed by javaFx. It uses some time to summarize some problems encountered in the work, packaged into a small tool set for your reference and use. It contains some examples of javaFx functions, such as layout, Internationalization, third-party UI library ( [controlsfx](https://github.com/controlsfx/controlsfx) , [JFoenix](https://github.com/sshahine/JFoenix), etc.), external jar package loading (plug-in mechanism) and other common functions, students who want to learn javaFx can refer to the reference, learn javaFx data reference [www.javafxchina.net](http://www.javafxchina.net/main/)
 
 Due to the hot SpringBoot, the project has been released SpringBoot-javafx version, [xJavaFxTool-spring](https://gitee.com/xwintop/xJavaFxTool-spring) welcome reference, thank you.
 
 #### Download trial address：
+- Linux x64 [xJavaFxTool-1.0.0-linux-x64.deb](https://github.com/864381832/xJavaFxTool/releases/download/1.0.0/xJavaFxTool-1.0.0-linux-x64.deb)
+- Linux x64 [xJavaFxTool-1.0.0-linux-x64.rpm](https://github.com/864381832/xJavaFxTool/releases/download/1.0.0/xJavaFxTool-1.0.0-linux-x64.rpm)
 - Mac OS aarch64 [xJavaFxTool-1.0.0-macos-aarch64.dmg](https://gitee.com/xwintop/xJavaFxTool/releases/download/v1.0.0/xJavaFxTool-1.0.0-macos-aarch64.dmg)
+- Mac OS aarch64 [xJavaFxTool-1.0.0-macos-aarch64.pkg](https://gitee.com/xwintop/xJavaFxTool/releases/download/v1.0.0/xJavaFxTool-1.0.0-macos-aarch64.pkg)
+- Mac OS x64 [xJavaFxTool-1.0.0-macos-x64.dmg](https://github.com/864381832/xJavaFxTool/releases/download/1.0.0/xJavaFxTool-1.0.0-macos-x64.dmg)
+- Mac OS x64 [xJavaFxTool-1.0.0-macos-x64.pkg](https://github.com/864381832/xJavaFxTool/releases/download/1.0.0/xJavaFxTool-1.0.0-macos-x64.pkg)
+- Windows x64 [xJavaFxTool-1.0.0-windows-x64.exe](https://github.com/864381832/xJavaFxTool/releases/download/1.0.0/xJavaFxTool-1.0.0-windows-x64.exe)
+- Windows x64 [xJavaFxTool-1.0.0-windows-x64.msi](https://github.com/864381832/xJavaFxTool/releases/download/1.0.0/xJavaFxTool-1.0.0-windows-x64.msi)
 - 123cloud link:[https://www.123pan.com/s/L5LA-LQ17A.html](https://www.123pan.com/s/L5LA-LQ17A.html) extraction code:java
 
 #### Support plug-in development:
