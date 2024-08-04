@@ -1,0 +1,5 @@
+# Default ignored files
+#/.gitignore
+/x-LiteappCode.iml
+/log/
+/target/
