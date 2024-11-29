@@ -7,7 +7,6 @@ import com.xwintop.xcore.util.javafx.AlertUtil;
 import com.xwintop.xcore.util.javafx.FileChooserUtil;
 import com.xwintop.xcore.util.javafx.TooltipUtil;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.Node;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -105,9 +104,9 @@ public class HdfsToolService {
                 String fileName = f.getPath().getName();
                 TreeItem<Map<String, Object>> treeItem2 = new TreeItem<>(getTreeItemMap(fileName));
                 if (f.isDirectory()) {
-                    treeItem2.setGraphic(BeanUtil.toBean(hdfsToolController.getDirectorySvgGlyph(), Node.class));
+                    treeItem2.setGraphic(BeanUtil.toBean(hdfsToolController.getDirectorySvgGlyph(), ImageView.class));
                 } else {
-                    treeItem2.setGraphic(BeanUtil.toBean(hdfsToolController.getFileSvgGlyph(), Node.class));
+                    treeItem2.setGraphic(BeanUtil.toBean(hdfsToolController.getFileSvgGlyph(), ImageView.class));
                 }
                 treeItem2.getValue().put("fileSize", f.getLen());
                 treeItem.getChildren().add(treeItem2);
