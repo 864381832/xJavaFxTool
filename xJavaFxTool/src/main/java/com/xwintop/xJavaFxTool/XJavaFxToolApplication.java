@@ -32,6 +32,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ResourceBundle;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * JavaFX 入口，从 Java 9+ 开始入口类不应再包含 main 方法。
@@ -70,7 +71,13 @@ public class XJavaFxToolApplication extends Application {
         loadClassicUI(primaryStage);
 
         StageUtils.loadPrimaryStageBound(primaryStage);
-        primaryStage.setOnShown(windowEvent -> VersionChecker.checkerVersion("https://gitee.com/api/v5/repos/xwintop/xJavaFxTool/releases/latest", "https://gitee.com/xwintop/xJavaFxTool/releases", Config.xJavaFxToolVersions.substring(1)));
+        primaryStage.setOnShown(windowEvent ->
+            CompletableFuture.runAsync(() ->
+                VersionChecker.checkerVersion("https://gitee.com/api/v5/repos/xwintop/xJavaFxTool/releases/latest",
+                    "https://gitee.com/xwintop/xJavaFxTool/releases",
+                    Config.xJavaFxToolVersions.substring(1))
+            )
+        );
         primaryStage.show();
     }
 

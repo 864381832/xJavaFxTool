@@ -42,9 +42,9 @@ public class VersionChecker {
     }
 
     public static void hasNewVersion(String url, String localVersion, BiConsumer<String, String> runnable) {
-        String json = HttpUtil.get(url);
-        JSONObject jsonObject = JSON.parseObject(json);
         try {
+            String json = HttpUtil.get(url);
+            JSONObject jsonObject = JSON.parseObject(json);
             final String latestVersion = jsonObject.getString("tag_name");
             final String features = jsonObject.getString("body");
             compareAndRun(latestVersion, features, localVersion, runnable);

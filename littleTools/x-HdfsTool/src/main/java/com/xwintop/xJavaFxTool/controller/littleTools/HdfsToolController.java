@@ -12,6 +12,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.util.Callback;
 import lombok.Getter;
@@ -68,7 +69,7 @@ public class HdfsToolController extends HdfsToolView {
         JavaFxViewUtil.setSpinnerValueFactory(fileSizeFromSpinner, 0, Integer.MAX_VALUE, 0);
         JavaFxViewUtil.setSpinnerValueFactory(fileSizeToSpinner, 0, Integer.MAX_VALUE, 0);
         try {
-            hdfsListTreeView.setRoot(new TreeItem<>(HdfsToolService.getTreeItemMap("/"), BeanUtil.toBean(directorySvgGlyph, Node.class)));
+            hdfsListTreeView.setRoot(new TreeItem<>(HdfsToolService.getTreeItemMap("/"), BeanUtil.toBean(directorySvgGlyph, ImageView.class)));
         } catch (Exception e) {
             log.error("设置图标失败", e);
         }
@@ -86,9 +87,9 @@ public class HdfsToolController extends HdfsToolView {
                         if (item != null) {
                             try {
                                 if ("true".equals(searchResultTableData.get(this.getIndex()).get("isDirectory"))) {
-                                    this.setGraphic(BeanUtil.toBean(directorySvgGlyph, Node.class));
+                                    this.setGraphic(BeanUtil.toBean(directorySvgGlyph, ImageView.class));
                                 } else {
-                                    this.setGraphic(BeanUtil.toBean(fileSvgGlyph, Node.class));
+                                    this.setGraphic(BeanUtil.toBean(fileSvgGlyph, ImageView.class));
                                 }
                             } catch (Exception e) {
                                 log.warn("设置图标失败：" + item, e);
