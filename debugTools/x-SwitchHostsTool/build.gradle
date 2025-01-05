@@ -9,5 +9,10 @@ description = 'x-SwitchHostsTool'
 
 //打jar包需要包含依赖的配置
 jar {
-    from { configurations.compileClasspath.findAll { it.name.contains("richtextfx") }.collect { zipTree(it) } }
+    from { configurations.compileClasspath.findAll { it.name.contains("richtextfx")
+    || it.name.contains("flowless")
+    || it.name.contains("undofx")
+    || it.name.contains("wellbehavedfx")
+    || it.name.contains("reactfx")
+    }.collect { zipTree(it) } }
 }

@@ -9,5 +9,7 @@ description = 'x-ZookeeperTool'
 
 //打jar包需要包含依赖的配置
 jar {
-    from { configurations.compileClasspath.findAll { it.name.contains("zkclient") }.collect { zipTree(it) } }
+    from { configurations.compileClasspath.findAll { it.name.contains("zkclient")
+    || it.name.contains("zookeeper")
+    }.collect { zipTree(it) } }
 }

@@ -1,7 +1,6 @@
 dependencies {
     api project(':xcore')
-    implementation 'org.apache.lucene:lucene-core:8.11.3'
-    implementation 'org.apache.lucene:lucene-backward-codecs:8.11.3'
+    implementation 'org.apache.lucene:lucene-backward-codecs:8.11.4'
 }
 
 group = 'com.xwintop'
@@ -10,6 +9,7 @@ description = 'x-FileSearchTool'
 
 //打jar包需要包含依赖的配置
 jar {
-    duplicatesStrategy = 'exclude'
-    from { configurations.compileClasspath.findAll { it.name.contains("lucene")}.collect { zipTree(it) } }
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    from { configurations.compileClasspath.findAll { it.name.contains("lucene")
+    }.collect { zipTree(it) } }
 }

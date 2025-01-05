@@ -9,5 +9,8 @@ description = 'x-EmailTool'
 
 //打jar包需要包含依赖的配置
 jar {
-    from { configurations.compileClasspath.findAll { it.name.contains("commons-email") }.collect { zipTree(it) } }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from { configurations.compileClasspath.findAll { it.name.contains("commons-email")
+    || it.name.contains("javax.mail")
+    }.collect { zipTree(it) } }
 }

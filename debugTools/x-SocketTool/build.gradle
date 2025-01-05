@@ -10,7 +10,9 @@ description = 'x-SocketTool'
 
 //打jar包需要包含依赖的配置
 jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from { configurations.compileClasspath.findAll { it.name.contains("mina")
     ||it.name.contains("oshi")
+    ||it.name.contains("jna")
     }.collect { zipTree(it) } }
 }
