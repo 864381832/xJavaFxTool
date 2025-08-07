@@ -19,7 +19,7 @@
 **xJavaFxTool吐个槽：== [进来吐槽](https://support.qq.com/product/127577) ==**
 
 #### 项目简介：
-xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工作中遇到的一些问题总结起来，打包进小工具集中，供大家参考和使用，里面包含了javaFx的一些功能的示例，如布局、国际化、第三方UI库[controlsfx](https://github.com/controlsfx/controlsfx)、[JFoenix](https://github.com/sshahine/JFoenix)等、外部jar包加载(插件机制)等一些常用功能，想学习javaFx的同学可以参考参考，学习javaFx的资料参考[www.javafxchina.net](http://www.javafxchina.net/main/)
+xJavaFxTool是使用javaFx开发的实用小工具集，利用业余时间把工作中遇到的一些问题总结起来，打包进小工具集中，供大家参考和使用，里面包含了javaFx的一些功能的示例，如布局、国际化、第三方UI库[controlsfx](https://github.com/controlsfx/controlsfx)、[JFoenix](https://github.com/sshahine/JFoenix)等、外部jar包加载(插件机制)等一些常用功能，想学习javaFx的同学可以参考参考，学习javaFx的资料参考[https://openjfx.cn/](https://openjfx.cn/)
 
 由于SpringBoot的火热，项目已经出SpringBoot-javafx版本，[xJavaFxTool-spring](https://gitee.com/xwintop/xJavaFxTool-spring) 欢迎参考，谢谢。
 

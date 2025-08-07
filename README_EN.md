@@ -16,7 +16,7 @@
 **xJavaFxTool exchange QQ group：== [387473650](https://jq.qq.com/?_wv=1027&k=59UDEAD) ==**
 
 #### Project Description:
-xJavaFxTool is a practical gadget set developed by javaFx. It uses some time to summarize some problems encountered in the work, packaged into a small tool set for your reference and use. It contains some examples of javaFx functions, such as layout, Internationalization, third-party UI library ( [controlsfx](https://github.com/controlsfx/controlsfx) , [JFoenix](https://github.com/sshahine/JFoenix), etc.), external jar package loading (plug-in mechanism) and other common functions, students who want to learn javaFx can refer to the reference, learn javaFx data reference [www.javafxchina.net](http://www.javafxchina.net/main/)
+xJavaFxTool is a practical gadget set developed by javaFx. It uses some time to summarize some problems encountered in the work, packaged into a small tool set for your reference and use. It contains some examples of javaFx functions, such as layout, Internationalization, third-party UI library ( [controlsfx](https://github.com/controlsfx/controlsfx) , [JFoenix](https://github.com/sshahine/JFoenix), etc.), external jar package loading (plug-in mechanism) and other common functions, students who want to learn javaFx can refer to the reference, learn javaFx data reference [https://openjfx.cn/](https://openjfx.cn/)
 
 Due to the hot SpringBoot, the project has been released SpringBoot-javafx version, [xJavaFxTool-spring](https://gitee.com/xwintop/xJavaFxTool-spring) welcome reference, thank you.
 
