@@ -21,8 +21,8 @@ plugins {
 subprojects {
     ext {
         springBootVersion = "2.7.18"
-        lombokVersion = "1.18.32"
-        javafxVersion = "21.0.3"
+        lombokVersion = "1.18.38"
+        javafxVersion = "21.0.8"
     }
     description 'xJavaFxTool'
     apply plugin: 'java'
@@ -67,7 +67,7 @@ subprojects {
 //        api "org.openjfx:javafx-web:$javafxVersion"
     }
     javafx {
-        version = "21.0.3"
+        version = "24.0.2"
         modules = ['javafx.controls', "javafx.graphics", 'javafx.fxml', 'javafx.media', 'javafx.swing', 'javafx.web']
 //        configuration = 'compileOnly'
     }
