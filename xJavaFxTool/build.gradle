@@ -13,8 +13,8 @@
 //}
 plugins {
 //    id "org.beryx.jlink" version "2.26.0"
-    id 'org.beryx.runtime' version '1.13.1'
-    id "com.gluonhq.gluonfx-gradle-plugin" version "1.0.22"
+    id 'org.beryx.runtime' version '2.0.0'
+    id "com.gluonhq.gluonfx-gradle-plugin" version "1.0.28"
 }
 
 //apply plugin: 'jpro-gradle-plugin'
@@ -22,10 +22,10 @@ plugins {
 dependencies {
     api project(':xcore')
 //    implementation "com.sandec.jpro:jpro-webapi:2024.2.1"
-//    api project(":littleTools:x-EncryptAndDecrypt")
+    api project(":littleTools:x-EncryptAndDecrypt")
 //    api project(":littleTools:x-ZHConverter")
-//    api project(":littleTools:x-ImageTool")
-//    api project(":littleTools:x-IconTool")
+    api project(":littleTools:x-ImageTool")
+    api project(":littleTools:x-IconTool")
 //    api project(":littleTools:x-PdfConvertTool")
 //    api project(":littleTools:x-QRCodeBuilder")
 //    api project(":littleTools:x-FileCopy")
@@ -35,7 +35,7 @@ dependencies {
 //    api project(":littleTools:x-BookManageSystem")
 //    api project(":littleTools:x-CoordinateTransformTool")
 //    api project(":littleTools:x-ElementaryArithmeticProblemTool")
-//    api project(":littleTools:x-CronExpBuilder")
+    api project(":littleTools:x-CronExpBuilder")
 //    api project(":littleTools:x-EmailTool")
 //    api project(":littleTools:x-ExcelSplitTool")
 //    api project(":littleTools:x-FileBuildTool")
@@ -59,7 +59,8 @@ dependencies {
 //    api project(":debugTools:x-ActiveMqTool")
 //    api project(":debugTools:x-ExpressionParserTool")
 //    api project(":debugTools:x-FtpClientTool")
-//    api project(":debugTools:x-FtpServer")
+    api project(":debugTools:x-FtpServer")
+    api project(":debugTools:x-SftpServer")
 //    api project(":debugTools:x-HbaseTool")
 //    api project(":debugTools:x-HttpTool")
 //    api project(":debugTools:x-KafkaTool")
@@ -67,7 +68,7 @@ dependencies {
 //    api project(":debugTools:x-RedisTool")
 //    api project(":debugTools:x-ScriptEngineTool")
 //    api project(":debugTools:x-ZookeeperTool")
-//    api project(":codeTools:x-RegexTester")
+    api project(":codeTools:x-RegexTester")
 //    api project(":codeTools:x-RandomGeneratorTool")
 //    api project(":codeTools:x-IdCardGenerator")
 //    api project(":codeTools:x-CharsetDetectTool")
@@ -205,7 +206,7 @@ runtime {
 //}
 
 gluonfx {
-    mainClassName = "com.xwintop.xJavaFxTool.XJavaFxToolMain"
+//    mainClassName = "com.xwintop.xJavaFxTool.XJavaFxToolMain"
 }
 
 //jpro {
