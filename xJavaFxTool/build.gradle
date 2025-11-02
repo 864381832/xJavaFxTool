@@ -111,22 +111,23 @@ application {
     applicationName = "xJavaFxTool"
     mainClass = "com.xwintop.xJavaFxTool.XJavaFxToolMain"
 //    mainModule.set("com.xwintop.xJavaFxTool")
-//    applicationDefaultJvmArgs = [
-//        // ZGC
-//        "-XX:+UseZGC",
-//        // 当遇到空指针异常时显示更详细的信息
-//        "-XX:+ShowCodeDetailsInExceptionMessages",
-//        "-Dsun.java2d.opengl=true",
-//        // 不添加此参数，打包成exe后，https协议的网络图片资源无法加载
-//        "-Dhttps.protocols=TLSv1.1,TLSv1.2",
-//        '--add-exports=javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED',
-//        '--add-exports=javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED',
-//        '--add-exports=javafx.graphics/com.sun.javafx.util=ALL-UNNAMED',
-//        '--add-exports=javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED',
-//        '--add-exports=javafx.graphics/com.sun.javafx.scene=ALL-UNNAMED',
-//        '--add-exports=javafx.base/com.sun.javafx.event=ALL-UNNAMED',
-//        '--add-opens=java.base/java.lang.reflect=ALL-UNNAMED'
-//    ]
+    applicationDefaultJvmArgs = [
+        // ZGC
+        "-XX:+UseZGC",
+        // 当遇到空指针异常时显示更详细的信息
+        "-XX:+ShowCodeDetailsInExceptionMessages",
+        "-Dsun.java2d.opengl=true",
+        // 不添加此参数，打包成exe后，https协议的网络图片资源无法加载
+        "-Dhttps.protocols=TLSv1.1,TLSv1.2",
+        '--enable-native-access=ALL-UNNAMED',
+        '--add-exports=javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED',
+        '--add-exports=javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED',
+        '--add-exports=javafx.graphics/com.sun.javafx.util=ALL-UNNAMED',
+        '--add-exports=javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED',
+        '--add-exports=javafx.graphics/com.sun.javafx.scene=ALL-UNNAMED',
+        '--add-exports=javafx.base/com.sun.javafx.event=ALL-UNNAMED',
+        '--add-opens=java.base/java.lang.reflect=ALL-UNNAMED'
+    ]
 }
 
 // 使用 https://badass-runtime-plugin.beryx.org/releases/latest/
