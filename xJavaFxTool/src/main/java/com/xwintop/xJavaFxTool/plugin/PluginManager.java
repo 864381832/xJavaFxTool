@@ -2,6 +2,7 @@ package com.xwintop.xJavaFxTool.plugin;
 
 import com.alibaba.fastjson2.JSON;
 import com.xwintop.xJavaFxTool.model.PluginJarInfo;
+import com.xwintop.xcore.util.ConfigureUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -11,9 +12,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -23,7 +21,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Data
 public class PluginManager {
-    public static final String LOCAL_PLUGINS_PATH = "./system_plugin_list.json";
+    public static final String LOCAL_PLUGINS_PATH = "system_plugin_list.json";
 
     private static PluginManager instance;
 
@@ -62,11 +60,12 @@ public class PluginManager {
      */
     private void loadLocalPluginConfiguration() {
         try {
-            Path path = Paths.get(LOCAL_PLUGINS_PATH);
-            if (!Files.exists(path)) {
+            File file = ConfigureUtil.getConfigureFile(LOCAL_PLUGINS_PATH);
+            if (!file.exists()) {
                 return;
             }
-            String json = FileUtils.readFileToString(path.toFile(), StandardCharsets.UTF_8);
+            String json = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
+            this.pluginList.clear();
             this.pluginList.addAll(JSON.parseArray(json, PluginJarInfo.class));
         } catch (IOException e) {
             log.error("读取插件配置失败", e);
@@ -177,11 +176,8 @@ public class PluginManager {
     // 保存配置，如果失败则抛出异常
     public void saveToFile() throws IOException {
         String json = JSON.toJSONString(this.pluginList);
-        Path path = Paths.get(LOCAL_PLUGINS_PATH);
-        if (!Files.exists(path)) {
-            Files.createFile(path);
-        }
-        FileUtils.writeStringToFile(path.toFile(), json, StandardCharsets.UTF_8);
+        File file = ConfigureUtil.getConfigureFile(LOCAL_PLUGINS_PATH);
+        FileUtils.writeStringToFile(file, json, StandardCharsets.UTF_8);
     }
 
     // 保存配置，如果失败不抛出异常

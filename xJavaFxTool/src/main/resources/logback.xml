@@ -1,9 +1,9 @@
 <configuration>
     <jmxConfigurator/>
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-      <file>logs/logFile.log</file>
+      <file>${user.home}/xJavaFxTool/logs/logFile.log</file>
       <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-        <fileNamePattern>logs/logFile.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+        <fileNamePattern>${user.home}/xJavaFxTool/logs/logFile.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
         <maxFileSize>100MB</maxFileSize>
         <maxHistory>30</maxHistory>
         <totalSizeCap>3GB</totalSizeCap>

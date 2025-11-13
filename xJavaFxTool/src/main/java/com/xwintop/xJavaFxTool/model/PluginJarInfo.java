@@ -1,6 +1,7 @@
 package com.xwintop.xJavaFxTool.model;
 
 import com.alibaba.fastjson2.annotation.JSONField;
+import com.xwintop.xcore.util.ConfigureUtil;
 import javafx.scene.image.Image;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ import java.io.File;
 @NoArgsConstructor
 public class PluginJarInfo {
 
-    ///////////////////////////////////////// 下面的属性在远程插件列表和本地配置中都存在
+    ///下面的属性在远程插件列表和本地配置中都存在
 
     private String name;            // 名称
 
@@ -31,7 +32,7 @@ public class PluginJarInfo {
 
     private String downloadUrl;     // 下载地址
 
-    ///////////////////////////////////////// 下面的属性在远程插件列表中不存在
+    ///下面的属性在远程插件列表中不存在
 
     private Boolean isDownload;             // 是否下载
 
@@ -43,7 +44,7 @@ public class PluginJarInfo {
 
     private String localPath;       // 插件本地文件路径（如果是本地插件）
 
-    ///////////////////////////////////////// 下面的属性来自插件描述文件 toolFxmlLoaderConfiguration.xml
+    ///下面的属性来自插件描述文件 toolFxmlLoaderConfiguration.xml
 
     private String fxmlPath;                // FXML 资源路径
 
@@ -67,17 +68,13 @@ public class PluginJarInfo {
 
     private String controllerType = "Node"; // 内容类型（Node/WebView）
 
-    ////////////////////////////////////////////////////////////
-
     public boolean getIsFavorite() {
         return this.isFavorite != null && this.isFavorite;
     }
 
-    ////////////////////////////////////////////////////////////
-
     @JSONField(serialize = false)
     public File getFile() {
-        return localPath == null? new File("libs/", getJarName() + "-" + getVersion() + ".jar"): new File(localPath);
+        return localPath == null ? ConfigureUtil.getConfigureFile("libs/" + getJarName() + "-" + getVersion() + ".jar") : new File(localPath);
     }
 
     @JSONField(serialize = false)

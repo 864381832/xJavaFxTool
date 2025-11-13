@@ -104,7 +104,6 @@ public class IndexController extends IndexView {
         PluginManager pluginManager = PluginManager.getInstance();
         pluginManager.getDevPluginList().clear();
         pluginManager.getLocalDevPluginList().clear();
-        pluginManager.getPluginList().clear();
         pluginManager.loadDevPluginConfiguration();
         pluginManager.loadLocalDevPluginConfiguration();
         pluginManager.loadLocalPlugins();
@@ -261,13 +260,13 @@ public class IndexController extends IndexView {
 
     @FXML
     private void openLogFileAction() {
-        String filePath = "logs/logFile.log";
+        String filePath = ConfigureUtil.getConfigurePath("logs/logFile.log");
         JavaFxSystemUtil.openDirectory(filePath);
     }
 
     @FXML
     private void openLogFolderAction() {
-        JavaFxSystemUtil.openDirectory("logs/");
+        JavaFxSystemUtil.openDirectory(ConfigureUtil.getConfigurePath("logs/"));
     }
 
     @FXML
@@ -277,7 +276,7 @@ public class IndexController extends IndexView {
 
     @FXML
     private void openPluginFolderAction() {
-        JavaFxSystemUtil.openDirectory("libs/");
+        JavaFxSystemUtil.openDirectory(ConfigureUtil.getConfigurePath("libs/"));
     }
 
     @FXML
