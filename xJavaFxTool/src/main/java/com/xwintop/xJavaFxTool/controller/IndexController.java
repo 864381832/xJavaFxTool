@@ -82,7 +82,8 @@ public class IndexController extends IndexView {
         if (Config.getBoolean(Config.Keys.NotepadEnabled, false)) {
             addNodepadAction(null);
         }
-        this.indexService.addWebView(XJavaFxToolApplication.RESOURCE_BUNDLE.getString("feedback"), QQ_URL, null);
+//        this.indexService.addWebView(XJavaFxToolApplication.RESOURCE_BUNDLE.getString("feedback"), QQ_URL, null);
+        this.indexService.addWebView(XJavaFxToolApplication.RESOURCE_BUNDLE.getString("feedback"), "https://gitee.com/xwintop/xJavaFxTool", null);
 //        if (WebAPI.isBrowser()) {
 //            String contentIframe2 = "<iframe frameborder=\"0\" style=\"width: 100%; height: 100%;\" src=\"" + STATISTICS_URL + "\"> </iframe>";
 //            HTMLView browser = new HTMLView(contentIframe2);

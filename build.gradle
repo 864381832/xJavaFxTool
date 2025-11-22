@@ -67,7 +67,7 @@ subprojects {
 //        api "org.openjfx:javafx-web:$javafxVersion"
     }
     javafx {
-        version = "25.0.1"
+        version = "21.0.9"
         modules = ['javafx.controls', "javafx.graphics", 'javafx.fxml', 'javafx.media', 'javafx.swing', 'javafx.web']
 //        configuration = 'compileOnly'
     }
