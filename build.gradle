@@ -21,8 +21,8 @@ plugins {
 subprojects {
     ext {
         springBootVersion = "2.7.18"
-        lombokVersion = "1.18.32"
-        javafxVersion = "21.0.3"
+        lombokVersion = "1.18.42"
+        javafxVersion = "25.0.1"
     }
     description 'xJavaFxTool'
     apply plugin: 'java'
@@ -35,10 +35,10 @@ subprojects {
         enabled = false
     }
     repositories {
-        maven {
-            allowInsecureProtocol = true
-            url 'https://maven.aliyun.com/repository/public'
-        }
+//        maven {
+//            allowInsecureProtocol = true
+//            url 'https://maven.aliyun.com/repository/public'
+//        }
         maven {
             allowInsecureProtocol = true
             url 'https://repo1.maven.org/maven2/'
@@ -67,7 +67,7 @@ subprojects {
 //        api "org.openjfx:javafx-web:$javafxVersion"
     }
     javafx {
-        version = "21.0.3"
+        version = "21.0.9"
         modules = ['javafx.controls', "javafx.graphics", 'javafx.fxml', 'javafx.media', 'javafx.swing', 'javafx.web']
 //        configuration = 'compileOnly'
     }

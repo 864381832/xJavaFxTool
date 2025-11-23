@@ -1,6 +1,6 @@
 dependencies {
     api project(':xcore')
-    implementation 'org.apache.activemq:activemq-broker:5.18.3'
+    implementation 'org.apache.activemq:activemq-broker:5.18.6'
 }
 
 group = 'com.xwintop'
@@ -9,5 +9,16 @@ description = 'x-ActiveMqTool'
 
 //打jar包需要包含依赖的配置
 jar {
-    from { configurations.compileClasspath.findAll { it.name.contains("activemq-broker") }.collect { zipTree(it) } }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from { configurations.compileClasspath.findAll { it.name.contains("activemq-broker")
+    || it.name.contains("javax.annotation-api")
+    || it.name.contains("jackson-databind")
+    || it.name.contains("jackson-annotations")
+    || it.name.contains("jackson-core")
+    || it.name.contains("jackson-bom")
+    || it.name.contains("activemq-client")
+    || it.name.contains("jakarta.jms-api")
+    || it.name.contains("hawtbuf")
+    || it.name.contains("activemq-openwire-legacy")
+    }.collect { zipTree(it) } }
 }

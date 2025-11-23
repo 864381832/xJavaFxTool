@@ -13,8 +13,8 @@
 //}
 plugins {
 //    id "org.beryx.jlink" version "2.26.0"
-    id 'org.beryx.runtime' version '1.13.1'
-    id "com.gluonhq.gluonfx-gradle-plugin" version "1.0.22"
+    id 'org.beryx.runtime' version '2.0.0'
+    id "com.gluonhq.gluonfx-gradle-plugin" version "1.0.28"
 }
 
 //apply plugin: 'jpro-gradle-plugin'
@@ -51,6 +51,7 @@ dependencies {
 //    api project(":littleTools:x-SealBuilderTool")
 //    api project(":littleTools:x-SedentaryReminderTool")
 //    api project(":littleTools:x-SmsTool")
+//    api project(":littleTools:x-LiteappCode")
 //    api project(":debugTools:x-CmdTool")
 //    api project(":debugTools:x-ScanPortTool")
 //    api project(":debugTools:x-SwitchHostsTool")
@@ -59,6 +60,7 @@ dependencies {
 //    api project(":debugTools:x-ExpressionParserTool")
 //    api project(":debugTools:x-FtpClientTool")
 //    api project(":debugTools:x-FtpServer")
+//    api project(":debugTools:x-SftpServer")
 //    api project(":debugTools:x-HbaseTool")
 //    api project(":debugTools:x-HttpTool")
 //    api project(":debugTools:x-KafkaTool")
@@ -98,7 +100,7 @@ dependencies {
 }
 
 group = 'com.xwintop'
-version = '1.0.0'
+version = '1.0.1'
 description = 'xJavaFxTool'
 
 compileJava {
@@ -109,22 +111,23 @@ application {
     applicationName = "xJavaFxTool"
     mainClass = "com.xwintop.xJavaFxTool.XJavaFxToolMain"
 //    mainModule.set("com.xwintop.xJavaFxTool")
-//    applicationDefaultJvmArgs = [
-//        // ZGC
-//        "-XX:+UseZGC",
-//        // 当遇到空指针异常时显示更详细的信息
-//        "-XX:+ShowCodeDetailsInExceptionMessages",
-//        "-Dsun.java2d.opengl=true",
-//        // 不添加此参数，打包成exe后，https协议的网络图片资源无法加载
-//        "-Dhttps.protocols=TLSv1.1,TLSv1.2",
-//        '--add-exports=javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED',
-//        '--add-exports=javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED',
-//        '--add-exports=javafx.graphics/com.sun.javafx.util=ALL-UNNAMED',
-//        '--add-exports=javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED',
-//        '--add-exports=javafx.graphics/com.sun.javafx.scene=ALL-UNNAMED',
-//        '--add-exports=javafx.base/com.sun.javafx.event=ALL-UNNAMED',
-//        '--add-opens=java.base/java.lang.reflect=ALL-UNNAMED'
-//    ]
+    applicationDefaultJvmArgs = [
+        // ZGC
+        "-XX:+UseZGC",
+        // 当遇到空指针异常时显示更详细的信息
+        "-XX:+ShowCodeDetailsInExceptionMessages",
+        "-Dsun.java2d.opengl=true",
+        // 不添加此参数，打包成exe后，https协议的网络图片资源无法加载
+        "-Dhttps.protocols=TLSv1.1,TLSv1.2",
+        '--enable-native-access=ALL-UNNAMED',
+        '--add-exports=javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED',
+        '--add-exports=javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED',
+        '--add-exports=javafx.graphics/com.sun.javafx.util=ALL-UNNAMED',
+        '--add-exports=javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED',
+        '--add-exports=javafx.graphics/com.sun.javafx.scene=ALL-UNNAMED',
+        '--add-exports=javafx.base/com.sun.javafx.event=ALL-UNNAMED',
+        '--add-opens=java.base/java.lang.reflect=ALL-UNNAMED'
+    ]
 }
 
 // 使用 https://badass-runtime-plugin.beryx.org/releases/latest/
@@ -204,7 +207,7 @@ runtime {
 //}
 
 gluonfx {
-    mainClassName = "com.xwintop.xJavaFxTool.XJavaFxToolMain"
+//    mainClassName = "com.xwintop.xJavaFxTool.XJavaFxToolMain"
 }
 
 //jpro {

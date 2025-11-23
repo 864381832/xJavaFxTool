@@ -14,38 +14,12 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 @Slf4j
-public class KeyToolMain extends Application {
+public class KeyToolMain {
     public static void main(String[] args) {
         try {
-            launch(args);
+            Application.launch(KeyToolApplication.class, args);
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        FXMLLoader fXMLLoader = KeyToolMain.getFXMLLoader();
-        ResourceBundle resourceBundle = fXMLLoader.getResources();
-        Parent root = fXMLLoader.load();
-        primaryStage.setResizable(true);
-        primaryStage.setTitle(resourceBundle.getString("Title"));
-//        primaryStage.getIcons().add(new Image("/images/icon.jpg"));
-        double[] screenSize = JavaFxSystemUtil.getScreenSizeByScale(0.74, 0.8);
-        primaryStage.setScene(new Scene(root, screenSize[0], screenSize[1]));
-        primaryStage.show();
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent event) {
-                System.exit(0);
-            }
-        });
-    }
-
-    public static FXMLLoader getFXMLLoader() {
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("locale.KeyTool");
-        URL url = Object.class.getResource("/com/xwintop/xJavaFxTool/fxmlView/debugTools/KeyTool.fxml");
-        FXMLLoader fXMLLoader = new FXMLLoader(url, resourceBundle);
-        return fXMLLoader;
     }
 }
