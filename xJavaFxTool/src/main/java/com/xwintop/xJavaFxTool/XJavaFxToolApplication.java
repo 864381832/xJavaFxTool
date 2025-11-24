@@ -73,9 +73,7 @@ public class XJavaFxToolApplication extends Application {
         StageUtils.loadPrimaryStageBound(primaryStage);
         primaryStage.setOnShown(windowEvent ->
             CompletableFuture.runAsync(() ->
-                VersionChecker.checkerVersion("https://gitee.com/api/v5/repos/xwintop/xJavaFxTool/releases/latest",
-                    "https://gitee.com/xwintop/xJavaFxTool/releases",
-                    Config.xJavaFxToolVersions.substring(1))
+                XJavaFxSystemUtil.checkerVersion()
             )
         );
         primaryStage.show();

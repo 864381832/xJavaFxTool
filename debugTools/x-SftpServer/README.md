@@ -1,7 +1,7 @@
 SftpServer  Sftp服务器
 
 #### 项目简介：
-FtpServer是使用javafx开发的一款Sftp服务器，可快速搭建本地Sftp服务。基于[apache.ftpserver](https://mina.apache.org/ftpserver-project)
+SftpServer是使用javafx开发的一款Sftp服务器，可快速搭建本地Sftp服务。基于[apache.sshd](https://mina.apache.org/sshd-project/)
 
 **xJavaFxTool交流QQ群：== [387473650(此群已满)](https://jq.qq.com/?_wv=1027&k=59UDEAD) 请加群②[1104780992](https://jq.qq.com/?_wv=1027&k=bhAdkju9) ==**
 

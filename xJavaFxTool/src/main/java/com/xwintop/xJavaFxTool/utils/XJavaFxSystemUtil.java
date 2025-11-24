@@ -1,6 +1,7 @@
 package com.xwintop.xJavaFxTool.utils;
 
 import com.xwintop.xJavaFxTool.XJavaFxToolApplication;
+import com.xwintop.xcore.util.VersionChecker;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -33,5 +34,11 @@ public class XJavaFxSystemUtil {
         } catch (Exception e) {
             log.error("初始化本地语言失败", e);
         }
+    }
+
+    public static void checkerVersion(){
+        VersionChecker.checkerVersion("https://gitee.com/api/v5/repos/xwintop/xJavaFxTool/releases/latest",
+            "https://gitee.com/xwintop/xJavaFxTool/releases",
+            Config.xJavaFxToolVersions.substring(1));
     }
 }
