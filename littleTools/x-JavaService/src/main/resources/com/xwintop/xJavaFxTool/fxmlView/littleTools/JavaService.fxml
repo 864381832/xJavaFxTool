@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.JavaServiceController">
+   <children>
+      <BorderPane layoutX="67.0" layoutY="43.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <center>
+            <VBox prefHeight="294.0" prefWidth="557.0" spacing="5.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label text="服务id" />
+                        <TextField fx:id="idTextField" promptText="服务唯一标识id" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label text="服务名" />
+                        <TextField fx:id="nameTextField" promptText="服务显示名称" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label text="描述" />
+                        <TextField fx:id="descriptionTextField" promptText="填写服务描述信息" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label text="执行环境路径" />
+                        <TextField fx:id="executableTextField" promptText="可填写jre全路径" text="java" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label text="参数" />
+                        <TextField fx:id="argumentsTextField" promptText="填写运行参数，如-Dfile.encoding=UTF-8 -jar gatewaySpring.jar --spring.config.location=application.yml" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label text="启动模式" />
+                        <TextField fx:id="startmodeTextField" text="Automatic" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label text="日志路径" />
+                        <TextField fx:id="logpathTextField" text="logs/service" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label text="日志类型" />
+                        <TextField fx:id="logmodeTextField" text="rotate" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label text="jar包路径" />
+                        <TextField fx:id="jarPathTextField" promptText="填写jar包所在路径" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="jarPathButton" mnemonicParsing="false" onAction="#jarPathAction" text="选择" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#installAction" text="安装" />
+                        <Button mnemonicParsing="false" onAction="#startAction" text="启动" />
+                        <Button mnemonicParsing="false" onAction="#restartAction" text="重启" />
+                        <Button mnemonicParsing="false" onAction="#stopAction" text="停止" />
+                        <Button mnemonicParsing="false" onAction="#uninstallAction" text="卸载" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </center>
+         <bottom>
+            <HBox alignment="CENTER_LEFT" spacing="5.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="引用服务：" />
+                  <Hyperlink onAction="#winswLinkOnAction" text="https://github.com/winsw/winsw" />
+               </children>
+            </HBox>
+         </bottom>
+      </BorderPane>
+   </children>
+</AnchorPane>

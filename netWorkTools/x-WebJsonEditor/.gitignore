@@ -1,0 +1,5 @@
+# Default ignored files
+#/.gitignore
+/x-WebJsonEditor.iml
+/log/
+/target/

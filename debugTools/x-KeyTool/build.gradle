@@ -1,0 +1,8 @@
+dependencies {
+    api project(':xcore')
+    implementation 'de.schlichtherle.truelicense:truelicense-core:1.33'
+}
+
+group = 'com.xwintop'
+version = '0.0.2'
+description = 'x-KeyTool'

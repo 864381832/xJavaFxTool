@@ -1,0 +1,6 @@
+# Default ignored files
+#/.gitignore
+/x-ExcelSplitTool.iml
+/log/
+/target/
+.idea

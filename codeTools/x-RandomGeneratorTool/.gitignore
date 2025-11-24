@@ -1,0 +1,6 @@
+# Default ignored files
+#/.gitignore
+/x-RandomGeneratorTool.iml
+/log/
+/target/
+.idea

@@ -1,0 +1,6 @@
+# Default ignored files
+#/.gitignore
+/x-RedisTool.iml
+/log/
+/target/
+.idea

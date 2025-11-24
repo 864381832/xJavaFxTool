@@ -1,0 +1,26 @@
+ImageTool  图片压缩工具
+
+#### 项目简介：
+ImageTool是使用javafx开发的一款图片压缩工具，支持批量压缩、修改尺寸、转换格式。
+- 依赖图片压缩工具类 [thumbnailator](https://github.com/coobird/thumbnailator) 
+- 依赖图片解析工具类 [TwelveMonkeys](https://github.com/haraldk/TwelveMonkeys)
+
+**xJavaFxTool交流QQ群：== [387473650(此群已满)](https://jq.qq.com/?_wv=1027&k=59UDEAD) 请加群②[1104780992](https://jq.qq.com/?_wv=1027&k=bhAdkju9) ==**
+
+#### 环境搭建说明：
+- 开发环境为jdk17，基于maven构建
+- 使用eclipase或Intellij Idea开发(推荐使用[Intellij Idea](https://www.jetbrains.com/?from=xJavaFxTool))
+- 该项目为javaFx开发的实用小工具集[xJavaFxTool](https://gitee.com/xwintop/xJavaFxTool)的插件。
+- 本项目使用了[lombok](https://projectlombok.org/),在查看本项目时如果您没有下载lombok 插件，请先安装,不然找不到get/set等方法
+- 依赖的[xcore包](https://gitee.com/xwintop/xcore)已上传至git托管的maven平台，git托管maven可参考教程(若无法下载请拉取项目自行编译)。[教程地址：点击进入](http://blog.csdn.net/u011747754/article/details/78574026)
+
+![图片压缩工具.png](images/图片压缩工具.png)
+![图片压缩工具.gif](images/图片压缩工具.gif)
+
+2020-12-13 v0.0.3
+1. 拖动图片质量时实时更新预览效果
+
+2022-04-03 v0.0.4
+1. 添加图片旋转功能
+2. 添加图片格式支持
+3. 优化图片压缩预览

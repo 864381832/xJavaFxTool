@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<ToolFxmlLoaderConfiguration title="games" menuId="p-games" menuParentId="moreToolsMenu" isMenu="true" />
+	<ToolFxmlLoaderConfiguration>
+		<url>/com/xwintop/xJavaFxTool/fxmlView/games/BullsAndCowsGame.fxml</url>
+		<resourceBundleName>locale.BullsAndCowsGame</resourceBundleName>
+		<className></className>
+		<title>Title</title>
+		<isDefaultShow></isDefaultShow>
+		<menuId></menuId>
+		<menuParentId>p-games</menuParentId>
+		<controllerType>Node</controllerType>
+	</ToolFxmlLoaderConfiguration>
+</root>

@@ -1,0 +1,20 @@
+dependencies {
+    api project(':xcore')
+    implementation 'net.coobird:thumbnailator:0.4.20'
+    implementation 'org.apache.poi:poi-ooxml:5.2.5'
+    implementation 'org.apache.commons:commons-imaging:1.0-alpha3'
+}
+
+group = 'com.xwintop'
+version = '0.0.3'
+description = 'x-AsciiPicTool'
+
+//打jar包需要包含依赖的配置
+jar {
+    duplicatesStrategy = 'exclude'
+    from { configurations.compileClasspath.findAll {
+        it.name.contains("thumbnailator")
+    || it.name.contains("poi")
+    || it.name.contains("commons-imaging")
+    }.collect { zipTree(it) } }
+}

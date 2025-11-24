@@ -1,0 +1,9 @@
+# Default ignored files
+#/.gitignore
+/x-HdfsTool.iml
+/log/
+/target/
+.idea
+hdfsFileTmp
+logs
+RUNNING_PID

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXSlider?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.QRCodeBuilderController">
+    <children>
+        <BorderPane layoutX="24.0" layoutY="17.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0"
+            AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <left>
+                <VBox prefWidth="270" spacing="2">
+                    <TitledPane collapsible="false" text="内容">
+                        <TextArea fx:id="contentTextField" prefHeight="100" wrapText="true"/>
+                    </TitledPane>
+                    <TitledPane collapsible="false" text="基本元素">
+                        <VBox spacing="10">
+                            <HBox spacing="5">
+                                <VBox spacing="5">
+                                    <Label text="前景色："/>
+                                    <ColorPicker fx:id="onColorColorPicker" prefWidth="120"/>
+                                </VBox>
+                                <VBox spacing="5">
+                                    <Label text="背景色："/>
+                                    <ColorPicker fx:id="offColorColorPicker" prefWidth="120"/>
+                                </VBox>
+                            </HBox>
+                            <HBox spacing="5">
+                                <VBox spacing="5">
+                                    <Label text="容错等级："/>
+                                    <ChoiceBox fx:id="errorCorrectionLevelChoiceBox" prefWidth="120"/>
+                                </VBox>
+                                <VBox spacing="5">
+                                    <Label text="边距："/>
+                                    <ChoiceBox fx:id="marginChoiceBox" prefWidth="120"/>
+                                </VBox>
+                            </HBox>
+                            <HBox spacing="5">
+                                <VBox spacing="5">
+                                    <Label text="编码："/>
+                                    <ChoiceBox fx:id="codeFormatChoiceBox" prefWidth="120"/>
+                                </VBox>
+                                <VBox spacing="5">
+                                    <Label text="图片格式："/>
+                                    <ChoiceBox fx:id="formatImageChoiceBox" prefWidth="120"/>
+                                </VBox>
+                            </HBox>
+                        </VBox>
+                    </TitledPane>
+                    <TitledPane collapsible="false" text="图标">
+                        <VBox spacing="10">
+                            <HBox alignment="BASELINE_LEFT" spacing="10">
+                                <CheckBox fx:id="logoCheckBox" text="嵌入图标"/>
+                                <Button fx:id="logoButton" onAction="#logoAction" text="选择图标..."/>
+                            </HBox>
+                            <VBox spacing="10.0">
+                                <Label text="图标覆盖区域（%）"/>
+                                <JFXSlider fx:id="logoSlider" blockIncrement="1.0" majorTickUnit="10.0" minorTickCount="5" showTickLabels="true" showTickMarks="true" value="15.0" />
+                            </VBox>
+                        </VBox>
+                    </TitledPane>
+                    <TitledPane collapsible="false" text="识别">
+                        <HBox alignment="BASELINE_LEFT" spacing="10">
+                            <Button fx:id="snapshotButton" onAction="#snapshotAction" text="截图识别">
+                                <tooltip>
+                                    <Tooltip text="试试alt+s快捷键截图"/>
+                                </tooltip>
+                            </Button>
+                            <Button fx:id="snapshotDesktopButton" onAction="#snapshotDesktopAction" text="识别桌面">
+                                <tooltip>
+                                    <Tooltip text="试试alt+s快捷键截图"/>
+                                </tooltip>
+                            </Button>
+                        </HBox>
+                    </TitledPane>
+                </VBox>
+            </left>
+            <center>
+                <VBox>
+                    <VBox alignment="CENTER" VBox.vgrow="ALWAYS">
+                        <padding>
+                            <Insets topRightBottomLeft="20"/>
+                        </padding>
+                        <HBox spacing="20.0">
+                            <ImageView fitWidth="320" fitHeight="320" fx:id="codeImageView" pickOnBounds="true" preserveRatio="true"/>
+                            <ImageView fitWidth="320" fitHeight="320" fx:id="codeImageView1" pickOnBounds="true" preserveRatio="true"/>
+                        </HBox>
+                    </VBox>
+                    <HBox alignment="CENTER" spacing="5.0">
+                        <Button fx:id="builderButton" onAction="#builderAction" text="生成"/>
+                        <Button fx:id="saveButton" onAction="#saveAction" text="保存"/>
+                    </HBox>
+                </VBox>
+            </center>
+        </BorderPane>
+    </children>
+</AnchorPane>

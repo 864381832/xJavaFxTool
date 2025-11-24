@@ -1,0 +1,8 @@
+dependencies {
+    api project(':xcore')
+//    implementation 'org.apache.commons:commons-text:1.11.0'
+}
+
+group = 'com.xwintop'
+version = '0.0.1'
+description = 'x-EscapeCharacter'

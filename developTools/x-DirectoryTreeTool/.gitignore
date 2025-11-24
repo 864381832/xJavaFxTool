@@ -1,0 +1,6 @@
+# Default ignored files
+#/.gitignore
+/x-DirectoryTreeTool.iml
+/log/
+/target/
+.idea

@@ -1,0 +1,11 @@
+dependencies {
+    api project(':xcore')
+    implementation 'org.apache.hadoop:hadoop-common:2.8.0'
+    implementation 'org.apache.hadoop:hadoop-client:2.8.0'
+    implementation 'org.apache.hadoop:hadoop-hdfs:2.8.0'
+    implementation 'com.google.guava:guava:19.0'
+}
+
+group = 'com.xwintop'
+version = '0.0.1'
+description = 'x-HdfsTool'

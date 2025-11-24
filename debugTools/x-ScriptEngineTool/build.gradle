@@ -1,0 +1,20 @@
+dependencies {
+    api project(':xcore')
+    api 'org.apache.groovy:groovy-all:4.0.21'
+    api 'org.python:jython:2.5.3'
+    api 'org.luaj:luaj-jse:3.0.1'
+}
+
+group = 'com.xwintop'
+version = '0.0.1'
+description = 'x-ScriptEngineTool'
+
+//打jar包需要包含依赖的配置
+jar {
+    duplicatesStrategy = 'exclude'
+    from { configurations.compileClasspath.findAll {
+        it.name.contains("groovy")
+        || it.name.contains("jython")
+        || it.name.contains("luaj-jse")
+    }.collect { zipTree(it) } }
+}

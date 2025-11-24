@@ -1,0 +1,5 @@
+# Default ignored files
+#/.gitignore
+/x-BullsAndCowsGame.iml
+/log/
+/target/

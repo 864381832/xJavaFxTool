@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.xwintop.xJavaFxTool.controller.codeTools.RandomGeneratorToolController">
+    <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="47.0" prefWidth="599.0"
+          VBox.vgrow="NEVER">
+        <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+        </padding>
+        <Label text="UUID" HBox.hgrow="NEVER">
+            <HBox.margin>
+                <Insets top="5.0"/>
+            </HBox.margin>
+        </Label>
+        <Button mnemonicParsing="false" onAction="#generateUUID" text="生成" HBox.hgrow="NEVER">
+            <HBox.margin>
+                <Insets left="10.0"/>
+            </HBox.margin>
+        </Button>
+        <TextField fx:id="uuidResult" editable="false" promptText="结果" HBox.hgrow="ALWAYS">
+            <HBox.margin>
+                <Insets left="10.0"/>
+            </HBox.margin>
+        </TextField>
+    </HBox>
+    <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="47.0" prefWidth="599.0"
+          VBox.vgrow="NEVER">
+        <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+        </padding>
+        <Label text="数字" HBox.hgrow="NEVER">
+            <HBox.margin>
+                <Insets top="5.0"/>
+            </HBox.margin>
+        </Label>
+        <TextField fx:id="floor" prefHeight="27.0" prefWidth="62.0" promptText="下限" HBox.hgrow="NEVER">
+            <HBox.margin>
+                <Insets left="10.0"/>
+            </HBox.margin>
+            <tooltip>
+                <Tooltip text="正数" autoHide="true"/>
+            </tooltip>
+        </TextField>
+        <TextField fx:id="ceil" prefHeight="27.0" prefWidth="63.0" promptText="上限" HBox.hgrow="NEVER">
+            <HBox.margin>
+                <Insets left="10.0"/>
+            </HBox.margin>
+        </TextField>
+        <TextField fx:id="ignoreRange" prefHeight="27.0" prefWidth="158.0" promptText="忽略区间, 格式: 0-3,5-7"
+                   HBox.hgrow="NEVER">
+            <HBox.margin>
+                <Insets left="10.0"/>
+            </HBox.margin>
+            <tooltip>
+                <Tooltip text="仅针对整数" autoHide="true"/>
+            </tooltip>
+        </TextField>
+        <TextField fx:id="precision" prefHeight="27.0" prefWidth="47.0" promptText="精度" HBox.hgrow="NEVER">
+            <HBox.margin>
+                <Insets left="10.0"/>
+            </HBox.margin>
+        </TextField>
+        <Button mnemonicParsing="false" onAction="#generateNumber" text="生成" HBox.hgrow="NEVER">
+            <HBox.margin>
+                <Insets left="10.0"/>
+            </HBox.margin>
+        </Button>
+        <TextField fx:id="numberResult" editable="false" prefHeight="27.0" prefWidth="108.0" promptText="结果"
+                   HBox.hgrow="ALWAYS">
+            <HBox.margin>
+                <Insets left="10.0"/>
+            </HBox.margin>
+        </TextField>
+    </HBox>
+    <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="47.0" prefWidth="599.0"
+          VBox.vgrow="NEVER">
+        <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+        </padding>
+        <Label text="邮箱" HBox.hgrow="NEVER">
+            <HBox.margin>
+                <Insets top="5.0"/>
+            </HBox.margin>
+        </Label>
+        <Button mnemonicParsing="false" onAction="#generateEmail" text="生成" HBox.hgrow="NEVER">
+            <HBox.margin>
+                <Insets left="10.0"/>
+            </HBox.margin>
+        </Button>
+        <TextField fx:id="emailResult" editable="false" promptText="结果" HBox.hgrow="ALWAYS">
+            <HBox.margin>
+                <Insets left="10.0"/>
+            </HBox.margin>
+        </TextField>
+    </HBox>
+    <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="47.0" prefWidth="599.0"
+          VBox.vgrow="NEVER">
+        <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+        </padding>
+        <Label text="小写字母" HBox.hgrow="NEVER">
+            <HBox.margin>
+                <Insets top="5.0"/>
+            </HBox.margin>
+        </Label>
+        <TextField fx:id="lowerCaseLength" prefHeight="27.0" prefWidth="82.0" promptText="长度" HBox.hgrow="NEVER">
+            <HBox.margin>
+                <Insets left="10.0"/>
+            </HBox.margin>
+        </TextField>
+        <Button mnemonicParsing="false" onAction="#generateLowerCase" text="生成" HBox.hgrow="NEVER">
+            <HBox.margin>
+                <Insets left="10.0"/>
+            </HBox.margin>
+        </Button>
+        <TextField fx:id="lowerCaseResult" editable="false" promptText="结果" HBox.hgrow="ALWAYS">
+            <HBox.margin>
+                <Insets left="10.0"/>
+            </HBox.margin>
+        </TextField>
+    </HBox>
+    <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="47.0" prefWidth="599.0"
+          VBox.vgrow="NEVER">
+        <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+        </padding>
+        <Label text="大写字母" HBox.hgrow="NEVER">
+            <HBox.margin>
+                <Insets top="5.0"/>
+            </HBox.margin>
+        </Label>
+        <TextField fx:id="upperCaseLength" prefHeight="27.0" prefWidth="82.0" promptText="长度" HBox.hgrow="NEVER">
+            <HBox.margin>
+                <Insets left="10.0"/>
+            </HBox.margin>
+        </TextField>
+        <Button mnemonicParsing="false" onAction="#generateUpperCase" text="生成" HBox.hgrow="NEVER">
+            <HBox.margin>
+                <Insets left="10.0"/>
+            </HBox.margin>
+        </Button>
+        <TextField fx:id="upperCaseResult" editable="false" promptText="结果" HBox.hgrow="ALWAYS">
+            <HBox.margin>
+                <Insets left="10.0"/>
+            </HBox.margin>
+        </TextField>
+    </HBox>
+    <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="47.0" prefWidth="599.0"
+          VBox.vgrow="NEVER">
+        <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+        </padding>
+        <Label text="字母（包含大小写）" HBox.hgrow="NEVER">
+            <HBox.margin>
+                <Insets top="5.0"/>
+            </HBox.margin>
+        </Label>
+        <TextField fx:id="letterLength" prefHeight="27.0" prefWidth="82.0" promptText="长度" HBox.hgrow="NEVER">
+            <HBox.margin>
+                <Insets left="10.0"/>
+            </HBox.margin>
+        </TextField>
+        <Button mnemonicParsing="false" onAction="#generateLetter" text="生成" HBox.hgrow="NEVER">
+            <HBox.margin>
+                <Insets left="10.0"/>
+            </HBox.margin>
+        </Button>
+        <TextField fx:id="letterResult" editable="false" promptText="结果" HBox.hgrow="ALWAYS">
+            <HBox.margin>
+                <Insets left="10.0"/>
+            </HBox.margin>
+        </TextField>
+    </HBox>
+    <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="47.0" prefWidth="599.0">
+        <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+        </padding>
+        <Label text="无符号字符（只有字母和数字）" HBox.hgrow="NEVER">
+            <HBox.margin>
+                <Insets top="5.0"/>
+            </HBox.margin>
+        </Label>
+        <TextField fx:id="stringLength" prefHeight="27.0" prefWidth="82.0" promptText="长度" HBox.hgrow="NEVER">
+            <HBox.margin>
+                <Insets left="10.0"/>
+            </HBox.margin>
+        </TextField>
+        <Button mnemonicParsing="false" onAction="#generateString" text="生成" HBox.hgrow="NEVER">
+            <HBox.margin>
+                <Insets left="10.0"/>
+            </HBox.margin>
+        </Button>
+        <TextField fx:id="stringResult" editable="false" promptText="结果" HBox.hgrow="ALWAYS">
+            <HBox.margin>
+                <Insets left="10.0"/>
+            </HBox.margin>
+        </TextField>
+    </HBox>
+    <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="47.0" prefWidth="599.0">
+        <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+        </padding>
+        <Label text="字符（包含字母/数字/符号）" HBox.hgrow="NEVER">
+            <HBox.margin>
+                <Insets top="5.0"/>
+            </HBox.margin>
+        </Label>
+        <TextField fx:id="textLength" prefHeight="27.0" prefWidth="82.0" promptText="长度" HBox.hgrow="NEVER">
+            <HBox.margin>
+                <Insets left="10.0"/>
+            </HBox.margin>
+        </TextField>
+        <Button mnemonicParsing="false" onAction="#generateText" text="生成" HBox.hgrow="NEVER">
+            <HBox.margin>
+                <Insets left="10.0"/>
+            </HBox.margin>
+        </Button>
+        <TextField fx:id="textResult" editable="false" promptText="结果" HBox.hgrow="ALWAYS">
+            <HBox.margin>
+                <Insets left="10.0"/>
+            </HBox.margin>
+        </TextField>
+    </HBox>
+</VBox>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<ToolFxmlLoaderConfiguration title="debugTools" menuId="p-debugTools" menuParentId="moreToolsMenu" isMenu="true" />
+	<ToolFxmlLoaderConfiguration>
+		<url>/com/xwintop/xJavaFxTool/fxmlView/debugTools/SocketTool.fxml</url>
+		<resourceBundleName>locale.SocketTool</resourceBundleName>
+		<className></className>
+		<title>Title</title>
+		<iconPath>/images/SocketToolIcon.png</iconPath>
+		<isDefaultShow></isDefaultShow>
+		<menuId></menuId>
+		<menuParentId>p-debugTools</menuParentId>
+		<controllerType>Node</controllerType>
+	</ToolFxmlLoaderConfiguration>
+</root>

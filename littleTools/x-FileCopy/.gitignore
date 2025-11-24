@@ -1,0 +1,6 @@
+# Default ignored files
+#/.gitignore
+/x-FileCopy.iml
+/log/
+/target/
+.idea

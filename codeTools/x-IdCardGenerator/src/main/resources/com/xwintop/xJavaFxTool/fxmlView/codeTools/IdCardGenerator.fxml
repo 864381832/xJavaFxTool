@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="116.0" prefWidth="405.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.codeTools.IdCardGeneratorController">
+    <children>
+        <Button fx:id="generator" layoutX="17.0" layoutY="30.0" mnemonicParsing="false" onAction="#buttonClick" prefHeight="57.0" prefWidth="55.0" text="生成" />
+        <TextField fx:id="name_text" layoutX="137.0" layoutY="13.0" />
+        <TextField fx:id="id_text" layoutX="137.0" layoutY="48.0" />
+        <TextField fx:id="birthday_text" layoutX="137.0" layoutY="81.0" />
+        <Label layoutX="102.0" layoutY="16.0" text="姓名" />
+        <Label layoutX="78.0" layoutY="51.0" text="身份证号" />
+        <Label layoutX="102.0" layoutY="84.0" text="生日" />
+        <Button fx:id="name_copy" layoutX="301.0" layoutY="13.0" mnemonicParsing="false" onAction="#copyName" text="复制" />
+        <Button fx:id="id_copy" layoutX="301.0" layoutY="48.0" mnemonicParsing="false" onAction="#copyId" text="复制" />
+        <Button fx:id="birthday_copy" layoutX="301.0" layoutY="81.0" mnemonicParsing="false" onAction="#copyBirthday" text="复制" />
+      <Label fx:id="name_tip" layoutX="352.0" layoutY="17.0" text="已复制" textFill="RED" visible="false" />
+      <Label fx:id="id_tip" layoutX="352.0" layoutY="52.0" text="已复制" textFill="RED" visible="false" />
+      <Label fx:id="birthday_tip" layoutX="352.0" layoutY="85.0" text="已复制" textFill="RED" visible="false" />
+    </children>
+</AnchorPane>

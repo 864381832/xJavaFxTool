@@ -1,0 +1,18 @@
+<?import com.xwintop.xcore.javafx.control.IntegerSpinner?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<BorderPane xmlns:fx="javafx"
+            fx:controller="com.xwintop.xcore.javafx.control.IntegerSpinnerTestController">
+  <padding>
+    <Insets topRightBottomLeft="50"/>
+  </padding>
+  <center>
+    <HBox alignment="BASELINE_LEFT" spacing="10">
+      <Label text="Size: "/>
+      <IntegerSpinner fx:id="sizeSpinner" editable="true"
+                      min="-1000" max="1000" amountToStepBy="10" initialValue="100"/>
+    </HBox>
+  </center>
+</BorderPane>

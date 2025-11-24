@@ -1,72 +1,77 @@
-buildscript {
-    repositories {
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-    dependencies {
-        classpath 'org.openjfx:javafx-plugin:0.0.12'
-    }
-}
+//buildscript {
+//    repositories {
+//        mavenCentral()
+//        maven {
+//            allowInsecureProtocol = true
+//            url "https://plugins.gradle.org/m2/"
+//        }
+//    }
+//    dependencies {
+//        classpath 'org.openjfx:javafx-plugin:0.1.0'
+//    }
+//}
 
 plugins {
-    id 'java'
+//    id "org.gradlex.extra-java-module-info" version "1.7"
+    id "org.openjfx.javafxplugin" version "0.1.0"
+    id 'idea'
     id 'application'
     id 'maven-publish'
-    id 'org.openjfx.javafxplugin' version '0.0.12'
-    id 'org.beryx.jlink' version '2.24.4'
 }
-
-apply plugin: 'org.openjfx.javafxplugin'
-
-repositories {
-    mavenLocal()
-    maven {
-        url = uri('https://maven.aliyun.com/repository/public')
+subprojects {
+    ext {
+        springBootVersion = "2.7.18"
+        lombokVersion = "1.18.42"
+        javafxVersion = "25.0.1"
     }
-
-    maven {
-        url = uri('https://jitpack.io')
+    description 'xJavaFxTool'
+    apply plugin: 'java'
+    apply plugin: 'java-library'
+    apply plugin: 'application'
+    apply plugin: 'maven-publish' // 引入maven插件
+    apply plugin: 'org.openjfx.javafxplugin'
+//    sourceCompatibility = 17
+    test {//跳过测试
+        enabled = false
     }
-}
-
-dependencies {
-    implementation 'org.openjfx:javafx-controls:17.0.2'
-    implementation 'org.openjfx:javafx-base:17.0.2'
-    implementation 'org.openjfx:javafx-graphics:17.0.2'
-    implementation 'org.openjfx:javafx-fxml:17.0.2'
-    implementation 'org.openjfx:javafx-swing:17.0.2'
-    implementation 'org.openjfx:javafx-media:17.0.2'
-    implementation 'org.openjfx:javafx-web:17.0.2'
-    implementation 'org.openjfx:javafx-graphics:17.0.2'
-    implementation 'org.openjfx:javafx-graphics:17.0.2'
-    implementation 'org.openjfx:javafx-graphics:17.0.2'
-    implementation 'io.github.classgraph:classgraph:4.8.100'
-    implementation 'com.gitee.xwintop:xcore:0.0.6-jdk17'
-    implementation 'com.github.oshi:oshi-core:5.7.5'
-    testImplementation 'junit:junit:4.12'
-    compileOnly 'org.projectlombok:lombok:1.18.22'
-}
-
-group = 'com.xwintop'
-version = '0.2.3-jdk17'
-description = 'xJavaFxTool'
-sourceCompatibility = '17'
-
-javafx {
-    version = "17.0.2"
-    modules = ['javafx.controls', 'javafx.fxml', 'javafx.media', 'javafx.swing', 'javafx.web']
-    configuration = 'compileOnly'
-}
-
-jlink {
-//    mergedModule {
-//        requires 'java.naming'
-//        requires 'java.xml'
+    repositories {
+//        maven {
+//            allowInsecureProtocol = true
+//            url 'https://maven.aliyun.com/repository/public'
+//        }
+        maven {
+            allowInsecureProtocol = true
+            url 'https://repo1.maven.org/maven2/'
+        }
+        maven {
+            allowInsecureProtocol = true
+            url 'https://jitpack.io'
+        }
+        mavenCentral()
+    }
+//    group = 'com.xwintop'
+//    version = '0.0.0.1'
+    [compileJava, compileTestJava, javadoc]*.options*.encoding = "UTF-8"
+    dependencies {
+        testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+        compileOnly("org.projectlombok:lombok:$lombokVersion")
+        annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+        testCompileOnly "org.projectlombok:lombok:$lombokVersion"
+        testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
+//        api "org.openjfx:javafx-controls:$javafxVersion"
+//        api "org.openjfx:javafx-base:$javafxVersion"
+//        api "org.openjfx:javafx-graphics:$javafxVersion"
+//        api "org.openjfx:javafx-fxml:$javafxVersion"
+//        api "org.openjfx:javafx-swing:$javafxVersion"
+//        api "org.openjfx:javafx-media:$javafxVersion"
+//        api "org.openjfx:javafx-web:$javafxVersion"
+    }
+    javafx {
+        version = "21.0.9"
+        modules = ['javafx.controls', "javafx.graphics", 'javafx.fxml', 'javafx.media', 'javafx.swing', 'javafx.web']
+//        configuration = 'compileOnly'
+    }
+//    java {
+//        modularity.inferModulePath = true
 //    }
-    launcher{
-        name = 'xJavaFxTool'
-        mainClassName = 'com.xwintop.xJavaFxTool.XJavaFxToolMain'
-        jvmArgs = ['-Dlogback.configurationFile=./logback.xml']
-    }
 }

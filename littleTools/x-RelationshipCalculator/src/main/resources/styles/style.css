@@ -1,0 +1,41 @@
+.root {
+    -fx-font-family: "微软雅黑";
+    -fx-font-size: 16px;
+    -fx-background-color: rgb(213, 233, 237);
+}
+
+.button {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}
+
+.button:hover {
+    -fx-border-color: rgb(66, 139, 202);
+    -fx-border-width: 2px;
+}
+
+#count {
+    -fx-background-color: rgb(66, 139, 202);
+    -fx-text-fill: white;
+    -fx-font-family: "微软雅黑";
+    -fx-font-size: 18px;
+}
+
+#count:hover, #reback:hover, #clear:hover {
+    -fx-border-color: rgb(125, 125, 125);
+    -fx-border-width: 5px;
+}
+
+#reback {
+    -fx-background-color: rgb(92, 184, 92);
+    -fx-text-fill: white;
+    -fx-font-family: "微软雅黑";
+    -fx-font-size: 18px;
+}
+
+#clear {
+    -fx-background-color: rgb(217, 83, 79);
+    -fx-text-fill: white;
+    -fx-font-family: "微软雅黑";
+    -fx-font-size: 18x;
+}

@@ -1,0 +1,12 @@
+<configuration>
+    <id>gatewaySpring</id>
+    <name>gatewaySpring</name>
+    <description>This is gateway service.</description>
+    <executable>C:\easipass\jre1.8.0_201\bin\java</executable> 
+    <arguments>-Dfile.encoding=UTF-8 -jar gatewaySpring.jar --spring.config.location=application.yml</arguments>
+    <!-- 开机启动 -->
+    <startmode>Automatic</startmode>
+    <!-- 日志配置 -->
+    <logpath>logs/service</logpath>
+    <logmode>rotate</logmode>
+</configuration>

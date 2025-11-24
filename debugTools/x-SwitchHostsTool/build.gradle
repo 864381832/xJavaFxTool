@@ -1,0 +1,18 @@
+dependencies {
+    api project(':xcore')
+    implementation 'org.fxmisc.richtext:richtextfx:0.11.2'
+}
+
+group = 'com.xwintop'
+version = '0.0.3'
+description = 'x-SwitchHostsTool'
+
+//打jar包需要包含依赖的配置
+jar {
+    from { configurations.compileClasspath.findAll { it.name.contains("richtextfx")
+    || it.name.contains("flowless")
+    || it.name.contains("undofx")
+    || it.name.contains("wellbehavedfx")
+    || it.name.contains("reactfx")
+    }.collect { zipTree(it) } }
+}

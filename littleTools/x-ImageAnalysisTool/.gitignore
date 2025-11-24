@@ -1,0 +1,6 @@
+# Default ignored files
+#/.gitignore
+/x-ImageAnalysisTool.iml
+/log/
+/target/
+.idea

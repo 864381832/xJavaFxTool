@@ -1,0 +1,6 @@
+# Default ignored files
+#/.gitignore
+/x-QRCodeBuilder.iml
+/log/
+/target/
+.idea

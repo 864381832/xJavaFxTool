@@ -1,0 +1,6 @@
+# Default ignored files
+#/.gitignore
+/x-KafkaTool.iml
+/log/
+/target/
+.idea

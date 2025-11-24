@@ -1,0 +1,18 @@
+dependencies {
+    api project(':xcore')
+    implementation 'org.apache.mina:mina-core:2.2.3'
+    implementation 'com.github.oshi:oshi-core:6.4.11'
+}
+
+group = 'com.xwintop'
+version = '0.0.3'
+description = 'x-SocketTool'
+
+//打jar包需要包含依赖的配置
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from { configurations.compileClasspath.findAll { it.name.contains("mina")
+    ||it.name.contains("oshi")
+    ||it.name.contains("jna")
+    }.collect { zipTree(it) } }
+}

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="457.0" prefWidth="767.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xwintop.xJavaFxTool.controller.javaFxTools.JavaFxXmlToObjectCodeController">
+   <children>
+      <BorderPane layoutX="10.0" layoutY="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <top>
+            <HBox alignment="CENTER_LEFT" spacing="5.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#xmlToCodeOnAction" text="转换为code" fx:id="xmlToCodeButton" />
+                  <Button fx:id="buildCodeFileButton" mnemonicParsing="false" onAction="#buildCodeFileAction" text="生成代码文件" />
+                  <Button fx:id="buildPluginProjectButton" mnemonicParsing="false" onAction="#buildPluginProjectAction" text="生成插件项目模板" />
+                  <TextField fx:id="projectTypeNameTextField" disable="true" promptText="输入插件类型(取fxml中)" />
+                  <TextField fx:id="projectNameTextField" disable="true" promptText="输入项目名(取fxml中)" />
+                  <Label text="输出路径" />
+                  <TextField fx:id="codeFileOutputPathTextField" promptText="输入代码生成输出路径" />
+                  <Button fx:id="selectCodeFileOutputPathButton" layoutX="256.0" layoutY="20.0" mnemonicParsing="false" onAction="#selectCodeFileOutputPathAction" text="选择" />
+               </children>
+               <BorderPane.margin>
+                  <Insets bottom="10.0" />
+               </BorderPane.margin>
+            </HBox>
+         </top>
+         <center>
+            <SplitPane dividerPositions="0.25, 0.5, 0.75" BorderPane.alignment="CENTER">
+               <items>
+                  <VBox alignment="TOP_CENTER">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="5.0">
+                           <children>
+                              <Label text="输入fxml文件内容" />
+                              <Button mnemonicParsing="false" onAction="#showExampleCodeAction" text="示例" />
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <TextArea fx:id="textArea1" promptText="请输入fxml，注意fx:controller中添加名称以Controller结尾，示例com.xwintop.xJavaFxTool.controller.javaFxTools.JavaFxXmlToObjectCodeController  其中javaFxTools为插件类别； JavaFxXmlToObjectCode为插件名称" VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+                  <TextArea fx:id="textArea2" promptText="生成的Controller Bean代码" />
+                  <TextArea fx:id="textArea3" promptText="生成的View Bean代码" />
+                  <TextArea fx:id="textArea4" promptText="生成的Service Bean代码" />
+               </items>
+            </SplitPane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

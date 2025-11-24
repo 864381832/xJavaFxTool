@@ -1,0 +1,6 @@
+# Default ignored files
+#/.gitignore
+/x-ColorCodeConverterTool.iml
+/log/
+/target/
+.idea

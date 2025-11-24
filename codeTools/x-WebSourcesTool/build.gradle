@@ -1,0 +1,17 @@
+dependencies {
+    api project(':xcore')
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+}
+
+group = 'com.xwintop'
+version = '0.0.1'
+description = 'x-WebSourcesTool'
+
+//打jar包需要包含依赖的配置
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from { configurations.compileClasspath.findAll { it.name.contains("okhttp")
+    || it.name.contains("okio")
+    || it.name.contains("kotlin-stdlib")
+    }.collect { zipTree(it) } }
+}

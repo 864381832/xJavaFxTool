@@ -1,0 +1,13 @@
+dependencies {
+    api project(':xcore')
+    implementation 'org.apache.pdfbox:pdfbox:2.0.30'
+}
+
+group = 'com.xwintop'
+version = '0.0.4'
+description = 'x-PdfConvertTool'
+
+//打jar包需要包含依赖的配置
+jar {
+    from { configurations.compileClasspath.findAll { it.name.contains("pdfbox")}.collect { zipTree(it) } }
+}

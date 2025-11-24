@@ -2,8 +2,6 @@
 
 **GitHub address：**[xJavaFxTool](https://github.com/864381832/xJavaFxTool)
 
-**Tencent Cloud Development Platform Address：**[xJavaFxTool](https://dev.tencent.com/u/xwintop/p/xJavaFxTool)
-
 [![](https://img.shields.io/:license-apache-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 [![](https://img.shields.io/badge/JDK-17+-green.svg)](https://www.oracle.com/technetwork/java/javase/downloads/index.html)
 [![](https://img.shields.io/badge/maven-v3.6.3-blue)](https://maven.apache.org)
@@ -16,27 +14,26 @@
 **xJavaFxTool exchange QQ group：== [387473650](https://jq.qq.com/?_wv=1027&k=59UDEAD) ==**
 
 #### Project Description:
-xJavaFxTool is a practical gadget set developed by javaFx. It uses some time to summarize some problems encountered in the work, packaged into a small tool set for your reference and use. It contains some examples of javaFx functions, such as layout, Internationalization, third-party UI library ( [controlsfx](http://fxexperience.com/controlsfx/) , [JFoenix](http://www.jfoenix.com/), etc.), external jar package loading (plug-in mechanism) and other common functions, students who want to learn javaFx can refer to the reference, learn javaFx data reference [www.javafxchina.net](http://www.javafxchina.net/main/)
+xJavaFxTool is a practical gadget set developed by javaFx. It uses some time to summarize some problems encountered in the work, packaged into a small tool set for your reference and use. It contains some examples of javaFx functions, such as layout, Internationalization, third-party UI library ( [controlsfx](https://github.com/controlsfx/controlsfx) , [JFoenix](https://github.com/sshahine/JFoenix), etc.), external jar package loading (plug-in mechanism) and other common functions, students who want to learn javaFx can refer to the reference, learn javaFx data reference [https://openjfx.cn/](https://openjfx.cn/)
 
 Due to the hot SpringBoot, the project has been released SpringBoot-javafx version, [xJavaFxTool-spring](https://gitee.com/xwintop/xJavaFxTool-spring) welcome reference, thank you.
 
 #### Download trial address：
-- Jar package that can be run directly (local need to have jdk1.8 environment)[xJavaFxTool-0.3.2.jar](https://github.com/864381832/xJavaFxTool/releases/download/0.3.2/xJavaFxTool-0.3.2.jar)
-- Windows x64 installation package (compatible with xp, windows7, 8, 10, etc.)[xJavaFxTool-0.3.2-windows-x64.exe](https://github.com/864381832/xJavaFxTool/releases/download/0.3.2/xJavaFxTool-0.3.2-windows-x64.exe)
-- Mac OS x64 [xJavaFxTool-0.3.2-macos.pkg](https://github.com/864381832/xJavaFxTool/releases/download/0.3.2/xJavaFxTool-0.3.2-macos.pkg)
-- Linux x64 [xJavaFxTool-0.3.2-linux-x64.zip](https://github.com/864381832/xJavaFxTool/releases/download/0.3.2/xJavaFxTool-0.3.2-linux-x64.zip)
-#### If the above link fails, use the download link below:
-- Baidu cloud link: [https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA](https://pan.baidu.com/s/193fhGnJL4dDWcqDnFJcHbA)  extraction code: mokl
-- Tencent micro cloud link: [https://share.weiyun.com/5T6FPLW](https://share.weiyun.com/5T6FPLW) extraction code: java
+- Linux amd64 [xJavaFxTool-1.0.1-linux-amd64.deb](https://github.com/864381832/xJavaFxTool/releases/download/v1.0.1/xJavaFxTool-1.0.1-linux-amd64.deb)
+- Linux amd64 [xJavaFxTool-1.0.1-linux-amd64.rpm](https://github.com/864381832/xJavaFxTool/releases/download/v1.0.1/xJavaFxTool-1.0.1-linux-amd64.rpm)
+- Mac OS aarch64 [xJavaFxTool-1.0.1-macos-x64.dmg](https://github.com/864381832/xJavaFxTool/releases/download/v1.0.1/xJavaFxTool-1.0.1-macos-aarch64.dmg)
+- Mac OS aarch64 [xJavaFxTool-1.0.1-macos-x64.pkg](https://github.com/864381832/xJavaFxTool/releases/download/v1.0.1/xJavaFxTool-1.0.1-macos-aarch64.pkg)
+- Windows x64 [xJavaFxTool-1.0.1-windows-x64.exe](https://github.com/864381832/xJavaFxTool/releases/download/v1.0.1/xJavaFxTool-1.0.1-windows-x64.exe)
+- Windows x64 [xJavaFxTool-1.0.1-windows-x64.msi](https://github.com/864381832/xJavaFxTool/releases/download/v1.0.1/xJavaFxTool-1.0.1-windows-x64.msi)
+- 123cloud link:[https://www.123865.com/s/L5LA-tna7A?pwd=java#](https://www.123865.com/s/L5LA-tna7A?pwd=java#) extraction code:java
 
 #### Support plug-in development:
 the plug-in jar package can be automatically loaded under the root directory libs (see the open source project [xJavaFxTool-plugin](https://gitee.com/xwintop/xJavaFxTool-plugin) for plug-in development examples , and the next step is to split the gadget into each plug-in and load it as needed. Currently, the plug-in function is not perfect, follow-up Split each function into modules and load them as needed to reduce the size of the jar package);
 
 #### Environmental construction instructions:
-- The development environment is jdk17, based on maven3.6.3 build
+- The development environment is jdk17, based on gradle8.5 build
 - Developed with eclipase or Intellij Idea (Recommended to use [Intellij Idea](https://www.jetbrains.com/idea/) )
 - This project uses [lombok](https://projectlombok.org/) . If you have not downloaded the lombok plugin when viewing this project, please install it first, otherwise you can't find the get/set method.
-- The dependent [xcore](https://gitee.com/xwintop/xcore) package has been uploaded to the git-hosted maven platform. The git hosting maven can refer to the tutorial (if you can't download it, please pull the project to compile it yourself ). Tutorial address: Click to enter
 - Package using the [javapackager](https://github.com/fvarrui/JavaPackager) (can be packaged for windows, Linux, Mac installation packages)
 - Use [InnoSetup](http://www.jrsoftware.org/) to make windows installation packages
 
@@ -106,6 +103,12 @@ the plug-in jar package can be automatically loaded under the root directory lib
 63. ElementaryArithmeticProblemTool:Elementary Arithmetic Problem Tool
 64. CoordinateTransformTool:[CoordinateTransformTool](https://gitee.com/xwintop/x-CoordinateTransformTool),Conversion between Baidu coordinates (BD09), National Survey Bureau coordinates (Mars coordinates, GCJ02), and WGS84 coordinates is provided
 65. HdfsTool:[HdfsTool](https://gitee.com/xwintop/x-HdfsTool)，Support uploading, downloading, renaming, copying, moving and deleting functions
+66. JavaFxXmlToObjectCode: Generates corresponding Java code based on .fxml files, can generate plugin templates
+67. KeyTool: License generation tool
+68. RelationshipCalculator: Calculates appellations through relative relationship chains
+69. ExpressionParserTool: An expression parser debugging tool that currently supports SpringEL, Velocity, FreeMarker, StringTemplate, Mvel, Aviator, commons-jexl, BeanShell, QLExpress expression engines
+70. mybatis-generator-gui: This tool makes it very easy and quick to generate MyBatis Java POJO files and database mapping files
+71. SftpServer: Quickly builds local SFTP service, based on apache.sshd
 
 #### In the development of the project, new tools will be added in the future. Welcome everyone to participate and give more comments, thank you.
 #### Plan to add features:

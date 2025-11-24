@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<ToolFxmlLoaderConfiguration title="developTools" menuId="p-developTools" menuParentId="moreToolsMenu" isMenu="true" />
+	<ToolFxmlLoaderConfiguration>
+		<url>/com/xwintop/xJavaFxTool/fxmlView/developTools/ClipboardHistoryTool.fxml</url>
+		<resourceBundleName>locale.ClipboardHistoryTool</resourceBundleName>
+		<className></className>
+		<title>Title</title>
+		<iconPath>/images/ClipboardHistoryTool.png</iconPath>
+		<isDefaultShow></isDefaultShow>
+		<menuId></menuId>
+		<menuParentId>p-developTools</menuParentId>
+		<controllerType>Node</controllerType>
+	</ToolFxmlLoaderConfiguration>
+</root>

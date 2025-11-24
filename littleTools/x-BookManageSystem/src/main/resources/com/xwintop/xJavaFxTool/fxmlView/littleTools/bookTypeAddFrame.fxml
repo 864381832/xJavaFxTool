@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.xwintop.xJavaFxTool.controller.littleTools.BookTypeAddFrameController">
+    <children>
+        <VBox alignment="CENTER" prefHeight="700.0" prefWidth="800.0" spacing="30.0">
+            <children>
+                <HBox alignment="CENTER" prefHeight="130.0" prefWidth="800.0">
+                    <children>
+                        <Label prefHeight="51.0" prefWidth="322.0" text="图书类别添加功能">
+                            <font>
+                                <Font name="System Bold" size="40.0"/>
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                    <children>
+                        <Label text="图书类别名称："/>
+                        <TextField fx:id="bookTypeNameTextField"/>
+                    </children>
+                </HBox>
+                <HBox alignment="TOP_CENTER" prefHeight="144.0" prefWidth="600.0" spacing="30.0">
+                    <children>
+                        <Label text="图书类别描述："/>
+                        <TextArea fx:id="bookTypeDescriptionTextArea" prefHeight="200.0" prefWidth="200.0"/>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="80.0">
+                    <children>
+                        <Button fx:id="addButton" mnemonicParsing="false" onAction="#do_addButton_event" text="添加"/>
+                        <Button fx:id="resetButton" mnemonicParsing="false" onAction="#do_resetButton_event" text="重置"/>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

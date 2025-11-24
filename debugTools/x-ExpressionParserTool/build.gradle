@@ -1,0 +1,16 @@
+dependencies {
+    api project(':xcore')
+    implementation 'org.springframework:spring-expression:5.3.9'
+    implementation 'com.googlecode.aviator:aviator:5.2.7'
+    implementation 'org.mvel:mvel2:2.4.12.Final'
+    implementation 'org.apache.commons:commons-jexl3:3.2.1'
+    implementation 'org.apache-extras.beanshell:bsh:2.0b6'
+    implementation 'org.apache.velocity:velocity-engine-core:2.3'
+    implementation 'org.freemarker:freemarker:2.3.31'
+    implementation 'org.antlr:ST4:4.3.1'
+    implementation 'com.alibaba:QLExpress:3.2.0'
+}
+
+group = 'com.xwintop'
+version = '0.0.2'
+description = 'x-ExpressionParserTool'

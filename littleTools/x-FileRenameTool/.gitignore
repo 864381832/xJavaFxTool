@@ -1,0 +1,6 @@
+# Default ignored files
+#/.gitignore
+/x-FileRenameTool.iml
+/log/
+/target/
+.idea

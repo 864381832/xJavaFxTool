@@ -1,0 +1,19 @@
+//buildscript {
+//    repositories {
+//        mavenCentral()
+//        maven {
+//            allowInsecureProtocol = true
+//            url "https://nexus.terrestris.de/repository/public/"
+//        }
+//    }
+//}
+dependencies {
+    api project(':xcore')
+//    implementation 'org.geotools:gt-main:29.1'
+//    implementation 'org.geotools:gt-epsg-hsql:29.1'
+//    implementation 'org.jaitools:jt-utils:1.6.0'
+}
+
+group = 'com.xwintop'
+version = '0.0.1'
+description = 'x-CoordinateTransformTool'

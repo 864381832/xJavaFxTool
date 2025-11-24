@@ -1,0 +1,6 @@
+# Default ignored files
+#/.gitignore
+/x-FtpServer.iml
+/log/
+/target/
+.idea
